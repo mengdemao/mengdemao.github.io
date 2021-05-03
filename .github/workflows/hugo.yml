@@ -1,0 +1,35 @@
+name: github pages
+
+on:
+  push:
+    branches:
+      - master
+
+env:
+  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        submodules: true
+
+    - name: Setup Hugo
+      uses: peaceiris/actions-hugo@v2.3.1
+      with:
+        hugo-version: '0.61.0'
+
+    - name: Build
+      run: hugo --minify
+
+    - name: add nojekyll
+      run: touch ./public/.nojekyll
+
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v2.5.1
+      env:
+        ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+        PUBLISH_BRANCH: gh-pages
+        PUBLISH_DIR: ./public
