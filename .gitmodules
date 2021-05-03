@@ -1,0 +1,3 @@
+[submodule "themes/hyde"]
+	path = themes/hyde
+	url = ../spf13/hyde.git
