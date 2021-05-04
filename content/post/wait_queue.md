@@ -1,7 +1,7 @@
 ---
 title: "Linux等待队列实现"
 date: 2021-05-04T23:17:55+08:00
-draft: true
+draft: false
 ---
 
 等待事件是建立在调度的基础之上的一种同步机制
