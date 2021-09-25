@@ -253,440 +253,440 @@
 <li>nodemask</li>
 </ul>
 <h2 id="核心函数"><a href="#核心函数" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>核心函数</h2>
-<div class="highlight"><div class="chroma">
-<div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span><span class="lnt">39
-</span><span class="lnt">40
-</span><span class="lnt">41
-</span><span class="lnt">42
-</span><span class="lnt">43
-</span><span class="lnt">44
-</span><span class="lnt">45
-</span><span class="lnt">46
-</span><span class="lnt">47
-</span><span class="lnt">48
-</span><span class="lnt">49
-</span><span class="lnt">50
-</span><span class="lnt">51
-</span><span class="lnt">52
-</span><span class="lnt">53
-</span><span class="lnt">54
-</span><span class="lnt">55
-</span><span class="lnt">56
-</span><span class="lnt">57
-</span><span class="lnt">58
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<div class="table-container"><table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">52
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">54
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">55
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">56
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">57
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">58
 </span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="k">struct</span> <span class="n">page</span> <span class="o">*</span><span class="nf">__alloc_pages_nodemask</span><span class="p">(</span><span class="n">gfp_t</span> <span class="n">gfp_mask</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">order</span><span class="p">,</span> <span class="kt">int</span> <span class="n">preferred_nid</span><span class="p">,</span> <span class="n">nodemask_t</span> <span class="o">*</span><span class="n">nodemask</span><span class="p">)</span>
-<span class="p">{</span>
-	<span class="k">struct</span> <span class="n">page</span> <span class="o">*</span><span class="n">page</span><span class="p">;</span>			<span class="c1">// 分配变量
-</span><span class="c1"></span>	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">alloc_flags</span> <span class="o">=</span> <span class="n">ALLOC_WMARK_LOW</span><span class="p">;</span>	<span class="c1">// 分配标志
-</span><span class="c1"></span>	<span class="n">gfp_t</span> <span class="n">alloc_mask</span><span class="p">;</span> <span class="c1">// 真实分配掩码
-</span><span class="c1"></span>	<span class="k">struct</span> <span class="n">alloc_context</span> <span class="n">ac</span> <span class="o">=</span> <span class="p">{</span> <span class="p">};</span>	<span class="c1">// 保存相关参数
-</span><span class="c1"></span>
-	<span class="cm">/*
-</span><span class="cm">	 * There are several places where we assume that the order value is sane
-</span><span class="cm">	 * so bail out early if the request is out of bound.
-</span><span class="cm">	 * 限制分配的大小
-</span><span class="cm">	 */</span>
-	<span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="n">order</span> <span class="o">&gt;=</span> <span class="n">MAX_ORDER</span><span class="p">))</span> <span class="p">{</span>
-		<span class="n">WARN_ON_ONCE</span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">gfp_mask</span> <span class="o">&amp;</span> <span class="n">__GFP_NOWARN</span><span class="p">));</span>
-		<span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
-	<span class="p">}</span>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">struct</span> page <span style="color:#f92672">*</span><span style="color:#a6e22e">__alloc_pages_nodemask</span>(gfp_t gfp_mask, <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> order, <span style="color:#66d9ef">int</span> preferred_nid, nodemask_t <span style="color:#f92672">*</span>nodemask)
+{
+	<span style="color:#66d9ef">struct</span> page <span style="color:#f92672">*</span>page;			<span style="color:#75715e">// 分配变量
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> alloc_flags <span style="color:#f92672">=</span> ALLOC_WMARK_LOW;	<span style="color:#75715e">// 分配标志
+</span><span style="color:#75715e"></span>	gfp_t alloc_mask; <span style="color:#75715e">// 真实分配掩码
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">struct</span> alloc_context ac <span style="color:#f92672">=</span> { };	<span style="color:#75715e">// 保存相关参数
+</span><span style="color:#75715e"></span>
+	<span style="color:#75715e">/*
+</span><span style="color:#75715e">	 * There are several places where we assume that the order value is sane
+</span><span style="color:#75715e">	 * so bail out early if the request is out of bound.
+</span><span style="color:#75715e">	 * 限制分配的大小
+</span><span style="color:#75715e">	 */</span>
+	<span style="color:#66d9ef">if</span> (unlikely(order <span style="color:#f92672">&gt;=</span> MAX_ORDER)) {
+		WARN_ON_ONCE(<span style="color:#f92672">!</span>(gfp_mask <span style="color:#f92672">&amp;</span> __GFP_NOWARN));
+		<span style="color:#66d9ef">return</span> NULL;
+	}
 
-	<span class="n">gfp_mask</span> <span class="o">&amp;=</span> <span class="n">gfp_allowed_mask</span><span class="p">;</span>
-	<span class="n">alloc_mask</span> <span class="o">=</span> <span class="n">gfp_mask</span><span class="p">;</span>
-	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">prepare_alloc_pages</span><span class="p">(</span><span class="n">gfp_mask</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">preferred_nid</span><span class="p">,</span> <span class="n">nodemask</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ac</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">alloc_mask</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">alloc_flags</span><span class="p">))</span>
-		<span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+	gfp_mask <span style="color:#f92672">&amp;=</span> gfp_allowed_mask;
+	alloc_mask <span style="color:#f92672">=</span> gfp_mask;
+	<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>prepare_alloc_pages(gfp_mask, order, preferred_nid, nodemask, <span style="color:#f92672">&amp;</span>ac, <span style="color:#f92672">&amp;</span>alloc_mask, <span style="color:#f92672">&amp;</span>alloc_flags))
+		<span style="color:#66d9ef">return</span> NULL;
 
-	<span class="n">finalise_ac</span><span class="p">(</span><span class="n">gfp_mask</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ac</span><span class="p">);</span>
+	finalise_ac(gfp_mask, <span style="color:#f92672">&amp;</span>ac);
 
-	<span class="cm">/* First allocation attempt */</span>
-	<span class="n">page</span> <span class="o">=</span> <span class="n">get_page_from_freelist</span><span class="p">(</span><span class="n">alloc_mask</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">alloc_flags</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ac</span><span class="p">);</span>
-	<span class="k">if</span> <span class="p">(</span><span class="n">likely</span><span class="p">(</span><span class="n">page</span><span class="p">))</span>
-		<span class="k">goto</span> <span class="n">out</span><span class="p">;</span>
+	<span style="color:#75715e">/* First allocation attempt */</span>
+	page <span style="color:#f92672">=</span> get_page_from_freelist(alloc_mask, order, alloc_flags, <span style="color:#f92672">&amp;</span>ac);
+	<span style="color:#66d9ef">if</span> (likely(page))
+		<span style="color:#66d9ef">goto</span> out;
 
-	<span class="cm">/*
-</span><span class="cm">	 * Apply scoped allocation constraints. This is mainly about GFP_NOFS
-</span><span class="cm">	 * resp. GFP_NOIO which has to be inherited for all allocation requests
-</span><span class="cm">	 * from a particular context which has been marked by
-</span><span class="cm">	 * memalloc_no{fs,io}_{save,restore}.
-</span><span class="cm">	 */</span>
-	<span class="n">alloc_mask</span> <span class="o">=</span> <span class="n">current_gfp_context</span><span class="p">(</span><span class="n">gfp_mask</span><span class="p">);</span>
-	<span class="n">ac</span><span class="p">.</span><span class="n">spread_dirty_pages</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+	<span style="color:#75715e">/*
+</span><span style="color:#75715e">	 * Apply scoped allocation constraints. This is mainly about GFP_NOFS
+</span><span style="color:#75715e">	 * resp. GFP_NOIO which has to be inherited for all allocation requests
+</span><span style="color:#75715e">	 * from a particular context which has been marked by
+</span><span style="color:#75715e">	 * memalloc_no{fs,io}_{save,restore}.
+</span><span style="color:#75715e">	 */</span>
+	alloc_mask <span style="color:#f92672">=</span> current_gfp_context(gfp_mask);
+	ac.spread_dirty_pages <span style="color:#f92672">=</span> false;
 
-	<span class="cm">/*
-</span><span class="cm">	 * Restore the original nodemask if it was potentially replaced with
-</span><span class="cm">	 * &amp;cpuset_current_mems_allowed to optimize the fast-path attempt.
-</span><span class="cm">	 */</span>
-	<span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="n">ac</span><span class="p">.</span><span class="n">nodemask</span> <span class="o">!=</span> <span class="n">nodemask</span><span class="p">))</span>
-		<span class="n">ac</span><span class="p">.</span><span class="n">nodemask</span> <span class="o">=</span> <span class="n">nodemask</span><span class="p">;</span>
+	<span style="color:#75715e">/*
+</span><span style="color:#75715e">	 * Restore the original nodemask if it was potentially replaced with
+</span><span style="color:#75715e">	 * &amp;cpuset_current_mems_allowed to optimize the fast-path attempt.
+</span><span style="color:#75715e">	 */</span>
+	<span style="color:#66d9ef">if</span> (unlikely(ac.nodemask <span style="color:#f92672">!=</span> nodemask))
+		ac.nodemask <span style="color:#f92672">=</span> nodemask;
 
-	<span class="n">page</span> <span class="o">=</span> <span class="n">__alloc_pages_slowpath</span><span class="p">(</span><span class="n">alloc_mask</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ac</span><span class="p">);</span>
+	page <span style="color:#f92672">=</span> __alloc_pages_slowpath(alloc_mask, order, <span style="color:#f92672">&amp;</span>ac);
 
-<span class="nl">out</span><span class="p">:</span>
-	<span class="k">if</span> <span class="p">(</span><span class="n">memcg_kmem_enabled</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">gfp_mask</span> <span class="o">&amp;</span> <span class="n">__GFP_ACCOUNT</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">page</span> <span class="o">&amp;&amp;</span>
-	    <span class="n">unlikely</span><span class="p">(</span><span class="n">memcg_kmem_charge</span><span class="p">(</span><span class="n">page</span><span class="p">,</span> <span class="n">gfp_mask</span><span class="p">,</span> <span class="n">order</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">))</span> <span class="p">{</span>
-		<span class="n">__free_pages</span><span class="p">(</span><span class="n">page</span><span class="p">,</span> <span class="n">order</span><span class="p">);</span>
-		<span class="n">page</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-	<span class="p">}</span>
+out:
+	<span style="color:#66d9ef">if</span> (memcg_kmem_enabled() <span style="color:#f92672">&amp;&amp;</span> (gfp_mask <span style="color:#f92672">&amp;</span> __GFP_ACCOUNT) <span style="color:#f92672">&amp;&amp;</span> page <span style="color:#f92672">&amp;&amp;</span>
+	    unlikely(memcg_kmem_charge(page, gfp_mask, order) <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)) {
+		__free_pages(page, order);
+		page <span style="color:#f92672">=</span> NULL;
+	}
 
-	<span class="n">trace_mm_page_alloc</span><span class="p">(</span><span class="n">page</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">alloc_mask</span><span class="p">,</span> <span class="n">ac</span><span class="p">.</span><span class="n">migratetype</span><span class="p">);</span>
+	trace_mm_page_alloc(page, order, alloc_mask, ac.migratetype);
 
-	<span class="k">return</span> <span class="n">page</span><span class="p">;</span>
-<span class="p">}</span>
+	<span style="color:#66d9ef">return</span> page;
+}
 </code></pre></td></tr></table></div>
 </div>
 </div><h2 id="prepare_alloc_pages"><a href="#prepare_alloc_pages" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>prepare_alloc_pages</h2>
-<div class="highlight"><div class="chroma">
-<div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<div class="table-container"><table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
 </span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="k">static</span> <span class="kr">inline</span> <span class="kt">bool</span> <span class="nf">prepare_alloc_pages</span><span class="p">(</span><span class="n">gfp_t</span> <span class="n">gfp_mask</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">order</span><span class="p">,</span>
-		<span class="kt">int</span> <span class="n">preferred_nid</span><span class="p">,</span> <span class="n">nodemask_t</span> <span class="o">*</span><span class="n">nodemask</span><span class="p">,</span>
-		<span class="k">struct</span> <span class="n">alloc_context</span> <span class="o">*</span><span class="n">ac</span><span class="p">,</span> <span class="n">gfp_t</span> <span class="o">*</span><span class="n">alloc_mask</span><span class="p">,</span>
-		<span class="kt">unsigned</span> <span class="kt">int</span> <span class="o">*</span><span class="n">alloc_flags</span><span class="p">)</span>
-<span class="p">{</span>
-	<span class="n">ac</span><span class="o">-&gt;</span><span class="n">high_zoneidx</span> <span class="o">=</span> <span class="n">gfp_zone</span><span class="p">(</span><span class="n">gfp_mask</span><span class="p">);</span>
-	<span class="n">ac</span><span class="o">-&gt;</span><span class="n">zonelist</span> <span class="o">=</span> <span class="n">node_zonelist</span><span class="p">(</span><span class="n">preferred_nid</span><span class="p">,</span> <span class="n">gfp_mask</span><span class="p">);</span>
-	<span class="n">ac</span><span class="o">-&gt;</span><span class="n">nodemask</span> <span class="o">=</span> <span class="n">nodemask</span><span class="p">;</span>
-	<span class="n">ac</span><span class="o">-&gt;</span><span class="n">migratetype</span> <span class="o">=</span> <span class="n">gfpflags_to_migratetype</span><span class="p">(</span><span class="n">gfp_mask</span><span class="p">);</span>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">inline</span> <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">prepare_alloc_pages</span>(gfp_t gfp_mask, <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> order,
+		<span style="color:#66d9ef">int</span> preferred_nid, nodemask_t <span style="color:#f92672">*</span>nodemask,
+		<span style="color:#66d9ef">struct</span> alloc_context <span style="color:#f92672">*</span>ac, gfp_t <span style="color:#f92672">*</span>alloc_mask,
+		<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>alloc_flags)
+{
+	ac<span style="color:#f92672">-&gt;</span>high_zoneidx <span style="color:#f92672">=</span> gfp_zone(gfp_mask);
+	ac<span style="color:#f92672">-&gt;</span>zonelist <span style="color:#f92672">=</span> node_zonelist(preferred_nid, gfp_mask);
+	ac<span style="color:#f92672">-&gt;</span>nodemask <span style="color:#f92672">=</span> nodemask;
+	ac<span style="color:#f92672">-&gt;</span>migratetype <span style="color:#f92672">=</span> gfpflags_to_migratetype(gfp_mask);
 
-	<span class="k">if</span> <span class="p">(</span><span class="n">cpusets_enabled</span><span class="p">())</span> <span class="p">{</span>
-		<span class="o">*</span><span class="n">alloc_mask</span> <span class="o">|=</span> <span class="n">__GFP_HARDWALL</span><span class="p">;</span>
-		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">ac</span><span class="o">-&gt;</span><span class="n">nodemask</span><span class="p">)</span>
-			<span class="n">ac</span><span class="o">-&gt;</span><span class="n">nodemask</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">cpuset_current_mems_allowed</span><span class="p">;</span>
-		<span class="k">else</span>
-			<span class="o">*</span><span class="n">alloc_flags</span> <span class="o">|=</span> <span class="n">ALLOC_CPUSET</span><span class="p">;</span>
-	<span class="p">}</span>
+	<span style="color:#66d9ef">if</span> (cpusets_enabled()) {
+		<span style="color:#f92672">*</span>alloc_mask <span style="color:#f92672">|=</span> __GFP_HARDWALL;
+		<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>ac<span style="color:#f92672">-&gt;</span>nodemask)
+			ac<span style="color:#f92672">-&gt;</span>nodemask <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>cpuset_current_mems_allowed;
+		<span style="color:#66d9ef">else</span>
+			<span style="color:#f92672">*</span>alloc_flags <span style="color:#f92672">|=</span> ALLOC_CPUSET;
+	}
 
-	<span class="n">fs_reclaim_acquire</span><span class="p">(</span><span class="n">gfp_mask</span><span class="p">);</span>
-	<span class="n">fs_reclaim_release</span><span class="p">(</span><span class="n">gfp_mask</span><span class="p">);</span>
+	fs_reclaim_acquire(gfp_mask);
+	fs_reclaim_release(gfp_mask);
 
-	<span class="n">might_sleep_if</span><span class="p">(</span><span class="n">gfp_mask</span> <span class="o">&amp;</span> <span class="n">__GFP_DIRECT_RECLAIM</span><span class="p">);</span>
+	might_sleep_if(gfp_mask <span style="color:#f92672">&amp;</span> __GFP_DIRECT_RECLAIM);
 
-	<span class="k">if</span> <span class="p">(</span><span class="n">should_fail_alloc_page</span><span class="p">(</span><span class="n">gfp_mask</span><span class="p">,</span> <span class="n">order</span><span class="p">))</span>
-		<span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+	<span style="color:#66d9ef">if</span> (should_fail_alloc_page(gfp_mask, order))
+		<span style="color:#66d9ef">return</span> false;
 
-	<span class="k">if</span> <span class="p">(</span><span class="n">IS_ENABLED</span><span class="p">(</span><span class="n">CONFIG_CMA</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">ac</span><span class="o">-&gt;</span><span class="n">migratetype</span> <span class="o">==</span> <span class="n">MIGRATE_MOVABLE</span><span class="p">)</span>
-		<span class="o">*</span><span class="n">alloc_flags</span> <span class="o">|=</span> <span class="n">ALLOC_CMA</span><span class="p">;</span>
+	<span style="color:#66d9ef">if</span> (IS_ENABLED(CONFIG_CMA) <span style="color:#f92672">&amp;&amp;</span> ac<span style="color:#f92672">-&gt;</span>migratetype <span style="color:#f92672">==</span> MIGRATE_MOVABLE)
+		<span style="color:#f92672">*</span>alloc_flags <span style="color:#f92672">|=</span> ALLOC_CMA;
 
-	<span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
-<span class="p">}</span>
+	<span style="color:#66d9ef">return</span> true;
+}
 </code></pre></td></tr></table></div>
 </div>
 </div><h2 id="get_page_from_freelist"><a href="#get_page_from_freelist" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>get_page_from_freelist</h2>
-<div class="highlight"><div class="chroma">
-<div class="table-container"><table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">  1
-</span><span class="lnt">  2
-</span><span class="lnt">  3
-</span><span class="lnt">  4
-</span><span class="lnt">  5
-</span><span class="lnt">  6
-</span><span class="lnt">  7
-</span><span class="lnt">  8
-</span><span class="lnt">  9
-</span><span class="lnt"> 10
-</span><span class="lnt"> 11
-</span><span class="lnt"> 12
-</span><span class="lnt"> 13
-</span><span class="lnt"> 14
-</span><span class="lnt"> 15
-</span><span class="lnt"> 16
-</span><span class="lnt"> 17
-</span><span class="lnt"> 18
-</span><span class="lnt"> 19
-</span><span class="lnt"> 20
-</span><span class="lnt"> 21
-</span><span class="lnt"> 22
-</span><span class="lnt"> 23
-</span><span class="lnt"> 24
-</span><span class="lnt"> 25
-</span><span class="lnt"> 26
-</span><span class="lnt"> 27
-</span><span class="lnt"> 28
-</span><span class="lnt"> 29
-</span><span class="lnt"> 30
-</span><span class="lnt"> 31
-</span><span class="lnt"> 32
-</span><span class="lnt"> 33
-</span><span class="lnt"> 34
-</span><span class="lnt"> 35
-</span><span class="lnt"> 36
-</span><span class="lnt"> 37
-</span><span class="lnt"> 38
-</span><span class="lnt"> 39
-</span><span class="lnt"> 40
-</span><span class="lnt"> 41
-</span><span class="lnt"> 42
-</span><span class="lnt"> 43
-</span><span class="lnt"> 44
-</span><span class="lnt"> 45
-</span><span class="lnt"> 46
-</span><span class="lnt"> 47
-</span><span class="lnt"> 48
-</span><span class="lnt"> 49
-</span><span class="lnt"> 50
-</span><span class="lnt"> 51
-</span><span class="lnt"> 52
-</span><span class="lnt"> 53
-</span><span class="lnt"> 54
-</span><span class="lnt"> 55
-</span><span class="lnt"> 56
-</span><span class="lnt"> 57
-</span><span class="lnt"> 58
-</span><span class="lnt"> 59
-</span><span class="lnt"> 60
-</span><span class="lnt"> 61
-</span><span class="lnt"> 62
-</span><span class="lnt"> 63
-</span><span class="lnt"> 64
-</span><span class="lnt"> 65
-</span><span class="lnt"> 66
-</span><span class="lnt"> 67
-</span><span class="lnt"> 68
-</span><span class="lnt"> 69
-</span><span class="lnt"> 70
-</span><span class="lnt"> 71
-</span><span class="lnt"> 72
-</span><span class="lnt"> 73
-</span><span class="lnt"> 74
-</span><span class="lnt"> 75
-</span><span class="lnt"> 76
-</span><span class="lnt"> 77
-</span><span class="lnt"> 78
-</span><span class="lnt"> 79
-</span><span class="lnt"> 80
-</span><span class="lnt"> 81
-</span><span class="lnt"> 82
-</span><span class="lnt"> 83
-</span><span class="lnt"> 84
-</span><span class="lnt"> 85
-</span><span class="lnt"> 86
-</span><span class="lnt"> 87
-</span><span class="lnt"> 88
-</span><span class="lnt"> 89
-</span><span class="lnt"> 90
-</span><span class="lnt"> 91
-</span><span class="lnt"> 92
-</span><span class="lnt"> 93
-</span><span class="lnt"> 94
-</span><span class="lnt"> 95
-</span><span class="lnt"> 96
-</span><span class="lnt"> 97
-</span><span class="lnt"> 98
-</span><span class="lnt"> 99
-</span><span class="lnt">100
-</span><span class="lnt">101
-</span><span class="lnt">102
-</span><span class="lnt">103
-</span><span class="lnt">104
-</span><span class="lnt">105
-</span><span class="lnt">106
-</span><span class="lnt">107
-</span><span class="lnt">108
-</span><span class="lnt">109
-</span><span class="lnt">110
-</span><span class="lnt">111
-</span><span class="lnt">112
-</span><span class="lnt">113
-</span><span class="lnt">114
-</span><span class="lnt">115
-</span><span class="lnt">116
-</span><span class="lnt">117
-</span><span class="lnt">118
-</span><span class="lnt">119
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<div class="table-container"><table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 38
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 39
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 40
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 41
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 42
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 43
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 44
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 45
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 46
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 47
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 48
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 49
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 50
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 51
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 52
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 53
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 54
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 55
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 56
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 57
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 58
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 59
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 60
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 61
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 62
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 63
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 64
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 65
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 66
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 67
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 68
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 69
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 70
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 71
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 72
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 73
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 74
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 75
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 76
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 77
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 78
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 79
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 80
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 81
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 82
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 83
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 84
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 85
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 86
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 87
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 88
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 89
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 90
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 91
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 92
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 93
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 94
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 95
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 96
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 97
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 98
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 99
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">100
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">101
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">102
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">103
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">104
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">105
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">106
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">107
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">108
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">109
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">110
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">111
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">112
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">113
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">114
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">115
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">116
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">117
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">118
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">119
 </span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="k">static</span> <span class="k">struct</span> <span class="n">page</span> <span class="o">*</span>
-<span class="nf">get_page_from_freelist</span><span class="p">(</span><span class="n">gfp_t</span> <span class="n">gfp_mask</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">order</span><span class="p">,</span> <span class="kt">int</span> <span class="n">alloc_flags</span><span class="p">,</span>
-						<span class="k">const</span> <span class="k">struct</span> <span class="n">alloc_context</span> <span class="o">*</span><span class="n">ac</span><span class="p">)</span>
-<span class="p">{</span>
-	<span class="k">struct</span> <span class="n">zoneref</span> <span class="o">*</span><span class="n">z</span> <span class="o">=</span> <span class="n">ac</span><span class="o">-&gt;</span><span class="n">preferred_zoneref</span><span class="p">;</span>
-	<span class="k">struct</span> <span class="n">zone</span> <span class="o">*</span><span class="n">zone</span><span class="p">;</span>
-	<span class="k">struct</span> <span class="n">pglist_data</span> <span class="o">*</span><span class="n">last_pgdat_dirty_limit</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">struct</span> page <span style="color:#f92672">*</span>
+<span style="color:#a6e22e">get_page_from_freelist</span>(gfp_t gfp_mask, <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> order, <span style="color:#66d9ef">int</span> alloc_flags,
+						<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">struct</span> alloc_context <span style="color:#f92672">*</span>ac)
+{
+	<span style="color:#66d9ef">struct</span> zoneref <span style="color:#f92672">*</span>z <span style="color:#f92672">=</span> ac<span style="color:#f92672">-&gt;</span>preferred_zoneref;
+	<span style="color:#66d9ef">struct</span> zone <span style="color:#f92672">*</span>zone;
+	<span style="color:#66d9ef">struct</span> pglist_data <span style="color:#f92672">*</span>last_pgdat_dirty_limit <span style="color:#f92672">=</span> NULL;
 
-	<span class="cm">/*
-</span><span class="cm">	 * Scan zonelist, looking for a zone with enough free.
-</span><span class="cm">	 * See also __cpuset_node_allowed() comment in kernel/cpuset.c.
-</span><span class="cm">	 */</span>
-	<span class="n">for_next_zone_zonelist_nodemask</span><span class="p">(</span><span class="n">zone</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">ac</span><span class="o">-&gt;</span><span class="n">zonelist</span><span class="p">,</span> <span class="n">ac</span><span class="o">-&gt;</span><span class="n">high_zoneidx</span><span class="p">,</span>
-								<span class="n">ac</span><span class="o">-&gt;</span><span class="n">nodemask</span><span class="p">)</span> <span class="p">{</span>
-		<span class="k">struct</span> <span class="n">page</span> <span class="o">*</span><span class="n">page</span><span class="p">;</span>
-		<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">mark</span><span class="p">;</span>
+	<span style="color:#75715e">/*
+</span><span style="color:#75715e">	 * Scan zonelist, looking for a zone with enough free.
+</span><span style="color:#75715e">	 * See also __cpuset_node_allowed() comment in kernel/cpuset.c.
+</span><span style="color:#75715e">	 */</span>
+	for_next_zone_zonelist_nodemask(zone, z, ac<span style="color:#f92672">-&gt;</span>zonelist, ac<span style="color:#f92672">-&gt;</span>high_zoneidx,
+								ac<span style="color:#f92672">-&gt;</span>nodemask) {
+		<span style="color:#66d9ef">struct</span> page <span style="color:#f92672">*</span>page;
+		<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> mark;
 
-		<span class="k">if</span> <span class="p">(</span><span class="n">cpusets_enabled</span><span class="p">()</span> <span class="o">&amp;&amp;</span>
-			<span class="p">(</span><span class="n">alloc_flags</span> <span class="o">&amp;</span> <span class="n">ALLOC_CPUSET</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
-			<span class="o">!</span><span class="n">__cpuset_zone_allowed</span><span class="p">(</span><span class="n">zone</span><span class="p">,</span> <span class="n">gfp_mask</span><span class="p">))</span>
-				<span class="k">continue</span><span class="p">;</span>
-		<span class="cm">/*
-</span><span class="cm">		 * When allocating a page cache page for writing, we
-</span><span class="cm">		 * want to get it from a node that is within its dirty
-</span><span class="cm">		 * limit, such that no single node holds more than its
-</span><span class="cm">		 * proportional share of globally allowed dirty pages.
-</span><span class="cm">		 * The dirty limits take into account the node&#39;s
-</span><span class="cm">		 * lowmem reserves and high watermark so that kswapd
-</span><span class="cm">		 * should be able to balance it without having to
-</span><span class="cm">		 * write pages from its LRU list.
-</span><span class="cm">		 *
-</span><span class="cm">		 * XXX: For now, allow allocations to potentially
-</span><span class="cm">		 * exceed the per-node dirty limit in the slowpath
-</span><span class="cm">		 * (spread_dirty_pages unset) before going into reclaim,
-</span><span class="cm">		 * which is important when on a NUMA setup the allowed
-</span><span class="cm">		 * nodes are together not big enough to reach the
-</span><span class="cm">		 * global limit.  The proper fix for these situations
-</span><span class="cm">		 * will require awareness of nodes in the
-</span><span class="cm">		 * dirty-throttling and the flusher threads.
-</span><span class="cm">		 */</span>
-		<span class="k">if</span> <span class="p">(</span><span class="n">ac</span><span class="o">-&gt;</span><span class="n">spread_dirty_pages</span><span class="p">)</span> <span class="p">{</span>
-			<span class="k">if</span> <span class="p">(</span><span class="n">last_pgdat_dirty_limit</span> <span class="o">==</span> <span class="n">zone</span><span class="o">-&gt;</span><span class="n">zone_pgdat</span><span class="p">)</span>
-				<span class="k">continue</span><span class="p">;</span>
+		<span style="color:#66d9ef">if</span> (cpusets_enabled() <span style="color:#f92672">&amp;&amp;</span>
+			(alloc_flags <span style="color:#f92672">&amp;</span> ALLOC_CPUSET) <span style="color:#f92672">&amp;&amp;</span>
+			<span style="color:#f92672">!</span>__cpuset_zone_allowed(zone, gfp_mask))
+				<span style="color:#66d9ef">continue</span>;
+		<span style="color:#75715e">/*
+</span><span style="color:#75715e">		 * When allocating a page cache page for writing, we
+</span><span style="color:#75715e">		 * want to get it from a node that is within its dirty
+</span><span style="color:#75715e">		 * limit, such that no single node holds more than its
+</span><span style="color:#75715e">		 * proportional share of globally allowed dirty pages.
+</span><span style="color:#75715e">		 * The dirty limits take into account the node&#39;s
+</span><span style="color:#75715e">		 * lowmem reserves and high watermark so that kswapd
+</span><span style="color:#75715e">		 * should be able to balance it without having to
+</span><span style="color:#75715e">		 * write pages from its LRU list.
+</span><span style="color:#75715e">		 *
+</span><span style="color:#75715e">		 * XXX: For now, allow allocations to potentially
+</span><span style="color:#75715e">		 * exceed the per-node dirty limit in the slowpath
+</span><span style="color:#75715e">		 * (spread_dirty_pages unset) before going into reclaim,
+</span><span style="color:#75715e">		 * which is important when on a NUMA setup the allowed
+</span><span style="color:#75715e">		 * nodes are together not big enough to reach the
+</span><span style="color:#75715e">		 * global limit.  The proper fix for these situations
+</span><span style="color:#75715e">		 * will require awareness of nodes in the
+</span><span style="color:#75715e">		 * dirty-throttling and the flusher threads.
+</span><span style="color:#75715e">		 */</span>
+		<span style="color:#66d9ef">if</span> (ac<span style="color:#f92672">-&gt;</span>spread_dirty_pages) {
+			<span style="color:#66d9ef">if</span> (last_pgdat_dirty_limit <span style="color:#f92672">==</span> zone<span style="color:#f92672">-&gt;</span>zone_pgdat)
+				<span style="color:#66d9ef">continue</span>;
 
-			<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">node_dirty_ok</span><span class="p">(</span><span class="n">zone</span><span class="o">-&gt;</span><span class="n">zone_pgdat</span><span class="p">))</span> <span class="p">{</span>
-				<span class="n">last_pgdat_dirty_limit</span> <span class="o">=</span> <span class="n">zone</span><span class="o">-&gt;</span><span class="n">zone_pgdat</span><span class="p">;</span>
-				<span class="k">continue</span><span class="p">;</span>
-			<span class="p">}</span>
-		<span class="p">}</span>
+			<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>node_dirty_ok(zone<span style="color:#f92672">-&gt;</span>zone_pgdat)) {
+				last_pgdat_dirty_limit <span style="color:#f92672">=</span> zone<span style="color:#f92672">-&gt;</span>zone_pgdat;
+				<span style="color:#66d9ef">continue</span>;
+			}
+		}
 
-		<span class="n">mark</span> <span class="o">=</span> <span class="n">zone</span><span class="o">-&gt;</span><span class="n">watermark</span><span class="p">[</span><span class="n">alloc_flags</span> <span class="o">&amp;</span> <span class="n">ALLOC_WMARK_MASK</span><span class="p">];</span>
-		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">zone_watermark_fast</span><span class="p">(</span><span class="n">zone</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">mark</span><span class="p">,</span>
-				       <span class="n">ac_classzone_idx</span><span class="p">(</span><span class="n">ac</span><span class="p">),</span> <span class="n">alloc_flags</span><span class="p">))</span> <span class="p">{</span>
-			<span class="kt">int</span> <span class="n">ret</span><span class="p">;</span>
+		mark <span style="color:#f92672">=</span> zone<span style="color:#f92672">-&gt;</span>watermark[alloc_flags <span style="color:#f92672">&amp;</span> ALLOC_WMARK_MASK];
+		<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>zone_watermark_fast(zone, order, mark,
+				       ac_classzone_idx(ac), alloc_flags)) {
+			<span style="color:#66d9ef">int</span> ret;
 
-<span class="cp">#ifdef CONFIG_DEFERRED_STRUCT_PAGE_INIT
-</span><span class="cp"></span>			<span class="cm">/*
-</span><span class="cm">			 * Watermark failed for this zone, but see if we can
-</span><span class="cm">			 * grow this zone if it contains deferred pages.
-</span><span class="cm">			 */</span>
-			<span class="k">if</span> <span class="p">(</span><span class="n">static_branch_unlikely</span><span class="p">(</span><span class="o">&amp;</span><span class="n">deferred_pages</span><span class="p">))</span> <span class="p">{</span>
-				<span class="k">if</span> <span class="p">(</span><span class="n">_deferred_grow_zone</span><span class="p">(</span><span class="n">zone</span><span class="p">,</span> <span class="n">order</span><span class="p">))</span>
-					<span class="k">goto</span> <span class="n">try_this_zone</span><span class="p">;</span>
-			<span class="p">}</span>
-<span class="cp">#endif
-</span><span class="cp"></span>			<span class="cm">/* Checked here to keep the fast path fast */</span>
-			<span class="n">BUILD_BUG_ON</span><span class="p">(</span><span class="n">ALLOC_NO_WATERMARKS</span> <span class="o">&lt;</span> <span class="n">NR_WMARK</span><span class="p">);</span>
-			<span class="k">if</span> <span class="p">(</span><span class="n">alloc_flags</span> <span class="o">&amp;</span> <span class="n">ALLOC_NO_WATERMARKS</span><span class="p">)</span>
-				<span class="k">goto</span> <span class="n">try_this_zone</span><span class="p">;</span>
+<span style="color:#75715e">#ifdef CONFIG_DEFERRED_STRUCT_PAGE_INIT
+</span><span style="color:#75715e"></span>			<span style="color:#75715e">/*
+</span><span style="color:#75715e">			 * Watermark failed for this zone, but see if we can
+</span><span style="color:#75715e">			 * grow this zone if it contains deferred pages.
+</span><span style="color:#75715e">			 */</span>
+			<span style="color:#66d9ef">if</span> (static_branch_unlikely(<span style="color:#f92672">&amp;</span>deferred_pages)) {
+				<span style="color:#66d9ef">if</span> (_deferred_grow_zone(zone, order))
+					<span style="color:#66d9ef">goto</span> try_this_zone;
+			}
+<span style="color:#75715e">#endif
+</span><span style="color:#75715e"></span>			<span style="color:#75715e">/* Checked here to keep the fast path fast */</span>
+			BUILD_BUG_ON(ALLOC_NO_WATERMARKS <span style="color:#f92672">&lt;</span> NR_WMARK);
+			<span style="color:#66d9ef">if</span> (alloc_flags <span style="color:#f92672">&amp;</span> ALLOC_NO_WATERMARKS)
+				<span style="color:#66d9ef">goto</span> try_this_zone;
 
-			<span class="k">if</span> <span class="p">(</span><span class="n">node_reclaim_mode</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span>
-			    <span class="o">!</span><span class="n">zone_allows_reclaim</span><span class="p">(</span><span class="n">ac</span><span class="o">-&gt;</span><span class="n">preferred_zoneref</span><span class="o">-&gt;</span><span class="n">zone</span><span class="p">,</span> <span class="n">zone</span><span class="p">))</span>
-				<span class="k">continue</span><span class="p">;</span>
+			<span style="color:#66d9ef">if</span> (node_reclaim_mode <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span>
+			    <span style="color:#f92672">!</span>zone_allows_reclaim(ac<span style="color:#f92672">-&gt;</span>preferred_zoneref<span style="color:#f92672">-&gt;</span>zone, zone))
+				<span style="color:#66d9ef">continue</span>;
 
-			<span class="n">ret</span> <span class="o">=</span> <span class="n">node_reclaim</span><span class="p">(</span><span class="n">zone</span><span class="o">-&gt;</span><span class="n">zone_pgdat</span><span class="p">,</span> <span class="n">gfp_mask</span><span class="p">,</span> <span class="n">order</span><span class="p">);</span>
-			<span class="k">switch</span> <span class="p">(</span><span class="n">ret</span><span class="p">)</span> <span class="p">{</span>
-			<span class="k">case</span> <span class="nl">NODE_RECLAIM_NOSCAN</span><span class="p">:</span>
-				<span class="cm">/* did not scan */</span>
-				<span class="k">continue</span><span class="p">;</span>
-			<span class="k">case</span> <span class="nl">NODE_RECLAIM_FULL</span><span class="p">:</span>
-				<span class="cm">/* scanned but unreclaimable */</span>
-				<span class="k">continue</span><span class="p">;</span>
-			<span class="k">default</span><span class="o">:</span>
-				<span class="cm">/* did we reclaim enough */</span>
-				<span class="k">if</span> <span class="p">(</span><span class="n">zone_watermark_ok</span><span class="p">(</span><span class="n">zone</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">mark</span><span class="p">,</span>
-						<span class="n">ac_classzone_idx</span><span class="p">(</span><span class="n">ac</span><span class="p">),</span> <span class="n">alloc_flags</span><span class="p">))</span>
-					<span class="k">goto</span> <span class="n">try_this_zone</span><span class="p">;</span>
+			ret <span style="color:#f92672">=</span> node_reclaim(zone<span style="color:#f92672">-&gt;</span>zone_pgdat, gfp_mask, order);
+			<span style="color:#66d9ef">switch</span> (ret) {
+			<span style="color:#66d9ef">case</span> NODE_RECLAIM_NOSCAN:
+				<span style="color:#75715e">/* did not scan */</span>
+				<span style="color:#66d9ef">continue</span>;
+			<span style="color:#66d9ef">case</span> NODE_RECLAIM_FULL:
+				<span style="color:#75715e">/* scanned but unreclaimable */</span>
+				<span style="color:#66d9ef">continue</span>;
+			<span style="color:#66d9ef">default</span><span style="color:#f92672">:</span>
+				<span style="color:#75715e">/* did we reclaim enough */</span>
+				<span style="color:#66d9ef">if</span> (zone_watermark_ok(zone, order, mark,
+						ac_classzone_idx(ac), alloc_flags))
+					<span style="color:#66d9ef">goto</span> try_this_zone;
 
-				<span class="k">continue</span><span class="p">;</span>
-			<span class="p">}</span>
-		<span class="p">}</span>
+				<span style="color:#66d9ef">continue</span>;
+			}
+		}
 
-<span class="nl">try_this_zone</span><span class="p">:</span>
-		<span class="n">page</span> <span class="o">=</span> <span class="n">rmqueue</span><span class="p">(</span><span class="n">ac</span><span class="o">-&gt;</span><span class="n">preferred_zoneref</span><span class="o">-&gt;</span><span class="n">zone</span><span class="p">,</span> <span class="n">zone</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span>
-				<span class="n">gfp_mask</span><span class="p">,</span> <span class="n">alloc_flags</span><span class="p">,</span> <span class="n">ac</span><span class="o">-&gt;</span><span class="n">migratetype</span><span class="p">);</span>
-		<span class="k">if</span> <span class="p">(</span><span class="n">page</span><span class="p">)</span> <span class="p">{</span>
-			<span class="n">prep_new_page</span><span class="p">(</span><span class="n">page</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">gfp_mask</span><span class="p">,</span> <span class="n">alloc_flags</span><span class="p">);</span>
+try_this_zone:
+		page <span style="color:#f92672">=</span> rmqueue(ac<span style="color:#f92672">-&gt;</span>preferred_zoneref<span style="color:#f92672">-&gt;</span>zone, zone, order,
+				gfp_mask, alloc_flags, ac<span style="color:#f92672">-&gt;</span>migratetype);
+		<span style="color:#66d9ef">if</span> (page) {
+			prep_new_page(page, order, gfp_mask, alloc_flags);
 
-			<span class="cm">/*
-</span><span class="cm">			 * If this is a high-order atomic allocation then check
-</span><span class="cm">			 * if the pageblock should be reserved for the future
-</span><span class="cm">			 */</span>
-			<span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="n">order</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">alloc_flags</span> <span class="o">&amp;</span> <span class="n">ALLOC_HARDER</span><span class="p">)))</span>
-				<span class="n">reserve_highatomic_pageblock</span><span class="p">(</span><span class="n">page</span><span class="p">,</span> <span class="n">zone</span><span class="p">,</span> <span class="n">order</span><span class="p">);</span>
+			<span style="color:#75715e">/*
+</span><span style="color:#75715e">			 * If this is a high-order atomic allocation then check
+</span><span style="color:#75715e">			 * if the pageblock should be reserved for the future
+</span><span style="color:#75715e">			 */</span>
+			<span style="color:#66d9ef">if</span> (unlikely(order <span style="color:#f92672">&amp;&amp;</span> (alloc_flags <span style="color:#f92672">&amp;</span> ALLOC_HARDER)))
+				reserve_highatomic_pageblock(page, zone, order);
 
-			<span class="k">return</span> <span class="n">page</span><span class="p">;</span>
-		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-<span class="cp">#ifdef CONFIG_DEFERRED_STRUCT_PAGE_INIT
-</span><span class="cp"></span>			<span class="cm">/* Try again if zone has deferred pages */</span>
-			<span class="k">if</span> <span class="p">(</span><span class="n">static_branch_unlikely</span><span class="p">(</span><span class="o">&amp;</span><span class="n">deferred_pages</span><span class="p">))</span> <span class="p">{</span>
-				<span class="k">if</span> <span class="p">(</span><span class="n">_deferred_grow_zone</span><span class="p">(</span><span class="n">zone</span><span class="p">,</span> <span class="n">order</span><span class="p">))</span>
-					<span class="k">goto</span> <span class="n">try_this_zone</span><span class="p">;</span>
-			<span class="p">}</span>
-<span class="cp">#endif
-</span><span class="cp"></span>		<span class="p">}</span>
-	<span class="p">}</span>
+			<span style="color:#66d9ef">return</span> page;
+		} <span style="color:#66d9ef">else</span> {
+<span style="color:#75715e">#ifdef CONFIG_DEFERRED_STRUCT_PAGE_INIT
+</span><span style="color:#75715e"></span>			<span style="color:#75715e">/* Try again if zone has deferred pages */</span>
+			<span style="color:#66d9ef">if</span> (static_branch_unlikely(<span style="color:#f92672">&amp;</span>deferred_pages)) {
+				<span style="color:#66d9ef">if</span> (_deferred_grow_zone(zone, order))
+					<span style="color:#66d9ef">goto</span> try_this_zone;
+			}
+<span style="color:#75715e">#endif
+</span><span style="color:#75715e"></span>		}
+	}
 
-	<span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
-<span class="p">}</span>
+	<span style="color:#66d9ef">return</span> NULL;
+}
 </code></pre></td></tr></table></div>
 </div>
 </div>
