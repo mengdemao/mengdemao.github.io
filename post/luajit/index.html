@@ -1,69 +1,176 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="dns-prefetch" href="//cdn.jsdelivr.net" />
-  <link rel="dns-prefetch" href="//www.google-analytics.com" />
-  
-  <link rel="canonical" href="/post/luajit/" />
-  
-  <meta name="description" content="LuaJIT">
-  
-  <title>
-	  
-	    LuaJIT | 开发日志
-	  
-  </title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>LuaJIT - 开发日志</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
-  
-  <meta property="og:site_name" content="开发日志" />
-  <meta property="og:locale" content="zh-cn" />
-  <meta property="og:type" content="article" />
-  <meta property="og:title" content="LuaJIT" />
-  <meta property="og:description" content="LuaJIT | 开发日志" />
-  <meta property="og:url" content="/post/luajit/" />
-  
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/uikit/2.27.2/css/uikit.min.css" />
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.10.0/styles/github.min.css" />
-  <link rel="stylesheet" href="/css/style.css" />
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="mengdemao" /><meta name="description" content="LuaJIT Lua语法 基本语法 1 print(&amp;#34;Hello World&amp;#34;) 表(table) LuaJIT分析 LuaJIT主函数 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 int main(int argc, char **argv) { int status; /* 返回" /><meta name="keywords" content="Arm, linux, C语言" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.81.0 with theme even" />
+
+
+<link rel="canonical" href="https://mengdemao.github.io/post/luajit/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.af7fd1da18d66c2b017df5b4cae508ef44cfcac3fb4c7c7a327fe4f4f9e28b08.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="LuaJIT" />
+<meta property="og:description" content="LuaJIT Lua语法 基本语法 1 print(&#34;Hello World&#34;) 表(table) LuaJIT分析 LuaJIT主函数 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 int main(int argc, char **argv) { int status; /* 返回" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://mengdemao.github.io/post/luajit/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-09-04T19:04:52&#43;08:00" />
+<meta property="article:modified_time" content="2021-09-19T20:59:55&#43;08:00" />
+
+<meta itemprop="name" content="LuaJIT">
+<meta itemprop="description" content="LuaJIT Lua语法 基本语法 1 print(&#34;Hello World&#34;) 表(table) LuaJIT分析 LuaJIT主函数 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 int main(int argc, char **argv) { int status; /* 返回"><meta itemprop="datePublished" content="2021-09-04T19:04:52&#43;08:00" />
+<meta itemprop="dateModified" content="2021-09-19T20:59:55&#43;08:00" />
+<meta itemprop="wordCount" content="437">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="LuaJIT"/>
+<meta name="twitter:description" content="LuaJIT Lua语法 基本语法 1 print(&#34;Hello World&#34;) 表(table) LuaJIT分析 LuaJIT主函数 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 int main(int argc, char **argv) { int status; /* 返回"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
 </head>
-
 <body>
-	<div class="uk-block uk-block-large uk-block-muted">
-		<div class="uk-container uk-container-center">
-			<div class="uk-grid">
-				<div class="uk-width-large-1-10 uk-hidden-medium uk-hidden-small"></div>
-				<div class="uk-width-large-8-10 uk-width-medium-1-1 uk-width-small-1-1">
-          <div id="header" class="clearfix">
-            <div class="uk-float-left">
-              <h2><a href="/">开发日志</a></h2>
-            </div>
-            <div class="uk-float-right">
-              <a href="/" class="uk-button">Home</a>
-            </div>
-          </div>
-				</div>
-				<div class="uk-width-large-1-10 uk-hidden-medium uk-hidden-small"></div>
-			</div>
-		</div>
-	</div>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">开发日志</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
 
-<div class="uk-block uk-block-default">
-	<div class="uk-container uk-container-center">
-		<div class="uk-grid">
-			<div class="uk-width-large-1-10 uk-hidden-medium uk-hidden-small"></div>
-			<div class="uk-width-large-8-10 uk-width-medium-1-1 uk-width-small-1-1">
-				<article class="uk-article">
-					<h1 class="uk-article-title" style="font-size: 23px;">
-						LuaJIT
-					</h1>
-					
-					<p class="uk-article-meta">Posted on Sat, Sep 4, 2021 | </p>
+  
 
-          
-					<h1 id="luajit">LuaJIT</h1>
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">开发日志</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">LuaJIT</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 4049-52-9 </span>
+        
+          <span class="more-meta"> 约 437 字 </span>
+          <span class="more-meta"> 预计阅读 1 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#luajit">LuaJIT</a>
+      <ul>
+        <li><a href="#lua语法">Lua语法</a>
+          <ul>
+            <li><a href="#基本语法">基本语法</a></li>
+            <li><a href="#表table">表(table)</a></li>
+          </ul>
+        </li>
+        <li><a href="#luajit分析">LuaJIT分析</a>
+          <ul>
+            <li><a href="#luajit主函数">LuaJIT主函数</a></li>
+            <li><a href="#lua状态机">Lua状态机</a></li>
+            <li><a href="#创建状态">创建状态</a></li>
+            <li><a href="#函数调用">函数调用</a></li>
+          </ul>
+        </li>
+        <li><a href="#执行原理">执行原理</a></li>
+        <li><a href="#ffi分析">FFI分析</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="luajit">LuaJIT</h1>
 <h2 id="lua语法">Lua语法</h2>
 <h3 id="基本语法">基本语法</h3>
 <div class="highlight"><div class="chroma">
@@ -269,125 +376,85 @@
 <h2 id="执行原理">执行原理</h2>
 <h2 id="ffi分析">FFI分析</h2>
 
-          
-				</article>
-			</div>
-			<div class="uk-width-large-1-10 uk-hidden-medium uk-hidden-small"></div>
-		</div>
-    <div class="uk-grid">
-      <div class="uk-width-large-1-10"></div>
-      <div class="uk-width-large-8-10">
-        <ul class="uk-pagination">
-          
-            <li class="uk-float-left"><a href="https://mengdemao.github.io/post/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">&lt; Previous</a></li>
-          
-          
-            <li class="uk-float-right"><a href="https://mengdemao.github.io/about/">Next &gt;</a></li>
-          
-        </ul>
-      </div>
-      <div class="uk-width-large-1-10"></div>
     </div>
-    <div class="uk-grid">
-      <div class="uk-width-large-1-10"></div>
-      <div class="uk-width-large-8-10">
-        <div class="uk-panel uk-panel-box uk-panel-box-secondary">
-          <h3 class="uk-panel-title">Related Posts</h3>
-          
-          
-          <ul class="uk-list uk-list-striped">
-            
-              
-              
-              
-            
-              
-              
-              
-            
-              
-              
-              
-            
-              
-              
-              
-            
-              
-              
-              
-            
-              
-              
-              
-            
-              
-              
-              
-            
-              
-              
-              
-            
-              
-              
-              
-            
-              
-              
-              
-            
-              
-              
-              
-            
-              
-              
-              
-            
-              
-              
-              
-            
-          </ul>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">mengdemao</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        19199-55-9
+        <a href="https://github.com/mengdemao/mengdemao.github.io.git/commit/5ef96853212e0dcdf588f5ffd9ec8f2933f1eb32" title="* 更新文档">(5ef9685)</a>
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">
+            <span class="next-text nav-default">编译原理</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
         </div>
+        
+
+  
+
+  
+
       </div>
-      <div class="uk-width-large-1-10"></div>
-    </div>
-    <div class="uk-grid">
-      <div class="uk-width-large-1-10"></div>
-      <div class="uk-width-large-8-10">
-        <div id="disqus_thread" data-uk-scrollspy></div>
-      </div>
-      <div class="uk-width-large-1-10"></div>
-    </div>
-	</div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://mengdemao.github.io" class="iconfont icon-email" title="email"></a>
+  <a href="https://mengdemao.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
 </div>
 
-	<div id="footer" class="uk-block uk-block-large uk-block-muted" data-uk-scrollspy="{repeat: true, delay: 600}">
-		<div class="uk-container uk-container-center">
-			<div class="uk-grid">
-				<div class="uk-width-large-1-10 uk-hidden-medium uk-hidden-small"></div>
-				<div class="uk-width-large-8-10 uk-width-medium-1-1 uk-width-small-1-1">
-                  <div class="uk-grid">
-                    <div class="uk-width-1-1">
-                      &copy; Copyright -2016  
-                    </div>
-                    <div class="uk-width-1-1">
-                      Powered by <a href="http://gohugo.io">Hugo</a> | Themed by <a href="https://github.com/leopku/hugo-theme-next">NeXT</a>
-                    </div>
-                  </div>
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
 
-				</div>
-				<div class="uk-width-large-1-10 uk-hidden-medium uk-hidden-small"></div>
-			</div>
-		</div>
-	</div>
+  
 
-	<script src="//cdn.jsdelivr.net/jquery/1.11.3/jquery.min.js"></script>
-	<script src="//cdn.jsdelivr.net/uikit/2.27.2/js/uikit.min.js"></script>
-	<script src="//cdn.jsdelivr.net/highlight.js/9.10.0/highlight.min.js"></script>
-	<script>hljs.initHighlightingOnLoad();</script>
+  <span class="copyright-year">
+    &copy; 
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>mengdemao</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+
+
 
 
 
@@ -396,6 +463,3 @@
 
 </body>
 </html>
-
-
-
