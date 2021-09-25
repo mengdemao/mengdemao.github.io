@@ -1,1 +1,209 @@
-<!doctype html><html xmlns=http://www.w3.org/1999/xhtml xml:lang=zh-cn lang=zh-cn><head><link href=https://gmpg.org/xfn/11 rel=profile><meta charset=utf-8><meta name=generator content="Hugo 0.81.0"><meta name=viewport content="width=device-width,initial-scale=1"><title>编译原理 &#183; 开发日志</title><meta name=description content><link type=text/css rel=stylesheet href=https://mengdemao.github.iocss/print.css media=print><link type=text/css rel=stylesheet href=https://mengdemao.github.iocss/poole.css><link type=text/css rel=stylesheet href=https://mengdemao.github.iocss/syntax.css><link type=text/css rel=stylesheet href=https://mengdemao.github.iocss/hyde.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700"><link rel=apple-touch-icon-precomposed sizes=144x144 href=/apple-touch-icon-144-precomposed.png><link rel="shortcut icon" href=/favicon.png><link href=https://mengdemao.github.io/post/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/index.md rel=alternate type=text/plain title=开发日志></head><body><aside class=sidebar><div class="container sidebar-sticky"><div class=sidebar-about><a href=https://mengdemao.github.io><h1>开发日志</h1></a><p class=lead>个人日志</p></div><nav><ul class=sidebar-nav><li><a href=https://mengdemao.github.io>Home</a></li><li><a href=/>Home</a></li><li><a href=/post/>Archives</a></li><li><a href=/tags/>Tags</a></li><li><a href=/categories/>Categories</a></li><li><a href=/about/>About</a></li></ul></nav><p>&copy; 2021. All rights reserved.</p></div></aside><main class="content container"><div class=post><h1>编译原理</h1><time datetime=2021-09-04T19:04:52+0800 class=post-date>Sat, Sep 4, 2021</time><h1 id=编译原理>编译原理</h1><h2 id=基础概念>基础概念</h2><h2 id=词法分析>词法分析</h2><h3 id=re>RE</h3><h3 id=nfa>NFA</h3><h3 id=dfa>DFA</h3><h2 id=语法分析>语法分析</h2><h3 id=上下文无关文法cfg>上下文无关文法(CFG)</h3><h3 id=自上而下top-down>自上而下(Top Down)</h3><h3 id=自下而上bottom-up>自下而上(Bottom Up)</h3><h2 id=语义分析>语义分析</h2><h2 id=中间代码>中间代码</h2><h2 id=目标代码>目标代码</h2></div></main></body></html>
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="dns-prefetch" href="//cdn.jsdelivr.net" />
+  <link rel="dns-prefetch" href="//www.google-analytics.com" />
+  
+  <link rel="canonical" href="/post/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" />
+  
+  <meta name="description" content="编译原理">
+  
+  <title>
+	  
+	    编译原理 | 开发日志
+	  
+  </title>
+
+  
+  <meta property="og:site_name" content="开发日志" />
+  <meta property="og:locale" content="zh-cn" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="编译原理" />
+  <meta property="og:description" content="编译原理 | 开发日志" />
+  <meta property="og:url" content="/post/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" />
+  
+
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/uikit/2.27.2/css/uikit.min.css" />
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.10.0/styles/github.min.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+
+<body>
+	<div class="uk-block uk-block-large uk-block-muted">
+		<div class="uk-container uk-container-center">
+			<div class="uk-grid">
+				<div class="uk-width-large-1-10 uk-hidden-medium uk-hidden-small"></div>
+				<div class="uk-width-large-8-10 uk-width-medium-1-1 uk-width-small-1-1">
+          <div id="header" class="clearfix">
+            <div class="uk-float-left">
+              <h2><a href="/">开发日志</a></h2>
+            </div>
+            <div class="uk-float-right">
+              <a href="/" class="uk-button">Home</a>
+            </div>
+          </div>
+				</div>
+				<div class="uk-width-large-1-10 uk-hidden-medium uk-hidden-small"></div>
+			</div>
+		</div>
+	</div>
+
+<div class="uk-block uk-block-default">
+	<div class="uk-container uk-container-center">
+		<div class="uk-grid">
+			<div class="uk-width-large-1-10 uk-hidden-medium uk-hidden-small"></div>
+			<div class="uk-width-large-8-10 uk-width-medium-1-1 uk-width-small-1-1">
+				<article class="uk-article">
+					<h1 class="uk-article-title" style="font-size: 23px;">
+						编译原理
+					</h1>
+					
+					<p class="uk-article-meta">Posted on Sat, Sep 4, 2021 | </p>
+
+          
+					<h1 id="编译原理">编译原理</h1>
+<h2 id="基础概念">基础概念</h2>
+<h2 id="词法分析">词法分析</h2>
+<h3 id="re">RE</h3>
+<h3 id="nfa">NFA</h3>
+<h3 id="dfa">DFA</h3>
+<h2 id="语法分析">语法分析</h2>
+<h3 id="上下文无关文法cfg">上下文无关文法(CFG)</h3>
+<h3 id="自上而下top-down">自上而下(Top Down)</h3>
+<h3 id="自下而上bottom-up">自下而上(Bottom Up)</h3>
+<h2 id="语义分析">语义分析</h2>
+<h2 id="中间代码">中间代码</h2>
+<h2 id="目标代码">目标代码</h2>
+
+          
+				</article>
+			</div>
+			<div class="uk-width-large-1-10 uk-hidden-medium uk-hidden-small"></div>
+		</div>
+    <div class="uk-grid">
+      <div class="uk-width-large-1-10"></div>
+      <div class="uk-width-large-8-10">
+        <ul class="uk-pagination">
+          
+            <li class="uk-float-left"><a href="https://mengdemao.github.io/post/page_allocator/">&lt; Previous</a></li>
+          
+          
+            <li class="uk-float-right"><a href="https://mengdemao.github.io/post/luajit/">Next &gt;</a></li>
+          
+        </ul>
+      </div>
+      <div class="uk-width-large-1-10"></div>
+    </div>
+    <div class="uk-grid">
+      <div class="uk-width-large-1-10"></div>
+      <div class="uk-width-large-8-10">
+        <div class="uk-panel uk-panel-box uk-panel-box-secondary">
+          <h3 class="uk-panel-title">Related Posts</h3>
+          
+          
+          <ul class="uk-list uk-list-striped">
+            
+              
+              
+              
+            
+              
+              
+              
+            
+              
+              
+              
+            
+              
+              
+              
+            
+              
+              
+              
+            
+              
+              
+              
+            
+              
+              
+              
+            
+              
+              
+              
+            
+              
+              
+              
+            
+              
+              
+              
+            
+              
+              
+              
+            
+              
+              
+              
+            
+              
+              
+              
+            
+          </ul>
+        </div>
+      </div>
+      <div class="uk-width-large-1-10"></div>
+    </div>
+    <div class="uk-grid">
+      <div class="uk-width-large-1-10"></div>
+      <div class="uk-width-large-8-10">
+        <div id="disqus_thread" data-uk-scrollspy></div>
+      </div>
+      <div class="uk-width-large-1-10"></div>
+    </div>
+	</div>
+</div>
+
+	<div id="footer" class="uk-block uk-block-large uk-block-muted" data-uk-scrollspy="{repeat: true, delay: 600}">
+		<div class="uk-container uk-container-center">
+			<div class="uk-grid">
+				<div class="uk-width-large-1-10 uk-hidden-medium uk-hidden-small"></div>
+				<div class="uk-width-large-8-10 uk-width-medium-1-1 uk-width-small-1-1">
+                  <div class="uk-grid">
+                    <div class="uk-width-1-1">
+                      &copy; Copyright -2016  
+                    </div>
+                    <div class="uk-width-1-1">
+                      Powered by <a href="http://gohugo.io">Hugo</a> | Themed by <a href="https://github.com/leopku/hugo-theme-next">NeXT</a>
+                    </div>
+                  </div>
+
+				</div>
+				<div class="uk-width-large-1-10 uk-hidden-medium uk-hidden-small"></div>
+			</div>
+		</div>
+	</div>
+
+	<script src="//cdn.jsdelivr.net/jquery/1.11.3/jquery.min.js"></script>
+	<script src="//cdn.jsdelivr.net/uikit/2.27.2/js/uikit.min.js"></script>
+	<script src="//cdn.jsdelivr.net/highlight.js/9.10.0/highlight.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+
+</body>
+</html>
+
+
+

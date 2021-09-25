@@ -1,225 +1,497 @@
-<!doctype html><html xmlns=http://www.w3.org/1999/xhtml xml:lang=zh-cn lang=zh-cn><head><link href=https://gmpg.org/xfn/11 rel=profile><meta charset=utf-8><meta name=generator content="Hugo 0.81.0"><meta name=viewport content="width=device-width,initial-scale=1"><title>Linux等待队列实现 &#183; 开发日志</title><meta name=description content><link type=text/css rel=stylesheet href=https://mengdemao.github.iocss/print.css media=print><link type=text/css rel=stylesheet href=https://mengdemao.github.iocss/poole.css><link type=text/css rel=stylesheet href=https://mengdemao.github.iocss/syntax.css><link type=text/css rel=stylesheet href=https://mengdemao.github.iocss/hyde.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700"><link rel=apple-touch-icon-precomposed sizes=144x144 href=/apple-touch-icon-144-precomposed.png><link rel="shortcut icon" href=/favicon.png><link href=https://mengdemao.github.io/post/wait_queue/index.md rel=alternate type=text/plain title=开发日志></head><body><aside class=sidebar><div class="container sidebar-sticky"><div class=sidebar-about><a href=https://mengdemao.github.io><h1>开发日志</h1></a><p class=lead>个人日志</p></div><nav><ul class=sidebar-nav><li><a href=https://mengdemao.github.io>Home</a></li><li><a href=/>Home</a></li><li><a href=/post/>Archives</a></li><li><a href=/tags/>Tags</a></li><li><a href=/categories/>Categories</a></li><li><a href=/about/>About</a></li></ul></nav><p>&copy; 2021. All rights reserved.</p></div></aside><main class="content container"><div class=post><h1>Linux等待队列实现</h1><time datetime=2021-05-04T23:17:55Z class=post-date>Tue, May 4, 2021</time><p>等待事件是建立在调度的基础之上的一种同步机制</p><h1 id=使用>使用</h1><h2 id=等待队列头>等待队列头</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=k>struct</span> <span class=n>__wait_queue_head</span> <span class=p>{</span>
-	<span class=n>wq_lock_t</span> <span class=n>lock</span><span class=p>;</span>
-	<span class=k>struct</span> <span class=n>list_head</span> <span class=n>task_list</span><span class=p>;</span>
-<span class=p>};</span>
-<span class=k>typedef</span> <span class=k>struct</span> <span class=n>__wait_queue_head</span> <span class=n>wait_queue_head_t</span><span class=p>;</span>
-</code></pre></td></tr></table></div></div><h2 id=等待队列实体>等待队列实体</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span><span class=lnt>6
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=k>struct</span> <span class=n>__wait_queue</span> <span class=p>{</span>
-	<span class=kt>unsigned</span> <span class=kt>int</span> <span class=n>flags</span><span class=p>;</span>
-	<span class=k>struct</span> <span class=n>task_struct</span> <span class=o>*</span> <span class=n>task</span><span class=p>;</span>
-	<span class=k>struct</span> <span class=n>list_head</span> <span class=n>task_list</span><span class=p>;</span>
-<span class=p>};</span>
-<span class=k>typedef</span> <span class=k>struct</span> <span class=n>__wait_queue</span> <span class=n>wait_queue_t</span><span class=p>;</span>
-</code></pre></td></tr></table></div></div><h2 id=初始化等待队列头>初始化等待队列头</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=kt>void</span> <span class=nf>__init_waitqueue_head</span><span class=p>(</span><span class=k>struct</span> <span class=n>wait_queue_head</span> <span class=o>*</span><span class=n>wq_head</span><span class=p>,</span>
-						   <span class=k>const</span> <span class=kt>char</span> <span class=o>*</span><span class=n>name</span><span class=p>,</span> <span class=k>struct</span> <span class=n>lock_class_key</span> <span class=o>*</span><span class=p>);</span>
-<span class=kt>void</span> <span class=nf>init_waitqueue_head</span><span class=p>(</span><span class=k>struct</span> <span class=n>wait_queue_head</span> <span class=o>*</span><span class=n>wq_head</span><span class=p>);</span>
-</code></pre></td></tr></table></div></div><h2 id=初始化等待队列>初始化等待队列</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=cp>#define __WAITQUEUE_INITIALIZER(name, tsk) 						\
-</span><span class=cp>{																\
-</span><span class=cp>	.private	= tsk,											\
-</span><span class=cp>	.func		= default_wake_function,						\
-</span><span class=cp>	.entry		= { NULL, NULL }								\ 
-</span><span class=cp></span><span class=p>}</span>
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="dns-prefetch" href="//cdn.jsdelivr.net" />
+  <link rel="dns-prefetch" href="//www.google-analytics.com" />
+  
+  <link rel="canonical" href="/post/wait_queue/" />
+  
+  <meta name="description" content="Linux等待队列实现">
+  
+  <title>
+	  
+	    Linux等待队列实现 | 开发日志
+	  
+  </title>
 
-<span class=cp>#define DECLARE_WAITQUEUE(name, tsk)  struct wait_queue_entry name = __WAITQUEUE_INITIALIZER(name, tsk)
-</span><span class=cp></span>
-<span class=c1>// 但是，一般直接
-</span><span class=c1></span><span class=n>DECLARE_WAITQUEUE</span><span class=p>(</span><span class=n>wait</span><span class=p>,</span> <span class=n>current</span><span class=p>);</span>
-</code></pre></td></tr></table></div></div><ul><li>等待队列入口</li><li>等待的任务</li></ul><h2 id=等待队列操作>等待队列操作</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=kt>void</span> <span class=nf>add_wait_queue</span><span class=p>(</span><span class=k>struct</span> <span class=n>wait_queue_head</span> <span class=o>*</span><span class=n>wq_head</span><span class=p>,</span>
-					<span class=k>struct</span> <span class=n>wait_queue_entry</span> <span class=o>*</span><span class=n>wq_entry</span><span class=p>);</span>
-<span class=kt>void</span> <span class=nf>remove_wait_queue</span><span class=p>(</span><span class=k>struct</span> <span class=n>wait_queue_head</span> <span class=o>*</span><span class=n>wq_head</span><span class=p>,</span>
-					   <span class=k>struct</span> <span class=n>wait_queue_entry</span> <span class=o>*</span><span class=n>wq_entry</span><span class=p>);</span>
-</code></pre></td></tr></table></div></div><ul><li>等待队列头</li><li>等待队列实体</li></ul><h2 id=等待事件>等待事件</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=kt>void</span> <span class=nf>wait_event</span><span class=p>(</span><span class=n>wq</span><span class=p>,</span> <span class=n>condition</span><span class=p>);</span>
-<span class=kt>void</span> <span class=nf>wait_event_interruptible</span><span class=p>(</span><span class=n>wq</span><span class=p>,</span> <span class=n>condition</span><span class=p>);</span>
-</code></pre></td></tr></table></div></div><h2 id=唤醒队列>唤醒队列</h2><ul><li>wake_up</li><li>wake_up_all</li><li>wake_up_interruptible</li><li>wake_up_interruptible_all</li><li>wake_up_sync</li><li>wake_up_interruptible_sync</li></ul><h1 id=例子>例子</h1><h2 id=写端>写端</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span><span class=lnt>26
-</span><span class=lnt>27
-</span><span class=lnt>28
-</span><span class=lnt>29
-</span><span class=lnt>30
-</span><span class=lnt>31
-</span><span class=lnt>32
-</span><span class=lnt>33
-</span><span class=lnt>34
-</span><span class=lnt>35
-</span><span class=lnt>36
-</span><span class=lnt>37
-</span><span class=lnt>38
-</span><span class=lnt>39
-</span><span class=lnt>40
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=n>ssize_t</span> <span class=nf>wait_write</span><span class=p>(</span><span class=k>struct</span> <span class=n>file</span> <span class=o>*</span><span class=n>file</span><span class=p>,</span> <span class=k>const</span> <span class=kt>char</span> <span class=n>__user</span> <span class=o>*</span><span class=n>data</span><span class=p>,</span> <span class=n>size_t</span> <span class=n>len</span><span class=p>,</span> <span class=n>loff_t</span> <span class=o>*</span><span class=n>ppos</span><span class=p>)</span>
-<span class=p>{</span>
-	<span class=n>DECLARE_WAITQUEUE</span><span class=p>(</span><span class=n>wait</span><span class=p>,</span> <span class=n>current</span><span class=p>);</span>		<span class=cm>/* 声明等待队列 */</span>
-	<span class=kt>int</span> <span class=n>ret</span> <span class=o>=</span> <span class=o>-</span><span class=mi>1</span><span class=p>;</span>
-	<span class=n>PTRACE</span><span class=p>;</span>
+  
+  <meta property="og:site_name" content="开发日志" />
+  <meta property="og:locale" content="zh-cn" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Linux等待队列实现" />
+  <meta property="og:description" content="Linux等待队列实现 | 开发日志" />
+  <meta property="og:url" content="/post/wait_queue/" />
+  
 
-	<span class=n>mutex_lock</span><span class=p>(</span><span class=o>&amp;</span><span class=n>wait_device</span><span class=p>.</span><span class=n>mutex</span><span class=p>);</span>
-	<span class=cm>/* 非阻塞模式直接写入 */</span>
-	<span class=k>if</span> <span class=p>(</span><span class=n>file</span><span class=o>-&gt;</span><span class=n>f_flags</span> <span class=o>&amp;</span> <span class=n>O_NONBLOCK</span><span class=p>)</span> <span class=p>{</span>
-		<span class=n>pr_err</span><span class=p>(</span><span class=s>&#34;write in O_NONBLOCK Mode&#34;</span><span class=p>);</span>
-		<span class=k>goto</span> <span class=n>pure_write</span><span class=p>;</span>
-	<span class=p>}</span>
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/uikit/2.27.2/css/uikit.min.css" />
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.10.0/styles/github.min.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
 
-	<span class=n>add_wait_queue</span><span class=p>(</span><span class=o>&amp;</span><span class=n>wait_device</span><span class=p>.</span><span class=n>wait_w</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>wait</span><span class=p>);</span>
-	<span class=k>while</span> <span class=p>(</span><span class=n>wait_device</span><span class=p>.</span><span class=n>wait_flag</span> <span class=o>==</span> <span class=nb>true</span><span class=p>)</span> <span class=p>{</span>
-		<span class=n>pr_err</span><span class=p>(</span><span class=s>&#34;Write INTERRUPTIBLE&#34;</span><span class=p>);</span>
-		<span class=n>__set_current_state</span><span class=p>(</span><span class=n>TASK_INTERRUPTIBLE</span><span class=p>);</span>
-		<span class=n>mutex_unlock</span><span class=p>(</span><span class=o>&amp;</span><span class=n>wait_device</span><span class=p>.</span><span class=n>mutex</span><span class=p>);</span>
-		<span class=n>schedule</span><span class=p>();</span>
-		<span class=k>if</span> <span class=p>(</span><span class=n>signal_pending</span><span class=p>(</span><span class=n>current</span><span class=p>))</span> <span class=p>{</span>
-			<span class=n>ret</span> <span class=o>=</span> <span class=o>-</span><span class=n>ERESTARTSYS</span><span class=p>;</span>
-			<span class=n>remove_wait_queue</span><span class=p>(</span><span class=o>&amp;</span><span class=n>wait_device</span><span class=p>.</span><span class=n>wait_w</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>wait</span><span class=p>);</span>
-			<span class=n>__set_current_state</span><span class=p>(</span><span class=n>TASK_RUNNING</span><span class=p>);</span>
-			<span class=k>goto</span> <span class=n>out</span><span class=p>;</span>
-		<span class=p>}</span>
-	<span class=p>}</span>
-	<span class=n>remove_wait_queue</span><span class=p>(</span><span class=o>&amp;</span><span class=n>wait_device</span><span class=p>.</span><span class=n>wait_w</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>wait</span><span class=p>);</span>
+<body>
+	<div class="uk-block uk-block-large uk-block-muted">
+		<div class="uk-container uk-container-center">
+			<div class="uk-grid">
+				<div class="uk-width-large-1-10 uk-hidden-medium uk-hidden-small"></div>
+				<div class="uk-width-large-8-10 uk-width-medium-1-1 uk-width-small-1-1">
+          <div id="header" class="clearfix">
+            <div class="uk-float-left">
+              <h2><a href="/">开发日志</a></h2>
+            </div>
+            <div class="uk-float-right">
+              <a href="/" class="uk-button">Home</a>
+            </div>
+          </div>
+				</div>
+				<div class="uk-width-large-1-10 uk-hidden-medium uk-hidden-small"></div>
+			</div>
+		</div>
+	</div>
 
-<span class=nl>pure_write</span><span class=p>:</span>
-	<span class=n>wait_device</span><span class=p>.</span><span class=n>wait_flag</span> <span class=o>=</span> <span class=nb>true</span><span class=p>;</span>
-	<span class=n>pr_err</span><span class=p>(</span><span class=s>&#34;Write Successful&#34;</span><span class=p>);</span>
+<div class="uk-block uk-block-default">
+	<div class="uk-container uk-container-center">
+		<div class="uk-grid">
+			<div class="uk-width-large-1-10 uk-hidden-medium uk-hidden-small"></div>
+			<div class="uk-width-large-8-10 uk-width-medium-1-1 uk-width-small-1-1">
+				<article class="uk-article">
+					<h1 class="uk-article-title" style="font-size: 23px;">
+						Linux等待队列实现
+					</h1>
+					
+					<p class="uk-article-meta">Posted on Tue, May 4, 2021 | </p>
 
-	<span class=n>wake_up_interruptible</span><span class=p>(</span><span class=o>&amp;</span><span class=n>wait_device</span><span class=p>.</span><span class=n>wait_r</span><span class=p>);</span>
-	<span class=n>pr_err</span><span class=p>(</span><span class=s>&#34;Wakeup Read&#34;</span><span class=p>);</span>
-	<span class=k>goto</span> <span class=n>out</span><span class=p>;</span>
+          
+					<p>等待事件是建立在调度的基础之上的一种同步机制</p>
+<h1 id="使用">使用</h1>
+<h2 id="等待队列头">等待队列头</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="k">struct</span> <span class="n">__wait_queue_head</span> <span class="p">{</span>
+	<span class="n">wq_lock_t</span> <span class="n">lock</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">list_head</span> <span class="n">task_list</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">__wait_queue_head</span> <span class="n">wait_queue_head_t</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="等待队列实体">等待队列实体</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="k">struct</span> <span class="n">__wait_queue</span> <span class="p">{</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">flags</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span> <span class="n">task</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">list_head</span> <span class="n">task_list</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">__wait_queue</span> <span class="n">wait_queue_t</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="初始化等待队列头">初始化等待队列头</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="kt">void</span> <span class="nf">__init_waitqueue_head</span><span class="p">(</span><span class="k">struct</span> <span class="n">wait_queue_head</span> <span class="o">*</span><span class="n">wq_head</span><span class="p">,</span>
+						   <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">name</span><span class="p">,</span> <span class="k">struct</span> <span class="n">lock_class_key</span> <span class="o">*</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">init_waitqueue_head</span><span class="p">(</span><span class="k">struct</span> <span class="n">wait_queue_head</span> <span class="o">*</span><span class="n">wq_head</span><span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="初始化等待队列">初始化等待队列</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="cp">#define __WAITQUEUE_INITIALIZER(name, tsk) 						\
+</span><span class="cp">{																\
+</span><span class="cp">	.private	= tsk,											\
+</span><span class="cp">	.func		= default_wake_function,						\
+</span><span class="cp">	.entry		= { NULL, NULL }								\ 
+</span><span class="cp"></span><span class="p">}</span>
 
-<span class=nl>out</span><span class=p>:</span>
-	<span class=n>mutex_unlock</span><span class=p>(</span><span class=o>&amp;</span><span class=n>wait_device</span><span class=p>.</span><span class=n>mutex</span><span class=p>);</span>
-	<span class=k>return</span> <span class=n>ret</span><span class=p>;</span>
-<span class=p>}</span>
-</code></pre></td></tr></table></div></div><h2 id=读端>读端</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span><span class=lnt>26
-</span><span class=lnt>27
-</span><span class=lnt>28
-</span><span class=lnt>29
-</span><span class=lnt>30
-</span><span class=lnt>31
-</span><span class=lnt>32
-</span><span class=lnt>33
-</span><span class=lnt>34
-</span><span class=lnt>35
-</span><span class=lnt>36
-</span><span class=lnt>37
-</span><span class=lnt>38
-</span><span class=lnt>39
-</span><span class=lnt>40
-</span><span class=lnt>41
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-c data-lang=c> <span class=n>ssize_t</span> <span class=nf>wait_read</span><span class=p>(</span><span class=k>struct</span> <span class=n>file</span> <span class=o>*</span><span class=n>file</span><span class=p>,</span> <span class=kt>char</span> <span class=n>__user</span> <span class=o>*</span><span class=n>buf</span><span class=p>,</span> <span class=n>size_t</span> <span class=n>len</span><span class=p>,</span> <span class=n>loff_t</span> <span class=o>*</span> <span class=n>ppos</span><span class=p>)</span>
-<span class=p>{</span>
-	<span class=n>DECLARE_WAITQUEUE</span><span class=p>(</span><span class=n>wait</span><span class=p>,</span> <span class=n>current</span><span class=p>);</span>		<span class=cm>/* 声明等待队列 */</span>
-	<span class=kt>int</span> <span class=n>ret</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
-	<span class=n>PTRACE</span><span class=p>;</span>
+<span class="cp">#define DECLARE_WAITQUEUE(name, tsk)  struct wait_queue_entry name = __WAITQUEUE_INITIALIZER(name, tsk)
+</span><span class="cp"></span>
+<span class="c1">// 但是，一般直接
+</span><span class="c1"></span><span class="n">DECLARE_WAITQUEUE</span><span class="p">(</span><span class="n">wait</span><span class="p">,</span> <span class="n">current</span><span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>等待队列入口</li>
+<li>等待的任务</li>
+</ul>
+<h2 id="等待队列操作">等待队列操作</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="kt">void</span> <span class="nf">add_wait_queue</span><span class="p">(</span><span class="k">struct</span> <span class="n">wait_queue_head</span> <span class="o">*</span><span class="n">wq_head</span><span class="p">,</span>
+					<span class="k">struct</span> <span class="n">wait_queue_entry</span> <span class="o">*</span><span class="n">wq_entry</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">remove_wait_queue</span><span class="p">(</span><span class="k">struct</span> <span class="n">wait_queue_head</span> <span class="o">*</span><span class="n">wq_head</span><span class="p">,</span>
+					   <span class="k">struct</span> <span class="n">wait_queue_entry</span> <span class="o">*</span><span class="n">wq_entry</span><span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>等待队列头</li>
+<li>等待队列实体</li>
+</ul>
+<h2 id="等待事件">等待事件</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="kt">void</span> <span class="nf">wait_event</span><span class="p">(</span><span class="n">wq</span><span class="p">,</span> <span class="n">condition</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">wait_event_interruptible</span><span class="p">(</span><span class="n">wq</span><span class="p">,</span> <span class="n">condition</span><span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="唤醒队列">唤醒队列</h2>
+<ul>
+<li>wake_up</li>
+<li>wake_up_all</li>
+<li>wake_up_interruptible</li>
+<li>wake_up_interruptible_all</li>
+<li>wake_up_sync</li>
+<li>wake_up_interruptible_sync</li>
+</ul>
+<h1 id="例子">例子</h1>
+<h2 id="写端">写端</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="n">ssize_t</span> <span class="nf">wait_write</span><span class="p">(</span><span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="n">file</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="n">__user</span> <span class="o">*</span><span class="n">data</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">len</span><span class="p">,</span> <span class="n">loff_t</span> <span class="o">*</span><span class="n">ppos</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">DECLARE_WAITQUEUE</span><span class="p">(</span><span class="n">wait</span><span class="p">,</span> <span class="n">current</span><span class="p">);</span>		<span class="cm">/* 声明等待队列 */</span>
+	<span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+	<span class="n">PTRACE</span><span class="p">;</span>
 
-	<span class=n>mutex_lock</span><span class=p>(</span><span class=o>&amp;</span><span class=n>wait_device</span><span class=p>.</span><span class=n>mutex</span><span class=p>);</span>
-	<span class=cm>/* 非阻塞模式直接写入 */</span>
-	<span class=k>if</span> <span class=p>(</span><span class=n>file</span><span class=o>-&gt;</span><span class=n>f_flags</span> <span class=o>&amp;</span> <span class=n>O_NONBLOCK</span><span class=p>)</span> <span class=p>{</span>
-		<span class=n>pr_err</span><span class=p>(</span><span class=s>&#34;write in O_NONBLOCK Mode&#34;</span><span class=p>);</span>
-		<span class=k>goto</span> <span class=n>pure_read</span><span class=p>;</span>
-	<span class=p>}</span>
+	<span class="n">mutex_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">wait_device</span><span class="p">.</span><span class="n">mutex</span><span class="p">);</span>
+	<span class="cm">/* 非阻塞模式直接写入 */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">file</span><span class="o">-&gt;</span><span class="n">f_flags</span> <span class="o">&amp;</span> <span class="n">O_NONBLOCK</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">pr_err</span><span class="p">(</span><span class="s">&#34;write in O_NONBLOCK Mode&#34;</span><span class="p">);</span>
+		<span class="k">goto</span> <span class="n">pure_write</span><span class="p">;</span>
+	<span class="p">}</span>
 
-	<span class=n>add_wait_queue</span><span class=p>(</span><span class=o>&amp;</span><span class=n>wait_device</span><span class=p>.</span><span class=n>wait_r</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>wait</span><span class=p>);</span>
-	<span class=k>while</span> <span class=p>(</span><span class=n>wait_device</span><span class=p>.</span><span class=n>wait_flag</span> <span class=o>==</span> <span class=nb>false</span><span class=p>)</span> <span class=p>{</span>
-		<span class=n>pr_err</span><span class=p>(</span><span class=s>&#34;Write INTERRUPTIBLE&#34;</span><span class=p>);</span>
-		<span class=n>__set_current_state</span><span class=p>(</span><span class=n>TASK_INTERRUPTIBLE</span><span class=p>);</span>
-		<span class=n>mutex_unlock</span><span class=p>(</span><span class=o>&amp;</span><span class=n>wait_device</span><span class=p>.</span><span class=n>mutex</span><span class=p>);</span>
-		<span class=n>schedule</span><span class=p>();</span>
-		<span class=k>if</span> <span class=p>(</span><span class=n>signal_pending</span><span class=p>(</span><span class=n>current</span><span class=p>))</span> <span class=p>{</span>
-			<span class=n>ret</span> <span class=o>=</span> <span class=o>-</span><span class=n>ERESTARTSYS</span><span class=p>;</span>
-			<span class=n>remove_wait_queue</span><span class=p>(</span><span class=o>&amp;</span><span class=n>wait_device</span><span class=p>.</span><span class=n>wait_r</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>wait</span><span class=p>);</span>
-			<span class=n>__set_current_state</span><span class=p>(</span><span class=n>TASK_RUNNING</span><span class=p>);</span>
-			<span class=k>goto</span> <span class=n>out</span><span class=p>;</span>
-		<span class=p>}</span>
-	<span class=p>}</span>
-	<span class=n>remove_wait_queue</span><span class=p>(</span><span class=o>&amp;</span><span class=n>wait_device</span><span class=p>.</span><span class=n>wait_r</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>wait</span><span class=p>);</span>
+	<span class="n">add_wait_queue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">wait_device</span><span class="p">.</span><span class="n">wait_w</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">wait</span><span class="p">);</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">wait_device</span><span class="p">.</span><span class="n">wait_flag</span> <span class="o">==</span> <span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">pr_err</span><span class="p">(</span><span class="s">&#34;Write INTERRUPTIBLE&#34;</span><span class="p">);</span>
+		<span class="n">__set_current_state</span><span class="p">(</span><span class="n">TASK_INTERRUPTIBLE</span><span class="p">);</span>
+		<span class="n">mutex_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">wait_device</span><span class="p">.</span><span class="n">mutex</span><span class="p">);</span>
+		<span class="n">schedule</span><span class="p">();</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">signal_pending</span><span class="p">(</span><span class="n">current</span><span class="p">))</span> <span class="p">{</span>
+			<span class="n">ret</span> <span class="o">=</span> <span class="o">-</span><span class="n">ERESTARTSYS</span><span class="p">;</span>
+			<span class="n">remove_wait_queue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">wait_device</span><span class="p">.</span><span class="n">wait_w</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">wait</span><span class="p">);</span>
+			<span class="n">__set_current_state</span><span class="p">(</span><span class="n">TASK_RUNNING</span><span class="p">);</span>
+			<span class="k">goto</span> <span class="n">out</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="n">remove_wait_queue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">wait_device</span><span class="p">.</span><span class="n">wait_w</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">wait</span><span class="p">);</span>
 
-<span class=nl>pure_read</span><span class=p>:</span>
-	<span class=n>wait_device</span><span class=p>.</span><span class=n>wait_flag</span> <span class=o>=</span> <span class=nb>false</span><span class=p>;</span>
-	<span class=n>pr_err</span><span class=p>(</span><span class=s>&#34;Read Successful&#34;</span><span class=p>);</span>
+<span class="nl">pure_write</span><span class="p">:</span>
+	<span class="n">wait_device</span><span class="p">.</span><span class="n">wait_flag</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+	<span class="n">pr_err</span><span class="p">(</span><span class="s">&#34;Write Successful&#34;</span><span class="p">);</span>
 
-	<span class=n>wake_up_interruptible</span><span class=p>(</span><span class=o>&amp;</span><span class=n>wait_device</span><span class=p>.</span><span class=n>wait_w</span><span class=p>);</span>
-	<span class=n>pr_err</span><span class=p>(</span><span class=s>&#34;Wakeup Write&#34;</span><span class=p>);</span>
+	<span class="n">wake_up_interruptible</span><span class="p">(</span><span class="o">&amp;</span><span class="n">wait_device</span><span class="p">.</span><span class="n">wait_r</span><span class="p">);</span>
+	<span class="n">pr_err</span><span class="p">(</span><span class="s">&#34;Wakeup Read&#34;</span><span class="p">);</span>
+	<span class="k">goto</span> <span class="n">out</span><span class="p">;</span>
 
-	<span class=k>goto</span> <span class=n>out</span><span class=p>;</span>
+<span class="nl">out</span><span class="p">:</span>
+	<span class="n">mutex_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">wait_device</span><span class="p">.</span><span class="n">mutex</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="读端">读端</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"> <span class="n">ssize_t</span> <span class="nf">wait_read</span><span class="p">(</span><span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="n">file</span><span class="p">,</span> <span class="kt">char</span> <span class="n">__user</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">len</span><span class="p">,</span> <span class="n">loff_t</span> <span class="o">*</span> <span class="n">ppos</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">DECLARE_WAITQUEUE</span><span class="p">(</span><span class="n">wait</span><span class="p">,</span> <span class="n">current</span><span class="p">);</span>		<span class="cm">/* 声明等待队列 */</span>
+	<span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="n">PTRACE</span><span class="p">;</span>
 
-<span class=nl>out</span><span class=p>:</span>
-	<span class=n>mutex_unlock</span><span class=p>(</span><span class=o>&amp;</span><span class=n>wait_device</span><span class=p>.</span><span class=n>mutex</span><span class=p>);</span>
-	<span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
-<span class=p>}</span>
-</code></pre></td></tr></table></div></div><h1 id=原理>原理</h1></div></main></body></html>
+	<span class="n">mutex_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">wait_device</span><span class="p">.</span><span class="n">mutex</span><span class="p">);</span>
+	<span class="cm">/* 非阻塞模式直接写入 */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">file</span><span class="o">-&gt;</span><span class="n">f_flags</span> <span class="o">&amp;</span> <span class="n">O_NONBLOCK</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">pr_err</span><span class="p">(</span><span class="s">&#34;write in O_NONBLOCK Mode&#34;</span><span class="p">);</span>
+		<span class="k">goto</span> <span class="n">pure_read</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="n">add_wait_queue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">wait_device</span><span class="p">.</span><span class="n">wait_r</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">wait</span><span class="p">);</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">wait_device</span><span class="p">.</span><span class="n">wait_flag</span> <span class="o">==</span> <span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">pr_err</span><span class="p">(</span><span class="s">&#34;Write INTERRUPTIBLE&#34;</span><span class="p">);</span>
+		<span class="n">__set_current_state</span><span class="p">(</span><span class="n">TASK_INTERRUPTIBLE</span><span class="p">);</span>
+		<span class="n">mutex_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">wait_device</span><span class="p">.</span><span class="n">mutex</span><span class="p">);</span>
+		<span class="n">schedule</span><span class="p">();</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">signal_pending</span><span class="p">(</span><span class="n">current</span><span class="p">))</span> <span class="p">{</span>
+			<span class="n">ret</span> <span class="o">=</span> <span class="o">-</span><span class="n">ERESTARTSYS</span><span class="p">;</span>
+			<span class="n">remove_wait_queue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">wait_device</span><span class="p">.</span><span class="n">wait_r</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">wait</span><span class="p">);</span>
+			<span class="n">__set_current_state</span><span class="p">(</span><span class="n">TASK_RUNNING</span><span class="p">);</span>
+			<span class="k">goto</span> <span class="n">out</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="n">remove_wait_queue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">wait_device</span><span class="p">.</span><span class="n">wait_r</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">wait</span><span class="p">);</span>
+
+<span class="nl">pure_read</span><span class="p">:</span>
+	<span class="n">wait_device</span><span class="p">.</span><span class="n">wait_flag</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+	<span class="n">pr_err</span><span class="p">(</span><span class="s">&#34;Read Successful&#34;</span><span class="p">);</span>
+
+	<span class="n">wake_up_interruptible</span><span class="p">(</span><span class="o">&amp;</span><span class="n">wait_device</span><span class="p">.</span><span class="n">wait_w</span><span class="p">);</span>
+	<span class="n">pr_err</span><span class="p">(</span><span class="s">&#34;Wakeup Write&#34;</span><span class="p">);</span>
+
+	<span class="k">goto</span> <span class="n">out</span><span class="p">;</span>
+
+<span class="nl">out</span><span class="p">:</span>
+	<span class="n">mutex_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">wait_device</span><span class="p">.</span><span class="n">mutex</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h1 id="原理">原理</h1>
+
+          
+				</article>
+			</div>
+			<div class="uk-width-large-1-10 uk-hidden-medium uk-hidden-small"></div>
+		</div>
+    <div class="uk-grid">
+      <div class="uk-width-large-1-10"></div>
+      <div class="uk-width-large-8-10">
+        <ul class="uk-pagination">
+          
+            <li class="uk-float-left"><a href="https://mengdemao.github.io/post/hugo/">&lt; Previous</a></li>
+          
+          
+            <li class="uk-float-right"><a href="https://mengdemao.github.io/post/page_allocator/">Next &gt;</a></li>
+          
+        </ul>
+      </div>
+      <div class="uk-width-large-1-10"></div>
+    </div>
+    <div class="uk-grid">
+      <div class="uk-width-large-1-10"></div>
+      <div class="uk-width-large-8-10">
+        <div class="uk-panel uk-panel-box uk-panel-box-secondary">
+          <h3 class="uk-panel-title">Related Posts</h3>
+          
+          
+          <ul class="uk-list uk-list-striped">
+            
+              
+              
+              
+            
+              
+              
+              
+            
+              
+              
+              
+            
+              
+              
+              
+            
+              
+              
+              
+            
+              
+              
+              
+            
+              
+              
+              
+            
+              
+              
+              
+            
+              
+              
+              
+            
+              
+              
+              
+            
+              
+              
+              
+            
+              
+              
+              
+            
+              
+              
+              
+            
+          </ul>
+        </div>
+      </div>
+      <div class="uk-width-large-1-10"></div>
+    </div>
+    <div class="uk-grid">
+      <div class="uk-width-large-1-10"></div>
+      <div class="uk-width-large-8-10">
+        <div id="disqus_thread" data-uk-scrollspy></div>
+      </div>
+      <div class="uk-width-large-1-10"></div>
+    </div>
+	</div>
+</div>
+
+	<div id="footer" class="uk-block uk-block-large uk-block-muted" data-uk-scrollspy="{repeat: true, delay: 600}">
+		<div class="uk-container uk-container-center">
+			<div class="uk-grid">
+				<div class="uk-width-large-1-10 uk-hidden-medium uk-hidden-small"></div>
+				<div class="uk-width-large-8-10 uk-width-medium-1-1 uk-width-small-1-1">
+                  <div class="uk-grid">
+                    <div class="uk-width-1-1">
+                      &copy; Copyright -2016  
+                    </div>
+                    <div class="uk-width-1-1">
+                      Powered by <a href="http://gohugo.io">Hugo</a> | Themed by <a href="https://github.com/leopku/hugo-theme-next">NeXT</a>
+                    </div>
+                  </div>
+
+				</div>
+				<div class="uk-width-large-1-10 uk-hidden-medium uk-hidden-small"></div>
+			</div>
+		</div>
+	</div>
+
+	<script src="//cdn.jsdelivr.net/jquery/1.11.3/jquery.min.js"></script>
+	<script src="//cdn.jsdelivr.net/uikit/2.27.2/js/uikit.min.js"></script>
+	<script src="//cdn.jsdelivr.net/highlight.js/9.10.0/highlight.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+
+</body>
+</html>
+
+
+

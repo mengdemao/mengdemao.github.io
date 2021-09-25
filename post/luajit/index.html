@@ -1,163 +1,401 @@
-<!doctype html><html xmlns=http://www.w3.org/1999/xhtml xml:lang=zh-cn lang=zh-cn><head><link href=https://gmpg.org/xfn/11 rel=profile><meta charset=utf-8><meta name=generator content="Hugo 0.81.0"><meta name=viewport content="width=device-width,initial-scale=1"><title>LuaJIT &#183; 开发日志</title><meta name=description content><link type=text/css rel=stylesheet href=https://mengdemao.github.iocss/print.css media=print><link type=text/css rel=stylesheet href=https://mengdemao.github.iocss/poole.css><link type=text/css rel=stylesheet href=https://mengdemao.github.iocss/syntax.css><link type=text/css rel=stylesheet href=https://mengdemao.github.iocss/hyde.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700"><link rel=apple-touch-icon-precomposed sizes=144x144 href=/apple-touch-icon-144-precomposed.png><link rel="shortcut icon" href=/favicon.png><link href=https://mengdemao.github.io/post/luajit/index.md rel=alternate type=text/plain title=开发日志></head><body><aside class=sidebar><div class="container sidebar-sticky"><div class=sidebar-about><a href=https://mengdemao.github.io><h1>开发日志</h1></a><p class=lead>个人日志</p></div><nav><ul class=sidebar-nav><li><a href=https://mengdemao.github.io>Home</a></li><li><a href=/>Home</a></li><li><a href=/post/>Archives</a></li><li><a href=/tags/>Tags</a></li><li><a href=/categories/>Categories</a></li><li><a href=/about/>About</a></li></ul></nav><p>&copy; 2021. All rights reserved.</p></div></aside><main class="content container"><div class=post><h1>LuaJIT</h1><time datetime=2021-09-04T19:04:52+0800 class=post-date>Sat, Sep 4, 2021</time><h1 id=luajit>LuaJIT</h1><h2 id=lua语法>Lua语法</h2><h3 id=基本语法>基本语法</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-lua data-lang=lua>	<span class=n>print</span><span class=p>(</span><span class=s2>&#34;Hello World&#34;</span><span class=p>)</span>
-</code></pre></td></tr></table></div></div><h3 id=表table>表(table)</h3><h2 id=luajit分析>LuaJIT分析</h2><h3 id=luajit主函数>LuaJIT主函数</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=kt>int</span> <span class=nf>main</span><span class=p>(</span><span class=kt>int</span> <span class=n>argc</span><span class=p>,</span> <span class=kt>char</span> <span class=o>**</span><span class=n>argv</span><span class=p>)</span>
-<span class=p>{</span>
-	<span class=kt>int</span> <span class=n>status</span><span class=p>;</span> 				<span class=cm>/* 返回值 */</span>
-	<span class=n>lua_State</span> <span class=o>*</span><span class=n>L</span> <span class=o>=</span> <span class=n>lua_open</span><span class=p>();</span>  <span class=cm>/* 创建LUA状态机 */</span>
-	<span class=k>if</span> <span class=p>(</span><span class=n>L</span> <span class=o>==</span> <span class=nb>NULL</span><span class=p>)</span> <span class=p>{</span>
-		<span class=n>l_message</span><span class=p>(</span><span class=n>argv</span><span class=p>[</span><span class=mi>0</span><span class=p>],</span> <span class=s>&#34;cannot create state: not enough memory&#34;</span><span class=p>);</span>
-		<span class=k>return</span> <span class=n>EXIT_FAILURE</span><span class=p>;</span>
-	<span class=p>}</span>
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="dns-prefetch" href="//cdn.jsdelivr.net" />
+  <link rel="dns-prefetch" href="//www.google-analytics.com" />
+  
+  <link rel="canonical" href="/post/luajit/" />
+  
+  <meta name="description" content="LuaJIT">
+  
+  <title>
+	  
+	    LuaJIT | 开发日志
+	  
+  </title>
+
+  
+  <meta property="og:site_name" content="开发日志" />
+  <meta property="og:locale" content="zh-cn" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="LuaJIT" />
+  <meta property="og:description" content="LuaJIT | 开发日志" />
+  <meta property="og:url" content="/post/luajit/" />
+  
+
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/uikit/2.27.2/css/uikit.min.css" />
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.10.0/styles/github.min.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+
+<body>
+	<div class="uk-block uk-block-large uk-block-muted">
+		<div class="uk-container uk-container-center">
+			<div class="uk-grid">
+				<div class="uk-width-large-1-10 uk-hidden-medium uk-hidden-small"></div>
+				<div class="uk-width-large-8-10 uk-width-medium-1-1 uk-width-small-1-1">
+          <div id="header" class="clearfix">
+            <div class="uk-float-left">
+              <h2><a href="/">开发日志</a></h2>
+            </div>
+            <div class="uk-float-right">
+              <a href="/" class="uk-button">Home</a>
+            </div>
+          </div>
+				</div>
+				<div class="uk-width-large-1-10 uk-hidden-medium uk-hidden-small"></div>
+			</div>
+		</div>
+	</div>
+
+<div class="uk-block uk-block-default">
+	<div class="uk-container uk-container-center">
+		<div class="uk-grid">
+			<div class="uk-width-large-1-10 uk-hidden-medium uk-hidden-small"></div>
+			<div class="uk-width-large-8-10 uk-width-medium-1-1 uk-width-small-1-1">
+				<article class="uk-article">
+					<h1 class="uk-article-title" style="font-size: 23px;">
+						LuaJIT
+					</h1>
+					
+					<p class="uk-article-meta">Posted on Sat, Sep 4, 2021 | </p>
+
+          
+					<h1 id="luajit">LuaJIT</h1>
+<h2 id="lua语法">Lua语法</h2>
+<h3 id="基本语法">基本语法</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-lua" data-lang="lua">	<span class="n">print</span><span class="p">(</span><span class="s2">&#34;Hello World&#34;</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="表table">表(table)</h3>
+<h2 id="luajit分析">LuaJIT分析</h2>
+<h3 id="luajit主函数">LuaJIT主函数</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">status</span><span class="p">;</span> 				<span class="cm">/* 返回值 */</span>
+	<span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span> <span class="o">=</span> <span class="n">lua_open</span><span class="p">();</span>  <span class="cm">/* 创建LUA状态机 */</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">L</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">l_message</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s">&#34;cannot create state: not enough memory&#34;</span><span class="p">);</span>
+		<span class="k">return</span> <span class="n">EXIT_FAILURE</span><span class="p">;</span>
+	<span class="p">}</span>
 	
-	<span class=cm>/* smain只存在三个参数,主要作用是向pmain传递数据 */</span>
-	<span class=n>smain</span><span class=p>.</span><span class=n>argc</span> <span class=o>=</span> <span class=n>argc</span><span class=p>;</span>
-	<span class=n>smain</span><span class=p>.</span><span class=n>argv</span> <span class=o>=</span> <span class=n>argv</span><span class=p>;</span>
+	<span class="cm">/* smain只存在三个参数,主要作用是向pmain传递数据 */</span>
+	<span class="n">smain</span><span class="p">.</span><span class="n">argc</span> <span class="o">=</span> <span class="n">argc</span><span class="p">;</span>
+	<span class="n">smain</span><span class="p">.</span><span class="n">argv</span> <span class="o">=</span> <span class="n">argv</span><span class="p">;</span>
 	
-	<span class=n>status</span> <span class=o>=</span> <span class=n>lua_cpcall</span><span class=p>(</span><span class=n>L</span><span class=p>,</span> <span class=n>pmain</span><span class=p>,</span> <span class=nb>NULL</span><span class=p>);</span>	<span class=cm>/* 启动函数调用 */</span>
+	<span class="n">status</span> <span class="o">=</span> <span class="n">lua_cpcall</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">pmain</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>	<span class="cm">/* 启动函数调用 */</span>
 	
-	<span class=n>report</span><span class=p>(</span><span class=n>L</span><span class=p>,</span> <span class=n>status</span><span class=p>);</span> <span class=cm>/* 提取报错参数 */</span>
+	<span class="n">report</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">status</span><span class="p">);</span> <span class="cm">/* 提取报错参数 */</span>
 	
-	<span class=n>lua_close</span><span class=p>(</span><span class=n>L</span><span class=p>);</span>	<span class=cm>/* 销毁状态机 */</span>
+	<span class="n">lua_close</span><span class="p">(</span><span class="n">L</span><span class="p">);</span>	<span class="cm">/* 销毁状态机 */</span>
 	
-	<span class=k>return</span> <span class=p>(</span><span class=n>status</span> <span class=o>||</span> <span class=n>smain</span><span class=p>.</span><span class=n>status</span> <span class=o>&gt;</span> <span class=mi>0</span><span class=p>)</span> <span class=o>?</span> <span class=nl>EXIT_FAILURE</span> <span class=p>:</span> <span class=n>EXIT_SUCCESS</span><span class=p>;</span>
-<span class=p>}</span>
-</code></pre></td></tr></table></div></div><h3 id=lua状态机>Lua状态机</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span><span class=lnt>26
-</span><span class=lnt>27
-</span><span class=lnt>28
-</span><span class=lnt>29
-</span><span class=lnt>30
-</span><span class=lnt>31
-</span><span class=lnt>32
-</span><span class=lnt>33
-</span><span class=lnt>34
-</span><span class=lnt>35
-</span><span class=lnt>36
-</span><span class=lnt>37
-</span><span class=lnt>38
-</span><span class=lnt>39
-</span><span class=lnt>40
-</span><span class=lnt>41
-</span><span class=lnt>42
-</span><span class=lnt>43
-</span><span class=lnt>44
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=k>struct</span> <span class=n>lua_State</span> <span class=p>{</span>
-	<span class=n>GCObject</span><span class=o>*</span><span class=n>next</span><span class=p>;</span>
+	<span class="k">return</span> <span class="p">(</span><span class="n">status</span> <span class="o">||</span> <span class="n">smain</span><span class="p">.</span><span class="n">status</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">?</span> <span class="nl">EXIT_FAILURE</span> <span class="p">:</span> <span class="n">EXIT_SUCCESS</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="lua状态机">Lua状态机</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="k">struct</span> <span class="n">lua_State</span> <span class="p">{</span>
+	<span class="n">GCObject</span><span class="o">*</span><span class="n">next</span><span class="p">;</span>
     
-    <span class=n>lu_byte</span> <span class=n>tt</span><span class=p>;</span>
-    <span class=n>lu_byte</span> <span class=n>marked</span><span class=p>;</span>
-	<span class=n>lu_byte</span> <span class=n>status</span><span class=p>;</span>
+    <span class="n">lu_byte</span> <span class="n">tt</span><span class="p">;</span>
+    <span class="n">lu_byte</span> <span class="n">marked</span><span class="p">;</span>
+	<span class="n">lu_byte</span> <span class="n">status</span><span class="p">;</span>
 	
-    <span class=n>StkId</span> <span class=n>top</span><span class=p>;</span>
-	<span class=n>StkId</span> <span class=n>base</span><span class=p>;</span>
+    <span class="n">StkId</span> <span class="n">top</span><span class="p">;</span>
+	<span class="n">StkId</span> <span class="n">base</span><span class="p">;</span>
 	
-    <span class=n>global_State</span> <span class=o>*</span><span class=n>l_G</span><span class=p>;</span>	<span class=cm>/* 全局状态信息 */</span>
+    <span class="n">global_State</span> <span class="o">*</span><span class="n">l_G</span><span class="p">;</span>	<span class="cm">/* 全局状态信息 */</span>
 	
-    <span class=n>CallInfo</span><span class=o>*</span><span class=n>ci</span><span class=p>;</span>
+    <span class="n">CallInfo</span><span class="o">*</span><span class="n">ci</span><span class="p">;</span>
 	
-    <span class=k>const</span> <span class=n>Instruction</span><span class=o>*</span><span class=n>savedpc</span><span class=p>;</span>
-	<span class=n>StkId</span> <span class=n>stack_last</span><span class=p>;</span>
-	<span class=n>StkId</span> <span class=n>stack</span><span class=p>;</span>
+    <span class="k">const</span> <span class="n">Instruction</span><span class="o">*</span><span class="n">savedpc</span><span class="p">;</span>
+	<span class="n">StkId</span> <span class="n">stack_last</span><span class="p">;</span>
+	<span class="n">StkId</span> <span class="n">stack</span><span class="p">;</span>
 	
-    <span class=n>CallInfo</span><span class=o>*</span><span class=n>end_ci</span><span class=p>;</span>
-	<span class=n>CallInfo</span><span class=o>*</span><span class=n>base_ci</span><span class=p>;</span>
+    <span class="n">CallInfo</span><span class="o">*</span><span class="n">end_ci</span><span class="p">;</span>
+	<span class="n">CallInfo</span><span class="o">*</span><span class="n">base_ci</span><span class="p">;</span>
 	
-    <span class=kt>int</span> <span class=n>stacksize</span><span class=p>;</span>
-	<span class=kt>int</span> <span class=n>size_ci</span><span class=p>;</span>
-	<span class=kt>unsigned</span> <span class=kt>short</span> <span class=n>nCcalls</span><span class=p>;</span>
-	<span class=kt>unsigned</span> <span class=kt>short</span> <span class=n>baseCcalls</span><span class=p>;</span>
+    <span class="kt">int</span> <span class="n">stacksize</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">size_ci</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">short</span> <span class="n">nCcalls</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">short</span> <span class="n">baseCcalls</span><span class="p">;</span>
 	
-    <span class=n>lu_byte</span> <span class=n>hookmask</span><span class=p>;</span>
-	<span class=n>lu_byte</span> <span class=n>allowhook</span><span class=p>;</span>
+    <span class="n">lu_byte</span> <span class="n">hookmask</span><span class="p">;</span>
+	<span class="n">lu_byte</span> <span class="n">allowhook</span><span class="p">;</span>
 	
-    <span class=kt>int</span> <span class=n>basehookcount</span><span class=p>;</span>
-	<span class=kt>int</span> <span class=n>hookcount</span><span class=p>;</span>
+    <span class="kt">int</span> <span class="n">basehookcount</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">hookcount</span><span class="p">;</span>
 	
-    <span class=n>lua_Hook</span> <span class=n>hook</span><span class=p>;</span>
+    <span class="n">lua_Hook</span> <span class="n">hook</span><span class="p">;</span>
 	
-    <span class=n>TValue</span> <span class=n>l_gt</span><span class=p>;</span>
-	<span class=n>TValue</span> <span class=n>env</span><span class=p>;</span>
+    <span class="n">TValue</span> <span class="n">l_gt</span><span class="p">;</span>
+	<span class="n">TValue</span> <span class="n">env</span><span class="p">;</span>
 	
-    <span class=n>GCObject</span><span class=o>*</span><span class=n>openupval</span><span class=p>;</span>
-	<span class=n>GCObject</span><span class=o>*</span><span class=n>gclist</span><span class=p>;</span>
+    <span class="n">GCObject</span><span class="o">*</span><span class="n">openupval</span><span class="p">;</span>
+	<span class="n">GCObject</span><span class="o">*</span><span class="n">gclist</span><span class="p">;</span>
 	
-    <span class=k>struct</span> <span class=n>lua_longjmp</span><span class=o>*</span><span class=n>errorJmp</span><span class=p>;</span>
+    <span class="k">struct</span> <span class="n">lua_longjmp</span><span class="o">*</span><span class="n">errorJmp</span><span class="p">;</span>
 	
-    <span class=n>ptrdiff_t</span> <span class=n>errfunc</span><span class=p>;</span>
-<span class=p>};</span>
-</code></pre></td></tr></table></div></div><h3 id=创建状态>创建状态</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=cm>/* 此函数实际不存在,程序内部使用的是宏定义 */</span>
-<span class=kt>void</span> <span class=nf>lua_open</span><span class=p>(</span><span class=kt>void</span><span class=p>);</span>
+    <span class="n">ptrdiff_t</span> <span class="n">errfunc</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="创建状态">创建状态</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="cm">/* 此函数实际不存在,程序内部使用的是宏定义 */</span>
+<span class="kt">void</span> <span class="nf">lua_open</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
 
-<span class=cm>/* 实际调用位置 */</span>
-<span class=n>LUALIB_API</span> <span class=n>lua_State</span> <span class=o>*</span><span class=nf>luaL_newstate</span><span class=p>(</span><span class=kt>void</span><span class=p>);</span>
+<span class="cm">/* 实际调用位置 */</span>
+<span class="n">LUALIB_API</span> <span class="n">lua_State</span> <span class="o">*</span><span class="nf">luaL_newstate</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
 
-<span class=cm>/* 根据编译期64位信息选择调用 */</span>
-<span class=cp>#if LJ_64 &amp;&amp; !LJ_GC64 &amp;&amp; !(defined(LUAJIT_USE_VALGRIND) &amp;&amp; defined(LUAJIT_USE_SYSMALLOC))
-</span><span class=cp></span><span class=n>lua_State</span> <span class=o>*</span><span class=nf>lj_state_newstate</span><span class=p>(</span><span class=n>lua_Alloc</span> <span class=n>allocf</span><span class=p>,</span> <span class=kt>void</span> <span class=o>*</span><span class=n>allocd</span><span class=p>);</span>
-<span class=cp>#else
-</span><span class=cp></span><span class=n>LUA_API</span> <span class=n>lua_State</span> <span class=o>*</span><span class=nf>lua_newstate</span><span class=p>(</span><span class=n>lua_Alloc</span> <span class=n>allocf</span><span class=p>,</span> <span class=kt>void</span> <span class=o>*</span><span class=n>allocd</span><span class=p>);</span>
-<span class=cp>#endif
-</span></code></pre></td></tr></table></div></div><h3 id=函数调用>函数调用</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=n>LUA_API</span> <span class=kt>int</span> <span class=nf>lua_cpcall</span><span class=p>(</span><span class=n>lua_State</span> <span class=o>*</span><span class=n>L</span><span class=p>,</span> <span class=n>lua_CFunction</span> <span class=n>func</span><span class=p>,</span> <span class=kt>void</span> <span class=o>*</span><span class=n>ud</span><span class=p>);</span>
-<span class=n>LUA_API</span> <span class=kt>int</span> <span class=nf>lua_pcall</span><span class=p>(</span><span class=n>lua_State</span> <span class=o>*</span><span class=n>L</span><span class=p>,</span> <span class=kt>int</span> <span class=n>nargs</span><span class=p>,</span> <span class=kt>int</span> <span class=n>nresults</span><span class=p>,</span> <span class=kt>int</span> <span class=n>errfunc</span><span class=p>);</span>
-<span class=n>LUA_API</span> <span class=kt>void</span> <span class=nf>lua_call</span><span class=p>(</span><span class=n>lua_State</span> <span class=o>*</span><span class=n>L</span><span class=p>,</span> <span class=kt>int</span> <span class=n>nargs</span><span class=p>,</span> <span class=kt>int</span> <span class=n>nresults</span><span class=p>);</span>
-</code></pre></td></tr></table></div></div><p>lua_cpcall函数调用</p><p><img src=lua_cpcall%E6%89%A7%E8%A1%8C%E6%88%AA%E5%9B%BE.png alt=lua_cpcall执行截图></p><h2 id=执行原理>执行原理</h2><h2 id=ffi分析>FFI分析</h2></div></main></body></html>
+<span class="cm">/* 根据编译期64位信息选择调用 */</span>
+<span class="cp">#if LJ_64 &amp;&amp; !LJ_GC64 &amp;&amp; !(defined(LUAJIT_USE_VALGRIND) &amp;&amp; defined(LUAJIT_USE_SYSMALLOC))
+</span><span class="cp"></span><span class="n">lua_State</span> <span class="o">*</span><span class="nf">lj_state_newstate</span><span class="p">(</span><span class="n">lua_Alloc</span> <span class="n">allocf</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">allocd</span><span class="p">);</span>
+<span class="cp">#else
+</span><span class="cp"></span><span class="n">LUA_API</span> <span class="n">lua_State</span> <span class="o">*</span><span class="nf">lua_newstate</span><span class="p">(</span><span class="n">lua_Alloc</span> <span class="n">allocf</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">allocd</span><span class="p">);</span>
+<span class="cp">#endif
+</span></code></pre></td></tr></table>
+</div>
+</div><h3 id="函数调用">函数调用</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="n">LUA_API</span> <span class="kt">int</span> <span class="nf">lua_cpcall</span><span class="p">(</span><span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">,</span> <span class="n">lua_CFunction</span> <span class="n">func</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">ud</span><span class="p">);</span>
+<span class="n">LUA_API</span> <span class="kt">int</span> <span class="nf">lua_pcall</span><span class="p">(</span><span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">,</span> <span class="kt">int</span> <span class="n">nargs</span><span class="p">,</span> <span class="kt">int</span> <span class="n">nresults</span><span class="p">,</span> <span class="kt">int</span> <span class="n">errfunc</span><span class="p">);</span>
+<span class="n">LUA_API</span> <span class="kt">void</span> <span class="nf">lua_call</span><span class="p">(</span><span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">,</span> <span class="kt">int</span> <span class="n">nargs</span><span class="p">,</span> <span class="kt">int</span> <span class="n">nresults</span><span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>lua_cpcall函数调用</p>
+<p><img src="lua_cpcall%E6%89%A7%E8%A1%8C%E6%88%AA%E5%9B%BE.png" alt="lua_cpcall执行截图"></p>
+<h2 id="执行原理">执行原理</h2>
+<h2 id="ffi分析">FFI分析</h2>
+
+          
+				</article>
+			</div>
+			<div class="uk-width-large-1-10 uk-hidden-medium uk-hidden-small"></div>
+		</div>
+    <div class="uk-grid">
+      <div class="uk-width-large-1-10"></div>
+      <div class="uk-width-large-8-10">
+        <ul class="uk-pagination">
+          
+            <li class="uk-float-left"><a href="https://mengdemao.github.io/post/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">&lt; Previous</a></li>
+          
+          
+            <li class="uk-float-right"><a href="https://mengdemao.github.io/about/">Next &gt;</a></li>
+          
+        </ul>
+      </div>
+      <div class="uk-width-large-1-10"></div>
+    </div>
+    <div class="uk-grid">
+      <div class="uk-width-large-1-10"></div>
+      <div class="uk-width-large-8-10">
+        <div class="uk-panel uk-panel-box uk-panel-box-secondary">
+          <h3 class="uk-panel-title">Related Posts</h3>
+          
+          
+          <ul class="uk-list uk-list-striped">
+            
+              
+              
+              
+            
+              
+              
+              
+            
+              
+              
+              
+            
+              
+              
+              
+            
+              
+              
+              
+            
+              
+              
+              
+            
+              
+              
+              
+            
+              
+              
+              
+            
+              
+              
+              
+            
+              
+              
+              
+            
+              
+              
+              
+            
+              
+              
+              
+            
+              
+              
+              
+            
+          </ul>
+        </div>
+      </div>
+      <div class="uk-width-large-1-10"></div>
+    </div>
+    <div class="uk-grid">
+      <div class="uk-width-large-1-10"></div>
+      <div class="uk-width-large-8-10">
+        <div id="disqus_thread" data-uk-scrollspy></div>
+      </div>
+      <div class="uk-width-large-1-10"></div>
+    </div>
+	</div>
+</div>
+
+	<div id="footer" class="uk-block uk-block-large uk-block-muted" data-uk-scrollspy="{repeat: true, delay: 600}">
+		<div class="uk-container uk-container-center">
+			<div class="uk-grid">
+				<div class="uk-width-large-1-10 uk-hidden-medium uk-hidden-small"></div>
+				<div class="uk-width-large-8-10 uk-width-medium-1-1 uk-width-small-1-1">
+                  <div class="uk-grid">
+                    <div class="uk-width-1-1">
+                      &copy; Copyright -2016  
+                    </div>
+                    <div class="uk-width-1-1">
+                      Powered by <a href="http://gohugo.io">Hugo</a> | Themed by <a href="https://github.com/leopku/hugo-theme-next">NeXT</a>
+                    </div>
+                  </div>
+
+				</div>
+				<div class="uk-width-large-1-10 uk-hidden-medium uk-hidden-small"></div>
+			</div>
+		</div>
+	</div>
+
+	<script src="//cdn.jsdelivr.net/jquery/1.11.3/jquery.min.js"></script>
+	<script src="//cdn.jsdelivr.net/uikit/2.27.2/js/uikit.min.js"></script>
+	<script src="//cdn.jsdelivr.net/highlight.js/9.10.0/highlight.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+
+</body>
+</html>
+
+
+
