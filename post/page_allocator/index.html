@@ -1,0 +1,417 @@
+<!doctype html><html xmlns=http://www.w3.org/1999/xhtml xml:lang=zh-cn lang=zh-cn><head><link href=https://gmpg.org/xfn/11 rel=profile><meta charset=utf-8><meta name=generator content="Hugo 0.81.0"><meta name=viewport content="width=device-width,initial-scale=1"><title>Page_allocator &#183; 开发日志</title><meta name=description content><link type=text/css rel=stylesheet href=https://mengdemao.github.iocss/print.css media=print><link type=text/css rel=stylesheet href=https://mengdemao.github.iocss/poole.css><link type=text/css rel=stylesheet href=https://mengdemao.github.iocss/syntax.css><link type=text/css rel=stylesheet href=https://mengdemao.github.iocss/hyde.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700"><link rel=apple-touch-icon-precomposed sizes=144x144 href=/apple-touch-icon-144-precomposed.png><link rel="shortcut icon" href=/favicon.png><link href=https://mengdemao.github.io/post/page_allocator/index.md rel=alternate type=text/plain title=开发日志></head><body><aside class=sidebar><div class="container sidebar-sticky"><div class=sidebar-about><a href=https://mengdemao.github.io><h1>开发日志</h1></a><p class=lead>个人日志</p></div><nav><ul class=sidebar-nav><li><a href=https://mengdemao.github.io>Home</a></li><li><a href=/>Home</a></li><li><a href=/post/>Archives</a></li><li><a href=/tags/>Tags</a></li><li><a href=/categories/>Categories</a></li><li><a href=/about/>About</a></li></ul></nav><p>&copy; 2021. All rights reserved.</p></div></aside><main class="content container"><div class=post><h1>Page_allocator</h1><time datetime=2021-05-09T16:03:16+0800 class=post-date>Sun, May 9, 2021</time><h1 id=页面分配器>页面分配器</h1><p>核心函数: __alloc_pages_nodemask</p><ul><li>gfp_mask : 分配掩码</li><li>order : 分配阶数</li><li>preferred_nid</li><li>nodemask</li></ul><h2 id=核心函数>核心函数</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=k>struct</span> <span class=n>page</span> <span class=o>*</span><span class=nf>__alloc_pages_nodemask</span><span class=p>(</span><span class=n>gfp_t</span> <span class=n>gfp_mask</span><span class=p>,</span> <span class=kt>unsigned</span> <span class=kt>int</span> <span class=n>order</span><span class=p>,</span> <span class=kt>int</span> <span class=n>preferred_nid</span><span class=p>,</span> <span class=n>nodemask_t</span> <span class=o>*</span><span class=n>nodemask</span><span class=p>)</span>
+<span class=p>{</span>
+	<span class=k>struct</span> <span class=n>page</span> <span class=o>*</span><span class=n>page</span><span class=p>;</span>			<span class=c1>// 分配变量
+</span><span class=c1></span>	<span class=kt>unsigned</span> <span class=kt>int</span> <span class=n>alloc_flags</span> <span class=o>=</span> <span class=n>ALLOC_WMARK_LOW</span><span class=p>;</span>	<span class=c1>// 分配标志
+</span><span class=c1></span>	<span class=n>gfp_t</span> <span class=n>alloc_mask</span><span class=p>;</span> <span class=c1>// 真实分配掩码
+</span><span class=c1></span>	<span class=k>struct</span> <span class=n>alloc_context</span> <span class=n>ac</span> <span class=o>=</span> <span class=p>{</span> <span class=p>};</span>	<span class=c1>// 保存相关参数
+</span><span class=c1></span>
+	<span class=cm>/*
+</span><span class=cm>	 * There are several places where we assume that the order value is sane
+</span><span class=cm>	 * so bail out early if the request is out of bound.
+</span><span class=cm>	 * 限制分配的大小
+</span><span class=cm>	 */</span>
+	<span class=k>if</span> <span class=p>(</span><span class=n>unlikely</span><span class=p>(</span><span class=n>order</span> <span class=o>&gt;=</span> <span class=n>MAX_ORDER</span><span class=p>))</span> <span class=p>{</span>
+		<span class=n>WARN_ON_ONCE</span><span class=p>(</span><span class=o>!</span><span class=p>(</span><span class=n>gfp_mask</span> <span class=o>&amp;</span> <span class=n>__GFP_NOWARN</span><span class=p>));</span>
+		<span class=k>return</span> <span class=nb>NULL</span><span class=p>;</span>
+	<span class=p>}</span>
+
+	<span class=n>gfp_mask</span> <span class=o>&amp;=</span> <span class=n>gfp_allowed_mask</span><span class=p>;</span>
+	<span class=n>alloc_mask</span> <span class=o>=</span> <span class=n>gfp_mask</span><span class=p>;</span>
+	<span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>prepare_alloc_pages</span><span class=p>(</span><span class=n>gfp_mask</span><span class=p>,</span> <span class=n>order</span><span class=p>,</span> <span class=n>preferred_nid</span><span class=p>,</span> <span class=n>nodemask</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>ac</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>alloc_mask</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>alloc_flags</span><span class=p>))</span>
+		<span class=k>return</span> <span class=nb>NULL</span><span class=p>;</span>
+
+	<span class=n>finalise_ac</span><span class=p>(</span><span class=n>gfp_mask</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>ac</span><span class=p>);</span>
+
+	<span class=cm>/* First allocation attempt */</span>
+	<span class=n>page</span> <span class=o>=</span> <span class=n>get_page_from_freelist</span><span class=p>(</span><span class=n>alloc_mask</span><span class=p>,</span> <span class=n>order</span><span class=p>,</span> <span class=n>alloc_flags</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>ac</span><span class=p>);</span>
+	<span class=k>if</span> <span class=p>(</span><span class=n>likely</span><span class=p>(</span><span class=n>page</span><span class=p>))</span>
+		<span class=k>goto</span> <span class=n>out</span><span class=p>;</span>
+
+	<span class=cm>/*
+</span><span class=cm>	 * Apply scoped allocation constraints. This is mainly about GFP_NOFS
+</span><span class=cm>	 * resp. GFP_NOIO which has to be inherited for all allocation requests
+</span><span class=cm>	 * from a particular context which has been marked by
+</span><span class=cm>	 * memalloc_no{fs,io}_{save,restore}.
+</span><span class=cm>	 */</span>
+	<span class=n>alloc_mask</span> <span class=o>=</span> <span class=n>current_gfp_context</span><span class=p>(</span><span class=n>gfp_mask</span><span class=p>);</span>
+	<span class=n>ac</span><span class=p>.</span><span class=n>spread_dirty_pages</span> <span class=o>=</span> <span class=nb>false</span><span class=p>;</span>
+
+	<span class=cm>/*
+</span><span class=cm>	 * Restore the original nodemask if it was potentially replaced with
+</span><span class=cm>	 * &amp;cpuset_current_mems_allowed to optimize the fast-path attempt.
+</span><span class=cm>	 */</span>
+	<span class=k>if</span> <span class=p>(</span><span class=n>unlikely</span><span class=p>(</span><span class=n>ac</span><span class=p>.</span><span class=n>nodemask</span> <span class=o>!=</span> <span class=n>nodemask</span><span class=p>))</span>
+		<span class=n>ac</span><span class=p>.</span><span class=n>nodemask</span> <span class=o>=</span> <span class=n>nodemask</span><span class=p>;</span>
+
+	<span class=n>page</span> <span class=o>=</span> <span class=n>__alloc_pages_slowpath</span><span class=p>(</span><span class=n>alloc_mask</span><span class=p>,</span> <span class=n>order</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>ac</span><span class=p>);</span>
+
+<span class=nl>out</span><span class=p>:</span>
+	<span class=k>if</span> <span class=p>(</span><span class=n>memcg_kmem_enabled</span><span class=p>()</span> <span class=o>&amp;&amp;</span> <span class=p>(</span><span class=n>gfp_mask</span> <span class=o>&amp;</span> <span class=n>__GFP_ACCOUNT</span><span class=p>)</span> <span class=o>&amp;&amp;</span> <span class=n>page</span> <span class=o>&amp;&amp;</span>
+	    <span class=n>unlikely</span><span class=p>(</span><span class=n>memcg_kmem_charge</span><span class=p>(</span><span class=n>page</span><span class=p>,</span> <span class=n>gfp_mask</span><span class=p>,</span> <span class=n>order</span><span class=p>)</span> <span class=o>!=</span> <span class=mi>0</span><span class=p>))</span> <span class=p>{</span>
+		<span class=n>__free_pages</span><span class=p>(</span><span class=n>page</span><span class=p>,</span> <span class=n>order</span><span class=p>);</span>
+		<span class=n>page</span> <span class=o>=</span> <span class=nb>NULL</span><span class=p>;</span>
+	<span class=p>}</span>
+
+	<span class=n>trace_mm_page_alloc</span><span class=p>(</span><span class=n>page</span><span class=p>,</span> <span class=n>order</span><span class=p>,</span> <span class=n>alloc_mask</span><span class=p>,</span> <span class=n>ac</span><span class=p>.</span><span class=n>migratetype</span><span class=p>);</span>
+
+	<span class=k>return</span> <span class=n>page</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></td></tr></table></div></div><h2 id=prepare_alloc_pages>prepare_alloc_pages</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=k>static</span> <span class=kr>inline</span> <span class=kt>bool</span> <span class=nf>prepare_alloc_pages</span><span class=p>(</span><span class=n>gfp_t</span> <span class=n>gfp_mask</span><span class=p>,</span> <span class=kt>unsigned</span> <span class=kt>int</span> <span class=n>order</span><span class=p>,</span>
+		<span class=kt>int</span> <span class=n>preferred_nid</span><span class=p>,</span> <span class=n>nodemask_t</span> <span class=o>*</span><span class=n>nodemask</span><span class=p>,</span>
+		<span class=k>struct</span> <span class=n>alloc_context</span> <span class=o>*</span><span class=n>ac</span><span class=p>,</span> <span class=n>gfp_t</span> <span class=o>*</span><span class=n>alloc_mask</span><span class=p>,</span>
+		<span class=kt>unsigned</span> <span class=kt>int</span> <span class=o>*</span><span class=n>alloc_flags</span><span class=p>)</span>
+<span class=p>{</span>
+	<span class=n>ac</span><span class=o>-&gt;</span><span class=n>high_zoneidx</span> <span class=o>=</span> <span class=n>gfp_zone</span><span class=p>(</span><span class=n>gfp_mask</span><span class=p>);</span>
+	<span class=n>ac</span><span class=o>-&gt;</span><span class=n>zonelist</span> <span class=o>=</span> <span class=n>node_zonelist</span><span class=p>(</span><span class=n>preferred_nid</span><span class=p>,</span> <span class=n>gfp_mask</span><span class=p>);</span>
+	<span class=n>ac</span><span class=o>-&gt;</span><span class=n>nodemask</span> <span class=o>=</span> <span class=n>nodemask</span><span class=p>;</span>
+	<span class=n>ac</span><span class=o>-&gt;</span><span class=n>migratetype</span> <span class=o>=</span> <span class=n>gfpflags_to_migratetype</span><span class=p>(</span><span class=n>gfp_mask</span><span class=p>);</span>
+
+	<span class=k>if</span> <span class=p>(</span><span class=n>cpusets_enabled</span><span class=p>())</span> <span class=p>{</span>
+		<span class=o>*</span><span class=n>alloc_mask</span> <span class=o>|=</span> <span class=n>__GFP_HARDWALL</span><span class=p>;</span>
+		<span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>ac</span><span class=o>-&gt;</span><span class=n>nodemask</span><span class=p>)</span>
+			<span class=n>ac</span><span class=o>-&gt;</span><span class=n>nodemask</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>cpuset_current_mems_allowed</span><span class=p>;</span>
+		<span class=k>else</span>
+			<span class=o>*</span><span class=n>alloc_flags</span> <span class=o>|=</span> <span class=n>ALLOC_CPUSET</span><span class=p>;</span>
+	<span class=p>}</span>
+
+	<span class=n>fs_reclaim_acquire</span><span class=p>(</span><span class=n>gfp_mask</span><span class=p>);</span>
+	<span class=n>fs_reclaim_release</span><span class=p>(</span><span class=n>gfp_mask</span><span class=p>);</span>
+
+	<span class=n>might_sleep_if</span><span class=p>(</span><span class=n>gfp_mask</span> <span class=o>&amp;</span> <span class=n>__GFP_DIRECT_RECLAIM</span><span class=p>);</span>
+
+	<span class=k>if</span> <span class=p>(</span><span class=n>should_fail_alloc_page</span><span class=p>(</span><span class=n>gfp_mask</span><span class=p>,</span> <span class=n>order</span><span class=p>))</span>
+		<span class=k>return</span> <span class=nb>false</span><span class=p>;</span>
+
+	<span class=k>if</span> <span class=p>(</span><span class=n>IS_ENABLED</span><span class=p>(</span><span class=n>CONFIG_CMA</span><span class=p>)</span> <span class=o>&amp;&amp;</span> <span class=n>ac</span><span class=o>-&gt;</span><span class=n>migratetype</span> <span class=o>==</span> <span class=n>MIGRATE_MOVABLE</span><span class=p>)</span>
+		<span class=o>*</span><span class=n>alloc_flags</span> <span class=o>|=</span> <span class=n>ALLOC_CMA</span><span class=p>;</span>
+
+	<span class=k>return</span> <span class=nb>true</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></td></tr></table></div></div><h2 id=get_page_from_freelist>get_page_from_freelist</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span><span class=lnt>105
+</span><span class=lnt>106
+</span><span class=lnt>107
+</span><span class=lnt>108
+</span><span class=lnt>109
+</span><span class=lnt>110
+</span><span class=lnt>111
+</span><span class=lnt>112
+</span><span class=lnt>113
+</span><span class=lnt>114
+</span><span class=lnt>115
+</span><span class=lnt>116
+</span><span class=lnt>117
+</span><span class=lnt>118
+</span><span class=lnt>119
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=k>static</span> <span class=k>struct</span> <span class=n>page</span> <span class=o>*</span>
+<span class=nf>get_page_from_freelist</span><span class=p>(</span><span class=n>gfp_t</span> <span class=n>gfp_mask</span><span class=p>,</span> <span class=kt>unsigned</span> <span class=kt>int</span> <span class=n>order</span><span class=p>,</span> <span class=kt>int</span> <span class=n>alloc_flags</span><span class=p>,</span>
+						<span class=k>const</span> <span class=k>struct</span> <span class=n>alloc_context</span> <span class=o>*</span><span class=n>ac</span><span class=p>)</span>
+<span class=p>{</span>
+	<span class=k>struct</span> <span class=n>zoneref</span> <span class=o>*</span><span class=n>z</span> <span class=o>=</span> <span class=n>ac</span><span class=o>-&gt;</span><span class=n>preferred_zoneref</span><span class=p>;</span>
+	<span class=k>struct</span> <span class=n>zone</span> <span class=o>*</span><span class=n>zone</span><span class=p>;</span>
+	<span class=k>struct</span> <span class=n>pglist_data</span> <span class=o>*</span><span class=n>last_pgdat_dirty_limit</span> <span class=o>=</span> <span class=nb>NULL</span><span class=p>;</span>
+
+	<span class=cm>/*
+</span><span class=cm>	 * Scan zonelist, looking for a zone with enough free.
+</span><span class=cm>	 * See also __cpuset_node_allowed() comment in kernel/cpuset.c.
+</span><span class=cm>	 */</span>
+	<span class=n>for_next_zone_zonelist_nodemask</span><span class=p>(</span><span class=n>zone</span><span class=p>,</span> <span class=n>z</span><span class=p>,</span> <span class=n>ac</span><span class=o>-&gt;</span><span class=n>zonelist</span><span class=p>,</span> <span class=n>ac</span><span class=o>-&gt;</span><span class=n>high_zoneidx</span><span class=p>,</span>
+								<span class=n>ac</span><span class=o>-&gt;</span><span class=n>nodemask</span><span class=p>)</span> <span class=p>{</span>
+		<span class=k>struct</span> <span class=n>page</span> <span class=o>*</span><span class=n>page</span><span class=p>;</span>
+		<span class=kt>unsigned</span> <span class=kt>long</span> <span class=n>mark</span><span class=p>;</span>
+
+		<span class=k>if</span> <span class=p>(</span><span class=n>cpusets_enabled</span><span class=p>()</span> <span class=o>&amp;&amp;</span>
+			<span class=p>(</span><span class=n>alloc_flags</span> <span class=o>&amp;</span> <span class=n>ALLOC_CPUSET</span><span class=p>)</span> <span class=o>&amp;&amp;</span>
+			<span class=o>!</span><span class=n>__cpuset_zone_allowed</span><span class=p>(</span><span class=n>zone</span><span class=p>,</span> <span class=n>gfp_mask</span><span class=p>))</span>
+				<span class=k>continue</span><span class=p>;</span>
+		<span class=cm>/*
+</span><span class=cm>		 * When allocating a page cache page for writing, we
+</span><span class=cm>		 * want to get it from a node that is within its dirty
+</span><span class=cm>		 * limit, such that no single node holds more than its
+</span><span class=cm>		 * proportional share of globally allowed dirty pages.
+</span><span class=cm>		 * The dirty limits take into account the node&#39;s
+</span><span class=cm>		 * lowmem reserves and high watermark so that kswapd
+</span><span class=cm>		 * should be able to balance it without having to
+</span><span class=cm>		 * write pages from its LRU list.
+</span><span class=cm>		 *
+</span><span class=cm>		 * XXX: For now, allow allocations to potentially
+</span><span class=cm>		 * exceed the per-node dirty limit in the slowpath
+</span><span class=cm>		 * (spread_dirty_pages unset) before going into reclaim,
+</span><span class=cm>		 * which is important when on a NUMA setup the allowed
+</span><span class=cm>		 * nodes are together not big enough to reach the
+</span><span class=cm>		 * global limit.  The proper fix for these situations
+</span><span class=cm>		 * will require awareness of nodes in the
+</span><span class=cm>		 * dirty-throttling and the flusher threads.
+</span><span class=cm>		 */</span>
+		<span class=k>if</span> <span class=p>(</span><span class=n>ac</span><span class=o>-&gt;</span><span class=n>spread_dirty_pages</span><span class=p>)</span> <span class=p>{</span>
+			<span class=k>if</span> <span class=p>(</span><span class=n>last_pgdat_dirty_limit</span> <span class=o>==</span> <span class=n>zone</span><span class=o>-&gt;</span><span class=n>zone_pgdat</span><span class=p>)</span>
+				<span class=k>continue</span><span class=p>;</span>
+
+			<span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>node_dirty_ok</span><span class=p>(</span><span class=n>zone</span><span class=o>-&gt;</span><span class=n>zone_pgdat</span><span class=p>))</span> <span class=p>{</span>
+				<span class=n>last_pgdat_dirty_limit</span> <span class=o>=</span> <span class=n>zone</span><span class=o>-&gt;</span><span class=n>zone_pgdat</span><span class=p>;</span>
+				<span class=k>continue</span><span class=p>;</span>
+			<span class=p>}</span>
+		<span class=p>}</span>
+
+		<span class=n>mark</span> <span class=o>=</span> <span class=n>zone</span><span class=o>-&gt;</span><span class=n>watermark</span><span class=p>[</span><span class=n>alloc_flags</span> <span class=o>&amp;</span> <span class=n>ALLOC_WMARK_MASK</span><span class=p>];</span>
+		<span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>zone_watermark_fast</span><span class=p>(</span><span class=n>zone</span><span class=p>,</span> <span class=n>order</span><span class=p>,</span> <span class=n>mark</span><span class=p>,</span>
+				       <span class=n>ac_classzone_idx</span><span class=p>(</span><span class=n>ac</span><span class=p>),</span> <span class=n>alloc_flags</span><span class=p>))</span> <span class=p>{</span>
+			<span class=kt>int</span> <span class=n>ret</span><span class=p>;</span>
+
+<span class=cp>#ifdef CONFIG_DEFERRED_STRUCT_PAGE_INIT
+</span><span class=cp></span>			<span class=cm>/*
+</span><span class=cm>			 * Watermark failed for this zone, but see if we can
+</span><span class=cm>			 * grow this zone if it contains deferred pages.
+</span><span class=cm>			 */</span>
+			<span class=k>if</span> <span class=p>(</span><span class=n>static_branch_unlikely</span><span class=p>(</span><span class=o>&amp;</span><span class=n>deferred_pages</span><span class=p>))</span> <span class=p>{</span>
+				<span class=k>if</span> <span class=p>(</span><span class=n>_deferred_grow_zone</span><span class=p>(</span><span class=n>zone</span><span class=p>,</span> <span class=n>order</span><span class=p>))</span>
+					<span class=k>goto</span> <span class=n>try_this_zone</span><span class=p>;</span>
+			<span class=p>}</span>
+<span class=cp>#endif
+</span><span class=cp></span>			<span class=cm>/* Checked here to keep the fast path fast */</span>
+			<span class=n>BUILD_BUG_ON</span><span class=p>(</span><span class=n>ALLOC_NO_WATERMARKS</span> <span class=o>&lt;</span> <span class=n>NR_WMARK</span><span class=p>);</span>
+			<span class=k>if</span> <span class=p>(</span><span class=n>alloc_flags</span> <span class=o>&amp;</span> <span class=n>ALLOC_NO_WATERMARKS</span><span class=p>)</span>
+				<span class=k>goto</span> <span class=n>try_this_zone</span><span class=p>;</span>
+
+			<span class=k>if</span> <span class=p>(</span><span class=n>node_reclaim_mode</span> <span class=o>==</span> <span class=mi>0</span> <span class=o>||</span>
+			    <span class=o>!</span><span class=n>zone_allows_reclaim</span><span class=p>(</span><span class=n>ac</span><span class=o>-&gt;</span><span class=n>preferred_zoneref</span><span class=o>-&gt;</span><span class=n>zone</span><span class=p>,</span> <span class=n>zone</span><span class=p>))</span>
+				<span class=k>continue</span><span class=p>;</span>
+
+			<span class=n>ret</span> <span class=o>=</span> <span class=n>node_reclaim</span><span class=p>(</span><span class=n>zone</span><span class=o>-&gt;</span><span class=n>zone_pgdat</span><span class=p>,</span> <span class=n>gfp_mask</span><span class=p>,</span> <span class=n>order</span><span class=p>);</span>
+			<span class=k>switch</span> <span class=p>(</span><span class=n>ret</span><span class=p>)</span> <span class=p>{</span>
+			<span class=k>case</span> <span class=nl>NODE_RECLAIM_NOSCAN</span><span class=p>:</span>
+				<span class=cm>/* did not scan */</span>
+				<span class=k>continue</span><span class=p>;</span>
+			<span class=k>case</span> <span class=nl>NODE_RECLAIM_FULL</span><span class=p>:</span>
+				<span class=cm>/* scanned but unreclaimable */</span>
+				<span class=k>continue</span><span class=p>;</span>
+			<span class=k>default</span><span class=o>:</span>
+				<span class=cm>/* did we reclaim enough */</span>
+				<span class=k>if</span> <span class=p>(</span><span class=n>zone_watermark_ok</span><span class=p>(</span><span class=n>zone</span><span class=p>,</span> <span class=n>order</span><span class=p>,</span> <span class=n>mark</span><span class=p>,</span>
+						<span class=n>ac_classzone_idx</span><span class=p>(</span><span class=n>ac</span><span class=p>),</span> <span class=n>alloc_flags</span><span class=p>))</span>
+					<span class=k>goto</span> <span class=n>try_this_zone</span><span class=p>;</span>
+
+				<span class=k>continue</span><span class=p>;</span>
+			<span class=p>}</span>
+		<span class=p>}</span>
+
+<span class=nl>try_this_zone</span><span class=p>:</span>
+		<span class=n>page</span> <span class=o>=</span> <span class=n>rmqueue</span><span class=p>(</span><span class=n>ac</span><span class=o>-&gt;</span><span class=n>preferred_zoneref</span><span class=o>-&gt;</span><span class=n>zone</span><span class=p>,</span> <span class=n>zone</span><span class=p>,</span> <span class=n>order</span><span class=p>,</span>
+				<span class=n>gfp_mask</span><span class=p>,</span> <span class=n>alloc_flags</span><span class=p>,</span> <span class=n>ac</span><span class=o>-&gt;</span><span class=n>migratetype</span><span class=p>);</span>
+		<span class=k>if</span> <span class=p>(</span><span class=n>page</span><span class=p>)</span> <span class=p>{</span>
+			<span class=n>prep_new_page</span><span class=p>(</span><span class=n>page</span><span class=p>,</span> <span class=n>order</span><span class=p>,</span> <span class=n>gfp_mask</span><span class=p>,</span> <span class=n>alloc_flags</span><span class=p>);</span>
+
+			<span class=cm>/*
+</span><span class=cm>			 * If this is a high-order atomic allocation then check
+</span><span class=cm>			 * if the pageblock should be reserved for the future
+</span><span class=cm>			 */</span>
+			<span class=k>if</span> <span class=p>(</span><span class=n>unlikely</span><span class=p>(</span><span class=n>order</span> <span class=o>&amp;&amp;</span> <span class=p>(</span><span class=n>alloc_flags</span> <span class=o>&amp;</span> <span class=n>ALLOC_HARDER</span><span class=p>)))</span>
+				<span class=n>reserve_highatomic_pageblock</span><span class=p>(</span><span class=n>page</span><span class=p>,</span> <span class=n>zone</span><span class=p>,</span> <span class=n>order</span><span class=p>);</span>
+
+			<span class=k>return</span> <span class=n>page</span><span class=p>;</span>
+		<span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+<span class=cp>#ifdef CONFIG_DEFERRED_STRUCT_PAGE_INIT
+</span><span class=cp></span>			<span class=cm>/* Try again if zone has deferred pages */</span>
+			<span class=k>if</span> <span class=p>(</span><span class=n>static_branch_unlikely</span><span class=p>(</span><span class=o>&amp;</span><span class=n>deferred_pages</span><span class=p>))</span> <span class=p>{</span>
+				<span class=k>if</span> <span class=p>(</span><span class=n>_deferred_grow_zone</span><span class=p>(</span><span class=n>zone</span><span class=p>,</span> <span class=n>order</span><span class=p>))</span>
+					<span class=k>goto</span> <span class=n>try_this_zone</span><span class=p>;</span>
+			<span class=p>}</span>
+<span class=cp>#endif
+</span><span class=cp></span>		<span class=p>}</span>
+	<span class=p>}</span>
+
+	<span class=k>return</span> <span class=nb>NULL</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></td></tr></table></div></div></div></main></body></html>
