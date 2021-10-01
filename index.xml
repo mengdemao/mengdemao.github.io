@@ -1,18 +1,83 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Goldydocs – Goldydocs</title>
-    <link>https://mengdemao.github.io/</link>
-    <description>Recent content on Goldydocs</description>
+    <title>Hugo Bootstrap</title>
+    <link>/</link>
+    <description>Recent content on Hugo Bootstrap</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>zh-CN</language>
-    <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
-    
-	  <atom:link href="https://mengdemao.github.io/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <copyright>Copyright © 2020-{year} Razon Yang. All Rights Reserved.</copyright>
+    <lastBuildDate>Sat, 25 Sep 2021 22:15:39 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hugo测试</title>
+      <link>/posts/hugo%E6%B5%8B%E8%AF%95/</link>
+      <pubDate>Sat, 25 Sep 2021 22:15:39 +0800</pubDate>
       
-      
+      <guid>/posts/hugo%E6%B5%8B%E8%AF%95/</guid>
+      <description>Hugo测试 标题 1# 一级标题 2 3## 二级标题 4 5### 三级标题 6 7#### 四级标题 表格 1 1 1 2 2 2 3 3 3 4 4 4 代码抄录环境 1int main() 2{ 3 return 0; 4} 流程图 1graph TD; 2 A--&amp;gt;B; 3 A--&amp;gt;C; 4 B--&amp;gt;D; 5</description>
+    </item>
     
+    <item>
+      <title>LuaJIT</title>
+      <link>/posts/luajit/</link>
+      <pubDate>Sat, 04 Sep 2021 19:04:52 +0800</pubDate>
+      
+      <guid>/posts/luajit/</guid>
+      <description>LuaJIT Lua语法 基本语法 1 print(&amp;#34;Hello World&amp;#34;) 表(table) LuaJIT分析 LuaJIT主函数 1int main(int argc, char **argv) 2{ 3 int status; /* 返回值 */ 4 lua_State *L = lua_open(); /* 创建LUA状态机 */ 5 if (L</description>
+    </item>
+    
+    <item>
+      <title>编译原理</title>
+      <link>/posts/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/</link>
+      <pubDate>Sat, 04 Sep 2021 19:04:52 +0800</pubDate>
+      
+      <guid>/posts/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/</guid>
+      <description>编译原理 基础概念 词法分析 RE NFA DFA 语法分析 上下文无关文法(CFG) 自上而下(Top Down) 自下而上(Bottom Up) 语义分析 中间代码 目标代码</description>
+    </item>
+    
+    <item>
+      <title>Page_allocator</title>
+      <link>/posts/page_allocator/</link>
+      <pubDate>Sun, 09 May 2021 16:03:16 +0800</pubDate>
+      
+      <guid>/posts/page_allocator/</guid>
+      <description>页面分配器 核心函数: __alloc_pages_nodemask gfp_mask : 分配掩码 order : 分配阶数 preferred_nid nodemask 核心函数 1struct page *__alloc_pages_nodemask(gfp_t gfp_mask, unsigned int order, int preferred_nid, nodemask_t *nodemask) 2{ 3 struct page *page; // 分配变量 4 unsigned int alloc_flags = ALLOC_WMARK_LOW; // 分配标志 5 gfp_t alloc_mask; // 真实分配掩</description>
+    </item>
+    
+    <item>
+      <title>Linux等待队列实现</title>
+      <link>/posts/wait_queue/</link>
+      <pubDate>Tue, 04 May 2021 23:17:55 +0000</pubDate>
+      
+      <guid>/posts/wait_queue/</guid>
+      <description>等待事件是建立在调度的基础之上的一种同步机制 使用 等待队列头 1struct __wait_queue_head { 2 wq_lock_t lock; 3 struct list_head task_list; 4}; 5typedef struct __wait_queue_head wait_queue_head_t; 等待队列实体 1struct __wait_queue { 2 unsigned int flags; 3 struct task_struct * task; 4 struct list_head task_list; 5}; 6typedef struct __wait_queue</description>
+    </item>
+    
+    <item>
+      <title>antlr教程</title>
+      <link>/posts/antlr/</link>
+      <pubDate>Tue, 04 May 2021 22:53:09 +0800</pubDate>
+      
+      <guid>/posts/antlr/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Hugo使用教程</title>
+      <link>/posts/hugo/</link>
+      <pubDate>Tue, 04 May 2021 22:53:09 +0800</pubDate>
+      
+      <guid>/posts/hugo/</guid>
+      <description>初始化hugo 1hugo new site 路径 创建文档 1hugo new post/hugo.md 设置预览 1 hugo server -D</description>
+    </item>
+    
+    <item>
+      <title>Nfs</title>
+      <link>/posts/nfs/</link>
+      <pubDate>Mon, 03 May 2021 18:02:48 +0800</pubDate>
+      
+      <guid>/posts/nfs/</guid>
+      <description>nfs服务 安装 1sudo apt-get install nfs-kernel-server 设置导出 1/home/exports *(rw,nohide,insecure,no_subtree_check,async,no_root_squash) 开启服务 1sudo /etc/init.d/nfs-kernel-server restart 测试 1sudo mount -t nfs -o nolock,vers=3 127.0.0.1:/home/exports /mnt 2ls /mnt</description>
+    </item>
     
   </channel>
 </rss>

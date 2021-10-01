@@ -1,19 +1,55 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  
-  <sitemap>
-    <loc>https://mengdemao.github.io/fa/sitemap.xml</loc>
-    
-  </sitemap>
-  
-  <sitemap>
-    <loc>https://mengdemao.github.io/no/sitemap.xml</loc>
-    
-  </sitemap>
-  
-  <sitemap>
-    <loc>https://mengdemao.github.io/en/sitemap.xml</loc>
-    
-  </sitemap>
-  
-</sitemapindex>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>/</loc>
+    <lastmod>2021-09-25T22:15:39+08:00</lastmod>
+  </url><url>
+    <loc>/posts/hugo%E6%B5%8B%E8%AF%95/</loc>
+    <lastmod>2021-09-25T22:15:39+08:00</lastmod>
+  </url><url>
+    <loc>/posts/</loc>
+    <lastmod>2021-09-25T22:15:39+08:00</lastmod>
+  </url><url>
+    <loc>/about/</loc>
+    <lastmod>2021-09-25T22:06:38+08:00</lastmod>
+  </url><url>
+    <loc>/posts/luajit/</loc>
+    <lastmod>2021-09-04T19:04:52+08:00</lastmod>
+  </url><url>
+    <loc>/posts/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/</loc>
+    <lastmod>2021-09-04T19:04:52+08:00</lastmod>
+  </url><url>
+    <loc>/posts/page_allocator/</loc>
+    <lastmod>2021-05-09T16:03:16+08:00</lastmod>
+  </url><url>
+    <loc>/posts/wait_queue/</loc>
+    <lastmod>2021-05-04T23:17:55+00:00</lastmod>
+  </url><url>
+    <loc>/posts/antlr/</loc>
+    <lastmod>2021-05-04T22:53:09+08:00</lastmod>
+  </url><url>
+    <loc>/posts/hugo/</loc>
+    <lastmod>2021-05-04T22:53:09+08:00</lastmod>
+  </url><url>
+    <loc>/tags/%E6%8A%80%E5%B7%A7/</loc>
+    <lastmod>2021-05-04T22:53:09+08:00</lastmod>
+  </url><url>
+    <loc>/tags/</loc>
+    <lastmod>2021-05-04T22:53:09+08:00</lastmod>
+  </url><url>
+    <loc>/posts/nfs/</loc>
+    <lastmod>2021-05-03T18:02:48+08:00</lastmod>
+  </url><url>
+    <loc>/tags/nfs/</loc>
+    <lastmod>2021-05-03T18:02:48+08:00</lastmod>
+  </url><url>
+    <loc>/series/</loc>
+  </url><url>
+    <loc>/categories/</loc>
+  </url><url>
+    <loc>/archives/</loc>
+  </url><url>
+    <loc>/search/</loc>
+  </url>
+</urlset>

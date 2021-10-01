@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>技巧 on Hugo Bootstrap</title>
+    <link>/tags/%E6%8A%80%E5%B7%A7/</link>
+    <description>Recent content in 技巧 on Hugo Bootstrap</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <copyright>Copyright © 2020-{year} Razon Yang. All Rights Reserved.</copyright>
+    <lastBuildDate>Tue, 04 May 2021 22:53:09 +0800</lastBuildDate><atom:link href="/tags/%E6%8A%80%E5%B7%A7/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>antlr教程</title>
+      <link>/posts/antlr/</link>
+      <pubDate>Tue, 04 May 2021 22:53:09 +0800</pubDate>
+      
+      <guid>/posts/antlr/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Hugo使用教程</title>
+      <link>/posts/hugo/</link>
+      <pubDate>Tue, 04 May 2021 22:53:09 +0800</pubDate>
+      
+      <guid>/posts/hugo/</guid>
+      <description>初始化hugo 1hugo new site 路径 创建文档 1hugo new post/hugo.md 设置预览 1 hugo server -D</description>
+    </item>
+    
+  </channel>
+</rss>
