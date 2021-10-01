@@ -1,2 +1,2 @@
 User-agent: *
-Sitemap: /sitemap.xml
+Sitemap: https://mengdemao.github.io/sitemap.xml

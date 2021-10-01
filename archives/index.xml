@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>归档 on Hugo Bootstrap</title>
-    <link>/archives/</link>
-    <description>Recent content in 归档 on Hugo Bootstrap</description>
+    <title>归档 on 编程日志</title>
+    <link>https://mengdemao.github.io/archives/</link>
+    <description>Recent content in 归档 on 编程日志</description>
     <generator>Hugo -- gohugo.io</generator>
-    <copyright>Copyright © 2020-{year} Razon Yang. All Rights Reserved.</copyright><atom:link href="/archives/index.xml" rel="self" type="application/rss+xml" />
+    <copyright>Copyright © 2020-{year} Meng Demao. All Rights Reserved.</copyright><atom:link href="https://mengdemao.github.io/archives/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>
