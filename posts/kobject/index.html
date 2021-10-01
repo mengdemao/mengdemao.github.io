@@ -3,26 +3,26 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>antlr教程 - 编程日志</title><link rel="apple-touch-icon" href="https://mengdemao.github.io/images/favicons/apple-touch-icon.png" sizes="180x180">
+    <title>Kobject - 编程日志</title><link rel="apple-touch-icon" href="https://mengdemao.github.io/images/favicons/apple-touch-icon.png" sizes="180x180">
 <link rel="icon" href="https://mengdemao.github.io/images/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="https://mengdemao.github.io/images/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
 <link rel="manifest" href="https://mengdemao.github.io/images/favicons/manifest.json">
 <link rel="icon" href="https://mengdemao.github.io/images/favicons/favicon.ico">
-<meta name="keywords" content="" />
-<meta name="description" content="" /><meta itemprop="name" content="antlr教程">
-<meta itemprop="description" content=""><meta itemprop="datePublished" content="2021-05-04T22:53:09+08:00" />
-<meta itemprop="dateModified" content="2021-05-04T22:53:09+08:00" />
-<meta itemprop="wordCount" content="0">
-<meta itemprop="keywords" content="技巧," /><meta property="og:title" content="antlr教程" />
-<meta property="og:description" content="" />
+<meta name="keywords" content="Kernel" />
+<meta name="description" content="" /><meta itemprop="name" content="Kobject">
+<meta itemprop="description" content="kobject 内核对象 为模块提供一个底层抽象 相关数据 kobject 1struct kobject { 2 const char *name; /* 名字 */ 3 struct list_head entry; /* 链表 */ 4 struct kobject *parent; /* 指向父对象,建立层次结构 */ 5 struct kset *kset; /* 对象集合 */ 6 struct"><meta itemprop="datePublished" content="2021-10-01T23:32:46+08:00" />
+<meta itemprop="dateModified" content="2021-10-01T23:32:46+08:00" />
+<meta itemprop="wordCount" content="217">
+<meta itemprop="keywords" content="kernel," /><meta property="og:title" content="Kobject" />
+<meta property="og:description" content="kobject 内核对象 为模块提供一个底层抽象 相关数据 kobject 1struct kobject { 2 const char *name; /* 名字 */ 3 struct list_head entry; /* 链表 */ 4 struct kobject *parent; /* 指向父对象,建立层次结构 */ 5 struct kset *kset; /* 对象集合 */ 6 struct" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://mengdemao.github.io/posts/antlr/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2021-05-04T22:53:09+08:00" />
-<meta property="article:modified_time" content="2021-05-04T22:53:09+08:00" />
+<meta property="og:url" content="https://mengdemao.github.io/posts/kobject/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-10-01T23:32:46+08:00" />
+<meta property="article:modified_time" content="2021-10-01T23:32:46+08:00" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="antlr教程"/>
-<meta name="twitter:description" content=""/>
+<meta name="twitter:title" content="Kobject"/>
+<meta name="twitter:description" content="kobject 内核对象 为模块提供一个底层抽象 相关数据 kobject 1struct kobject { 2 const char *name; /* 名字 */ 3 struct list_head entry; /* 链表 */ 4 struct kobject *parent; /* 指向父对象,建立层次结构 */ 5 struct kset *kset; /* 对象集合 */ 6 struct"/>
 <link rel="preload" href="https://mengdemao.github.io/css/bundle.min.0687ddc8fe4a0959f7b5492cf776a19ded348369ddc6d3e84fd623bc97efcb32.css" integrity="sha256-BofdyP5KCVn3tUks93ahne00g2ndxtPoT9YjvJfvyzI=" crossorigin="anonymous" as="style" onload="this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://mengdemao.github.io/css/bundle.min.0687ddc8fe4a0959f7b5492cf776a19ded348369ddc6d3e84fd623bc97efcb32.css" integrity="sha256-BofdyP5KCVn3tUks93ahne00g2ndxtPoT9YjvJfvyzI=" crossorigin="anonymous"></noscript><script src="https://mengdemao.github.io/js/bundle.min.0de777e80f65c62eff834f970bb0d261ef28d7420911f1d6c99f39fce6a42cfc.js" integrity="sha256-Ded36A9lxi7/g0&#43;XC7DSYe8o10IJEfHWyZ85/OakLPw=" crossorigin="anonymous"></script></head>
   <body><script src="https://mengdemao.github.io/js/bootstrap.min.b5d86dd3a5f60c90be38a252bb65fc1a2732f32e71dc12c051720f0c7aef3cde.js" integrity="sha256-tdht06X2DJC&#43;OKJSu2X8Gicy8y5x3BLAUXIPDHrvPN4=" crossorigin="anonymous"></script><header><nav class="navbar top-app-bar top-app-bar-expand-lg fixed-top">
@@ -96,11 +96,11 @@
   </form>
   <div class="mt-2 social-share-buttons d-flex visually-hidden flex-nowrap">
     <a class="btn btn-sm btn-outline-primary social-share-button" rel="noopener noreferrer" aria-label="Twitter Share Button"
-      target="_blank" href="https://twitter.com/intent/tweet?title=antlr%e6%95%99%e7%a8%8b&url=https%3a%2f%2fmengdemao.github.io%2fposts%2fantlr%2f">
+      target="_blank" href="https://twitter.com/intent/tweet?title=Kobject&url=https%3a%2f%2fmengdemao.github.io%2fposts%2fkobject%2f">
       <i class="fab fa-fw fa-twitter"></i> Twitter
     </a>
     <a class="btn btn-sm btn-outline-primary social-share-button" rel="noopener noreferrer" aria-label="Facebook Share Button"
-      target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmengdemao.github.io%2fposts%2fantlr%2f">
+      target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmengdemao.github.io%2fposts%2fkobject%2f">
       <i class="fab fa-fw fa-facebook-f"></i> Facebook
     </a>
   </div>
@@ -166,7 +166,7 @@
 <div class="col-lg-8">
   <div class="container"><nav class="row card component" aria-label="breadcrumb">
   <div class="card-body">
-    <ol class="breadcrumb "><li class="breadcrumb-item"><a href="https://mengdemao.github.io/">主页</a></li><li class="breadcrumb-item"><a href="https://mengdemao.github.io/posts/">文章</a></li><li class="breadcrumb-item active">Antlr教程</li></ol>
+    <ol class="breadcrumb "><li class="breadcrumb-item"><a href="https://mengdemao.github.io/">主页</a></li><li class="breadcrumb-item"><a href="https://mengdemao.github.io/posts/">文章</a></li><li class="breadcrumb-item active">Kobject</li></ol>
   </div>
 </nav><article class="post row card mb-4 component">
   <div class="card-body"><div class="post-panel-wrapper">
@@ -177,9 +177,7 @@
   
     
 
-    <a class="action btn-reward" role="button" data-bs-toggle="modal" data-bs-target="#rewardModal" title="打赏">
-  <i class="fas fa-fw fa-coffee"></i>
-</a>
+    
     <a class="action" data-bs-container="body" data-bs-toggle="popover" data-bs-html="true" data-bs-placement="bottom"
   data-bs-trigger="focus" tabindex="0" type="button" aria-label="Copyright" 
   data-bs-content="&lt;a target=&#34;_blank&#34; rel=&#34;license noopener noreferrer&#34; href=&#34;https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh&#34;&gt;CC BY-NC-ND 4.0 &lt;i class=&#34;fab fa-fw fa-creative-commons&#34;&gt;&lt;/i&gt;&lt;i class=&#34;fab fa-fw fa-creative-commons-by&#34;&gt;&lt;/i&gt;&lt;i class=&#34;fab fa-fw fa-creative-commons-nc&#34;&gt;&lt;/i&gt;&lt;i class=&#34;fab fa-fw fa-creative-commons-nd&#34;&gt;&lt;/i&gt;&lt;/a&gt;
@@ -189,61 +187,68 @@
     
   </div>
 </div>
-<h1 class="card-title my-3">Antlr教程
+<h1 class="card-title my-3">Kobject
 </h1><div class="post-meta"><span class="post-date" title="created on">
-    <i class="fas fa-fw fa-calendar-alt"></i>May 4, 2021
+    <i class="fas fa-fw fa-calendar-alt"></i>Oct 1, 2021
   </span><span class="post-reading-time" title="reading time">
-    <i class="fas fa-fw fa-coffee"></i>0 分钟阅读
-  </span><a href="https://mengdemao.github.io/tags/%E6%8A%80%E5%B7%A7/" class="post-taxonomy">技巧</a></div>
-<div class="post-content mb-3"></div><div class="modal fade" id="rewardModal" tabindex="-1" aria-labelledby="rewardModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content surface">
-      <div class="modal-header">
-        <h5 class="modal-title" id="rewardModalLabel"><i class="fas fa-fw fa-coffee"></i>打赏</h5>
-        <a href="#" data-bs-dismiss="modal" class="btn btn-sm btn-outline-primary" aria-label="Close"><i class="fas fa-times"></i></a>
-      </div>
-      <div class="modal-body">
-        <ul class="nav nav-tabs flex-nowrap mb-3" role="tablist"><li class="nav-item text-nowrap" role="presentation">
-            <a class="nav-link active" id="reward-alipay-tab" data-bs-toggle="tab" href="#reward-alipay" role="tab" aria-controls="reward-alipay" aria-selected="true">
-              <i class="fab fa-fw fa-alipay"></i>支付宝
-            </a>
-          </li><li class="nav-item text-nowrap" role="presentation">
-            <a class="nav-link" id="reward-wechat-tab" data-bs-toggle="tab" href="#reward-wechat" role="tab" aria-controls="reward-wechat" aria-selected="true">
-              <i class="fab fa-fw fa-weixin"></i>微信
-            </a>
-          </li></ul>
-        <div class="tab-content" id="rewardTabContent"><div class="tab-pane fade post-reward-content show active" id="reward-alipay" role="tabpanel" aria-labelledby="reward-alipay-tab">
-            <img class="img-fluid post-reward-img" src="https://mengdemao.github.io/images/reward/alipay.png" loading="lazy" />
-          </div><div class="tab-pane fade post-reward-content show" id="reward-wechat" role="tabpanel" aria-labelledby="reward-wechat-tab">
-            <img class="img-fluid post-reward-img" src="https://mengdemao.github.io/images/reward/wechat.png" loading="lazy" />
-          </div></div>
-      </div>
-    </div>
-  </div>
+    <i class="fas fa-fw fa-coffee"></i>1 分钟阅读
+  </span><a href="https://mengdemao.github.io/tags/kernel/" class="post-taxonomy">kernel</a></div>
+<div class="post-content mb-3"><h2 id="kobject">kobject</h2>
+<p>内核对象</p>
+<p>为模块提供一个底层抽象</p>
+<h2 id="相关数据">相关数据</h2>
+<h3 id="kobject-1">kobject</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="k">struct</span> <span class="n">kobject</span> <span class="p">{</span>
+<span class="ln"> 2</span>	<span class="k">const</span> <span class="kt">char</span>		<span class="o">*</span><span class="n">name</span><span class="p">;</span>		<span class="cm">/* 名字 */</span>
+<span class="ln"> 3</span>	<span class="k">struct</span> <span class="n">list_head</span>	<span class="n">entry</span><span class="p">;</span>		<span class="cm">/* 链表 */</span>
+<span class="ln"> 4</span>	<span class="k">struct</span> <span class="n">kobject</span>		<span class="o">*</span><span class="n">parent</span><span class="p">;</span>	<span class="cm">/* 指向父对象,建立层次结构 */</span>
+<span class="ln"> 5</span>	<span class="k">struct</span> <span class="n">kset</span>		<span class="o">*</span><span class="n">kset</span><span class="p">;</span>		<span class="cm">/* 对象集合 */</span>
+<span class="ln"> 6</span>	<span class="k">struct</span> <span class="n">kobj_type</span>	<span class="o">*</span><span class="n">ktype</span><span class="p">;</span>		<span class="cm">/* 对象类型 */</span>
+<span class="ln"> 7</span>	<span class="k">struct</span> <span class="n">kernfs_node</span>	<span class="o">*</span><span class="n">sd</span><span class="p">;</span> 		<span class="cm">/* sysfs directory entry */</span>
+<span class="ln"> 8</span>	<span class="k">struct</span> <span class="n">kref</span>		<span class="n">kref</span><span class="p">;</span>		<span class="cm">/* 引用计数 */</span>
+<span class="ln"> 9</span><span class="cp">#ifdef CONFIG_DEBUG_KOBJECT_RELEASE
+</span><span class="ln">10</span><span class="cp"></span>	<span class="k">struct</span> <span class="n">delayed_work</span>	<span class="n">release</span><span class="p">;</span>
+<span class="ln">11</span><span class="cp">#endif
+</span><span class="ln">12</span><span class="cp"></span>	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="nl">state_initialized</span><span class="p">:</span><span class="mi">1</span><span class="p">;</span>
+<span class="ln">13</span>	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="nl">state_in_sysfs</span><span class="p">:</span><span class="mi">1</span><span class="p">;</span>
+<span class="ln">14</span>	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="nl">state_add_uevent_sent</span><span class="p">:</span><span class="mi">1</span><span class="p">;</span>
+<span class="ln">15</span>	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="nl">state_remove_uevent_sent</span><span class="p">:</span><span class="mi">1</span><span class="p">;</span>
+<span class="ln">16</span>	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="nl">uevent_suppress</span><span class="p">:</span><span class="mi">1</span><span class="p">;</span>
+<span class="ln">17</span><span class="p">};</span>
+</code></pre></div><h3 id="kset">kset</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln">1</span><span class="k">struct</span> <span class="n">kset</span> <span class="p">{</span>
+<span class="ln">2</span>	<span class="k">struct</span> <span class="n">list_head</span> <span class="n">list</span><span class="p">;</span>
+<span class="ln">3</span>	<span class="n">spinlock_t</span> <span class="n">list_lock</span><span class="p">;</span>
+<span class="ln">4</span>	<span class="k">struct</span> <span class="n">kobject</span> <span class="n">kobj</span><span class="p">;</span>
+<span class="ln">5</span>	<span class="k">const</span> <span class="k">struct</span> <span class="n">kset_uevent_ops</span> <span class="o">*</span><span class="n">uevent_ops</span><span class="p">;</span>
+<span class="ln">6</span><span class="p">}</span> <span class="n">__randomize_layout</span><span class="p">;</span>
+</code></pre></div><h3 id="kobj_type">kobj_type</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln">1</span><span class="k">struct</span> <span class="n">kobj_type</span> <span class="p">{</span>
+<span class="ln">2</span>	<span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">release</span><span class="p">)(</span><span class="k">struct</span> <span class="n">kobject</span> <span class="o">*</span><span class="n">kobj</span><span class="p">);</span>
+<span class="ln">3</span>	<span class="k">const</span> <span class="k">struct</span> <span class="n">sysfs_ops</span> <span class="o">*</span><span class="n">sysfs_ops</span><span class="p">;</span>
+<span class="ln">4</span>	<span class="k">struct</span> <span class="n">attribute</span> <span class="o">**</span><span class="n">default_attrs</span><span class="p">;</span>
+<span class="ln">5</span>	<span class="k">const</span> <span class="k">struct</span> <span class="n">kobj_ns_type_operations</span> <span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">child_ns_type</span><span class="p">)(</span><span class="k">struct</span> <span class="n">kobject</span> <span class="o">*</span><span class="n">kobj</span><span class="p">);</span>
+<span class="ln">6</span>	<span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">namespace</span><span class="p">)(</span><span class="k">struct</span> <span class="n">kobject</span> <span class="o">*</span><span class="n">kobj</span><span class="p">);</span>
+<span class="ln">7</span>	<span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">get_ownership</span><span class="p">)(</span><span class="k">struct</span> <span class="n">kobject</span> <span class="o">*</span><span class="n">kobj</span><span class="p">,</span> <span class="n">kuid_t</span> <span class="o">*</span><span class="n">uid</span><span class="p">,</span> <span class="n">kgid_t</span> <span class="o">*</span><span class="n">gid</span><span class="p">);</span>
+<span class="ln">8</span><span class="p">};</span>
+</code></pre></div><h3 id="kref">kref</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln">1</span><span class="k">struct</span> <span class="n">kref</span> <span class="p">{</span>
+<span class="ln">2</span>	<span class="n">refcount_t</span> <span class="n">refcount</span><span class="p">;</span>
+<span class="ln">3</span><span class="p">};</span>
+</code></pre></div><h2 id="相关操作">相关操作</h2>
+<h3 id="初始化">初始化</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln">1</span><span class="kt">void</span> <span class="nf">kobject_init</span><span class="p">(</span><span class="k">struct</span> <span class="n">kobject</span> <span class="o">*</span><span class="n">kobj</span><span class="p">,</span> <span class="k">struct</span> <span class="n">kobj_type</span> <span class="o">*</span><span class="n">ktype</span><span class="p">)</span>
+<span class="ln">2</span><span class="p">{</span>
+<span class="ln">3</span>
+<span class="ln">4</span><span class="p">}</span>
+</code></pre></div><h3 id="添加">添加</h3>
+<h3 id="删除">删除</h3>
 </div><hr /><div class="post-navs d-flex mb-3 justify-content-evenly">
   <div class="post-nav post-prev"><i class="fas fa-fw fa-chevron-left"></i>
-    <a href="https://mengdemao.github.io/posts/hugo/">Hugo使用教程
+    <a href="https://mengdemao.github.io/posts/hugo%E6%B5%8B%E8%AF%95/">Hugo测试
 </a>
-  </div><div class="post-nav post-next">
-    <a href="https://mengdemao.github.io/posts/wait_queue/">Linux等待队列实现
-</a>
-    <i class="fas fa-fw fa-chevron-right"></i>
-  </div></div><section class="related-posts-wrapper">
-    <h3>相关文章</h3>
-    <ul class="related-posts"><li><a href="https://mengdemao.github.io/posts/hugo/">Hugo使用教程
-</a></li><li><a href="https://mengdemao.github.io/posts/nfs/">Nfs
-</a></li></ul>
-  </section></div>
-</article><div class="post-comments card row component">
-  <div class="card-body"><script src="https://utteranc.es/client.js"
-  repo="mengdemao/mengdemao.github.io"
-  issue-term="pathname"
-  label="comment"
-  theme="github-light"
-  crossorigin="anonymous"
-  async>
-</script></div>
-</div></div>
+  </div></div></div>
+</article></div>
 </div><aside class="col-lg-4 sidebar d-flex">
   <div class="container">
     

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>kernel on 编程日志</title>
+    <link>https://mengdemao.github.io/tags/kernel/</link>
+    <description>Recent content in kernel on 编程日志</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <copyright>Copyright © 2020-{year} Meng Demao. All Rights Reserved.</copyright>
+    <lastBuildDate>Fri, 01 Oct 2021 23:32:46 +0800</lastBuildDate><atom:link href="https://mengdemao.github.io/tags/kernel/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Kobject</title>
+      <link>https://mengdemao.github.io/posts/kobject/</link>
+      <pubDate>Fri, 01 Oct 2021 23:32:46 +0800</pubDate>
+      
+      <guid>https://mengdemao.github.io/posts/kobject/</guid>
+      <description>kobject 内核对象 为模块提供一个底层抽象 相关数据 kobject 1struct kobject { 2 const char *name; /* 名字 */ 3 struct list_head entry; /* 链表 */ 4 struct kobject *parent; /* 指向父对象,建立层次结构 */ 5 struct kset *kset; /* 对象集合 */ 6 struct</description>
+    </item>
+    
+  </channel>
+</rss>
