@@ -12,7 +12,7 @@
 <meta name="description" content="" /><meta itemprop="name" content="Hugo教程">
 <meta itemprop="description" content="基本操作 安装hugo 在linux/windows上只能通过直接release 下载, 创建网站 1hugo new site 路径 添加主题 将主题直接添加到theme文件下"><meta itemprop="datePublished" content="2021-05-04T22:53:09+08:00" />
 <meta itemprop="dateModified" content="2021-05-04T22:53:09+08:00" />
-<meta itemprop="wordCount" content="131">
+<meta itemprop="wordCount" content="467">
 <meta itemprop="keywords" content="技巧," /><meta property="og:title" content="Hugo教程" />
 <meta property="og:description" content="基本操作 安装hugo 在linux/windows上只能通过直接release 下载, 创建网站 1hugo new site 路径 添加主题 将主题直接添加到theme文件下" />
 <meta property="og:type" content="article" />
@@ -186,7 +186,9 @@
 ">
   <i class="fas fa-fw fa-copyright"></i>
 </a>
-    
+    <a data-bs-toggle="offcanvas" href="#offcanvasTOC" aria-controls="offcanvasTOC" role="button">
+  <i class="fas fa-fw fa-list-alt"></i>
+</a>
   </div>
 </div>
 <h1 class="card-title my-3">Hugo教程
@@ -195,7 +197,46 @@
   </span><span class="post-reading-time" title="reading time">
     <i class="fas fa-fw fa-coffee"></i>1 分钟阅读
   </span><a href="https://mengdemao.github.io/tags/%E6%8A%80%E5%B7%A7/" class="post-taxonomy">技巧</a></div>
-<div class="post-content mb-3"><h2 id="基本操作">基本操作</h2>
+<div class="offcanvas offcanvas-end surface" tabindex="-1" id="offcanvasTOC" aria-labelledby="offcanvasTOCLabel">
+  <div class="offcanvas-header">
+    <h2 class="offcanvas-title" id="offcanvasTOCLabel">目录</h5>
+      <button type="button" class="btn btn-sm btn-outline-primary" data-bs-dismiss="offcanvas" aria-label="Close">
+        <i class="fas fa-times"></i>
+      </button>
+  </div>
+  <div class="offcanvas-body">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#基本操作">基本操作</a>
+      <ul>
+        <li><a href="#安装hugo">安装hugo</a></li>
+        <li><a href="#创建网站">创建网站</a></li>
+        <li><a href="#添加主题">添加主题</a></li>
+        <li><a href="#创建文档">创建文档</a></li>
+        <li><a href="#设置预览">设置预览</a></li>
+      </ul>
+    </li>
+    <li><a href="#文件结构">文件结构</a>
+      <ul>
+        <li><a href="#archetypes">archetypes</a></li>
+        <li><a href="#assets">assets</a></li>
+        <li><a href="#config">config</a></li>
+        <li><a href="#content">content</a></li>
+        <li><a href="#data">data</a></li>
+        <li><a href="#layouts">layouts</a></li>
+        <li><a href="#static">static</a></li>
+      </ul>
+    </li>
+    <li><a href="#编写工具">编写工具</a>
+      <ul>
+        <li><a href="#typora">typora</a></li>
+        <li><a href="#picgo">picgo</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div><div class="post-content mb-3"><h2 id="基本操作">基本操作</h2>
 <h3 id="安装hugo">安装hugo</h3>
 <p>在linux/windows上只能通过直接<a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener noreferrer">release</a>
 下载,</p>
@@ -210,7 +251,35 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="ln">1</span>hugo new posts/hugo.md
 </code></pre></div><h3 id="设置预览">设置预览</h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="ln">1</span> hugo server -D --disableFastRender
-</code></pre></div><h2 id="编写工具">编写工具</h2>
+</code></pre></div><h2 id="文件结构">文件结构</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="ln"> 1</span>.
+<span class="ln"> 2</span>├── archetypes
+<span class="ln"> 3</span>├── config
+<span class="ln"> 4</span>├── content
+<span class="ln"> 5</span>├── data
+<span class="ln"> 6</span>├── layouts
+<span class="ln"> 7</span>├── static
+<span class="ln"> 8</span>├── themes
+<span class="ln"> 9</span>├── static
+<span class="ln">10</span>└── resources
+</code></pre></div><p>目录结构说明
+以下是每个目录的高级概述，其中包含指向 Hugo 文档中每个相应部分的链接。</p>
+<h3 id="archetypes">archetypes</h3>
+<p>hugo模板,在创建文件时作为模板自动生成</p>
+<h3 id="assets">assets</h3>
+<p>存储所有需要HugoPipes处理的文件;只有使用了.Permalink 或 .RelPermalink的文件才会发布到公共目录.
+注意：默认情况下不创建该目录</p>
+<h3 id="config">config</h3>
+<p>Hugo配置目录</p>
+<h3 id="content">content</h3>
+<p>此目录存在所有的网站内容,Hugo中的每个顶级文件夹都被视为一个内容部分.</p>
+<h3 id="data">data</h3>
+<p>该目录用于存储 Hugo 在生成网站时可以使用的配置文件</p>
+<h3 id="layouts">layouts</h3>
+<p>以 .html文件的形式存储模板.</p>
+<h3 id="static">static</h3>
+<p>存储所有静态内容:图像、CSS、JavaScript等。当Hugo构建您的站点时,静态目录中的所有资产都按原样复制</p>
+<h2 id="编写工具">编写工具</h2>
 <h3 id="typora">typora</h3>
 <p>使用typora作为markdown编写工具</p>
 <h3 id="picgo">picgo</h3>

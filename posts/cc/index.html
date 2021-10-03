@@ -12,7 +12,7 @@
 <meta name="description" content="" /><meta itemprop="name" content="C&#43;&#43;教程">
 <meta itemprop="description" content="C&#43;&#43;教程 C&#43;&#43;基础语法 第一个程序 1#include &lt;iostream&gt;2 3using namespace std; 4 5int main(int argc, char *argv[]) 6{ 7 cout &lt;&lt; &#34;Hello World&#34; &lt;&lt; endl; 8 return 0; 9} 注释类型 单行注释 1// 这个是一个单行注释 多行注释 1/* 2这个里面是一"><meta itemprop="datePublished" content="2021-10-03T13:20:54+08:00" />
 <meta itemprop="dateModified" content="2021-10-03T13:20:54+08:00" />
-<meta itemprop="wordCount" content="850">
+<meta itemprop="wordCount" content="1060">
 <meta itemprop="keywords" content="" /><meta property="og:title" content="C&#43;&#43;教程" />
 <meta property="og:description" content="C&#43;&#43;教程 C&#43;&#43;基础语法 第一个程序 1#include &lt;iostream&gt;2 3using namespace std; 4 5int main(int argc, char *argv[]) 6{ 7 cout &lt;&lt; &#34;Hello World&#34; &lt;&lt; endl; 8 return 0; 9} 注释类型 单行注释 1// 这个是一个单行注释 多行注释 1/* 2这个里面是一" />
 <meta property="og:type" content="article" />
@@ -193,7 +193,7 @@
 </h1><div class="post-meta"><span class="post-date" title="created on">
     <i class="fas fa-fw fa-calendar-alt"></i>Oct 3, 2021
   </span><span class="post-reading-time" title="reading time">
-    <i class="fas fa-fw fa-coffee"></i>2 分钟阅读
+    <i class="fas fa-fw fa-coffee"></i>3 分钟阅读
   </span></div>
 <div class="offcanvas offcanvas-end surface" tabindex="-1" id="offcanvasTOC" aria-labelledby="offcanvasTOCLabel">
   <div class="offcanvas-header">
@@ -225,9 +225,16 @@
         <li><a href="#函数的声明">函数的声明</a></li>
         <li><a href="#函数的分文件编写">函数的分文件编写</a></li>
         <li><a href="#指针">指针</a></li>
+        <li><a href="#结构体">结构体</a></li>
       </ul>
     </li>
-    <li><a href="#c核心编程">C++核心编程</a></li>
+    <li><a href="#c核心编程">C++核心编程</a>
+      <ul>
+        <li><a href="#c内存分区">C++内存分区</a></li>
+        <li><a href="#newdelete操作符">new/delete操作符</a></li>
+        <li><a href="#引用">引用</a></li>
+      </ul>
+    </li>
     <li><a href="#c提高编程">C++提高编程</a></li>
   </ul>
 </nav>
@@ -536,7 +543,32 @@
 <li>const修饰常量</li>
 <li>const既修饰指针又修饰常量</li>
 </ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="ln">1</span><span class="k">const</span> <span class="kt">int</span> <span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">;</span>
+<span class="ln">2</span>
+<span class="ln">3</span><span class="kt">int</span> <span class="k">const</span> <span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">;</span>
+<span class="ln">4</span>
+<span class="ln">5</span><span class="k">const</span> <span class="kt">int</span> <span class="o">*</span><span class="k">const</span> <span class="n">p</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">;</span>
+</code></pre></div><h4 id="指针与数组">指针与数组</h4>
+<h4 id="指针与函数">指针与函数</h4>
+<h3 id="结构体">结构体</h3>
+<h4 id="结构体数组">结构体数组</h4>
+<h4 id="结构体指针">结构体指针</h4>
+<h4 id="结构体嵌套">结构体嵌套</h4>
 <h2 id="c核心编程">C++核心编程</h2>
+<p>本阶段主要对面向对象进行详细讲解</p>
+<h3 id="c内存分区">C++内存分区</h3>
+<p>c++程序在运行时,将内存分为4个区域</p>
+<ol>
+<li>代码区: 存放程序的二进制代码,由操作系统管理</li>
+<li>全局区: 存放全局变量、静态变量和常量</li>
+<li>栈区: 编译器自动分配</li>
+<li>堆区 : 程序负责分配和释放</li>
+</ol>
+<h3 id="newdelete操作符">new/delete操作符</h3>
+<p>C++利用new操作符在堆区开辟内存</p>
+<h3 id="引用">引用</h3>
+<p>作用: 给变量起别名
+语法: 数据类型 &amp;别名 = 原名;</p>
 <h2 id="c提高编程">C++提高编程</h2>
 </div><hr /><div class="post-navs d-flex mb-3 justify-content-evenly">
   <div class="post-nav post-prev"><i class="fas fa-fw fa-chevron-left"></i>
