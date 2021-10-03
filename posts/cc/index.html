@@ -12,7 +12,7 @@
 <meta name="description" content="" /><meta itemprop="name" content="C&#43;&#43;教程">
 <meta itemprop="description" content="C&#43;&#43;教程 C&#43;&#43;基础语法 第一个程序 1#include &lt;iostream&gt;2 3using namespace std; 4 5int main(int argc, char *argv[]) 6{ 7 cout &lt;&lt; &#34;Hello World&#34; &lt;&lt; endl; 8 return 0; 9} 注释类型 单行注释 1// 这个是一个单行注释 多行注释 1/* 2这个里面是一"><meta itemprop="datePublished" content="2021-10-03T13:20:54+08:00" />
 <meta itemprop="dateModified" content="2021-10-03T13:20:54+08:00" />
-<meta itemprop="wordCount" content="601">
+<meta itemprop="wordCount" content="850">
 <meta itemprop="keywords" content="" /><meta property="og:title" content="C&#43;&#43;教程" />
 <meta property="og:description" content="C&#43;&#43;教程 C&#43;&#43;基础语法 第一个程序 1#include &lt;iostream&gt;2 3using namespace std; 4 5int main(int argc, char *argv[]) 6{ 7 cout &lt;&lt; &#34;Hello World&#34; &lt;&lt; endl; 8 return 0; 9} 注释类型 单行注释 1// 这个是一个单行注释 多行注释 1/* 2这个里面是一" />
 <meta property="og:type" content="article" />
@@ -221,6 +221,10 @@
         <li><a href="#程序流程结构">程序流程结构</a></li>
         <li><a href="#数组">数组</a></li>
         <li><a href="#函数定义">函数定义</a></li>
+        <li><a href="#函数的常见样式">函数的常见样式</a></li>
+        <li><a href="#函数的声明">函数的声明</a></li>
+        <li><a href="#函数的分文件编写">函数的分文件编写</a></li>
+        <li><a href="#指针">指针</a></li>
       </ul>
     </li>
     <li><a href="#c核心编程">C++核心编程</a></li>
@@ -493,6 +497,45 @@
 <h5 id="goto">goto</h5>
 <h3 id="数组">数组</h3>
 <h3 id="函数定义">函数定义</h3>
+<ol>
+<li>返回值类型</li>
+<li>函数名</li>
+<li>参数列表</li>
+<li>函数体语句</li>
+<li>return表达式</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="ln">1</span><span class="err">返回值类型</span> <span class="err">函数名字</span><span class="p">(</span><span class="err">参数列表</span><span class="p">)</span>
+<span class="ln">2</span><span class="p">{</span>
+<span class="ln">3</span>	<span class="err">函数体语句</span><span class="p">;</span>
+<span class="ln">4</span>	<span class="k">return</span> <span class="err">表达式</span><span class="p">;</span>
+<span class="ln">5</span><span class="p">}</span>
+</code></pre></div><h4 id="值传递">值传递</h4>
+<p>类似数值拷贝</p>
+<h3 id="函数的常见样式">函数的常见样式</h3>
+<ol>
+<li>无参无返</li>
+<li>有参无返</li>
+<li>无参有反</li>
+<li>有参有返</li>
+</ol>
+<h3 id="函数的声明">函数的声明</h3>
+<p>作用: 告诉编译器函数名以及调用方式,函数实体可以单独实现;</p>
+<h3 id="函数的分文件编写">函数的分文件编写</h3>
+<h3 id="指针">指针</h3>
+<h4 id="指针的定义和使用">指针的定义和使用</h4>
+<h4 id="指针所占用空间">指针所占用空间</h4>
+<h4 id="空指针">空指针</h4>
+<p>含义: 指针指向内存空间为0的指针;
+用途: 初始化指针变量
+注意: 空指针的地址是不可以访问的</p>
+<h4 id="野指针">野指针</h4>
+<p>指针指向非法的内存空间</p>
+<h4 id="const与指针">const与指针</h4>
+<ol>
+<li>const修饰指针</li>
+<li>const修饰常量</li>
+<li>const既修饰指针又修饰常量</li>
+</ol>
 <h2 id="c核心编程">C++核心编程</h2>
 <h2 id="c提高编程">C++提高编程</h2>
 </div><hr /><div class="post-navs d-flex mb-3 justify-content-evenly">
