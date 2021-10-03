@@ -3,26 +3,26 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hugo使用教程 - 编程日志</title><link rel="apple-touch-icon" href="https://mengdemao.github.io/images/favicons/apple-touch-icon.png" sizes="180x180">
+    <title>Hugo教程 - 编程日志</title><link rel="apple-touch-icon" href="https://mengdemao.github.io/images/favicons/apple-touch-icon.png" sizes="180x180">
 <link rel="icon" href="https://mengdemao.github.io/images/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="https://mengdemao.github.io/images/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
 <link rel="manifest" href="https://mengdemao.github.io/images/favicons/manifest.json">
 <link rel="icon" href="https://mengdemao.github.io/images/favicons/favicon.ico">
 <meta name="keywords" content="" />
-<meta name="description" content="" /><meta itemprop="name" content="Hugo使用教程">
-<meta itemprop="description" content="初始化hugo 1hugo new site 路径 创建文档 1hugo new post/hugo.md 设置预览 1 hugo server -D"><meta itemprop="datePublished" content="2021-05-04T22:53:09+08:00" />
+<meta name="description" content="" /><meta itemprop="name" content="Hugo教程">
+<meta itemprop="description" content="基本操作 安装hugo 在linux/windows上只能通过直接release 下载, 创建网站 1hugo new site 路径 添加主题 创建文档 1hugo new posts/hugo.md 设置预览 1 hugo server -D --disableFastRender"><meta itemprop="datePublished" content="2021-05-04T22:53:09+08:00" />
 <meta itemprop="dateModified" content="2021-05-04T22:53:09+08:00" />
-<meta itemprop="wordCount" content="27">
-<meta itemprop="keywords" content="技巧," /><meta property="og:title" content="Hugo使用教程" />
-<meta property="og:description" content="初始化hugo 1hugo new site 路径 创建文档 1hugo new post/hugo.md 设置预览 1 hugo server -D" />
+<meta itemprop="wordCount" content="70">
+<meta itemprop="keywords" content="技巧," /><meta property="og:title" content="Hugo教程" />
+<meta property="og:description" content="基本操作 安装hugo 在linux/windows上只能通过直接release 下载, 创建网站 1hugo new site 路径 添加主题 创建文档 1hugo new posts/hugo.md 设置预览 1 hugo server -D --disableFastRender" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://mengdemao.github.io/posts/hugo/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2021-05-04T22:53:09+08:00" />
 <meta property="article:modified_time" content="2021-05-04T22:53:09+08:00" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Hugo使用教程"/>
-<meta name="twitter:description" content="初始化hugo 1hugo new site 路径 创建文档 1hugo new post/hugo.md 设置预览 1 hugo server -D"/>
+<meta name="twitter:title" content="Hugo教程"/>
+<meta name="twitter:description" content="基本操作 安装hugo 在linux/windows上只能通过直接release 下载, 创建网站 1hugo new site 路径 添加主题 创建文档 1hugo new posts/hugo.md 设置预览 1 hugo server -D --disableFastRender"/>
 <link rel="preload" href="https://mengdemao.github.io/css/bundle.min.0687ddc8fe4a0959f7b5492cf776a19ded348369ddc6d3e84fd623bc97efcb32.css" integrity="sha256-BofdyP5KCVn3tUks93ahne00g2ndxtPoT9YjvJfvyzI=" crossorigin="anonymous" as="style" onload="this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://mengdemao.github.io/css/bundle.min.0687ddc8fe4a0959f7b5492cf776a19ded348369ddc6d3e84fd623bc97efcb32.css" integrity="sha256-BofdyP5KCVn3tUks93ahne00g2ndxtPoT9YjvJfvyzI=" crossorigin="anonymous"></noscript><script src="https://mengdemao.github.io/js/bundle.min.0de777e80f65c62eff834f970bb0d261ef28d7420911f1d6c99f39fce6a42cfc.js" integrity="sha256-Ded36A9lxi7/g0&#43;XC7DSYe8o10IJEfHWyZ85/OakLPw=" crossorigin="anonymous"></script></head>
   <body><script src="https://mengdemao.github.io/js/bootstrap.min.b5d86dd3a5f60c90be38a252bb65fc1a2732f32e71dc12c051720f0c7aef3cde.js" integrity="sha256-tdht06X2DJC&#43;OKJSu2X8Gicy8y5x3BLAUXIPDHrvPN4=" crossorigin="anonymous"></script><header><nav class="navbar top-app-bar top-app-bar-expand-lg fixed-top">
@@ -96,7 +96,7 @@
   </form>
   <div class="mt-2 social-share-buttons d-flex visually-hidden flex-nowrap">
     <a class="btn btn-sm btn-outline-primary social-share-button" rel="noopener noreferrer" aria-label="Twitter Share Button"
-      target="_blank" href="https://twitter.com/intent/tweet?title=Hugo%e4%bd%bf%e7%94%a8%e6%95%99%e7%a8%8b&url=https%3a%2f%2fmengdemao.github.io%2fposts%2fhugo%2f">
+      target="_blank" href="https://twitter.com/intent/tweet?title=Hugo%e6%95%99%e7%a8%8b&url=https%3a%2f%2fmengdemao.github.io%2fposts%2fhugo%2f">
       <i class="fab fa-fw fa-twitter"></i> Twitter
     </a>
     <a class="btn btn-sm btn-outline-primary social-share-button" rel="noopener noreferrer" aria-label="Facebook Share Button"
@@ -166,7 +166,7 @@
 <div class="col-lg-8">
   <div class="container"><nav class="row card component" aria-label="breadcrumb">
   <div class="card-body">
-    <ol class="breadcrumb "><li class="breadcrumb-item"><a href="https://mengdemao.github.io/">主页</a></li><li class="breadcrumb-item"><a href="https://mengdemao.github.io/posts/">文章</a></li><li class="breadcrumb-item active">Hugo使用教程</li></ol>
+    <ol class="breadcrumb "><li class="breadcrumb-item"><a href="https://mengdemao.github.io/">主页</a></li><li class="breadcrumb-item"><a href="https://mengdemao.github.io/posts/">文章</a></li><li class="breadcrumb-item active">Hugo教程</li></ol>
   </div>
 </nav><article class="post row card mb-4 component">
   <div class="card-body"><div class="post-panel-wrapper">
@@ -189,24 +189,23 @@
     
   </div>
 </div>
-<h1 class="card-title my-3">Hugo使用教程
+<h1 class="card-title my-3">Hugo教程
 </h1><div class="post-meta"><span class="post-date" title="created on">
     <i class="fas fa-fw fa-calendar-alt"></i>May 4, 2021
   </span><span class="post-reading-time" title="reading time">
     <i class="fas fa-fw fa-coffee"></i>1 分钟阅读
   </span><a href="https://mengdemao.github.io/tags/%E6%8A%80%E5%B7%A7/" class="post-taxonomy">技巧</a></div>
-<div class="post-content mb-3"><ul>
-<li>初始化hugo</li>
-</ul>
+<div class="post-content mb-3"><h2 id="基本操作">基本操作</h2>
+<h3 id="安装hugo">安装hugo</h3>
+<p>在linux/windows上只能通过直接<a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener noreferrer">release</a>
+下载,</p>
+<h3 id="创建网站">创建网站</h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="ln">1</span>hugo new site 路径
-</code></pre></div><ul>
-<li>创建文档</li>
-</ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="ln">1</span>hugo new post/hugo.md
-</code></pre></div><ul>
-<li>设置预览</li>
-</ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="ln">1</span> hugo server -D
+</code></pre></div><h3 id="添加主题">添加主题</h3>
+<h3 id="创建文档">创建文档</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="ln">1</span>hugo new posts/hugo.md
+</code></pre></div><h3 id="设置预览">设置预览</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="ln">1</span> hugo server -D --disableFastRender
 </code></pre></div></div><div class="modal fade" id="rewardModal" tabindex="-1" aria-labelledby="rewardModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content surface">
@@ -272,10 +271,10 @@
   <div class="card-body">
     <h2 class="card-title">最近文章</h2>
     <ul><li><a href="https://mengdemao.github.io/posts/kobject/">Kobject
-</a></li><li><a href="https://mengdemao.github.io/posts/hugo%E6%B5%8B%E8%AF%95/">Hugo测试
 </a></li><li><a href="https://mengdemao.github.io/posts/luajit/">LuaJIT
-</a></li><li><a href="https://mengdemao.github.io/posts/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">编译原理
+</a></li><li><a href="https://mengdemao.github.io/posts/compiler_principles/">编译原理
 </a></li><li><a href="https://mengdemao.github.io/posts/page_allocator/">Page_allocator
+</a></li><li><a href="https://mengdemao.github.io/posts/wait_queue/">Linux等待队列实现
 </a></li></ul>
   </div>
 </section><section class="taxonomies row card component">
@@ -283,12 +282,14 @@
         <h2 class="card-title">
           <a href="https://mengdemao.github.io/tags">标签</a>
         </h2>
-        <div><a href="https://mengdemao.github.io/tags/%E6%8A%80%E5%B7%A7/" class="post-taxonomy rounded btn btn-sm btn-outline-primary me-2 mb-2" title="技巧">
-            技巧
-          </a><a href="https://mengdemao.github.io/tags/kernel/" class="post-taxonomy rounded btn btn-sm btn-outline-primary me-2 mb-2" title="kernel">
+        <div><a href="https://mengdemao.github.io/tags/kernel/" class="post-taxonomy rounded btn btn-sm btn-outline-primary me-2 mb-2" title="kernel">
             kernel
           </a><a href="https://mengdemao.github.io/tags/nfs/" class="post-taxonomy rounded btn btn-sm btn-outline-primary me-2 mb-2" title="nfs">
             nfs
+          </a><a href="https://mengdemao.github.io/tags/%E6%8A%80%E5%B7%A7/" class="post-taxonomy rounded btn btn-sm btn-outline-primary me-2 mb-2" title="技巧">
+            技巧
+          </a><a href="https://mengdemao.github.io/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" class="post-taxonomy rounded btn btn-sm btn-outline-primary me-2 mb-2" title="编译原理">
+            编译原理
           </a></div>
       </div>
     </section>

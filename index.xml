@@ -17,15 +17,6 @@
     </item>
     
     <item>
-      <title>Hugo测试</title>
-      <link>https://mengdemao.github.io/posts/hugo%E6%B5%8B%E8%AF%95/</link>
-      <pubDate>Sat, 25 Sep 2021 22:15:39 +0800</pubDate>
-      
-      <guid>https://mengdemao.github.io/posts/hugo%E6%B5%8B%E8%AF%95/</guid>
-      <description>Hugo测试 标题 1# 一级标题 2 3## 二级标题 4 5### 三级标题 6 7#### 四级标题 表格 1 1 1 2 2 2 3 3 3 4 4 4 代码抄录环境 1int main() 2{ 3 return 0; 4} 流程图 1graph TD; 2 A--&amp;gt;B; 3 A--&amp;gt;C; 4 B--&amp;gt;D; 5</description>
-    </item>
-    
-    <item>
       <title>LuaJIT</title>
       <link>https://mengdemao.github.io/posts/luajit/</link>
       <pubDate>Sat, 04 Sep 2021 19:04:52 +0800</pubDate>
@@ -36,10 +27,10 @@
     
     <item>
       <title>编译原理</title>
-      <link>https://mengdemao.github.io/posts/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/</link>
+      <link>https://mengdemao.github.io/posts/compiler_principles/</link>
       <pubDate>Sat, 04 Sep 2021 19:04:52 +0800</pubDate>
       
-      <guid>https://mengdemao.github.io/posts/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/</guid>
+      <guid>https://mengdemao.github.io/posts/compiler_principles/</guid>
       <description>编译原理 基础概念 词法分析 RE NFA DFA 语法分析 上下文无关文法(CFG) 自上而下(Top Down) 自下而上(Bottom Up) 语义分析 中间代码 目标代码</description>
     </item>
     
@@ -71,12 +62,12 @@
     </item>
     
     <item>
-      <title>Hugo使用教程</title>
+      <title>Hugo教程</title>
       <link>https://mengdemao.github.io/posts/hugo/</link>
       <pubDate>Tue, 04 May 2021 22:53:09 +0800</pubDate>
       
       <guid>https://mengdemao.github.io/posts/hugo/</guid>
-      <description>初始化hugo 1hugo new site 路径 创建文档 1hugo new post/hugo.md 设置预览 1 hugo server -D</description>
+      <description>基本操作 安装hugo 在linux/windows上只能通过直接release 下载, 创建网站 1hugo new site 路径 添加主题 创建文档 1hugo new posts/hugo.md 设置预览 1 hugo server -D --disableFastRender</description>
     </item>
     
     <item>

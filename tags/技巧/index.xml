@@ -8,21 +8,12 @@
     <copyright>Copyright © 2020-{year} Meng Demao. All Rights Reserved.</copyright>
     <lastBuildDate>Tue, 04 May 2021 22:53:09 +0800</lastBuildDate><atom:link href="https://mengdemao.github.io/tags/%E6%8A%80%E5%B7%A7/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>antlr教程</title>
-      <link>https://mengdemao.github.io/posts/antlr/</link>
-      <pubDate>Tue, 04 May 2021 22:53:09 +0800</pubDate>
-      
-      <guid>https://mengdemao.github.io/posts/antlr/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Hugo使用教程</title>
+      <title>Hugo教程</title>
       <link>https://mengdemao.github.io/posts/hugo/</link>
       <pubDate>Tue, 04 May 2021 22:53:09 +0800</pubDate>
       
       <guid>https://mengdemao.github.io/posts/hugo/</guid>
-      <description>初始化hugo 1hugo new site 路径 创建文档 1hugo new post/hugo.md 设置预览 1 hugo server -D</description>
+      <description>基本操作 安装hugo 在linux/windows上只能通过直接release 下载, 创建网站 1hugo new site 路径 添加主题 创建文档 1hugo new posts/hugo.md 设置预览 1 hugo server -D --disableFastRender</description>
     </item>
     
   </channel>

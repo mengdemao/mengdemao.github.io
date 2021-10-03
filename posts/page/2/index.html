@@ -165,25 +165,12 @@
   </div>
 </nav><div class="posts mb-4"><article class="row card post component">
       <div class="card-body">
-        <h2 class="card-title post-title"><a href="https://mengdemao.github.io/posts/wait_queue/">Linux等待队列实现
-</a></h2><div class="post-meta"><span class="post-date" title="created on">
-    <i class="fas fa-fw fa-calendar-alt"></i>May 4, 2021
-  </span><span class="post-reading-time" title="reading time">
-    <i class="fas fa-fw fa-coffee"></i>1 分钟阅读
-  </span></div>
-<div class="post-summary">
-          
-          等待事件是建立在调度的基础之上的一种同步机制 使用 等待队列头 1struct __wait_queue_head { 2 wq_lock_t lock; 3 struct list_head task_list; 4}; 5typedef struct __wait_queue_head wait_queue_head_t; 等待队列实体 1struct __wait_queue { 2 unsigned int flags; 3 struct task_struct * task; 4 struct list_head task_list; 5}; 6typedef struct __wait_queue
-        </div>
-      </div>
-    </article><article class="row card post component">
-      <div class="card-body">
         <h2 class="card-title post-title"><a href="https://mengdemao.github.io/posts/antlr/">Antlr教程
 </a></h2><div class="post-meta"><span class="post-date" title="created on">
     <i class="fas fa-fw fa-calendar-alt"></i>May 4, 2021
   </span><span class="post-reading-time" title="reading time">
     <i class="fas fa-fw fa-coffee"></i>0 分钟阅读
-  </span><a href="https://mengdemao.github.io/tags/%E6%8A%80%E5%B7%A7/" class="post-taxonomy">技巧</a></div>
+  </span><a href="https://mengdemao.github.io/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" class="post-taxonomy">编译原理</a></div>
 <div class="post-summary">
           
           
@@ -191,7 +178,7 @@
       </div>
     </article><article class="row card post component">
       <div class="card-body">
-        <h2 class="card-title post-title"><a href="https://mengdemao.github.io/posts/hugo/">Hugo使用教程
+        <h2 class="card-title post-title"><a href="https://mengdemao.github.io/posts/hugo/">Hugo教程
 </a></h2><div class="post-meta"><span class="post-date" title="created on">
     <i class="fas fa-fw fa-calendar-alt"></i>May 4, 2021
   </span><span class="post-reading-time" title="reading time">
@@ -199,7 +186,7 @@
   </span><a href="https://mengdemao.github.io/tags/%E6%8A%80%E5%B7%A7/" class="post-taxonomy">技巧</a></div>
 <div class="post-summary">
           
-          初始化hugo 1hugo new site 路径 创建文档 1hugo new post/hugo.md 设置预览 1 hugo server -D
+          基本操作 安装hugo 在linux/windows上只能通过直接release 下载, 创建网站 1hugo new site 路径 添加主题 创建文档 1hugo new posts/hugo.md 设置预览 1 hugo server -D --disableFastRender
         </div>
       </div>
     </article><article class="row card post component">
@@ -254,10 +241,10 @@
   <div class="card-body">
     <h2 class="card-title">最近文章</h2>
     <ul><li><a href="https://mengdemao.github.io/posts/kobject/">Kobject
-</a></li><li><a href="https://mengdemao.github.io/posts/hugo%E6%B5%8B%E8%AF%95/">Hugo测试
 </a></li><li><a href="https://mengdemao.github.io/posts/luajit/">LuaJIT
-</a></li><li><a href="https://mengdemao.github.io/posts/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">编译原理
+</a></li><li><a href="https://mengdemao.github.io/posts/compiler_principles/">编译原理
 </a></li><li><a href="https://mengdemao.github.io/posts/page_allocator/">Page_allocator
+</a></li><li><a href="https://mengdemao.github.io/posts/wait_queue/">Linux等待队列实现
 </a></li></ul>
   </div>
 </section><section class="taxonomies row card component">
@@ -265,12 +252,14 @@
         <h2 class="card-title">
           <a href="https://mengdemao.github.io/tags">标签</a>
         </h2>
-        <div><a href="https://mengdemao.github.io/tags/%E6%8A%80%E5%B7%A7/" class="post-taxonomy rounded btn btn-sm btn-outline-primary me-2 mb-2" title="技巧">
-            技巧
-          </a><a href="https://mengdemao.github.io/tags/kernel/" class="post-taxonomy rounded btn btn-sm btn-outline-primary me-2 mb-2" title="kernel">
+        <div><a href="https://mengdemao.github.io/tags/kernel/" class="post-taxonomy rounded btn btn-sm btn-outline-primary me-2 mb-2" title="kernel">
             kernel
           </a><a href="https://mengdemao.github.io/tags/nfs/" class="post-taxonomy rounded btn btn-sm btn-outline-primary me-2 mb-2" title="nfs">
             nfs
+          </a><a href="https://mengdemao.github.io/tags/%E6%8A%80%E5%B7%A7/" class="post-taxonomy rounded btn btn-sm btn-outline-primary me-2 mb-2" title="技巧">
+            技巧
+          </a><a href="https://mengdemao.github.io/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" class="post-taxonomy rounded btn btn-sm btn-outline-primary me-2 mb-2" title="编译原理">
+            编译原理
           </a></div>
       </div>
     </section>

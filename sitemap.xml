@@ -17,16 +17,13 @@
     <loc>https://mengdemao.github.io/</loc>
     <lastmod>2021-10-01T23:32:46+08:00</lastmod>
   </url><url>
-    <loc>https://mengdemao.github.io/posts/hugo%E6%B5%8B%E8%AF%95/</loc>
-    <lastmod>2021-09-25T22:15:39+08:00</lastmod>
-  </url><url>
     <loc>https://mengdemao.github.io/about/</loc>
     <lastmod>2021-09-25T22:06:38+08:00</lastmod>
   </url><url>
     <loc>https://mengdemao.github.io/posts/luajit/</loc>
     <lastmod>2021-09-04T19:04:52+08:00</lastmod>
   </url><url>
-    <loc>https://mengdemao.github.io/posts/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/</loc>
+    <loc>https://mengdemao.github.io/posts/compiler_principles/</loc>
     <lastmod>2021-09-04T19:04:52+08:00</lastmod>
   </url><url>
     <loc>https://mengdemao.github.io/posts/page_allocator/</loc>
@@ -42,6 +39,9 @@
     <lastmod>2021-05-04T22:53:09+08:00</lastmod>
   </url><url>
     <loc>https://mengdemao.github.io/tags/%E6%8A%80%E5%B7%A7/</loc>
+    <lastmod>2021-05-04T22:53:09+08:00</lastmod>
+  </url><url>
+    <loc>https://mengdemao.github.io/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/</loc>
     <lastmod>2021-05-04T22:53:09+08:00</lastmod>
   </url><url>
     <loc>https://mengdemao.github.io/posts/nfs/</loc>
