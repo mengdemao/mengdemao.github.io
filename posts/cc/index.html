@@ -12,7 +12,7 @@
 <meta name="description" content="" /><meta itemprop="name" content="C&#43;&#43;教程">
 <meta itemprop="description" content="C&#43;&#43;教程 C&#43;&#43;基础语法 第一个程序 1#include &lt;iostream&gt;2 3using namespace std; 4 5int main(int argc, char *argv[]) 6{ 7 cout &lt;&lt; &#34;Hello World&#34; &lt;&lt; endl; 8 return 0; 9} 注释类型 单行注释 1// 这个是一个单行注释 多行注释 1/* 2这个里面是一"><meta itemprop="datePublished" content="2021-10-03T13:20:54+08:00" />
 <meta itemprop="dateModified" content="2021-10-03T13:20:54+08:00" />
-<meta itemprop="wordCount" content="1060">
+<meta itemprop="wordCount" content="1438">
 <meta itemprop="keywords" content="" /><meta property="og:title" content="C&#43;&#43;教程" />
 <meta property="og:description" content="C&#43;&#43;教程 C&#43;&#43;基础语法 第一个程序 1#include &lt;iostream&gt;2 3using namespace std; 4 5int main(int argc, char *argv[]) 6{ 7 cout &lt;&lt; &#34;Hello World&#34; &lt;&lt; endl; 8 return 0; 9} 注释类型 单行注释 1// 这个是一个单行注释 多行注释 1/* 2这个里面是一" />
 <meta property="og:type" content="article" />
@@ -233,6 +233,8 @@
         <li><a href="#c内存分区">C++内存分区</a></li>
         <li><a href="#newdelete操作符">new/delete操作符</a></li>
         <li><a href="#引用">引用</a></li>
+        <li><a href="#函数提高">函数提高</a></li>
+        <li><a href="#类和对象">类和对象</a></li>
       </ul>
     </li>
     <li><a href="#c提高编程">C++提高编程</a></li>
@@ -562,13 +564,96 @@
 <li>代码区: 存放程序的二进制代码,由操作系统管理</li>
 <li>全局区: 存放全局变量、静态变量和常量</li>
 <li>栈区: 编译器自动分配</li>
-<li>堆区 : 程序负责分配和释放</li>
+<li>堆区: 程序负责分配和释放</li>
 </ol>
 <h3 id="newdelete操作符">new/delete操作符</h3>
 <p>C++利用new操作符在堆区开辟内存</p>
 <h3 id="引用">引用</h3>
 <p>作用: 给变量起别名
 语法: 数据类型 &amp;别名 = 原名;</p>
+<h4 id="引用做参数">引用做参数</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="ln"> 1</span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="ln"> 2</span><span class="cp"></span><span class="kt">void</span> <span class="nf">swap</span><span class="p">(</span><span class="kt">int</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="o">&amp;</span><span class="n">b</span><span class="p">)</span> 
+<span class="ln"> 3</span><span class="p">{</span>
+<span class="ln"> 4</span>    <span class="kt">int</span> <span class="n">t</span><span class="p">;</span> <span class="n">t</span> <span class="o">=</span> <span class="n">a</span><span class="p">;</span><span class="n">a</span> <span class="o">=</span> <span class="n">b</span><span class="p">;</span><span class="n">b</span> <span class="o">=</span> <span class="n">t</span><span class="p">;</span>
+<span class="ln"> 5</span><span class="p">}</span>
+<span class="ln"> 6</span><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="ln"> 7</span><span class="p">{</span>
+<span class="ln"> 8</span>    <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span><span class="kt">int</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">12</span><span class="p">;</span>
+<span class="ln"> 9</span>    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;交换前&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">a</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39;\t&#39;</span> <span class="o">&lt;&lt;</span> <span class="n">b</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="ln">10</span>    <span class="n">swap</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">);</span>
+<span class="ln">11</span>    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;交换后&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">a</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39;\t&#39;</span> <span class="o">&lt;&lt;</span> <span class="n">b</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="ln">12</span>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="ln">13</span><span class="p">}</span>
+</code></pre></div><p>执行结果</p>
+<p><img class="img-fluid" alt="image-20211003222910241" src="https://raw.githubusercontent.com/mengdemao/picture/master/image-20211003222910241.png" loading="lazy"
+  
+   />
+
+</p>
+<h4 id="引用做返回值">引用做返回值</h4>
+<h4 id="引用的本质">引用的本质</h4>
+<p>引用的本质是C++内部实现的一个指针常量</p>
+<h4 id="常量引用">常量引用</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="ln">1</span><span class="k">const</span> <span class="kt">int</span> <span class="o">&amp;</span><span class="n">ref</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+</code></pre></div><h3 id="函数提高">函数提高</h3>
+<h4 id="函数默认值">函数默认值</h4>
+<ol>
+<li>某个位置有默认值，那么后面的参数也必须由默认值</li>
+<li>如果声明了默认值，那么实现不可以有默认值(默认参数会产生冲突)</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="ln"> 1</span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="ln"> 2</span><span class="cp"></span><span class="kt">void</span> <span class="nf">test_default_param</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+<span class="ln"> 3</span><span class="p">{</span>
+<span class="ln"> 4</span>    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">+</span> <span class="n">c</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> 
+<span class="ln"> 5</span><span class="p">}</span>
+<span class="ln"> 6</span><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="ln"> 7</span><span class="p">{</span>
+<span class="ln"> 8</span>    <span class="n">test_default_param</span><span class="p">();</span>
+<span class="ln"> 9</span>    <span class="n">test_default_param</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="ln">10</span>    <span class="n">test_default_param</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+<span class="ln">11</span>    <span class="n">test_default_param</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+<span class="ln">12</span>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="ln">13</span><span class="p">}</span>
+</code></pre></div><h4 id="函数的占位参数">函数的占位参数</h4>
+<p>占位参数还可以有默认值</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="ln"> 1</span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="ln"> 2</span><span class="cp"></span><span class="kt">void</span> <span class="nf">test</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span> 
+<span class="ln"> 3</span><span class="p">{</span>
+<span class="ln"> 4</span>    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">a</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="ln"> 5</span><span class="p">}</span>
+<span class="ln"> 6</span><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="ln"> 7</span><span class="p">{</span>
+<span class="ln"> 8</span>    <span class="n">test</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">);</span>
+<span class="ln"> 9</span>    <span class="n">test</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span>
+<span class="ln">10</span>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="ln">11</span><span class="p">}</span>
+</code></pre></div><h4 id="函数重载">函数重载</h4>
+<p>作用:函数名相同,提高复用性</p>
+<p>重载的条件:</p>
+<ol>
+<li>
+<p>相同作用域</p>
+</li>
+<li>
+<p>函数名相同</p>
+</li>
+<li>
+<p>参数不同(类型, 个数,顺序)</p>
+</li>
+</ol>
+<p>注意事项:</p>
+<ol>
+<li>引用作为重载条件</li>
+<li>函数重载碰到默认参数</li>
+</ol>
+<h3 id="类和对象">类和对象</h3>
+<p>类的访问属性</p>
+<ol>
+<li>public:</li>
+<li>protected:</li>
+<li>private:</li>
+</ol>
 <h2 id="c提高编程">C++提高编程</h2>
 </div><hr /><div class="post-navs d-flex mb-3 justify-content-evenly">
   <div class="post-nav post-prev"><i class="fas fa-fw fa-chevron-left"></i>
