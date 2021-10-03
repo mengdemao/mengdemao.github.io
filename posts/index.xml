@@ -6,7 +6,16 @@
     <description>Recent content in 文章 on 编程日志</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>Copyright © 2020-{year} Meng Demao. All Rights Reserved.</copyright>
-    <lastBuildDate>Sun, 03 Oct 2021 12:42:43 +0800</lastBuildDate><atom:link href="https://mengdemao.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 03 Oct 2021 12:58:02 +0800</lastBuildDate><atom:link href="https://mengdemao.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Doxygen</title>
+      <link>https://mengdemao.github.io/posts/doxygen/</link>
+      <pubDate>Sun, 03 Oct 2021 12:58:02 +0800</pubDate>
+      
+      <guid>https://mengdemao.github.io/posts/doxygen/</guid>
+      <description>doxygen教程 开始</description>
+    </item>
+    
     <item>
       <title>Engineering_compiler</title>
       <link>https://mengdemao.github.io/posts/engineering_compiler/</link>
