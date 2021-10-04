@@ -53,12 +53,12 @@
     </item>
     
     <item>
-      <title>C&#43;&#43;教程</title>
-      <link>https://mengdemao.github.io/posts/cc/</link>
+      <title>C&#43;&#43;笔记</title>
+      <link>https://mengdemao.github.io/posts/c&#43;&#43;/</link>
       <pubDate>Sun, 03 Oct 2021 13:20:54 +0800</pubDate>
       
-      <guid>https://mengdemao.github.io/posts/cc/</guid>
-      <description>C++教程 C++基础语法 第一个程序 1#include &amp;lt;iostream&amp;gt;2 3using namespace std; 4 5int main(int argc, char *argv[]) 6{ 7 cout &amp;lt;&amp;lt; &amp;#34;Hello World&amp;#34; &amp;lt;&amp;lt; endl; 8 return 0; 9} 注释类型 单行注释 1// 这个是一个单行注释 多行注释 1/* 2这个里面是一</description>
+      <guid>https://mengdemao.github.io/posts/c&#43;&#43;/</guid>
+      <description>C++基础语法 第一个程序 1#include &amp;lt;iostream&amp;gt;2 3using namespace std; 4 5int main(int argc, char *argv[]) 6{ 7 cout &amp;lt;&amp;lt; &amp;#34;Hello World&amp;#34; &amp;lt;&amp;lt; endl; 8 return 0; 9} 注释类型 单行注释 1// 这个是一个单行注释 多行注释 1/* 2这个里面是一个注释 3*/ 变</description>
     </item>
     
     <item>
