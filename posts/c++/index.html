@@ -12,7 +12,7 @@
 <meta name="description" content="" /><meta itemprop="name" content="C&#43;&#43;笔记">
 <meta itemprop="description" content="C&#43;&#43;基础语法 第一个程序 1#include &lt;iostream&gt;2 3using namespace std; 4 5int main(int argc, char *argv[]) 6{ 7 cout &lt;&lt; &#34;Hello World&#34; &lt;&lt; endl; 8 return 0; 9} 注释类型 单行注释 1// 这个是一个单行注释 多行注释 1/* 2这个里面是一个注释 3*/ 变"><meta itemprop="datePublished" content="2021-10-03T13:20:54+08:00" />
 <meta itemprop="dateModified" content="2021-10-03T13:20:54+08:00" />
-<meta itemprop="wordCount" content="2655">
+<meta itemprop="wordCount" content="3006">
 <meta itemprop="keywords" content="" /><meta property="og:title" content="C&#43;&#43;笔记" />
 <meta property="og:description" content="C&#43;&#43;基础语法 第一个程序 1#include &lt;iostream&gt;2 3using namespace std; 4 5int main(int argc, char *argv[]) 6{ 7 cout &lt;&lt; &#34;Hello World&#34; &lt;&lt; endl; 8 return 0; 9} 注释类型 单行注释 1// 这个是一个单行注释 多行注释 1/* 2这个里面是一个注释 3*/ 变" />
 <meta property="og:type" content="article" />
@@ -837,6 +837,110 @@ this指针本质：指针常量</p>
 <span class="ln">5</span>    <span class="n">t</span><span class="p">.</span><span class="n">m_B</span> <span class="o">=</span> <span class="n">p2</span><span class="p">.</span><span class="n">m_B</span> <span class="o">+</span> <span class="n">p2</span><span class="p">.</span><span class="n">m_B</span><span class="p">;</span>
 <span class="ln">6</span>    <span class="k">return</span> <span class="n">t</span><span class="p">;</span>
 <span class="ln">7</span><span class="p">}</span>
+</code></pre></div><h4 id="重载左移运算符">重载左移运算符</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="ln">1</span><span class="n">std</span><span class="o">::</span><span class="n">ostream</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">&lt;&lt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">ostream</span> <span class="o">&amp;</span><span class="n">cout</span><span class="p">,</span> <span class="n">Person</span> <span class="o">&amp;</span><span class="n">p</span><span class="p">)</span>
+<span class="ln">2</span><span class="p">{</span>
+<span class="ln">3</span>    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">p</span><span class="p">.</span><span class="n">m_A</span> <span class="o">&lt;&lt;</span> <span class="n">p</span><span class="p">.</span><span class="n">m_B</span><span class="p">;</span>
+<span class="ln">4</span>    <span class="k">return</span> <span class="n">cout</span><span class="p">;</span>
+<span class="ln">5</span><span class="p">}</span> 
+</code></pre></div><h4 id="递增重载">递增重载++</h4>
+<p>注意:</p>
+<ul>
+<li>前置递增  <strong>p++</strong></li>
+<li>后置递增 <strong>++p</strong></li>
+</ul>
+<h4 id="重载例子复数">重载例子(复数)</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="ln"> 1</span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="ln"> 2</span><span class="cp"></span>
+<span class="ln"> 3</span><span class="k">class</span> <span class="nc">Complex</span> <span class="p">{</span>
+<span class="ln"> 4</span>    <span class="k">friend</span> <span class="n">std</span><span class="o">::</span><span class="n">ostream</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">&lt;&lt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">ostream</span> <span class="o">&amp;</span><span class="n">cout</span><span class="p">,</span> <span class="n">Complex</span> <span class="n">p</span><span class="p">);</span>
+<span class="ln"> 5</span>
+<span class="ln"> 6</span><span class="k">public</span><span class="o">:</span>
+<span class="ln"> 7</span>    <span class="n">Complex</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="kt">int</span> <span class="n">j</span><span class="p">);</span>
+<span class="ln"> 8</span>    
+<span class="ln"> 9</span>    <span class="n">Complex</span><span class="p">();</span>
+<span class="ln">10</span>
+<span class="ln">11</span>    <span class="cm">/* 重载+ */</span>
+<span class="ln">12</span>    <span class="n">Complex</span> <span class="k">operator</span><span class="o">+</span><span class="p">(</span><span class="n">Complex</span> <span class="o">&amp;</span><span class="n">p</span><span class="p">)</span> 
+<span class="ln">13</span>    <span class="p">{</span>
+<span class="ln">14</span>        <span class="n">Complex</span> <span class="n">t</span><span class="p">;</span>
+<span class="ln">15</span>        <span class="n">t</span><span class="p">.</span><span class="n">i</span> <span class="o">=</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">i</span> <span class="o">+</span> <span class="n">p</span><span class="p">.</span><span class="n">i</span><span class="p">;</span>
+<span class="ln">16</span>        <span class="n">t</span><span class="p">.</span><span class="n">j</span> <span class="o">=</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">j</span> <span class="o">+</span> <span class="n">p</span><span class="p">.</span><span class="n">j</span><span class="p">;</span>
+<span class="ln">17</span>        <span class="k">return</span> <span class="n">t</span><span class="p">;</span>
+<span class="ln">18</span>    <span class="p">}</span>
+<span class="ln">19</span>    <span class="cm">/* 重载前置++ */</span>
+<span class="ln">20</span>    <span class="n">Complex</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">++</span><span class="p">()</span>
+<span class="ln">21</span>    <span class="p">{</span>
+<span class="ln">22</span>        <span class="k">this</span><span class="o">-&gt;</span><span class="n">i</span><span class="o">++</span><span class="p">;</span>
+<span class="ln">23</span>        <span class="k">this</span><span class="o">-&gt;</span><span class="n">j</span><span class="o">++</span><span class="p">;</span>
+<span class="ln">24</span>        <span class="k">return</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span> 
+<span class="ln">25</span>    <span class="p">}</span>
+<span class="ln">26</span>    
+<span class="ln">27</span>    <span class="cm">/* 重载后置++ */</span>
+<span class="ln">28</span>    <span class="n">Complex</span> <span class="k">operator</span><span class="o">++</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span>
+<span class="ln">29</span>    <span class="p">{</span>
+<span class="ln">30</span>        <span class="n">Complex</span> <span class="n">t</span><span class="p">;</span>
+<span class="ln">31</span>        
+<span class="ln">32</span>        <span class="cm">/* 记录 */</span>
+<span class="ln">33</span>        <span class="n">t</span><span class="p">.</span><span class="n">i</span> <span class="o">=</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">i</span><span class="p">;</span>
+<span class="ln">34</span>        <span class="n">t</span><span class="p">.</span><span class="n">j</span> <span class="o">=</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">j</span><span class="p">;</span>
+<span class="ln">35</span>
+<span class="ln">36</span>        <span class="cm">/* 递增 */</span>
+<span class="ln">37</span>        <span class="k">this</span><span class="o">-&gt;</span><span class="n">i</span><span class="o">++</span><span class="p">;</span>
+<span class="ln">38</span>        <span class="k">this</span><span class="o">-&gt;</span><span class="n">j</span><span class="o">++</span><span class="p">;</span>
+<span class="ln">39</span>
+<span class="ln">40</span>        <span class="k">return</span> <span class="n">t</span><span class="p">;</span> 
+<span class="ln">41</span>    <span class="p">}</span>
+<span class="ln">42</span>
+<span class="ln">43</span>    <span class="cm">/* 重载= */</span>
+<span class="ln">44</span>    <span class="n">Complex</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">Complex</span> <span class="o">&amp;</span><span class="n">p</span><span class="p">)</span>
+<span class="ln">45</span>    <span class="p">{</span>
+<span class="ln">46</span>        <span class="k">this</span><span class="o">-&gt;</span><span class="n">i</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="n">i</span><span class="p">;</span>
+<span class="ln">47</span>        <span class="k">this</span><span class="o">-&gt;</span><span class="n">j</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="n">j</span><span class="p">;</span>
+<span class="ln">48</span>
+<span class="ln">49</span>        <span class="k">return</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
+<span class="ln">50</span>    <span class="p">}</span>
+<span class="ln">51</span><span class="k">private</span><span class="o">:</span>
+<span class="ln">52</span>    <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>  <span class="cm">/* 实部 */</span>
+<span class="ln">53</span>    <span class="kt">int</span> <span class="n">j</span><span class="p">;</span>  <span class="cm">/* 虚部 */</span>
+<span class="ln">54</span><span class="p">};</span>
+<span class="ln">55</span>
+<span class="ln">56</span><span class="cm">/* 构造函数 */</span>
+<span class="ln">57</span><span class="n">Complex</span><span class="o">::</span><span class="n">Complex</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="kt">int</span> <span class="n">j</span><span class="p">)</span>
+<span class="ln">58</span><span class="p">{</span>
+<span class="ln">59</span>    <span class="k">this</span><span class="o">-&gt;</span><span class="n">i</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+<span class="ln">60</span>    <span class="k">this</span><span class="o">-&gt;</span><span class="n">j</span> <span class="o">=</span> <span class="n">j</span><span class="p">;</span>
+<span class="ln">61</span><span class="p">}</span>
+<span class="ln">62</span>
+<span class="ln">63</span><span class="n">Complex</span><span class="o">::</span><span class="n">Complex</span><span class="p">()</span>
+<span class="ln">64</span><span class="p">{</span>
+<span class="ln">65</span>    <span class="k">this</span><span class="o">-&gt;</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="ln">66</span>    <span class="k">this</span><span class="o">-&gt;</span><span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="ln">67</span><span class="p">}</span>
+<span class="ln">68</span>
+<span class="ln">69</span><span class="n">std</span><span class="o">::</span><span class="n">ostream</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">&lt;&lt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">ostream</span> <span class="o">&amp;</span><span class="n">cout</span><span class="p">,</span> <span class="n">Complex</span> <span class="n">p</span><span class="p">)</span>
+<span class="ln">70</span><span class="p">{</span>
+<span class="ln">71</span>    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">p</span><span class="p">.</span><span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;+&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">p</span><span class="p">.</span><span class="n">j</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;i&#34;</span><span class="p">;</span> 
+<span class="ln">72</span>    <span class="k">return</span> <span class="n">cout</span><span class="p">;</span>
+<span class="ln">73</span><span class="p">}</span> 
+<span class="ln">74</span>
+<span class="ln">75</span><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="ln">76</span><span class="p">{</span>
+<span class="ln">77</span>    <span class="n">Complex</span> <span class="n">p1</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+<span class="ln">78</span>    <span class="n">Complex</span> <span class="n">p2</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">);</span>
+<span class="ln">79</span>
+<span class="ln">80</span>    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">p1</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="ln">81</span>    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">p2</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="ln">82</span>    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">p1</span> <span class="o">+</span> <span class="n">p2</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="ln">83</span>
+<span class="ln">84</span>    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="o">++</span><span class="n">p1</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="ln">85</span>    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">p2</span><span class="o">++</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="ln">86</span>
+<span class="ln">87</span>    <span class="n">Complex</span> <span class="n">p3</span> <span class="o">=</span> <span class="n">p2</span> <span class="o">=</span> <span class="n">p1</span><span class="p">;</span>
+<span class="ln">88</span>    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">p1</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">p2</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">p3</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="ln">89</span>
+<span class="ln">90</span>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="ln">91</span><span class="p">}</span>
 </code></pre></div><h3 id="继承">继承</h3>
 <h3 id="多态">多态</h3>
 <h3 id="模版">模版</h3>
