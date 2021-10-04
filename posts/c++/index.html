@@ -12,7 +12,7 @@
 <meta name="description" content="" /><meta itemprop="name" content="C&#43;&#43;笔记">
 <meta itemprop="description" content="C&#43;&#43;基础语法 第一个程序 1#include &lt;iostream&gt;2 3using namespace std; 4 5int main(int argc, char *argv[]) 6{ 7 cout &lt;&lt; &#34;Hello World&#34; &lt;&lt; endl; 8 return 0; 9} 注释类型 单行注释 1// 这个是一个单行注释 多行注释 1/* 2这个里面是一个注释 3*/ 变"><meta itemprop="datePublished" content="2021-10-03T13:20:54+08:00" />
 <meta itemprop="dateModified" content="2021-10-03T13:20:54+08:00" />
-<meta itemprop="wordCount" content="3006">
+<meta itemprop="wordCount" content="3206">
 <meta itemprop="keywords" content="" /><meta property="og:title" content="C&#43;&#43;笔记" />
 <meta property="og:description" content="C&#43;&#43;基础语法 第一个程序 1#include &lt;iostream&gt;2 3using namespace std; 4 5int main(int argc, char *argv[]) 6{ 7 cout &lt;&lt; &#34;Hello World&#34; &lt;&lt; endl; 8 return 0; 9} 注释类型 单行注释 1// 这个是一个单行注释 多行注释 1/* 2这个里面是一个注释 3*/ 变" />
 <meta property="og:type" content="article" />
@@ -193,7 +193,7 @@
 </h1><div class="post-meta"><span class="post-date" title="created on">
     <i class="fas fa-fw fa-calendar-alt"></i>Oct 3, 2021
   </span><span class="post-reading-time" title="reading time">
-    <i class="fas fa-fw fa-coffee"></i>6 分钟阅读
+    <i class="fas fa-fw fa-coffee"></i>7 分钟阅读
   </span></div>
 <div class="offcanvas offcanvas-end surface" tabindex="-1" id="offcanvasTOC" aria-labelledby="offcanvasTOCLabel">
   <div class="offcanvas-header">
@@ -942,6 +942,35 @@ this指针本质：指针常量</p>
 <span class="ln">90</span>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="ln">91</span><span class="p">}</span>
 </code></pre></div><h3 id="继承">继承</h3>
+<p>减少重复代码</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="ln">1</span><span class="k">class</span> <span class="err">子类 : 继承方式 父类</span>
+</code></pre></div><p>父类:基类
+子类:派生类</p>
+<h4 id="继承方式">继承方式</h4>
+<ul>
+<li>公共继承</li>
+<li>保护继承</li>
+<li>私有继承</li>
+</ul>
+<h4 id="继承中的对象模型">继承中的对象模型</h4>
+<h4 id="构造和析构的顺序">构造和析构的顺序</h4>
+<blockquote>
+<p>先构造父类再构造子类
+先析构子类再析构父类</p>
+</blockquote>
+<h4 id="继承中同名成员处理">继承中同名成员处理</h4>
+<ul>
+<li>访问子类中同名成员,直接访问即可   s.m_A</li>
+<li>访问父类中同名成员,需要加上作用域 s.Base:m_A</li>
+</ul>
+<h4 id="多重继承">多重继承</h4>
+<p>C++允许一个类继承多个基类</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="ln">1</span><span class="k">class</span> <span class="err">子类 : 继承方式 父类1, 继承方式 父类2...</span>
+</code></pre></div><blockquote>
+<p>冲突解决：加上类名</p>
+</blockquote>
+<h4 id="菱形继承">菱形继承</h4>
+<p>孙子类继承了子类1和子类2,但是继承了两次父类。</p>
 <h3 id="多态">多态</h3>
 <h3 id="模版">模版</h3>
 <h2 id="c提高编程">C++提高编程</h2>
