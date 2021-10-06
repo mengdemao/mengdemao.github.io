@@ -162,6 +162,32 @@
 <div class="col-lg-8">
   <div class="container"><div class="posts mb-4"><article class="row card post component">
       <div class="card-body">
+        <h2 class="card-title post-title"><a href="https://mengdemao.github.io/posts/engineering_compiler/">Engineering_compiler
+</a></h2><div class="post-meta"><span class="post-date" title="created on">
+    <i class="fas fa-fw fa-calendar-alt"></i>Oct 3, 2021
+  </span><span class="post-reading-time" title="reading time">
+    <i class="fas fa-fw fa-coffee"></i>0 分钟阅读
+  </span><a href="https://mengdemao.github.io/tags/compiler/" class="post-taxonomy">compiler</a></div>
+<div class="post-summary">
+          
+          
+        </div>
+      </div>
+    </article><article class="row card post component">
+      <div class="card-body">
+        <h2 class="card-title post-title"><a href="https://mengdemao.github.io/posts/kobject/">Kobject
+</a></h2><div class="post-meta"><span class="post-date" title="created on">
+    <i class="fas fa-fw fa-calendar-alt"></i>Oct 1, 2021
+  </span><span class="post-reading-time" title="reading time">
+    <i class="fas fa-fw fa-coffee"></i>1 分钟阅读
+  </span><a href="https://mengdemao.github.io/tags/kernel/" class="post-taxonomy">kernel</a></div>
+<div class="post-summary">
+          
+          kobject 内核对象 为模块提供一个底层抽象 相关数据 kobject 1struct kobject { 2 const char *name; /* 名字 */ 3 struct list_head entry; /* 链表 */ 4 struct kobject *parent; /* 指向父对象,建立层次结构 */ 5 struct kset *kset; /* 对象集合 */ 6 struct
+        </div>
+      </div>
+    </article><article class="row card post component">
+      <div class="card-body">
         <h2 class="card-title post-title"><a href="https://mengdemao.github.io/posts/luajit/">LuaJIT
 </a></h2><div class="post-meta"><span class="post-date" title="created on">
     <i class="fas fa-fw fa-calendar-alt"></i>Sep 4, 2021
@@ -197,32 +223,6 @@
 <div class="post-summary">
           
           页面分配器 核心函数: __alloc_pages_nodemask gfp_mask : 分配掩码 order : 分配阶数 preferred_nid nodemask 核心函数 1struct page *__alloc_pages_nodemask(gfp_t gfp_mask, unsigned int order, int preferred_nid, nodemask_t *nodemask) 2{ 3 struct page *page; // 分配变量 4 unsigned int alloc_flags = ALLOC_WMARK_LOW; // 分配标志 5 gfp_t alloc_mask; // 真实分配掩
-        </div>
-      </div>
-    </article><article class="row card post component">
-      <div class="card-body">
-        <h2 class="card-title post-title"><a href="https://mengdemao.github.io/posts/wait_queue/">Linux等待队列实现
-</a></h2><div class="post-meta"><span class="post-date" title="created on">
-    <i class="fas fa-fw fa-calendar-alt"></i>May 4, 2021
-  </span><span class="post-reading-time" title="reading time">
-    <i class="fas fa-fw fa-coffee"></i>1 分钟阅读
-  </span></div>
-<div class="post-summary">
-          
-          等待事件是建立在调度的基础之上的一种同步机制 使用 等待队列头 1struct __wait_queue_head { 2 wq_lock_t lock; 3 struct list_head task_list; 4}; 5typedef struct __wait_queue_head wait_queue_head_t; 等待队列实体 1struct __wait_queue { 2 unsigned int flags; 3 struct task_struct * task; 4 struct list_head task_list; 5}; 6typedef struct __wait_queue
-        </div>
-      </div>
-    </article><article class="row card post component">
-      <div class="card-body">
-        <h2 class="card-title post-title"><a href="https://mengdemao.github.io/posts/antlr/">Antlr教程
-</a></h2><div class="post-meta"><span class="post-date" title="created on">
-    <i class="fas fa-fw fa-calendar-alt"></i>May 4, 2021
-  </span><span class="post-reading-time" title="reading time">
-    <i class="fas fa-fw fa-coffee"></i>0 分钟阅读
-  </span><a href="https://mengdemao.github.io/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" class="post-taxonomy">编译原理</a></div>
-<div class="post-summary">
-          
-          
         </div>
       </div>
     </article></div><div class="row table-responsive mb-3">
@@ -272,11 +272,11 @@
   <section class="recent-posts row card component">
   <div class="card-body">
     <h2 class="card-title">最近文章</h2>
-    <ul><li><a href="https://mengdemao.github.io/posts/slab/">Slab
+    <ul><li><a href="https://mengdemao.github.io/posts/python/">Python学习笔记
+</a></li><li><a href="https://mengdemao.github.io/posts/input_drive/">输入子系统
+</a></li><li><a href="https://mengdemao.github.io/posts/slab/">Slab
 </a></li><li><a href="https://mengdemao.github.io/posts/mmu/">Mmu
 </a></li><li><a href="https://mengdemao.github.io/posts/page/">Page
-</a></li><li><a href="https://mengdemao.github.io/posts/fork/">Fork
-</a></li><li><a href="https://mengdemao.github.io/posts/task/">任务管理
 </a></li></ul>
   </div>
 </section><section class="taxonomies row card component">

@@ -12,7 +12,7 @@
 <meta name="description" content="" /><meta itemprop="name" content="C&#43;&#43;笔记">
 <meta itemprop="description" content="C&#43;&#43;基础语法 第一个程序 1#include &lt;iostream&gt;2 3using namespace std; 4 5int main(int argc, char *argv[]) 6{ 7 cout &lt;&lt; &#34;Hello World&#34; &lt;&lt; endl; 8 return 0; 9} 注释类型 单行注释 1// 这个是一个单行注释 多行注释 1/* 2这个里面是一个注释 3*/ 变"><meta itemprop="datePublished" content="2021-10-03T13:20:54+08:00" />
 <meta itemprop="dateModified" content="2021-10-03T13:20:54+08:00" />
-<meta itemprop="wordCount" content="3206">
+<meta itemprop="wordCount" content="3945">
 <meta itemprop="keywords" content="" /><meta property="og:title" content="C&#43;&#43;笔记" />
 <meta property="og:description" content="C&#43;&#43;基础语法 第一个程序 1#include &lt;iostream&gt;2 3using namespace std; 4 5int main(int argc, char *argv[]) 6{ 7 cout &lt;&lt; &#34;Hello World&#34; &lt;&lt; endl; 8 return 0; 9} 注释类型 单行注释 1// 这个是一个单行注释 多行注释 1/* 2这个里面是一个注释 3*/ 变" />
 <meta property="og:type" content="article" />
@@ -193,7 +193,7 @@
 </h1><div class="post-meta"><span class="post-date" title="created on">
     <i class="fas fa-fw fa-calendar-alt"></i>Oct 3, 2021
   </span><span class="post-reading-time" title="reading time">
-    <i class="fas fa-fw fa-coffee"></i>7 分钟阅读
+    <i class="fas fa-fw fa-coffee"></i>8 分钟阅读
   </span></div>
 <div class="offcanvas offcanvas-end surface" tabindex="-1" id="offcanvasTOC" aria-labelledby="offcanvasTOCLabel">
   <div class="offcanvas-header">
@@ -247,10 +247,15 @@
         <li><a href="#运算符重载">运算符重载</a></li>
         <li><a href="#继承">继承</a></li>
         <li><a href="#多态">多态</a></li>
-        <li><a href="#模版">模版</a></li>
+        <li><a href="#虚析构和纯虚析构">虚析构和纯虚析构</a></li>
       </ul>
     </li>
-    <li><a href="#c提高编程">C++提高编程</a></li>
+    <li><a href="#c提高编程">C++提高编程</a>
+      <ul>
+        <li><a href="#模版">模版</a></li>
+        <li><a href="#类模板">类模板</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
   </div>
@@ -976,10 +981,136 @@ this指针本质：指针常量</p>
 
 </p>
 <p>孙子类继承了子类1和子类2,但是继承了两次父类。</p>
+<ul>
+<li>多重继承数据会产生二义性</li>
+<li>数据只需要一份即可</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="ln"> 1</span><span class="cm">/* 动物类 */</span>
+<span class="ln"> 2</span><span class="k">class</span> <span class="nc">Animal</span> <span class="p">{</span>
+<span class="ln"> 3</span><span class="k">public</span><span class="o">:</span>
+<span class="ln"> 4</span>    <span class="kt">int</span> <span class="n">m_age</span><span class="p">;</span>
+<span class="ln"> 5</span><span class="p">};</span>
+<span class="ln"> 6</span><span class="k">class</span> <span class="nc">Sheep</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Animal</span> <span class="p">{};</span> <span class="cm">/* 羊类 */</span>
+<span class="ln"> 7</span><span class="k">class</span> <span class="nc">Camel</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Animal</span> <span class="p">{};</span> <span class="cm">/* 驼类 */</span>
+<span class="ln"> 8</span><span class="k">class</span> <span class="nc">Alpaca</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Sheep</span><span class="p">,</span> <span class="k">public</span> <span class="n">Camel</span> <span class="p">{};</span> <span class="cm">/* 羊驼 */</span>
+<span class="ln"> 9</span><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="ln">10</span><span class="p">{</span>
+<span class="ln">11</span>    <span class="n">Alpaca</span> <span class="n">a</span><span class="p">;</span>
+<span class="ln">12</span>    <span class="n">a</span><span class="p">.</span><span class="n">Sheep</span><span class="o">::</span><span class="n">m_age</span> <span class="o">=</span> <span class="mi">18</span><span class="p">;</span>
+<span class="ln">13</span>    <span class="n">a</span><span class="p">.</span><span class="n">Camel</span><span class="o">::</span><span class="n">m_age</span> <span class="o">=</span> <span class="mi">18</span><span class="p">;</span>
+<span class="ln">14</span>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="ln">15</span><span class="p">}</span>
+</code></pre></div><blockquote>
+<p>虚继承</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="ln">1</span><span class="k">class</span> <span class="nc">Sheep</span> <span class="o">:</span> <span class="k">virtual</span> <span class="k">public</span> <span class="n">Animal</span> <span class="p">{};</span> <span class="cm">/* 羊类 */</span>
+<span class="ln">2</span><span class="k">class</span> <span class="nc">Camel</span> <span class="o">:</span> <span class="k">virtual</span> <span class="k">public</span> <span class="n">Animal</span> <span class="p">{};</span> <span class="cm">/* 驼类 */</span>
+</code></pre></div><h4 id="虚基类指针vbptr">虚基类指针(vbptr)</h4>
+<p>vbptr &ndash;&gt; vbtable</p>
 <h3 id="多态">多态</h3>
-<h3 id="模版">模版</h3>
+<ul>
+<li>分类
+<ul>
+<li>静态多态: 重载</li>
+<li>动态多态:虚函数</li>
+</ul>
+</li>
+<li>区别
+<ul>
+<li>静态多态函数地址早绑定:编译期确定函数地址</li>
+<li>动态多态函数地址晚绑定:运行期确定函数地址</li>
+</ul>
+</li>
+</ul>
+<p>父类接收子类的对象,在程序运行期间确定具体改调用那个函数;</p>
+<ul>
+<li>
+<p>有继承关系</p>
+</li>
+<li>
+<p>子类重写父类的虚函数
+重写：函数完全一致</p>
+</li>
+</ul>
+<h4 id="纯虚函数">纯虚函数</h4>
+<blockquote>
+<p>只要有一个纯虚函数，就称为抽象类</p>
+</blockquote>
+<ol>
+<li>抽象类无法直接实例化对象</li>
+<li>抽象子类必须重写父类的纯虚函数,否则也是抽象类</li>
+</ol>
+<h4 id="原理">原理</h4>
+<h3 id="虚析构和纯虚析构">虚析构和纯虚析构</h3>
 <h2 id="c提高编程">C++提高编程</h2>
-</div><hr /><div class="post-navs d-flex mb-3 justify-content-evenly">
+<blockquote>
+<p>泛型编程/STL</p>
+</blockquote>
+<h3 id="模版">模版</h3>
+<p>建立通用的模板,提高复用；</p>
+<p>C++提供两种模版机制:<strong>函数模版</strong>和<strong>类模板</strong></p>
+<h4 id="函数模版">函数模版</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="ln">1</span><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+<span class="ln">2</span><span class="err">函数声明和定义</span>
+</code></pre></div><ul>
+<li>template   	&ndash; 声明创建模版</li>
+<li>typename 	&ndash; 表明后面的符号是数据类型可以用class代替</li>
+<li>T 		            &ndash; 通用的数据类型</li>
+</ul>
+<h4 id="实例">实例</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="ln">1</span><span class="cm">/* 两个数据交换 */</span>
+<span class="ln">2</span><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+<span class="ln">3</span><span class="kt">void</span> <span class="n">swap</span><span class="p">(</span><span class="n">T</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">,</span> <span class="n">T</span> <span class="o">&amp;</span><span class="n">b</span><span class="p">)</span>
+<span class="ln">4</span><span class="p">{</span>
+<span class="ln">5</span>    <span class="n">T</span> <span class="n">t</span><span class="o">=</span> <span class="n">a</span><span class="p">;</span> <span class="n">a</span> <span class="o">=</span> <span class="n">b</span><span class="p">;</span> <span class="n">b</span> <span class="o">=</span> <span class="n">t</span><span class="p">;</span>
+<span class="ln">6</span><span class="p">}</span>
+</code></pre></div><h4 id="注意事项">注意事项</h4>
+<ul>
+<li>自动类型推导,必须导出类型一致的T才可以使用</li>
+<li>模版必须要确定T的数据类型,才可以使用</li>
+</ul>
+<h4 id="普通函数和函数模版的区别">普通函数和函数模版的区别</h4>
+<ul>
+<li>普通函数可以发生隐式类型转换</li>
+<li>函数模板: 用自动类型推导，不可以发生隐式转换</li>
+<li>函数模板: 用显示类型推导，可以发生隐式转换</li>
+</ul>
+<p>模版函数</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="ln">1</span><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+<span class="ln">2</span><span class="n">T</span> <span class="n">add</span><span class="p">(</span><span class="n">T</span> <span class="n">a</span><span class="p">,</span> <span class="n">T</span> <span class="n">b</span><span class="p">)</span>
+<span class="ln">3</span><span class="p">{</span>
+<span class="ln">4</span>    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">;</span>
+<span class="ln">5</span><span class="p">}</span>
+</code></pre></div><p>调用方法</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="ln">1</span><span class="cm">/* 自动推导 */</span>
+<span class="ln">2</span><span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">add</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="ln">3</span><span class="cm">/* 显示指定 */</span>
+<span class="ln">4</span><span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">add</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mf">3.14</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</code></pre></div><h4 id="普通函数和模版函数调用规则">普通函数和模版函数调用规则</h4>
+<ul>
+<li>普通函数和模版函数都可以调用,有限调用普通函数</li>
+<li>强制通过空模版参数强制调用函数模版:<strong>函数名&lt;&gt;(参数列表)</strong></li>
+<li>函数模版也可以重载</li>
+<li>函数模版更好的匹配,选择函数模版</li>
+</ul>
+<h3 id="类模板">类模板</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="ln">1</span><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
+<span class="ln">2</span><span class="err">类</span>
+</code></pre></div><p>例子</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="ln"> 1</span><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">NameType</span><span class="p">,</span> <span class="k">class</span> <span class="nc">AgeType</span><span class="o">&gt;</span>
+<span class="ln"> 2</span><span class="k">class</span> <span class="nc">Person</span> <span class="p">{</span>
+<span class="ln"> 3</span><span class="k">public</span><span class="o">:</span>
+<span class="ln"> 4</span>    <span class="n">Person</span><span class="p">(</span><span class="n">NameType</span> <span class="n">Name</span><span class="p">,</span> <span class="n">AgeType</span> <span class="n">Age</span><span class="p">)</span>
+<span class="ln"> 5</span>    <span class="p">{</span>
+<span class="ln"> 6</span>        <span class="n">m_Name</span> <span class="o">=</span> <span class="n">Name</span><span class="p">;</span>
+<span class="ln"> 7</span>        <span class="n">m_Age</span>  <span class="o">=</span> <span class="n">Age</span><span class="p">;</span>
+<span class="ln"> 8</span>    <span class="p">}</span>
+<span class="ln"> 9</span>    <span class="n">NameType</span> <span class="n">m_Name</span><span class="p">;</span>
+<span class="ln">10</span>    <span class="n">AgeType</span> <span class="n">m_Age</span><span class="p">;</span>
+<span class="ln">11</span><span class="p">};</span>
+</code></pre></div><p>调用</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="ln">1</span><span class="n">Person</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">p</span><span class="p">(</span><span class="s">&#34;Hello&#34;</span><span class="p">,</span> <span class="mi">99</span><span class="p">);</span>
+</code></pre></div></div><hr /><div class="post-navs d-flex mb-3 justify-content-evenly">
   <div class="post-nav post-prev"><i class="fas fa-fw fa-chevron-left"></i>
     <a href="https://mengdemao.github.io/posts/doxygen/">Doxygen
 </a>
@@ -1004,11 +1135,11 @@ this指针本质：指针常量</p>
   <section class="recent-posts row card component">
   <div class="card-body">
     <h2 class="card-title">最近文章</h2>
-    <ul><li><a href="https://mengdemao.github.io/posts/slab/">Slab
+    <ul><li><a href="https://mengdemao.github.io/posts/python/">Python学习笔记
+</a></li><li><a href="https://mengdemao.github.io/posts/input_drive/">输入子系统
+</a></li><li><a href="https://mengdemao.github.io/posts/slab/">Slab
 </a></li><li><a href="https://mengdemao.github.io/posts/mmu/">Mmu
 </a></li><li><a href="https://mengdemao.github.io/posts/page/">Page
-</a></li><li><a href="https://mengdemao.github.io/posts/fork/">Fork
-</a></li><li><a href="https://mengdemao.github.io/posts/task/">任务管理
 </a></li></ul>
   </div>
 </section><section class="taxonomies row card component">
