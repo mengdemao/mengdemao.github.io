@@ -6,7 +6,25 @@
     <description>Recent content on 编程日志</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>Copyright © 2020-{year} Meng Demao. All Rights Reserved.</copyright>
-    <lastBuildDate>Tue, 05 Oct 2021 21:22:39 +0800</lastBuildDate><atom:link href="https://mengdemao.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 06 Oct 2021 12:56:03 +0800</lastBuildDate><atom:link href="https://mengdemao.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Sds</title>
+      <link>https://mengdemao.github.io/posts/sds/</link>
+      <pubDate>Wed, 06 Oct 2021 12:56:03 +0800</pubDate>
+      
+      <guid>https://mengdemao.github.io/posts/sds/</guid>
+      <description>A C dynamic strings library C语言版本动态字符串库 SDS SDS的类型就是 1typedef char *sds; 可以明显的看到,sds就是普通的char类型 下面是sds的数据类型 1+--------+-------------------------------+-----------+ 2| Header | Binary safe C alike string...</description>
+    </item>
+    
+    <item>
+      <title>STL学习笔记</title>
+      <link>https://mengdemao.github.io/posts/stl/</link>
+      <pubDate>Wed, 06 Oct 2021 11:24:07 +0800</pubDate>
+      
+      <guid>https://mengdemao.github.io/posts/stl/</guid>
+      <description>STL称为标准模板库(Standard Template Library) 广义上可以分为容器,算法,迭代器 容器和算法通过迭代器进行无缝连接 STL几乎所有的代码都采用了函数模</description>
+    </item>
+    
     <item>
       <title>Python学习笔记</title>
       <link>https://mengdemao.github.io/posts/python/</link>
