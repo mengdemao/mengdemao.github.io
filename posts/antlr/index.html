@@ -10,11 +10,11 @@
 <link rel="icon" href="https://mengdemao.github.io/images/favicons/favicon.ico">
 <meta name="keywords" content="" />
 <meta name="description" content="" /><meta itemprop="name" content="antlr教程">
-<meta itemprop="description" content=""><meta itemprop="datePublished" content="2021-05-04T22:53:09+08:00" />
+<meta itemprop="description" content="简介 ANTLR是一款强大的语法分析器生成工具,用于读取、处理、执行和翻译结构化的文本或二进制文件. 类似于flex/bison,根据描述文件，"><meta itemprop="datePublished" content="2021-05-04T22:53:09+08:00" />
 <meta itemprop="dateModified" content="2021-05-04T22:53:09+08:00" />
-<meta itemprop="wordCount" content="0">
+<meta itemprop="wordCount" content="949">
 <meta itemprop="keywords" content="编译原理," /><meta property="og:title" content="antlr教程" />
-<meta property="og:description" content="" />
+<meta property="og:description" content="简介 ANTLR是一款强大的语法分析器生成工具,用于读取、处理、执行和翻译结构化的文本或二进制文件. 类似于flex/bison,根据描述文件，" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://mengdemao.github.io/posts/antlr/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2021-05-04T22:53:09+08:00" />
@@ -22,17 +22,49 @@
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="antlr教程"/>
-<meta name="twitter:description" content=""/>
-<link rel="preload" href="https://mengdemao.github.io/css/bundle.min.0687ddc8fe4a0959f7b5492cf776a19ded348369ddc6d3e84fd623bc97efcb32.css" integrity="sha256-BofdyP5KCVn3tUks93ahne00g2ndxtPoT9YjvJfvyzI=" crossorigin="anonymous" as="style" onload="this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="https://mengdemao.github.io/css/bundle.min.0687ddc8fe4a0959f7b5492cf776a19ded348369ddc6d3e84fd623bc97efcb32.css" integrity="sha256-BofdyP5KCVn3tUks93ahne00g2ndxtPoT9YjvJfvyzI=" crossorigin="anonymous"></noscript><script src="https://mengdemao.github.io/js/bundle.min.0de777e80f65c62eff834f970bb0d261ef28d7420911f1d6c99f39fce6a42cfc.js" integrity="sha256-Ded36A9lxi7/g0&#43;XC7DSYe8o10IJEfHWyZ85/OakLPw=" crossorigin="anonymous"></script></head>
+<meta name="twitter:description" content="简介 ANTLR是一款强大的语法分析器生成工具,用于读取、处理、执行和翻译结构化的文本或二进制文件. 类似于flex/bison,根据描述文件，"/>
+<link rel="preload" href="https://mengdemao.github.io/css/bundle.min.246fba476dcf1c6ec7112889ca361d534ede50402e1cfa44c320ed085ccf2488.css" integrity="sha256-JG&#43;6R23PHG7HESiJyjYdU07eUEAuHPpEwyDtCFzPJIg=" crossorigin="anonymous" as="style" onload="this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://mengdemao.github.io/css/bundle.min.246fba476dcf1c6ec7112889ca361d534ede50402e1cfa44c320ed085ccf2488.css" integrity="sha256-JG&#43;6R23PHG7HESiJyjYdU07eUEAuHPpEwyDtCFzPJIg=" crossorigin="anonymous"></noscript><script src="https://mengdemao.github.io/js/bundle.min.15ecaa25968e33a8e188bdf66437955c7b704c04e99084cca6db914ece5b43a2.js" integrity="sha256-FeyqJZaOM6jhiL32ZDeVXHtwTATpkITMptuRTs5bQ6I=" crossorigin="anonymous" defer></script></head>
   <body><script src="https://mengdemao.github.io/js/bootstrap.min.b5d86dd3a5f60c90be38a252bb65fc1a2732f32e71dc12c051720f0c7aef3cde.js" integrity="sha256-tdht06X2DJC&#43;OKJSu2X8Gicy8y5x3BLAUXIPDHrvPN4=" crossorigin="anonymous"></script><header><nav class="navbar top-app-bar top-app-bar-expand-lg fixed-top">
   <div class="container">
-    <button class="navbar-settings me-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSettings"
-  aria-controls="offcanvasSettings" aria-label="Toggle settings">
-  <i class="fas fa-bars"></i>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="fas fa-bars"></i>
+    </button><a class="navbar-brand me-3" href="https://mengdemao.github.io/"><img class="logo" alt="Logo" src="https://mengdemao.github.io/images/logo.webp" loading="lazy"
+   width="136" height="69"
+   />
+编程日志
+    </a>
+    <button class="navbar-social-share" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSocialShare"
+  aria-controls="offcanvasSocialShare" aria-label="Toggle social share">
+  <i class="fas fa-share-alt"></i>
 </button>
 
-<div class="offcanvas offcanvas-start surface" tabindex="-1" id="offcanvasSettings" aria-labelledby="offcanvasSettings">
+<div class="offcanvas offcanvas-bottom surface" tabindex="-1" id="offcanvasSocialShare" aria-labelledby="offcanvasSocialShare">
+  <div class="offcanvas-header">
+    <h3 class="offcanvas-title">Share</h3>
+    <button type="button" class="btn btn-sm btn-outline-primary" data-bs-dismiss="offcanvas" aria-label="Close">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+  <div class="offcanvas-body">
+    <a class="btn btn-sm btn-outline-primary social-share-button" rel="noopener noreferrer" aria-label="Twitter Share Button"
+      target="_blank" href="https://twitter.com/intent/tweet?title=antlr%e6%95%99%e7%a8%8b&url=https%3a%2f%2fmengdemao.github.io%2fposts%2fantlr%2f">
+      <i class="fab fa-fw fa-twitter"></i> Twitter
+    </a>
+    <a class="btn btn-sm btn-outline-primary social-share-button" rel="noopener noreferrer" aria-label="Facebook Share Button"
+      target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmengdemao.github.io%2fposts%2fantlr%2f">
+      <i class="fab fa-fw fa-facebook-f"></i> Facebook
+    </a>
+  </div>
+</div>
+
+    <button class="navbar-settings" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSettings"
+  aria-controls="offcanvasSettings" aria-label="Toggle settings">
+  <i class="fas fa-ellipsis-v"></i>
+</button>
+
+<div class="offcanvas offcanvas-end surface h-100" tabindex="-1" id="offcanvasSettings" aria-labelledby="offcanvasSettings">
   <div class="offcanvas-header">
     <h3 class="offcanvas-title">设置</h3>
     <button type="button" class="btn btn-sm btn-outline-primary" data-bs-dismiss="offcanvas" aria-label="Close">
@@ -85,38 +117,9 @@
         class="btn btn-sm palette" data-palette="brown">
       </button></div>
 </section>
-<section class="setting social-share">
-  <form class="row">
-    <div class="col-auto">
-      <label><i class="fas fa-fw fa-share-alt"></i> Share</label>
-    </div>
-    <div class="col-auto ms-auto">
-      <a class="btn btn-sm btn-outline-primary btn-social-share"><i class="fas fa-share"></i></a>
-    </div>
-  </form>
-  <div class="mt-2 social-share-buttons d-flex visually-hidden flex-nowrap">
-    <a class="btn btn-sm btn-outline-primary social-share-button" rel="noopener noreferrer" aria-label="Twitter Share Button"
-      target="_blank" href="https://twitter.com/intent/tweet?title=antlr%e6%95%99%e7%a8%8b&url=https%3a%2f%2fmengdemao.github.io%2fposts%2fantlr%2f">
-      <i class="fab fa-fw fa-twitter"></i> Twitter
-    </a>
-    <a class="btn btn-sm btn-outline-primary social-share-button" rel="noopener noreferrer" aria-label="Facebook Share Button"
-      target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmengdemao.github.io%2fposts%2fantlr%2f">
-      <i class="fab fa-fw fa-facebook-f"></i> Facebook
-    </a>
-  </div>
-</section>
+</div>
+</div>
 
-</div>
-</div>
-<a class="navbar-brand me-3" href="https://mengdemao.github.io/"><img class="logo" alt="Logo" src="https://mengdemao.github.io/images/logo.webp" loading="lazy"
-   width="136" height="69"
-   />
-编程日志
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <i class="fas fa-ellipsis-v"></i>
-    </button>
     <div class="collapse navbar-collapse" tabindex="-1" id="navbarSupportedContent" aria-labelledby="navbarSupportedContent">
       <form class="search-bar my-1" action="https://mengdemao.github.io/search">
   <div class="input-group input-group-sm">
@@ -168,11 +171,11 @@
   <div class="card-body">
     <ol class="breadcrumb "><li class="breadcrumb-item"><a href="https://mengdemao.github.io/">主页</a></li><li class="breadcrumb-item"><a href="https://mengdemao.github.io/posts/">文章</a></li><li class="breadcrumb-item active">Antlr教程</li></ol>
   </div>
-</nav><article class="post row card mb-4 component">
-  <div class="card-body"><div class="post-panel-wrapper">
-  <div class="post-panel d-flex flex-column">
+</nav>    <article class="row card component mb-4 post"><div class="post-panel-wrapper">
+  <div class="d-flex flex-column component rounded post-panel">
+    
     <a id="sidebarToggler" class="action d-none d-lg-block" role="button">
-  <i class="fas fa-fw fa-expand-arrows-alt"></i>
+  <i class="fas fa-fw fa-expand-alt" data-fa-transform="rotate-45"></i>
 </a>
   
     
@@ -186,16 +189,397 @@
 ">
   <i class="fas fa-fw fa-copyright"></i>
 </a>
+    <a class="action" data-bs-toggle="offcanvas" href="#offcanvasTOC" aria-controls="offcanvasTOC" role="button">
+  <i class="fas fa-fw fa-list-alt"></i>
+</a>
     
   </div>
 </div>
-<h1 class="card-title my-3">Antlr教程
+<div class="card-body">
+        <h1 class="card-title my-3">Antlr教程
 </h1><div class="post-meta"><span class="post-date" title="created on">
     <i class="fas fa-fw fa-calendar-alt"></i>May 4, 2021
   </span><span class="post-reading-time" title="reading time">
-    <i class="fas fa-fw fa-coffee"></i>0 分钟阅读
-  </span><a href="https://mengdemao.github.io/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" class="post-taxonomy">编译原理</a></div>
-<div class="post-content mb-3"></div><div class="modal fade" id="rewardModal" tabindex="-1" aria-labelledby="rewardModalLabel" aria-hidden="true">
+    <i class="fas fa-fw fa-coffee"></i>2 分钟阅读
+  </span><a href="https://mengdemao.github.io/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" class="badge rounded-pill text-white bg-primary post-taxonomy">编译原理</a></div>
+<div class="offcanvas offcanvas-end surface h-100" tabindex="-1" id="offcanvasTOC" aria-labelledby="offcanvasTOCLabel">
+  <div class="offcanvas-header">
+    <h2 class="offcanvas-title" id="offcanvasTOCLabel">目录</h5>
+      <button type="button" class="btn btn-sm btn-outline-primary" data-bs-dismiss="offcanvas" aria-label="Close">
+        <i class="fas fa-times"></i>
+      </button>
+  </div>
+  <div class="offcanvas-body">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#简介">简介</a></li>
+    <li><a href="#安装说明">安装说明</a></li>
+    <li><a href="#语法设计">语法设计</a></li>
+    <li><a href="#错误处理">错误处理</a></li>
+    <li><a href="#解析器">解析器</a></li>
+    <li><a href="#测试程序">测试程序</a>
+      <ul>
+        <li><a href="#antlr4编译器">antlr4编译器</a></li>
+        <li><a href="#编译生成的java文件">编译生成的java文件</a></li>
+        <li><a href="#运行编译的结果">运行编译的结果</a></li>
+      </ul>
+    </li>
+    <li><a href="#antlr语法详解">antlr语法详解</a>
+      <ul>
+        <li><a href="#hello">Hello</a></li>
+        <li><a href="#arrayinit">ArrayInit</a></li>
+        <li><a href="#expr">Expr</a></li>
+        <li><a href="#json">json</a></li>
+        <li><a href="#xml">XML</a></li>
+        <li><a href="#dot">dot</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div><div class="post-content mb-3"><h2 id="简介">简介</h2>
+<blockquote>
+<p>ANTLR是一款强大的语法分析器生成工具,用于读取、处理、执行和翻译结构化的文本或二进制文件.</p>
+</blockquote>
+<p>类似于flex/bison,根据描述文件，自动生成词法语法分析器</p>
+<h2 id="安装说明">安装说明</h2>
+<ol>
+<li>下载<a href="https://www.antlr.org/download/antlr-4.9.2-complete.jar" target="_blank" rel="noopener noreferrer">antlr</a>
+</li>
+<li>设置path和classpath</li>
+<li>编写相关脚本</li>
+</ol>
+<h2 id="语法设计">语法设计</h2>
+<h2 id="错误处理">错误处理</h2>
+<h2 id="解析器">解析器</h2>
+<h2 id="测试程序">测试程序</h2>
+<h3 id="antlr4编译器">antlr4编译器</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="ln">1</span><span class="cp">#!/bin/sh
+</span><span class="ln">2</span><span class="cp"></span>antlr4 Expr.g4
+</code></pre></div><h3 id="编译生成的java文件">编译生成的java文件</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="ln">1</span>javac *.java
+</code></pre></div><h3 id="运行编译的结果">运行编译的结果</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln">1</span>grun Expr prog -tree
+</code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="ln">1</span>(prog (stat (expr (expr (expr 1) + (expr 2)) + (expr 3)) \r\n))
+</code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="ln">1</span>grun Expr prog -gui			
+</code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="ln">1</span>grun Expr prog -tokens
+</code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="ln">1</span>[@0,0:0=&#39;1&#39;,&lt;INT&gt;,1:0]
+<span class="ln">2</span>[@1,1:1=&#39;+&#39;,&lt;&#39;+&#39;&gt;,1:1]
+<span class="ln">3</span>[@2,2:2=&#39;2&#39;,&lt;INT&gt;,1:2]
+<span class="ln">4</span>[@3,3:3=&#39;+&#39;,&lt;&#39;+&#39;&gt;,1:3]
+<span class="ln">5</span>[@4,4:4=&#39;3&#39;,&lt;INT&gt;,1:4]
+<span class="ln">6</span>[@5,5:6=&#39;\r\n&#39;,&lt;NEWLINE&gt;,1:5]
+<span class="ln">7</span>[@6,7:6=&#39;&lt;EOF&gt;&#39;,&lt;EOF&gt;,2:0]
+</code></pre></div><h2 id="antlr语法详解">antlr语法详解</h2>
+<h3 id="hello">Hello</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-antlr" data-lang="antlr"><span class="ln">1</span><span class="c">// antlr4 Hello.g4</span><span class="w">
+</span><span class="ln">2</span><span class="w"></span><span class="c">// javac *.java</span><span class="w">
+</span><span class="ln">3</span><span class="w"></span><span class="c">// grun Hello r -gui</span><span class="w">
+</span><span class="ln">4</span><span class="w"></span><span class="k">grammar</span><span class="w"> </span><span class="nc">Hello</span><span class="p">;</span><span class="w">              </span><span class="c">// 定义一个Hello的grammer</span><span class="w">
+</span><span class="ln">5</span><span class="w"></span><span class="nl">r</span><span class="w">  </span><span class="p">:</span><span class="w"> </span><span class="s">&#39;hello&#39;</span><span class="w"> </span><span class="no">ID</span><span class="w"> </span><span class="p">;</span><span class="w">           </span><span class="c">// 开头是hello后面接着一个ID</span><span class="w">
+</span><span class="ln">6</span><span class="w"></span><span class="nl">ID</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="x">a-z</span><span class="p">]</span><span class="o">+</span><span class="w"> </span><span class="p">;</span><span class="w">               </span><span class="c">// ID由小写字母组成</span><span class="w">
+</span><span class="ln">7</span><span class="w"></span><span class="nl">WS</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="x"> \t\r\n</span><span class="p">]</span><span class="o">+</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nv">skip</span><span class="w"> </span><span class="p">;</span><span class="w">   </span><span class="c">// 控制符清除</span><span class="w">
+</span></code></pre></div><h3 id="arrayinit">ArrayInit</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-antlr" data-lang="antlr"><span class="ln"> 1</span><span class="c">// antlr4 ArrayInit.g4</span><span class="w">
+</span><span class="ln"> 2</span><span class="w"></span><span class="c">// javac *.java</span><span class="w">
+</span><span class="ln"> 3</span><span class="w"></span><span class="c">// grun ArrayInit init -gui</span><span class="w">
+</span><span class="ln"> 4</span><span class="w"></span><span class="k">grammar</span><span class="w"> </span><span class="nc">ArrayInit</span><span class="p">;</span><span class="w">						</span><span class="c">// 定义一个ArrayInit的grammer</span><span class="w">
+</span><span class="ln"> 5</span><span class="w"></span><span class="nl">init</span><span class="w">    </span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{&#39;</span><span class="w"> </span><span class="nv">value</span><span class="w"> </span><span class="o">(</span><span class="s">&#39;,&#39;</span><span class="w"> </span><span class="nv">value</span><span class="o">)*</span><span class="w"> </span><span class="s">&#39;}&#39;</span><span class="w"> </span><span class="p">;</span><span class="w"> 	</span><span class="c">// </span><span class="w">
+</span><span class="ln"> 6</span><span class="w"></span><span class="nl">value</span><span class="w">   </span><span class="p">:</span><span class="w"> </span><span class="nv">init</span><span class="w">							</span><span class="c">// 嵌套定义</span><span class="w">
+</span><span class="ln"> 7</span><span class="w">        </span><span class="o">|</span><span class="w"> </span><span class="no">INT</span><span class="w">							</span><span class="c">// 定义整数</span><span class="w">
+</span><span class="ln"> 8</span><span class="w">        </span><span class="p">;</span><span class="w">
+</span><span class="ln"> 9</span><span class="w"></span><span class="nl">INT</span><span class="w">     </span><span class="p">:</span><span class="w">   </span><span class="p">[</span><span class="x">0-9</span><span class="p">]</span><span class="o">+</span><span class="w"> </span><span class="p">;</span><span class="w">
+</span><span class="ln">10</span><span class="w"></span><span class="nl">WS</span><span class="w">      </span><span class="p">:</span><span class="w">   </span><span class="p">[</span><span class="x"> \t\r\n</span><span class="p">]</span><span class="o">+</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nv">skip</span><span class="w"> </span><span class="p">;</span><span class="w">
+</span></code></pre></div><p>()* &ndash;&gt; 相当于扩展</p>
+<h3 id="expr">Expr</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-antlr" data-lang="antlr"><span class="ln"> 1</span><span class="c">// antlr4 Expr.g4</span><span class="w">
+</span><span class="ln"> 2</span><span class="w"></span><span class="c">// javac *.java</span><span class="w">
+</span><span class="ln"> 3</span><span class="w"></span><span class="c">// grun Expr prog -gui</span><span class="w">
+</span><span class="ln"> 4</span><span class="w"></span><span class="k">grammar</span><span class="w"> </span><span class="nc">Expr</span><span class="p">;</span><span class="w">
+</span><span class="ln"> 5</span><span class="w">
+</span><span class="ln"> 6</span><span class="w"></span><span class="nl">prog</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nv">stat</span><span class="o">+</span><span class="p">;</span><span class="w">
+</span><span class="ln"> 7</span><span class="w">
+</span><span class="ln"> 8</span><span class="w"></span><span class="nl">stat</span><span class="p">:</span><span class="w"> </span><span class="nv">expr</span><span class="w"> </span><span class="no">NEWLINE</span><span class="w">          </span><span class="o">#</span><span class="w"> </span><span class="nv">printExpr</span><span class="w">
+</span><span class="ln"> 9</span><span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="no">ID</span><span class="w"> </span><span class="s">&#39;=&#39;</span><span class="w"> </span><span class="nv">expr</span><span class="w"> </span><span class="no">NEWLINE</span><span class="w">   </span><span class="o">#</span><span class="w"> </span><span class="nv">assign</span><span class="w">
+</span><span class="ln">10</span><span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="no">NEWLINE</span><span class="w">               </span><span class="o">#</span><span class="w"> </span><span class="nv">blank</span><span class="w">
+</span><span class="ln">11</span><span class="w">    </span><span class="p">;</span><span class="w">
+</span><span class="ln">12</span><span class="w">
+</span><span class="ln">13</span><span class="w"></span><span class="nl">expr</span><span class="p">:</span><span class="w"> </span><span class="nv">expr</span><span class="w"> </span><span class="nv">op</span><span class="o">=(</span><span class="s">&#39;*&#39;</span><span class="o">|</span><span class="s">&#39;/&#39;</span><span class="o">)</span><span class="w"> </span><span class="nv">expr</span><span class="w">        </span><span class="o">#</span><span class="w"> </span><span class="no">MulDiv</span><span class="w">
+</span><span class="ln">14</span><span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="nv">expr</span><span class="w"> </span><span class="nv">op</span><span class="o">=(</span><span class="s">&#39;+&#39;</span><span class="o">|</span><span class="s">&#39;-&#39;</span><span class="o">)</span><span class="w"> </span><span class="nv">expr</span><span class="w">        </span><span class="o">#</span><span class="w"> </span><span class="no">AddSub</span><span class="w">
+</span><span class="ln">15</span><span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="no">INT</span><span class="w">                           </span><span class="o">#</span><span class="w"> </span><span class="nv">int</span><span class="w">
+</span><span class="ln">16</span><span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="no">ID</span><span class="w">                            </span><span class="o">#</span><span class="w"> </span><span class="nv">id</span><span class="w">
+</span><span class="ln">17</span><span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="s">&#39;(&#39;</span><span class="nv">expr</span><span class="s">&#39;)&#39;</span><span class="w">                  </span><span class="o">#</span><span class="w"> </span><span class="nv">parens</span><span class="w">
+</span><span class="ln">18</span><span class="w">    </span><span class="p">;</span><span class="w">
+</span><span class="ln">19</span><span class="w">
+</span><span class="ln">20</span><span class="w"></span><span class="nl">MUL</span><span class="w">     </span><span class="p">:</span><span class="w"> </span><span class="s">&#39;*&#39;</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="c">// assigns token name to &#39;*&#39; used above in grammar</span><span class="w">
+</span><span class="ln">21</span><span class="w"></span><span class="nl">DIV</span><span class="w">     </span><span class="p">:</span><span class="w"> </span><span class="s">&#39;/&#39;</span><span class="w"> </span><span class="p">;</span><span class="w">
+</span><span class="ln">22</span><span class="w"></span><span class="nl">ADD</span><span class="w">     </span><span class="p">:</span><span class="w"> </span><span class="s">&#39;+&#39;</span><span class="w"> </span><span class="p">;</span><span class="w">
+</span><span class="ln">23</span><span class="w"></span><span class="nl">SUB</span><span class="w">     </span><span class="p">:</span><span class="w"> </span><span class="s">&#39;-&#39;</span><span class="w"> </span><span class="p">;</span><span class="w">
+</span><span class="ln">24</span><span class="w"></span><span class="nl">ID</span><span class="w">      </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="x">a-zA-Z</span><span class="p">]</span><span class="o">+</span><span class="w"> </span><span class="p">;</span><span class="w">
+</span><span class="ln">25</span><span class="w"></span><span class="nl">INT</span><span class="w">     </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="x">0-9</span><span class="p">]</span><span class="o">+</span><span class="w"> </span><span class="p">;</span><span class="w">
+</span><span class="ln">26</span><span class="w"></span><span class="nl">NEWLINE</span><span class="w"> </span><span class="p">:</span><span class="s">&#39;\r&#39;</span><span class="o">?</span><span class="w"> </span><span class="s">&#39;\n&#39;</span><span class="w"> </span><span class="p">;</span><span class="w">
+</span><span class="ln">27</span><span class="w"></span><span class="nl">WS</span><span class="w">      </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="x"> \t</span><span class="p">]</span><span class="o">+</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nv">skip</span><span class="p">;</span><span class="w">
+</span></code></pre></div><h3 id="json">json</h3>
+<blockquote>
+<p>在词法规则中那些不会被语法规则直接调用的词法规则可以用一个fragment关键字来标识，
+fragment标识的规则只能为其它词法规则提供基础</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln"> 1</span>grammar JSON;	// 声明一个grammar
+<span class="ln"> 2</span>
+<span class="ln"> 3</span>json
+<span class="ln"> 4</span>   : value		// 一个value候选
+<span class="ln"> 5</span>   ;
+<span class="ln"> 6</span>
+<span class="ln"> 7</span>obj				// 对象类型
+<span class="ln"> 8</span>   : &#39;{&#39; pair (&#39;,&#39; pair)* &#39;}&#39;
+<span class="ln"> 9</span>   | &#39;{&#39; &#39;}&#39;
+<span class="ln">10</span>   ;
+<span class="ln">11</span>
+<span class="ln">12</span>pair
+<span class="ln">13</span>   : STRING &#39;:&#39; value
+<span class="ln">14</span>   ;
+<span class="ln">15</span>
+<span class="ln">16</span>arr
+<span class="ln">17</span>   : &#39;[&#39; value (&#39;,&#39; value)* &#39;]&#39;
+<span class="ln">18</span>   | &#39;[&#39; &#39;]&#39;
+<span class="ln">19</span>   ;
+<span class="ln">20</span>
+<span class="ln">21</span>value
+<span class="ln">22</span>   : STRING
+<span class="ln">23</span>   | NUMBER
+<span class="ln">24</span>   | obj
+<span class="ln">25</span>   | arr
+<span class="ln">26</span>   | &#39;true&#39;
+<span class="ln">27</span>   | &#39;false&#39;
+<span class="ln">28</span>   | &#39;null&#39;
+<span class="ln">29</span>   ;
+<span class="ln">30</span>
+<span class="ln">31</span>
+<span class="ln">32</span>STRING
+<span class="ln">33</span>   : &#39;&#34;&#39; (ESC | SAFECODEPOINT)* &#39;&#34;&#39;
+<span class="ln">34</span>   ;
+<span class="ln">35</span>
+<span class="ln">36</span>
+<span class="ln">37</span>fragment ESC
+<span class="ln">38</span>   : &#39;\\&#39; ([&#34;\\/bfnrt] | UNICODE)
+<span class="ln">39</span>   ;
+<span class="ln">40</span>
+<span class="ln">41</span>
+<span class="ln">42</span>fragment UNICODE
+<span class="ln">43</span>   : &#39;u&#39; HEX HEX HEX HEX
+<span class="ln">44</span>   ;
+<span class="ln">45</span>
+<span class="ln">46</span>
+<span class="ln">47</span>fragment HEX
+<span class="ln">48</span>   : [0-9a-fA-F]
+<span class="ln">49</span>   ;
+<span class="ln">50</span>
+<span class="ln">51</span>
+<span class="ln">52</span>fragment SAFECODEPOINT
+<span class="ln">53</span>   : ~ [&#34;\\\u0000-\u001F]
+<span class="ln">54</span>   ;
+<span class="ln">55</span>
+<span class="ln">56</span>
+<span class="ln">57</span>NUMBER
+<span class="ln">58</span>   : &#39;-&#39;? INT (&#39;.&#39; [0-9] +)? EXP?
+<span class="ln">59</span>   ;
+<span class="ln">60</span>
+<span class="ln">61</span>
+<span class="ln">62</span>fragment INT
+<span class="ln">63</span>   : &#39;0&#39; | [1-9] [0-9]*
+<span class="ln">64</span>   ;
+<span class="ln">65</span>
+<span class="ln">66</span>// no leading zeros
+<span class="ln">67</span>
+<span class="ln">68</span>fragment EXP
+<span class="ln">69</span>   : [Ee] [+\-]? INT
+<span class="ln">70</span>   ;
+<span class="ln">71</span>
+<span class="ln">72</span>// \- since - means &#34;range&#34; inside [...]
+<span class="ln">73</span>
+<span class="ln">74</span>WS
+<span class="ln">75</span>   : [ \t\n\r] + -&gt; skip
+<span class="ln">76</span>   ;
+</code></pre></div><p>测试例子</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="ln"> 1</span><span class="p">{</span>
+<span class="ln"> 2</span>    <span class="nt">&#34;glossary&#34;</span><span class="p">:</span> <span class="p">{</span>
+<span class="ln"> 3</span>        <span class="nt">&#34;title&#34;</span><span class="p">:</span> <span class="s2">&#34;example glossary&#34;</span><span class="p">,</span>
+<span class="ln"> 4</span>		<span class="nt">&#34;GlossDiv&#34;</span><span class="p">:</span> <span class="p">{</span>
+<span class="ln"> 5</span>            <span class="nt">&#34;title&#34;</span><span class="p">:</span> <span class="s2">&#34;S&#34;</span><span class="p">,</span>
+<span class="ln"> 6</span>			<span class="nt">&#34;GlossList&#34;</span><span class="p">:</span> <span class="p">{</span>
+<span class="ln"> 7</span>                <span class="nt">&#34;GlossEntry&#34;</span><span class="p">:</span> <span class="p">{</span>
+<span class="ln"> 8</span>                    <span class="nt">&#34;ID&#34;</span><span class="p">:</span> <span class="s2">&#34;SGML&#34;</span><span class="p">,</span>
+<span class="ln"> 9</span>					<span class="nt">&#34;SortAs&#34;</span><span class="p">:</span> <span class="s2">&#34;SGML&#34;</span><span class="p">,</span>
+<span class="ln">10</span>					<span class="nt">&#34;GlossTerm&#34;</span><span class="p">:</span> <span class="s2">&#34;Standard Generalized Markup Language&#34;</span><span class="p">,</span>
+<span class="ln">11</span>					<span class="nt">&#34;Acronym&#34;</span><span class="p">:</span> <span class="s2">&#34;SGML&#34;</span><span class="p">,</span>
+<span class="ln">12</span>					<span class="nt">&#34;Abbrev&#34;</span><span class="p">:</span> <span class="s2">&#34;ISO 8879:1986&#34;</span><span class="p">,</span>
+<span class="ln">13</span>					<span class="nt">&#34;GlossDef&#34;</span><span class="p">:</span> <span class="p">{</span>
+<span class="ln">14</span>                        <span class="nt">&#34;para&#34;</span><span class="p">:</span> <span class="s2">&#34;A meta-markup language&#34;</span><span class="p">,</span>
+<span class="ln">15</span>						<span class="nt">&#34;GlossSeeAlso&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;GML&#34;</span><span class="p">,</span> <span class="s2">&#34;XML&#34;</span><span class="p">]</span>
+<span class="ln">16</span>                    <span class="p">},</span>
+<span class="ln">17</span>					<span class="nt">&#34;GlossSee&#34;</span><span class="p">:</span> <span class="s2">&#34;markup&#34;</span>
+<span class="ln">18</span>                <span class="p">}</span>
+<span class="ln">19</span>            <span class="p">}</span>
+<span class="ln">20</span>        <span class="p">}</span>
+<span class="ln">21</span>    <span class="p">}</span>
+<span class="ln">22</span><span class="p">}</span>
+</code></pre></div><p>显示结果：</p>
+<h3 id="xml">XML</h3>
+<blockquote>
+<p>孤岛语法:</p>
+</blockquote>
+<h3 id="dot">dot</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-antlr" data-lang="antlr"><span class="ln">  1</span><span class="k">grammar</span><span class="w"> </span><span class="nc">DOT</span><span class="p">;</span><span class="w">
+</span><span class="ln">  2</span><span class="w">
+</span><span class="ln">  3</span><span class="w"></span><span class="nl">graph</span><span class="w">
+</span><span class="ln">  4</span><span class="w">   </span><span class="p">:</span><span class="w"> </span><span class="no">STRICT</span><span class="o">?</span><span class="w"> </span><span class="o">(</span><span class="w"> </span><span class="no">GRAPH</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="no">DIGRAPH</span><span class="w"> </span><span class="o">)</span><span class="w"> </span><span class="nv">id_</span><span class="o">?</span><span class="w"> </span><span class="s">&#39;{&#39;</span><span class="w"> </span><span class="nv">stmt_list</span><span class="w"> </span><span class="s">&#39;}&#39;</span><span class="w">
+</span><span class="ln">  5</span><span class="w">   </span><span class="p">;</span><span class="w">
+</span><span class="ln">  6</span><span class="w">
+</span><span class="ln">  7</span><span class="w"></span><span class="nl">stmt_list</span><span class="w">
+</span><span class="ln">  8</span><span class="w">   </span><span class="p">:</span><span class="w"> </span><span class="o">(</span><span class="w"> </span><span class="nv">stmt</span><span class="w"> </span><span class="s">&#39;;&#39;</span><span class="o">?</span><span class="w"> </span><span class="o">)*</span><span class="w">
+</span><span class="ln">  9</span><span class="w">   </span><span class="p">;</span><span class="w">
+</span><span class="ln"> 10</span><span class="w">
+</span><span class="ln"> 11</span><span class="w"></span><span class="nl">stmt</span><span class="w">
+</span><span class="ln"> 12</span><span class="w">   </span><span class="p">:</span><span class="w"> </span><span class="nv">node_stmt</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nv">edge_stmt</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nv">attr_stmt</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nv">id_</span><span class="w"> </span><span class="s">&#39;=&#39;</span><span class="w"> </span><span class="nv">id_</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nv">subgraph</span><span class="w">
+</span><span class="ln"> 13</span><span class="w">   </span><span class="p">;</span><span class="w">
+</span><span class="ln"> 14</span><span class="w">
+</span><span class="ln"> 15</span><span class="w"></span><span class="nl">attr_stmt</span><span class="w">
+</span><span class="ln"> 16</span><span class="w">   </span><span class="p">:</span><span class="w"> </span><span class="o">(</span><span class="w"> </span><span class="no">GRAPH</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="no">NODE</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="no">EDGE</span><span class="w"> </span><span class="o">)</span><span class="w"> </span><span class="nv">attr_list</span><span class="w">
+</span><span class="ln"> 17</span><span class="w">   </span><span class="p">;</span><span class="w">
+</span><span class="ln"> 18</span><span class="w">
+</span><span class="ln"> 19</span><span class="w"></span><span class="nl">attr_list</span><span class="w">
+</span><span class="ln"> 20</span><span class="w">   </span><span class="p">:</span><span class="w"> </span><span class="o">(</span><span class="w"> </span><span class="s">&#39;[&#39;</span><span class="w"> </span><span class="nv">a_list</span><span class="o">?</span><span class="w"> </span><span class="s">&#39;]&#39;</span><span class="w"> </span><span class="o">)+</span><span class="w">
+</span><span class="ln"> 21</span><span class="w">   </span><span class="p">;</span><span class="w">
+</span><span class="ln"> 22</span><span class="w">
+</span><span class="ln"> 23</span><span class="w"></span><span class="nl">a_list</span><span class="w">
+</span><span class="ln"> 24</span><span class="w">   </span><span class="p">:</span><span class="w"> </span><span class="o">(</span><span class="w"> </span><span class="nv">id_</span><span class="w"> </span><span class="o">(</span><span class="w"> </span><span class="s">&#39;=&#39;</span><span class="w"> </span><span class="nv">id_</span><span class="w"> </span><span class="o">)?</span><span class="w"> </span><span class="s">&#39;,&#39;</span><span class="o">?</span><span class="w"> </span><span class="o">)+</span><span class="w">
+</span><span class="ln"> 25</span><span class="w">   </span><span class="p">;</span><span class="w">
+</span><span class="ln"> 26</span><span class="w">
+</span><span class="ln"> 27</span><span class="w"></span><span class="nl">edge_stmt</span><span class="w">
+</span><span class="ln"> 28</span><span class="w">   </span><span class="p">:</span><span class="w"> </span><span class="o">(</span><span class="w"> </span><span class="nv">node_id</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nv">subgraph</span><span class="w"> </span><span class="o">)</span><span class="w"> </span><span class="nv">edgeRHS</span><span class="w"> </span><span class="nv">attr_list</span><span class="o">?</span><span class="w">
+</span><span class="ln"> 29</span><span class="w">   </span><span class="p">;</span><span class="w">
+</span><span class="ln"> 30</span><span class="w">
+</span><span class="ln"> 31</span><span class="w"></span><span class="nl">edgeRHS</span><span class="w">
+</span><span class="ln"> 32</span><span class="w">   </span><span class="p">:</span><span class="w"> </span><span class="o">(</span><span class="w"> </span><span class="nv">edgeop</span><span class="w"> </span><span class="o">(</span><span class="w"> </span><span class="nv">node_id</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nv">subgraph</span><span class="w"> </span><span class="o">)</span><span class="w"> </span><span class="o">)+</span><span class="w">
+</span><span class="ln"> 33</span><span class="w">   </span><span class="p">;</span><span class="w">
+</span><span class="ln"> 34</span><span class="w">
+</span><span class="ln"> 35</span><span class="w"></span><span class="nl">edgeop</span><span class="w">
+</span><span class="ln"> 36</span><span class="w">   </span><span class="p">:</span><span class="w"> </span><span class="s">&#39;-&gt;&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s">&#39;--&#39;</span><span class="w">
+</span><span class="ln"> 37</span><span class="w">   </span><span class="p">;</span><span class="w">
+</span><span class="ln"> 38</span><span class="w">
+</span><span class="ln"> 39</span><span class="w"></span><span class="nl">node_stmt</span><span class="w">
+</span><span class="ln"> 40</span><span class="w">   </span><span class="p">:</span><span class="w"> </span><span class="nv">node_id</span><span class="w"> </span><span class="nv">attr_list</span><span class="o">?</span><span class="w">
+</span><span class="ln"> 41</span><span class="w">   </span><span class="p">;</span><span class="w">
+</span><span class="ln"> 42</span><span class="w">
+</span><span class="ln"> 43</span><span class="w"></span><span class="nl">node_id</span><span class="w">
+</span><span class="ln"> 44</span><span class="w">   </span><span class="p">:</span><span class="w"> </span><span class="nv">id_</span><span class="w"> </span><span class="nv">port</span><span class="o">?</span><span class="w">
+</span><span class="ln"> 45</span><span class="w">   </span><span class="p">;</span><span class="w">
+</span><span class="ln"> 46</span><span class="w">
+</span><span class="ln"> 47</span><span class="w"></span><span class="nl">port</span><span class="w">
+</span><span class="ln"> 48</span><span class="w">   </span><span class="p">:</span><span class="w"> </span><span class="s">&#39;:&#39;</span><span class="w"> </span><span class="nv">id_</span><span class="w"> </span><span class="o">(</span><span class="w"> </span><span class="s">&#39;:&#39;</span><span class="w"> </span><span class="nv">id_</span><span class="w"> </span><span class="o">)?</span><span class="w">
+</span><span class="ln"> 49</span><span class="w">   </span><span class="p">;</span><span class="w">
+</span><span class="ln"> 50</span><span class="w">
+</span><span class="ln"> 51</span><span class="w"></span><span class="nl">subgraph</span><span class="w">
+</span><span class="ln"> 52</span><span class="w">   </span><span class="p">:</span><span class="w"> </span><span class="o">(</span><span class="w"> </span><span class="no">SUBGRAPH</span><span class="w"> </span><span class="nv">id_</span><span class="o">?</span><span class="w"> </span><span class="o">)?</span><span class="w"> </span><span class="s">&#39;{&#39;</span><span class="w"> </span><span class="nv">stmt_list</span><span class="w"> </span><span class="s">&#39;}&#39;</span><span class="w">
+</span><span class="ln"> 53</span><span class="w">   </span><span class="p">;</span><span class="w">
+</span><span class="ln"> 54</span><span class="w">
+</span><span class="ln"> 55</span><span class="w"></span><span class="nl">id_</span><span class="w">
+</span><span class="ln"> 56</span><span class="w">   </span><span class="p">:</span><span class="w"> </span><span class="no">ID</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="no">STRING</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="no">HTML_STRING</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="no">NUMBER</span><span class="w">
+</span><span class="ln"> 57</span><span class="w">   </span><span class="p">;</span><span class="w">
+</span><span class="ln"> 58</span><span class="w">
+</span><span class="ln"> 59</span><span class="w"></span><span class="c">// &#34;The keywords node, edge, graph, digraph, subgraph, and strict are</span><span class="w">
+</span><span class="ln"> 60</span><span class="w"></span><span class="c">// case-independent&#34;</span><span class="w">
+</span><span class="ln"> 61</span><span class="w">
+</span><span class="ln"> 62</span><span class="w"></span><span class="nl">STRICT</span><span class="w">
+</span><span class="ln"> 63</span><span class="w">   </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="x">Ss</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="x">Tt</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="x">Rr</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="x">Ii</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="x">Cc</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="x">Tt</span><span class="p">]</span><span class="w">
+</span><span class="ln"> 64</span><span class="w">   </span><span class="p">;</span><span class="w">
+</span><span class="ln"> 65</span><span class="w">
+</span><span class="ln"> 66</span><span class="w">
+</span><span class="ln"> 67</span><span class="w"></span><span class="nl">GRAPH</span><span class="w">
+</span><span class="ln"> 68</span><span class="w">   </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="x">Gg</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="x">Rr</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="x">Aa</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="x">Pp</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="x">Hh</span><span class="p">]</span><span class="w">
+</span><span class="ln"> 69</span><span class="w">   </span><span class="p">;</span><span class="w">
+</span><span class="ln"> 70</span><span class="w">
+</span><span class="ln"> 71</span><span class="w">
+</span><span class="ln"> 72</span><span class="w"></span><span class="nl">DIGRAPH</span><span class="w">
+</span><span class="ln"> 73</span><span class="w">   </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="x">Dd</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="x">Ii</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="x">Gg</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="x">Rr</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="x">Aa</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="x">Pp</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="x">Hh</span><span class="p">]</span><span class="w">
+</span><span class="ln"> 74</span><span class="w">   </span><span class="p">;</span><span class="w">
+</span><span class="ln"> 75</span><span class="w">
+</span><span class="ln"> 76</span><span class="w">
+</span><span class="ln"> 77</span><span class="w"></span><span class="nl">NODE</span><span class="w">
+</span><span class="ln"> 78</span><span class="w">   </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="x">Nn</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="x">Oo</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="x">Dd</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="x">Ee</span><span class="p">]</span><span class="w">
+</span><span class="ln"> 79</span><span class="w">   </span><span class="p">;</span><span class="w">
+</span><span class="ln"> 80</span><span class="w">
+</span><span class="ln"> 81</span><span class="w">
+</span><span class="ln"> 82</span><span class="w"></span><span class="nl">EDGE</span><span class="w">
+</span><span class="ln"> 83</span><span class="w">   </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="x">Ee</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="x">Dd</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="x">Gg</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="x">Ee</span><span class="p">]</span><span class="w">
+</span><span class="ln"> 84</span><span class="w">   </span><span class="p">;</span><span class="w">
+</span><span class="ln"> 85</span><span class="w">
+</span><span class="ln"> 86</span><span class="w">
+</span><span class="ln"> 87</span><span class="w"></span><span class="nl">SUBGRAPH</span><span class="w">
+</span><span class="ln"> 88</span><span class="w">   </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="x">Ss</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="x">Uu</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="x">Bb</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="x">Gg</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="x">Rr</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="x">Aa</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="x">Pp</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="x">Hh</span><span class="p">]</span><span class="w">
+</span><span class="ln"> 89</span><span class="w">   </span><span class="p">;</span><span class="w">
+</span><span class="ln"> 90</span><span class="w">
+</span><span class="ln"> 91</span><span class="w">
+</span><span class="ln"> 92</span><span class="w"></span><span class="c">/** &#34;a numeral [-]?(.[0-9]+ | [0-9]+(.[0-9]*)? )&#34; */</span><span class="w"> </span><span class="nl">NUMBER</span><span class="w">
+</span><span class="ln"> 93</span><span class="w">   </span><span class="p">:</span><span class="w"> </span><span class="s">&#39;-&#39;</span><span class="o">?</span><span class="w"> </span><span class="o">(</span><span class="w"> </span><span class="s">&#39;.&#39;</span><span class="w"> </span><span class="no">DIGIT</span><span class="o">+</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="no">DIGIT</span><span class="o">+</span><span class="w"> </span><span class="o">(</span><span class="w"> </span><span class="s">&#39;.&#39;</span><span class="w"> </span><span class="no">DIGIT</span><span class="o">*</span><span class="w"> </span><span class="o">)?</span><span class="w"> </span><span class="o">)</span><span class="w">
+</span><span class="ln"> 94</span><span class="w">   </span><span class="p">;</span><span class="w">
+</span><span class="ln"> 95</span><span class="w">
+</span><span class="ln"> 96</span><span class="w">
+</span><span class="ln"> 97</span><span class="w"></span><span class="k">fragment</span><span class="w"> </span><span class="nl">DIGIT</span><span class="w">
+</span><span class="ln"> 98</span><span class="w">   </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="x">0-9</span><span class="p">]</span><span class="w">
+</span><span class="ln"> 99</span><span class="w">   </span><span class="p">;</span><span class="w">
+</span><span class="ln">100</span><span class="w">
+</span><span class="ln">101</span><span class="w">
+</span><span class="ln">102</span><span class="w"></span><span class="c">/** &#34;any double-quoted string (&#34;...&#34;) possibly containing escaped quotes&#34; */</span><span class="w"> </span><span class="nl">STRING</span><span class="w">
+</span><span class="ln">103</span><span class="w">   </span><span class="p">:</span><span class="w"> </span><span class="s">&#39;&#34;&#39;</span><span class="w"> </span><span class="o">(</span><span class="w"> </span><span class="s">&#39;\\&#34;&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="o">)*?</span><span class="w"> </span><span class="s">&#39;&#34;&#39;</span><span class="w">
+</span><span class="ln">104</span><span class="w">   </span><span class="p">;</span><span class="w">
+</span><span class="ln">105</span><span class="w">
+</span><span class="ln">106</span><span class="w">
+</span><span class="ln">107</span><span class="w"></span><span class="c">/** &#34;Any string of alphabetic ([a-zA-Z\200-\377]) characters, underscores
+</span><span class="ln">108</span><span class="c"> *  (&#39;_&#39;) or digits ([0-9]), not beginning with a digit&#34;
+</span><span class="ln">109</span><span class="c"> */</span><span class="w"> </span><span class="nl">ID</span><span class="w">
+</span><span class="ln">110</span><span class="w">   </span><span class="p">:</span><span class="w"> </span><span class="no">LETTER</span><span class="w"> </span><span class="o">(</span><span class="w"> </span><span class="no">LETTER</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="no">DIGIT</span><span class="w"> </span><span class="o">)*</span><span class="w">
+</span><span class="ln">111</span><span class="w">   </span><span class="p">;</span><span class="w">
+</span><span class="ln">112</span><span class="w">
+</span><span class="ln">113</span><span class="w">
+</span><span class="ln">114</span><span class="w"></span><span class="k">fragment</span><span class="w"> </span><span class="nl">LETTER</span><span class="w">
+</span><span class="ln">115</span><span class="w">   </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="x">a-zA-Z\u0080-\u00FF_</span><span class="p">]</span><span class="w">
+</span><span class="ln">116</span><span class="w">   </span><span class="p">;</span><span class="w">
+</span><span class="ln">117</span><span class="w">
+</span><span class="ln">118</span><span class="w">
+</span><span class="ln">119</span><span class="w"></span><span class="c">/** &#34;HTML strings, angle brackets must occur in matched pairs, and
+</span><span class="ln">120</span><span class="c"> *  unescaped newlines are allowed.&#34;
+</span><span class="ln">121</span><span class="c"> */</span><span class="w"> </span><span class="nl">HTML_STRING</span><span class="w">
+</span><span class="ln">122</span><span class="w">   </span><span class="p">:</span><span class="w"> </span><span class="s">&#39;&lt;&#39;</span><span class="w"> </span><span class="o">(</span><span class="w"> </span><span class="no">TAG</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="p">[</span><span class="x">&lt;&gt;</span><span class="p">]</span><span class="w"> </span><span class="o">)*</span><span class="w"> </span><span class="s">&#39;&gt;&#39;</span><span class="w">
+</span><span class="ln">123</span><span class="w">   </span><span class="p">;</span><span class="w">
+</span><span class="ln">124</span><span class="w">
+</span><span class="ln">125</span><span class="w">
+</span><span class="ln">126</span><span class="w"></span><span class="k">fragment</span><span class="w"> </span><span class="nl">TAG</span><span class="w">
+</span><span class="ln">127</span><span class="w">   </span><span class="p">:</span><span class="w"> </span><span class="s">&#39;&lt;&#39;</span><span class="w"> </span><span class="o">.*?</span><span class="w"> </span><span class="s">&#39;&gt;&#39;</span><span class="w">
+</span><span class="ln">128</span><span class="w">   </span><span class="p">;</span><span class="w">
+</span><span class="ln">129</span><span class="w">
+</span><span class="ln">130</span><span class="w">
+</span><span class="ln">131</span><span class="w"></span><span class="nl">COMMENT</span><span class="w">
+</span><span class="ln">132</span><span class="w">   </span><span class="p">:</span><span class="w"> </span><span class="s">&#39;/*&#39;</span><span class="w"> </span><span class="o">.*?</span><span class="w"> </span><span class="s">&#39;*/&#39;</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nv">skip</span><span class="w">
+</span><span class="ln">133</span><span class="w">   </span><span class="p">;</span><span class="w">
+</span><span class="ln">134</span><span class="w">
+</span><span class="ln">135</span><span class="w">
+</span><span class="ln">136</span><span class="w"></span><span class="nl">LINE_COMMENT</span><span class="w">
+</span><span class="ln">137</span><span class="w">   </span><span class="p">:</span><span class="w"> </span><span class="s">&#39;//&#39;</span><span class="w"> </span><span class="o">.*?</span><span class="w"> </span><span class="s">&#39;\r&#39;</span><span class="o">?</span><span class="w"> </span><span class="s">&#39;\n&#39;</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nv">skip</span><span class="w">
+</span><span class="ln">138</span><span class="w">   </span><span class="p">;</span><span class="w">
+</span><span class="ln">139</span><span class="w">
+</span><span class="ln">140</span><span class="w">
+</span><span class="ln">141</span><span class="w"></span><span class="c">/** &#34;a &#39;#&#39; character is considered a line output from a C preprocessor (e.g.,
+</span><span class="ln">142</span><span class="c"> *  # 34 to indicate line 34 ) and discarded&#34;
+</span><span class="ln">143</span><span class="c"> */</span><span class="w"> </span><span class="nl">PREPROC</span><span class="w">
+</span><span class="ln">144</span><span class="w">   </span><span class="p">:</span><span class="w"> </span><span class="s">&#39;#&#39;</span><span class="w"> </span><span class="o">~</span><span class="p">[</span><span class="x">\r\n</span><span class="p">]</span><span class="o">*</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nv">skip</span><span class="w">
+</span><span class="ln">145</span><span class="w">   </span><span class="p">;</span><span class="w">
+</span><span class="ln">146</span><span class="w">
+</span><span class="ln">147</span><span class="w">
+</span><span class="ln">148</span><span class="w"></span><span class="nl">WS</span><span class="w">
+</span><span class="ln">149</span><span class="w">   </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="x"> \t\n\r</span><span class="p">]</span><span class="o">+</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nv">skip</span><span class="w">
+</span><span class="ln">150</span><span class="w">   </span><span class="p">;</span><span class="w">
+</span></code></pre></div></div><div class="modal fade" id="rewardModal" tabindex="-1" aria-labelledby="rewardModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content surface">
       <div class="modal-header">
@@ -234,7 +618,7 @@
 </a></li><li><a href="https://mengdemao.github.io/posts/nfs/">Nfs
 </a></li></ul>
   </section></div>
-</article><div class="post-comments card row component">
+    </article><div class="card component row post-comments">
   <div class="card-body"><script src="https://utteranc.es/client.js"
   repo="mengdemao/mengdemao.github.io"
   issue-term="pathname"
@@ -259,27 +643,36 @@
   <section class="recent-posts row card component">
   <div class="card-body">
     <h2 class="card-title">最近文章</h2>
-    <ul><li><a href="https://mengdemao.github.io/posts/sds/">Sds
-</a></li><li><a href="https://mengdemao.github.io/posts/stl/">STL学习笔记
-</a></li><li><a href="https://mengdemao.github.io/posts/python/">Python学习笔记
-</a></li><li><a href="https://mengdemao.github.io/posts/input_drive/">输入子系统
-</a></li><li><a href="https://mengdemao.github.io/posts/slab/">Slab
+    <ul><li><a href="https://mengdemao.github.io/posts/tkinter/">Tkinter
+</a></li><li><a href="https://mengdemao.github.io/posts/javascript/">Javascript
+</a></li><li><a href="https://mengdemao.github.io/posts/css/">Css
+</a></li><li><a href="https://mengdemao.github.io/posts/html5/">Html5
+</a></li><li><a href="https://mengdemao.github.io/posts/sds/">Sds
 </a></li></ul>
   </div>
 </section><section class="taxonomies row card component">
       <div class="card-body">
         <h2 class="card-title">
+          <a href="https://mengdemao.github.io/categories">分类</a>
+        </h2>
+        <div><a href="https://mengdemao.github.io/categories/python/" class="badge bg-primary text-white rounded post-taxonomy" title="python">
+            python
+          </a></div>
+      </div>
+    </section><section class="taxonomies row card component">
+      <div class="card-body">
+        <h2 class="card-title">
           <a href="https://mengdemao.github.io/tags">标签</a>
         </h2>
-        <div><a href="https://mengdemao.github.io/tags/compiler/" class="post-taxonomy rounded btn btn-sm btn-outline-primary me-2 mb-2" title="compiler">
+        <div><a href="https://mengdemao.github.io/tags/compiler/" class="badge bg-primary text-white rounded post-taxonomy" title="compiler">
             compiler
-          </a><a href="https://mengdemao.github.io/tags/kernel/" class="post-taxonomy rounded btn btn-sm btn-outline-primary me-2 mb-2" title="kernel">
+          </a><a href="https://mengdemao.github.io/tags/kernel/" class="badge bg-primary text-white rounded post-taxonomy" title="kernel">
             kernel
-          </a><a href="https://mengdemao.github.io/tags/nfs/" class="post-taxonomy rounded btn btn-sm btn-outline-primary me-2 mb-2" title="nfs">
+          </a><a href="https://mengdemao.github.io/tags/nfs/" class="badge bg-primary text-white rounded post-taxonomy" title="nfs">
             nfs
-          </a><a href="https://mengdemao.github.io/tags/%E6%8A%80%E5%B7%A7/" class="post-taxonomy rounded btn btn-sm btn-outline-primary me-2 mb-2" title="技巧">
+          </a><a href="https://mengdemao.github.io/tags/%E6%8A%80%E5%B7%A7/" class="badge bg-primary text-white rounded post-taxonomy" title="技巧">
             技巧
-          </a><a href="https://mengdemao.github.io/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" class="post-taxonomy rounded btn btn-sm btn-outline-primary me-2 mb-2" title="编译原理">
+          </a><a href="https://mengdemao.github.io/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" class="badge bg-primary text-white rounded post-taxonomy" title="编译原理">
             编译原理
           </a></div>
       </div>

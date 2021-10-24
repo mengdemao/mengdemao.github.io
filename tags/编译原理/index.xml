@@ -13,7 +13,7 @@
       <pubDate>Tue, 04 May 2021 22:53:09 +0800</pubDate>
       
       <guid>https://mengdemao.github.io/posts/antlr/</guid>
-      <description></description>
+      <description>简介 ANTLR是一款强大的语法分析器生成工具,用于读取、处理、执行和翻译结构化的文本或二进制文件. 类似于flex/bison,根据描述文件，</description>
     </item>
     
   </channel>

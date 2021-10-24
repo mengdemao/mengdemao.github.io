@@ -6,7 +6,43 @@
     <description>Recent content in 文章 on 编程日志</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>Copyright © 2020-{year} Meng Demao. All Rights Reserved.</copyright>
-    <lastBuildDate>Wed, 06 Oct 2021 12:56:03 +0800</lastBuildDate><atom:link href="https://mengdemao.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 16 Oct 2021 20:13:10 +0800</lastBuildDate><atom:link href="https://mengdemao.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Tkinter</title>
+      <link>https://mengdemao.github.io/posts/tkinter/</link>
+      <pubDate>Sat, 16 Oct 2021 20:13:10 +0800</pubDate>
+      
+      <guid>https://mengdemao.github.io/posts/tkinter/</guid>
+      <description>python基础绘图</description>
+    </item>
+    
+    <item>
+      <title>Javascript</title>
+      <link>https://mengdemao.github.io/posts/javascript/</link>
+      <pubDate>Thu, 07 Oct 2021 11:52:24 +0800</pubDate>
+      
+      <guid>https://mengdemao.github.io/posts/javascript/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Css</title>
+      <link>https://mengdemao.github.io/posts/css/</link>
+      <pubDate>Thu, 07 Oct 2021 11:52:18 +0800</pubDate>
+      
+      <guid>https://mengdemao.github.io/posts/css/</guid>
+      <description>CSS开始(层叠样式表) HTML + CSS + JavaScript 名词 + 形容词 + 动词 相当于对原始的HTML进行美化 快速入门 CSS是什么 CSS怎么用 CSS选择器 美化网页 盒子模</description>
+    </item>
+    
+    <item>
+      <title>Html5</title>
+      <link>https://mengdemao.github.io/posts/html5/</link>
+      <pubDate>Thu, 07 Oct 2021 11:51:59 +0800</pubDate>
+      
+      <guid>https://mengdemao.github.io/posts/html5/</guid>
+      <description>开始 网页基础结构 1&amp;lt;!-- 告诉浏览器,需要使用的规范 --&amp;gt; 2&amp;lt;!DOCTYPE html&amp;gt; 3&amp;lt;html lang=&amp;#34;en&amp;#34;&amp;gt; 4 5&amp;lt;!-- 网页标题 --&amp;gt; 6&amp;lt;head&amp;gt; 7 &amp;lt;!-- 描述标签 --&amp;gt; 8 &amp;lt;meta charset=&amp;#34;UTF-8&amp;#34;&amp;gt; 9 10 &amp;lt;!-- 网页标题 --&amp;gt; 11 &amp;lt;title&amp;gt;Document&amp;lt;/title&amp;gt; 12&amp;lt;/head&amp;gt; 13 14&amp;lt;!-- 网页主体 --&amp;gt; 15&amp;lt;body&amp;gt; 16&amp;lt;/body&amp;gt; 17&amp;lt;/html&amp;gt; 网页基本</description>
+    </item>
+    
     <item>
       <title>Sds</title>
       <link>https://mengdemao.github.io/posts/sds/</link>
@@ -31,7 +67,7 @@
       <pubDate>Tue, 05 Oct 2021 21:22:39 +0800</pubDate>
       
       <guid>https://mengdemao.github.io/posts/python/</guid>
-      <description></description>
+      <description>HelloWorld 1#!/bin/python3 2 3if __name__ == &amp;#39;__main__&amp;#39;: 4 print(&amp;#39;Hello World&amp;#39;) 数据类型 Numbers(数字) 1intA = 10 2print(intA) 布尔类型 1true 2false String(字符串) 1strB = &amp;#34;Hello&amp;#34; 2print(strB) List(列表) 1listC = [&amp;#34;12&amp;#34;, 3, 4] 2print(listC) Tuple(</description>
     </item>
     
     <item>
@@ -139,7 +175,7 @@
       <pubDate>Sun, 03 Oct 2021 13:21:15 +0800</pubDate>
       
       <guid>https://mengdemao.github.io/posts/rust/</guid>
-      <description>RUST学习笔记 安装 添加环境变量.bashrc/profile 1set RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static 2set RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup 安装工具链 1curl https://mirrors.ustc.edu.cn/rust-static/rustup/rustup-init.sh | sh 设置rust的环境变量.bashrc/profile</description>
+      <description>RUST学习笔记 ==== 安装 添加环境变量.bashrc/profile 1set RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static 2set RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup 安装工具链 1curl https://mirrors.ustc.edu.cn/rust-static/rustup/rustup-init.sh | sh 设置rust的环境变量.bashrc/profil</description>
     </item>
     
     <item>
@@ -175,7 +211,7 @@
       <pubDate>Fri, 01 Oct 2021 23:32:46 +0800</pubDate>
       
       <guid>https://mengdemao.github.io/posts/kobject/</guid>
-      <description>kobject 内核对象 为模块提供一个底层抽象 相关数据 kobject 1struct kobject { 2 const char *name; /* 名字 */ 3 struct list_head entry; /* 链表 */ 4 struct kobject *parent; /* 指向父对象,建立层次结构 */ 5 struct kset *kset; /* 对象集合 */ 6 struct</description>
+      <description>kobject 内核对象:kobject/kobject_type/kset 为模块提供一个底层抽象 数据结构 1struct kobject { 2 const char *name; /* 名字 */ 3 struct list_head entry; /* 链表:链接进入k</description>
     </item>
     
     <item>
@@ -220,7 +256,7 @@
       <pubDate>Tue, 04 May 2021 22:53:09 +0800</pubDate>
       
       <guid>https://mengdemao.github.io/posts/antlr/</guid>
-      <description></description>
+      <description>简介 ANTLR是一款强大的语法分析器生成工具,用于读取、处理、执行和翻译结构化的文本或二进制文件. 类似于flex/bison,根据描述文件，</description>
     </item>
     
     <item>

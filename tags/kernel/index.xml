@@ -13,7 +13,7 @@
       <pubDate>Fri, 01 Oct 2021 23:32:46 +0800</pubDate>
       
       <guid>https://mengdemao.github.io/posts/kobject/</guid>
-      <description>kobject 内核对象 为模块提供一个底层抽象 相关数据 kobject 1struct kobject { 2 const char *name; /* 名字 */ 3 struct list_head entry; /* 链表 */ 4 struct kobject *parent; /* 指向父对象,建立层次结构 */ 5 struct kset *kset; /* 对象集合 */ 6 struct</description>
+      <description>kobject 内核对象:kobject/kobject_type/kset 为模块提供一个底层抽象 数据结构 1struct kobject { 2 const char *name; /* 名字 */ 3 struct list_head entry; /* 链表:链接进入k</description>
     </item>
     
   </channel>
