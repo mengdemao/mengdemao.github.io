@@ -1,0 +1,925 @@
+<!doctype html><html lang="zh-cn"
+  >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>驱动模型 - 编程日志</title><link rel="apple-touch-icon" href="https://mengdemao.github.io/images/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="https://mengdemao.github.io/images/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="https://mengdemao.github.io/images/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="https://mengdemao.github.io/images/favicons/manifest.json">
+<link rel="icon" href="https://mengdemao.github.io/images/favicons/favicon.ico">
+<meta name="keywords" content="Kernel" />
+<meta name="description" content="" /><meta itemprop="name" content="驱动模型">
+<meta itemprop="description" content="简述 驱动模型 顶级kobject 解释 block 块设备链接&ndash;&gt;/sys/deives相关文件 bus 存放各种总线文件 class 各种设备类 dev 存放(字符"><meta itemprop="datePublished" content="2021-10-01T23:32:46+08:00" />
+<meta itemprop="dateModified" content="2021-10-24T23:32:46+08:00" />
+<meta itemprop="wordCount" content="2525">
+<meta itemprop="keywords" content="kernel," /><meta property="og:title" content="驱动模型" />
+<meta property="og:description" content="简述 驱动模型 顶级kobject 解释 block 块设备链接&ndash;&gt;/sys/deives相关文件 bus 存放各种总线文件 class 各种设备类 dev 存放(字符" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://mengdemao.github.io/posts/drivermodel/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-10-01T23:32:46+08:00" />
+<meta property="article:modified_time" content="2021-10-24T23:32:46+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="驱动模型"/>
+<meta name="twitter:description" content="简述 驱动模型 顶级kobject 解释 block 块设备链接&ndash;&gt;/sys/deives相关文件 bus 存放各种总线文件 class 各种设备类 dev 存放(字符"/>
+<link rel="preload" href="https://mengdemao.github.io/css/bundle.min.246fba476dcf1c6ec7112889ca361d534ede50402e1cfa44c320ed085ccf2488.css" integrity="sha256-JG&#43;6R23PHG7HESiJyjYdU07eUEAuHPpEwyDtCFzPJIg=" crossorigin="anonymous" as="style" onload="this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://mengdemao.github.io/css/bundle.min.246fba476dcf1c6ec7112889ca361d534ede50402e1cfa44c320ed085ccf2488.css" integrity="sha256-JG&#43;6R23PHG7HESiJyjYdU07eUEAuHPpEwyDtCFzPJIg=" crossorigin="anonymous"></noscript><script src="https://mengdemao.github.io/js/bundle.min.15ecaa25968e33a8e188bdf66437955c7b704c04e99084cca6db914ece5b43a2.js" integrity="sha256-FeyqJZaOM6jhiL32ZDeVXHtwTATpkITMptuRTs5bQ6I=" crossorigin="anonymous" defer></script></head>
+  <body><script src="https://mengdemao.github.io/js/bootstrap.min.b5d86dd3a5f60c90be38a252bb65fc1a2732f32e71dc12c051720f0c7aef3cde.js" integrity="sha256-tdht06X2DJC&#43;OKJSu2X8Gicy8y5x3BLAUXIPDHrvPN4=" crossorigin="anonymous"></script><header><nav class="navbar top-app-bar top-app-bar-expand-lg fixed-top">
+  <div class="container">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="fas fa-bars"></i>
+    </button><a class="navbar-brand me-3" href="https://mengdemao.github.io/"><img class="logo" alt="Logo" src="https://mengdemao.github.io/images/logo.webp" loading="lazy"
+   width="136" height="69"
+   />
+编程日志
+    </a>
+    <button class="navbar-social-share" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSocialShare"
+  aria-controls="offcanvasSocialShare" aria-label="Toggle social share">
+  <i class="fas fa-share-alt"></i>
+</button>
+
+<div class="offcanvas offcanvas-bottom surface" tabindex="-1" id="offcanvasSocialShare" aria-labelledby="offcanvasSocialShare">
+  <div class="offcanvas-header">
+    <h3 class="offcanvas-title">Share</h3>
+    <button type="button" class="btn btn-sm btn-outline-primary" data-bs-dismiss="offcanvas" aria-label="Close">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+  <div class="offcanvas-body">
+    <a class="btn btn-sm btn-outline-primary social-share-button" rel="noopener noreferrer" aria-label="Twitter Share Button"
+      target="_blank" href="https://twitter.com/intent/tweet?title=%e9%a9%b1%e5%8a%a8%e6%a8%a1%e5%9e%8b&url=https%3a%2f%2fmengdemao.github.io%2fposts%2fdrivermodel%2f">
+      <i class="fab fa-fw fa-twitter"></i> Twitter
+    </a>
+    <a class="btn btn-sm btn-outline-primary social-share-button" rel="noopener noreferrer" aria-label="Facebook Share Button"
+      target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmengdemao.github.io%2fposts%2fdrivermodel%2f">
+      <i class="fab fa-fw fa-facebook-f"></i> Facebook
+    </a>
+  </div>
+</div>
+
+    <button class="navbar-settings" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSettings"
+  aria-controls="offcanvasSettings" aria-label="Toggle settings">
+  <i class="fas fa-ellipsis-v"></i>
+</button>
+
+<div class="offcanvas offcanvas-end surface h-100" tabindex="-1" id="offcanvasSettings" aria-labelledby="offcanvasSettings">
+  <div class="offcanvas-header">
+    <h3 class="offcanvas-title">设置</h3>
+    <button type="button" class="btn btn-sm btn-outline-primary" data-bs-dismiss="offcanvas" aria-label="Close">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+  <div class="offcanvas-body">
+
+<section class="setting">
+  <form class="row">
+    <div class="col-auto">
+      <label><i class="fas fa-fw fa-adjust"></i> 模式</label>
+    </div>
+    <div class="col-auto ms-auto">
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" id="modeSwitcher">
+      </div>
+    </div>
+  </form>
+</section>
+
+<section class="setting">
+  <form class="font-size-switcher-form row">
+    <div class="col-auto">
+      <label for="fontSize" class="form-label"><i class="fas fa-fw fa-font"></i> 字体大小</label>
+    </div>
+    <div class="col-auto ms-auto">
+      <input type="range" class="form-range" min="-2" max="2" id="fontSize">
+    </div>
+  </form>
+</section>
+
+
+<section class="setting palettes">
+  <form class="row">
+    <div class="col-auto">
+      <label><i class="fas fa-fw fa-palette"></i> 配色</label>
+    </div>
+    <div class="col-auto ms-auto">
+      <a id="btnPalette" class="btn btn-sm btn-outline-primary" role="button" aria-label="palettePicker">
+        <i class="fas fa-eye-dropper"></i>
+      </a>
+    </div>
+  </form>
+  <div class="mt-2 d-flex visually-hidden" id="palettePicker"><button type="button" id="palette-blue" aria-label="蓝色"
+        class="btn btn-sm palette" data-palette="blue">
+      </button><button type="button" id="palette-blue-gray" aria-label="蓝灰色"
+        class="btn btn-sm palette" data-palette="blue-gray">
+      </button><button type="button" id="palette-brown" aria-label="棕色"
+        class="btn btn-sm palette" data-palette="brown">
+      </button></div>
+</section>
+</div>
+</div>
+
+    <div class="collapse navbar-collapse" tabindex="-1" id="navbarSupportedContent" aria-labelledby="navbarSupportedContent">
+      <form class="search-bar my-1" action="https://mengdemao.github.io/search">
+  <div class="input-group input-group-sm">
+    <span class="btn btn-search disabled position-absolute left-0"><i class="fas fa-fw fa-search"></i></span>
+    <input class="form-control rounded-pill" name="q" type="search" aria-label="Search">
+  </div>
+</form>
+
+      <ul class="navbar-nav ms-auto"><li class="nav-item">
+          <a class="nav-link" href="https://mengdemao.github.io/archives/">
+            <i class="fas fa-fw fa-file-archive"></i>归档
+          </a>
+        </li><li class="nav-item">
+          <a class="nav-link" href="https://mengdemao.github.io/categories/">
+            <i class="fas fa-fw fa-folder"></i>分类
+          </a>
+        </li><li class="nav-item">
+          <a class="nav-link" href="https://mengdemao.github.io/tags/">
+            <i class="fas fa-fw fa-tags"></i>标签
+          </a>
+        </li><li class="nav-item">
+          <a class="nav-link" href="https://mengdemao.github.io/series/">
+            <i class="fas fa-fw fa-columns"></i>专栏
+          </a>
+        </li><li class="nav-item dropdown">
+          <a class="nav-link" id="navbarDropdown-dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-fw fa-chevron-circle-down"></i>下拉菜单
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown-dropdown"><li>
+              <a class="dropdown-item"
+                href="https://github.com/mengdemao/mengdemao.github.io" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-fw fa-github"></i>Github
+              </a>
+            </li><li>
+              <a class="dropdown-item"
+                href="https://mengdemao.github.io/zh-cn/series/manual">
+                用户手册
+              </a>
+            </li></ul>
+        </li></ul>
+    </div>
+  </div>
+</nav>
+</header>
+<main role="main" class="container">
+      <div class="row content">
+<div class="col-lg-8">
+  <div class="container"><nav class="row card component" aria-label="breadcrumb">
+  <div class="card-body">
+    <ol class="breadcrumb "><li class="breadcrumb-item"><a href="https://mengdemao.github.io/">主页</a></li><li class="breadcrumb-item"><a href="https://mengdemao.github.io/posts/">文章</a></li><li class="breadcrumb-item active">驱动模型</li></ol>
+  </div>
+</nav>    <article class="row card component mb-4 post"><div class="post-panel-wrapper">
+  <div class="d-flex flex-column component rounded post-panel">
+    
+    <a id="sidebarToggler" class="action d-none d-lg-block" role="button">
+  <i class="fas fa-fw fa-expand-alt" data-fa-transform="rotate-45"></i>
+</a>
+  
+    
+
+    
+    <a class="action" data-bs-container="body" data-bs-toggle="popover" data-bs-html="true" data-bs-placement="bottom"
+  data-bs-trigger="focus" tabindex="0" type="button" aria-label="Copyright" 
+  data-bs-content="&lt;a target=&#34;_blank&#34; rel=&#34;license noopener noreferrer&#34; href=&#34;https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh&#34;&gt;CC BY-NC-ND 4.0 &lt;i class=&#34;fab fa-fw fa-creative-commons&#34;&gt;&lt;/i&gt;&lt;i class=&#34;fab fa-fw fa-creative-commons-by&#34;&gt;&lt;/i&gt;&lt;i class=&#34;fab fa-fw fa-creative-commons-nc&#34;&gt;&lt;/i&gt;&lt;i class=&#34;fab fa-fw fa-creative-commons-nd&#34;&gt;&lt;/i&gt;&lt;/a&gt;
+">
+  <i class="fas fa-fw fa-copyright"></i>
+</a>
+    <a class="action" data-bs-toggle="offcanvas" href="#offcanvasTOC" aria-controls="offcanvasTOC" role="button">
+  <i class="fas fa-fw fa-list-alt"></i>
+</a>
+    
+  </div>
+</div>
+<div class="card-body">
+        <h1 class="card-title my-3">驱动模型
+</h1><div class="post-meta"><span class="post-date" title="created on">
+    <i class="fas fa-fw fa-calendar-alt"></i>Oct 1, 2021
+  </span>
+  <span class="post-date me-2" title="updated on">
+      <i class="fas fa-sync-alt"></i>
+      Oct 24, 2021
+    </span>
+  <span class="post-reading-time" title="reading time">
+    <i class="fas fa-fw fa-coffee"></i>6 分钟阅读
+  </span><a href="https://mengdemao.github.io/tags/kernel/" class="badge rounded-pill text-white bg-primary post-taxonomy">kernel</a></div>
+<div class="offcanvas offcanvas-end surface h-100" tabindex="-1" id="offcanvasTOC" aria-labelledby="offcanvasTOCLabel">
+  <div class="offcanvas-header">
+    <h2 class="offcanvas-title" id="offcanvasTOCLabel">目录</h5>
+      <button type="button" class="btn btn-sm btn-outline-primary" data-bs-dismiss="offcanvas" aria-label="Close">
+        <i class="fas fa-times"></i>
+      </button>
+  </div>
+  <div class="offcanvas-body">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#简述">简述</a></li>
+    <li><a href="#底层机制">底层机制</a>
+      <ul>
+        <li><a href="#kobject">kobject</a></li>
+        <li><a href="#kset">kset</a></li>
+        <li><a href="#ktype">ktype</a></li>
+      </ul>
+    </li>
+    <li><a href="#class">class</a></li>
+    <li><a href="#bus">bus</a>
+      <ul>
+        <li><a href="#总线类型">总线类型</a></li>
+      </ul>
+    </li>
+    <li><a href="#devices">devices</a>
+      <ul>
+        <li><a href="#heading"></a></li>
+      </ul>
+    </li>
+    <li><a href="#kernel">kernel</a></li>
+    <li><a href="#module">module</a></li>
+  </ul>
+</nav>
+  </div>
+</div><div class="post-content mb-3"><h2 id="简述">简述</h2>
+<blockquote>
+<p>驱动模型</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>顶级kobject</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>block</td>
+<td>块设备链接&ndash;&gt;/sys/deives相关文件</td>
+</tr>
+<tr>
+<td>bus</td>
+<td>存放各种总线文件</td>
+</tr>
+<tr>
+<td>class</td>
+<td>各种设备类</td>
+</tr>
+<tr>
+<td>dev</td>
+<td>存放(字符/块)设备主副设备号链接文件&ndash;&gt;/sys/deives</td>
+</tr>
+<tr>
+<td>devices</td>
+<td>设备的具体存放文件</td>
+</tr>
+<tr>
+<td>firmware</td>
+<td>固件存放</td>
+</tr>
+<tr>
+<td>fs</td>
+<td>文件类型</td>
+</tr>
+<tr>
+<td>kernel</td>
+<td>kernel子系统</td>
+</tr>
+<tr>
+<td>module</td>
+<td>模块信息</td>
+</tr>
+<tr>
+<td>power</td>
+<td>能源管理</td>
+</tr>
+</tbody>
+</table>
+<h2 id="底层机制">底层机制</h2>
+<h3 id="kobject">kobject</h3>
+<blockquote>
+<p>内核对象:kobject/kobject_type/kset
+为模块提供一个底层抽象,其中文件存放于/sys文件下面</p>
+</blockquote>
+<h4 id="数据结构">数据结构</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="k">struct</span> <span class="n">kobject</span> <span class="p">{</span>
+<span class="ln"> 2</span>	<span class="k">const</span> <span class="kt">char</span>			<span class="o">*</span><span class="n">name</span><span class="p">;</span>		<span class="cm">/* 名字 */</span>
+<span class="ln"> 3</span>	<span class="k">struct</span> <span class="n">list_head</span>	<span class="n">entry</span><span class="p">;</span>		<span class="cm">/* 链表:链接进入kset */</span>
+<span class="ln"> 4</span>	<span class="k">struct</span> <span class="n">kobject</span>		<span class="o">*</span><span class="n">parent</span><span class="p">;</span>	<span class="cm">/* 指向父对象,建立层次结构 */</span>
+<span class="ln"> 5</span>	<span class="k">struct</span> <span class="n">kset</span>			<span class="o">*</span><span class="n">kset</span><span class="p">;</span>		<span class="cm">/* 对象集合 */</span>
+<span class="ln"> 6</span>	<span class="k">struct</span> <span class="n">kobj_type</span>	<span class="o">*</span><span class="n">ktype</span><span class="p">;</span>		<span class="cm">/* 对象类型 */</span>
+<span class="ln"> 7</span>	<span class="k">struct</span> <span class="n">kernfs_node</span>	<span class="o">*</span><span class="n">sd</span><span class="p">;</span> 		<span class="cm">/* sysfs directory entry */</span>
+<span class="ln"> 8</span>	<span class="k">struct</span> <span class="n">kref</span>			<span class="n">kref</span><span class="p">;</span>		<span class="cm">/* 引用计数 */</span>
+<span class="ln"> 9</span>
+<span class="ln">10</span>    <span class="cp">#ifdef CONFIG_DEBUG_KOBJECT_RELEASE
+</span><span class="ln">11</span><span class="cp"></span>	<span class="k">struct</span> <span class="n">delayed_work</span>	<span class="n">release</span><span class="p">;</span>
+<span class="ln">12</span>	<span class="cp">#endif
+</span><span class="ln">13</span><span class="cp"></span>	
+<span class="ln">14</span>    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="nl">state_initialized</span><span class="p">:</span><span class="mi">1</span><span class="p">;</span>			<span class="cm">/* 标志位:初始化 */</span>
+<span class="ln">15</span>	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="nl">state_in_sysfs</span><span class="p">:</span><span class="mi">1</span><span class="p">;</span>				<span class="cm">/* 标志位:在sysfs中 */</span>
+<span class="ln">16</span>	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="nl">state_add_uevent_sent</span><span class="p">:</span><span class="mi">1</span><span class="p">;</span>		<span class="cm">/* 标志位:发出KOBJ_ADD uevent */</span>
+<span class="ln">17</span>	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="nl">state_remove_uevent_sent</span><span class="p">:</span><span class="mi">1</span><span class="p">;</span>	<span class="cm">/* 标志位:发出KOBJ_REMOVE uevent */</span>
+<span class="ln">18</span>	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="nl">uevent_suppress</span><span class="p">:</span><span class="mi">1</span><span class="p">;</span>				<span class="cm">/* 标志位:禁止发出uevent */</span>
+<span class="ln">19</span><span class="p">};</span>
+</code></pre></div><h4 id="初始化">初始化</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="cm">/**
+</span><span class="ln"> 2</span><span class="cm"> * kobject_init - initialize a kobject structure
+</span><span class="ln"> 3</span><span class="cm"> * @kobj: pointer to the kobject to initialize
+</span><span class="ln"> 4</span><span class="cm"> * @ktype: pointer to the ktype for this kobject.
+</span><span class="ln"> 5</span><span class="cm"> *
+</span><span class="ln"> 6</span><span class="cm"> * This function will properly initialize a kobject such that it can then
+</span><span class="ln"> 7</span><span class="cm"> * be passed to the kobject_add() call.
+</span><span class="ln"> 8</span><span class="cm"> *
+</span><span class="ln"> 9</span><span class="cm"> * After this function is called, the kobject MUST be cleaned up by a call
+</span><span class="ln">10</span><span class="cm"> * to kobject_put(), not by a call to kfree directly to ensure that all of
+</span><span class="ln">11</span><span class="cm"> * the memory is cleaned up properly.
+</span><span class="ln">12</span><span class="cm"> */</span>
+<span class="ln">13</span><span class="kt">void</span> <span class="nf">kobject_init</span><span class="p">(</span><span class="k">struct</span> <span class="n">kobject</span> <span class="o">*</span><span class="n">kobj</span><span class="p">,</span> <span class="k">struct</span> <span class="n">kobj_type</span> <span class="o">*</span><span class="n">ktype</span><span class="p">)</span>
+<span class="ln">14</span><span class="p">{</span>
+<span class="ln">15</span>	<span class="kt">char</span> <span class="o">*</span><span class="n">err_str</span><span class="p">;</span>			<span class="cm">/** 错误信息 */</span>
+<span class="ln">16</span>
+<span class="ln">17</span>	<span class="cm">/** 校验参数NULL */</span>
+<span class="ln">18</span>	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">kobj</span><span class="p">)</span> <span class="p">{</span>
+<span class="ln">19</span>		<span class="n">err_str</span> <span class="o">=</span> <span class="s">&#34;invalid kobject pointer!&#34;</span><span class="p">;</span>
+<span class="ln">20</span>		<span class="k">goto</span> <span class="n">error</span><span class="p">;</span>
+<span class="ln">21</span>	<span class="p">}</span>
+<span class="ln">22</span>	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">ktype</span><span class="p">)</span> <span class="p">{</span>
+<span class="ln">23</span>		<span class="n">err_str</span> <span class="o">=</span> <span class="s">&#34;must have a ktype to be initialized properly!</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+<span class="ln">24</span>		<span class="k">goto</span> <span class="n">error</span><span class="p">;</span>
+<span class="ln">25</span>	<span class="p">}</span>
+<span class="ln">26</span>
+<span class="ln">27</span>	<span class="cm">/** kobject是否已经初始化 */</span>
+<span class="ln">28</span>	<span class="k">if</span> <span class="p">(</span><span class="n">kobj</span><span class="o">-&gt;</span><span class="n">state_initialized</span><span class="p">)</span> <span class="p">{</span>
+<span class="ln">29</span>		<span class="cm">/* do not error out as sometimes we can recover */</span>
+<span class="ln">30</span>		<span class="n">pr_err</span><span class="p">(</span><span class="s">&#34;kobject (%p): tried to init an initialized object, something is seriously wrong.</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span>
+<span class="ln">31</span>		       <span class="n">kobj</span><span class="p">);</span>
+<span class="ln">32</span>		<span class="n">dump_stack</span><span class="p">();</span> <span class="cm">/** 回溯堆栈 */</span>
+<span class="ln">33</span>	<span class="p">}</span>
+<span class="ln">34</span>
+<span class="ln">35</span>	<span class="cm">/** 调用具体初始化函数 */</span>
+<span class="ln">36</span>	<span class="n">kobject_init_internal</span><span class="p">(</span><span class="n">kobj</span><span class="p">);</span>
+<span class="ln">37</span>
+<span class="ln">38</span>	<span class="cm">/* 设置类型 */</span>
+<span class="ln">39</span>	<span class="n">kobj</span><span class="o">-&gt;</span><span class="n">ktype</span> <span class="o">=</span> <span class="n">ktype</span><span class="p">;</span>
+<span class="ln">40</span>	<span class="k">return</span><span class="p">;</span>
+<span class="ln">41</span>
+<span class="ln">42</span><span class="nl">error</span><span class="p">:</span>
+<span class="ln">43</span>	<span class="n">pr_err</span><span class="p">(</span><span class="s">&#34;kobject (%p): %s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">kobj</span><span class="p">,</span> <span class="n">err_str</span><span class="p">);</span>
+<span class="ln">44</span>	<span class="n">dump_stack</span><span class="p">();</span>
+<span class="ln">45</span><span class="p">}</span>
+<span class="ln">46</span><span class="n">EXPORT_SYMBOL</span><span class="p">(</span><span class="n">kobject_init</span><span class="p">);</span>
+</code></pre></div><h4 id="添加">添加</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="kt">int</span> <span class="nf">kobject_add</span><span class="p">(</span><span class="k">struct</span> <span class="n">kobject</span> <span class="o">*</span><span class="n">kobj</span><span class="p">,</span> 	<span class="cm">/* 需要添加kobject */</span>
+<span class="ln"> 2</span>				<span class="k">struct</span> <span class="n">kobject</span> <span class="o">*</span><span class="n">parent</span><span class="p">,</span> <span class="cm">/* 父指针 */</span>
+<span class="ln"> 3</span>				<span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">fmt</span><span class="p">,</span> <span class="p">...)</span>   <span class="cm">/* 命名 */</span>
+<span class="ln"> 4</span><span class="p">{</span>
+<span class="ln"> 5</span>	<span class="n">va_list</span> <span class="n">args</span><span class="p">;</span>
+<span class="ln"> 6</span>	<span class="kt">int</span> <span class="n">retval</span><span class="p">;</span>
+<span class="ln"> 7</span>	
+<span class="ln"> 8</span>	<span class="cm">/* 校验kobject */</span>
+<span class="ln"> 9</span>	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">kobj</span><span class="p">)</span>
+<span class="ln">10</span>		<span class="k">return</span> <span class="o">-</span><span class="n">EINVAL</span><span class="p">;</span>
+<span class="ln">11</span>	
+<span class="ln">12</span>	<span class="cm">/* 是否已经初始化 */</span>
+<span class="ln">13</span>	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">kobj</span><span class="o">-&gt;</span><span class="n">state_initialized</span><span class="p">)</span> <span class="p">{</span>
+<span class="ln">14</span>		<span class="n">pr_err</span><span class="p">(</span><span class="s">&#34;kobject &#39;%s&#39; (%p): tried to add an uninitialized object, something is seriously wrong.</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span>
+<span class="ln">15</span>		       <span class="n">kobject_name</span><span class="p">(</span><span class="n">kobj</span><span class="p">),</span> <span class="n">kobj</span><span class="p">);</span>
+<span class="ln">16</span>		<span class="n">dump_stack</span><span class="p">();</span>
+<span class="ln">17</span>		<span class="k">return</span> <span class="o">-</span><span class="n">EINVAL</span><span class="p">;</span>
+<span class="ln">18</span>	<span class="p">}</span>
+<span class="ln">19</span>	<span class="n">va_start</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">fmt</span><span class="p">);</span>
+<span class="ln">20</span>	<span class="cm">/* 设置名字并且将父指针添加到parent */</span>
+<span class="ln">21</span>	<span class="n">retval</span> <span class="o">=</span> <span class="n">kobject_add_varg</span><span class="p">(</span><span class="n">kobj</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">fmt</span><span class="p">,</span> <span class="n">args</span><span class="p">);</span>
+<span class="ln">22</span>	<span class="n">va_end</span><span class="p">(</span><span class="n">args</span><span class="p">);</span>
+<span class="ln">23</span>	
+<span class="ln">24</span>	<span class="k">return</span> <span class="n">retval</span><span class="p">;</span>
+<span class="ln">25</span><span class="p">}</span>
+</code></pre></div><p>最终调用添加函数</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="k">static</span> <span class="kt">int</span> <span class="nf">kobject_add_internal</span><span class="p">(</span><span class="k">struct</span> <span class="n">kobject</span> <span class="o">*</span><span class="n">kobj</span><span class="p">)</span>
+<span class="ln"> 2</span><span class="p">{</span>
+<span class="ln"> 3</span>	<span class="kt">int</span> <span class="n">error</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="ln"> 4</span>	<span class="k">struct</span> <span class="n">kobject</span> <span class="o">*</span><span class="n">parent</span><span class="p">;</span>
+<span class="ln"> 5</span>	
+<span class="ln"> 6</span>    <span class="cm">/* 判断参数NULL */</span>
+<span class="ln"> 7</span>	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">kobj</span><span class="p">)</span>
+<span class="ln"> 8</span>		<span class="k">return</span> <span class="o">-</span><span class="n">ENOENT</span><span class="p">;</span>
+<span class="ln"> 9</span>	
+<span class="ln">10</span>    <span class="cm">/* 判断名字是否有效 */</span>
+<span class="ln">11</span>	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">kobj</span><span class="o">-&gt;</span><span class="n">name</span> <span class="o">||</span> <span class="o">!</span><span class="n">kobj</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="p">{</span>
+<span class="ln">12</span>		<span class="n">WARN</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span>
+<span class="ln">13</span>		     <span class="s">&#34;kobject: (%p): attempted to be registered with empty name!</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span>
+<span class="ln">14</span>		     <span class="n">kobj</span><span class="p">);</span>
+<span class="ln">15</span>		<span class="k">return</span> <span class="o">-</span><span class="n">EINVAL</span><span class="p">;</span>
+<span class="ln">16</span>	<span class="p">}</span>
+<span class="ln">17</span>	
+<span class="ln">18</span>    <span class="cm">/** 获取父指针 */</span>
+<span class="ln">19</span>	<span class="n">parent</span> <span class="o">=</span> <span class="n">kobject_get</span><span class="p">(</span><span class="n">kobj</span><span class="o">-&gt;</span><span class="n">parent</span><span class="p">);</span>
+<span class="ln">20</span>
+<span class="ln">21</span>	<span class="cm">/* join kset if set, use it as parent if we do not already have one */</span>
+<span class="ln">22</span>	<span class="k">if</span> <span class="p">(</span><span class="n">kobj</span><span class="o">-&gt;</span><span class="n">kset</span><span class="p">)</span> <span class="p">{</span>		<span class="cm">/* kset已经设置 */</span>
+<span class="ln">23</span>		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">parent</span><span class="p">)</span>		<span class="cm">/* 不存在父指针 */</span>
+<span class="ln">24</span>			<span class="cm">/* kset的kobject作为父指针 */</span>
+<span class="ln">25</span>            <span class="n">parent</span> <span class="o">=</span> <span class="n">kobject_get</span><span class="p">(</span><span class="o">&amp;</span><span class="n">kobj</span><span class="o">-&gt;</span><span class="n">kset</span><span class="o">-&gt;</span><span class="n">kobj</span><span class="p">);</span>
+<span class="ln">26</span>		<span class="cm">/* 将kobject加入kset */</span>
+<span class="ln">27</span>        <span class="n">kobj_kset_join</span><span class="p">(</span><span class="n">kobj</span><span class="p">);</span>
+<span class="ln">28</span>		
+<span class="ln">29</span>        <span class="cm">/* 保存父指针 */</span>
+<span class="ln">30</span>        <span class="n">kobj</span><span class="o">-&gt;</span><span class="n">parent</span> <span class="o">=</span> <span class="n">parent</span><span class="p">;</span>
+<span class="ln">31</span>	<span class="p">}</span>
+<span class="ln">32</span>
+<span class="ln">33</span>	<span class="n">pr_debug</span><span class="p">(</span><span class="s">&#34;kobject: &#39;%s&#39; (%p): %s: parent: &#39;%s&#39;, set: &#39;%s&#39;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span>
+<span class="ln">34</span>		 <span class="n">kobject_name</span><span class="p">(</span><span class="n">kobj</span><span class="p">),</span> <span class="n">kobj</span><span class="p">,</span> <span class="n">__func__</span><span class="p">,</span>
+<span class="ln">35</span>		 <span class="n">parent</span> <span class="o">?</span> <span class="n">kobject_name</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span> <span class="o">:</span> <span class="s">&#34;&lt;NULL&gt;&#34;</span><span class="p">,</span>
+<span class="ln">36</span>		 <span class="n">kobj</span><span class="o">-&gt;</span><span class="n">kset</span> <span class="o">?</span> <span class="n">kobject_name</span><span class="p">(</span><span class="o">&amp;</span><span class="n">kobj</span><span class="o">-&gt;</span><span class="n">kset</span><span class="o">-&gt;</span><span class="n">kobj</span><span class="p">)</span> <span class="o">:</span> <span class="s">&#34;&lt;NULL&gt;&#34;</span><span class="p">);</span>
+<span class="ln">37</span>	
+<span class="ln">38</span>    <span class="cm">/* 创建dir */</span>
+<span class="ln">39</span>	<span class="n">error</span> <span class="o">=</span> <span class="n">create_dir</span><span class="p">(</span><span class="n">kobj</span><span class="p">);</span>
+<span class="ln">40</span>	<span class="k">if</span> <span class="p">(</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span> <span class="cm">/* 出错,清理 */</span>
+<span class="ln">41</span>		<span class="n">kobj_kset_leave</span><span class="p">(</span><span class="n">kobj</span><span class="p">);</span>
+<span class="ln">42</span>		<span class="n">kobject_put</span><span class="p">(</span><span class="n">parent</span><span class="p">);</span>
+<span class="ln">43</span>		<span class="n">kobj</span><span class="o">-&gt;</span><span class="n">parent</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="ln">44</span>
+<span class="ln">45</span>		<span class="cm">/* be noisy on error issues */</span>
+<span class="ln">46</span>		<span class="k">if</span> <span class="p">(</span><span class="n">error</span> <span class="o">==</span> <span class="o">-</span><span class="n">EEXIST</span><span class="p">)</span>
+<span class="ln">47</span>			<span class="n">pr_err</span><span class="p">(</span><span class="s">&#34;%s failed for %s with -EEXIST, don&#39;t try to register things with the same name in the same directory.</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span>
+<span class="ln">48</span>			       <span class="n">__func__</span><span class="p">,</span> <span class="n">kobject_name</span><span class="p">(</span><span class="n">kobj</span><span class="p">));</span>
+<span class="ln">49</span>		<span class="k">else</span>
+<span class="ln">50</span>			<span class="n">pr_err</span><span class="p">(</span><span class="s">&#34;%s failed for %s (error: %d parent: %s)</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span>
+<span class="ln">51</span>			       <span class="n">__func__</span><span class="p">,</span> <span class="n">kobject_name</span><span class="p">(</span><span class="n">kobj</span><span class="p">),</span> <span class="n">error</span><span class="p">,</span>
+<span class="ln">52</span>			       <span class="n">parent</span> <span class="o">?</span> <span class="n">kobject_name</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span> <span class="o">:</span> <span class="s">&#34;&#39;none&#39;&#34;</span><span class="p">);</span>
+<span class="ln">53</span>	<span class="p">}</span> <span class="k">else</span>
+<span class="ln">54</span>		<span class="n">kobj</span><span class="o">-&gt;</span><span class="n">state_in_sysfs</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>  <span class="cm">/* 添加到sysfs中 */</span>
+<span class="ln">55</span>
+<span class="ln">56</span>	<span class="k">return</span> <span class="n">error</span><span class="p">;</span>
+<span class="ln">57</span><span class="p">}</span>
+</code></pre></div><h5 id="sysfs文件夹生成">sysfs文件夹生成</h5>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="k">static</span> <span class="kt">int</span> <span class="nf">create_dir</span><span class="p">(</span><span class="k">struct</span> <span class="n">kobject</span> <span class="o">*</span><span class="n">kobj</span><span class="p">)</span>
+<span class="ln"> 2</span><span class="p">{</span>
+<span class="ln"> 3</span>	<span class="k">const</span> <span class="k">struct</span> <span class="n">kobj_ns_type_operations</span> <span class="o">*</span><span class="n">ops</span><span class="p">;</span>
+<span class="ln"> 4</span>	<span class="kt">int</span> <span class="n">error</span><span class="p">;</span>
+<span class="ln"> 5</span>
+<span class="ln"> 6</span>	<span class="n">error</span> <span class="o">=</span> <span class="n">sysfs_create_dir_ns</span><span class="p">(</span><span class="n">kobj</span><span class="p">,</span> <span class="n">kobject_namespace</span><span class="p">(</span><span class="n">kobj</span><span class="p">));</span>
+<span class="ln"> 7</span>	<span class="k">if</span> <span class="p">(</span><span class="n">error</span><span class="p">)</span>
+<span class="ln"> 8</span>		<span class="k">return</span> <span class="n">error</span><span class="p">;</span>
+<span class="ln"> 9</span>
+<span class="ln">10</span>	<span class="n">error</span> <span class="o">=</span> <span class="n">populate_dir</span><span class="p">(</span><span class="n">kobj</span><span class="p">);</span>
+<span class="ln">11</span>	<span class="k">if</span> <span class="p">(</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+<span class="ln">12</span>		<span class="n">sysfs_remove_dir</span><span class="p">(</span><span class="n">kobj</span><span class="p">);</span>
+<span class="ln">13</span>		<span class="k">return</span> <span class="n">error</span><span class="p">;</span>
+<span class="ln">14</span>	<span class="p">}</span>
+<span class="ln">15</span>
+<span class="ln">16</span>	<span class="cm">/*
+</span><span class="ln">17</span><span class="cm">	 * @kobj-&gt;sd may be deleted by an ancestor going away.  Hold an
+</span><span class="ln">18</span><span class="cm">	 * extra reference so that it stays until @kobj is gone.
+</span><span class="ln">19</span><span class="cm">	 */</span>
+<span class="ln">20</span>	<span class="n">sysfs_get</span><span class="p">(</span><span class="n">kobj</span><span class="o">-&gt;</span><span class="n">sd</span><span class="p">);</span>
+<span class="ln">21</span>
+<span class="ln">22</span>	<span class="cm">/*
+</span><span class="ln">23</span><span class="cm">	 * If @kobj has ns_ops, its children need to be filtered based on
+</span><span class="ln">24</span><span class="cm">	 * their namespace tags.  Enable namespace support on @kobj-&gt;sd.
+</span><span class="ln">25</span><span class="cm">	 */</span>
+<span class="ln">26</span>	<span class="n">ops</span> <span class="o">=</span> <span class="n">kobj_child_ns_ops</span><span class="p">(</span><span class="n">kobj</span><span class="p">);</span>
+<span class="ln">27</span>	<span class="k">if</span> <span class="p">(</span><span class="n">ops</span><span class="p">)</span> <span class="p">{</span>
+<span class="ln">28</span>		<span class="n">BUG_ON</span><span class="p">(</span><span class="n">ops</span><span class="o">-&gt;</span><span class="n">type</span> <span class="o">&lt;=</span> <span class="n">KOBJ_NS_TYPE_NONE</span><span class="p">);</span>
+<span class="ln">29</span>		<span class="n">BUG_ON</span><span class="p">(</span><span class="n">ops</span><span class="o">-&gt;</span><span class="n">type</span> <span class="o">&gt;=</span> <span class="n">KOBJ_NS_TYPES</span><span class="p">);</span>
+<span class="ln">30</span>		<span class="n">BUG_ON</span><span class="p">(</span><span class="o">!</span><span class="n">kobj_ns_type_registered</span><span class="p">(</span><span class="n">ops</span><span class="o">-&gt;</span><span class="n">type</span><span class="p">));</span>
+<span class="ln">31</span>
+<span class="ln">32</span>		<span class="n">sysfs_enable_ns</span><span class="p">(</span><span class="n">kobj</span><span class="o">-&gt;</span><span class="n">sd</span><span class="p">);</span>
+<span class="ln">33</span>	<span class="p">}</span>
+<span class="ln">34</span>
+<span class="ln">35</span>	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="ln">36</span><span class="p">}</span>
+</code></pre></div><h4 id="删除">删除</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="kt">void</span> <span class="nf">kobject_del</span><span class="p">(</span><span class="k">struct</span> <span class="n">kobject</span> <span class="o">*</span><span class="n">kobj</span><span class="p">)</span>
+<span class="ln"> 2</span><span class="p">{</span>
+<span class="ln"> 3</span>	<span class="k">struct</span> <span class="n">kernfs_node</span> <span class="o">*</span><span class="n">sd</span><span class="p">;</span>
+<span class="ln"> 4</span>
+<span class="ln"> 5</span>	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">kobj</span><span class="p">)</span>
+<span class="ln"> 6</span>		<span class="k">return</span><span class="p">;</span>
+<span class="ln"> 7</span>
+<span class="ln"> 8</span>	<span class="n">sd</span> <span class="o">=</span> <span class="n">kobj</span><span class="o">-&gt;</span><span class="n">sd</span><span class="p">;</span>
+<span class="ln"> 9</span>	<span class="n">sysfs_remove_dir</span><span class="p">(</span><span class="n">kobj</span><span class="p">);</span>
+<span class="ln">10</span>	<span class="n">sysfs_put</span><span class="p">(</span><span class="n">sd</span><span class="p">);</span>
+<span class="ln">11</span>
+<span class="ln">12</span>	<span class="n">kobj</span><span class="o">-&gt;</span><span class="n">state_in_sysfs</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="ln">13</span>	<span class="n">kobj_kset_leave</span><span class="p">(</span><span class="n">kobj</span><span class="p">);</span>
+<span class="ln">14</span>	<span class="n">kobject_put</span><span class="p">(</span><span class="n">kobj</span><span class="o">-&gt;</span><span class="n">parent</span><span class="p">);</span>
+<span class="ln">15</span>	<span class="n">kobj</span><span class="o">-&gt;</span><span class="n">parent</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="ln">16</span><span class="p">}</span>
+</code></pre></div><h4 id="引用计数">引用计数</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="k">struct</span> <span class="n">kobject</span> <span class="o">*</span><span class="nf">kobject_get</span><span class="p">(</span><span class="k">struct</span> <span class="n">kobject</span> <span class="o">*</span><span class="n">kobj</span><span class="p">)</span>
+<span class="ln"> 2</span><span class="p">{</span>
+<span class="ln"> 3</span>	<span class="k">if</span> <span class="p">(</span><span class="n">kobj</span><span class="p">)</span> <span class="p">{</span>
+<span class="ln"> 4</span>		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">kobj</span><span class="o">-&gt;</span><span class="n">state_initialized</span><span class="p">)</span>
+<span class="ln"> 5</span>			<span class="n">WARN</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">KERN_WARNING</span>
+<span class="ln"> 6</span>				<span class="s">&#34;kobject: &#39;%s&#39; (%p): is not initialized, yet kobject_get() is being called.</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span>
+<span class="ln"> 7</span>			     <span class="n">kobject_name</span><span class="p">(</span><span class="n">kobj</span><span class="p">),</span> <span class="n">kobj</span><span class="p">);</span>
+<span class="ln"> 8</span>		<span class="n">kref_get</span><span class="p">(</span><span class="o">&amp;</span><span class="n">kobj</span><span class="o">-&gt;</span><span class="n">kref</span><span class="p">);</span>
+<span class="ln"> 9</span>	<span class="p">}</span>
+<span class="ln">10</span>	<span class="k">return</span> <span class="n">kobj</span><span class="p">;</span>
+<span class="ln">11</span><span class="p">}</span>
+<span class="ln">12</span>
+<span class="ln">13</span><span class="kt">void</span> <span class="nf">kobject_put</span><span class="p">(</span><span class="k">struct</span> <span class="n">kobject</span> <span class="o">*</span><span class="n">kobj</span><span class="p">)</span>
+<span class="ln">14</span><span class="p">{</span>
+<span class="ln">15</span>	<span class="k">if</span> <span class="p">(</span><span class="n">kobj</span><span class="p">)</span> <span class="p">{</span>
+<span class="ln">16</span>		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">kobj</span><span class="o">-&gt;</span><span class="n">state_initialized</span><span class="p">)</span>
+<span class="ln">17</span>			<span class="n">WARN</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">KERN_WARNING</span>
+<span class="ln">18</span>				<span class="s">&#34;kobject: &#39;%s&#39; (%p): is not initialized, yet kobject_put() is being called.</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span>
+<span class="ln">19</span>			     <span class="n">kobject_name</span><span class="p">(</span><span class="n">kobj</span><span class="p">),</span> <span class="n">kobj</span><span class="p">);</span>
+<span class="ln">20</span>		<span class="n">kref_put</span><span class="p">(</span><span class="o">&amp;</span><span class="n">kobj</span><span class="o">-&gt;</span><span class="n">kref</span><span class="p">,</span> <span class="n">kobject_release</span><span class="p">);</span>
+<span class="ln">21</span>	<span class="p">}</span>
+<span class="ln">22</span><span class="p">}</span>
+</code></pre></div><h3 id="kset">kset</h3>
+<h4 id="数据结构-1">数据结构</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln">1</span><span class="k">struct</span> <span class="n">kset</span> <span class="p">{</span>
+<span class="ln">2</span>	<span class="k">struct</span> <span class="n">list_head</span> <span class="n">list</span><span class="p">;</span>
+<span class="ln">3</span>	<span class="n">spinlock_t</span> <span class="n">list_lock</span><span class="p">;</span>
+<span class="ln">4</span>	<span class="k">struct</span> <span class="n">kobject</span> <span class="n">kobj</span><span class="p">;</span>
+<span class="ln">5</span>	<span class="k">const</span> <span class="k">struct</span> <span class="n">kset_uevent_ops</span> <span class="o">*</span><span class="n">uevent_ops</span><span class="p">;</span>
+<span class="ln">6</span><span class="p">}</span> <span class="n">__randomize_layout</span><span class="p">;</span>
+</code></pre></div><h3 id="ktype">ktype</h3>
+<h4 id="数据结构-2">数据结构</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln">1</span><span class="k">struct</span> <span class="n">kobj_type</span> <span class="p">{</span>
+<span class="ln">2</span>	<span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">release</span><span class="p">)(</span><span class="k">struct</span> <span class="n">kobject</span> <span class="o">*</span><span class="n">kobj</span><span class="p">);</span>
+<span class="ln">3</span>	<span class="k">const</span> <span class="k">struct</span> <span class="n">sysfs_ops</span> <span class="o">*</span><span class="n">sysfs_ops</span><span class="p">;</span>
+<span class="ln">4</span>	<span class="k">struct</span> <span class="n">attribute</span> <span class="o">**</span><span class="n">default_attrs</span><span class="p">;</span>
+<span class="ln">5</span>	<span class="k">const</span> <span class="k">struct</span> <span class="n">kobj_ns_type_operations</span> <span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">child_ns_type</span><span class="p">)(</span><span class="k">struct</span> <span class="n">kobject</span> <span class="o">*</span><span class="n">kobj</span><span class="p">);</span>
+<span class="ln">6</span>	<span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">namespace</span><span class="p">)(</span><span class="k">struct</span> <span class="n">kobject</span> <span class="o">*</span><span class="n">kobj</span><span class="p">);</span>
+<span class="ln">7</span>	<span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">get_ownership</span><span class="p">)(</span><span class="k">struct</span> <span class="n">kobject</span> <span class="o">*</span><span class="n">kobj</span><span class="p">,</span> <span class="n">kuid_t</span> <span class="o">*</span><span class="n">uid</span><span class="p">,</span> <span class="n">kgid_t</span> <span class="o">*</span><span class="n">gid</span><span class="p">);</span>
+<span class="ln">8</span><span class="p">};</span>
+</code></pre></div><h2 id="class">class</h2>
+<blockquote>
+<p>设备类描述</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="k">struct</span> <span class="n">class</span> <span class="p">{</span>
+<span class="ln"> 2</span>	<span class="k">const</span> <span class="kt">char</span>		<span class="o">*</span><span class="n">name</span><span class="p">;</span>
+<span class="ln"> 3</span>	<span class="k">struct</span> <span class="n">module</span>		<span class="o">*</span><span class="n">owner</span><span class="p">;</span>
+<span class="ln"> 4</span>
+<span class="ln"> 5</span>	<span class="k">const</span> <span class="k">struct</span> <span class="n">attribute_group</span>	<span class="o">**</span><span class="n">class_groups</span><span class="p">;</span>
+<span class="ln"> 6</span>	<span class="k">const</span> <span class="k">struct</span> <span class="n">attribute_group</span>	<span class="o">**</span><span class="n">dev_groups</span><span class="p">;</span>
+<span class="ln"> 7</span>	<span class="k">struct</span> <span class="n">kobject</span>			<span class="o">*</span><span class="n">dev_kobj</span><span class="p">;</span>
+<span class="ln"> 8</span>
+<span class="ln"> 9</span>	<span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">dev_uevent</span><span class="p">)(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">,</span> <span class="k">struct</span> <span class="n">kobj_uevent_env</span> <span class="o">*</span><span class="n">env</span><span class="p">);</span>
+<span class="ln">10</span>	<span class="kt">char</span> <span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">devnode</span><span class="p">)(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">,</span> <span class="n">umode_t</span> <span class="o">*</span><span class="n">mode</span><span class="p">);</span>
+<span class="ln">11</span>
+<span class="ln">12</span>	<span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">class_release</span><span class="p">)(</span><span class="k">struct</span> <span class="n">class</span> <span class="o">*</span><span class="n">class</span><span class="p">);</span>
+<span class="ln">13</span>	<span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">dev_release</span><span class="p">)(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">);</span>
+<span class="ln">14</span>
+<span class="ln">15</span>	<span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">shutdown_pre</span><span class="p">)(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">);</span>
+<span class="ln">16</span>
+<span class="ln">17</span>	<span class="k">const</span> <span class="k">struct</span> <span class="n">kobj_ns_type_operations</span> <span class="o">*</span><span class="n">ns_type</span><span class="p">;</span>
+<span class="ln">18</span>	<span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">namespace</span><span class="p">)(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">);</span>
+<span class="ln">19</span>
+<span class="ln">20</span>	<span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">get_ownership</span><span class="p">)(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">,</span> <span class="n">kuid_t</span> <span class="o">*</span><span class="n">uid</span><span class="p">,</span> <span class="n">kgid_t</span> <span class="o">*</span><span class="n">gid</span><span class="p">);</span>
+<span class="ln">21</span>
+<span class="ln">22</span>	<span class="k">const</span> <span class="k">struct</span> <span class="n">dev_pm_ops</span> <span class="o">*</span><span class="n">pm</span><span class="p">;</span>
+<span class="ln">23</span>
+<span class="ln">24</span>	<span class="k">struct</span> <span class="n">subsys_private</span> <span class="o">*</span><span class="n">p</span><span class="p">;</span>
+<span class="ln">25</span><span class="p">};</span>
+</code></pre></div><h2 id="bus">bus</h2>
+<blockquote>
+<p>设备总线描述</p>
+</blockquote>
+<h3 id="总线类型">总线类型</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="ln">1</span><span class="c1"># ls</span>
+<span class="ln">2</span>amba          cpu           nvmem         platform      virtio
+<span class="ln">3</span>clockevents   event_source  pci           scsi          workqueue
+<span class="ln">4</span>clocksource   gpio          pci_express   serio
+<span class="ln">5</span>container     hid           pcmcia        spi
+</code></pre></div><p>其中每一个总线具有如下信息</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="ln">1</span><span class="c1"># ls</span>
+<span class="ln">2</span>devices            drivers_autoprobe  uevent
+<span class="ln">3</span>drivers            drivers_probe
+</code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="k">struct</span> <span class="n">bus_type</span> <span class="p">{</span>
+<span class="ln"> 2</span>	<span class="k">const</span> <span class="kt">char</span>		<span class="o">*</span><span class="n">name</span><span class="p">;</span>
+<span class="ln"> 3</span>	<span class="k">const</span> <span class="kt">char</span>		<span class="o">*</span><span class="n">dev_name</span><span class="p">;</span>
+<span class="ln"> 4</span>	<span class="k">struct</span> <span class="n">device</span>		<span class="o">*</span><span class="n">dev_root</span><span class="p">;</span>
+<span class="ln"> 5</span>	<span class="k">const</span> <span class="k">struct</span> <span class="n">attribute_group</span> <span class="o">**</span><span class="n">bus_groups</span><span class="p">;</span>
+<span class="ln"> 6</span>	<span class="k">const</span> <span class="k">struct</span> <span class="n">attribute_group</span> <span class="o">**</span><span class="n">dev_groups</span><span class="p">;</span>
+<span class="ln"> 7</span>	<span class="k">const</span> <span class="k">struct</span> <span class="n">attribute_group</span> <span class="o">**</span><span class="n">drv_groups</span><span class="p">;</span>
+<span class="ln"> 8</span>
+<span class="ln"> 9</span>	<span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">match</span><span class="p">)(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">,</span> <span class="k">struct</span> <span class="n">device_driver</span> <span class="o">*</span><span class="n">drv</span><span class="p">);</span>
+<span class="ln">10</span>	<span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">uevent</span><span class="p">)(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">,</span> <span class="k">struct</span> <span class="n">kobj_uevent_env</span> <span class="o">*</span><span class="n">env</span><span class="p">);</span>
+<span class="ln">11</span>	<span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">probe</span><span class="p">)(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">);</span>
+<span class="ln">12</span>	<span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">remove</span><span class="p">)(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">);</span>
+<span class="ln">13</span>	<span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">shutdown</span><span class="p">)(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">);</span>
+<span class="ln">14</span>
+<span class="ln">15</span>	<span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">online</span><span class="p">)(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">);</span>
+<span class="ln">16</span>	<span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">offline</span><span class="p">)(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">);</span>
+<span class="ln">17</span>
+<span class="ln">18</span>	<span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">suspend</span><span class="p">)(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">,</span> <span class="n">pm_message_t</span> <span class="n">state</span><span class="p">);</span>
+<span class="ln">19</span>	<span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">resume</span><span class="p">)(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">);</span>
+<span class="ln">20</span>
+<span class="ln">21</span>	<span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">num_vf</span><span class="p">)(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">);</span>
+<span class="ln">22</span>
+<span class="ln">23</span>	<span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">dma_configure</span><span class="p">)(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">);</span>
+<span class="ln">24</span>
+<span class="ln">25</span>	<span class="k">const</span> <span class="k">struct</span> <span class="n">dev_pm_ops</span> <span class="o">*</span><span class="n">pm</span><span class="p">;</span>
+<span class="ln">26</span>
+<span class="ln">27</span>	<span class="k">const</span> <span class="k">struct</span> <span class="n">iommu_ops</span> <span class="o">*</span><span class="n">iommu_ops</span><span class="p">;</span>
+<span class="ln">28</span>
+<span class="ln">29</span>	<span class="k">struct</span> <span class="n">subsys_private</span> <span class="o">*</span><span class="n">p</span><span class="p">;</span>
+<span class="ln">30</span>	<span class="k">struct</span> <span class="n">lock_class_key</span> <span class="n">lock_key</span><span class="p">;</span>
+<span class="ln">31</span>
+<span class="ln">32</span>	<span class="kt">bool</span> <span class="n">need_parent_lock</span><span class="p">;</span>
+<span class="ln">33</span><span class="p">};</span>
+</code></pre></div><h4 id="设备总线注册">设备总线注册</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="kt">int</span> <span class="nf">bus_register</span><span class="p">(</span><span class="k">struct</span> <span class="n">bus_type</span> <span class="o">*</span><span class="n">bus</span><span class="p">)</span>
+<span class="ln"> 2</span><span class="p">{</span>
+<span class="ln"> 3</span>	<span class="kt">int</span> <span class="n">retval</span><span class="p">;</span>
+<span class="ln"> 4</span>	<span class="k">struct</span> <span class="n">subsys_private</span> <span class="o">*</span><span class="n">priv</span><span class="p">;</span>
+<span class="ln"> 5</span>	<span class="k">struct</span> <span class="n">lock_class_key</span> <span class="o">*</span><span class="n">key</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">bus</span><span class="o">-&gt;</span><span class="n">lock_key</span><span class="p">;</span>
+<span class="ln"> 6</span>
+<span class="ln"> 7</span>	<span class="n">priv</span> <span class="o">=</span> <span class="n">kzalloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">subsys_private</span><span class="p">),</span> <span class="n">GFP_KERNEL</span><span class="p">);</span>
+<span class="ln"> 8</span>	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">priv</span><span class="p">)</span>
+<span class="ln"> 9</span>		<span class="k">return</span> <span class="o">-</span><span class="n">ENOMEM</span><span class="p">;</span>
+<span class="ln">10</span>
+<span class="ln">11</span>	<span class="n">priv</span><span class="o">-&gt;</span><span class="n">bus</span> <span class="o">=</span> <span class="n">bus</span><span class="p">;</span>
+<span class="ln">12</span>	<span class="n">bus</span><span class="o">-&gt;</span><span class="n">p</span> <span class="o">=</span> <span class="n">priv</span><span class="p">;</span>
+<span class="ln">13</span>
+<span class="ln">14</span>	<span class="n">BLOCKING_INIT_NOTIFIER_HEAD</span><span class="p">(</span><span class="o">&amp;</span><span class="n">priv</span><span class="o">-&gt;</span><span class="n">bus_notifier</span><span class="p">);</span>
+<span class="ln">15</span>
+<span class="ln">16</span>	<span class="n">retval</span> <span class="o">=</span> <span class="n">kobject_set_name</span><span class="p">(</span><span class="o">&amp;</span><span class="n">priv</span><span class="o">-&gt;</span><span class="n">subsys</span><span class="p">.</span><span class="n">kobj</span><span class="p">,</span> <span class="s">&#34;%s&#34;</span><span class="p">,</span> <span class="n">bus</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">);</span>
+<span class="ln">17</span>	<span class="k">if</span> <span class="p">(</span><span class="n">retval</span><span class="p">)</span>
+<span class="ln">18</span>		<span class="k">goto</span> <span class="n">out</span><span class="p">;</span>
+<span class="ln">19</span>
+<span class="ln">20</span>	<span class="n">priv</span><span class="o">-&gt;</span><span class="n">subsys</span><span class="p">.</span><span class="n">kobj</span><span class="p">.</span><span class="n">kset</span> <span class="o">=</span> <span class="n">bus_kset</span><span class="p">;</span>
+<span class="ln">21</span>	<span class="n">priv</span><span class="o">-&gt;</span><span class="n">subsys</span><span class="p">.</span><span class="n">kobj</span><span class="p">.</span><span class="n">ktype</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">bus_ktype</span><span class="p">;</span>
+<span class="ln">22</span>	<span class="n">priv</span><span class="o">-&gt;</span><span class="n">drivers_autoprobe</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="ln">23</span>
+<span class="ln">24</span>	<span class="n">retval</span> <span class="o">=</span> <span class="n">kset_register</span><span class="p">(</span><span class="o">&amp;</span><span class="n">priv</span><span class="o">-&gt;</span><span class="n">subsys</span><span class="p">);</span>
+<span class="ln">25</span>	<span class="k">if</span> <span class="p">(</span><span class="n">retval</span><span class="p">)</span>
+<span class="ln">26</span>		<span class="k">goto</span> <span class="n">out</span><span class="p">;</span>
+<span class="ln">27</span>
+<span class="ln">28</span>	<span class="n">retval</span> <span class="o">=</span> <span class="n">bus_create_file</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">bus_attr_uevent</span><span class="p">);</span>
+<span class="ln">29</span>	<span class="k">if</span> <span class="p">(</span><span class="n">retval</span><span class="p">)</span>
+<span class="ln">30</span>		<span class="k">goto</span> <span class="n">bus_uevent_fail</span><span class="p">;</span>
+<span class="ln">31</span>
+<span class="ln">32</span>	<span class="n">priv</span><span class="o">-&gt;</span><span class="n">devices_kset</span> <span class="o">=</span> <span class="n">kset_create_and_add</span><span class="p">(</span><span class="s">&#34;devices&#34;</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span>
+<span class="ln">33</span>						 <span class="o">&amp;</span><span class="n">priv</span><span class="o">-&gt;</span><span class="n">subsys</span><span class="p">.</span><span class="n">kobj</span><span class="p">);</span>
+<span class="ln">34</span>	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">priv</span><span class="o">-&gt;</span><span class="n">devices_kset</span><span class="p">)</span> <span class="p">{</span>
+<span class="ln">35</span>		<span class="n">retval</span> <span class="o">=</span> <span class="o">-</span><span class="n">ENOMEM</span><span class="p">;</span>
+<span class="ln">36</span>		<span class="k">goto</span> <span class="n">bus_devices_fail</span><span class="p">;</span>
+<span class="ln">37</span>	<span class="p">}</span>
+<span class="ln">38</span>
+<span class="ln">39</span>	<span class="n">priv</span><span class="o">-&gt;</span><span class="n">drivers_kset</span> <span class="o">=</span> <span class="n">kset_create_and_add</span><span class="p">(</span><span class="s">&#34;drivers&#34;</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span>
+<span class="ln">40</span>						 <span class="o">&amp;</span><span class="n">priv</span><span class="o">-&gt;</span><span class="n">subsys</span><span class="p">.</span><span class="n">kobj</span><span class="p">);</span>
+<span class="ln">41</span>	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">priv</span><span class="o">-&gt;</span><span class="n">drivers_kset</span><span class="p">)</span> <span class="p">{</span>
+<span class="ln">42</span>		<span class="n">retval</span> <span class="o">=</span> <span class="o">-</span><span class="n">ENOMEM</span><span class="p">;</span>
+<span class="ln">43</span>		<span class="k">goto</span> <span class="n">bus_drivers_fail</span><span class="p">;</span>
+<span class="ln">44</span>	<span class="p">}</span>
+<span class="ln">45</span>
+<span class="ln">46</span>	<span class="n">INIT_LIST_HEAD</span><span class="p">(</span><span class="o">&amp;</span><span class="n">priv</span><span class="o">-&gt;</span><span class="n">interfaces</span><span class="p">);</span>
+<span class="ln">47</span>	<span class="n">__mutex_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">priv</span><span class="o">-&gt;</span><span class="n">mutex</span><span class="p">,</span> <span class="s">&#34;subsys mutex&#34;</span><span class="p">,</span> <span class="n">key</span><span class="p">);</span>
+<span class="ln">48</span>	<span class="n">klist_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">priv</span><span class="o">-&gt;</span><span class="n">klist_devices</span><span class="p">,</span> <span class="n">klist_devices_get</span><span class="p">,</span> <span class="n">klist_devices_put</span><span class="p">);</span>
+<span class="ln">49</span>	<span class="n">klist_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">priv</span><span class="o">-&gt;</span><span class="n">klist_drivers</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+<span class="ln">50</span>
+<span class="ln">51</span>	<span class="n">retval</span> <span class="o">=</span> <span class="n">add_probe_files</span><span class="p">(</span><span class="n">bus</span><span class="p">);</span>
+<span class="ln">52</span>	<span class="k">if</span> <span class="p">(</span><span class="n">retval</span><span class="p">)</span>
+<span class="ln">53</span>		<span class="k">goto</span> <span class="n">bus_probe_files_fail</span><span class="p">;</span>
+<span class="ln">54</span>
+<span class="ln">55</span>	<span class="n">retval</span> <span class="o">=</span> <span class="n">bus_add_groups</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="n">bus</span><span class="o">-&gt;</span><span class="n">bus_groups</span><span class="p">);</span>
+<span class="ln">56</span>	<span class="k">if</span> <span class="p">(</span><span class="n">retval</span><span class="p">)</span>
+<span class="ln">57</span>		<span class="k">goto</span> <span class="n">bus_groups_fail</span><span class="p">;</span>
+<span class="ln">58</span>
+<span class="ln">59</span>	<span class="n">pr_debug</span><span class="p">(</span><span class="s">&#34;bus: &#39;%s&#39;: registered</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">bus</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">);</span>
+<span class="ln">60</span>	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="ln">61</span>
+<span class="ln">62</span><span class="nl">bus_groups_fail</span><span class="p">:</span>
+<span class="ln">63</span>	<span class="n">remove_probe_files</span><span class="p">(</span><span class="n">bus</span><span class="p">);</span>
+<span class="ln">64</span><span class="nl">bus_probe_files_fail</span><span class="p">:</span>
+<span class="ln">65</span>	<span class="n">kset_unregister</span><span class="p">(</span><span class="n">bus</span><span class="o">-&gt;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">drivers_kset</span><span class="p">);</span>
+<span class="ln">66</span><span class="nl">bus_drivers_fail</span><span class="p">:</span>
+<span class="ln">67</span>	<span class="n">kset_unregister</span><span class="p">(</span><span class="n">bus</span><span class="o">-&gt;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">devices_kset</span><span class="p">);</span>
+<span class="ln">68</span><span class="nl">bus_devices_fail</span><span class="p">:</span>
+<span class="ln">69</span>	<span class="n">bus_remove_file</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">bus_attr_uevent</span><span class="p">);</span>
+<span class="ln">70</span><span class="nl">bus_uevent_fail</span><span class="p">:</span>
+<span class="ln">71</span>	<span class="n">kset_unregister</span><span class="p">(</span><span class="o">&amp;</span><span class="n">bus</span><span class="o">-&gt;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">subsys</span><span class="p">);</span>
+<span class="ln">72</span><span class="nl">out</span><span class="p">:</span>
+<span class="ln">73</span>	<span class="n">kfree</span><span class="p">(</span><span class="n">bus</span><span class="o">-&gt;</span><span class="n">p</span><span class="p">);</span>
+<span class="ln">74</span>	<span class="n">bus</span><span class="o">-&gt;</span><span class="n">p</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="ln">75</span>	<span class="k">return</span> <span class="n">retval</span><span class="p">;</span>
+<span class="ln">76</span><span class="p">}</span>
+<span class="ln">77</span>
+</code></pre></div><h4 id="设备总线卸载">设备总线卸载</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="kt">void</span> <span class="nf">bus_unregister</span><span class="p">(</span><span class="k">struct</span> <span class="n">bus_type</span> <span class="o">*</span><span class="n">bus</span><span class="p">)</span>
+<span class="ln"> 2</span><span class="p">{</span>
+<span class="ln"> 3</span>	<span class="n">pr_debug</span><span class="p">(</span><span class="s">&#34;bus: &#39;%s&#39;: unregistering</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">bus</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">);</span>
+<span class="ln"> 4</span>	<span class="k">if</span> <span class="p">(</span><span class="n">bus</span><span class="o">-&gt;</span><span class="n">dev_root</span><span class="p">)</span>
+<span class="ln"> 5</span>		<span class="n">device_unregister</span><span class="p">(</span><span class="n">bus</span><span class="o">-&gt;</span><span class="n">dev_root</span><span class="p">);</span>
+<span class="ln"> 6</span>	<span class="n">bus_remove_groups</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="n">bus</span><span class="o">-&gt;</span><span class="n">bus_groups</span><span class="p">);</span>
+<span class="ln"> 7</span>	<span class="n">remove_probe_files</span><span class="p">(</span><span class="n">bus</span><span class="p">);</span>
+<span class="ln"> 8</span>	<span class="n">kset_unregister</span><span class="p">(</span><span class="n">bus</span><span class="o">-&gt;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">drivers_kset</span><span class="p">);</span>
+<span class="ln"> 9</span>	<span class="n">kset_unregister</span><span class="p">(</span><span class="n">bus</span><span class="o">-&gt;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">devices_kset</span><span class="p">);</span>
+<span class="ln">10</span>	<span class="n">bus_remove_file</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">bus_attr_uevent</span><span class="p">);</span>
+<span class="ln">11</span>	<span class="n">kset_unregister</span><span class="p">(</span><span class="o">&amp;</span><span class="n">bus</span><span class="o">-&gt;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">subsys</span><span class="p">);</span>
+<span class="ln">12</span><span class="p">}</span>
+</code></pre></div><h2 id="devices">devices</h2>
+<blockquote>
+<p>设备文件具体描述:
+device(设备描述)
+device_driver(驱动描述)
+bus_type(总线信息)</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="ln">1</span><span class="p">|</span>-- breakpoint
+<span class="ln">2</span><span class="p">|</span>-- kprobe
+<span class="ln">3</span><span class="p">|</span>-- platform
+<span class="ln">4</span><span class="p">|</span>-- software
+<span class="ln">5</span><span class="p">|</span>-- system
+<span class="ln">6</span><span class="p">|</span>-- tracepoint
+<span class="ln">7</span><span class="p">|</span>-- uprobe
+<span class="ln">8</span><span class="sb">`</span>-- virtual
+</code></pre></div><h3 id="heading"></h3>
+<h4 id="device">device</h4>
+<blockquote>
+<p>描述设备</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="k">struct</span> <span class="n">device</span> <span class="p">{</span>
+<span class="ln"> 2</span>	<span class="k">struct</span> <span class="n">device</span>		<span class="o">*</span><span class="n">parent</span><span class="p">;</span>
+<span class="ln"> 3</span>
+<span class="ln"> 4</span>	<span class="k">struct</span> <span class="n">device_private</span>	<span class="o">*</span><span class="n">p</span><span class="p">;</span>
+<span class="ln"> 5</span>
+<span class="ln"> 6</span>	<span class="k">struct</span> <span class="n">kobject</span> <span class="n">kobj</span><span class="p">;</span>
+<span class="ln"> 7</span>	<span class="k">const</span> <span class="kt">char</span>		<span class="o">*</span><span class="n">init_name</span><span class="p">;</span> <span class="cm">/* initial name of the device */</span>
+<span class="ln"> 8</span>	<span class="k">const</span> <span class="k">struct</span> <span class="n">device_type</span> <span class="o">*</span><span class="n">type</span><span class="p">;</span>
+<span class="ln"> 9</span>
+<span class="ln">10</span>	<span class="k">struct</span> <span class="n">mutex</span>		<span class="n">mutex</span><span class="p">;</span>	<span class="cm">/* mutex to synchronize calls to
+</span><span class="ln">11</span><span class="cm">					 * its driver.
+</span><span class="ln">12</span><span class="cm">					 */</span>
+<span class="ln">13</span>
+<span class="ln">14</span>	<span class="k">struct</span> <span class="n">bus_type</span>	<span class="o">*</span><span class="n">bus</span><span class="p">;</span>		<span class="cm">/* type of bus device is on */</span>
+<span class="ln">15</span>	<span class="k">struct</span> <span class="n">device_driver</span> <span class="o">*</span><span class="n">driver</span><span class="p">;</span>	<span class="cm">/* which driver has allocated this
+</span><span class="ln">16</span><span class="cm">					   device */</span>
+<span class="ln">17</span>	<span class="kt">void</span>		<span class="o">*</span><span class="n">platform_data</span><span class="p">;</span>	<span class="cm">/* Platform specific data, device
+</span><span class="ln">18</span><span class="cm">					   core doesn&#39;t touch it */</span>
+<span class="ln">19</span>	<span class="kt">void</span>		<span class="o">*</span><span class="n">driver_data</span><span class="p">;</span>	<span class="cm">/* Driver data, set and get with
+</span><span class="ln">20</span><span class="cm">					   dev_set/get_drvdata */</span>
+<span class="ln">21</span>	<span class="k">struct</span> <span class="n">dev_links_info</span>	<span class="n">links</span><span class="p">;</span>
+<span class="ln">22</span>	<span class="k">struct</span> <span class="n">dev_pm_info</span>	<span class="n">power</span><span class="p">;</span>
+<span class="ln">23</span>	<span class="k">struct</span> <span class="n">dev_pm_domain</span>	<span class="o">*</span><span class="n">pm_domain</span><span class="p">;</span>
+<span class="ln">24</span>
+<span class="ln">25</span><span class="cp">#ifdef CONFIG_GENERIC_MSI_IRQ_DOMAIN
+</span><span class="ln">26</span><span class="cp"></span>	<span class="k">struct</span> <span class="n">irq_domain</span>	<span class="o">*</span><span class="n">msi_domain</span><span class="p">;</span>
+<span class="ln">27</span><span class="cp">#endif
+</span><span class="ln">28</span><span class="cp">#ifdef CONFIG_PINCTRL
+</span><span class="ln">29</span><span class="cp"></span>	<span class="k">struct</span> <span class="n">dev_pin_info</span>	<span class="o">*</span><span class="n">pins</span><span class="p">;</span>
+<span class="ln">30</span><span class="cp">#endif
+</span><span class="ln">31</span><span class="cp">#ifdef CONFIG_GENERIC_MSI_IRQ
+</span><span class="ln">32</span><span class="cp"></span>	<span class="k">struct</span> <span class="n">list_head</span>	<span class="n">msi_list</span><span class="p">;</span>
+<span class="ln">33</span><span class="cp">#endif
+</span><span class="ln">34</span><span class="cp"></span>
+<span class="ln">35</span><span class="cp">#ifdef CONFIG_NUMA
+</span><span class="ln">36</span><span class="cp"></span>	<span class="kt">int</span>		<span class="n">numa_node</span><span class="p">;</span>	<span class="cm">/* NUMA node this device is close to */</span>
+<span class="ln">37</span><span class="cp">#endif
+</span><span class="ln">38</span><span class="cp"></span>	<span class="k">const</span> <span class="k">struct</span> <span class="n">dma_map_ops</span> <span class="o">*</span><span class="n">dma_ops</span><span class="p">;</span>
+<span class="ln">39</span>	<span class="n">u64</span>		<span class="o">*</span><span class="n">dma_mask</span><span class="p">;</span>	<span class="cm">/* dma mask (if dma&#39;able device) */</span>
+<span class="ln">40</span>	<span class="n">u64</span>		<span class="n">coherent_dma_mask</span><span class="p">;</span><span class="cm">/* Like dma_mask, but for
+</span><span class="ln">41</span><span class="cm">					     alloc_coherent mappings as
+</span><span class="ln">42</span><span class="cm">					     not all hardware supports
+</span><span class="ln">43</span><span class="cm">					     64 bit addresses for consistent
+</span><span class="ln">44</span><span class="cm">					     allocations such descriptors. */</span>
+<span class="ln">45</span>	<span class="n">u64</span>		<span class="n">bus_dma_mask</span><span class="p">;</span>	<span class="cm">/* upstream dma_mask constraint */</span>
+<span class="ln">46</span>	<span class="kt">unsigned</span> <span class="kt">long</span>	<span class="n">dma_pfn_offset</span><span class="p">;</span>
+<span class="ln">47</span>
+<span class="ln">48</span>	<span class="k">struct</span> <span class="n">device_dma_parameters</span> <span class="o">*</span><span class="n">dma_parms</span><span class="p">;</span>
+<span class="ln">49</span>
+<span class="ln">50</span>	<span class="k">struct</span> <span class="n">list_head</span>	<span class="n">dma_pools</span><span class="p">;</span>	<span class="cm">/* dma pools (if dma&#39;ble) */</span>
+<span class="ln">51</span>
+<span class="ln">52</span>	<span class="k">struct</span> <span class="n">dma_coherent_mem</span>	<span class="o">*</span><span class="n">dma_mem</span><span class="p">;</span> <span class="cm">/* internal for coherent mem
+</span><span class="ln">53</span><span class="cm">					     override */</span>
+<span class="ln">54</span><span class="cp">#ifdef CONFIG_DMA_CMA
+</span><span class="ln">55</span><span class="cp"></span>	<span class="k">struct</span> <span class="n">cma</span> <span class="o">*</span><span class="n">cma_area</span><span class="p">;</span>		<span class="cm">/* contiguous memory area for dma
+</span><span class="ln">56</span><span class="cm">					   allocations */</span>
+<span class="ln">57</span><span class="cp">#endif
+</span><span class="ln">58</span><span class="cp"></span>	<span class="cm">/* arch specific additions */</span>
+<span class="ln">59</span>	<span class="k">struct</span> <span class="n">dev_archdata</span>	<span class="n">archdata</span><span class="p">;</span>
+<span class="ln">60</span>
+<span class="ln">61</span>	<span class="k">struct</span> <span class="n">device_node</span>	<span class="o">*</span><span class="n">of_node</span><span class="p">;</span> <span class="cm">/* associated device tree node */</span>
+<span class="ln">62</span>	<span class="k">struct</span> <span class="n">fwnode_handle</span>	<span class="o">*</span><span class="n">fwnode</span><span class="p">;</span> <span class="cm">/* firmware device node */</span>
+<span class="ln">63</span>
+<span class="ln">64</span>	<span class="n">dev_t</span>			<span class="n">devt</span><span class="p">;</span>	<span class="cm">/* dev_t, creates the sysfs &#34;dev&#34; */</span>
+<span class="ln">65</span>	<span class="n">u32</span>			<span class="n">id</span><span class="p">;</span>	<span class="cm">/* device instance */</span>
+<span class="ln">66</span>
+<span class="ln">67</span>	<span class="n">spinlock_t</span>		<span class="n">devres_lock</span><span class="p">;</span>
+<span class="ln">68</span>	<span class="k">struct</span> <span class="n">list_head</span>	<span class="n">devres_head</span><span class="p">;</span>
+<span class="ln">69</span>
+<span class="ln">70</span>	<span class="k">struct</span> <span class="n">klist_node</span>	<span class="n">knode_class</span><span class="p">;</span>
+<span class="ln">71</span>	<span class="k">struct</span> <span class="n">class</span>		<span class="o">*</span><span class="n">class</span><span class="p">;</span>
+<span class="ln">72</span>	<span class="k">const</span> <span class="k">struct</span> <span class="n">attribute_group</span> <span class="o">**</span><span class="n">groups</span><span class="p">;</span>	<span class="cm">/* optional groups */</span>
+<span class="ln">73</span>
+<span class="ln">74</span>	<span class="kt">void</span>	<span class="p">(</span><span class="o">*</span><span class="n">release</span><span class="p">)(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">);</span>
+<span class="ln">75</span>	<span class="k">struct</span> <span class="n">iommu_group</span>	<span class="o">*</span><span class="n">iommu_group</span><span class="p">;</span>
+<span class="ln">76</span>	<span class="k">struct</span> <span class="n">iommu_fwspec</span>	<span class="o">*</span><span class="n">iommu_fwspec</span><span class="p">;</span>
+<span class="ln">77</span>
+<span class="ln">78</span>	<span class="kt">bool</span>			<span class="nl">offline_disabled</span><span class="p">:</span><span class="mi">1</span><span class="p">;</span>
+<span class="ln">79</span>	<span class="kt">bool</span>			<span class="nl">offline</span><span class="p">:</span><span class="mi">1</span><span class="p">;</span>
+<span class="ln">80</span>	<span class="kt">bool</span>			<span class="nl">of_node_reused</span><span class="p">:</span><span class="mi">1</span><span class="p">;</span>
+<span class="ln">81</span><span class="p">};</span>
+</code></pre></div><h4 id="driver">driver</h4>
+<blockquote>
+<p>描述驱动</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="k">struct</span> <span class="n">device_driver</span> <span class="p">{</span>
+<span class="ln"> 2</span>	<span class="k">const</span> <span class="kt">char</span>		<span class="o">*</span><span class="n">name</span><span class="p">;</span>
+<span class="ln"> 3</span>	<span class="k">struct</span> <span class="n">bus_type</span>		<span class="o">*</span><span class="n">bus</span><span class="p">;</span>
+<span class="ln"> 4</span>
+<span class="ln"> 5</span>	<span class="k">struct</span> <span class="n">module</span>		<span class="o">*</span><span class="n">owner</span><span class="p">;</span>
+<span class="ln"> 6</span>	<span class="k">const</span> <span class="kt">char</span>		<span class="o">*</span><span class="n">mod_name</span><span class="p">;</span>	<span class="cm">/* used for built-in modules */</span>
+<span class="ln"> 7</span>
+<span class="ln"> 8</span>	<span class="kt">bool</span> <span class="n">suppress_bind_attrs</span><span class="p">;</span>	<span class="cm">/* disables bind/unbind via sysfs */</span>
+<span class="ln"> 9</span>	<span class="k">enum</span> <span class="n">probe_type</span> <span class="n">probe_type</span><span class="p">;</span>
+<span class="ln">10</span>
+<span class="ln">11</span>	<span class="k">const</span> <span class="k">struct</span> <span class="n">of_device_id</span>	<span class="o">*</span><span class="n">of_match_table</span><span class="p">;</span>
+<span class="ln">12</span>	<span class="k">const</span> <span class="k">struct</span> <span class="n">acpi_device_id</span>	<span class="o">*</span><span class="n">acpi_match_table</span><span class="p">;</span>
+<span class="ln">13</span>
+<span class="ln">14</span>	<span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">probe</span><span class="p">)</span> <span class="p">(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">);</span>
+<span class="ln">15</span>	<span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">remove</span><span class="p">)</span> <span class="p">(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">);</span>
+<span class="ln">16</span>	<span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">shutdown</span><span class="p">)</span> <span class="p">(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">);</span>
+<span class="ln">17</span>	<span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">suspend</span><span class="p">)</span> <span class="p">(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">,</span> <span class="n">pm_message_t</span> <span class="n">state</span><span class="p">);</span>
+<span class="ln">18</span>	<span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">resume</span><span class="p">)</span> <span class="p">(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">);</span>
+<span class="ln">19</span>	<span class="k">const</span> <span class="k">struct</span> <span class="n">attribute_group</span> <span class="o">**</span><span class="n">groups</span><span class="p">;</span>
+<span class="ln">20</span>
+<span class="ln">21</span>	<span class="k">const</span> <span class="k">struct</span> <span class="n">dev_pm_ops</span> <span class="o">*</span><span class="n">pm</span><span class="p">;</span>
+<span class="ln">22</span>	<span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">coredump</span><span class="p">)</span> <span class="p">(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">);</span>
+<span class="ln">23</span>
+<span class="ln">24</span>	<span class="k">struct</span> <span class="n">driver_private</span> <span class="o">*</span><span class="n">p</span><span class="p">;</span>
+<span class="ln">25</span><span class="p">};</span>
+</code></pre></div><h2 id="kernel">kernel</h2>
+<blockquote>
+<p>kernel子系统</p>
+</blockquote>
+<h2 id="module">module</h2>
+<blockquote>
+<p>模块信息</p>
+</blockquote>
+</div><hr /><div class="post-navs d-flex mb-3 justify-content-evenly">
+  <div class="post-nav post-prev"><i class="fas fa-fw fa-chevron-left"></i>
+    <a href="https://mengdemao.github.io/posts/luajit/">LuaJIT
+</a>
+  </div><div class="post-nav post-next">
+    <a href="https://mengdemao.github.io/posts/engineering_compiler/">Engineering_compiler
+</a>
+    <i class="fas fa-fw fa-chevron-right"></i>
+  </div></div></div>
+    </article></div>
+</div><aside class="col-lg-4 sidebar d-flex">
+  <div class="container">
+    
+    <section class="card row text-center profile component">
+  <div class="card-body">
+    <div class="col-12 d-flex align-items-center justify-content-center"><img class="profile-avatar rounded-circle" alt="MengDemao" src="https://mengdemao.github.io/images/profile.webp" loading="lazy"
+   width="400" height="400"
+   />
+</div>
+    <div class="col-12 profile-meta"><div class="profile-name">MengDemao</div><div class="profile-bio">面向玄学编程</div><div class="profile-company"><i class="fas fa-fw fa-building"></i>Company</div><div class="profile-location"><i class="fas fa-fw fa-map-marker-alt"></i>Earth</div><div class="profile-about"><i class="fas fa-fw fa-user"></i><a href="https://mengdemao.github.io/about/">About</a></div></div>
+  </div>
+</section>
+  <section class="recent-posts row card component">
+  <div class="card-body">
+    <h2 class="card-title">最近文章</h2>
+    <ul><li><a href="https://mengdemao.github.io/posts/tkinter/">Tkinter
+</a></li><li><a href="https://mengdemao.github.io/posts/javascript/">Javascript
+</a></li><li><a href="https://mengdemao.github.io/posts/css/">Css
+</a></li><li><a href="https://mengdemao.github.io/posts/html5/">Html5
+</a></li><li><a href="https://mengdemao.github.io/posts/sds/">Sds
+</a></li></ul>
+  </div>
+</section><section class="taxonomies row card component">
+      <div class="card-body">
+        <h2 class="card-title">
+          <a href="https://mengdemao.github.io/categories">分类</a>
+        </h2>
+        <div><a href="https://mengdemao.github.io/categories/python/" class="badge bg-primary text-white rounded post-taxonomy" title="python">
+            python
+          </a></div>
+      </div>
+    </section><section class="taxonomies row card component">
+      <div class="card-body">
+        <h2 class="card-title">
+          <a href="https://mengdemao.github.io/tags">标签</a>
+        </h2>
+        <div><a href="https://mengdemao.github.io/tags/compiler/" class="badge bg-primary text-white rounded post-taxonomy" title="compiler">
+            compiler
+          </a><a href="https://mengdemao.github.io/tags/kernel/" class="badge bg-primary text-white rounded post-taxonomy" title="kernel">
+            kernel
+          </a><a href="https://mengdemao.github.io/tags/nfs/" class="badge bg-primary text-white rounded post-taxonomy" title="nfs">
+            nfs
+          </a><a href="https://mengdemao.github.io/tags/%E6%8A%80%E5%B7%A7/" class="badge bg-primary text-white rounded post-taxonomy" title="技巧">
+            技巧
+          </a><a href="https://mengdemao.github.io/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" class="badge bg-primary text-white rounded post-taxonomy" title="编译原理">
+            编译原理
+          </a></div>
+      </div>
+    </section>
+    
+  </div>
+</aside>
+</div>
+    </main><footer class="footer mt-auto py-3 text-center container"><nav class="social-links nav my-2 justify-content-center"></nav>
+<div class="copyright mb-2">
+  Copyright © 2020-2021 Meng Demao. All Rights Reserved.
+</div>
+<div class="powered-by mb-2">
+  Powered by <a href="https://gohugo.io" target="_blank" rel="noopener noreferrer">Hugo</a> and the <a href="https://github.com/razonyang/hugo-theme-bootstrap" target="_blank" rel="noopener noreferrer">Bootstrap</a> theme.
+</div></footer>
+
+</body>
+</html>
