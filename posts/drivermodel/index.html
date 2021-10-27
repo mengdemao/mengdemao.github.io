@@ -23,8 +23,8 @@
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="驱动模型"/>
 <meta name="twitter:description" content="简述 驱动模型 顶级kobject 解释 block 块设备链接&ndash;&gt;/sys/deives相关文件 bus 存放各种总线文件 class 各种设备类 dev 存放(字符"/>
-<link rel="preload" href="https://mengdemao.github.io/css/bundle.min.246fba476dcf1c6ec7112889ca361d534ede50402e1cfa44c320ed085ccf2488.css" integrity="sha256-JG&#43;6R23PHG7HESiJyjYdU07eUEAuHPpEwyDtCFzPJIg=" crossorigin="anonymous" as="style" onload="this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="https://mengdemao.github.io/css/bundle.min.246fba476dcf1c6ec7112889ca361d534ede50402e1cfa44c320ed085ccf2488.css" integrity="sha256-JG&#43;6R23PHG7HESiJyjYdU07eUEAuHPpEwyDtCFzPJIg=" crossorigin="anonymous"></noscript><script src="https://mengdemao.github.io/js/bundle.min.15ecaa25968e33a8e188bdf66437955c7b704c04e99084cca6db914ece5b43a2.js" integrity="sha256-FeyqJZaOM6jhiL32ZDeVXHtwTATpkITMptuRTs5bQ6I=" crossorigin="anonymous" defer></script></head>
+<link rel="preload" href="https://mengdemao.github.io/css/bundle.min.56f818f19e58c97481c8333650e24bf131abfada62c954646a72ae940adb3bf5.css" integrity="sha256-VvgY8Z5YyXSByDM2UOJL8TGr&#43;tpiyVRkanKulArbO/U=" crossorigin="anonymous" as="style" onload="this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://mengdemao.github.io/css/bundle.min.56f818f19e58c97481c8333650e24bf131abfada62c954646a72ae940adb3bf5.css" integrity="sha256-VvgY8Z5YyXSByDM2UOJL8TGr&#43;tpiyVRkanKulArbO/U=" crossorigin="anonymous"></noscript></head>
   <body><script src="https://mengdemao.github.io/js/bootstrap.min.b5d86dd3a5f60c90be38a252bb65fc1a2732f32e71dc12c051720f0c7aef3cde.js" integrity="sha256-tdht06X2DJC&#43;OKJSu2X8Gicy8y5x3BLAUXIPDHrvPN4=" crossorigin="anonymous"></script><header><nav class="navbar top-app-bar top-app-bar-expand-lg fixed-top">
   <div class="container">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -182,7 +182,7 @@
 
     
     <a class="action" data-bs-container="body" data-bs-toggle="popover" data-bs-html="true" data-bs-placement="bottom"
-  data-bs-trigger="focus" tabindex="0" type="button" aria-label="Copyright" 
+  data-bs-trigger="focus" tabindex="0" role="button" aria-label="Copyright" 
   data-bs-content="&lt;a target=&#34;_blank&#34; rel=&#34;license noopener noreferrer&#34; href=&#34;https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh&#34;&gt;CC BY-NC-ND 4.0 &lt;i class=&#34;fab fa-fw fa-creative-commons&#34;&gt;&lt;/i&gt;&lt;i class=&#34;fab fa-fw fa-creative-commons-by&#34;&gt;&lt;/i&gt;&lt;i class=&#34;fab fa-fw fa-creative-commons-nc&#34;&gt;&lt;/i&gt;&lt;i class=&#34;fab fa-fw fa-creative-commons-nd&#34;&gt;&lt;/i&gt;&lt;/a&gt;
 ">
   <i class="fas fa-fw fa-copyright"></i>
@@ -887,7 +887,9 @@ bus_type(总线信息)</p>
         <h2 class="card-title">
           <a href="https://mengdemao.github.io/categories">分类</a>
         </h2>
-        <div><a href="https://mengdemao.github.io/categories/python/" class="badge bg-primary text-white rounded post-taxonomy" title="python">
+        <div><a href="https://mengdemao.github.io/categories/linux/" class="badge bg-primary text-white rounded post-taxonomy" title="linux">
+            linux
+          </a><a href="https://mengdemao.github.io/categories/python/" class="badge bg-primary text-white rounded post-taxonomy" title="python">
             python
           </a></div>
       </div>
@@ -896,10 +898,10 @@ bus_type(总线信息)</p>
         <h2 class="card-title">
           <a href="https://mengdemao.github.io/tags">标签</a>
         </h2>
-        <div><a href="https://mengdemao.github.io/tags/compiler/" class="badge bg-primary text-white rounded post-taxonomy" title="compiler">
-            compiler
-          </a><a href="https://mengdemao.github.io/tags/kernel/" class="badge bg-primary text-white rounded post-taxonomy" title="kernel">
+        <div><a href="https://mengdemao.github.io/tags/kernel/" class="badge bg-primary text-white rounded post-taxonomy" title="kernel">
             kernel
+          </a><a href="https://mengdemao.github.io/tags/compiler/" class="badge bg-primary text-white rounded post-taxonomy" title="compiler">
+            compiler
           </a><a href="https://mengdemao.github.io/tags/nfs/" class="badge bg-primary text-white rounded post-taxonomy" title="nfs">
             nfs
           </a><a href="https://mengdemao.github.io/tags/%E6%8A%80%E5%B7%A7/" class="badge bg-primary text-white rounded post-taxonomy" title="技巧">
@@ -920,6 +922,6 @@ bus_type(总线信息)</p>
 <div class="powered-by mb-2">
   Powered by <a href="https://gohugo.io" target="_blank" rel="noopener noreferrer">Hugo</a> and the <a href="https://github.com/razonyang/hugo-theme-bootstrap" target="_blank" rel="noopener noreferrer">Bootstrap</a> theme.
 </div></footer>
-
+<script src="https://mengdemao.github.io/js/bundle.min.ff86187495d811f9ac53ffd5a4f5e354a1d40eae69710942f01287b2b63e20c6.js" integrity="sha256-/4YYdJXYEfmsU//VpPXjVKHUDq5pcQlC8BKHsrY&#43;IMY=" crossorigin="anonymous" defer></script><script defer src="https://mengdemao.github.io/js/viewer.min.2f6511f1e2b87cdacb7bdeedeadc1dcf2fc9f22db69f89b70fd5d91224f892a4.js" integrity="sha256-L2UR8eK4fNrLe97t6twdzy/J8i22n4m3D9XZEiT4kqQ=" crossorigin="anonymous"></script>
 </body>
 </html>

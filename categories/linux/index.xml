@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>kernel on 编程日志</title>
-    <link>https://mengdemao.github.io/tags/kernel/</link>
-    <description>Recent content in kernel on 编程日志</description>
+    <title>linux on 编程日志</title>
+    <link>https://mengdemao.github.io/categories/linux/</link>
+    <description>Recent content in linux on 编程日志</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>Copyright © 2020-{year} Meng Demao. All Rights Reserved.</copyright>
-    <lastBuildDate>Mon, 04 Oct 2021 12:10:25 +0800</lastBuildDate><atom:link href="https://mengdemao.github.io/tags/kernel/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 04 Oct 2021 12:10:25 +0800</lastBuildDate><atom:link href="https://mengdemao.github.io/categories/linux/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>系统调度</title>
       <link>https://mengdemao.github.io/posts/sched/</link>
@@ -14,15 +14,6 @@
       
       <guid>https://mengdemao.github.io/posts/sched/</guid>
       <description>系统调度 调度核心函数实现 1/* 2* kernel/sched/core.c 3* 4* Core kernel scheduler code and related syscalls 5* 6* Copyright (C) 1991-2002 Linus Torvalds 7*/ 8#include &amp;#34;sched.h&amp;#34;9 10#include &amp;lt;linux/nospec.h&amp;gt;11 12#include &amp;lt;linux/kcov.h&amp;gt;13 14#include &amp;lt;asm/switch_to.h&amp;gt;15#include &amp;lt;asm/tlb.h&amp;gt;16 17#include &amp;#34;../workqueue_internal.h&amp;#34;18#include &amp;#34;../smpboot.h&amp;#34;19 20#include &amp;#34;pelt.h&amp;#34;21 22#define CREATE_TRACE_POINTS 23#include &amp;lt;trace/events/sched.h&amp;gt;24 25DEFINE_PER_CPU_SHARED_ALIGNED(struct rq, runqueues); 26 27#ifdef CONFIG_SCHED_DEBUG 28/* 29* Debugging: various feature bits 30* 31* If SCHED_DEBUG is disabled, each compilation</description>
-    </item>
-    
-    <item>
-      <title>驱动模型</title>
-      <link>https://mengdemao.github.io/posts/drivermodel/</link>
-      <pubDate>Fri, 01 Oct 2021 23:32:46 +0800</pubDate>
-      
-      <guid>https://mengdemao.github.io/posts/drivermodel/</guid>
-      <description>简述 驱动模型 顶级kobject 解释 block 块设备链接&amp;ndash;&amp;gt;/sys/deives相关文件 bus 存放各种总线文件 class 各种设备类 dev 存放(字符</description>
     </item>
     
   </channel>
