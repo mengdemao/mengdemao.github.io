@@ -6,7 +6,25 @@
     <description>Recent content in kernel on 编程日志</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>Copyright © 2020-{year} Meng Demao. All Rights Reserved.</copyright>
-    <lastBuildDate>Mon, 04 Oct 2021 12:10:25 +0800</lastBuildDate><atom:link href="https://mengdemao.github.io/tags/kernel/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 28 Oct 2021 07:40:38 +0800</lastBuildDate><atom:link href="https://mengdemao.github.io/tags/kernel/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Idle</title>
+      <link>https://mengdemao.github.io/posts/idle/</link>
+      <pubDate>Thu, 28 Oct 2021 07:40:38 +0800</pubDate>
+      
+      <guid>https://mengdemao.github.io/posts/idle/</guid>
+      <description>IDLE调度器类 1/* 2* Generic entry points for the idle threads and 3* implementation of the idle task scheduling class. 4* 5* (NOTE: these are not related to SCHED_IDLE batch scheduled 6* tasks which are handled in sched/fair.c ) 7*/ 8#include &amp;#34;sched.h&amp;#34;9 10#include &amp;lt;trace/events/power.h&amp;gt;11 12/* Linker adds these: start and end of __cpuidle functions */ 13extern char __cpuidle_text_start[], __cpuidle_text_end[]; 14 15/** 16* sched_idle_set_state -</description>
+    </item>
+    
+    <item>
+      <title>Fair</title>
+      <link>https://mengdemao.github.io/posts/fair/</link>
+      <pubDate>Thu, 28 Oct 2021 07:40:31 +0800</pubDate>
+      
+      <guid>https://mengdemao.github.io/posts/fair/</guid>
+      <description>1// SPDX-License-Identifier: GPL-2.0 2/* 3* Completely Fair Scheduling (CFS) Class (SCHED_NORMAL/SCHED_BATCH) 4* 5* Copyright (C) 2007 Red Hat, Inc., Ingo Molnar &amp;lt;mingo@redhat.com&amp;gt; 6* 7* Interactivity improvements by Mike Galbraith 8* (C) 2007 Mike Galbraith &amp;lt;efault@gmx.de&amp;gt; 9* 10* Various enhancements by Dmitry Adamushko. 11* (C) 2007 Dmitry Adamushko &amp;lt;dmitry.adamushko@gmail.com&amp;gt; 12* 13* Group scheduling enhancements by Srivatsa Vaddagiri 14* Copyright IBM Corporation, 2007 15* Author: Srivatsa Vaddagiri &amp;lt;vatsa@linux.vnet.ibm.com&amp;gt; 16* 17* Scaled math optimizations by Thomas Gleixner 18* Copyright (C) 2007, Thomas Gleixner &amp;lt;tglx@linutronix.</description>
+    </item>
+    
     <item>
       <title>系统调度</title>
       <link>https://mengdemao.github.io/posts/sched/</link>

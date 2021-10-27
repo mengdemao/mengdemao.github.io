@@ -168,6 +168,32 @@
   </div>
 </nav><div class="posts mb-4"><article class="row card post component">
       <div class="card-body">
+        <h2 class="card-title post-title"><a href="https://mengdemao.github.io/posts/luajit/">LuaJIT
+</a></h2><div class="post-meta"><span class="post-date" title="created on">
+    <i class="fas fa-fw fa-calendar-alt"></i>Sep 4, 2021
+  </span><span class="post-reading-time" title="reading time">
+    <i class="fas fa-fw fa-coffee"></i>1 分钟阅读
+  </span></div>
+<div class="post-summary">
+          
+          LuaJIT Lua语法 基本语法 1 print(&#34;Hello World&#34;) 表(table) LuaJIT分析 LuaJIT主函数 1int main(int argc, char **argv) 2{ 3 int status; /* 返回值 */ 4 lua_State *L = lua_open(); /* 创建LUA状态机 */ 5 if (L
+        </div>
+      </div>
+    </article><article class="row card post component">
+      <div class="card-body">
+        <h2 class="card-title post-title"><a href="https://mengdemao.github.io/posts/compilerprinciples/">编译原理
+</a></h2><div class="post-meta"><span class="post-date" title="created on">
+    <i class="fas fa-fw fa-calendar-alt"></i>Sep 4, 2021
+  </span><span class="post-reading-time" title="reading time">
+    <i class="fas fa-fw fa-coffee"></i>1 分钟阅读
+  </span></div>
+<div class="post-summary">
+          
+          编译原理 基础概念 词法分析 RE NFA DFA 语法分析 上下文无关文法(CFG) 自上而下(Top Down) 自下而上(Bottom Up) 语义分析 中间代码 目标代码
+        </div>
+      </div>
+    </article><article class="row card post component">
+      <div class="card-body">
         <h2 class="card-title post-title"><a href="https://mengdemao.github.io/posts/page_allocator/">Page_allocator
 </a></h2><div class="post-meta"><span class="post-date" title="created on">
     <i class="fas fa-fw fa-calendar-alt"></i>May 9, 2021
@@ -205,32 +231,6 @@
           简介 ANTLR是一款强大的语法分析器生成工具,用于读取、处理、执行和翻译结构化的文本或二进制文件. 类似于flex/bison,根据描述文件，
         </div>
       </div>
-    </article><article class="row card post component">
-      <div class="card-body">
-        <h2 class="card-title post-title"><a href="https://mengdemao.github.io/posts/hugo/">Hugo教程
-</a></h2><div class="post-meta"><span class="post-date" title="created on">
-    <i class="fas fa-fw fa-calendar-alt"></i>May 4, 2021
-  </span><span class="post-reading-time" title="reading time">
-    <i class="fas fa-fw fa-coffee"></i>1 分钟阅读
-  </span><a href="https://mengdemao.github.io/tags/%E6%8A%80%E5%B7%A7/" class="badge rounded-pill text-white bg-primary post-taxonomy">技巧</a></div>
-<div class="post-summary">
-          
-          基本操作 安装hugo 在linux/windows上只能通过直接release 下载, 创建网站 1hugo new site 路径 添加主题 将主题直接添加到theme文件下
-        </div>
-      </div>
-    </article><article class="row card post component">
-      <div class="card-body">
-        <h2 class="card-title post-title"><a href="https://mengdemao.github.io/posts/nfs/">Nfs
-</a></h2><div class="post-meta"><span class="post-date" title="created on">
-    <i class="fas fa-fw fa-calendar-alt"></i>May 3, 2021
-  </span><span class="post-reading-time" title="reading time">
-    <i class="fas fa-fw fa-coffee"></i>1 分钟阅读
-  </span><a href="https://mengdemao.github.io/tags/nfs/" class="badge rounded-pill text-white bg-primary post-taxonomy">nfs</a></div>
-<div class="post-summary">
-          
-          nfs服务 安装 1sudo apt-get install nfs-kernel-server 设置导出 1/home/exports *(rw,nohide,insecure,no_subtree_check,async,no_root_squash) 开启服务 1sudo /etc/init.d/nfs-kernel-server restart 测试 1sudo mount -t nfs -o nolock,vers=3 127.0.0.1:/home/exports /mnt 2ls /mnt
-        </div>
-      </div>
     </article></div><div class="row table-responsive mb-3">
     <ul class="pagination pagination-default">
       <li class="page-item">
@@ -238,9 +238,6 @@
       </li>
       <li class="page-item">
         <a href="/posts/page/5/" aria-label="Previous" class="page-link" role="button"><span aria-hidden="true">&laquo;</span></a>
-      </li>
-      <li class="page-item">
-        <a href="/posts/page/2/" aria-label="Page 2" class="page-link" role="button">2</a>
       </li>
       <li class="page-item">
         <a href="/posts/page/3/" aria-label="Page 3" class="page-link" role="button">3</a>
@@ -254,11 +251,14 @@
       <li class="page-item active">
         <a href="#" aria-current="page" aria-label="Page 6" class="page-link" role="button">6</a>
       </li>
-      <li class="page-item disabled">
-        <a href="#" aria-disabled="true" aria-label="Next" class="page-link" role="button" tabindex="-1"><span aria-hidden="true">&raquo;</span></a>
+      <li class="page-item">
+        <a href="/posts/page/7/" aria-label="Page 7" class="page-link" role="button">7</a>
       </li>
-      <li class="page-item disabled">
-        <a href="#" aria-disabled="true" aria-label="Last" class="page-link" role="button" tabindex="-1"><span aria-hidden="true">&raquo;&raquo;</span></a>
+      <li class="page-item">
+        <a href="/posts/page/7/" aria-label="Next" class="page-link" role="button"><span aria-hidden="true">&raquo;</span></a>
+      </li>
+      <li class="page-item">
+        <a href="/posts/page/7/" aria-label="Last" class="page-link" role="button"><span aria-hidden="true">&raquo;&raquo;</span></a>
       </li>
     </ul></div>
 </div>
@@ -278,11 +278,11 @@
   <section class="recent-posts row card component">
   <div class="card-body">
     <h2 class="card-title">最近文章</h2>
-    <ul><li><a href="https://mengdemao.github.io/posts/tkinter/">Tkinter
+    <ul><li><a href="https://mengdemao.github.io/posts/idle/">Idle
+</a></li><li><a href="https://mengdemao.github.io/posts/fair/">Fair
+</a></li><li><a href="https://mengdemao.github.io/posts/tkinter/">Tkinter
 </a></li><li><a href="https://mengdemao.github.io/posts/javascript/">Javascript
 </a></li><li><a href="https://mengdemao.github.io/posts/css/">Css
-</a></li><li><a href="https://mengdemao.github.io/posts/html5/">Html5
-</a></li><li><a href="https://mengdemao.github.io/posts/sds/">Sds
 </a></li></ul>
   </div>
 </section><section class="taxonomies row card component">
