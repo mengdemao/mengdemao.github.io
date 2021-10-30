@@ -12,7 +12,7 @@
 <meta name="description" content="" /><meta itemprop="name" content="Bsdiff">
 <meta itemprop="description" content="bsdiff bsdiff and bspatch are tools for building and applying patches to binary files. By using suffix &gt; sorting (specifically, Larsson and Sadakane&rsquo;s qsufsort) and taking advantage of how executable files change, bsdiff routinely produces binary patches 50-80% smaller than those produced by Xdelta, and 15% smaller than those produced by .RTPatch (a $2750/seat commercial patch tool) &ndash; 直接摘抄自官网 详情可以查"><meta itemprop="datePublished" content="2021-10-30T17:24:30+08:00" />
 <meta itemprop="dateModified" content="2021-10-30T17:24:30+08:00" />
-<meta itemprop="wordCount" content="637">
+<meta itemprop="wordCount" content="1149">
 <meta itemprop="keywords" content="" /><meta property="og:title" content="Bsdiff" />
 <meta property="og:description" content="bsdiff bsdiff and bspatch are tools for building and applying patches to binary files. By using suffix &gt; sorting (specifically, Larsson and Sadakane&rsquo;s qsufsort) and taking advantage of how executable files change, bsdiff routinely produces binary patches 50-80% smaller than those produced by Xdelta, and 15% smaller than those produced by .RTPatch (a $2750/seat commercial patch tool) &ndash; 直接摘抄自官网 详情可以查" />
 <meta property="og:type" content="article" />
@@ -198,7 +198,7 @@
 </h1><div class="post-meta"><span class="post-date" title="created on">
     <i class="fas fa-fw fa-calendar-alt"></i>Oct 30, 2021
   </span><span class="post-reading-time" title="reading time">
-    <i class="fas fa-fw fa-coffee"></i>2 分钟阅读
+    <i class="fas fa-fw fa-coffee"></i>3 分钟阅读
   </span></div>
 <div class="offcanvas offcanvas-end surface h-100" tabindex="-1" id="offcanvasTOC" aria-labelledby="offcanvasTOCLabel">
   <div class="offcanvas-header">
@@ -215,6 +215,8 @@
       <ul>
         <li><a href="#接口分析">接口分析</a></li>
         <li><a href="#diff算法核心">diff算法核心</a></li>
+        <li><a href="#代码分析">代码分析</a></li>
+        <li><a href="#patch代码分析">patch代码分析</a></li>
       </ul>
     </li>
   </ul>
@@ -290,110 +292,240 @@ commercial patch tool) &ndash; 直接摘抄自官网</p>
 <span class="ln">24</span>            <span class="k">struct</span> <span class="n">bspatch_stream</span><span class="o">*</span> <span class="n">stream</span><span class="p">);</span>
 <span class="ln">25</span>
 </code></pre></div><h3 id="diff算法核心">diff算法核心</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln">  1</span><span class="k">static</span> <span class="kt">int</span> <span class="nf">bsdiff_internal</span><span class="p">(</span><span class="k">const</span> <span class="k">struct</span> <span class="n">bsdiff_request</span> <span class="n">req</span><span class="p">)</span>
-<span class="ln">  2</span><span class="p">{</span>
-<span class="ln">  3</span>	<span class="kt">int64_t</span> <span class="o">*</span><span class="n">I</span><span class="p">,</span><span class="o">*</span><span class="n">V</span><span class="p">;</span>
-<span class="ln">  4</span>	<span class="kt">int64_t</span> <span class="n">scan</span><span class="p">,</span><span class="n">pos</span><span class="p">,</span><span class="n">len</span><span class="p">;</span>
-<span class="ln">  5</span>	<span class="kt">int64_t</span> <span class="n">lastscan</span><span class="p">,</span><span class="n">lastpos</span><span class="p">,</span><span class="n">lastoffset</span><span class="p">;</span>
-<span class="ln">  6</span>	<span class="kt">int64_t</span> <span class="n">oldscore</span><span class="p">,</span><span class="n">scsc</span><span class="p">;</span>
-<span class="ln">  7</span>	<span class="kt">int64_t</span> <span class="n">s</span><span class="p">,</span><span class="n">Sf</span><span class="p">,</span><span class="n">lenf</span><span class="p">,</span><span class="n">Sb</span><span class="p">,</span><span class="n">lenb</span><span class="p">;</span>
-<span class="ln">  8</span>	<span class="kt">int64_t</span> <span class="n">overlap</span><span class="p">,</span><span class="n">Ss</span><span class="p">,</span><span class="n">lens</span><span class="p">;</span>
-<span class="ln">  9</span>	<span class="kt">int64_t</span> <span class="n">i</span><span class="p">;</span>
-<span class="ln"> 10</span>	<span class="kt">uint8_t</span> <span class="o">*</span><span class="n">buffer</span><span class="p">;</span>
-<span class="ln"> 11</span>	<span class="kt">uint8_t</span> <span class="n">buf</span><span class="p">[</span><span class="mi">8</span> <span class="o">*</span> <span class="mi">3</span><span class="p">];</span>
-<span class="ln"> 12</span>
-<span class="ln"> 13</span>	<span class="k">if</span><span class="p">((</span><span class="n">V</span><span class="o">=</span><span class="n">req</span><span class="p">.</span><span class="n">stream</span><span class="o">-&gt;</span><span class="n">malloc</span><span class="p">((</span><span class="n">req</span><span class="p">.</span><span class="n">oldsize</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int64_t</span><span class="p">)))</span><span class="o">==</span><span class="nb">NULL</span><span class="p">)</span> <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-<span class="ln"> 14</span>	<span class="n">I</span> <span class="o">=</span> <span class="n">req</span><span class="p">.</span><span class="n">I</span><span class="p">;</span>
-<span class="ln"> 15</span>
-<span class="ln"> 16</span>	<span class="n">qsufsort</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">V</span><span class="p">,</span><span class="n">req</span><span class="p">.</span><span class="n">old</span><span class="p">,</span><span class="n">req</span><span class="p">.</span><span class="n">oldsize</span><span class="p">);</span>
-<span class="ln"> 17</span>	<span class="n">req</span><span class="p">.</span><span class="n">stream</span><span class="o">-&gt;</span><span class="n">free</span><span class="p">(</span><span class="n">V</span><span class="p">);</span>
-<span class="ln"> 18</span>
-<span class="ln"> 19</span>	<span class="n">buffer</span> <span class="o">=</span> <span class="n">req</span><span class="p">.</span><span class="n">buffer</span><span class="p">;</span>
-<span class="ln"> 20</span>
-<span class="ln"> 21</span>	<span class="cm">/* Compute the differences, writing ctrl as we go */</span>
-<span class="ln"> 22</span>	<span class="n">scan</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">len</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">pos</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
-<span class="ln"> 23</span>	<span class="n">lastscan</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">lastpos</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">lastoffset</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
-<span class="ln"> 24</span>	<span class="k">while</span><span class="p">(</span><span class="n">scan</span><span class="o">&lt;</span><span class="n">req</span><span class="p">.</span><span class="n">newsize</span><span class="p">)</span> <span class="p">{</span>
-<span class="ln"> 25</span>		<span class="n">oldscore</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
-<span class="ln"> 26</span>
-<span class="ln"> 27</span>		<span class="k">for</span><span class="p">(</span><span class="n">scsc</span><span class="o">=</span><span class="n">scan</span><span class="o">+=</span><span class="n">len</span><span class="p">;</span><span class="n">scan</span><span class="o">&lt;</span><span class="n">req</span><span class="p">.</span><span class="n">newsize</span><span class="p">;</span><span class="n">scan</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-<span class="ln"> 28</span>			<span class="n">len</span><span class="o">=</span><span class="n">search</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">req</span><span class="p">.</span><span class="n">old</span><span class="p">,</span><span class="n">req</span><span class="p">.</span><span class="n">oldsize</span><span class="p">,</span><span class="n">req</span><span class="p">.</span><span class="n">new</span><span class="o">+</span><span class="n">scan</span><span class="p">,</span><span class="n">req</span><span class="p">.</span><span class="n">newsize</span><span class="o">-</span><span class="n">scan</span><span class="p">,</span>
-<span class="ln"> 29</span>					<span class="mi">0</span><span class="p">,</span><span class="n">req</span><span class="p">.</span><span class="n">oldsize</span><span class="p">,</span><span class="o">&amp;</span><span class="n">pos</span><span class="p">);</span>
-<span class="ln"> 30</span>
-<span class="ln"> 31</span>			<span class="k">for</span><span class="p">(;</span><span class="n">scsc</span><span class="o">&lt;</span><span class="n">scan</span><span class="o">+</span><span class="n">len</span><span class="p">;</span><span class="n">scsc</span><span class="o">++</span><span class="p">)</span>
-<span class="ln"> 32</span>			<span class="k">if</span><span class="p">((</span><span class="n">scsc</span><span class="o">+</span><span class="n">lastoffset</span><span class="o">&lt;</span><span class="n">req</span><span class="p">.</span><span class="n">oldsize</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
-<span class="ln"> 33</span>				<span class="p">(</span><span class="n">req</span><span class="p">.</span><span class="n">old</span><span class="p">[</span><span class="n">scsc</span><span class="o">+</span><span class="n">lastoffset</span><span class="p">]</span> <span class="o">==</span> <span class="n">req</span><span class="p">.</span><span class="n">new</span><span class="p">[</span><span class="n">scsc</span><span class="p">]))</span>
-<span class="ln"> 34</span>				<span class="n">oldscore</span><span class="o">++</span><span class="p">;</span>
-<span class="ln"> 35</span>
-<span class="ln"> 36</span>			<span class="k">if</span><span class="p">(((</span><span class="n">len</span><span class="o">==</span><span class="n">oldscore</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">len</span><span class="o">!=</span><span class="mi">0</span><span class="p">))</span> <span class="o">||</span> 
-<span class="ln"> 37</span>				<span class="p">(</span><span class="n">len</span><span class="o">&gt;</span><span class="n">oldscore</span><span class="o">+</span><span class="mi">8</span><span class="p">))</span> <span class="k">break</span><span class="p">;</span>
-<span class="ln"> 38</span>
-<span class="ln"> 39</span>			<span class="k">if</span><span class="p">((</span><span class="n">scan</span><span class="o">+</span><span class="n">lastoffset</span><span class="o">&lt;</span><span class="n">req</span><span class="p">.</span><span class="n">oldsize</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
-<span class="ln"> 40</span>				<span class="p">(</span><span class="n">req</span><span class="p">.</span><span class="n">old</span><span class="p">[</span><span class="n">scan</span><span class="o">+</span><span class="n">lastoffset</span><span class="p">]</span> <span class="o">==</span> <span class="n">req</span><span class="p">.</span><span class="n">new</span><span class="p">[</span><span class="n">scan</span><span class="p">]))</span>
-<span class="ln"> 41</span>				<span class="n">oldscore</span><span class="o">--</span><span class="p">;</span>
-<span class="ln"> 42</span>		<span class="p">};</span>
-<span class="ln"> 43</span>
-<span class="ln"> 44</span>		<span class="k">if</span><span class="p">((</span><span class="n">len</span><span class="o">!=</span><span class="n">oldscore</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="n">scan</span><span class="o">==</span><span class="n">req</span><span class="p">.</span><span class="n">newsize</span><span class="p">))</span> <span class="p">{</span>
-<span class="ln"> 45</span>			<span class="n">s</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">Sf</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">lenf</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
-<span class="ln"> 46</span>			<span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;(</span><span class="n">lastscan</span><span class="o">+</span><span class="n">i</span><span class="o">&lt;</span><span class="n">scan</span><span class="p">)</span><span class="o">&amp;&amp;</span><span class="p">(</span><span class="n">lastpos</span><span class="o">+</span><span class="n">i</span><span class="o">&lt;</span><span class="n">req</span><span class="p">.</span><span class="n">oldsize</span><span class="p">);)</span> <span class="p">{</span>
-<span class="ln"> 47</span>				<span class="k">if</span><span class="p">(</span><span class="n">req</span><span class="p">.</span><span class="n">old</span><span class="p">[</span><span class="n">lastpos</span><span class="o">+</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="n">req</span><span class="p">.</span><span class="n">new</span><span class="p">[</span><span class="n">lastscan</span><span class="o">+</span><span class="n">i</span><span class="p">])</span> <span class="n">s</span><span class="o">++</span><span class="p">;</span>
-<span class="ln"> 48</span>				<span class="n">i</span><span class="o">++</span><span class="p">;</span>
-<span class="ln"> 49</span>				<span class="k">if</span><span class="p">(</span><span class="n">s</span><span class="o">*</span><span class="mi">2</span><span class="o">-</span><span class="n">i</span><span class="o">&gt;</span><span class="n">Sf</span><span class="o">*</span><span class="mi">2</span><span class="o">-</span><span class="n">lenf</span><span class="p">)</span> <span class="p">{</span> <span class="n">Sf</span><span class="o">=</span><span class="n">s</span><span class="p">;</span> <span class="n">lenf</span><span class="o">=</span><span class="n">i</span><span class="p">;</span> <span class="p">};</span>
-<span class="ln"> 50</span>			<span class="p">};</span>
-<span class="ln"> 51</span>
-<span class="ln"> 52</span>			<span class="n">lenb</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
-<span class="ln"> 53</span>			<span class="k">if</span><span class="p">(</span><span class="n">scan</span><span class="o">&lt;</span><span class="n">req</span><span class="p">.</span><span class="n">newsize</span><span class="p">)</span> <span class="p">{</span>
-<span class="ln"> 54</span>				<span class="n">s</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">Sb</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
-<span class="ln"> 55</span>				<span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;(</span><span class="n">scan</span><span class="o">&gt;=</span><span class="n">lastscan</span><span class="o">+</span><span class="n">i</span><span class="p">)</span><span class="o">&amp;&amp;</span><span class="p">(</span><span class="n">pos</span><span class="o">&gt;=</span><span class="n">i</span><span class="p">);</span><span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-<span class="ln"> 56</span>					<span class="k">if</span><span class="p">(</span><span class="n">req</span><span class="p">.</span><span class="n">old</span><span class="p">[</span><span class="n">pos</span><span class="o">-</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="n">req</span><span class="p">.</span><span class="n">new</span><span class="p">[</span><span class="n">scan</span><span class="o">-</span><span class="n">i</span><span class="p">])</span> <span class="n">s</span><span class="o">++</span><span class="p">;</span>
-<span class="ln"> 57</span>					<span class="k">if</span><span class="p">(</span><span class="n">s</span><span class="o">*</span><span class="mi">2</span><span class="o">-</span><span class="n">i</span><span class="o">&gt;</span><span class="n">Sb</span><span class="o">*</span><span class="mi">2</span><span class="o">-</span><span class="n">lenb</span><span class="p">)</span> <span class="p">{</span> <span class="n">Sb</span><span class="o">=</span><span class="n">s</span><span class="p">;</span> <span class="n">lenb</span><span class="o">=</span><span class="n">i</span><span class="p">;</span> <span class="p">};</span>
-<span class="ln"> 58</span>				<span class="p">};</span>
-<span class="ln"> 59</span>			<span class="p">};</span>
-<span class="ln"> 60</span>
-<span class="ln"> 61</span>			<span class="k">if</span><span class="p">(</span><span class="n">lastscan</span><span class="o">+</span><span class="n">lenf</span><span class="o">&gt;</span><span class="n">scan</span><span class="o">-</span><span class="n">lenb</span><span class="p">)</span> <span class="p">{</span>
-<span class="ln"> 62</span>				<span class="n">overlap</span><span class="o">=</span><span class="p">(</span><span class="n">lastscan</span><span class="o">+</span><span class="n">lenf</span><span class="p">)</span><span class="o">-</span><span class="p">(</span><span class="n">scan</span><span class="o">-</span><span class="n">lenb</span><span class="p">);</span>
-<span class="ln"> 63</span>				<span class="n">s</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">Ss</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">lens</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
-<span class="ln"> 64</span>				<span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">overlap</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-<span class="ln"> 65</span>					<span class="k">if</span><span class="p">(</span><span class="n">req</span><span class="p">.</span><span class="n">new</span><span class="p">[</span><span class="n">lastscan</span><span class="o">+</span><span class="n">lenf</span><span class="o">-</span><span class="n">overlap</span><span class="o">+</span><span class="n">i</span><span class="p">]</span><span class="o">==</span>
-<span class="ln"> 66</span>					   <span class="n">req</span><span class="p">.</span><span class="n">old</span><span class="p">[</span><span class="n">lastpos</span><span class="o">+</span><span class="n">lenf</span><span class="o">-</span><span class="n">overlap</span><span class="o">+</span><span class="n">i</span><span class="p">])</span> <span class="n">s</span><span class="o">++</span><span class="p">;</span>
-<span class="ln"> 67</span>					<span class="k">if</span><span class="p">(</span><span class="n">req</span><span class="p">.</span><span class="n">new</span><span class="p">[</span><span class="n">scan</span><span class="o">-</span><span class="n">lenb</span><span class="o">+</span><span class="n">i</span><span class="p">]</span><span class="o">==</span>
-<span class="ln"> 68</span>					   <span class="n">req</span><span class="p">.</span><span class="n">old</span><span class="p">[</span><span class="n">pos</span><span class="o">-</span><span class="n">lenb</span><span class="o">+</span><span class="n">i</span><span class="p">])</span> <span class="n">s</span><span class="o">--</span><span class="p">;</span>
-<span class="ln"> 69</span>					<span class="k">if</span><span class="p">(</span><span class="n">s</span><span class="o">&gt;</span><span class="n">Ss</span><span class="p">)</span> <span class="p">{</span> <span class="n">Ss</span><span class="o">=</span><span class="n">s</span><span class="p">;</span> <span class="n">lens</span><span class="o">=</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span> <span class="p">};</span>
-<span class="ln"> 70</span>				<span class="p">};</span>
-<span class="ln"> 71</span>
-<span class="ln"> 72</span>				<span class="n">lenf</span><span class="o">+=</span><span class="n">lens</span><span class="o">-</span><span class="n">overlap</span><span class="p">;</span>
-<span class="ln"> 73</span>				<span class="n">lenb</span><span class="o">-=</span><span class="n">lens</span><span class="p">;</span>
-<span class="ln"> 74</span>			<span class="p">};</span>
-<span class="ln"> 75</span>
-<span class="ln"> 76</span>			<span class="n">offtout</span><span class="p">(</span><span class="n">lenf</span><span class="p">,</span><span class="n">buf</span><span class="p">);</span>
-<span class="ln"> 77</span>			<span class="n">offtout</span><span class="p">((</span><span class="n">scan</span><span class="o">-</span><span class="n">lenb</span><span class="p">)</span><span class="o">-</span><span class="p">(</span><span class="n">lastscan</span><span class="o">+</span><span class="n">lenf</span><span class="p">),</span><span class="n">buf</span><span class="o">+</span><span class="mi">8</span><span class="p">);</span>
-<span class="ln"> 78</span>			<span class="n">offtout</span><span class="p">((</span><span class="n">pos</span><span class="o">-</span><span class="n">lenb</span><span class="p">)</span><span class="o">-</span><span class="p">(</span><span class="n">lastpos</span><span class="o">+</span><span class="n">lenf</span><span class="p">),</span><span class="n">buf</span><span class="o">+</span><span class="mi">16</span><span class="p">);</span>
-<span class="ln"> 79</span>
-<span class="ln"> 80</span>			<span class="cm">/* Write control data */</span>
-<span class="ln"> 81</span>			<span class="k">if</span> <span class="p">(</span><span class="n">writedata</span><span class="p">(</span><span class="n">req</span><span class="p">.</span><span class="n">stream</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">buf</span><span class="p">)))</span>
-<span class="ln"> 82</span>				<span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-<span class="ln"> 83</span>
-<span class="ln"> 84</span>			<span class="cm">/* Write diff data */</span>
-<span class="ln"> 85</span>			<span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">lenf</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
-<span class="ln"> 86</span>				<span class="n">buffer</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">req</span><span class="p">.</span><span class="n">new</span><span class="p">[</span><span class="n">lastscan</span><span class="o">+</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">req</span><span class="p">.</span><span class="n">old</span><span class="p">[</span><span class="n">lastpos</span><span class="o">+</span><span class="n">i</span><span class="p">];</span>
-<span class="ln"> 87</span>			<span class="k">if</span> <span class="p">(</span><span class="n">writedata</span><span class="p">(</span><span class="n">req</span><span class="p">.</span><span class="n">stream</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">lenf</span><span class="p">))</span>
-<span class="ln"> 88</span>				<span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-<span class="ln"> 89</span>
-<span class="ln"> 90</span>			<span class="cm">/* Write extra data */</span>
-<span class="ln"> 91</span>			<span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="p">(</span><span class="n">scan</span><span class="o">-</span><span class="n">lenb</span><span class="p">)</span><span class="o">-</span><span class="p">(</span><span class="n">lastscan</span><span class="o">+</span><span class="n">lenf</span><span class="p">);</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
-<span class="ln"> 92</span>				<span class="n">buffer</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">req</span><span class="p">.</span><span class="n">new</span><span class="p">[</span><span class="n">lastscan</span><span class="o">+</span><span class="n">lenf</span><span class="o">+</span><span class="n">i</span><span class="p">];</span>
-<span class="ln"> 93</span>			<span class="k">if</span> <span class="p">(</span><span class="n">writedata</span><span class="p">(</span><span class="n">req</span><span class="p">.</span><span class="n">stream</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="p">(</span><span class="n">scan</span><span class="o">-</span><span class="n">lenb</span><span class="p">)</span><span class="o">-</span><span class="p">(</span><span class="n">lastscan</span><span class="o">+</span><span class="n">lenf</span><span class="p">)))</span>
-<span class="ln"> 94</span>				<span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-<span class="ln"> 95</span>
-<span class="ln"> 96</span>			<span class="n">lastscan</span><span class="o">=</span><span class="n">scan</span><span class="o">-</span><span class="n">lenb</span><span class="p">;</span>
-<span class="ln"> 97</span>			<span class="n">lastpos</span><span class="o">=</span><span class="n">pos</span><span class="o">-</span><span class="n">lenb</span><span class="p">;</span>
-<span class="ln"> 98</span>			<span class="n">lastoffset</span><span class="o">=</span><span class="n">pos</span><span class="o">-</span><span class="n">scan</span><span class="p">;</span>
-<span class="ln"> 99</span>		<span class="p">};</span>
-<span class="ln">100</span>	<span class="p">};</span>
-<span class="ln">101</span>
-<span class="ln">102</span>	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="ln">103</span><span class="p">}</span>
-</code></pre></div></div><hr /><div class="post-navs d-flex mb-3 justify-content-evenly">
+<p>bsdiff更新数据由四部分组成:Header,ctrl block,diff block,extra block</p>
+<ul>
+<li>Header描述了文件基本信息</li>
+<li>ctrl 包含了ADD和INSERT指令的控制文件
+<ul>
+<li>每一个ADD指令指定了旧文件中的偏移位置和长度，从旧文件中读取相应数量的字节内容并且从差异文件中读取相同字节的内容添加进去。</li>
+<li>INSERT指令仅仅制定一个长度，用于从额外文件中读取指定数量的字节内容</li>
+</ul>
+</li>
+<li>diff 含了概率匹配中不同字节内容的差异文件</li>
+<li>extra 包含了不属于概略匹配中内容的额外的文件</li>
+</ul>
+<h4 id="header的结构">Header的结构:</h4>
+<table>
+<thead>
+<tr>
+<th>start/bytes</th>
+<th>length/bytes</th>
+<th>content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>8</td>
+<td>&ldquo;BSDIFF40&rdquo;</td>
+</tr>
+<tr>
+<td>8</td>
+<td>8</td>
+<td>the length of ctrl block</td>
+</tr>
+<tr>
+<td>16</td>
+<td>8</td>
+<td>the length of diff block</td>
+</tr>
+<tr>
+<td>24</td>
+<td>8</td>
+<td>新文件的大小</td>
+</tr>
+</tbody>
+</table>
+<p><img class="img-fluid" alt="image-20211030212535065" src="https://raw.githubusercontent.com/mengdemao/picture/master/image-20211030212535065.png" loading="lazy"
+  
+   />
+
+</p>
+<ol>
+<li>BSDIFF40</li>
+<li>0x93   	&ndash;&gt;     147</li>
+<li>0x313 	&ndash;&gt;      787</li>
+<li>0x3ED0  &ndash;&gt;     16080 可以匹配新生成的文件</li>
+</ol>
+<h3 id="代码分析">代码分析</h3>
+<h3 id="patch代码分析">patch代码分析</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="cm">/* 一般情况下,buf的长度为8个字节 */</span>
+<span class="ln"> 2</span><span class="k">static</span> <span class="kt">int64_t</span> <span class="nf">offtin</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="o">*</span><span class="n">buf</span><span class="p">)</span>
+<span class="ln"> 3</span><span class="p">{</span>
+<span class="ln"> 4</span>	<span class="kt">int64_t</span> <span class="n">y</span><span class="p">;</span>
+<span class="ln"> 5</span>
+<span class="ln"> 6</span>	<span class="n">y</span><span class="o">=</span><span class="n">buf</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span><span class="o">&amp;</span><span class="mh">0x7F</span><span class="p">;</span> 		<span class="cm">/* 提取绝对值 */</span>
+<span class="ln"> 7</span>    
+<span class="ln"> 8</span>	<span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="o">*</span><span class="mi">256</span><span class="p">;</span><span class="n">y</span><span class="o">+=</span><span class="n">buf</span><span class="p">[</span><span class="mi">6</span><span class="p">];</span>
+<span class="ln"> 9</span>	<span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="o">*</span><span class="mi">256</span><span class="p">;</span><span class="n">y</span><span class="o">+=</span><span class="n">buf</span><span class="p">[</span><span class="mi">5</span><span class="p">];</span>
+<span class="ln">10</span>	<span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="o">*</span><span class="mi">256</span><span class="p">;</span><span class="n">y</span><span class="o">+=</span><span class="n">buf</span><span class="p">[</span><span class="mi">4</span><span class="p">];</span>
+<span class="ln">11</span>	<span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="o">*</span><span class="mi">256</span><span class="p">;</span><span class="n">y</span><span class="o">+=</span><span class="n">buf</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+<span class="ln">12</span>	<span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="o">*</span><span class="mi">256</span><span class="p">;</span><span class="n">y</span><span class="o">+=</span><span class="n">buf</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<span class="ln">13</span>	<span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="o">*</span><span class="mi">256</span><span class="p">;</span><span class="n">y</span><span class="o">+=</span><span class="n">buf</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+<span class="ln">14</span>	<span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="o">*</span><span class="mi">256</span><span class="p">;</span><span class="n">y</span><span class="o">+=</span><span class="n">buf</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="ln">15</span>
+<span class="ln">16</span>    <span class="cm">/* 根据最高位置确定正负 */</span>
+<span class="ln">17</span>	<span class="k">if</span> <span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="o">&amp;</span> <span class="mh">0x80</span><span class="p">)</span> <span class="p">{</span>
+<span class="ln">18</span>        <span class="n">y</span><span class="o">=-</span><span class="n">y</span><span class="p">;</span>
+<span class="ln">19</span>    <span class="p">}</span>
+<span class="ln">20</span>
+<span class="ln">21</span>	<span class="k">return</span> <span class="n">y</span><span class="p">;</span>
+<span class="ln">22</span><span class="p">}</span>
+</code></pre></div><p>总体的执行路径
+<img class="img-fluid" alt="Bspatch" src="https://raw.githubusercontent.com/mengdemao/picture/master/Bspatch.svg" loading="lazy"
+  
+   />
+
+</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="kt">int</span> <span class="nf">bspatch</span><span class="p">(</span><span class="k">const</span> <span class="kt">uint8_t</span><span class="o">*</span> <span class="n">old</span><span class="p">,</span> <span class="kt">int64_t</span> <span class="n">oldsize</span><span class="p">,</span> 
+<span class="ln"> 2</span>            <span class="kt">uint8_t</span><span class="o">*</span> <span class="n">new</span><span class="p">,</span> <span class="kt">int64_t</span> <span class="n">newsize</span><span class="p">,</span> 
+<span class="ln"> 3</span>            <span class="k">struct</span> <span class="n">bspatch_stream</span><span class="o">*</span> <span class="n">stream</span><span class="p">)</span>
+<span class="ln"> 4</span><span class="p">{</span>
+<span class="ln"> 5</span>	<span class="kt">uint8_t</span> <span class="n">buf</span><span class="p">[</span><span class="mi">8</span><span class="p">];</span>
+<span class="ln"> 6</span>	<span class="kt">int64_t</span> <span class="n">oldpos</span><span class="p">;</span>
+<span class="ln"> 7</span>    <span class="kt">int64_t</span> <span class="n">newpos</span><span class="p">;</span>
+<span class="ln"> 8</span>	<span class="kt">int64_t</span> <span class="n">ctrl</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span> <span class="cm">/* 1. 2. 3.  */</span>
+<span class="ln"> 9</span>	<span class="kt">int64_t</span> <span class="n">i</span><span class="p">;</span>
+<span class="ln">10</span>
+<span class="ln">11</span>	<span class="n">oldpos</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="ln">12</span>    <span class="n">newpos</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="ln">13</span>	<span class="k">while</span> <span class="p">(</span><span class="n">newpos</span> <span class="o">&lt;</span> <span class="n">newsize</span><span class="p">)</span> <span class="p">{</span>
+<span class="ln">14</span>		<span class="cm">/* Read control data 3*8个为一组,每次生成3个控制数据 */</span>
+<span class="ln">15</span>		<span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="mi">2</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+<span class="ln">16</span>			<span class="k">if</span> <span class="p">(</span><span class="n">stream</span><span class="o">-&gt;</span><span class="n">read</span><span class="p">(</span><span class="n">stream</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="ln">17</span>				<span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+<span class="ln">18</span>			<span class="n">ctrl</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">offtin</span><span class="p">(</span><span class="n">buf</span><span class="p">);</span>
+<span class="ln">19</span>		<span class="p">};</span>
+<span class="ln">20</span>
+<span class="ln">21</span>		<span class="cm">/* 健壮性检查 */</span>
+<span class="ln">22</span>		<span class="k">if</span> <span class="p">(</span><span class="n">ctrl</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">&lt;</span><span class="mi">0</span> <span class="o">||</span> <span class="n">ctrl</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">&gt;</span><span class="n">INT_MAX</span> <span class="o">||</span>
+<span class="ln">23</span>			<span class="n">ctrl</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">&lt;</span><span class="mi">0</span> <span class="o">||</span> <span class="n">ctrl</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">&gt;</span><span class="n">INT_MAX</span> <span class="o">||</span>
+<span class="ln">24</span>			<span class="n">newpos</span><span class="o">+</span><span class="n">ctrl</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">&gt;</span><span class="n">newsize</span><span class="p">)</span>
+<span class="ln">25</span>			<span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+<span class="ln">26</span>
+<span class="ln">27</span>		<span class="cm">/* Read diff string */</span>
+<span class="ln">28</span>		<span class="k">if</span> <span class="p">(</span><span class="n">stream</span><span class="o">-&gt;</span><span class="n">read</span><span class="p">(</span><span class="n">stream</span><span class="p">,</span> <span class="n">new</span> <span class="o">+</span> <span class="n">newpos</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+<span class="ln">29</span>			<span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+<span class="ln">30</span>
+<span class="ln">31</span>		<span class="cm">/* Add old data to diff string */</span>
+<span class="ln">32</span>		<span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">ctrl</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="ln">33</span>			<span class="k">if</span><span class="p">((</span><span class="n">oldpos</span><span class="o">+</span><span class="n">i</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">oldpos</span><span class="o">+</span><span class="n">i</span><span class="o">&lt;</span><span class="n">oldsize</span><span class="p">))</span>
+<span class="ln">34</span>				<span class="n">new</span><span class="p">[</span><span class="n">newpos</span><span class="o">+</span><span class="n">i</span><span class="p">]</span><span class="o">+=</span><span class="n">old</span><span class="p">[</span><span class="n">oldpos</span><span class="o">+</span><span class="n">i</span><span class="p">];</span>
+<span class="ln">35</span>
+<span class="ln">36</span>		<span class="cm">/* Adjust pointers */</span>
+<span class="ln">37</span>		<span class="n">newpos</span><span class="o">+=</span><span class="n">ctrl</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="ln">38</span>		<span class="n">oldpos</span><span class="o">+=</span><span class="n">ctrl</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="ln">39</span>
+<span class="ln">40</span>		<span class="cm">/* Sanity-check */</span>
+<span class="ln">41</span>		<span class="k">if</span><span class="p">(</span><span class="n">newpos</span><span class="o">+</span><span class="n">ctrl</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">&gt;</span><span class="n">newsize</span><span class="p">)</span>
+<span class="ln">42</span>			<span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+<span class="ln">43</span>
+<span class="ln">44</span>		<span class="cm">/* Read extra string */</span>
+<span class="ln">45</span>		<span class="k">if</span> <span class="p">(</span><span class="n">stream</span><span class="o">-&gt;</span><span class="n">read</span><span class="p">(</span><span class="n">stream</span><span class="p">,</span> <span class="n">new</span> <span class="o">+</span> <span class="n">newpos</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+<span class="ln">46</span>			<span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+<span class="ln">47</span>
+<span class="ln">48</span>		<span class="cm">/* Adjust pointers */</span>
+<span class="ln">49</span>		<span class="n">newpos</span><span class="o">+=</span><span class="n">ctrl</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+<span class="ln">50</span>		<span class="n">oldpos</span><span class="o">+=</span><span class="n">ctrl</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<span class="ln">51</span>	<span class="p">};</span>
+<span class="ln">52</span>
+<span class="ln">53</span>	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="ln">54</span><span class="p">}</span>
+</code></pre></div><p>主要函数的调用路线</p>
+<p><img class="img-fluid" alt="bsdiffMainCallGraph" src="https://raw.githubusercontent.com/mengdemao/picture/master/bsdiffMainCallGraph.png" loading="lazy"
+  
+   />
+
+</p>
+<h4 id="offtout">offtout</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="k">static</span> <span class="kt">void</span> <span class="nf">offtout</span><span class="p">(</span><span class="kt">int64_t</span> <span class="n">x</span><span class="p">,</span><span class="kt">uint8_t</span> <span class="o">*</span><span class="n">buf</span><span class="p">)</span>
+<span class="ln"> 2</span><span class="p">{</span>
+<span class="ln"> 3</span>	<span class="kt">int64_t</span> <span class="n">y</span><span class="p">;</span>
+<span class="ln"> 4</span>
+<span class="ln"> 5</span>    <span class="cm">/* 保证 y = |x| */</span>
+<span class="ln"> 6</span>	<span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+<span class="ln"> 7</span>        <span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="n">x</span><span class="p">;</span>
+<span class="ln"> 8</span>    <span class="p">}</span> 
+<span class="ln"> 9</span>    <span class="k">else</span> <span class="p">{</span>
+<span class="ln">10</span>     	<span class="n">y</span> <span class="o">=</span>  <span class="n">x</span><span class="p">;</span>   
+<span class="ln">11</span>    <span class="p">}</span>
+<span class="ln">12</span>
+<span class="ln">13</span>			<span class="n">buf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">y</span><span class="o">%</span><span class="mi">256</span><span class="p">;</span><span class="n">y</span><span class="o">-=</span><span class="n">buf</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="ln">14</span>	<span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="o">/</span><span class="mi">256</span><span class="p">;</span><span class="n">buf</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="n">y</span><span class="o">%</span><span class="mi">256</span><span class="p">;</span><span class="n">y</span><span class="o">-=</span><span class="n">buf</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+<span class="ln">15</span>	<span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="o">/</span><span class="mi">256</span><span class="p">;</span><span class="n">buf</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="n">y</span><span class="o">%</span><span class="mi">256</span><span class="p">;</span><span class="n">y</span><span class="o">-=</span><span class="n">buf</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<span class="ln">16</span>	<span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="o">/</span><span class="mi">256</span><span class="p">;</span><span class="n">buf</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">=</span><span class="n">y</span><span class="o">%</span><span class="mi">256</span><span class="p">;</span><span class="n">y</span><span class="o">-=</span><span class="n">buf</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+<span class="ln">17</span>	<span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="o">/</span><span class="mi">256</span><span class="p">;</span><span class="n">buf</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">=</span><span class="n">y</span><span class="o">%</span><span class="mi">256</span><span class="p">;</span><span class="n">y</span><span class="o">-=</span><span class="n">buf</span><span class="p">[</span><span class="mi">4</span><span class="p">];</span>
+<span class="ln">18</span>	<span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="o">/</span><span class="mi">256</span><span class="p">;</span><span class="n">buf</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">=</span><span class="n">y</span><span class="o">%</span><span class="mi">256</span><span class="p">;</span><span class="n">y</span><span class="o">-=</span><span class="n">buf</span><span class="p">[</span><span class="mi">5</span><span class="p">];</span>
+<span class="ln">19</span>	<span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="o">/</span><span class="mi">256</span><span class="p">;</span><span class="n">buf</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">=</span><span class="n">y</span><span class="o">%</span><span class="mi">256</span><span class="p">;</span><span class="n">y</span><span class="o">-=</span><span class="n">buf</span><span class="p">[</span><span class="mi">6</span><span class="p">];</span>
+<span class="ln">20</span>	<span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="o">/</span><span class="mi">256</span><span class="p">;</span><span class="n">buf</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span><span class="o">=</span><span class="n">y</span><span class="o">%</span><span class="mi">256</span><span class="p">;</span>
+<span class="ln">21</span>
+<span class="ln">22</span>	<span class="k">if</span><span class="p">(</span><span class="n">x</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">)</span> <span class="n">buf</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span><span class="o">|=</span><span class="mh">0x80</span><span class="p">;</span>
+<span class="ln">23</span><span class="p">}</span>
+</code></pre></div><h4 id="qsufsort">qsufsort</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln"> 1</span>static void qsufsort(int64_t *I,int64_t *V,const uint8_t *old,int64_t oldsize)
+<span class="ln"> 2</span>{
+<span class="ln"> 3</span>	int64_t buckets[256];
+<span class="ln"> 4</span>	int64_t i,h,len;
+<span class="ln"> 5</span>
+<span class="ln"> 6</span>	for(i=0;i&lt;256;i++) buckets[i]=0;
+<span class="ln"> 7</span>	for(i=0;i&lt;oldsize;i++) buckets[old[i]]++;
+<span class="ln"> 8</span>	for(i=1;i&lt;256;i++) buckets[i]+=buckets[i-1];
+<span class="ln"> 9</span>	for(i=255;i&gt;0;i--) buckets[i]=buckets[i-1];
+<span class="ln">10</span>	buckets[0]=0;
+<span class="ln">11</span>
+<span class="ln">12</span>	for(i=0;i&lt;oldsize;i++) I[++buckets[old[i]]]=i;
+<span class="ln">13</span>	I[0]=oldsize;
+<span class="ln">14</span>	for(i=0;i&lt;oldsize;i++) V[i]=buckets[old[i]];
+<span class="ln">15</span>	V[oldsize]=0;
+<span class="ln">16</span>	for(i=1;i&lt;256;i++) if(buckets[i]==buckets[i-1]+1) I[buckets[i]]=-1;
+<span class="ln">17</span>	I[0]=-1;
+<span class="ln">18</span>
+<span class="ln">19</span>	for(h=1;I[0]!=-(oldsize+1);h+=h) {
+<span class="ln">20</span>		len=0;
+<span class="ln">21</span>		for(i=0;i&lt;oldsize+1;) {
+<span class="ln">22</span>			if(I[i]&lt;0) {
+<span class="ln">23</span>				len-=I[i];
+<span class="ln">24</span>				i-=I[i];
+<span class="ln">25</span>			} else {
+<span class="ln">26</span>				if(len) I[i-len]=-len;
+<span class="ln">27</span>				len=V[I[i]]+1-i;
+<span class="ln">28</span>				split(I,V,i,len,h);
+<span class="ln">29</span>				i+=len;
+<span class="ln">30</span>				len=0;
+<span class="ln">31</span>			};
+<span class="ln">32</span>		};
+<span class="ln">33</span>		if(len) I[i-len]=-len;
+<span class="ln">34</span>	};
+<span class="ln">35</span>
+<span class="ln">36</span>	for(i=0;i&lt;oldsize+1;i++) I[V[i]]=i;
+<span class="ln">37</span>}
+</code></pre></div><h4 id="search">search</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln"> 1</span>const uint8_t *new,int64_t newsize,int64_t st,int64_t en,int64_t *pos)
+<span class="ln"> 2</span>{
+<span class="ln"> 3</span>	int64_t x,y;
+<span class="ln"> 4</span>
+<span class="ln"> 5</span>	if(en-st&lt;2) {
+<span class="ln"> 6</span>		x=matchlen(old+I[st],oldsize-I[st],new,newsize);
+<span class="ln"> 7</span>		y=matchlen(old+I[en],oldsize-I[en],new,newsize);
+<span class="ln"> 8</span>
+<span class="ln"> 9</span>		if(x&gt;y) {
+<span class="ln">10</span>			*pos=I[st];
+<span class="ln">11</span>			return x;
+<span class="ln">12</span>		} else {
+<span class="ln">13</span>			*pos=I[en];
+<span class="ln">14</span>			return y;
+<span class="ln">15</span>		}
+<span class="ln">16</span>	};
+<span class="ln">17</span>
+<span class="ln">18</span>	x=st+(en-st)/2;
+<span class="ln">19</span>	if(memcmp(old+I[x],new,MIN(oldsize-I[x],newsize))&lt;0) {
+<span class="ln">20</span>		return search(I,old,oldsize,new,newsize,x,en,pos);
+<span class="ln">21</span>	} else {
+<span class="ln">22</span>		return search(I,old,oldsize,new,newsize,st,x,pos);
+<span class="ln">23</span>	};
+<span class="ln">24</span>}
+</code></pre></div><h4 id="writedata">writedata</h4>
+</div><hr /><div class="post-navs d-flex mb-3 justify-content-evenly">
   <div class="post-nav post-prev"><i class="fas fa-fw fa-chevron-left"></i>
     <a href="https://mengdemao.github.io/posts/arm/">Arm
 </a>
