@@ -208,11 +208,11 @@
 </a></h2><div class="post-meta"><span class="post-date" title="created on">
     <i class="fas fa-fw fa-calendar-alt"></i>Oct 28, 2021
   </span><span class="post-reading-time" title="reading time">
-    <i class="fas fa-fw fa-coffee"></i>200 分钟阅读
+    <i class="fas fa-fw fa-coffee"></i>2 分钟阅读
   </span><a href="https://mengdemao.github.io/categories/linux/" class="badge rounded-pill text-white bg-primary post-taxonomy">linux</a><a href="https://mengdemao.github.io/tags/kernel/" class="badge rounded-pill text-white bg-primary post-taxonomy">kernel</a></div>
 <div class="post-summary">
           
-          1// SPDX-License-Identifier: GPL-2.0 2/* 3* Completely Fair Scheduling (CFS) Class (SCHED_NORMAL/SCHED_BATCH) 4* 5* Copyright (C) 2007 Red Hat, Inc., Ingo Molnar &lt;mingo@redhat.com&gt; 6* 7* Interactivity improvements by Mike Galbraith 8* (C) 2007 Mike Galbraith &lt;efault@gmx.de&gt; 9* 10* Various enhancements by …
+          完全公平调度器 1const struct sched_class fair_sched_class = { 2 .next = &amp;idle_sched_class, 3 .enqueue_task = enqueue_task_fair, 4 .dequeue_task = dequeue_task_fair, 5 .yield_task = yield_task_fair, 6 .yield_to_task = yield_to_task_fair, 7 8 .check_preempt_curr = check_preempt_wakeup, 9 10 .pick_next_task = …
         </div>
       </div>
     </article><article class="row card post component">

@@ -40,7 +40,7 @@
       <pubDate>Thu, 28 Oct 2021 07:40:31 +0800</pubDate>
       
       <guid>https://mengdemao.github.io/posts/fair/</guid>
-      <description>1// SPDX-License-Identifier: GPL-2.0 2/* 3* Completely Fair Scheduling (CFS) Class (SCHED_NORMAL/SCHED_BATCH) 4* 5* Copyright (C) 2007 Red Hat, Inc., Ingo Molnar &amp;lt;mingo@redhat.com&amp;gt; 6* 7* Interactivity improvements by Mike Galbraith 8* (C) 2007 Mike Galbraith &amp;lt;efault@gmx.de&amp;gt; 9* 10* Various enhancements by Dmitry Adamushko. 11* (C) 2007 Dmitry Adamushko &amp;lt;dmitry.adamushko@gmail.com&amp;gt; 12* 13* Group scheduling enhancements by Srivatsa Vaddagiri 14* Copyright IBM Corporation, 2007 15* Author: Srivatsa Vaddagiri &amp;lt;vatsa@linux.vnet.ibm.com&amp;gt; 16* 17* Scaled math optimizations by Thomas Gleixner 18* Copyright (C) 2007, Thomas Gleixner &amp;lt;tglx@linutronix.</description>
+      <description>完全公平调度器 1const struct sched_class fair_sched_class = { 2 .next = &amp;amp;idle_sched_class, 3 .enqueue_task = enqueue_task_fair, 4 .dequeue_task = dequeue_task_fair, 5 .yield_task = yield_task_fair, 6 .yield_to_task = yield_to_task_fair, 7 8 .check_preempt_curr = check_preempt_wakeup, 9 10 .pick_next_task = pick_next_task_fair, 11 .put_prev_task = put_prev_task_fair, 12 13#ifdef CONFIG_SMP 14 .select_task_rq = select_task_rq_fair, 15 .migrate_task_rq = migrate_task_rq_fair, 16 17 .rq_online = rq_online_fair, 18 .rq_offline = rq_offline_fair, 19 20 .task_dead</description>
     </item>
     
     <item>
@@ -148,7 +148,7 @@
       <pubDate>Mon, 04 Oct 2021 12:11:31 +0800</pubDate>
       
       <guid>https://mengdemao.github.io/posts/fork/</guid>
-      <description></description>
+      <description>fork linux创建线程的函数 fork &amp;ndash;&amp;gt; do_fork do_fork的执行线路 do_fork &amp;ndash;&amp;gt; copy_process &amp;ndash;&amp;gt; get_task_pid &amp;ndash;&amp;gt; wake_up_new_task &amp;ndash;&amp;gt; put_pid do_fork函数原型 1long _do_fork(unsigned long clone_flags, 2 unsigned long stack_start, 3 unsigned long stack_size, 4 int __user *parent_tidptr, 5 int __user *child_tidptr, 6 unsigned</description>
     </item>
     
     <item>
