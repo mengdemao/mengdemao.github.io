@@ -12,7 +12,7 @@
 <meta name="description" content="" /><meta itemprop="name" content="Arm">
 <meta itemprop="description" content="ARM笔记 ARM体系结构 相关术语 流水线 DSP Jazelle ThumbEE Thumb-2 TrustZone VFP NEON LAPE big.LITTLE 工具链 文件名 详解 addr2line 把程序地址转化为文件名和行号 ar 建立、修改和提取归档文件 as 汇编编译器"><meta itemprop="datePublished" content="2021-10-30T10:37:25+08:00" />
 <meta itemprop="dateModified" content="2021-10-30T10:37:25+08:00" />
-<meta itemprop="wordCount" content="266">
+<meta itemprop="wordCount" content="346">
 <meta itemprop="keywords" content="" /><meta property="og:title" content="Arm" />
 <meta property="og:description" content="ARM笔记 ARM体系结构 相关术语 流水线 DSP Jazelle ThumbEE Thumb-2 TrustZone VFP NEON LAPE big.LITTLE 工具链 文件名 详解 addr2line 把程序地址转化为文件名和行号 ar 建立、修改和提取归档文件 as 汇编编译器" />
 <meta property="og:type" content="article" />
@@ -187,7 +187,9 @@
 ">
   <i class="fas fa-fw fa-copyright"></i>
 </a>
-    
+    <a class="action" data-bs-toggle="offcanvas" href="#offcanvasTOC" aria-controls="offcanvasTOC" role="button">
+  <i class="fas fa-fw fa-list-alt"></i>
+</a>
     
   </div>
 </div>
@@ -198,7 +200,28 @@
   </span><span class="post-reading-time" title="reading time">
     <i class="fas fa-fw fa-coffee"></i>1 分钟阅读
   </span></div>
-<div class="post-content mb-3"><h1 id="arm笔记">ARM笔记</h1>
+<div class="offcanvas offcanvas-end surface h-100" tabindex="-1" id="offcanvasTOC" aria-labelledby="offcanvasTOCLabel">
+  <div class="offcanvas-header">
+    <h2 class="offcanvas-title" id="offcanvasTOCLabel">目录</h5>
+      <button type="button" class="btn btn-sm btn-outline-primary" data-bs-dismiss="offcanvas" aria-label="Close">
+        <i class="fas fa-times"></i>
+      </button>
+  </div>
+  <div class="offcanvas-body">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#arm体系结构">ARM体系结构</a>
+      <ul>
+        <li><a href="#相关术语">相关术语</a></li>
+        <li><a href="#工具链">工具链</a></li>
+        <li><a href="#armv7处理器模式">ARMv7处理器模式</a></li>
+      </ul>
+    </li>
+    <li><a href="#arm指令集">ARM指令集</a></li>
+  </ul>
+</nav>
+  </div>
+</div><div class="post-content mb-3"><h1 id="arm笔记">ARM笔记</h1>
 <h2 id="arm体系结构">ARM体系结构</h2>
 <h3 id="相关术语">相关术语</h3>
 <ul>
@@ -290,58 +313,91 @@
 <span class="ln">15</span>arm-none-linux-gnueabihf-gcov           arm-none-linux-gnueabihf-strings      
 <span class="ln">16</span>arm-none-linux-gnueabihf-gcov-dump      arm-none-linux-gnueabihf-strip        
 <span class="ln">17</span>arm-none-linux-gnueabihf-gcov-tool
-</code></pre></div><h2 id="arm指令集">ARM指令集</h2>
-<h3 id="处理器寻址方式">处理器寻址方式</h3>
+</code></pre></div><h3 id="armv7处理器模式">ARMv7处理器模式</h3>
 <table>
 <thead>
 <tr>
-<th>寻址方式</th>
-<th>描述</th>
-<th>例子</th>
+<th>模式</th>
+<th>编码</th>
+<th>功能</th>
+<th>安全</th>
+<th>优先级</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>立即数寻址</td>
-<td></td>
-<td>mov R0, #14</td>
+<td>User (USR)</td>
+<td>10000</td>
+<td>大多数运行的非特权模式</td>
+<td>Both</td>
+<td>PL0</td>
 </tr>
 <tr>
-<td>寄存器寻址</td>
-<td></td>
-<td>mov R1, R0</td>
+<td>FIQ</td>
+<td>10001</td>
+<td>FIQ中断</td>
+<td>Both</td>
+<td>PL1</td>
 </tr>
 <tr>
-<td>寄存器移位寻址</td>
-<td></td>
-<td>mov R1, R0, LSL #2</td>
+<td>IRQ</td>
+<td>10010</td>
+<td>IRQ中断</td>
+<td>Both</td>
+<td>PL1</td>
 </tr>
 <tr>
-<td>寄存器间接寻址</td>
-<td></td>
-<td></td>
+<td>Supervisor (SVC)</td>
+<td>10011</td>
+<td>设备重启或者SVC指令</td>
+<td>Both</td>
+<td>PL1</td>
 </tr>
 <tr>
-<td>基址寻址</td>
-<td></td>
-<td></td>
+<td>Monitor (MON)</td>
+<td>10110</td>
+<td>安全扩展实现</td>
+<td>only</td>
+<td>PL1</td>
 </tr>
 <tr>
-<td>多寄存器寻址</td>
-<td></td>
-<td></td>
+<td>Abort (ABT)</td>
+<td>10111</td>
+<td>内存权限异常</td>
+<td>Both</td>
+<td>PL1</td>
 </tr>
 <tr>
-<td>相对寻址</td>
-<td></td>
-<td></td>
+<td>Hyp (HYP)</td>
+<td>11010</td>
+<td>虚拟化扩展实现.</td>
+<td>Non-secure</td>
+<td>PL2</td>
+</tr>
+<tr>
+<td>Undef (UND)</td>
+<td>11011</td>
+<td>未定义指令调用</td>
+<td>Both</td>
+<td>PL1</td>
+</tr>
+<tr>
+<td>System (SYS)</td>
+<td>11111</td>
+<td>特权模式,与用户模式共享寄存器</td>
+<td>Both</td>
+<td>PL1</td>
 </tr>
 </tbody>
 </table>
-<h4 id="立即数寻址">立即数寻址</h4>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln">1</span>mov R0, #12
-<span class="ln">2</span>ldr R0, =12
-</code></pre></div></div><hr /><div class="post-navs d-flex mb-3 justify-content-evenly">
+<p>不同的处理器模式上寄存器共享的情况
+<img class="img-fluid" alt="ARM处理器" src="https://raw.githubusercontent.com/mengdemao/picture/master/ArmRegisterSet.png" loading="lazy"
+  
+   />
+
+</p>
+<h2 id="arm指令集">ARM指令集</h2>
+</div><hr /><div class="post-navs d-flex mb-3 justify-content-evenly">
   <div class="post-nav post-prev"><i class="fas fa-fw fa-chevron-left"></i>
     <a href="https://mengdemao.github.io/posts/idle/">Idle
 </a>
