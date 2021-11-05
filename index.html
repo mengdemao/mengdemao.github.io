@@ -171,7 +171,7 @@
   </span></div>
 <div class="post-summary">
           
-          个人服务器安装记录 jenkins安装 安装jdk 1sudo apt install default-jdk 安装jenkins 1wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add - 2sudo sh -c &#39;echo deb https://pkg.jenkins.io/debian-stable binary/ &gt; /etc/apt/sources.list.d/jenkins.list&#39; 3sudo apt-get update 4sudo apt-get install …
+          个人服务器安装记录 配置交换文件 1# 创建交换文件 2sudo fallocate -l 2G /swapfile 3 4# 修改权限只允许ROOT使用 5sudo chmod 600 /swapfile 6 7# 创建swapfile 8sudo mkswap /swapfile 9 10# 开启swapf
         </div>
       </div>
     </article><article class="row card post component">
