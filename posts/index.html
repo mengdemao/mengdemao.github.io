@@ -53,7 +53,6 @@
     </a>
   </div>
 </div>
-
     <button class="navbar-settings" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSettings"
   aria-controls="offcanvasSettings" aria-label="Toggle settings">
   <i class="fas fa-ellipsis-v"></i>
@@ -122,7 +121,6 @@
     <input class="form-control rounded-pill" name="q" type="search" aria-label="Search">
   </div>
 </form>
-
       <ul class="navbar-nav ms-auto"><li class="nav-item">
           <a class="nav-link" href="https://mengdemao.github.io/archives/">
             <i class="fas fa-fw fa-file-archive"></i>归档
@@ -167,6 +165,19 @@
     <ol class="breadcrumb "><li class="breadcrumb-item"><a href="https://mengdemao.github.io/">主页</a></li><li class="breadcrumb-item active">文章</li></ol>
   </div>
 </nav><div class="posts mb-4"><article class="row card post component">
+      <div class="card-body">
+        <h2 class="card-title post-title"><a href="https://mengdemao.github.io/posts/server/">Server
+</a></h2><div class="post-meta"><span class="post-date" title="created on">
+    <i class="fas fa-fw fa-calendar-alt"></i>Nov 5, 2021
+  </span><span class="post-reading-time" title="reading time">
+    <i class="fas fa-fw fa-coffee"></i>1 分钟阅读
+  </span></div>
+<div class="post-summary">
+          
+          个人服务器安装记录 jenkins安装 安装jdk 1sudo apt install default-jdk 安装jenkins 1wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add - 2sudo sh -c &#39;echo deb https://pkg.jenkins.io/debian-stable binary/ &gt; /etc/apt/sources.list.d/jenkins.list&#39; 3sudo apt-get update 4sudo apt-get install …
+        </div>
+      </div>
+    </article><article class="row card post component">
       <div class="card-body">
         <h2 class="card-title post-title"><a href="https://mengdemao.github.io/posts/bsdiff/">Bsdiff
 </a></h2><div class="post-meta"><span class="post-date" title="created on">
@@ -218,19 +229,6 @@
           完全公平调度器 1const struct sched_class fair_sched_class = { 2 .next = &amp;idle_sched_class, 3 .enqueue_task = enqueue_task_fair, 4 .dequeue_task = dequeue_task_fair, 5 .yield_task = yield_task_fair, 6 .yield_to_task = yield_to_task_fair, 7 8 .check_preempt_curr = check_preempt_wakeup, 9 10 .pick_next_task = …
         </div>
       </div>
-    </article><article class="row card post component">
-      <div class="card-body">
-        <h2 class="card-title post-title"><a href="https://mengdemao.github.io/posts/tkinter/">Tkinter
-</a></h2><div class="post-meta"><span class="post-date" title="created on">
-    <i class="fas fa-fw fa-calendar-alt"></i>Oct 16, 2021
-  </span><span class="post-reading-time" title="reading time">
-    <i class="fas fa-fw fa-coffee"></i>1 分钟阅读
-  </span><a href="https://mengdemao.github.io/categories/python/" class="badge rounded-pill text-white bg-primary post-taxonomy">python</a></div>
-<div class="post-summary">
-          
-          python基础绘图
-        </div>
-      </div>
     </article></div><div class="row table-responsive mb-3">
     <ul class="pagination pagination-default">
       <li class="page-item disabled">
@@ -278,11 +276,11 @@
   <section class="recent-posts row card component">
   <div class="card-body">
     <h2 class="card-title">最近文章</h2>
-    <ul><li><a href="https://mengdemao.github.io/posts/bsdiff/">Bsdiff
+    <ul><li><a href="https://mengdemao.github.io/posts/server/">Server
+</a></li><li><a href="https://mengdemao.github.io/posts/bsdiff/">Bsdiff
 </a></li><li><a href="https://mengdemao.github.io/posts/arm/">Arm
 </a></li><li><a href="https://mengdemao.github.io/posts/idle/">Idle
 </a></li><li><a href="https://mengdemao.github.io/posts/fair/">Fair
-</a></li><li><a href="https://mengdemao.github.io/posts/tkinter/">Tkinter
 </a></li></ul>
   </div>
 </section><section class="taxonomies row card component">
