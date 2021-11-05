@@ -31,7 +31,7 @@
       <pubDate>Mon, 04 Oct 2021 12:10:25 +0800</pubDate>
       
       <guid>https://mengdemao.github.io/posts/sched/</guid>
-      <description>系统调度 调度核心函数实现 1/* 2* kernel/sched/core.c 3* 4* Core kernel scheduler code and related syscalls 5* 6* Copyright (C) 1991-2002 Linus Torvalds 7*/ 8#include &amp;#34;sched.h&amp;#34;9 10#include &amp;lt;linux/nospec.h&amp;gt;11 12#include &amp;lt;linux/kcov.h&amp;gt;13 14#include &amp;lt;asm/switch_to.h&amp;gt;15#include &amp;lt;asm/tlb.h&amp;gt;16 17#include &amp;#34;../workqueue_internal.h&amp;#34;18#include &amp;#34;../smpboot.h&amp;#34;19 20#include &amp;#34;pelt.h&amp;#34;21 22#define CREATE_TRACE_POINTS 23#include &amp;lt;trace/events/sched.h&amp;gt;24 25DEFINE_PER_CPU_SHARED_ALIGNED(struct rq, runqueues); 26 27#ifdef CONFIG_SCHED_DEBUG 28/* 29* Debugging: various feature bits 30* 31* If SCHED_DEBUG is disabled, each compilation</description>
+      <description>系统调度 调度核心函数实现 1static void __sched notrace __schedule(bool preempt) 2{ 3 struct task_struct *prev, *next; 4 unsigned long *switch_count; 5 struct rq_flags rf; 6 struct rq *rq; 7 int cpu; 8 9 cpu = smp_processor_id(); 10 rq = cpu_rq(cpu); 11 prev = rq-&amp;gt;curr; 12 13 schedule_debug(prev); 14 15 if (sched_feat(HRTICK)) 16 hrtick_clear(rq); 17 18 local_irq_disable(); 19 rcu_note_context_switch(preempt); 20 21 rq_lock(rq, &amp;amp;rf);</description>
     </item>
     
   </channel>

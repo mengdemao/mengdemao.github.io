@@ -200,11 +200,11 @@
       Oct 27, 2021
     </span>
   <span class="post-reading-time" title="reading time">
-    <i class="fas fa-fw fa-coffee"></i>54 分钟阅读
+    <i class="fas fa-fw fa-coffee"></i>2 分钟阅读
   </span><a href="https://mengdemao.github.io/categories/linux/" class="badge rounded-pill text-white bg-primary post-taxonomy">linux</a><a href="https://mengdemao.github.io/tags/kernel/" class="badge rounded-pill text-white bg-primary post-taxonomy">kernel</a></div>
 <div class="post-summary">
           
-          系统调度 调度核心函数实现 1/* 2* kernel/sched/core.c 3* 4* Core kernel scheduler code and related syscalls 5* 6* Copyright (C) 1991-2002 Linus Torvalds 7*/ 8#include &#34;sched.h&#34;9 10#include &lt;linux/nospec.h&gt;11 12#include &lt;linux/kcov.h&gt;13 14#include &lt;asm/switch_to.h&gt;15#include &lt;asm/tlb.h&gt;16 17#include …
+          系统调度 调度核心函数实现 1static void __sched notrace __schedule(bool preempt) 2{ 3 struct task_struct *prev, *next; 4 unsigned long *switch_count; 5 struct rq_flags rf; 6 struct rq *rq; 7 int cpu; 8 9 cpu = smp_processor_id(); 10 rq = cpu_rq(cpu); 11 prev = rq-&gt;curr; 12 13 schedule_debug(prev); 14 15 if (sched_feat(HRTICK)) …
         </div>
       </div>
     </article><article class="row card post component">
