@@ -10,11 +10,11 @@
 <link rel="icon" href="https://mengdemao.github.io/images/favicons/favicon.ico">
 <meta name="keywords" content="" />
 <meta name="description" content="" /><meta itemprop="name" content="Tinycc">
-<meta itemprop="description" content="TinyCC TinyCC (aka TCC) is a small but hyper fast C compiler. Unlike other C compilers, it is meant to be self-relying: you do not need an external assembler or linker because TCC does that for you. TCC 执行概览 TCC状态信息 1struct TCCState { 2 unsigned char verbose; /* if true, display some information during compilation */ 3 unsigned char nostdinc; /*"><meta itemprop="datePublished" content="2021-11-07T12:10:56+08:00" />
+<meta itemprop="description" content="TinyCC TinyCC (aka TCC) is a small but hyper fast C compiler. Unlike other C compilers, it is meant to be self-relying: you do not need an external assembler or linker because TCC does that for you. TCC 执行概览 TCC组成代码 文件名 解释 tcc.c/libtcc.c tcc运行代码 tccpp.c tccelf.c tcccoff.c tccasm.c tccrun.c tccgen.c x86_64-gen.c x86_64-link.c"><meta itemprop="datePublished" content="2021-11-07T12:10:56+08:00" />
 <meta itemprop="dateModified" content="2021-11-07T12:10:56+08:00" />
-<meta itemprop="wordCount" content="1779">
+<meta itemprop="wordCount" content="1816">
 <meta itemprop="keywords" content="" /><meta property="og:title" content="Tinycc" />
-<meta property="og:description" content="TinyCC TinyCC (aka TCC) is a small but hyper fast C compiler. Unlike other C compilers, it is meant to be self-relying: you do not need an external assembler or linker because TCC does that for you. TCC 执行概览 TCC状态信息 1struct TCCState { 2 unsigned char verbose; /* if true, display some information during compilation */ 3 unsigned char nostdinc; /*" />
+<meta property="og:description" content="TinyCC TinyCC (aka TCC) is a small but hyper fast C compiler. Unlike other C compilers, it is meant to be self-relying: you do not need an external assembler or linker because TCC does that for you. TCC 执行概览 TCC组成代码 文件名 解释 tcc.c/libtcc.c tcc运行代码 tccpp.c tccelf.c tcccoff.c tccasm.c tccrun.c tccgen.c x86_64-gen.c x86_64-link.c" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://mengdemao.github.io/posts/tinycc/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2021-11-07T12:10:56+08:00" />
@@ -22,7 +22,7 @@
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tinycc"/>
-<meta name="twitter:description" content="TinyCC TinyCC (aka TCC) is a small but hyper fast C compiler. Unlike other C compilers, it is meant to be self-relying: you do not need an external assembler or linker because TCC does that for you. TCC 执行概览 TCC状态信息 1struct TCCState { 2 unsigned char verbose; /* if true, display some information during compilation */ 3 unsigned char nostdinc; /*"/>
+<meta name="twitter:description" content="TinyCC TinyCC (aka TCC) is a small but hyper fast C compiler. Unlike other C compilers, it is meant to be self-relying: you do not need an external assembler or linker because TCC does that for you. TCC 执行概览 TCC组成代码 文件名 解释 tcc.c/libtcc.c tcc运行代码 tccpp.c tccelf.c tcccoff.c tccasm.c tccrun.c tccgen.c x86_64-gen.c x86_64-link.c"/>
 <link rel="preload" href="https://mengdemao.github.io/css/bundle.min.89b15c76d23b1055e418eed718cb78886010e537918653f0a43661ed56307392.css" integrity="sha256-ibFcdtI7EFXkGO7XGMt4iGAQ5TeRhlPwpDZh7VYwc5I=" crossorigin="anonymous" as="style" onload="this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://mengdemao.github.io/css/bundle.min.89b15c76d23b1055e418eed718cb78886010e537918653f0a43661ed56307392.css" integrity="sha256-ibFcdtI7EFXkGO7XGMt4iGAQ5TeRhlPwpDZh7VYwc5I=" crossorigin="anonymous"></noscript></head>
   <body><script src="https://mengdemao.github.io/js/bootstrap.min.b5d86dd3a5f60c90be38a252bb65fc1a2732f32e71dc12c051720f0c7aef3cde.js" integrity="sha256-tdht06X2DJC&#43;OKJSu2X8Gicy8y5x3BLAUXIPDHrvPN4=" crossorigin="anonymous"></script><header><nav class="navbar top-app-bar top-app-bar-expand-lg fixed-top">
@@ -232,6 +232,45 @@ Unlike other C compilers, it is meant to be self-relying: you do not need an ext
 assembler or linker because TCC does that for you.</p>
 </blockquote>
 <h2 id="tcc-执行概览">TCC 执行概览</h2>
+<p>TCC组成代码</p>
+<table>
+<thead>
+<tr>
+<th>文件名</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tcc.c</code>/<code>libtcc.c</code></td>
+<td>tcc运行代码</td>
+</tr>
+<tr>
+<td><code>tccpp.c</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>tccelf.c</code> <code>tcccoff.c</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>tccasm.c</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>tccrun.c</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>tccgen.c</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>x86_64-gen.c</code> <code>x86_64-link.c</code> <code>i386-asm.c</code></td>
+<td>不同架构的生成器</td>
+</tr>
+</tbody>
+</table>
 <p><img class="img-fluid" alt="TccMainExecute" src="https://raw.githubusercontent.com/mengdemao/picture/master/TccMainExecute.png" loading="lazy"
   
    />
