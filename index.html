@@ -163,6 +163,19 @@
 <div class="col-lg-8">
   <div class="container"><div class="posts mb-4"><article class="row card post component">
       <div class="card-body">
+        <h2 class="card-title post-title"><a href="https://mengdemao.github.io/posts/tinycc/">Tinycc
+</a></h2><div class="post-meta"><span class="post-date" title="created on">
+    <i class="fas fa-fw fa-calendar-alt"></i>Nov 7, 2021
+  </span><span class="post-reading-time" title="reading time">
+    <i class="fas fa-fw fa-coffee"></i>4 分钟阅读
+  </span></div>
+<div class="post-summary">
+          
+          TinyCC TinyCC (aka TCC) is a small but hyper fast C compiler. Unlike other C compilers, it is meant to be self-relying: you do not need an external assembler or linker because TCC does that for you. TCC 执行概览 TCC状态信息 1struct TCCState { 2 unsigned char verbose; /* if true, display some information during compilation */ 3 …
+        </div>
+      </div>
+    </article><article class="row card post component">
+      <div class="card-body">
         <h2 class="card-title post-title"><a href="https://mengdemao.github.io/posts/server/">Server
 </a></h2><div class="post-meta"><span class="post-date" title="created on">
     <i class="fas fa-fw fa-calendar-alt"></i>Nov 5, 2021
@@ -213,19 +226,6 @@
           IDLE调度器类 1/* 2* Generic entry points for the idle threads and 3* implementation of the idle task scheduling class. 4* 5* (NOTE: these are not related to SCHED_IDLE batch scheduled 6* tasks which are handled in sched/fair.c ) 7*/ 8#include &#34;sched.h&#34;9 10#include &lt;trace/events/power.h&gt;11 12/* Linker adds …
         </div>
       </div>
-    </article><article class="row card post component">
-      <div class="card-body">
-        <h2 class="card-title post-title"><a href="https://mengdemao.github.io/posts/fair/">Fair
-</a></h2><div class="post-meta"><span class="post-date" title="created on">
-    <i class="fas fa-fw fa-calendar-alt"></i>Oct 28, 2021
-  </span><span class="post-reading-time" title="reading time">
-    <i class="fas fa-fw fa-coffee"></i>2 分钟阅读
-  </span><a href="https://mengdemao.github.io/categories/linux/" class="badge rounded-pill text-white bg-primary post-taxonomy">linux</a><a href="https://mengdemao.github.io/tags/kernel/" class="badge rounded-pill text-white bg-primary post-taxonomy">kernel</a></div>
-<div class="post-summary">
-          
-          完全公平调度器 1const struct sched_class fair_sched_class = { 2 .next = &amp;idle_sched_class, 3 .enqueue_task = enqueue_task_fair, 4 .dequeue_task = dequeue_task_fair, 5 .yield_task = yield_task_fair, 6 .yield_to_task = yield_to_task_fair, 7 8 .check_preempt_curr = check_preempt_wakeup, 9 10 .pick_next_task = …
-        </div>
-      </div>
     </article></div><div class="row table-responsive mb-3">
     <ul class="pagination pagination-default">
       <li class="page-item disabled">
@@ -253,7 +253,7 @@
         <a href="/page/2/" aria-label="Next" class="page-link" role="button"><span aria-hidden="true">&raquo;</span></a>
       </li>
       <li class="page-item">
-        <a href="/page/7/" aria-label="Last" class="page-link" role="button"><span aria-hidden="true">&raquo;&raquo;</span></a>
+        <a href="/page/8/" aria-label="Last" class="page-link" role="button"><span aria-hidden="true">&raquo;&raquo;</span></a>
       </li>
     </ul></div>
 </div>
@@ -273,11 +273,11 @@
   <section class="recent-posts row card component">
   <div class="card-body">
     <h2 class="card-title">最近文章</h2>
-    <ul><li><a href="https://mengdemao.github.io/posts/server/">Server
+    <ul><li><a href="https://mengdemao.github.io/posts/tinycc/">Tinycc
+</a></li><li><a href="https://mengdemao.github.io/posts/server/">Server
 </a></li><li><a href="https://mengdemao.github.io/posts/bsdiff/">Bsdiff
 </a></li><li><a href="https://mengdemao.github.io/posts/arm/">Arm
 </a></li><li><a href="https://mengdemao.github.io/posts/idle/">Idle
-</a></li><li><a href="https://mengdemao.github.io/posts/fair/">Fair
 </a></li></ul>
   </div>
 </section><section class="taxonomies row card component">

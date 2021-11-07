@@ -166,6 +166,19 @@
   </div>
 </nav><div class="posts mb-4"><article class="row card post component">
       <div class="card-body">
+        <h2 class="card-title post-title"><a href="https://mengdemao.github.io/posts/mmu/">Mmu
+</a></h2><div class="post-meta"><span class="post-date" title="created on">
+    <i class="fas fa-fw fa-calendar-alt"></i>Oct 4, 2021
+  </span><span class="post-reading-time" title="reading time">
+    <i class="fas fa-fw fa-coffee"></i>1 分钟阅读
+  </span></div>
+<div class="post-summary">
+          
+          MMU内存管理单元 ARM内存管理单元分析
+        </div>
+      </div>
+    </article><article class="row card post component">
+      <div class="card-body">
         <h2 class="card-title post-title"><a href="https://mengdemao.github.io/posts/page/">Page
 </a></h2><div class="post-meta"><span class="post-date" title="created on">
     <i class="fas fa-fw fa-calendar-alt"></i>Oct 4, 2021
@@ -221,19 +234,6 @@
           系统调度 调度核心函数实现 1static void __sched notrace __schedule(bool preempt) 2{ 3 struct task_struct *prev, *next; 4 unsigned long *switch_count; 5 struct rq_flags rf; 6 struct rq *rq; 7 int cpu; 8 9 cpu = smp_processor_id(); 10 rq = cpu_rq(cpu); 11 prev = rq-&gt;curr; 12 13 schedule_debug(prev); 14 15 if (sched_feat(HRTICK)) …
         </div>
       </div>
-    </article><article class="row card post component">
-      <div class="card-body">
-        <h2 class="card-title post-title"><a href="https://mengdemao.github.io/posts/rime/">Rime
-</a></h2><div class="post-meta"><span class="post-date" title="created on">
-    <i class="fas fa-fw fa-calendar-alt"></i>Oct 3, 2021
-  </span><span class="post-reading-time" title="reading time">
-    <i class="fas fa-fw fa-coffee"></i>0 分钟阅读
-  </span></div>
-<div class="post-summary">
-          
-          
-        </div>
-      </div>
     </article></div><div class="row table-responsive mb-3">
     <ul class="pagination pagination-default">
       <li class="page-item">
@@ -261,7 +261,7 @@
         <a href="/posts/page/5/" aria-label="Next" class="page-link" role="button"><span aria-hidden="true">&raquo;</span></a>
       </li>
       <li class="page-item">
-        <a href="/posts/page/7/" aria-label="Last" class="page-link" role="button"><span aria-hidden="true">&raquo;&raquo;</span></a>
+        <a href="/posts/page/8/" aria-label="Last" class="page-link" role="button"><span aria-hidden="true">&raquo;&raquo;</span></a>
       </li>
     </ul></div>
 </div>
@@ -281,11 +281,11 @@
   <section class="recent-posts row card component">
   <div class="card-body">
     <h2 class="card-title">最近文章</h2>
-    <ul><li><a href="https://mengdemao.github.io/posts/server/">Server
+    <ul><li><a href="https://mengdemao.github.io/posts/tinycc/">Tinycc
+</a></li><li><a href="https://mengdemao.github.io/posts/server/">Server
 </a></li><li><a href="https://mengdemao.github.io/posts/bsdiff/">Bsdiff
 </a></li><li><a href="https://mengdemao.github.io/posts/arm/">Arm
 </a></li><li><a href="https://mengdemao.github.io/posts/idle/">Idle
-</a></li><li><a href="https://mengdemao.github.io/posts/fair/">Fair
 </a></li></ul>
   </div>
 </section><section class="taxonomies row card component">
