@@ -166,6 +166,24 @@
   </div>
 </nav><div class="posts mb-4"><article class="row card post component">
       <div class="card-body">
+        <h2 class="card-title post-title"><a href="https://mengdemao.github.io/posts/sched/">系统调度
+</a></h2><div class="post-meta"><span class="post-date" title="created on">
+    <i class="fas fa-fw fa-calendar-alt"></i>Oct 4, 2021
+  </span>
+  <span class="post-date me-2" title="updated on">
+      <i class="fas fa-sync-alt"></i>
+      Oct 27, 2021
+    </span>
+  <span class="post-reading-time" title="reading time">
+    <i class="fas fa-fw fa-coffee"></i>2 分钟阅读
+  </span><a href="https://mengdemao.github.io/categories/linux/" class="badge rounded-pill text-white bg-primary post-taxonomy">linux</a><a href="https://mengdemao.github.io/tags/kernel/" class="badge rounded-pill text-white bg-primary post-taxonomy">kernel</a></div>
+<div class="post-summary">
+          
+          系统调度 调度核心函数实现 1static void __sched notrace __schedule(bool preempt) 2{ 3 struct task_struct *prev, *next; 4 unsigned long *switch_count; 5 struct rq_flags rf; 6 struct rq *rq; 7 int cpu; 8 9 cpu = smp_processor_id(); 10 rq = cpu_rq(cpu); 11 prev = rq-&gt;curr; 12 13 schedule_debug(prev); 14 15 if (sched_feat(HRTICK)) …
+        </div>
+      </div>
+    </article><article class="row card post component">
+      <div class="card-body">
         <h2 class="card-title post-title"><a href="https://mengdemao.github.io/posts/rime/">Rime
 </a></h2><div class="post-meta"><span class="post-date" title="created on">
     <i class="fas fa-fw fa-calendar-alt"></i>Oct 3, 2021
@@ -216,19 +234,6 @@
           
         </div>
       </div>
-    </article><article class="row card post component">
-      <div class="card-body">
-        <h2 class="card-title post-title"><a href="https://mengdemao.github.io/posts/rust/">Rust
-</a></h2><div class="post-meta"><span class="post-date" title="created on">
-    <i class="fas fa-fw fa-calendar-alt"></i>Oct 3, 2021
-  </span><span class="post-reading-time" title="reading time">
-    <i class="fas fa-fw fa-coffee"></i>1 分钟阅读
-  </span></div>
-<div class="post-summary">
-          
-          RUST学习笔记 ==== 安装 添加环境变量.bashrc/profile 1set RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static 2set RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup 安装工具链 1curl https://mirrors.ustc.edu.cn/rust-static/rustup/rustup-init.sh | sh 设置rust的环境变量.bashrc/profil
-        </div>
-      </div>
     </article></div><div class="row table-responsive mb-3">
     <ul class="pagination pagination-default">
       <li class="page-item">
@@ -276,11 +281,11 @@
   <section class="recent-posts row card component">
   <div class="card-body">
     <h2 class="card-title">最近文章</h2>
-    <ul><li><a href="https://mengdemao.github.io/posts/tinycc/">Tinycc
+    <ul><li><a href="https://mengdemao.github.io/posts/dwl/">Dwl
+</a></li><li><a href="https://mengdemao.github.io/posts/tinycc/">Tinycc
 </a></li><li><a href="https://mengdemao.github.io/posts/server/">Server
 </a></li><li><a href="https://mengdemao.github.io/posts/bsdiff/">Bsdiff
 </a></li><li><a href="https://mengdemao.github.io/posts/arm/">Arm
-</a></li><li><a href="https://mengdemao.github.io/posts/idle/">Idle
 </a></li></ul>
   </div>
 </section><section class="taxonomies row card component">

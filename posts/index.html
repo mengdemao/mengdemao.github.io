@@ -166,6 +166,19 @@
   </div>
 </nav><div class="posts mb-4"><article class="row card post component">
       <div class="card-body">
+        <h2 class="card-title post-title"><a href="https://mengdemao.github.io/posts/dwl/">Dwl
+</a></h2><div class="post-meta"><span class="post-date" title="created on">
+    <i class="fas fa-fw fa-calendar-alt"></i>Nov 7, 2021
+  </span><span class="post-reading-time" title="reading time">
+    <i class="fas fa-fw fa-coffee"></i>3 分钟阅读
+  </span></div>
+<div class="post-summary">
+          
+          dwl桌面环境 编译流程 setup 1void 2setup(void) 3{ 4 /* The Wayland display is managed by libwayland. It handles accepting 5* clients from the Unix socket, manging Wayland globals, and so on. */ 6 dpy = wl_display_create(); 7 8 /* Set up signal handlers */ 9 sigchld(0); 10 signal(SIGINT, quitsignal); 11 signal(SIGTERM, …
+        </div>
+      </div>
+    </article><article class="row card post component">
+      <div class="card-body">
         <h2 class="card-title post-title"><a href="https://mengdemao.github.io/posts/tinycc/">Tinycc
 </a></h2><div class="post-meta"><span class="post-date" title="created on">
     <i class="fas fa-fw fa-calendar-alt"></i>Nov 7, 2021
@@ -216,19 +229,6 @@
           ARM笔记 ARM体系结构 相关术语 流水线 DSP Jazelle ThumbEE Thumb-2 TrustZone VFP NEON LAPE big.LITTLE 工具链 文件名 详解 addr2line 把程序地址转化为文件名和行号 ar 建立、修改和提取归档文件 as 汇编编译器
         </div>
       </div>
-    </article><article class="row card post component">
-      <div class="card-body">
-        <h2 class="card-title post-title"><a href="https://mengdemao.github.io/posts/idle/">Idle
-</a></h2><div class="post-meta"><span class="post-date" title="created on">
-    <i class="fas fa-fw fa-calendar-alt"></i>Oct 28, 2021
-  </span><span class="post-reading-time" title="reading time">
-    <i class="fas fa-fw fa-coffee"></i>4 分钟阅读
-  </span><a href="https://mengdemao.github.io/categories/linux/" class="badge rounded-pill text-white bg-primary post-taxonomy">linux</a><a href="https://mengdemao.github.io/tags/kernel/" class="badge rounded-pill text-white bg-primary post-taxonomy">kernel</a></div>
-<div class="post-summary">
-          
-          IDLE调度器类 1/* 2* Generic entry points for the idle threads and 3* implementation of the idle task scheduling class. 4* 5* (NOTE: these are not related to SCHED_IDLE batch scheduled 6* tasks which are handled in sched/fair.c ) 7*/ 8#include &#34;sched.h&#34;9 10#include &lt;trace/events/power.h&gt;11 12/* Linker adds …
-        </div>
-      </div>
     </article></div><div class="row table-responsive mb-3">
     <ul class="pagination pagination-default">
       <li class="page-item disabled">
@@ -276,11 +276,11 @@
   <section class="recent-posts row card component">
   <div class="card-body">
     <h2 class="card-title">最近文章</h2>
-    <ul><li><a href="https://mengdemao.github.io/posts/tinycc/">Tinycc
+    <ul><li><a href="https://mengdemao.github.io/posts/dwl/">Dwl
+</a></li><li><a href="https://mengdemao.github.io/posts/tinycc/">Tinycc
 </a></li><li><a href="https://mengdemao.github.io/posts/server/">Server
 </a></li><li><a href="https://mengdemao.github.io/posts/bsdiff/">Bsdiff
 </a></li><li><a href="https://mengdemao.github.io/posts/arm/">Arm
-</a></li><li><a href="https://mengdemao.github.io/posts/idle/">Idle
 </a></li></ul>
   </div>
 </section><section class="taxonomies row card component">
