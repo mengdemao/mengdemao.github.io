@@ -6,7 +6,16 @@
     <description>Recent content in 文章 on 编程日志</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>Copyright © 2020-{year} Meng Demao. All Rights Reserved.</copyright>
-    <lastBuildDate>Sun, 07 Nov 2021 15:17:05 +0800</lastBuildDate><atom:link href="https://mengdemao.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 14 Nov 2021 12:47:03 +0800</lastBuildDate><atom:link href="https://mengdemao.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>调度优先级</title>
+      <link>https://mengdemao.github.io/posts/schedulepriority/</link>
+      <pubDate>Sun, 14 Nov 2021 12:47:03 +0800</pubDate>
+      
+      <guid>https://mengdemao.github.io/posts/schedulepriority/</guid>
+      <description>优先级定义 内核优先级使用0-139确定内部优先级,0-99分配实时进程; [100, 139]分配非实时进程,nice的映射[-20, 19]与非实时优先</description>
+    </item>
+    
     <item>
       <title>dwl</title>
       <link>https://mengdemao.github.io/posts/dwl/</link>
