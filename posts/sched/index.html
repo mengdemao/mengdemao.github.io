@@ -10,19 +10,19 @@
 <link rel="icon" href="https://mengdemao.github.io/images/favicons/favicon.ico">
 <meta name="keywords" content="sched" />
 <meta name="description" content="" /><meta itemprop="name" content="系统调度">
-<meta itemprop="description" content="系统调度 调度核心函数实现 1static void __sched notrace __schedule(bool preempt) 2{ 3 struct task_struct *prev, *next; 4 unsigned long *switch_count; 5 struct rq_flags rf; 6 struct rq *rq; 7 int cpu; 8 9 cpu = smp_processor_id(); 10 rq = cpu_rq(cpu); 11 prev = rq-&gt;curr; 12 13 schedule_debug(prev); 14 15 if (sched_feat(HRTICK)) 16 hrtick_clear(rq); 17 18 local_irq_disable(); 19 rcu_note_context_switch(preempt); 20 21 rq_lock(rq, &amp;rf);"><meta itemprop="datePublished" content="2021-10-04T12:10:25+08:00" />
-<meta itemprop="dateModified" content="2021-10-27T22:54:25+08:00" />
-<meta itemprop="wordCount" content="1733">
+<meta itemprop="description" content="系统调度 主调度器schedule 周期调度器scheduler_tick 周期调度器函数实现 1void scheduler_tick(void) 2{ 3 int cpu = smp_processor_id(); 4 struct rq *rq = cpu_rq(cpu); 5 struct task_struct *curr = rq-&gt;curr; 6 struct rq_flags rf; 7 8"><meta itemprop="datePublished" content="2021-10-04T12:10:25+08:00" />
+<meta itemprop="dateModified" content="2021-10-04T12:10:25+08:00" />
+<meta itemprop="wordCount" content="683">
 <meta itemprop="keywords" content="kernel," /><meta property="og:title" content="系统调度" />
-<meta property="og:description" content="系统调度 调度核心函数实现 1static void __sched notrace __schedule(bool preempt) 2{ 3 struct task_struct *prev, *next; 4 unsigned long *switch_count; 5 struct rq_flags rf; 6 struct rq *rq; 7 int cpu; 8 9 cpu = smp_processor_id(); 10 rq = cpu_rq(cpu); 11 prev = rq-&gt;curr; 12 13 schedule_debug(prev); 14 15 if (sched_feat(HRTICK)) 16 hrtick_clear(rq); 17 18 local_irq_disable(); 19 rcu_note_context_switch(preempt); 20 21 rq_lock(rq, &amp;rf);" />
+<meta property="og:description" content="系统调度 主调度器schedule 周期调度器scheduler_tick 周期调度器函数实现 1void scheduler_tick(void) 2{ 3 int cpu = smp_processor_id(); 4 struct rq *rq = cpu_rq(cpu); 5 struct task_struct *curr = rq-&gt;curr; 6 struct rq_flags rf; 7 8" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://mengdemao.github.io/posts/sched/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2021-10-04T12:10:25+08:00" />
-<meta property="article:modified_time" content="2021-10-27T22:54:25+08:00" />
+<meta property="article:modified_time" content="2021-10-04T12:10:25+08:00" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="系统调度"/>
-<meta name="twitter:description" content="系统调度 调度核心函数实现 1static void __sched notrace __schedule(bool preempt) 2{ 3 struct task_struct *prev, *next; 4 unsigned long *switch_count; 5 struct rq_flags rf; 6 struct rq *rq; 7 int cpu; 8 9 cpu = smp_processor_id(); 10 rq = cpu_rq(cpu); 11 prev = rq-&gt;curr; 12 13 schedule_debug(prev); 14 15 if (sched_feat(HRTICK)) 16 hrtick_clear(rq); 17 18 local_irq_disable(); 19 rcu_note_context_switch(preempt); 20 21 rq_lock(rq, &amp;rf);"/>
+<meta name="twitter:description" content="系统调度 主调度器schedule 周期调度器scheduler_tick 周期调度器函数实现 1void scheduler_tick(void) 2{ 3 int cpu = smp_processor_id(); 4 struct rq *rq = cpu_rq(cpu); 5 struct task_struct *curr = rq-&gt;curr; 6 struct rq_flags rf; 7 8"/>
 <link rel="preload" href="https://mengdemao.github.io/css/bundle.min.89b15c76d23b1055e418eed718cb78886010e537918653f0a43661ed56307392.css" integrity="sha256-ibFcdtI7EFXkGO7XGMt4iGAQ5TeRhlPwpDZh7VYwc5I=" crossorigin="anonymous" as="style" onload="this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://mengdemao.github.io/css/bundle.min.89b15c76d23b1055e418eed718cb78886010e537918653f0a43661ed56307392.css" integrity="sha256-ibFcdtI7EFXkGO7XGMt4iGAQ5TeRhlPwpDZh7VYwc5I=" crossorigin="anonymous"></noscript></head>
   <body><script src="https://mengdemao.github.io/js/bootstrap.min.b5d86dd3a5f60c90be38a252bb65fc1a2732f32e71dc12c051720f0c7aef3cde.js" integrity="sha256-tdht06X2DJC&#43;OKJSu2X8Gicy8y5x3BLAUXIPDHrvPN4=" crossorigin="anonymous"></script><header><nav class="navbar top-app-bar top-app-bar-expand-lg fixed-top">
@@ -178,7 +178,9 @@
   
     
 
-    
+    <a class="action btn-reward" role="button" data-bs-toggle="modal" data-bs-target="#rewardModal" title="打赏">
+  <i class="fas fa-fw fa-coffee"></i>
+</a>
     <a class="action" data-bs-container="body" data-bs-toggle="popover" data-bs-html="true" data-bs-placement="bottom"
   data-bs-trigger="focus" tabindex="0" role="button" aria-label="Copyright" 
   data-bs-content="&lt;a target=&#34;_blank&#34; rel=&#34;license noopener noreferrer&#34; href=&#34;https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh&#34;&gt;CC BY-NC-ND 4.0 &lt;i class=&#34;fab fa-fw fa-creative-commons&#34;&gt;&lt;/i&gt;&lt;i class=&#34;fab fa-fw fa-creative-commons-by&#34;&gt;&lt;/i&gt;&lt;i class=&#34;fab fa-fw fa-creative-commons-nc&#34;&gt;&lt;/i&gt;&lt;i class=&#34;fab fa-fw fa-creative-commons-nd&#34;&gt;&lt;/i&gt;&lt;/a&gt;
@@ -195,13 +197,8 @@
         <h1 class="card-title my-3">系统调度
 </h1><div class="post-meta"><span class="post-date" title="created on">
     <i class="fas fa-fw fa-calendar-alt"></i>Oct 4, 2021
-  </span>
-  <span class="post-date me-2" title="updated on">
-      <i class="fas fa-sync-alt"></i>
-      Oct 27, 2021
-    </span>
-  <span class="post-reading-time" title="reading time">
-    <i class="fas fa-fw fa-coffee"></i>4 分钟阅读
+  </span><span class="post-reading-time" title="reading time">
+    <i class="fas fa-fw fa-coffee"></i>2 分钟阅读
   </span><a href="https://mengdemao.github.io/categories/linux/" class="badge rounded-pill text-white bg-primary post-taxonomy">linux</a><a href="https://mengdemao.github.io/tags/kernel/" class="badge rounded-pill text-white bg-primary post-taxonomy">kernel</a></div>
 <div class="offcanvas offcanvas-end surface h-100" tabindex="-1" id="offcanvasTOC" aria-labelledby="offcanvasTOCLabel">
   <div class="offcanvas-header">
@@ -213,21 +210,43 @@
   <div class="offcanvas-body">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#调度核心函数实现">调度核心函数实现</a>
+    <li><a href="#周期调度器函数实现">周期调度器函数实现</a></li>
+    <li><a href="#主调度器函数实现">主调度器函数实现</a>
       <ul>
         <li><a href="#寻找最高优先级任务">寻找最高优先级任务</a></li>
         <li><a href="#任务切换">任务切换</a></li>
-        <li><a href="#定时调度函数">定时调度函数</a></li>
-        <li><a href="#任务获取">任务获取</a></li>
-        <li><a href="#优先级和运算时间计算">优先级和运算时间计算</a></li>
-        <li><a href="#任务队列">任务队列</a></li>
       </ul>
     </li>
   </ul>
 </nav>
   </div>
 </div><div class="post-content mb-3"><h1 id="系统调度">系统调度</h1>
-<h2 id="调度核心函数实现">调度核心函数实现</h2>
+<ul>
+<li>主调度器<code>schedule</code></li>
+<li>周期调度器<code>scheduler_tick</code></li>
+</ul>
+<h2 id="周期调度器函数实现">周期调度器函数实现</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="kt">void</span> <span class="nf">scheduler_tick</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="ln"> 2</span><span class="p">{</span>
+<span class="ln"> 3</span>	<span class="kt">int</span> <span class="n">cpu</span> <span class="o">=</span> <span class="n">smp_processor_id</span><span class="p">();</span>
+<span class="ln"> 4</span>	<span class="k">struct</span> <span class="n">rq</span> <span class="o">*</span><span class="n">rq</span> <span class="o">=</span> <span class="n">cpu_rq</span><span class="p">(</span><span class="n">cpu</span><span class="p">);</span>
+<span class="ln"> 5</span>	<span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">curr</span> <span class="o">=</span> <span class="n">rq</span><span class="o">-&gt;</span><span class="n">curr</span><span class="p">;</span>
+<span class="ln"> 6</span>	<span class="k">struct</span> <span class="n">rq_flags</span> <span class="n">rf</span><span class="p">;</span>
+<span class="ln"> 7</span>
+<span class="ln"> 8</span>	<span class="n">sched_clock_tick</span><span class="p">();</span>
+<span class="ln"> 9</span>
+<span class="ln">10</span>	<span class="n">rq_lock</span><span class="p">(</span><span class="n">rq</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rf</span><span class="p">);</span>
+<span class="ln">11</span>
+<span class="ln">12</span>	<span class="n">update_rq_clock</span><span class="p">(</span><span class="n">rq</span><span class="p">);</span>
+<span class="ln">13</span>	<span class="n">curr</span><span class="o">-&gt;</span><span class="n">sched_class</span><span class="o">-&gt;</span><span class="n">task_tick</span><span class="p">(</span><span class="n">rq</span><span class="p">,</span> <span class="n">curr</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="ln">14</span>	<span class="n">cpu_load_update_active</span><span class="p">(</span><span class="n">rq</span><span class="p">);</span>
+<span class="ln">15</span>	<span class="n">calc_global_load_tick</span><span class="p">(</span><span class="n">rq</span><span class="p">);</span>
+<span class="ln">16</span>
+<span class="ln">17</span>	<span class="n">rq_unlock</span><span class="p">(</span><span class="n">rq</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rf</span><span class="p">);</span>
+<span class="ln">18</span>
+<span class="ln">19</span>	<span class="n">perf_event_task_tick</span><span class="p">();</span>
+<span class="ln">20</span><span class="p">}</span>
+</code></pre></div><h2 id="主调度器函数实现">主调度器函数实现</h2>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="k">static</span> <span class="kt">void</span> <span class="n">__sched</span> <span class="n">notrace</span> <span class="nf">__schedule</span><span class="p">(</span><span class="kt">bool</span> <span class="n">preempt</span><span class="p">)</span>
 <span class="ln"> 2</span><span class="p">{</span>
 <span class="ln"> 3</span>	<span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">prev</span><span class="p">,</span> <span class="o">*</span><span class="n">next</span><span class="p">;</span>
@@ -386,294 +405,32 @@
 <span class="ln">44</span>
 <span class="ln">45</span>	<span class="k">return</span> <span class="n">finish_task_switch</span><span class="p">(</span><span class="n">prev</span><span class="p">);</span>
 <span class="ln">46</span><span class="p">}</span>
-</code></pre></div><h3 id="定时调度函数">定时调度函数</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="kt">void</span> <span class="nf">scheduler_tick</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
-<span class="ln"> 2</span><span class="p">{</span>
-<span class="ln"> 3</span>	<span class="kt">int</span> <span class="n">cpu</span> <span class="o">=</span> <span class="n">smp_processor_id</span><span class="p">();</span>
-<span class="ln"> 4</span>	<span class="k">struct</span> <span class="n">rq</span> <span class="o">*</span><span class="n">rq</span> <span class="o">=</span> <span class="n">cpu_rq</span><span class="p">(</span><span class="n">cpu</span><span class="p">);</span>
-<span class="ln"> 5</span>	<span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">curr</span> <span class="o">=</span> <span class="n">rq</span><span class="o">-&gt;</span><span class="n">curr</span><span class="p">;</span>
-<span class="ln"> 6</span>	<span class="k">struct</span> <span class="n">rq_flags</span> <span class="n">rf</span><span class="p">;</span>
-<span class="ln"> 7</span>
-<span class="ln"> 8</span>	<span class="n">sched_clock_tick</span><span class="p">();</span>
-<span class="ln"> 9</span>
-<span class="ln">10</span>	<span class="n">rq_lock</span><span class="p">(</span><span class="n">rq</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rf</span><span class="p">);</span>
-<span class="ln">11</span>
-<span class="ln">12</span>	<span class="n">update_rq_clock</span><span class="p">(</span><span class="n">rq</span><span class="p">);</span>
-<span class="ln">13</span>	<span class="n">curr</span><span class="o">-&gt;</span><span class="n">sched_class</span><span class="o">-&gt;</span><span class="n">task_tick</span><span class="p">(</span><span class="n">rq</span><span class="p">,</span> <span class="n">curr</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-<span class="ln">14</span>	<span class="n">cpu_load_update_active</span><span class="p">(</span><span class="n">rq</span><span class="p">);</span>
-<span class="ln">15</span>	<span class="n">calc_global_load_tick</span><span class="p">(</span><span class="n">rq</span><span class="p">);</span>
-<span class="ln">16</span>
-<span class="ln">17</span>	<span class="n">rq_unlock</span><span class="p">(</span><span class="n">rq</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rf</span><span class="p">);</span>
-<span class="ln">18</span>
-<span class="ln">19</span>	<span class="n">perf_event_task_tick</span><span class="p">();</span>
-<span class="ln">20</span>
-<span class="ln">21</span><span class="cp">#ifdef CONFIG_SMP
-</span><span class="ln">22</span><span class="cp"></span>	<span class="n">rq</span><span class="o">-&gt;</span><span class="n">idle_balance</span> <span class="o">=</span> <span class="n">idle_cpu</span><span class="p">(</span><span class="n">cpu</span><span class="p">);</span>
-<span class="ln">23</span>	<span class="n">trigger_load_balance</span><span class="p">(</span><span class="n">rq</span><span class="p">);</span>
-<span class="ln">24</span><span class="cp">#endif
-</span><span class="ln">25</span><span class="cp"></span><span class="p">}</span>
-</code></pre></div><h3 id="任务获取">任务获取</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln">  1</span><span class="k">struct</span> <span class="n">rq</span> <span class="p">{</span>
-<span class="ln">  2</span>	<span class="cm">/* 运行队列加锁 */</span>
-<span class="ln">  3</span>	<span class="n">raw_spinlock_t</span>		<span class="n">lock</span><span class="p">;</span>
-<span class="ln">  4</span>
-<span class="ln">  5</span>	<span class="cm">/*
-</span><span class="ln">  6</span><span class="cm">	 * nr_running and cpu_load should be in the same cacheline because
-</span><span class="ln">  7</span><span class="cm">	 * remote CPUs use both these fields when doing load calculation.
-</span><span class="ln">  8</span><span class="cm">	 */</span>
-<span class="ln">  9</span>	<span class="kt">unsigned</span> <span class="kt">int</span>		<span class="n">nr_running</span><span class="p">;</span>
-<span class="ln"> 10</span><span class="cp">#ifdef CONFIG_NUMA_BALANCING
-</span><span class="ln"> 11</span><span class="cp"></span>	<span class="kt">unsigned</span> <span class="kt">int</span>		<span class="n">nr_numa_running</span><span class="p">;</span>
-<span class="ln"> 12</span>	<span class="kt">unsigned</span> <span class="kt">int</span>		<span class="n">nr_preferred_running</span><span class="p">;</span>
-<span class="ln"> 13</span>	<span class="kt">unsigned</span> <span class="kt">int</span>		<span class="n">numa_migrate_on</span><span class="p">;</span>
-<span class="ln"> 14</span><span class="cp">#endif
-</span><span class="ln"> 15</span><span class="cp"></span>	<span class="cp">#define CPU_LOAD_IDX_MAX 5
-</span><span class="ln"> 16</span><span class="cp"></span>	<span class="kt">unsigned</span> <span class="kt">long</span>		<span class="n">cpu_load</span><span class="p">[</span><span class="n">CPU_LOAD_IDX_MAX</span><span class="p">];</span>
-<span class="ln"> 17</span><span class="cp">#ifdef CONFIG_NO_HZ_COMMON
-</span><span class="ln"> 18</span><span class="cp">#ifdef CONFIG_SMP
-</span><span class="ln"> 19</span><span class="cp"></span>	<span class="kt">unsigned</span> <span class="kt">long</span>		<span class="n">last_load_update_tick</span><span class="p">;</span>
-<span class="ln"> 20</span>	<span class="kt">unsigned</span> <span class="kt">long</span>		<span class="n">last_blocked_load_update_tick</span><span class="p">;</span>
-<span class="ln"> 21</span>	<span class="kt">unsigned</span> <span class="kt">int</span>		<span class="n">has_blocked_load</span><span class="p">;</span>
-<span class="ln"> 22</span><span class="cp">#endif </span><span class="cm">/* CONFIG_SMP */</span><span class="cp">
-</span><span class="ln"> 23</span><span class="cp"></span>	<span class="kt">unsigned</span> <span class="kt">int</span>		<span class="n">nohz_tick_stopped</span><span class="p">;</span>
-<span class="ln"> 24</span>	<span class="n">atomic_t</span> <span class="n">nohz_flags</span><span class="p">;</span>
-<span class="ln"> 25</span><span class="cp">#endif </span><span class="cm">/* CONFIG_NO_HZ_COMMON */</span><span class="cp">
-</span><span class="ln"> 26</span><span class="cp"></span>
-<span class="ln"> 27</span>	<span class="cm">/* capture load from *all* tasks on this CPU: */</span>
-<span class="ln"> 28</span>	<span class="k">struct</span> <span class="n">load_weight</span>	<span class="n">load</span><span class="p">;</span>
-<span class="ln"> 29</span>	<span class="kt">unsigned</span> <span class="kt">long</span>		<span class="n">nr_load_updates</span><span class="p">;</span>
-<span class="ln"> 30</span>	<span class="n">u64</span>			<span class="n">nr_switches</span><span class="p">;</span>
-<span class="ln"> 31</span>
-<span class="ln"> 32</span>	<span class="k">struct</span> <span class="n">cfs_rq</span>		<span class="n">cfs</span><span class="p">;</span>
-<span class="ln"> 33</span>	<span class="k">struct</span> <span class="n">rt_rq</span>		<span class="n">rt</span><span class="p">;</span>
-<span class="ln"> 34</span>	<span class="k">struct</span> <span class="n">dl_rq</span>		<span class="n">dl</span><span class="p">;</span>
-<span class="ln"> 35</span>
-<span class="ln"> 36</span><span class="cp">#ifdef CONFIG_FAIR_GROUP_SCHED
-</span><span class="ln"> 37</span><span class="cp"></span>	<span class="cm">/* list of leaf cfs_rq on this CPU: */</span>
-<span class="ln"> 38</span>	<span class="k">struct</span> <span class="n">list_head</span>	<span class="n">leaf_cfs_rq_list</span><span class="p">;</span>
-<span class="ln"> 39</span>	<span class="k">struct</span> <span class="n">list_head</span>	<span class="o">*</span><span class="n">tmp_alone_branch</span><span class="p">;</span>
-<span class="ln"> 40</span><span class="cp">#endif </span><span class="cm">/* CONFIG_FAIR_GROUP_SCHED */</span><span class="cp">
-</span><span class="ln"> 41</span><span class="cp"></span>
-<span class="ln"> 42</span>	<span class="cm">/*
-</span><span class="ln"> 43</span><span class="cm">	 * This is part of a global counter where only the total sum
-</span><span class="ln"> 44</span><span class="cm">	 * over all CPUs matters. A task can increase this counter on
-</span><span class="ln"> 45</span><span class="cm">	 * one CPU and if it got migrated afterwards it may decrease
-</span><span class="ln"> 46</span><span class="cm">	 * it on another CPU. Always updated under the runqueue lock:
-</span><span class="ln"> 47</span><span class="cm">	 */</span>
-<span class="ln"> 48</span>	<span class="kt">unsigned</span> <span class="kt">long</span>		<span class="n">nr_uninterruptible</span><span class="p">;</span>
-<span class="ln"> 49</span>
-<span class="ln"> 50</span>	<span class="k">struct</span> <span class="n">task_struct</span>	<span class="o">*</span><span class="n">curr</span><span class="p">;</span>
-<span class="ln"> 51</span>	<span class="k">struct</span> <span class="n">task_struct</span>	<span class="o">*</span><span class="n">idle</span><span class="p">;</span>
-<span class="ln"> 52</span>	<span class="k">struct</span> <span class="n">task_struct</span>	<span class="o">*</span><span class="n">stop</span><span class="p">;</span>
-<span class="ln"> 53</span>	<span class="kt">unsigned</span> <span class="kt">long</span>		<span class="n">next_balance</span><span class="p">;</span>
-<span class="ln"> 54</span>	<span class="k">struct</span> <span class="n">mm_struct</span>	<span class="o">*</span><span class="n">prev_mm</span><span class="p">;</span>
-<span class="ln"> 55</span>
-<span class="ln"> 56</span>	<span class="kt">unsigned</span> <span class="kt">int</span>		<span class="n">clock_update_flags</span><span class="p">;</span>
-<span class="ln"> 57</span>	<span class="n">u64</span>			<span class="n">clock</span><span class="p">;</span>
-<span class="ln"> 58</span>	<span class="n">u64</span>			<span class="n">clock_task</span><span class="p">;</span>
-<span class="ln"> 59</span>
-<span class="ln"> 60</span>	<span class="n">atomic_t</span>		<span class="n">nr_iowait</span><span class="p">;</span>
-<span class="ln"> 61</span>
-<span class="ln"> 62</span><span class="cp">#ifdef CONFIG_SMP
-</span><span class="ln"> 63</span><span class="cp"></span>	<span class="k">struct</span> <span class="n">root_domain</span>	<span class="o">*</span><span class="n">rd</span><span class="p">;</span>
-<span class="ln"> 64</span>	<span class="k">struct</span> <span class="n">sched_domain</span>	<span class="o">*</span><span class="n">sd</span><span class="p">;</span>
-<span class="ln"> 65</span>
-<span class="ln"> 66</span>	<span class="kt">unsigned</span> <span class="kt">long</span>		<span class="n">cpu_capacity</span><span class="p">;</span>
-<span class="ln"> 67</span>	<span class="kt">unsigned</span> <span class="kt">long</span>		<span class="n">cpu_capacity_orig</span><span class="p">;</span>
-<span class="ln"> 68</span>
-<span class="ln"> 69</span>	<span class="k">struct</span> <span class="n">callback_head</span>	<span class="o">*</span><span class="n">balance_callback</span><span class="p">;</span>
-<span class="ln"> 70</span>
-<span class="ln"> 71</span>	<span class="kt">unsigned</span> <span class="kt">char</span>		<span class="n">idle_balance</span><span class="p">;</span>
-<span class="ln"> 72</span>
-<span class="ln"> 73</span>	<span class="cm">/* For active balancing */</span>
-<span class="ln"> 74</span>	<span class="kt">int</span>			<span class="n">active_balance</span><span class="p">;</span>
-<span class="ln"> 75</span>	<span class="kt">int</span>			<span class="n">push_cpu</span><span class="p">;</span>
-<span class="ln"> 76</span>	<span class="k">struct</span> <span class="n">cpu_stop_work</span>	<span class="n">active_balance_work</span><span class="p">;</span>
-<span class="ln"> 77</span>
-<span class="ln"> 78</span>	<span class="cm">/* CPU of this runqueue: */</span>
-<span class="ln"> 79</span>	<span class="kt">int</span>			<span class="n">cpu</span><span class="p">;</span>
-<span class="ln"> 80</span>	<span class="kt">int</span>			<span class="n">online</span><span class="p">;</span>
-<span class="ln"> 81</span>
-<span class="ln"> 82</span>	<span class="k">struct</span> <span class="n">list_head</span> <span class="n">cfs_tasks</span><span class="p">;</span>
-<span class="ln"> 83</span>
-<span class="ln"> 84</span>	<span class="k">struct</span> <span class="n">sched_avg</span>	<span class="n">avg_rt</span><span class="p">;</span>
-<span class="ln"> 85</span>	<span class="k">struct</span> <span class="n">sched_avg</span>	<span class="n">avg_dl</span><span class="p">;</span>
-<span class="ln"> 86</span><span class="cp">#ifdef CONFIG_HAVE_SCHED_AVG_IRQ
-</span><span class="ln"> 87</span><span class="cp"></span>	<span class="k">struct</span> <span class="n">sched_avg</span>	<span class="n">avg_irq</span><span class="p">;</span>
-<span class="ln"> 88</span><span class="cp">#endif
-</span><span class="ln"> 89</span><span class="cp"></span>	<span class="n">u64</span>			<span class="n">idle_stamp</span><span class="p">;</span>
-<span class="ln"> 90</span>	<span class="n">u64</span>			<span class="n">avg_idle</span><span class="p">;</span>
-<span class="ln"> 91</span>
-<span class="ln"> 92</span>	<span class="cm">/* This is used to determine avg_idle&#39;s max value */</span>
-<span class="ln"> 93</span>	<span class="n">u64</span>			<span class="n">max_idle_balance_cost</span><span class="p">;</span>
-<span class="ln"> 94</span><span class="cp">#endif
-</span><span class="ln"> 95</span><span class="cp"></span>
-<span class="ln"> 96</span><span class="cp">#ifdef CONFIG_IRQ_TIME_ACCOUNTING
-</span><span class="ln"> 97</span><span class="cp"></span>	<span class="n">u64</span>			<span class="n">prev_irq_time</span><span class="p">;</span>
-<span class="ln"> 98</span><span class="cp">#endif
-</span><span class="ln"> 99</span><span class="cp">#ifdef CONFIG_PARAVIRT
-</span><span class="ln">100</span><span class="cp"></span>	<span class="n">u64</span>			<span class="n">prev_steal_time</span><span class="p">;</span>
-<span class="ln">101</span><span class="cp">#endif
-</span><span class="ln">102</span><span class="cp">#ifdef CONFIG_PARAVIRT_TIME_ACCOUNTING
-</span><span class="ln">103</span><span class="cp"></span>	<span class="n">u64</span>			<span class="n">prev_steal_time_rq</span><span class="p">;</span>
-<span class="ln">104</span><span class="cp">#endif
-</span><span class="ln">105</span><span class="cp"></span>
-<span class="ln">106</span>	<span class="cm">/* calc_load related fields */</span>
-<span class="ln">107</span>	<span class="kt">unsigned</span> <span class="kt">long</span>		<span class="n">calc_load_update</span><span class="p">;</span>
-<span class="ln">108</span>	<span class="kt">long</span>			<span class="n">calc_load_active</span><span class="p">;</span>
-<span class="ln">109</span>
-<span class="ln">110</span><span class="cp">#ifdef CONFIG_SCHED_HRTICK
-</span><span class="ln">111</span><span class="cp">#ifdef CONFIG_SMP
-</span><span class="ln">112</span><span class="cp"></span>	<span class="kt">int</span>			<span class="n">hrtick_csd_pending</span><span class="p">;</span>
-<span class="ln">113</span>	<span class="n">call_single_data_t</span>	<span class="n">hrtick_csd</span><span class="p">;</span>
-<span class="ln">114</span><span class="cp">#endif
-</span><span class="ln">115</span><span class="cp"></span>	<span class="k">struct</span> <span class="n">hrtimer</span>		<span class="n">hrtick_timer</span><span class="p">;</span>
-<span class="ln">116</span><span class="cp">#endif
-</span><span class="ln">117</span><span class="cp"></span>
-<span class="ln">118</span><span class="cp">#ifdef CONFIG_SCHEDSTATS
-</span><span class="ln">119</span><span class="cp"></span>	<span class="cm">/* latency stats */</span>
-<span class="ln">120</span>	<span class="k">struct</span> <span class="n">sched_info</span>	<span class="n">rq_sched_info</span><span class="p">;</span>
-<span class="ln">121</span>	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">long</span>	<span class="n">rq_cpu_time</span><span class="p">;</span>
-<span class="ln">122</span>	<span class="cm">/* could above be rq-&gt;cfs_rq.exec_clock + rq-&gt;rt_rq.rt_runtime ? */</span>
-<span class="ln">123</span>
-<span class="ln">124</span>	<span class="cm">/* sys_sched_yield() stats */</span>
-<span class="ln">125</span>	<span class="kt">unsigned</span> <span class="kt">int</span>		<span class="n">yld_count</span><span class="p">;</span>
-<span class="ln">126</span>
-<span class="ln">127</span>	<span class="cm">/* schedule() stats */</span>
-<span class="ln">128</span>	<span class="kt">unsigned</span> <span class="kt">int</span>		<span class="n">sched_count</span><span class="p">;</span>
-<span class="ln">129</span>	<span class="kt">unsigned</span> <span class="kt">int</span>		<span class="n">sched_goidle</span><span class="p">;</span>
-<span class="ln">130</span>
-<span class="ln">131</span>	<span class="cm">/* try_to_wake_up() stats */</span>
-<span class="ln">132</span>	<span class="kt">unsigned</span> <span class="kt">int</span>		<span class="n">ttwu_count</span><span class="p">;</span>
-<span class="ln">133</span>	<span class="kt">unsigned</span> <span class="kt">int</span>		<span class="n">ttwu_local</span><span class="p">;</span>
-<span class="ln">134</span><span class="cp">#endif
-</span><span class="ln">135</span><span class="cp"></span>
-<span class="ln">136</span><span class="cp">#ifdef CONFIG_SMP
-</span><span class="ln">137</span><span class="cp"></span>	<span class="k">struct</span> <span class="n">llist_head</span>	<span class="n">wake_list</span><span class="p">;</span>
-<span class="ln">138</span><span class="cp">#endif
-</span><span class="ln">139</span><span class="cp"></span>
-<span class="ln">140</span><span class="cp">#ifdef CONFIG_CPU_IDLE
-</span><span class="ln">141</span><span class="cp"></span>	<span class="cm">/* Must be inspected within a rcu lock section */</span>
-<span class="ln">142</span>	<span class="k">struct</span> <span class="n">cpuidle_state</span>	<span class="o">*</span><span class="n">idle_state</span><span class="p">;</span>
-<span class="ln">143</span><span class="cp">#endif
-</span><span class="ln">144</span><span class="cp"></span><span class="p">};</span>
-</code></pre></div><h3 id="优先级和运算时间计算">优先级和运算时间计算</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="cm">/*
-</span><span class="ln"> 2</span><span class="cm"> * Nice levels are multiplicative, with a gentle 10% change for every
-</span><span class="ln"> 3</span><span class="cm"> * nice level changed. I.e. when a CPU-bound task goes from nice 0 to
-</span><span class="ln"> 4</span><span class="cm"> * nice 1, it will get ~10% less CPU time than another CPU-bound task
-</span><span class="ln"> 5</span><span class="cm"> * that remained on nice 0.
-</span><span class="ln"> 6</span><span class="cm"> *
-</span><span class="ln"> 7</span><span class="cm"> * The &#34;10% effect&#34; is relative and cumulative: from _any_ nice level,
-</span><span class="ln"> 8</span><span class="cm"> * if you go up 1 level, it&#39;s -10% CPU usage, if you go down 1 level
-</span><span class="ln"> 9</span><span class="cm"> * it&#39;s +10% CPU usage. (to achieve that we use a multiplier of 1.25.
-</span><span class="ln">10</span><span class="cm"> * If a task goes up by ~10% and another task goes down by ~10% then
-</span><span class="ln">11</span><span class="cm"> * the relative distance between them is ~25%.)
-</span><span class="ln">12</span><span class="cm"> */</span>
-<span class="ln">13</span><span class="k">const</span> <span class="kt">int</span> <span class="n">sched_prio_to_weight</span><span class="p">[</span><span class="mi">40</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-<span class="ln">14</span> <span class="cm">/* -20 */</span>     <span class="mi">88761</span><span class="p">,</span>     <span class="mi">71755</span><span class="p">,</span>     <span class="mi">56483</span><span class="p">,</span>     <span class="mi">46273</span><span class="p">,</span>     <span class="mi">36291</span><span class="p">,</span>
-<span class="ln">15</span> <span class="cm">/* -15 */</span>     <span class="mi">29154</span><span class="p">,</span>     <span class="mi">23254</span><span class="p">,</span>     <span class="mi">18705</span><span class="p">,</span>     <span class="mi">14949</span><span class="p">,</span>     <span class="mi">11916</span><span class="p">,</span>
-<span class="ln">16</span> <span class="cm">/* -10 */</span>      <span class="mi">9548</span><span class="p">,</span>      <span class="mi">7620</span><span class="p">,</span>      <span class="mi">6100</span><span class="p">,</span>      <span class="mi">4904</span><span class="p">,</span>      <span class="mi">3906</span><span class="p">,</span>
-<span class="ln">17</span> <span class="cm">/*  -5 */</span>      <span class="mi">3121</span><span class="p">,</span>      <span class="mi">2501</span><span class="p">,</span>      <span class="mi">1991</span><span class="p">,</span>      <span class="mi">1586</span><span class="p">,</span>      <span class="mi">1277</span><span class="p">,</span>
-<span class="ln">18</span> <span class="cm">/*   0 */</span>      <span class="mi">1024</span><span class="p">,</span>       <span class="mi">820</span><span class="p">,</span>       <span class="mi">655</span><span class="p">,</span>       <span class="mi">526</span><span class="p">,</span>       <span class="mi">423</span><span class="p">,</span>
-<span class="ln">19</span> <span class="cm">/*   5 */</span>       <span class="mi">335</span><span class="p">,</span>       <span class="mi">272</span><span class="p">,</span>       <span class="mi">215</span><span class="p">,</span>       <span class="mi">172</span><span class="p">,</span>       <span class="mi">137</span><span class="p">,</span>
-<span class="ln">20</span> <span class="cm">/*  10 */</span>       <span class="mi">110</span><span class="p">,</span>        <span class="mi">87</span><span class="p">,</span>        <span class="mi">70</span><span class="p">,</span>        <span class="mi">56</span><span class="p">,</span>        <span class="mi">45</span><span class="p">,</span>
-<span class="ln">21</span> <span class="cm">/*  15 */</span>        <span class="mi">36</span><span class="p">,</span>        <span class="mi">29</span><span class="p">,</span>        <span class="mi">23</span><span class="p">,</span>        <span class="mi">18</span><span class="p">,</span>        <span class="mi">15</span><span class="p">,</span>
-<span class="ln">22</span><span class="p">};</span>
-<span class="ln">23</span>
-<span class="ln">24</span><span class="cm">/*
-</span><span class="ln">25</span><span class="cm"> * Inverse (2^32/x) values of the sched_prio_to_weight[] array, precalculated.
-</span><span class="ln">26</span><span class="cm"> *
-</span><span class="ln">27</span><span class="cm"> * In cases where the weight does not change often, we can use the
-</span><span class="ln">28</span><span class="cm"> * precalculated inverse to speed up arithmetics by turning divisions
-</span><span class="ln">29</span><span class="cm"> * into multiplications:
-</span><span class="ln">30</span><span class="cm"> */</span>
-<span class="ln">31</span><span class="k">const</span> <span class="n">u32</span> <span class="n">sched_prio_to_wmult</span><span class="p">[</span><span class="mi">40</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-<span class="ln">32</span> <span class="cm">/* -20 */</span>     <span class="mi">48388</span><span class="p">,</span>     <span class="mi">59856</span><span class="p">,</span>     <span class="mi">76040</span><span class="p">,</span>     <span class="mi">92818</span><span class="p">,</span>    <span class="mi">118348</span><span class="p">,</span>
-<span class="ln">33</span> <span class="cm">/* -15 */</span>    <span class="mi">147320</span><span class="p">,</span>    <span class="mi">184698</span><span class="p">,</span>    <span class="mi">229616</span><span class="p">,</span>    <span class="mi">287308</span><span class="p">,</span>    <span class="mi">360437</span><span class="p">,</span>
-<span class="ln">34</span> <span class="cm">/* -10 */</span>    <span class="mi">449829</span><span class="p">,</span>    <span class="mi">563644</span><span class="p">,</span>    <span class="mi">704093</span><span class="p">,</span>    <span class="mi">875809</span><span class="p">,</span>   <span class="mi">1099582</span><span class="p">,</span>
-<span class="ln">35</span> <span class="cm">/*  -5 */</span>   <span class="mi">1376151</span><span class="p">,</span>   <span class="mi">1717300</span><span class="p">,</span>   <span class="mi">2157191</span><span class="p">,</span>   <span class="mi">2708050</span><span class="p">,</span>   <span class="mi">3363326</span><span class="p">,</span>
-<span class="ln">36</span> <span class="cm">/*   0 */</span>   <span class="mi">4194304</span><span class="p">,</span>   <span class="mi">5237765</span><span class="p">,</span>   <span class="mi">6557202</span><span class="p">,</span>   <span class="mi">8165337</span><span class="p">,</span>  <span class="mi">10153587</span><span class="p">,</span>
-<span class="ln">37</span> <span class="cm">/*   5 */</span>  <span class="mi">12820798</span><span class="p">,</span>  <span class="mi">15790321</span><span class="p">,</span>  <span class="mi">19976592</span><span class="p">,</span>  <span class="mi">24970740</span><span class="p">,</span>  <span class="mi">31350126</span><span class="p">,</span>
-<span class="ln">38</span> <span class="cm">/*  10 */</span>  <span class="mi">39045157</span><span class="p">,</span>  <span class="mi">49367440</span><span class="p">,</span>  <span class="mi">61356676</span><span class="p">,</span>  <span class="mi">76695844</span><span class="p">,</span>  <span class="mi">95443717</span><span class="p">,</span>
-<span class="ln">39</span> <span class="cm">/*  15 */</span> <span class="mi">119304647</span><span class="p">,</span> <span class="mi">148102320</span><span class="p">,</span> <span class="mi">186737708</span><span class="p">,</span> <span class="mi">238609294</span><span class="p">,</span> <span class="mi">286331153</span><span class="p">,</span>
-<span class="ln">40</span><span class="p">};</span>
-<span class="ln">41</span>
-<span class="ln">42</span><span class="kt">void</span> <span class="nf">reweight_task</span><span class="p">(</span><span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="kt">int</span> <span class="n">prio</span><span class="p">)</span>
-<span class="ln">43</span><span class="p">{</span>
-<span class="ln">44</span>	<span class="k">struct</span> <span class="n">sched_entity</span> <span class="o">*</span><span class="n">se</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">se</span><span class="p">;</span>
-<span class="ln">45</span>	<span class="k">struct</span> <span class="n">cfs_rq</span> <span class="o">*</span><span class="n">cfs_rq</span> <span class="o">=</span> <span class="n">cfs_rq_of</span><span class="p">(</span><span class="n">se</span><span class="p">);</span>
-<span class="ln">46</span>	<span class="k">struct</span> <span class="n">load_weight</span> <span class="o">*</span><span class="n">load</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">se</span><span class="o">-&gt;</span><span class="n">load</span><span class="p">;</span>
-<span class="ln">47</span>	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">weight</span> <span class="o">=</span> <span class="n">scale_load</span><span class="p">(</span><span class="n">sched_prio_to_weight</span><span class="p">[</span><span class="n">prio</span><span class="p">]);</span>
-<span class="ln">48</span>
-<span class="ln">49</span>	<span class="n">reweight_entity</span><span class="p">(</span><span class="n">cfs_rq</span><span class="p">,</span> <span class="n">se</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">weight</span><span class="p">);</span>
-<span class="ln">50</span>	<span class="n">load</span><span class="o">-&gt;</span><span class="n">inv_weight</span> <span class="o">=</span> <span class="n">sched_prio_to_wmult</span><span class="p">[</span><span class="n">prio</span><span class="p">];</span>
-<span class="ln">51</span><span class="p">}</span>
-<span class="ln">52</span>
-<span class="ln">53</span><span class="k">static</span> <span class="kt">void</span> <span class="nf">set_load_weight</span><span class="p">(</span><span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">update_load</span><span class="p">)</span>
-<span class="ln">54</span><span class="p">{</span>
-<span class="ln">55</span>	<span class="kt">int</span> <span class="n">prio</span> <span class="o">=</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">static_prio</span> <span class="o">-</span> <span class="n">MAX_RT_PRIO</span><span class="p">;</span>
-<span class="ln">56</span>	<span class="k">struct</span> <span class="n">load_weight</span> <span class="o">*</span><span class="n">load</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">se</span><span class="p">.</span><span class="n">load</span><span class="p">;</span>
-<span class="ln">57</span>
-<span class="ln">58</span>	<span class="cm">/*
-</span><span class="ln">59</span><span class="cm">	 * SCHED_IDLE tasks get minimal weight:
-</span><span class="ln">60</span><span class="cm">	 */</span>
-<span class="ln">61</span>	<span class="k">if</span> <span class="p">(</span><span class="n">idle_policy</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">policy</span><span class="p">))</span> <span class="p">{</span>
-<span class="ln">62</span>		<span class="n">load</span><span class="o">-&gt;</span><span class="n">weight</span> <span class="o">=</span> <span class="n">scale_load</span><span class="p">(</span><span class="n">WEIGHT_IDLEPRIO</span><span class="p">);</span>
-<span class="ln">63</span>		<span class="n">load</span><span class="o">-&gt;</span><span class="n">inv_weight</span> <span class="o">=</span> <span class="n">WMULT_IDLEPRIO</span><span class="p">;</span>
-<span class="ln">64</span>		<span class="k">return</span><span class="p">;</span>
-<span class="ln">65</span>	<span class="p">}</span>
-<span class="ln">66</span>
-<span class="ln">67</span>	<span class="cm">/*
-</span><span class="ln">68</span><span class="cm">	 * SCHED_OTHER tasks have to update their load when changing their
-</span><span class="ln">69</span><span class="cm">	 * weight
-</span><span class="ln">70</span><span class="cm">	 */</span>
-<span class="ln">71</span>	<span class="k">if</span> <span class="p">(</span><span class="n">update_load</span> <span class="o">&amp;&amp;</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">sched_class</span> <span class="o">==</span> <span class="o">&amp;</span><span class="n">fair_sched_class</span><span class="p">)</span> <span class="p">{</span>
-<span class="ln">72</span>		<span class="n">reweight_task</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">prio</span><span class="p">);</span>
-<span class="ln">73</span>	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-<span class="ln">74</span>		<span class="n">load</span><span class="o">-&gt;</span><span class="n">weight</span> <span class="o">=</span> <span class="n">scale_load</span><span class="p">(</span><span class="n">sched_prio_to_weight</span><span class="p">[</span><span class="n">prio</span><span class="p">]);</span>
-<span class="ln">75</span>		<span class="n">load</span><span class="o">-&gt;</span><span class="n">inv_weight</span> <span class="o">=</span> <span class="n">sched_prio_to_wmult</span><span class="p">[</span><span class="n">prio</span><span class="p">];</span>
-<span class="ln">76</span>	<span class="p">}</span>
-<span class="ln">77</span><span class="p">}</span>
-</code></pre></div><h3 id="任务队列">任务队列</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="k">static</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">enqueue_task</span><span class="p">(</span><span class="k">struct</span> <span class="n">rq</span> <span class="o">*</span><span class="n">rq</span><span class="p">,</span> <span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="kt">int</span> <span class="n">flags</span><span class="p">)</span>
-<span class="ln"> 2</span><span class="p">{</span>
-<span class="ln"> 3</span>	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">ENQUEUE_NOCLOCK</span><span class="p">))</span>
-<span class="ln"> 4</span>		<span class="n">update_rq_clock</span><span class="p">(</span><span class="n">rq</span><span class="p">);</span>
-<span class="ln"> 5</span>
-<span class="ln"> 6</span>	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">ENQUEUE_RESTORE</span><span class="p">))</span>
-<span class="ln"> 7</span>		<span class="n">sched_info_queued</span><span class="p">(</span><span class="n">rq</span><span class="p">,</span> <span class="n">p</span><span class="p">);</span>
-<span class="ln"> 8</span>
-<span class="ln"> 9</span>	<span class="n">p</span><span class="o">-&gt;</span><span class="n">sched_class</span><span class="o">-&gt;</span><span class="n">enqueue_task</span><span class="p">(</span><span class="n">rq</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">flags</span><span class="p">);</span>
-<span class="ln">10</span><span class="p">}</span>
-<span class="ln">11</span>
-<span class="ln">12</span><span class="k">static</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">dequeue_task</span><span class="p">(</span><span class="k">struct</span> <span class="n">rq</span> <span class="o">*</span><span class="n">rq</span><span class="p">,</span> <span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="kt">int</span> <span class="n">flags</span><span class="p">)</span>
-<span class="ln">13</span><span class="p">{</span>
-<span class="ln">14</span>	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">DEQUEUE_NOCLOCK</span><span class="p">))</span>
-<span class="ln">15</span>		<span class="n">update_rq_clock</span><span class="p">(</span><span class="n">rq</span><span class="p">);</span>
-<span class="ln">16</span>
-<span class="ln">17</span>	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">DEQUEUE_SAVE</span><span class="p">))</span>
-<span class="ln">18</span>		<span class="n">sched_info_dequeued</span><span class="p">(</span><span class="n">rq</span><span class="p">,</span> <span class="n">p</span><span class="p">);</span>
-<span class="ln">19</span>
-<span class="ln">20</span>	<span class="n">p</span><span class="o">-&gt;</span><span class="n">sched_class</span><span class="o">-&gt;</span><span class="n">dequeue_task</span><span class="p">(</span><span class="n">rq</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">flags</span><span class="p">);</span>
-<span class="ln">21</span><span class="p">}</span>
-<span class="ln">22</span>
-<span class="ln">23</span><span class="kt">void</span> <span class="nf">activate_task</span><span class="p">(</span><span class="k">struct</span> <span class="n">rq</span> <span class="o">*</span><span class="n">rq</span><span class="p">,</span> <span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="kt">int</span> <span class="n">flags</span><span class="p">)</span>
-<span class="ln">24</span><span class="p">{</span>
-<span class="ln">25</span>	<span class="k">if</span> <span class="p">(</span><span class="n">task_contributes_to_load</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
-<span class="ln">26</span>		<span class="n">rq</span><span class="o">-&gt;</span><span class="n">nr_uninterruptible</span><span class="o">--</span><span class="p">;</span>
-<span class="ln">27</span>
-<span class="ln">28</span>	<span class="n">enqueue_task</span><span class="p">(</span><span class="n">rq</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">flags</span><span class="p">);</span>
-<span class="ln">29</span><span class="p">}</span>
-<span class="ln">30</span>
-<span class="ln">31</span><span class="kt">void</span> <span class="nf">deactivate_task</span><span class="p">(</span><span class="k">struct</span> <span class="n">rq</span> <span class="o">*</span><span class="n">rq</span><span class="p">,</span> <span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="kt">int</span> <span class="n">flags</span><span class="p">)</span>
-<span class="ln">32</span><span class="p">{</span>
-<span class="ln">33</span>	<span class="k">if</span> <span class="p">(</span><span class="n">task_contributes_to_load</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
-<span class="ln">34</span>		<span class="n">rq</span><span class="o">-&gt;</span><span class="n">nr_uninterruptible</span><span class="o">++</span><span class="p">;</span>
-<span class="ln">35</span>
-<span class="ln">36</span>	<span class="n">dequeue_task</span><span class="p">(</span><span class="n">rq</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">flags</span><span class="p">);</span>
-<span class="ln">37</span><span class="p">}</span>
-</code></pre></div></div><hr /><div class="post-navs d-flex mb-3 justify-content-evenly">
+</code></pre></div></div><div class="modal fade" id="rewardModal" tabindex="-1" aria-labelledby="rewardModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content surface">
+      <div class="modal-header">
+        <h5 class="modal-title" id="rewardModalLabel"><i class="fas fa-fw fa-coffee"></i>打赏</h5>
+        <a href="#" data-bs-dismiss="modal" class="btn btn-sm btn-outline-primary" aria-label="Close"><i class="fas fa-times"></i></a>
+      </div>
+      <div class="modal-body">
+        <ul class="nav nav-tabs mb-3" role="tablist"><li class="nav-item text-nowrap" role="presentation">
+            <a class="nav-link active" id="reward-alipay-tab" data-bs-toggle="tab" href="#reward-alipay" role="tab" aria-controls="reward-alipay" aria-selected="true">
+              <i class="fab fa-fw fa-alipay"></i>支付宝
+            </a>
+          </li><li class="nav-item text-nowrap" role="presentation">
+            <a class="nav-link" id="reward-wechat-tab" data-bs-toggle="tab" href="#reward-wechat" role="tab" aria-controls="reward-wechat" aria-selected="true">
+              <i class="fab fa-fw fa-weixin"></i>微信
+            </a>
+          </li></ul>
+        <div class="tab-content" id="rewardTabContent"><div class="tab-pane fade post-reward-content show active" id="reward-alipay" role="tabpanel" aria-labelledby="reward-alipay-tab">
+            <img class="img-fluid post-reward-img" src="https://mengdemao.github.io/images/reward/alipay.png" loading="lazy" />
+          </div><div class="tab-pane fade post-reward-content show" id="reward-wechat" role="tabpanel" aria-labelledby="reward-wechat-tab">
+            <img class="img-fluid post-reward-img" src="https://mengdemao.github.io/images/reward/wechat.png" loading="lazy" />
+          </div></div>
+      </div>
+    </div>
+  </div>
+</div><hr /><div class="post-navs d-flex mb-3 justify-content-evenly">
   <div class="post-nav post-prev"><i class="fas fa-fw fa-chevron-left"></i>
     <a href="https://mengdemao.github.io/posts/rime/">Rime
 </a>

@@ -182,17 +182,12 @@
         <h2 class="card-title post-title"><a href="https://mengdemao.github.io/posts/sched/">系统调度
 </a></h2><div class="post-meta"><span class="post-date" title="created on">
     <i class="fas fa-fw fa-calendar-alt"></i>Oct 4, 2021
-  </span>
-  <span class="post-date me-2" title="updated on">
-      <i class="fas fa-sync-alt"></i>
-      Oct 27, 2021
-    </span>
-  <span class="post-reading-time" title="reading time">
-    <i class="fas fa-fw fa-coffee"></i>4 分钟阅读
+  </span><span class="post-reading-time" title="reading time">
+    <i class="fas fa-fw fa-coffee"></i>2 分钟阅读
   </span><a href="https://mengdemao.github.io/categories/linux/" class="badge rounded-pill text-white bg-primary post-taxonomy">linux</a><a href="https://mengdemao.github.io/tags/kernel/" class="badge rounded-pill text-white bg-primary post-taxonomy">kernel</a></div>
 <div class="post-summary">
           
-          系统调度 调度核心函数实现 1static void __sched notrace __schedule(bool preempt) 2{ 3 struct task_struct *prev, *next; 4 unsigned long *switch_count; 5 struct rq_flags rf; 6 struct rq *rq; 7 int cpu; 8 9 cpu = smp_processor_id(); 10 rq = cpu_rq(cpu); 11 prev = rq-&gt;curr; 12 13 schedule_debug(prev); 14 15 if (sched_feat(HRTICK)) …
+          系统调度 主调度器schedule 周期调度器scheduler_tick 周期调度器函数实现 1void scheduler_tick(void) 2{ 3 int cpu = smp_processor_id(); 4 struct rq *rq = cpu_rq(cpu); 5 struct task_struct *curr = rq-&gt;curr; 6 struct rq_flags rf; 7 8
         </div>
       </div>
     </article><article class="row card post component">
