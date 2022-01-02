@@ -3,11 +3,11 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>驱动模型 - 编程日志</title><link rel="apple-touch-icon" href="https://mengdemao.github.io/images/favicons/apple-touch-icon.png" sizes="180x180">
-<link rel="icon" href="https://mengdemao.github.io/images/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
-<link rel="icon" href="https://mengdemao.github.io/images/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
-<link rel="manifest" href="https://mengdemao.github.io/images/favicons/manifest.json">
-<link rel="icon" href="https://mengdemao.github.io/images/favicons/favicon.ico">
+    <title>驱动模型 - 编程日志</title><link rel="apple-touch-icon" href="https://mengdemao.github.io/images/icons/icon-180x180.png" sizes="180x180">
+<link rel="icon" href="https://mengdemao.github.io/images/icons/icon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="https://mengdemao.github.io/images/icons/icon-16x16.png" sizes="16x16" type="image/png">
+<link rel="icon" href="https://mengdemao.github.io/images/icons/favicon.ico">
+<link rel="manifest" href="https://mengdemao.github.io/manifest.json">
 <meta name="keywords" content="Kernel" />
 <meta name="description" content="" /><meta itemprop="name" content="驱动模型">
 <meta itemprop="description" content="简述 驱动模型 顶级kobject 解释 block 块设备链接&ndash;&gt;/sys/deives相关文件 bus 存放各种总线文件 class 各种设备类 dev 存放(字符"><meta itemprop="datePublished" content="2021-10-01T23:32:46+08:00" />
@@ -23,9 +23,8 @@
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="驱动模型"/>
 <meta name="twitter:description" content="简述 驱动模型 顶级kobject 解释 block 块设备链接&ndash;&gt;/sys/deives相关文件 bus 存放各种总线文件 class 各种设备类 dev 存放(字符"/>
-<link rel="preload" href="https://mengdemao.github.io/css/bundle.min.89b15c76d23b1055e418eed718cb78886010e537918653f0a43661ed56307392.css" integrity="sha256-ibFcdtI7EFXkGO7XGMt4iGAQ5TeRhlPwpDZh7VYwc5I=" crossorigin="anonymous" as="style" onload="this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="https://mengdemao.github.io/css/bundle.min.89b15c76d23b1055e418eed718cb78886010e537918653f0a43661ed56307392.css" integrity="sha256-ibFcdtI7EFXkGO7XGMt4iGAQ5TeRhlPwpDZh7VYwc5I=" crossorigin="anonymous"></noscript></head>
-  <body><script src="https://mengdemao.github.io/js/bootstrap.min.b5d86dd3a5f60c90be38a252bb65fc1a2732f32e71dc12c051720f0c7aef3cde.js" integrity="sha256-tdht06X2DJC&#43;OKJSu2X8Gicy8y5x3BLAUXIPDHrvPN4=" crossorigin="anonymous"></script><header><nav class="navbar top-app-bar top-app-bar-expand-lg fixed-top">
+<link rel="stylesheet" href="https://mengdemao.github.io/css/main.min.702127d58e0a5778490e24163ec0ec8d40cfe62780936bf8b19b4c8ab0bc3ed8.css" integrity="sha256-cCEn1Y4KV3hJDiQWPsDsjUDP5ieAk2v4sZtMirC8Ptg=" crossorigin="anonymous"><link rel="stylesheet" href="https://mengdemao.github.io/css/viewer.min.3d228794bcedbbfa0412beb8fbc1ec6973202945e42af7004f742a4d7bd620ab.css" integrity="sha256-PSKHlLztu/oEEr64&#43;8HsaXMgKUXkKvcAT3QqTXvWIKs=" crossorigin="anonymous"></head>
+  <body><script>const items=['mode','palette'];items.forEach(function(a){const b=localStorage.getItem('hbs-'+a);b&&document.body.parentElement.setAttribute('data-'+a,b)})</script><header><nav class="navbar top-app-bar top-app-bar-expand-lg fixed-top">
   <div class="container">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,12 +34,7 @@
    />
 编程日志
     </a>
-    <button class="navbar-social-share" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSocialShare"
-  aria-controls="offcanvasSocialShare" aria-label="Toggle social share">
-  <i class="fas fa-share-alt"></i>
-</button>
-
-<div class="offcanvas offcanvas-bottom surface" tabindex="-1" id="offcanvasSocialShare" aria-labelledby="offcanvasSocialShare">
+    <div class="offcanvas offcanvas-bottom surface" tabindex="-1" id="offcanvasSocialShare" aria-labelledby="offcanvasSocialShare">
   <div class="offcanvas-header">
     <h3 class="offcanvas-title">Share</h3>
     <button type="button" class="btn btn-sm btn-outline-primary" data-bs-dismiss="offcanvas" aria-label="Close">
@@ -70,7 +64,7 @@
       <i class="fas fa-times"></i>
     </button>
   </div>
-  <div class="offcanvas-body">
+  <div class="offcanvas-body d-flex flex-column">
 
 <section class="setting">
   <form class="row">
@@ -108,14 +102,25 @@
       </a>
     </div>
   </form>
-  <div class="mt-2 d-flex visually-hidden" id="palettePicker"><button type="button" id="palette-blue" aria-label="蓝色"
-        class="btn btn-sm palette" data-palette="blue">
+  <div class="mt-2 d-flex justify-content-between visually-hidden" id="palettePicker"><button type="button" id="palette-blue" aria-label="蓝色"
+        class="btn btn-sm w-100 palette" data-palette="blue">
       </button><button type="button" id="palette-blue-gray" aria-label="蓝灰色"
-        class="btn btn-sm palette" data-palette="blue-gray">
+        class="btn btn-sm w-100 palette" data-palette="blue-gray">
       </button><button type="button" id="palette-brown" aria-label="棕色"
-        class="btn btn-sm palette" data-palette="brown">
+        class="btn btn-sm w-100 palette" data-palette="brown">
       </button></div>
 </section>
+<section class="setting actions d-flex justify-content-around mt-auto overflow-auto">
+  <a role="button" class="action action-reload-page">
+    <span class="action-icon"><i class="fas fa-2x fa-redo-alt"></i></span> 刷新
+  </a>
+  <a role="button" class="action action-copy-url">
+    <span class="action-icon"><i class="fas fa-2x fa-link"></i></span> 复制链接
+  </a><a class="action action-social-share" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSocialShare"
+    aria-controls="offcanvasSocialShare" aria-label="Toggle social share">
+    <span class="action-icon"><i class="fas fa-2x fa-share-alt"></i></span> 分享
+  </a></section>
+
 </div>
 </div>
 
@@ -143,10 +148,10 @@
             <i class="fas fa-fw fa-columns"></i>专栏
           </a>
         </li><li class="nav-item dropdown">
-          <a class="nav-link" id="navbarDropdown-dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="nav-link" id="navbarDropdownDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="fas fa-fw fa-chevron-circle-down"></i>下拉菜单
           </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown-dropdown"><li>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownDropdown"><li>
               <a class="dropdown-item"
                 href="https://github.com/mengdemao/mengdemao.github.io" target="_blank" rel="noopener noreferrer">
                 <i class="fab fa-fw fa-github"></i>Github
@@ -169,49 +174,43 @@
   <div class="card-body">
     <ol class="breadcrumb "><li class="breadcrumb-item"><a href="https://mengdemao.github.io/">主页</a></li><li class="breadcrumb-item"><a href="https://mengdemao.github.io/posts/">文章</a></li><li class="breadcrumb-item active">驱动模型</li></ol>
   </div>
-</nav>    <article class="row card component mb-4 post"><div class="post-panel-wrapper">
+</nav><article class="row card component mb-4 post"><div class="post-panel-wrapper">
   <div class="d-flex flex-column component rounded post-panel">
     
-    <a id="sidebarToggler" class="action d-none d-lg-block" role="button">
+    <a class="action action-panel-toggler" role="button" title="Panel toggler">
+      <i class="fas fa-fw fa-chevron-circle-down"></i>
+    </a>
+    <a id="sidebarToggler" class="action d-none d-lg-block" role="button" title="Sidebar toggler">
   <i class="fas fa-fw fa-expand-alt" data-fa-transform="rotate-45"></i>
 </a>
-  
+
     
 
     
-    <a class="action" data-bs-container="body" data-bs-toggle="popover" data-bs-html="true" data-bs-placement="bottom"
-  data-bs-trigger="focus" tabindex="0" role="button" aria-label="Copyright" 
-  data-bs-content="&lt;a target=&#34;_blank&#34; rel=&#34;license noopener noreferrer&#34; href=&#34;https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh&#34;&gt;CC BY-NC-ND 4.0 &lt;i class=&#34;fab fa-fw fa-creative-commons&#34;&gt;&lt;/i&gt;&lt;i class=&#34;fab fa-fw fa-creative-commons-by&#34;&gt;&lt;/i&gt;&lt;i class=&#34;fab fa-fw fa-creative-commons-nc&#34;&gt;&lt;/i&gt;&lt;i class=&#34;fab fa-fw fa-creative-commons-nd&#34;&gt;&lt;/i&gt;&lt;/a&gt;
-">
+    <a class="action" href="#post-copyright" role="button" aria-label="Copyright" title="Copyright">
   <i class="fas fa-fw fa-copyright"></i>
 </a>
-    <a class="action" data-bs-toggle="offcanvas" href="#offcanvasTOC" aria-controls="offcanvasTOC" role="button">
+    
+    <a class="action" href="#postTOC" aria-controls="Table of contents" role="button" title="Table of contents">
   <i class="fas fa-fw fa-list-alt"></i>
 </a>
     
   </div>
 </div>
-<div class="card-body">
-        <h1 class="card-title my-3">驱动模型
-</h1><div class="post-meta"><span class="post-date" title="created on">
-    <i class="fas fa-fw fa-calendar-alt"></i>Oct 1, 2021
-  </span>
-  <span class="post-date me-2" title="updated on">
-      <i class="fas fa-sync-alt"></i>
-      Oct 24, 2021
-    </span>
-  <span class="post-reading-time" title="reading time">
-    <i class="fas fa-fw fa-coffee"></i>6 分钟阅读
-  </span><a href="https://mengdemao.github.io/tags/kernel/" class="badge rounded-pill text-white bg-primary post-taxonomy">kernel</a></div>
-<div class="offcanvas offcanvas-end surface h-100" tabindex="-1" id="offcanvasTOC" aria-labelledby="offcanvasTOCLabel">
-  <div class="offcanvas-header">
-    <h2 class="offcanvas-title" id="offcanvasTOCLabel">目录</h5>
-      <button type="button" class="btn btn-sm btn-outline-primary" data-bs-dismiss="offcanvas" aria-label="Close">
-        <i class="fas fa-times"></i>
-      </button>
+<div class="card-header ">
+    <h1 class="card-title post-title">驱动模型
+</h1>
   </div>
-  <div class="offcanvas-body">
-    <nav id="TableOfContents">
+  <div class="card-body"><div class="post-meta">
+  <span class="post-date" title="创建于 2021-10-01 15:32:46 &#43;0000 UTC，更新于 2021-10-24 15:32:46 &#43;0000 UTC。">
+    Oct 1, 2021
+  </span><span class="post-reading-time">
+    6 分钟阅读
+  </span><span class="post-taxonomies"><a href="https://mengdemao.github.io/tags/kernel/" class="badge rounded-pill post-taxonomy">kernel</a></span>
+</div>
+<div class="post-toc mb-4" id="postTOC">
+  <h2 class="mb-4">目录</h2>
+  <nav id="TableOfContents">
   <ul>
     <li><a href="#简述">简述</a></li>
     <li><a href="#底层机制">底层机制</a>
@@ -236,8 +235,7 @@
     <li><a href="#module">module</a></li>
   </ul>
 </nav>
-  </div>
-</div><div class="post-content mb-3"><h2 id="简述">简述</h2>
+</div><div class="post-content mb-3"><h2 id="简述">简述<a class="anchor ms-1" href="#简述"><i class="fas fa-link"></i></a></h2>
 <blockquote>
 <p>驱动模型</p>
 </blockquote>
@@ -291,13 +289,13 @@
 </tr>
 </tbody>
 </table>
-<h2 id="底层机制">底层机制</h2>
-<h3 id="kobject">kobject</h3>
+<h2 id="底层机制">底层机制<a class="anchor ms-1" href="#底层机制"><i class="fas fa-link"></i></a></h2>
+<h3 id="kobject">kobject<a class="anchor ms-1" href="#kobject"><i class="fas fa-link"></i></a></h3>
 <blockquote>
 <p>内核对象:kobject/kobject_type/kset
 为模块提供一个底层抽象,其中文件存放于/sys文件下面</p>
 </blockquote>
-<h4 id="数据结构">数据结构</h4>
+<h4 id="数据结构">数据结构<a class="anchor ms-1" href="#数据结构"><i class="fas fa-link"></i></a></h4>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="k">struct</span> <span class="n">kobject</span> <span class="p">{</span>
 <span class="ln"> 2</span>	<span class="k">const</span> <span class="kt">char</span>			<span class="o">*</span><span class="n">name</span><span class="p">;</span>		<span class="cm">/* 名字 */</span>
 <span class="ln"> 3</span>	<span class="k">struct</span> <span class="n">list_head</span>	<span class="n">entry</span><span class="p">;</span>		<span class="cm">/* 链表:链接进入kset */</span>
@@ -317,7 +315,7 @@
 <span class="ln">17</span>	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="nl">state_remove_uevent_sent</span><span class="p">:</span><span class="mi">1</span><span class="p">;</span>	<span class="cm">/* 标志位:发出KOBJ_REMOVE uevent */</span>
 <span class="ln">18</span>	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="nl">uevent_suppress</span><span class="p">:</span><span class="mi">1</span><span class="p">;</span>				<span class="cm">/* 标志位:禁止发出uevent */</span>
 <span class="ln">19</span><span class="p">};</span>
-</code></pre></div><h4 id="初始化">初始化</h4>
+</code></pre></div><h4 id="初始化">初始化<a class="anchor ms-1" href="#初始化"><i class="fas fa-link"></i></a></h4>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="cm">/**
 </span><span class="ln"> 2</span><span class="cm"> * kobject_init - initialize a kobject structure
 </span><span class="ln"> 3</span><span class="cm"> * @kobj: pointer to the kobject to initialize
@@ -364,7 +362,7 @@
 <span class="ln">44</span>	<span class="n">dump_stack</span><span class="p">();</span>
 <span class="ln">45</span><span class="p">}</span>
 <span class="ln">46</span><span class="n">EXPORT_SYMBOL</span><span class="p">(</span><span class="n">kobject_init</span><span class="p">);</span>
-</code></pre></div><h4 id="添加">添加</h4>
+</code></pre></div><h4 id="添加">添加<a class="anchor ms-1" href="#添加"><i class="fas fa-link"></i></a></h4>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="kt">int</span> <span class="nf">kobject_add</span><span class="p">(</span><span class="k">struct</span> <span class="n">kobject</span> <span class="o">*</span><span class="n">kobj</span><span class="p">,</span> 	<span class="cm">/* 需要添加kobject */</span>
 <span class="ln"> 2</span>				<span class="k">struct</span> <span class="n">kobject</span> <span class="o">*</span><span class="n">parent</span><span class="p">,</span> <span class="cm">/* 父指针 */</span>
 <span class="ln"> 3</span>				<span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">fmt</span><span class="p">,</span> <span class="p">...)</span>   <span class="cm">/* 命名 */</span>
@@ -448,7 +446,7 @@
 <span class="ln">55</span>
 <span class="ln">56</span>	<span class="k">return</span> <span class="n">error</span><span class="p">;</span>
 <span class="ln">57</span><span class="p">}</span>
-</code></pre></div><h5 id="sysfs文件夹生成">sysfs文件夹生成</h5>
+</code></pre></div><h5 id="sysfs文件夹生成">sysfs文件夹生成<a class="anchor ms-1" href="#sysfs文件夹生成"><i class="fas fa-link"></i></a></h5>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="k">static</span> <span class="kt">int</span> <span class="nf">create_dir</span><span class="p">(</span><span class="k">struct</span> <span class="n">kobject</span> <span class="o">*</span><span class="n">kobj</span><span class="p">)</span>
 <span class="ln"> 2</span><span class="p">{</span>
 <span class="ln"> 3</span>	<span class="k">const</span> <span class="k">struct</span> <span class="n">kobj_ns_type_operations</span> <span class="o">*</span><span class="n">ops</span><span class="p">;</span>
@@ -485,7 +483,7 @@
 <span class="ln">34</span>
 <span class="ln">35</span>	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="ln">36</span><span class="p">}</span>
-</code></pre></div><h4 id="删除">删除</h4>
+</code></pre></div><h4 id="删除">删除<a class="anchor ms-1" href="#删除"><i class="fas fa-link"></i></a></h4>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="kt">void</span> <span class="nf">kobject_del</span><span class="p">(</span><span class="k">struct</span> <span class="n">kobject</span> <span class="o">*</span><span class="n">kobj</span><span class="p">)</span>
 <span class="ln"> 2</span><span class="p">{</span>
 <span class="ln"> 3</span>	<span class="k">struct</span> <span class="n">kernfs_node</span> <span class="o">*</span><span class="n">sd</span><span class="p">;</span>
@@ -502,7 +500,7 @@
 <span class="ln">14</span>	<span class="n">kobject_put</span><span class="p">(</span><span class="n">kobj</span><span class="o">-&gt;</span><span class="n">parent</span><span class="p">);</span>
 <span class="ln">15</span>	<span class="n">kobj</span><span class="o">-&gt;</span><span class="n">parent</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
 <span class="ln">16</span><span class="p">}</span>
-</code></pre></div><h4 id="引用计数">引用计数</h4>
+</code></pre></div><h4 id="引用计数">引用计数<a class="anchor ms-1" href="#引用计数"><i class="fas fa-link"></i></a></h4>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="k">struct</span> <span class="n">kobject</span> <span class="o">*</span><span class="nf">kobject_get</span><span class="p">(</span><span class="k">struct</span> <span class="n">kobject</span> <span class="o">*</span><span class="n">kobj</span><span class="p">)</span>
 <span class="ln"> 2</span><span class="p">{</span>
 <span class="ln"> 3</span>	<span class="k">if</span> <span class="p">(</span><span class="n">kobj</span><span class="p">)</span> <span class="p">{</span>
@@ -525,16 +523,16 @@
 <span class="ln">20</span>		<span class="n">kref_put</span><span class="p">(</span><span class="o">&amp;</span><span class="n">kobj</span><span class="o">-&gt;</span><span class="n">kref</span><span class="p">,</span> <span class="n">kobject_release</span><span class="p">);</span>
 <span class="ln">21</span>	<span class="p">}</span>
 <span class="ln">22</span><span class="p">}</span>
-</code></pre></div><h3 id="kset">kset</h3>
-<h4 id="数据结构-1">数据结构</h4>
+</code></pre></div><h3 id="kset">kset<a class="anchor ms-1" href="#kset"><i class="fas fa-link"></i></a></h3>
+<h4 id="数据结构-1">数据结构<a class="anchor ms-1" href="#数据结构-1"><i class="fas fa-link"></i></a></h4>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln">1</span><span class="k">struct</span> <span class="n">kset</span> <span class="p">{</span>
 <span class="ln">2</span>	<span class="k">struct</span> <span class="n">list_head</span> <span class="n">list</span><span class="p">;</span>
 <span class="ln">3</span>	<span class="n">spinlock_t</span> <span class="n">list_lock</span><span class="p">;</span>
 <span class="ln">4</span>	<span class="k">struct</span> <span class="n">kobject</span> <span class="n">kobj</span><span class="p">;</span>
 <span class="ln">5</span>	<span class="k">const</span> <span class="k">struct</span> <span class="n">kset_uevent_ops</span> <span class="o">*</span><span class="n">uevent_ops</span><span class="p">;</span>
 <span class="ln">6</span><span class="p">}</span> <span class="n">__randomize_layout</span><span class="p">;</span>
-</code></pre></div><h3 id="ktype">ktype</h3>
-<h4 id="数据结构-2">数据结构</h4>
+</code></pre></div><h3 id="ktype">ktype<a class="anchor ms-1" href="#ktype"><i class="fas fa-link"></i></a></h3>
+<h4 id="数据结构-2">数据结构<a class="anchor ms-1" href="#数据结构-2"><i class="fas fa-link"></i></a></h4>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln">1</span><span class="k">struct</span> <span class="n">kobj_type</span> <span class="p">{</span>
 <span class="ln">2</span>	<span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">release</span><span class="p">)(</span><span class="k">struct</span> <span class="n">kobject</span> <span class="o">*</span><span class="n">kobj</span><span class="p">);</span>
 <span class="ln">3</span>	<span class="k">const</span> <span class="k">struct</span> <span class="n">sysfs_ops</span> <span class="o">*</span><span class="n">sysfs_ops</span><span class="p">;</span>
@@ -543,7 +541,7 @@
 <span class="ln">6</span>	<span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">namespace</span><span class="p">)(</span><span class="k">struct</span> <span class="n">kobject</span> <span class="o">*</span><span class="n">kobj</span><span class="p">);</span>
 <span class="ln">7</span>	<span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">get_ownership</span><span class="p">)(</span><span class="k">struct</span> <span class="n">kobject</span> <span class="o">*</span><span class="n">kobj</span><span class="p">,</span> <span class="n">kuid_t</span> <span class="o">*</span><span class="n">uid</span><span class="p">,</span> <span class="n">kgid_t</span> <span class="o">*</span><span class="n">gid</span><span class="p">);</span>
 <span class="ln">8</span><span class="p">};</span>
-</code></pre></div><h2 id="class">class</h2>
+</code></pre></div><h2 id="class">class<a class="anchor ms-1" href="#class"><i class="fas fa-link"></i></a></h2>
 <blockquote>
 <p>设备类描述</p>
 </blockquote>
@@ -572,11 +570,11 @@
 <span class="ln">23</span>
 <span class="ln">24</span>	<span class="k">struct</span> <span class="n">subsys_private</span> <span class="o">*</span><span class="n">p</span><span class="p">;</span>
 <span class="ln">25</span><span class="p">};</span>
-</code></pre></div><h2 id="bus">bus</h2>
+</code></pre></div><h2 id="bus">bus<a class="anchor ms-1" href="#bus"><i class="fas fa-link"></i></a></h2>
 <blockquote>
 <p>设备总线描述</p>
 </blockquote>
-<h3 id="总线类型">总线类型</h3>
+<h3 id="总线类型">总线类型<a class="anchor ms-1" href="#总线类型"><i class="fas fa-link"></i></a></h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="ln">1</span><span class="c1"># ls</span>
 <span class="ln">2</span>amba          cpu           nvmem         platform      virtio
 <span class="ln">3</span>clockevents   event_source  pci           scsi          workqueue
@@ -619,7 +617,7 @@
 <span class="ln">31</span>
 <span class="ln">32</span>	<span class="kt">bool</span> <span class="n">need_parent_lock</span><span class="p">;</span>
 <span class="ln">33</span><span class="p">};</span>
-</code></pre></div><h4 id="设备总线注册">设备总线注册</h4>
+</code></pre></div><h4 id="设备总线注册">设备总线注册<a class="anchor ms-1" href="#设备总线注册"><i class="fas fa-link"></i></a></h4>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="kt">int</span> <span class="nf">bus_register</span><span class="p">(</span><span class="k">struct</span> <span class="n">bus_type</span> <span class="o">*</span><span class="n">bus</span><span class="p">)</span>
 <span class="ln"> 2</span><span class="p">{</span>
 <span class="ln"> 3</span>	<span class="kt">int</span> <span class="n">retval</span><span class="p">;</span>
@@ -697,7 +695,7 @@
 <span class="ln">75</span>	<span class="k">return</span> <span class="n">retval</span><span class="p">;</span>
 <span class="ln">76</span><span class="p">}</span>
 <span class="ln">77</span>
-</code></pre></div><h4 id="设备总线卸载">设备总线卸载</h4>
+</code></pre></div><h4 id="设备总线卸载">设备总线卸载<a class="anchor ms-1" href="#设备总线卸载"><i class="fas fa-link"></i></a></h4>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="kt">void</span> <span class="nf">bus_unregister</span><span class="p">(</span><span class="k">struct</span> <span class="n">bus_type</span> <span class="o">*</span><span class="n">bus</span><span class="p">)</span>
 <span class="ln"> 2</span><span class="p">{</span>
 <span class="ln"> 3</span>	<span class="n">pr_debug</span><span class="p">(</span><span class="s">&#34;bus: &#39;%s&#39;: unregistering</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">bus</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">);</span>
@@ -710,7 +708,7 @@
 <span class="ln">10</span>	<span class="n">bus_remove_file</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">bus_attr_uevent</span><span class="p">);</span>
 <span class="ln">11</span>	<span class="n">kset_unregister</span><span class="p">(</span><span class="o">&amp;</span><span class="n">bus</span><span class="o">-&gt;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">subsys</span><span class="p">);</span>
 <span class="ln">12</span><span class="p">}</span>
-</code></pre></div><h2 id="devices">devices</h2>
+</code></pre></div><h2 id="devices">devices<a class="anchor ms-1" href="#devices"><i class="fas fa-link"></i></a></h2>
 <blockquote>
 <p>设备文件具体描述:
 device(设备描述)
@@ -725,8 +723,8 @@ bus_type(总线信息)</p>
 <span class="ln">6</span><span class="p">|</span>-- tracepoint
 <span class="ln">7</span><span class="p">|</span>-- uprobe
 <span class="ln">8</span><span class="sb">`</span>-- virtual
-</code></pre></div><h3 id="heading"></h3>
-<h4 id="device">device</h4>
+</code></pre></div><h3 id="heading"><a class="anchor ms-1" href="#heading"><i class="fas fa-link"></i></a></h3>
+<h4 id="device">device<a class="anchor ms-1" href="#device"><i class="fas fa-link"></i></a></h4>
 <blockquote>
 <p>描述设备</p>
 </blockquote>
@@ -811,7 +809,7 @@ bus_type(总线信息)</p>
 <span class="ln">79</span>	<span class="kt">bool</span>			<span class="nl">offline</span><span class="p">:</span><span class="mi">1</span><span class="p">;</span>
 <span class="ln">80</span>	<span class="kt">bool</span>			<span class="nl">of_node_reused</span><span class="p">:</span><span class="mi">1</span><span class="p">;</span>
 <span class="ln">81</span><span class="p">};</span>
-</code></pre></div><h4 id="driver">driver</h4>
+</code></pre></div><h4 id="driver">driver<a class="anchor ms-1" href="#driver"><i class="fas fa-link"></i></a></h4>
 <blockquote>
 <p>描述驱动</p>
 </blockquote>
@@ -840,15 +838,25 @@ bus_type(总线信息)</p>
 <span class="ln">23</span>
 <span class="ln">24</span>	<span class="k">struct</span> <span class="n">driver_private</span> <span class="o">*</span><span class="n">p</span><span class="p">;</span>
 <span class="ln">25</span><span class="p">};</span>
-</code></pre></div><h2 id="kernel">kernel</h2>
+</code></pre></div><h2 id="kernel">kernel<a class="anchor ms-1" href="#kernel"><i class="fas fa-link"></i></a></h2>
 <blockquote>
 <p>kernel子系统</p>
 </blockquote>
-<h2 id="module">module</h2>
+<h2 id="module">module<a class="anchor ms-1" href="#module"><i class="fas fa-link"></i></a></h2>
 <blockquote>
 <p>模块信息</p>
 </blockquote>
-</div><hr /><div class="post-navs d-flex mb-3 justify-content-evenly">
+</div>
+<div class="post-copyright mb-3" id="post-copyright">
+    <h2 class="mb-4">版权</h2><a class="d-flex align-items-center flex-column" target="_blank" rel="license noopener noreferrer" href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh">
+  <span><i class="fab fa-fw fa-2x fa-creative-commons"></i><i class="fab fa-fw fa-2x fa-creative-commons-by"></i><i class="fab fa-fw fa-2x fa-creative-commons-nc"></i><i class="fab fa-fw fa-2x fa-creative-commons-nd"></i></span>
+  CC BY-NC-ND 4.0 
+</a>
+
+
+</div>
+</div>
+  <div class="card-footer"><div class="post-navs d-flex justify-content-evenly">
   <div class="post-nav post-prev"><i class="fas fa-fw fa-chevron-left"></i>
     <a href="https://mengdemao.github.io/posts/luajit/">LuaJIT
 </a>
@@ -857,7 +865,7 @@ bus_type(总线信息)</p>
 </a>
     <i class="fas fa-fw fa-chevron-right"></i>
   </div></div></div>
-    </article></div>
+</article></div>
 </div><aside class="col-lg-4 sidebar d-flex">
   <div class="container">
     
@@ -871,55 +879,65 @@ bus_type(总线信息)</p>
   </div>
 </section>
   <section class="recent-posts row card component">
-  <div class="card-body">
+  <div class="card-header">
     <h2 class="card-title">最近文章</h2>
-    <ul><li><a href="https://mengdemao.github.io/posts/schedulepriority/">调度优先级
-</a></li><li><a href="https://mengdemao.github.io/posts/dwl/">Dwl
-</a></li><li><a href="https://mengdemao.github.io/posts/tinycc/">Tinycc
-</a></li><li><a href="https://mengdemao.github.io/posts/server/">Server
-</a></li><li><a href="https://mengdemao.github.io/posts/bsdiff/">Bsdiff
-</a></li></ul>
+  </div>
+  <div class="card-body">
+    <ul class="post-list"><li>
+        <a href="https://mengdemao.github.io/posts/complete/">Complete
+</a>
+      </li><li>
+        <a href="https://mengdemao.github.io/posts/schedulepriority/">调度优先级
+</a>
+      </li><li>
+        <a href="https://mengdemao.github.io/posts/dwl/">Dwl
+</a>
+      </li><li>
+        <a href="https://mengdemao.github.io/posts/tinycc/">Tinycc
+</a>
+      </li><li>
+        <a href="https://mengdemao.github.io/posts/server/">Server
+</a>
+      </li></ul>
   </div>
 </section><section class="taxonomies row card component">
-      <div class="card-body">
+      <div class="card-header">
         <h2 class="card-title">
           <a href="https://mengdemao.github.io/categories">分类</a>
         </h2>
-        <div><a href="https://mengdemao.github.io/categories/linux/" class="badge bg-primary text-white rounded post-taxonomy" title="linux">
-            linux
-          </a><a href="https://mengdemao.github.io/categories/python/" class="badge bg-primary text-white rounded post-taxonomy" title="python">
-            python
-          </a></div>
+      </div>
+      <div class="card-body">
+        <div class="py-2"><a href="https://mengdemao.github.io/categories/linux/" class="badge rounded post-taxonomy" title="linux">
+            linux</a><a href="https://mengdemao.github.io/categories/python/" class="badge rounded post-taxonomy" title="python">
+            python</a></div>
       </div>
     </section><section class="taxonomies row card component">
-      <div class="card-body">
+      <div class="card-header">
         <h2 class="card-title">
           <a href="https://mengdemao.github.io/tags">标签</a>
         </h2>
-        <div><a href="https://mengdemao.github.io/tags/kernel/" class="badge bg-primary text-white rounded post-taxonomy" title="kernel">
-            kernel
-          </a><a href="https://mengdemao.github.io/tags/compiler/" class="badge bg-primary text-white rounded post-taxonomy" title="compiler">
-            compiler
-          </a><a href="https://mengdemao.github.io/tags/nfs/" class="badge bg-primary text-white rounded post-taxonomy" title="nfs">
-            nfs
-          </a><a href="https://mengdemao.github.io/tags/%E6%8A%80%E5%B7%A7/" class="badge bg-primary text-white rounded post-taxonomy" title="技巧">
-            技巧
-          </a><a href="https://mengdemao.github.io/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" class="badge bg-primary text-white rounded post-taxonomy" title="编译原理">
-            编译原理
-          </a></div>
+      </div>
+      <div class="card-body">
+        <div class="py-2"><a href="https://mengdemao.github.io/tags/kernel/" class="badge rounded post-taxonomy" title="kernel">
+            kernel</a><a href="https://mengdemao.github.io/tags/compiler/" class="badge rounded post-taxonomy" title="compiler">
+            compiler</a><a href="https://mengdemao.github.io/tags/nfs/" class="badge rounded post-taxonomy" title="nfs">
+            nfs</a><a href="https://mengdemao.github.io/tags/%E6%8A%80%E5%B7%A7/" class="badge rounded post-taxonomy" title="技巧">
+            技巧</a><a href="https://mengdemao.github.io/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" class="badge rounded post-taxonomy" title="编译原理">
+            编译原理</a></div>
       </div>
     </section>
     
   </div>
 </aside>
 </div>
-    </main><footer class="footer mt-auto py-3 text-center container"><nav class="social-links nav my-2 justify-content-center"></nav>
+    </main><footer class="footer mt-auto py-3 text-center container"><nav class="social-links nav justify-content-center mb-2"></nav>
 <div class="copyright mb-2">
-  Copyright © 2020-2021 Meng Demao. All Rights Reserved.
+  Copyright © 2020-2022 Meng Demao. All Rights Reserved.
 </div>
 <div class="powered-by mb-2">
   Powered by <a href="https://gohugo.io" target="_blank" rel="noopener noreferrer">Hugo</a> and the <a href="https://github.com/razonyang/hugo-theme-bootstrap" target="_blank" rel="noopener noreferrer">Bootstrap</a> theme.
 </div></footer>
-<script src="https://mengdemao.github.io/js/bundle.min.c239d20348986c1e4276d9e85953f4e281ec3b6ed6dafe05a5e64002622759e5.js" integrity="sha256-wjnSA0iYbB5CdtnoWVP04oHsO27W2v4FpeZAAmInWeU=" crossorigin="anonymous" defer></script><script defer src="https://mengdemao.github.io/js/viewer.min.9f39f897757e616b3f6faf1d7955ea42a180a4e71d898e80f1c13d45e59b9abb.js" integrity="sha256-nzn4l3V&#43;YWs/b68deVXqQqGApOcdiY6A8cE9ReWbmrs=" crossorigin="anonymous"></script>
+<script src="https://mengdemao.github.io/js/main.min.7a0fc1a2bad50fa8cc99a4167ed69f60432d32e534e18e93fc8d8b4467e86d88.js" integrity="sha256-eg/BorrVD6jMmaQWftafYEMtMuU04Y6T/I2LRGfobYg=" crossorigin="anonymous" defer></script><script src="https://mengdemao.github.io/js/icons.min.a35670f2f90c398e5ee5c8e509b428fae75aa2746854cee10b60794633076859.js" integrity="sha256-o1Zw8vkMOY5e5cjlCbQo&#43;udaonRoVM7hC2B5RjMHaFk=" crossorigin="anonymous" defer></script>
+<script src="https://mengdemao.github.io/js/viewer.min.4dba52a0a790f909408b7385316651299158381686401d50ff1f04dda6476473.js" integrity="sha256-TbpSoKeQ&#43;QlAi3OFMWZRKZFYOBaGQB1Q/x8E3aZHZHM=" crossorigin="anonymous" defer></script>
 </body>
 </html>

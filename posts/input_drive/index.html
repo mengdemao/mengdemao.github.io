@@ -3,11 +3,11 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>输入子系统 - 编程日志</title><link rel="apple-touch-icon" href="https://mengdemao.github.io/images/favicons/apple-touch-icon.png" sizes="180x180">
-<link rel="icon" href="https://mengdemao.github.io/images/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
-<link rel="icon" href="https://mengdemao.github.io/images/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
-<link rel="manifest" href="https://mengdemao.github.io/images/favicons/manifest.json">
-<link rel="icon" href="https://mengdemao.github.io/images/favicons/favicon.ico">
+    <title>输入子系统 - 编程日志</title><link rel="apple-touch-icon" href="https://mengdemao.github.io/images/icons/icon-180x180.png" sizes="180x180">
+<link rel="icon" href="https://mengdemao.github.io/images/icons/icon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="https://mengdemao.github.io/images/icons/icon-16x16.png" sizes="16x16" type="image/png">
+<link rel="icon" href="https://mengdemao.github.io/images/icons/favicon.ico">
+<link rel="manifest" href="https://mengdemao.github.io/manifest.json">
 <meta name="keywords" content="driver" />
 <meta name="description" content="" /><meta itemprop="name" content="输入子系统">
 <meta itemprop="description" content="输入子设备分为三层 handle core device input的相关结构体 1 struct input_dev { /* 输入设备的描述 */ 2 const char *name; /* 设备名称 */ 3 const char *phys; 4 const char *uniq; 5 struct input_id id; 6 7 unsigned long propbit[BITS_TO_LONGS(INPUT_PROP_CNT)]; 8 9 unsigned long evbit[BITS_TO_LONGS(EV_CNT)]; 10 unsigned"><meta itemprop="datePublished" content="2021-10-05T21:14:34+08:00" />
@@ -23,9 +23,8 @@
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="输入子系统"/>
 <meta name="twitter:description" content="输入子设备分为三层 handle core device input的相关结构体 1 struct input_dev { /* 输入设备的描述 */ 2 const char *name; /* 设备名称 */ 3 const char *phys; 4 const char *uniq; 5 struct input_id id; 6 7 unsigned long propbit[BITS_TO_LONGS(INPUT_PROP_CNT)]; 8 9 unsigned long evbit[BITS_TO_LONGS(EV_CNT)]; 10 unsigned"/>
-<link rel="preload" href="https://mengdemao.github.io/css/bundle.min.89b15c76d23b1055e418eed718cb78886010e537918653f0a43661ed56307392.css" integrity="sha256-ibFcdtI7EFXkGO7XGMt4iGAQ5TeRhlPwpDZh7VYwc5I=" crossorigin="anonymous" as="style" onload="this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="https://mengdemao.github.io/css/bundle.min.89b15c76d23b1055e418eed718cb78886010e537918653f0a43661ed56307392.css" integrity="sha256-ibFcdtI7EFXkGO7XGMt4iGAQ5TeRhlPwpDZh7VYwc5I=" crossorigin="anonymous"></noscript></head>
-  <body><script src="https://mengdemao.github.io/js/bootstrap.min.b5d86dd3a5f60c90be38a252bb65fc1a2732f32e71dc12c051720f0c7aef3cde.js" integrity="sha256-tdht06X2DJC&#43;OKJSu2X8Gicy8y5x3BLAUXIPDHrvPN4=" crossorigin="anonymous"></script><header><nav class="navbar top-app-bar top-app-bar-expand-lg fixed-top">
+<link rel="stylesheet" href="https://mengdemao.github.io/css/main.min.702127d58e0a5778490e24163ec0ec8d40cfe62780936bf8b19b4c8ab0bc3ed8.css" integrity="sha256-cCEn1Y4KV3hJDiQWPsDsjUDP5ieAk2v4sZtMirC8Ptg=" crossorigin="anonymous"><link rel="stylesheet" href="https://mengdemao.github.io/css/viewer.min.3d228794bcedbbfa0412beb8fbc1ec6973202945e42af7004f742a4d7bd620ab.css" integrity="sha256-PSKHlLztu/oEEr64&#43;8HsaXMgKUXkKvcAT3QqTXvWIKs=" crossorigin="anonymous"></head>
+  <body><script>const items=['mode','palette'];items.forEach(function(a){const b=localStorage.getItem('hbs-'+a);b&&document.body.parentElement.setAttribute('data-'+a,b)})</script><header><nav class="navbar top-app-bar top-app-bar-expand-lg fixed-top">
   <div class="container">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,12 +34,7 @@
    />
 编程日志
     </a>
-    <button class="navbar-social-share" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSocialShare"
-  aria-controls="offcanvasSocialShare" aria-label="Toggle social share">
-  <i class="fas fa-share-alt"></i>
-</button>
-
-<div class="offcanvas offcanvas-bottom surface" tabindex="-1" id="offcanvasSocialShare" aria-labelledby="offcanvasSocialShare">
+    <div class="offcanvas offcanvas-bottom surface" tabindex="-1" id="offcanvasSocialShare" aria-labelledby="offcanvasSocialShare">
   <div class="offcanvas-header">
     <h3 class="offcanvas-title">Share</h3>
     <button type="button" class="btn btn-sm btn-outline-primary" data-bs-dismiss="offcanvas" aria-label="Close">
@@ -70,7 +64,7 @@
       <i class="fas fa-times"></i>
     </button>
   </div>
-  <div class="offcanvas-body">
+  <div class="offcanvas-body d-flex flex-column">
 
 <section class="setting">
   <form class="row">
@@ -108,14 +102,25 @@
       </a>
     </div>
   </form>
-  <div class="mt-2 d-flex visually-hidden" id="palettePicker"><button type="button" id="palette-blue" aria-label="蓝色"
-        class="btn btn-sm palette" data-palette="blue">
+  <div class="mt-2 d-flex justify-content-between visually-hidden" id="palettePicker"><button type="button" id="palette-blue" aria-label="蓝色"
+        class="btn btn-sm w-100 palette" data-palette="blue">
       </button><button type="button" id="palette-blue-gray" aria-label="蓝灰色"
-        class="btn btn-sm palette" data-palette="blue-gray">
+        class="btn btn-sm w-100 palette" data-palette="blue-gray">
       </button><button type="button" id="palette-brown" aria-label="棕色"
-        class="btn btn-sm palette" data-palette="brown">
+        class="btn btn-sm w-100 palette" data-palette="brown">
       </button></div>
 </section>
+<section class="setting actions d-flex justify-content-around mt-auto overflow-auto">
+  <a role="button" class="action action-reload-page">
+    <span class="action-icon"><i class="fas fa-2x fa-redo-alt"></i></span> 刷新
+  </a>
+  <a role="button" class="action action-copy-url">
+    <span class="action-icon"><i class="fas fa-2x fa-link"></i></span> 复制链接
+  </a><a class="action action-social-share" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSocialShare"
+    aria-controls="offcanvasSocialShare" aria-label="Toggle social share">
+    <span class="action-icon"><i class="fas fa-2x fa-share-alt"></i></span> 分享
+  </a></section>
+
 </div>
 </div>
 
@@ -143,10 +148,10 @@
             <i class="fas fa-fw fa-columns"></i>专栏
           </a>
         </li><li class="nav-item dropdown">
-          <a class="nav-link" id="navbarDropdown-dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="nav-link" id="navbarDropdownDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="fas fa-fw fa-chevron-circle-down"></i>下拉菜单
           </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown-dropdown"><li>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownDropdown"><li>
               <a class="dropdown-item"
                 href="https://github.com/mengdemao/mengdemao.github.io" target="_blank" rel="noopener noreferrer">
                 <i class="fab fa-fw fa-github"></i>Github
@@ -169,44 +174,43 @@
   <div class="card-body">
     <ol class="breadcrumb "><li class="breadcrumb-item"><a href="https://mengdemao.github.io/">主页</a></li><li class="breadcrumb-item"><a href="https://mengdemao.github.io/posts/">文章</a></li><li class="breadcrumb-item active">输入子系统</li></ol>
   </div>
-</nav>    <article class="row card component mb-4 post"><div class="post-panel-wrapper">
+</nav><article class="row card component mb-4 post"><div class="post-panel-wrapper">
   <div class="d-flex flex-column component rounded post-panel">
     
-    <a id="sidebarToggler" class="action d-none d-lg-block" role="button">
+    <a class="action action-panel-toggler" role="button" title="Panel toggler">
+      <i class="fas fa-fw fa-chevron-circle-down"></i>
+    </a>
+    <a id="sidebarToggler" class="action d-none d-lg-block" role="button" title="Sidebar toggler">
   <i class="fas fa-fw fa-expand-alt" data-fa-transform="rotate-45"></i>
 </a>
-  
+
     
 
     
-    <a class="action" data-bs-container="body" data-bs-toggle="popover" data-bs-html="true" data-bs-placement="bottom"
-  data-bs-trigger="focus" tabindex="0" role="button" aria-label="Copyright" 
-  data-bs-content="&lt;a target=&#34;_blank&#34; rel=&#34;license noopener noreferrer&#34; href=&#34;https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh&#34;&gt;CC BY-NC-ND 4.0 &lt;i class=&#34;fab fa-fw fa-creative-commons&#34;&gt;&lt;/i&gt;&lt;i class=&#34;fab fa-fw fa-creative-commons-by&#34;&gt;&lt;/i&gt;&lt;i class=&#34;fab fa-fw fa-creative-commons-nc&#34;&gt;&lt;/i&gt;&lt;i class=&#34;fab fa-fw fa-creative-commons-nd&#34;&gt;&lt;/i&gt;&lt;/a&gt;
-">
+    <a class="action" href="#post-copyright" role="button" aria-label="Copyright" title="Copyright">
   <i class="fas fa-fw fa-copyright"></i>
 </a>
-    <a class="action" data-bs-toggle="offcanvas" href="#offcanvasTOC" aria-controls="offcanvasTOC" role="button">
+    
+    <a class="action" href="#postTOC" aria-controls="Table of contents" role="button" title="Table of contents">
   <i class="fas fa-fw fa-list-alt"></i>
 </a>
     
   </div>
 </div>
-<div class="card-body">
-        <h1 class="card-title my-3">输入子系统
-</h1><div class="post-meta"><span class="post-date" title="created on">
-    <i class="fas fa-fw fa-calendar-alt"></i>Oct 5, 2021
-  </span><span class="post-reading-time" title="reading time">
-    <i class="fas fa-fw fa-coffee"></i>3 分钟阅读
-  </span></div>
-<div class="offcanvas offcanvas-end surface h-100" tabindex="-1" id="offcanvasTOC" aria-labelledby="offcanvasTOCLabel">
-  <div class="offcanvas-header">
-    <h2 class="offcanvas-title" id="offcanvasTOCLabel">目录</h5>
-      <button type="button" class="btn btn-sm btn-outline-primary" data-bs-dismiss="offcanvas" aria-label="Close">
-        <i class="fas fa-times"></i>
-      </button>
+<div class="card-header ">
+    <h1 class="card-title post-title">输入子系统
+</h1>
   </div>
-  <div class="offcanvas-body">
-    <nav id="TableOfContents">
+  <div class="card-body"><div class="post-meta">
+  <span class="post-date" title="创建于 2021-10-05 13:14:34 &#43;0000 UTC。">
+    Oct 5, 2021
+  </span><span class="post-reading-time">
+    3 分钟阅读
+  </span><span class="post-taxonomies"></span>
+</div>
+<div class="post-toc mb-4" id="postTOC">
+  <h2 class="mb-4">目录</h2>
+  <nav id="TableOfContents">
   <ul>
     <li><a href="#input的相关结构体">input的相关结构体</a></li>
     <li><a href="#input子系统使用">input子系统使用</a></li>
@@ -219,14 +223,13 @@
     </li>
   </ul>
 </nav>
-  </div>
 </div><div class="post-content mb-3"><p>输入子设备分为三层</p>
 <ol>
 <li>handle</li>
 <li>core</li>
 <li>device</li>
 </ol>
-<h2 id="input的相关结构体">input的相关结构体</h2>
+<h2 id="input的相关结构体">input的相关结构体<a class="anchor ms-1" href="#input的相关结构体"><i class="fas fa-link"></i></a></h2>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span>  <span class="k">struct</span> <span class="n">input_dev</span> <span class="p">{</span>				<span class="cm">/* 输入设备的描述 */</span>
 <span class="ln"> 2</span>  <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">name</span><span class="p">;</span>				<span class="cm">/* 设备名称 */</span>
 <span class="ln"> 3</span>	  <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">phys</span><span class="p">;</span>
@@ -298,8 +301,8 @@
 <span class="ln">69</span>	  <span class="kt">bool</span> <span class="n">devres_managed</span><span class="p">;</span>
 <span class="ln">70</span>  <span class="p">};</span>
 <span class="ln">71</span><span class="cp">#define to_input_dev(d) container_of(d, struct input_dev, dev)
-</span></code></pre></div><h2 id="input子系统使用">input子系统使用</h2>
-<h2 id="input子系统分析">input子系统分析</h2>
+</span></code></pre></div><h2 id="input子系统使用">input子系统使用<a class="anchor ms-1" href="#input子系统使用"><i class="fas fa-link"></i></a></h2>
+<h2 id="input子系统分析">input子系统分析<a class="anchor ms-1" href="#input子系统分析"><i class="fas fa-link"></i></a></h2>
 <ol>
 <li>Makefile编写</li>
 </ol>
@@ -404,8 +407,8 @@
 <span class="ln">4</span>	<span class="n">remove_proc_entry</span><span class="p">(</span><span class="s">&#34;handlers&#34;</span><span class="p">,</span> <span class="n">proc_bus_input_dir</span><span class="p">);</span>
 <span class="ln">5</span>	<span class="n">remove_proc_entry</span><span class="p">(</span><span class="s">&#34;bus/input&#34;</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
 <span class="ln">6</span><span class="p">}</span>
-</code></pre></div><h2 id="接口部分">接口部分</h2>
-<h3 id="handler操作">Handler操作</h3>
+</code></pre></div><h2 id="接口部分">接口部分<a class="anchor ms-1" href="#接口部分"><i class="fas fa-link"></i></a></h2>
+<h3 id="handler操作">Handler操作<a class="anchor ms-1" href="#handler操作"><i class="fas fa-link"></i></a></h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="cm">/**
 </span><span class="ln"> 2</span><span class="cm"> * 注册 input handler
 </span><span class="ln"> 3</span><span class="cm"> * input_register_handler - register a new input handler
@@ -463,7 +466,7 @@
 <span class="ln">55</span>	<span class="n">mutex_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">input_mutex</span><span class="p">);</span>
 <span class="ln">56</span><span class="p">}</span>
 <span class="ln">57</span><span class="n">EXPORT_SYMBOL</span><span class="p">(</span><span class="n">input_unregister_handler</span><span class="p">);</span>
-</code></pre></div><h3 id="注册设备">注册设备</h3>
+</code></pre></div><h3 id="注册设备">注册设备<a class="anchor ms-1" href="#注册设备"><i class="fas fa-link"></i></a></h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln">  1</span><span class="cm">/**
 </span><span class="ln">  2</span><span class="cm"> * 注册一个设备
 </span><span class="ln">  3</span><span class="cm"> * input_register_device - register device with input core
@@ -609,7 +612,17 @@
 <span class="ln">143</span>	<span class="p">}</span>
 <span class="ln">144</span><span class="p">}</span>
 <span class="ln">145</span><span class="n">EXPORT_SYMBOL</span><span class="p">(</span><span class="n">input_unregister_device</span><span class="p">);</span>
-</code></pre></div></div><hr /><div class="post-navs d-flex mb-3 justify-content-evenly">
+</code></pre></div></div>
+<div class="post-copyright mb-3" id="post-copyright">
+    <h2 class="mb-4">版权</h2><a class="d-flex align-items-center flex-column" target="_blank" rel="license noopener noreferrer" href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh">
+  <span><i class="fab fa-fw fa-2x fa-creative-commons"></i><i class="fab fa-fw fa-2x fa-creative-commons-by"></i><i class="fab fa-fw fa-2x fa-creative-commons-nc"></i><i class="fab fa-fw fa-2x fa-creative-commons-nd"></i></span>
+  CC BY-NC-ND 4.0 
+</a>
+
+
+</div>
+</div>
+  <div class="card-footer"><div class="post-navs d-flex justify-content-evenly">
   <div class="post-nav post-prev"><i class="fas fa-fw fa-chevron-left"></i>
     <a href="https://mengdemao.github.io/posts/slab/">Slab
 </a>
@@ -618,7 +631,7 @@
 </a>
     <i class="fas fa-fw fa-chevron-right"></i>
   </div></div></div>
-    </article></div>
+</article></div>
 </div><aside class="col-lg-4 sidebar d-flex">
   <div class="container">
     
@@ -632,55 +645,65 @@
   </div>
 </section>
   <section class="recent-posts row card component">
-  <div class="card-body">
+  <div class="card-header">
     <h2 class="card-title">最近文章</h2>
-    <ul><li><a href="https://mengdemao.github.io/posts/schedulepriority/">调度优先级
-</a></li><li><a href="https://mengdemao.github.io/posts/dwl/">Dwl
-</a></li><li><a href="https://mengdemao.github.io/posts/tinycc/">Tinycc
-</a></li><li><a href="https://mengdemao.github.io/posts/server/">Server
-</a></li><li><a href="https://mengdemao.github.io/posts/bsdiff/">Bsdiff
-</a></li></ul>
+  </div>
+  <div class="card-body">
+    <ul class="post-list"><li>
+        <a href="https://mengdemao.github.io/posts/complete/">Complete
+</a>
+      </li><li>
+        <a href="https://mengdemao.github.io/posts/schedulepriority/">调度优先级
+</a>
+      </li><li>
+        <a href="https://mengdemao.github.io/posts/dwl/">Dwl
+</a>
+      </li><li>
+        <a href="https://mengdemao.github.io/posts/tinycc/">Tinycc
+</a>
+      </li><li>
+        <a href="https://mengdemao.github.io/posts/server/">Server
+</a>
+      </li></ul>
   </div>
 </section><section class="taxonomies row card component">
-      <div class="card-body">
+      <div class="card-header">
         <h2 class="card-title">
           <a href="https://mengdemao.github.io/categories">分类</a>
         </h2>
-        <div><a href="https://mengdemao.github.io/categories/linux/" class="badge bg-primary text-white rounded post-taxonomy" title="linux">
-            linux
-          </a><a href="https://mengdemao.github.io/categories/python/" class="badge bg-primary text-white rounded post-taxonomy" title="python">
-            python
-          </a></div>
+      </div>
+      <div class="card-body">
+        <div class="py-2"><a href="https://mengdemao.github.io/categories/linux/" class="badge rounded post-taxonomy" title="linux">
+            linux</a><a href="https://mengdemao.github.io/categories/python/" class="badge rounded post-taxonomy" title="python">
+            python</a></div>
       </div>
     </section><section class="taxonomies row card component">
-      <div class="card-body">
+      <div class="card-header">
         <h2 class="card-title">
           <a href="https://mengdemao.github.io/tags">标签</a>
         </h2>
-        <div><a href="https://mengdemao.github.io/tags/kernel/" class="badge bg-primary text-white rounded post-taxonomy" title="kernel">
-            kernel
-          </a><a href="https://mengdemao.github.io/tags/compiler/" class="badge bg-primary text-white rounded post-taxonomy" title="compiler">
-            compiler
-          </a><a href="https://mengdemao.github.io/tags/nfs/" class="badge bg-primary text-white rounded post-taxonomy" title="nfs">
-            nfs
-          </a><a href="https://mengdemao.github.io/tags/%E6%8A%80%E5%B7%A7/" class="badge bg-primary text-white rounded post-taxonomy" title="技巧">
-            技巧
-          </a><a href="https://mengdemao.github.io/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" class="badge bg-primary text-white rounded post-taxonomy" title="编译原理">
-            编译原理
-          </a></div>
+      </div>
+      <div class="card-body">
+        <div class="py-2"><a href="https://mengdemao.github.io/tags/kernel/" class="badge rounded post-taxonomy" title="kernel">
+            kernel</a><a href="https://mengdemao.github.io/tags/compiler/" class="badge rounded post-taxonomy" title="compiler">
+            compiler</a><a href="https://mengdemao.github.io/tags/nfs/" class="badge rounded post-taxonomy" title="nfs">
+            nfs</a><a href="https://mengdemao.github.io/tags/%E6%8A%80%E5%B7%A7/" class="badge rounded post-taxonomy" title="技巧">
+            技巧</a><a href="https://mengdemao.github.io/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" class="badge rounded post-taxonomy" title="编译原理">
+            编译原理</a></div>
       </div>
     </section>
     
   </div>
 </aside>
 </div>
-    </main><footer class="footer mt-auto py-3 text-center container"><nav class="social-links nav my-2 justify-content-center"></nav>
+    </main><footer class="footer mt-auto py-3 text-center container"><nav class="social-links nav justify-content-center mb-2"></nav>
 <div class="copyright mb-2">
-  Copyright © 2020-2021 Meng Demao. All Rights Reserved.
+  Copyright © 2020-2022 Meng Demao. All Rights Reserved.
 </div>
 <div class="powered-by mb-2">
   Powered by <a href="https://gohugo.io" target="_blank" rel="noopener noreferrer">Hugo</a> and the <a href="https://github.com/razonyang/hugo-theme-bootstrap" target="_blank" rel="noopener noreferrer">Bootstrap</a> theme.
 </div></footer>
-<script src="https://mengdemao.github.io/js/bundle.min.c239d20348986c1e4276d9e85953f4e281ec3b6ed6dafe05a5e64002622759e5.js" integrity="sha256-wjnSA0iYbB5CdtnoWVP04oHsO27W2v4FpeZAAmInWeU=" crossorigin="anonymous" defer></script><script defer src="https://mengdemao.github.io/js/viewer.min.9f39f897757e616b3f6faf1d7955ea42a180a4e71d898e80f1c13d45e59b9abb.js" integrity="sha256-nzn4l3V&#43;YWs/b68deVXqQqGApOcdiY6A8cE9ReWbmrs=" crossorigin="anonymous"></script>
+<script src="https://mengdemao.github.io/js/main.min.7a0fc1a2bad50fa8cc99a4167ed69f60432d32e534e18e93fc8d8b4467e86d88.js" integrity="sha256-eg/BorrVD6jMmaQWftafYEMtMuU04Y6T/I2LRGfobYg=" crossorigin="anonymous" defer></script><script src="https://mengdemao.github.io/js/icons.min.a35670f2f90c398e5ee5c8e509b428fae75aa2746854cee10b60794633076859.js" integrity="sha256-o1Zw8vkMOY5e5cjlCbQo&#43;udaonRoVM7hC2B5RjMHaFk=" crossorigin="anonymous" defer></script>
+<script src="https://mengdemao.github.io/js/viewer.min.4dba52a0a790f909408b7385316651299158381686401d50ff1f04dda6476473.js" integrity="sha256-TbpSoKeQ&#43;QlAi3OFMWZRKZFYOBaGQB1Q/x8E3aZHZHM=" crossorigin="anonymous" defer></script>
 </body>
 </html>

@@ -31,7 +31,7 @@
       <pubDate>Mon, 04 Oct 2021 12:10:25 +0800</pubDate>
       
       <guid>https://mengdemao.github.io/posts/sched/</guid>
-      <description>系统调度 主调度器schedule 周期调度器scheduler_tick 周期调度器函数实现 1void scheduler_tick(void) 2{ 3 int cpu = smp_processor_id(); 4 struct rq *rq = cpu_rq(cpu); 5 struct task_struct *curr = rq-&amp;gt;curr; 6 struct rq_flags rf; 7 8</description>
+      <description>系统调度 主调度器schedule 周期调度器scheduler_tick 周期调度器函数实现 1void scheduler_tick(void) 2{ 3 int cpu = smp_processor_id(); // CPUID 4 struct rq *rq = cpu_rq(cpu); // 提取消息队列 5 struct task_struct</description>
     </item>
     
   </channel>

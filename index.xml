@@ -6,7 +6,16 @@
     <description>Recent content on 编程日志</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>Copyright © 2020-{year} Meng Demao. All Rights Reserved.</copyright>
-    <lastBuildDate>Sun, 14 Nov 2021 12:47:03 +0800</lastBuildDate><atom:link href="https://mengdemao.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 11 Dec 2021 17:02:49 +0800</lastBuildDate><atom:link href="https://mengdemao.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Complete</title>
+      <link>https://mengdemao.github.io/posts/complete/</link>
+      <pubDate>Sat, 11 Dec 2021 17:02:49 +0800</pubDate>
+      
+      <guid>https://mengdemao.github.io/posts/complete/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>调度优先级</title>
       <link>https://mengdemao.github.io/posts/schedulepriority/</link>
@@ -202,7 +211,7 @@
       <pubDate>Mon, 04 Oct 2021 12:10:25 +0800</pubDate>
       
       <guid>https://mengdemao.github.io/posts/sched/</guid>
-      <description>系统调度 主调度器schedule 周期调度器scheduler_tick 周期调度器函数实现 1void scheduler_tick(void) 2{ 3 int cpu = smp_processor_id(); 4 struct rq *rq = cpu_rq(cpu); 5 struct task_struct *curr = rq-&amp;gt;curr; 6 struct rq_flags rf; 7 8</description>
+      <description>系统调度 主调度器schedule 周期调度器scheduler_tick 周期调度器函数实现 1void scheduler_tick(void) 2{ 3 int cpu = smp_processor_id(); // CPUID 4 struct rq *rq = cpu_rq(cpu); // 提取消息队列 5 struct task_struct</description>
     </item>
     
     <item>
@@ -265,7 +274,7 @@
       <pubDate>Sun, 03 Oct 2021 12:58:02 +0800</pubDate>
       
       <guid>https://mengdemao.github.io/posts/doxygen/</guid>
-      <description>doxygen教程 开始</description>
+      <description>doxygen教程 开始开始doxygen</description>
     </item>
     
     <item>
