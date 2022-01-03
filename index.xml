@@ -13,7 +13,7 @@
       <pubDate>Sun, 02 Jan 2022 00:23:06 +0800</pubDate>
       
       <guid>https://mengdemao.github.io/posts/lua/</guid>
-      <description>Lua源码分析 相关数据结构 全局状态机 描述Lua运行状态,同时可以产生一种面向对象的模拟 1struct lua_State { 2 CommonHeader; 3 lu_byte status; 4 lu_byte allowhook; 5 unsigned short nci; /* number of items in &amp;#39;ci&amp;#39; list */ 6 StkId top; /*</description>
+      <description>Lua源码分析 Lua运行结构 1graph LR 2编译器--&amp;gt;PROTO 3PROTO--&amp;gt;虚拟机 相关数据结构 全局状态机 描述Lua运行状态,同时可</description>
     </item>
     
     <item>
