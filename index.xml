@@ -6,7 +6,16 @@
     <description>Recent content on 编程日志</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>Copyright © 2020-{year} Meng Demao. All Rights Reserved.</copyright>
-    <lastBuildDate>Sat, 11 Dec 2021 17:02:49 +0800</lastBuildDate><atom:link href="https://mengdemao.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 02 Jan 2022 00:23:06 +0800</lastBuildDate><atom:link href="https://mengdemao.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Lua</title>
+      <link>https://mengdemao.github.io/posts/lua/</link>
+      <pubDate>Sun, 02 Jan 2022 00:23:06 +0800</pubDate>
+      
+      <guid>https://mengdemao.github.io/posts/lua/</guid>
+      <description>Lua源码分析 相关数据结构 全局状态机 描述Lua运行状态,同时可以产生一种面向对象的模拟 1struct lua_State { 2 CommonHeader; 3 lu_byte status; 4 lu_byte allowhook; 5 unsigned short nci; /* number of items in &amp;#39;ci&amp;#39; list */ 6 StkId top; /*</description>
+    </item>
+    
     <item>
       <title>Complete</title>
       <link>https://mengdemao.github.io/posts/complete/</link>

@@ -1,0 +1,562 @@
+<!doctype html><html lang="zh-cn"
+  >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lua - 编程日志</title><link rel="apple-touch-icon" href="https://mengdemao.github.io/images/icons/icon-180x180.png" sizes="180x180">
+<link rel="icon" href="https://mengdemao.github.io/images/icons/icon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="https://mengdemao.github.io/images/icons/icon-16x16.png" sizes="16x16" type="image/png">
+<link rel="icon" href="https://mengdemao.github.io/images/icons/favicon.ico">
+<link rel="manifest" href="https://mengdemao.github.io/manifest.json">
+<meta name="keywords" content="" />
+<meta name="description" content="" /><meta itemprop="name" content="Lua">
+<meta itemprop="description" content="Lua源码分析 相关数据结构 全局状态机 描述Lua运行状态,同时可以产生一种面向对象的模拟 1struct lua_State { 2 CommonHeader; 3 lu_byte status; 4 lu_byte allowhook; 5 unsigned short nci; /* number of items in &#39;ci&#39; list */ 6 StkId top; /*"><meta itemprop="datePublished" content="2022-01-02T00:23:06+08:00" />
+<meta itemprop="dateModified" content="2022-01-02T00:23:06+08:00" />
+<meta itemprop="wordCount" content="993">
+<meta itemprop="keywords" content="" /><meta property="og:title" content="Lua" />
+<meta property="og:description" content="Lua源码分析 相关数据结构 全局状态机 描述Lua运行状态,同时可以产生一种面向对象的模拟 1struct lua_State { 2 CommonHeader; 3 lu_byte status; 4 lu_byte allowhook; 5 unsigned short nci; /* number of items in &#39;ci&#39; list */ 6 StkId top; /*" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://mengdemao.github.io/posts/lua/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-01-02T00:23:06+08:00" />
+<meta property="article:modified_time" content="2022-01-02T00:23:06+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Lua"/>
+<meta name="twitter:description" content="Lua源码分析 相关数据结构 全局状态机 描述Lua运行状态,同时可以产生一种面向对象的模拟 1struct lua_State { 2 CommonHeader; 3 lu_byte status; 4 lu_byte allowhook; 5 unsigned short nci; /* number of items in &#39;ci&#39; list */ 6 StkId top; /*"/>
+<link rel="stylesheet" href="https://mengdemao.github.io/css/main.min.702127d58e0a5778490e24163ec0ec8d40cfe62780936bf8b19b4c8ab0bc3ed8.css" integrity="sha256-cCEn1Y4KV3hJDiQWPsDsjUDP5ieAk2v4sZtMirC8Ptg=" crossorigin="anonymous"><link rel="stylesheet" href="https://mengdemao.github.io/css/viewer.min.3d228794bcedbbfa0412beb8fbc1ec6973202945e42af7004f742a4d7bd620ab.css" integrity="sha256-PSKHlLztu/oEEr64&#43;8HsaXMgKUXkKvcAT3QqTXvWIKs=" crossorigin="anonymous"></head>
+  <body><script>const items=['mode','palette'];items.forEach(function(a){const b=localStorage.getItem('hbs-'+a);b&&document.body.parentElement.setAttribute('data-'+a,b)})</script><header><nav class="navbar top-app-bar top-app-bar-expand-lg fixed-top">
+  <div class="container">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="fas fa-bars"></i>
+    </button><a class="navbar-brand me-3" href="https://mengdemao.github.io/"><img class="logo" alt="Logo" src="https://mengdemao.github.io/images/logo.webp" loading="lazy"
+   width="136" height="69"
+   />
+编程日志
+    </a>
+    <div class="offcanvas offcanvas-bottom surface" tabindex="-1" id="offcanvasSocialShare" aria-labelledby="offcanvasSocialShare">
+  <div class="offcanvas-header">
+    <h3 class="offcanvas-title">Share</h3>
+    <button type="button" class="btn btn-sm btn-outline-primary" data-bs-dismiss="offcanvas" aria-label="Close">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+  <div class="offcanvas-body">
+    <a class="btn btn-sm btn-outline-primary social-share-button" rel="noopener noreferrer" aria-label="Twitter Share Button"
+      target="_blank" href="https://twitter.com/intent/tweet?title=Lua&url=https%3a%2f%2fmengdemao.github.io%2fposts%2flua%2f">
+      <i class="fab fa-fw fa-twitter"></i> Twitter
+    </a>
+    <a class="btn btn-sm btn-outline-primary social-share-button" rel="noopener noreferrer" aria-label="Facebook Share Button"
+      target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmengdemao.github.io%2fposts%2flua%2f">
+      <i class="fab fa-fw fa-facebook-f"></i> Facebook
+    </a>
+  </div>
+</div>
+    <button class="navbar-settings" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSettings"
+  aria-controls="offcanvasSettings" aria-label="Toggle settings">
+  <i class="fas fa-ellipsis-v"></i>
+</button>
+
+<div class="offcanvas offcanvas-end surface h-100" tabindex="-1" id="offcanvasSettings" aria-labelledby="offcanvasSettings">
+  <div class="offcanvas-header">
+    <h3 class="offcanvas-title">设置</h3>
+    <button type="button" class="btn btn-sm btn-outline-primary" data-bs-dismiss="offcanvas" aria-label="Close">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+  <div class="offcanvas-body d-flex flex-column">
+
+<section class="setting">
+  <form class="row">
+    <div class="col-auto">
+      <label><i class="fas fa-fw fa-adjust"></i> 模式</label>
+    </div>
+    <div class="col-auto ms-auto">
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" id="modeSwitcher">
+      </div>
+    </div>
+  </form>
+</section>
+
+<section class="setting">
+  <form class="font-size-switcher-form row">
+    <div class="col-auto">
+      <label for="fontSize" class="form-label"><i class="fas fa-fw fa-font"></i> 字体大小</label>
+    </div>
+    <div class="col-auto ms-auto">
+      <input type="range" class="form-range" min="-2" max="2" id="fontSize">
+    </div>
+  </form>
+</section>
+
+
+<section class="setting palettes">
+  <form class="row">
+    <div class="col-auto">
+      <label><i class="fas fa-fw fa-palette"></i> 配色</label>
+    </div>
+    <div class="col-auto ms-auto">
+      <a id="btnPalette" class="btn btn-sm btn-outline-primary" role="button" aria-label="palettePicker">
+        <i class="fas fa-eye-dropper"></i>
+      </a>
+    </div>
+  </form>
+  <div class="mt-2 d-flex justify-content-between visually-hidden" id="palettePicker"><button type="button" id="palette-blue" aria-label="蓝色"
+        class="btn btn-sm w-100 palette" data-palette="blue">
+      </button><button type="button" id="palette-blue-gray" aria-label="蓝灰色"
+        class="btn btn-sm w-100 palette" data-palette="blue-gray">
+      </button><button type="button" id="palette-brown" aria-label="棕色"
+        class="btn btn-sm w-100 palette" data-palette="brown">
+      </button></div>
+</section>
+<section class="setting actions d-flex justify-content-around mt-auto overflow-auto">
+  <a role="button" class="action action-reload-page">
+    <span class="action-icon"><i class="fas fa-2x fa-redo-alt"></i></span> 刷新
+  </a>
+  <a role="button" class="action action-copy-url">
+    <span class="action-icon"><i class="fas fa-2x fa-link"></i></span> 复制链接
+  </a><a class="action action-social-share" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSocialShare"
+    aria-controls="offcanvasSocialShare" aria-label="Toggle social share">
+    <span class="action-icon"><i class="fas fa-2x fa-share-alt"></i></span> 分享
+  </a></section>
+
+</div>
+</div>
+
+    <div class="collapse navbar-collapse" tabindex="-1" id="navbarSupportedContent" aria-labelledby="navbarSupportedContent">
+      <form class="search-bar my-1" action="https://mengdemao.github.io/search">
+  <div class="input-group input-group-sm">
+    <span class="btn btn-search disabled position-absolute left-0"><i class="fas fa-fw fa-search"></i></span>
+    <input class="form-control rounded-pill" name="q" type="search" aria-label="Search">
+  </div>
+</form>
+      <ul class="navbar-nav ms-auto"><li class="nav-item">
+          <a class="nav-link" href="https://mengdemao.github.io/archives/">
+            <i class="fas fa-fw fa-file-archive"></i>归档
+          </a>
+        </li><li class="nav-item">
+          <a class="nav-link" href="https://mengdemao.github.io/categories/">
+            <i class="fas fa-fw fa-folder"></i>分类
+          </a>
+        </li><li class="nav-item">
+          <a class="nav-link" href="https://mengdemao.github.io/tags/">
+            <i class="fas fa-fw fa-tags"></i>标签
+          </a>
+        </li><li class="nav-item">
+          <a class="nav-link" href="https://mengdemao.github.io/series/">
+            <i class="fas fa-fw fa-columns"></i>专栏
+          </a>
+        </li><li class="nav-item dropdown">
+          <a class="nav-link" id="navbarDropdownDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-fw fa-chevron-circle-down"></i>下拉菜单
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownDropdown"><li>
+              <a class="dropdown-item"
+                href="https://github.com/mengdemao/mengdemao.github.io" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-fw fa-github"></i>Github
+              </a>
+            </li><li>
+              <a class="dropdown-item"
+                href="https://mengdemao.github.io/zh-cn/series/manual">
+                用户手册
+              </a>
+            </li></ul>
+        </li></ul>
+    </div>
+  </div>
+</nav>
+</header>
+<main role="main" class="container">
+      <div class="row content">
+<div class="col-lg-8">
+  <div class="container"><nav class="row card component" aria-label="breadcrumb">
+  <div class="card-body">
+    <ol class="breadcrumb "><li class="breadcrumb-item"><a href="https://mengdemao.github.io/">主页</a></li><li class="breadcrumb-item"><a href="https://mengdemao.github.io/posts/">文章</a></li><li class="breadcrumb-item active">Lua</li></ol>
+  </div>
+</nav><article class="row card component mb-4 post"><div class="post-panel-wrapper">
+  <div class="d-flex flex-column component rounded post-panel">
+    
+    <a class="action action-panel-toggler" role="button" title="Panel toggler">
+      <i class="fas fa-fw fa-chevron-circle-down"></i>
+    </a>
+    <a id="sidebarToggler" class="action d-none d-lg-block" role="button" title="Sidebar toggler">
+  <i class="fas fa-fw fa-expand-alt" data-fa-transform="rotate-45"></i>
+</a>
+
+    
+
+    <a class="action btn-reward" role="button" data-bs-toggle="modal" data-bs-target="#rewardModal" title="打赏">
+  <i class="fas fa-fw fa-coffee"></i>
+</a>
+    <a class="action" href="#post-copyright" role="button" aria-label="Copyright" title="Copyright">
+  <i class="fas fa-fw fa-copyright"></i>
+</a>
+    
+    <a class="action" href="#postTOC" aria-controls="Table of contents" role="button" title="Table of contents">
+  <i class="fas fa-fw fa-list-alt"></i>
+</a>
+    
+  </div>
+</div>
+<div class="card-header ">
+    <h1 class="card-title post-title">Lua
+</h1>
+  </div>
+  <div class="card-body"><div class="post-meta">
+  <span class="post-date" title="创建于 2022-01-01 16:23:06 &#43;0000 UTC。">
+    Jan 2, 2022
+  </span><span class="post-reading-time">
+    2 分钟阅读
+  </span><span class="post-taxonomies"></span>
+</div>
+<div class="post-toc mb-4" id="postTOC">
+  <h2 class="mb-4">目录</h2>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#相关数据结构">相关数据结构</a>
+      <ul>
+        <li><a href="#全局状态机">全局状态机</a></li>
+      </ul>
+    </li>
+    <li><a href="#lua编译器">Lua编译器</a>
+      <ul>
+        <li><a href="#词法分析">词法分析</a></li>
+        <li><a href="#语法分析">语法分析</a></li>
+        <li><a href="#代码生成">代码生成</a></li>
+        <li><a href="#字节码">字节码</a></li>
+      </ul>
+    </li>
+    <li><a href="#lua虚拟机">Lua虚拟机</a></li>
+  </ul>
+</nav>
+</div><div class="post-content mb-3"><h1 id="lua源码分析">Lua源码分析<a class="anchor ms-1" href="#lua源码分析"><i class="fas fa-link"></i></a></h1>
+<h2 id="相关数据结构">相关数据结构<a class="anchor ms-1" href="#相关数据结构"><i class="fas fa-link"></i></a></h2>
+<h3 id="全局状态机">全局状态机<a class="anchor ms-1" href="#全局状态机"><i class="fas fa-link"></i></a></h3>
+<blockquote>
+<p>描述Lua运行状态,同时可以产生一种面向对象的模拟</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="k">struct</span> <span class="n">lua_State</span> <span class="p">{</span>
+<span class="ln"> 2</span>  <span class="n">CommonHeader</span><span class="p">;</span>
+<span class="ln"> 3</span>  <span class="n">lu_byte</span> <span class="n">status</span><span class="p">;</span>
+<span class="ln"> 4</span>  <span class="n">lu_byte</span> <span class="n">allowhook</span><span class="p">;</span>
+<span class="ln"> 5</span>  <span class="kt">unsigned</span> <span class="kt">short</span> <span class="n">nci</span><span class="p">;</span>  <span class="cm">/* number of items in &#39;ci&#39; list */</span>
+<span class="ln"> 6</span>  <span class="n">StkId</span> <span class="n">top</span><span class="p">;</span>  <span class="cm">/* first free slot in the stack */</span>
+<span class="ln"> 7</span>  <span class="n">global_State</span> <span class="o">*</span><span class="n">l_G</span><span class="p">;</span>
+<span class="ln"> 8</span>  <span class="n">CallInfo</span> <span class="o">*</span><span class="n">ci</span><span class="p">;</span>  <span class="cm">/* call info for current function */</span>
+<span class="ln"> 9</span>  <span class="n">StkId</span> <span class="n">stack_last</span><span class="p">;</span>  <span class="cm">/* end of stack (last element + 1) */</span>
+<span class="ln">10</span>  <span class="n">StkId</span> <span class="n">stack</span><span class="p">;</span>  <span class="cm">/* stack base */</span>
+<span class="ln">11</span>  <span class="n">UpVal</span> <span class="o">*</span><span class="n">openupval</span><span class="p">;</span>  <span class="cm">/* list of open upvalues in this stack */</span>
+<span class="ln">12</span>  <span class="n">StkId</span> <span class="n">tbclist</span><span class="p">;</span>  <span class="cm">/* list of to-be-closed variables */</span>
+<span class="ln">13</span>  <span class="n">GCObject</span> <span class="o">*</span><span class="n">gclist</span><span class="p">;</span>
+<span class="ln">14</span>  <span class="k">struct</span> <span class="n">lua_State</span> <span class="o">*</span><span class="n">twups</span><span class="p">;</span>  <span class="cm">/* list of threads with open upvalues */</span>
+<span class="ln">15</span>  <span class="k">struct</span> <span class="n">lua_longjmp</span> <span class="o">*</span><span class="n">errorJmp</span><span class="p">;</span>  <span class="cm">/* current error recover point */</span>
+<span class="ln">16</span>  <span class="n">CallInfo</span> <span class="n">base_ci</span><span class="p">;</span>  <span class="cm">/* CallInfo for first level (C calling Lua) */</span>
+<span class="ln">17</span>  <span class="k">volatile</span> <span class="n">lua_Hook</span> <span class="n">hook</span><span class="p">;</span>
+<span class="ln">18</span>  <span class="n">ptrdiff_t</span> <span class="n">errfunc</span><span class="p">;</span>  <span class="cm">/* current error handling function (stack index) */</span>
+<span class="ln">19</span>  <span class="n">l_uint32</span> <span class="n">nCcalls</span><span class="p">;</span>  <span class="cm">/* number of nested (non-yieldable | C)  calls */</span>
+<span class="ln">20</span>  <span class="kt">int</span> <span class="n">oldpc</span><span class="p">;</span>  <span class="cm">/* last pc traced */</span>
+<span class="ln">21</span>  <span class="kt">int</span> <span class="n">basehookcount</span><span class="p">;</span>
+<span class="ln">22</span>  <span class="kt">int</span> <span class="n">hookcount</span><span class="p">;</span>
+<span class="ln">23</span>  <span class="k">volatile</span> <span class="n">l_signalT</span> <span class="n">hookmask</span><span class="p">;</span>
+<span class="ln">24</span><span class="p">};</span>
+</code></pre></div><p><img class="img-fluid" alt="lua_state" src="https://raw.githubusercontent.com/mengdemao/picture/master/lua_state.png" loading="lazy"
+  
+   />
+
+</p>
+<h2 id="lua编译器">Lua编译器<a class="anchor ms-1" href="#lua编译器"><i class="fas fa-link"></i></a></h2>
+<blockquote>
+<p>lua并没有直接运行源文件,而是将源文件编译成字节码，然后运行字节码
+其中运行编译驱动文件名<code>luac.c</code></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>文件名</th>
+<th>功能</th>
+<th>入口函数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>llex.c</code></td>
+<td>词法分析</td>
+<td><code>luaX_next</code></td>
+</tr>
+<tr>
+<td><code>lparser.c</code></td>
+<td>语法解析</td>
+<td><code>luaY_parser</code></td>
+</tr>
+<tr>
+<td><code>lcode.c</code></td>
+<td>代码生成</td>
+<td><code>luaK_finish</code></td>
+</tr>
+<tr>
+<td><code>ldump.c/lundump.c</code></td>
+<td>字节码</td>
+<td><code>luaU_dump/luaU_undump</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="词法分析">词法分析<a class="anchor ms-1" href="#词法分析"><i class="fas fa-link"></i></a></h3>
+<h4 id="外部接口">外部接口<a class="anchor ms-1" href="#外部接口"><i class="fas fa-link"></i></a></h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln">1</span><span class="c1">// 读取下一个单词
+</span><span class="ln">2</span><span class="c1"></span><span class="kt">void</span> <span class="nf">luaX_next</span> <span class="p">(</span><span class="n">LexState</span> <span class="o">*</span><span class="n">ls</span><span class="p">);</span>
+<span class="ln">3</span>
+<span class="ln">4</span><span class="c1">// 预读下一个单词
+</span><span class="ln">5</span><span class="c1"></span><span class="kt">int</span> <span class="nf">luaX_lookahead</span> <span class="p">(</span><span class="n">LexState</span> <span class="o">*</span><span class="n">ls</span><span class="p">);</span>
+</code></pre></div><h4 id="核心函数">核心函数<a class="anchor ms-1" href="#核心函数"><i class="fas fa-link"></i></a></h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="c1">// 词法分析状态机
+</span><span class="ln"> 2</span><span class="c1"></span><span class="k">typedef</span> <span class="k">struct</span> <span class="n">LexState</span> <span class="p">{</span>
+<span class="ln"> 3</span>  <span class="kt">int</span> <span class="n">current</span><span class="p">;</span>  <span class="cm">/* current character (charint) */</span>
+<span class="ln"> 4</span>  <span class="kt">int</span> <span class="n">linenumber</span><span class="p">;</span>  <span class="cm">/* input line counter */</span>
+<span class="ln"> 5</span>  <span class="kt">int</span> <span class="n">lastline</span><span class="p">;</span>  <span class="cm">/* line of last token &#39;consumed&#39; */</span>
+<span class="ln"> 6</span>  <span class="n">Token</span> <span class="n">t</span><span class="p">;</span>  <span class="cm">/* current token */</span>
+<span class="ln"> 7</span>  <span class="n">Token</span> <span class="n">lookahead</span><span class="p">;</span>  <span class="cm">/* look ahead token */</span>
+<span class="ln"> 8</span>  <span class="k">struct</span> <span class="n">FuncState</span> <span class="o">*</span><span class="n">fs</span><span class="p">;</span>  <span class="cm">/* current function (parser) */</span>
+<span class="ln"> 9</span>  <span class="k">struct</span> <span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">;</span>
+<span class="ln">10</span>  <span class="n">ZIO</span> <span class="o">*</span><span class="n">z</span><span class="p">;</span>  <span class="cm">/* input stream */</span>
+<span class="ln">11</span>  <span class="n">Mbuffer</span> <span class="o">*</span><span class="n">buff</span><span class="p">;</span>  <span class="cm">/* buffer for tokens */</span>
+<span class="ln">12</span>  <span class="n">Table</span> <span class="o">*</span><span class="n">h</span><span class="p">;</span>  <span class="cm">/* to avoid collection/reuse strings */</span>
+<span class="ln">13</span>  <span class="k">struct</span> <span class="n">Dyndata</span> <span class="o">*</span><span class="n">dyd</span><span class="p">;</span>  <span class="cm">/* dynamic structures used by the parser */</span>
+<span class="ln">14</span>  <span class="n">TString</span> <span class="o">*</span><span class="n">source</span><span class="p">;</span>  <span class="cm">/* current source name */</span>
+<span class="ln">15</span>  <span class="n">TString</span> <span class="o">*</span><span class="n">envn</span><span class="p">;</span>  <span class="cm">/* environment variable name */</span>
+<span class="ln">16</span><span class="p">}</span> <span class="n">LexState</span><span class="p">;</span>
+<span class="ln">17</span>
+<span class="ln">18</span><span class="c1">// 语义信息
+</span><span class="ln">19</span><span class="c1"></span><span class="k">typedef</span> <span class="k">union</span> <span class="p">{</span>
+<span class="ln">20</span>  <span class="n">lua_Number</span> <span class="n">r</span><span class="p">;</span>
+<span class="ln">21</span>  <span class="n">lua_Integer</span> <span class="n">i</span><span class="p">;</span>
+<span class="ln">22</span>  <span class="n">TString</span> <span class="o">*</span><span class="n">ts</span><span class="p">;</span>
+<span class="ln">23</span><span class="p">}</span> <span class="n">SemInfo</span><span class="p">;</span>
+<span class="ln">24</span>
+<span class="ln">25</span><span class="kt">int</span> <span class="nf">llex</span> <span class="p">(</span><span class="n">LexState</span> <span class="o">*</span><span class="n">ls</span><span class="p">,</span> <span class="n">SemInfo</span> <span class="o">*</span><span class="n">seminfo</span><span class="p">);</span>
+</code></pre></div><h3 id="语法分析">语法分析<a class="anchor ms-1" href="#语法分析"><i class="fas fa-link"></i></a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="k">typedef</span> <span class="k">struct</span> <span class="n">Proto</span> <span class="p">{</span>
+<span class="ln"> 2</span>  <span class="n">CommonHeader</span><span class="p">;</span>
+<span class="ln"> 3</span>  <span class="n">lu_byte</span> <span class="n">numparams</span><span class="p">;</span>  <span class="cm">/* number of fixed (named) parameters */</span>
+<span class="ln"> 4</span>  <span class="n">lu_byte</span> <span class="n">is_vararg</span><span class="p">;</span>
+<span class="ln"> 5</span>  <span class="n">lu_byte</span> <span class="n">maxstacksize</span><span class="p">;</span>  <span class="cm">/* number of registers needed by this function */</span>
+<span class="ln"> 6</span>  <span class="kt">int</span> <span class="n">sizeupvalues</span><span class="p">;</span>  <span class="cm">/* size of &#39;upvalues&#39; */</span>
+<span class="ln"> 7</span>  <span class="kt">int</span> <span class="n">sizek</span><span class="p">;</span>  <span class="cm">/* size of &#39;k&#39; */</span>
+<span class="ln"> 8</span>  <span class="kt">int</span> <span class="n">sizecode</span><span class="p">;</span>
+<span class="ln"> 9</span>  <span class="kt">int</span> <span class="n">sizelineinfo</span><span class="p">;</span>
+<span class="ln">10</span>  <span class="kt">int</span> <span class="n">sizep</span><span class="p">;</span>  <span class="cm">/* size of &#39;p&#39; */</span>
+<span class="ln">11</span>  <span class="kt">int</span> <span class="n">sizelocvars</span><span class="p">;</span>
+<span class="ln">12</span>  <span class="kt">int</span> <span class="n">sizeabslineinfo</span><span class="p">;</span>  <span class="cm">/* size of &#39;abslineinfo&#39; */</span>
+<span class="ln">13</span>  <span class="kt">int</span> <span class="n">linedefined</span><span class="p">;</span>  <span class="cm">/* debug information  */</span>
+<span class="ln">14</span>  <span class="kt">int</span> <span class="n">lastlinedefined</span><span class="p">;</span>  <span class="cm">/* debug information  */</span>
+<span class="ln">15</span>  <span class="n">TValue</span> <span class="o">*</span><span class="n">k</span><span class="p">;</span>  <span class="cm">/* constants used by the function */</span>
+<span class="ln">16</span>  <span class="n">Instruction</span> <span class="o">*</span><span class="n">code</span><span class="p">;</span>  <span class="cm">/* opcodes */</span>
+<span class="ln">17</span>  <span class="k">struct</span> <span class="n">Proto</span> <span class="o">**</span><span class="n">p</span><span class="p">;</span>  <span class="cm">/* functions defined inside the function */</span>
+<span class="ln">18</span>  <span class="n">Upvaldesc</span> <span class="o">*</span><span class="n">upvalues</span><span class="p">;</span>  <span class="cm">/* upvalue information */</span>
+<span class="ln">19</span>  <span class="n">ls_byte</span> <span class="o">*</span><span class="n">lineinfo</span><span class="p">;</span>  <span class="cm">/* information about source lines (debug information) */</span>
+<span class="ln">20</span>  <span class="n">AbsLineInfo</span> <span class="o">*</span><span class="n">abslineinfo</span><span class="p">;</span>  <span class="cm">/* idem */</span>
+<span class="ln">21</span>  <span class="n">LocVar</span> <span class="o">*</span><span class="n">locvars</span><span class="p">;</span>  <span class="cm">/* information about local variables (debug information) */</span>
+<span class="ln">22</span>  <span class="n">TString</span>  <span class="o">*</span><span class="n">source</span><span class="p">;</span>  <span class="cm">/* used for debug information */</span>
+<span class="ln">23</span>  <span class="n">GCObject</span> <span class="o">*</span><span class="n">gclist</span><span class="p">;</span>
+<span class="ln">24</span><span class="p">}</span> <span class="n">Proto</span><span class="p">;</span>
+<span class="ln">25</span><span class="k">typedef</span> <span class="k">struct</span> <span class="n">LClosure</span> <span class="p">{</span>
+<span class="ln">26</span>  <span class="n">ClosureHeader</span><span class="p">;</span>
+<span class="ln">27</span>  <span class="k">struct</span> <span class="n">Proto</span> <span class="o">*</span><span class="n">p</span><span class="p">;</span>
+<span class="ln">28</span>  <span class="n">UpVal</span> <span class="o">*</span><span class="n">upvals</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>  <span class="cm">/* list of upvalues */</span>
+<span class="ln">29</span><span class="p">}</span> <span class="n">LClosure</span><span class="p">;</span>
+<span class="ln">30</span>
+<span class="ln">31</span><span class="n">LClosure</span> <span class="o">*</span><span class="nf">luaY_parser</span> <span class="p">(</span>
+<span class="ln">32</span>    <span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">,</span> 
+<span class="ln">33</span>    <span class="n">ZIO</span> <span class="o">*</span><span class="n">z</span><span class="p">,</span> 
+<span class="ln">34</span>    <span class="n">Mbuffer</span> <span class="o">*</span><span class="n">buff</span><span class="p">,</span>
+<span class="ln">35</span>    <span class="n">Dyndata</span> <span class="o">*</span><span class="n">dyd</span><span class="p">,</span> 
+<span class="ln">36</span>    <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">name</span><span class="p">,</span> 
+<span class="ln">37</span>    <span class="kt">int</span> <span class="n">firstchar</span><span class="p">);</span>
+</code></pre></div><p><img class="img-fluid" alt="lparser" src="https://raw.githubusercontent.com/mengdemao/picture/master/lparser.png" loading="lazy"
+  
+   />
+
+</p>
+<h3 id="代码生成">代码生成<a class="anchor ms-1" href="#代码生成"><i class="fas fa-link"></i></a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="kt">void</span> <span class="nf">luaK_finish</span> <span class="p">(</span><span class="n">FuncState</span> <span class="o">*</span><span class="n">fs</span><span class="p">)</span> <span class="p">{</span>
+<span class="ln"> 2</span>  <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+<span class="ln"> 3</span>  <span class="n">Proto</span> <span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="n">fs</span><span class="o">-&gt;</span><span class="n">f</span><span class="p">;</span>
+<span class="ln"> 4</span>  <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">fs</span><span class="o">-&gt;</span><span class="n">pc</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+<span class="ln"> 5</span>    <span class="n">Instruction</span> <span class="o">*</span><span class="n">pc</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">code</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="ln"> 6</span>    <span class="n">lua_assert</span><span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">isOT</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">pc</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="o">==</span> <span class="n">isIT</span><span class="p">(</span><span class="o">*</span><span class="n">pc</span><span class="p">));</span>
+<span class="ln"> 7</span>    <span class="k">switch</span> <span class="p">(</span><span class="n">GET_OPCODE</span><span class="p">(</span><span class="o">*</span><span class="n">pc</span><span class="p">))</span> <span class="p">{</span>
+<span class="ln"> 8</span>      <span class="k">case</span> <span class="nl">OP_RETURN0</span><span class="p">:</span> <span class="k">case</span> <span class="nl">OP_RETURN1</span><span class="p">:</span> <span class="p">{</span>
+<span class="ln"> 9</span>        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">fs</span><span class="o">-&gt;</span><span class="n">needclose</span> <span class="o">||</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">is_vararg</span><span class="p">))</span>
+<span class="ln">10</span>          <span class="k">break</span><span class="p">;</span>  <span class="cm">/* no extra work */</span>
+<span class="ln">11</span>        <span class="cm">/* else use OP_RETURN to do the extra work */</span>
+<span class="ln">12</span>        <span class="n">SET_OPCODE</span><span class="p">(</span><span class="o">*</span><span class="n">pc</span><span class="p">,</span> <span class="n">OP_RETURN</span><span class="p">);</span>
+<span class="ln">13</span>      <span class="p">}</span>  <span class="cm">/* FALLTHROUGH */</span>
+<span class="ln">14</span>      <span class="k">case</span> <span class="nl">OP_RETURN</span><span class="p">:</span> <span class="k">case</span> <span class="nl">OP_TAILCALL</span><span class="p">:</span> <span class="p">{</span>
+<span class="ln">15</span>        <span class="k">if</span> <span class="p">(</span><span class="n">fs</span><span class="o">-&gt;</span><span class="n">needclose</span><span class="p">)</span>
+<span class="ln">16</span>          <span class="n">SETARG_k</span><span class="p">(</span><span class="o">*</span><span class="n">pc</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>  <span class="cm">/* signal that it needs to close */</span>
+<span class="ln">17</span>        <span class="k">if</span> <span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">is_vararg</span><span class="p">)</span>
+<span class="ln">18</span>          <span class="n">SETARG_C</span><span class="p">(</span><span class="o">*</span><span class="n">pc</span><span class="p">,</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">numparams</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>  <span class="cm">/* signal that it is vararg */</span>
+<span class="ln">19</span>        <span class="k">break</span><span class="p">;</span>
+<span class="ln">20</span>      <span class="p">}</span>
+<span class="ln">21</span>      <span class="k">case</span> <span class="nl">OP_JMP</span><span class="p">:</span> <span class="p">{</span>
+<span class="ln">22</span>        <span class="kt">int</span> <span class="n">target</span> <span class="o">=</span> <span class="n">finaltarget</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">code</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
+<span class="ln">23</span>        <span class="n">fixjump</span><span class="p">(</span><span class="n">fs</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">target</span><span class="p">);</span>
+<span class="ln">24</span>        <span class="k">break</span><span class="p">;</span>
+<span class="ln">25</span>      <span class="p">}</span>
+<span class="ln">26</span>      <span class="k">default</span><span class="o">:</span> <span class="k">break</span><span class="p">;</span>
+<span class="ln">27</span>    <span class="p">}</span>
+<span class="ln">28</span>  <span class="p">}</span>
+<span class="ln">29</span><span class="p">}</span>
+</code></pre></div><h3 id="字节码">字节码<a class="anchor ms-1" href="#字节码"><i class="fas fa-link"></i></a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="kt">int</span> <span class="nf">luaU_dump</span><span class="p">(</span><span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">,</span> <span class="k">const</span> <span class="n">Proto</span> <span class="o">*</span><span class="n">f</span><span class="p">,</span> <span class="n">lua_Writer</span> <span class="n">w</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">data</span><span class="p">,</span>
+<span class="ln"> 2</span>              <span class="kt">int</span> <span class="n">strip</span><span class="p">)</span> <span class="p">{</span>
+<span class="ln"> 3</span>  <span class="n">DumpState</span> <span class="n">D</span><span class="p">;</span>
+<span class="ln"> 4</span>  <span class="n">D</span><span class="p">.</span><span class="n">L</span> <span class="o">=</span> <span class="n">L</span><span class="p">;</span>
+<span class="ln"> 5</span>  <span class="n">D</span><span class="p">.</span><span class="n">writer</span> <span class="o">=</span> <span class="n">w</span><span class="p">;</span>
+<span class="ln"> 6</span>  <span class="n">D</span><span class="p">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">;</span>
+<span class="ln"> 7</span>  <span class="n">D</span><span class="p">.</span><span class="n">strip</span> <span class="o">=</span> <span class="n">strip</span><span class="p">;</span>
+<span class="ln"> 8</span>  <span class="n">D</span><span class="p">.</span><span class="n">status</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="ln"> 9</span>  <span class="n">dumpHeader</span><span class="p">(</span><span class="o">&amp;</span><span class="n">D</span><span class="p">);</span>
+<span class="ln">10</span>  <span class="n">dumpByte</span><span class="p">(</span><span class="o">&amp;</span><span class="n">D</span><span class="p">,</span> <span class="n">f</span><span class="o">-&gt;</span><span class="n">sizeupvalues</span><span class="p">);</span>
+<span class="ln">11</span>  <span class="n">dumpFunction</span><span class="p">(</span><span class="o">&amp;</span><span class="n">D</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+<span class="ln">12</span>  <span class="k">return</span> <span class="n">D</span><span class="p">.</span><span class="n">status</span><span class="p">;</span>
+<span class="ln">13</span><span class="p">}</span>
+<span class="ln">14</span><span class="n">LClosure</span> <span class="o">*</span><span class="nf">luaU_undump</span><span class="p">(</span><span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">,</span> <span class="n">ZIO</span> <span class="o">*</span><span class="n">Z</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">name</span><span class="p">)</span> <span class="p">{</span>
+<span class="ln">15</span>  <span class="n">LoadState</span> <span class="n">S</span><span class="p">;</span>
+<span class="ln">16</span>  <span class="n">LClosure</span> <span class="o">*</span><span class="n">cl</span><span class="p">;</span>
+<span class="ln">17</span>  <span class="k">if</span> <span class="p">(</span><span class="o">*</span><span class="n">name</span> <span class="o">==</span> <span class="sc">&#39;@&#39;</span> <span class="o">||</span> <span class="o">*</span><span class="n">name</span> <span class="o">==</span> <span class="sc">&#39;=&#39;</span><span class="p">)</span>
+<span class="ln">18</span>    <span class="n">S</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+<span class="ln">19</span>  <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="o">*</span><span class="n">name</span> <span class="o">==</span> <span class="n">LUA_SIGNATURE</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="ln">20</span>    <span class="n">S</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">&#34;binary string&#34;</span><span class="p">;</span>
+<span class="ln">21</span>  <span class="k">else</span>
+<span class="ln">22</span>    <span class="n">S</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="p">;</span>
+<span class="ln">23</span>  <span class="n">S</span><span class="p">.</span><span class="n">L</span> <span class="o">=</span> <span class="n">L</span><span class="p">;</span>
+<span class="ln">24</span>  <span class="n">S</span><span class="p">.</span><span class="n">Z</span> <span class="o">=</span> <span class="n">Z</span><span class="p">;</span>
+<span class="ln">25</span>  <span class="n">checkHeader</span><span class="p">(</span><span class="o">&amp;</span><span class="n">S</span><span class="p">);</span>
+<span class="ln">26</span>  <span class="n">cl</span> <span class="o">=</span> <span class="n">luaF_newLclosure</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">loadByte</span><span class="p">(</span><span class="o">&amp;</span><span class="n">S</span><span class="p">));</span>
+<span class="ln">27</span>  <span class="n">setclLvalue2s</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">L</span><span class="o">-&gt;</span><span class="n">top</span><span class="p">,</span> <span class="n">cl</span><span class="p">);</span>
+<span class="ln">28</span>  <span class="n">luaD_inctop</span><span class="p">(</span><span class="n">L</span><span class="p">);</span>
+<span class="ln">29</span>  <span class="n">cl</span><span class="o">-&gt;</span><span class="n">p</span> <span class="o">=</span> <span class="n">luaF_newproto</span><span class="p">(</span><span class="n">L</span><span class="p">);</span>
+<span class="ln">30</span>  <span class="n">luaC_objbarrier</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">cl</span><span class="p">,</span> <span class="n">cl</span><span class="o">-&gt;</span><span class="n">p</span><span class="p">);</span>
+<span class="ln">31</span>  <span class="n">loadFunction</span><span class="p">(</span><span class="o">&amp;</span><span class="n">S</span><span class="p">,</span> <span class="n">cl</span><span class="o">-&gt;</span><span class="n">p</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+<span class="ln">32</span>  <span class="n">lua_assert</span><span class="p">(</span><span class="n">cl</span><span class="o">-&gt;</span><span class="n">nupvalues</span> <span class="o">==</span> <span class="n">cl</span><span class="o">-&gt;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">sizeupvalues</span><span class="p">);</span>
+<span class="ln">33</span>  <span class="n">luai_verifycode</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">cl</span><span class="o">-&gt;</span><span class="n">p</span><span class="p">);</span>
+<span class="ln">34</span>  <span class="k">return</span> <span class="n">cl</span><span class="p">;</span>
+<span class="ln">35</span><span class="p">}</span>
+</code></pre></div><h2 id="lua虚拟机">Lua虚拟机<a class="anchor ms-1" href="#lua虚拟机"><i class="fas fa-link"></i></a></h2>
+</div><div class="modal fade" id="rewardModal" tabindex="-1" aria-labelledby="rewardModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content surface">
+      <div class="modal-header">
+        <h5 class="modal-title" id="rewardModalLabel"><i class="fas fa-fw fa-coffee"></i>打赏</h5>
+        <a href="#" data-bs-dismiss="modal" class="btn btn-sm btn-outline-primary" aria-label="Close"><i class="fas fa-times"></i></a>
+      </div>
+      <div class="modal-body">
+        <ul class="nav nav-tabs mb-3" role="tablist"><li class="nav-item text-nowrap" role="presentation">
+            <a class="nav-link active" id="reward-alipay-tab" data-bs-toggle="tab" href="#reward-alipay" role="tab" aria-controls="reward-alipay" aria-selected="true">
+              <i class="fab fa-fw fa-alipay"></i>支付宝
+            </a>
+          </li><li class="nav-item text-nowrap" role="presentation">
+            <a class="nav-link" id="reward-wechat-tab" data-bs-toggle="tab" href="#reward-wechat" role="tab" aria-controls="reward-wechat" aria-selected="true">
+              <i class="fab fa-fw fa-weixin"></i>微信
+            </a>
+          </li></ul>
+        <div class="tab-content" id="rewardTabContent"><div class="tab-pane fade post-reward-content show active" id="reward-alipay" role="tabpanel" aria-labelledby="reward-alipay-tab">
+            <img class="img-fluid post-reward-img" src="https://mengdemao.github.io/images/reward/alipay.png" loading="lazy" />
+          </div><div class="tab-pane fade post-reward-content show" id="reward-wechat" role="tabpanel" aria-labelledby="reward-wechat-tab">
+            <img class="img-fluid post-reward-img" src="https://mengdemao.github.io/images/reward/wechat.png" loading="lazy" />
+          </div></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="post-copyright mb-3" id="post-copyright">
+    <h2 class="mb-4">版权</h2><a class="d-flex align-items-center flex-column" target="_blank" rel="license noopener noreferrer" href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh">
+  <span><i class="fab fa-fw fa-2x fa-creative-commons"></i><i class="fab fa-fw fa-2x fa-creative-commons-by"></i><i class="fab fa-fw fa-2x fa-creative-commons-nc"></i><i class="fab fa-fw fa-2x fa-creative-commons-nd"></i></span>
+  CC BY-NC-ND 4.0 
+</a>
+
+
+</div>
+</div>
+  <div class="card-footer"><div class="post-navs d-flex justify-content-evenly">
+  <div class="post-nav post-prev"><i class="fas fa-fw fa-chevron-left"></i>
+    <a href="https://mengdemao.github.io/posts/complete/">Complete
+</a>
+  </div></div></div>
+</article></div>
+</div><aside class="col-lg-4 sidebar d-flex">
+  <div class="container">
+    
+    <section class="card row text-center profile component">
+  <div class="card-body">
+    <div class="col-12 d-flex align-items-center justify-content-center"><img class="profile-avatar rounded-circle" alt="MengDemao" src="https://mengdemao.github.io/images/profile.webp" loading="lazy"
+   width="400" height="400"
+   />
+</div>
+    <div class="col-12 profile-meta"><div class="profile-name">MengDemao</div><div class="profile-bio">面向玄学编程</div><div class="profile-company"><i class="fas fa-fw fa-building"></i>Company</div><div class="profile-location"><i class="fas fa-fw fa-map-marker-alt"></i>Earth</div><div class="profile-about"><i class="fas fa-fw fa-user"></i><a href="https://mengdemao.github.io/about/">About</a></div></div>
+  </div>
+</section>
+  <section class="recent-posts row card component">
+  <div class="card-header">
+    <h2 class="card-title">最近文章</h2>
+  </div>
+  <div class="card-body">
+    <ul class="post-list"><li>
+        <a href="https://mengdemao.github.io/posts/lua/">Lua
+</a>
+      </li><li>
+        <a href="https://mengdemao.github.io/posts/complete/">Complete
+</a>
+      </li><li>
+        <a href="https://mengdemao.github.io/posts/schedulepriority/">调度优先级
+</a>
+      </li><li>
+        <a href="https://mengdemao.github.io/posts/dwl/">Dwl
+</a>
+      </li><li>
+        <a href="https://mengdemao.github.io/posts/tinycc/">Tinycc
+</a>
+      </li></ul>
+  </div>
+</section><section class="taxonomies row card component">
+      <div class="card-header">
+        <h2 class="card-title">
+          <a href="https://mengdemao.github.io/categories">分类</a>
+        </h2>
+      </div>
+      <div class="card-body">
+        <div class="py-2"><a href="https://mengdemao.github.io/categories/linux/" class="badge rounded post-taxonomy" title="linux">
+            linux</a><a href="https://mengdemao.github.io/categories/python/" class="badge rounded post-taxonomy" title="python">
+            python</a></div>
+      </div>
+    </section><section class="taxonomies row card component">
+      <div class="card-header">
+        <h2 class="card-title">
+          <a href="https://mengdemao.github.io/tags">标签</a>
+        </h2>
+      </div>
+      <div class="card-body">
+        <div class="py-2"><a href="https://mengdemao.github.io/tags/kernel/" class="badge rounded post-taxonomy" title="kernel">
+            kernel</a><a href="https://mengdemao.github.io/tags/compiler/" class="badge rounded post-taxonomy" title="compiler">
+            compiler</a><a href="https://mengdemao.github.io/tags/nfs/" class="badge rounded post-taxonomy" title="nfs">
+            nfs</a><a href="https://mengdemao.github.io/tags/%E6%8A%80%E5%B7%A7/" class="badge rounded post-taxonomy" title="技巧">
+            技巧</a><a href="https://mengdemao.github.io/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" class="badge rounded post-taxonomy" title="编译原理">
+            编译原理</a></div>
+      </div>
+    </section>
+    
+  </div>
+</aside>
+</div>
+    </main><footer class="footer mt-auto py-3 text-center container"><nav class="social-links nav justify-content-center mb-2"></nav>
+<div class="copyright mb-2">
+  Copyright © 2020-2022 Meng Demao. All Rights Reserved.
+</div>
+<div class="powered-by mb-2">
+  Powered by <a href="https://gohugo.io" target="_blank" rel="noopener noreferrer">Hugo</a> and the <a href="https://github.com/razonyang/hugo-theme-bootstrap" target="_blank" rel="noopener noreferrer">Bootstrap</a> theme.
+</div></footer>
+<script src="https://mengdemao.github.io/js/main.min.7a0fc1a2bad50fa8cc99a4167ed69f60432d32e534e18e93fc8d8b4467e86d88.js" integrity="sha256-eg/BorrVD6jMmaQWftafYEMtMuU04Y6T/I2LRGfobYg=" crossorigin="anonymous" defer></script><script src="https://mengdemao.github.io/js/icons.min.a35670f2f90c398e5ee5c8e509b428fae75aa2746854cee10b60794633076859.js" integrity="sha256-o1Zw8vkMOY5e5cjlCbQo&#43;udaonRoVM7hC2B5RjMHaFk=" crossorigin="anonymous" defer></script>
+<script src="https://mengdemao.github.io/js/viewer.min.4dba52a0a790f909408b7385316651299158381686401d50ff1f04dda6476473.js" integrity="sha256-TbpSoKeQ&#43;QlAi3OFMWZRKZFYOBaGQB1Q/x8E3aZHZHM=" crossorigin="anonymous" defer></script>
+</body>
+</html>

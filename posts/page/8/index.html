@@ -171,6 +171,24 @@
   </div>
 </nav><div class="posts mb-4"><article class="row card post component"><div class="card-header">
         <h2 class="card-title post-title">
+          <a href="https://mengdemao.github.io/posts/page_allocator/">Page_allocator
+</a>
+        </h2>
+      </div>
+      <div class="card-body">
+        <div class="post-meta">
+  <span class="post-date" title="创建于 2021-05-09 08:03:16 &#43;0000 UTC。">
+    May 9, 2021
+  </span><span class="post-reading-time">
+    2 分钟阅读
+  </span><span class="post-taxonomies"></span>
+</div>
+<div class="post-summary">
+          页面分配器 核心函数: __alloc_pages_nodemask gfp_mask : 分配掩码 order : 分配阶数 preferred_nid nodemask 核心函数 1struct page *__alloc_pages_nodemask(gfp_t gfp_mask, unsigned int order, int preferred_nid, nodemask_t *nodemask) 2{ 3 struct page *page; // 分配变量 4 unsigned int alloc_flags = ALLOC_WMARK_LOW; // 分配标志 5 gfp_t alloc_mask; // 真实分配掩
+        </div>
+      </div>
+    </article><article class="row card post component"><div class="card-header">
+        <h2 class="card-title post-title">
           <a href="https://mengdemao.github.io/posts/wait_queue/">Linux等待队列实现
 </a>
         </h2>
@@ -291,6 +309,9 @@
   </div>
   <div class="card-body">
     <ul class="post-list"><li>
+        <a href="https://mengdemao.github.io/posts/lua/">Lua
+</a>
+      </li><li>
         <a href="https://mengdemao.github.io/posts/complete/">Complete
 </a>
       </li><li>
@@ -301,9 +322,6 @@
 </a>
       </li><li>
         <a href="https://mengdemao.github.io/posts/tinycc/">Tinycc
-</a>
-      </li><li>
-        <a href="https://mengdemao.github.io/posts/server/">Server
 </a>
       </li></ul>
   </div>
