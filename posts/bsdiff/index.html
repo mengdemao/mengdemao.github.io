@@ -1,4 +1,4 @@
-<!doctype html><html lang="zh-cn"
+<!doctype html><html lang="zh-cn" data-palette="brown"
   >
   <head>
     <meta charset="utf-8">
@@ -9,7 +9,7 @@
 <link rel="icon" href="https://mengdemao.github.io/images/icons/favicon.ico">
 <link rel="manifest" href="https://mengdemao.github.io/manifest.json">
 <meta name="keywords" content="" />
-<meta name="description" content="" /><meta itemprop="name" content="Bsdiff">
+<meta name="description" content="bsdiff bsdiff and bspatch are tools for building and applying patches to binary files. By using suffix &gt; sorting (specifically, Larsson and Sadakane&rsquo;s qsufsort) and taking advantage of how executable files change, bsdiff routinely produces binary patches 50-80% smaller than those produced by Xdelta, and 15% smaller than those produced by .RTPatch (a $2750/seat commercial patch tool) &ndash; 直接摘抄自官网 详情可以查" /><meta itemprop="name" content="Bsdiff">
 <meta itemprop="description" content="bsdiff bsdiff and bspatch are tools for building and applying patches to binary files. By using suffix &gt; sorting (specifically, Larsson and Sadakane&rsquo;s qsufsort) and taking advantage of how executable files change, bsdiff routinely produces binary patches 50-80% smaller than those produced by Xdelta, and 15% smaller than those produced by .RTPatch (a $2750/seat commercial patch tool) &ndash; 直接摘抄自官网 详情可以查"><meta itemprop="datePublished" content="2021-10-30T17:24:30+08:00" />
 <meta itemprop="dateModified" content="2021-10-30T17:24:30+08:00" />
 <meta itemprop="wordCount" content="1797">
@@ -23,13 +23,13 @@
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Bsdiff"/>
 <meta name="twitter:description" content="bsdiff bsdiff and bspatch are tools for building and applying patches to binary files. By using suffix &gt; sorting (specifically, Larsson and Sadakane&rsquo;s qsufsort) and taking advantage of how executable files change, bsdiff routinely produces binary patches 50-80% smaller than those produced by Xdelta, and 15% smaller than those produced by .RTPatch (a $2750/seat commercial patch tool) &ndash; 直接摘抄自官网 详情可以查"/>
-<link rel="stylesheet" href="https://mengdemao.github.io/css/main.min.702127d58e0a5778490e24163ec0ec8d40cfe62780936bf8b19b4c8ab0bc3ed8.css" integrity="sha256-cCEn1Y4KV3hJDiQWPsDsjUDP5ieAk2v4sZtMirC8Ptg=" crossorigin="anonymous"><link rel="stylesheet" href="https://mengdemao.github.io/css/viewer.min.3d228794bcedbbfa0412beb8fbc1ec6973202945e42af7004f742a4d7bd620ab.css" integrity="sha256-PSKHlLztu/oEEr64&#43;8HsaXMgKUXkKvcAT3QqTXvWIKs=" crossorigin="anonymous"></head>
+<link rel="stylesheet" href="https://mengdemao.github.io/css/main.min.b7a6eda8d46e39a549f182cf72a9ff4f4c1d4d82c31ecc3ede0b7f4d5b26f32b.css" integrity="sha256-t6btqNRuOaVJ8YLPcqn/T0wdTYLDHsw&#43;3gt/TVsm8ys=" crossorigin="anonymous"><link rel="stylesheet" href="https://mengdemao.github.io/css/viewer.min.3d228794bcedbbfa0412beb8fbc1ec6973202945e42af7004f742a4d7bd620ab.css" integrity="sha256-PSKHlLztu/oEEr64&#43;8HsaXMgKUXkKvcAT3QqTXvWIKs=" crossorigin="anonymous"></head>
   <body><script>const items=['mode','palette'];items.forEach(function(a){const b=localStorage.getItem('hbs-'+a);b&&document.body.parentElement.setAttribute('data-'+a,b)})</script><header><nav class="navbar top-app-bar top-app-bar-expand-lg fixed-top">
   <div class="container">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <i class="fas fa-bars"></i>
-    </button><a class="navbar-brand me-3" href="https://mengdemao.github.io/"><img class="logo" alt="Logo" src="https://mengdemao.github.io/images/logo.webp" loading="lazy"
+    </button><a class="navbar-brand flex-grow-1 flex-lg-grow-0 text-center text-lg-start mx-auto me-lg-3" href="https://mengdemao.github.io/"><img class="logo" alt="Logo" src="https://mengdemao.github.io/images/logo.webp" loading="lazy"
    width="136" height="69"
    />
 编程日志
@@ -111,6 +111,9 @@
       </button></div>
 </section>
 <section class="setting actions d-flex justify-content-around mt-auto overflow-auto">
+  <a role="button" class="action action-go-back" href="javascript: window.history.back();">
+    <span class="action-icon"><i class="fas fa-2x fa-arrow-left"></i></span> 返回
+  </a>
   <a role="button" class="action action-reload-page">
     <span class="action-icon"><i class="fas fa-2x fa-redo-alt"></i></span> 刷新
   </a>
@@ -174,7 +177,7 @@
   <div class="card-body">
     <ol class="breadcrumb "><li class="breadcrumb-item"><a href="https://mengdemao.github.io/">主页</a></li><li class="breadcrumb-item"><a href="https://mengdemao.github.io/posts/">文章</a></li><li class="breadcrumb-item active">Bsdiff</li></ol>
   </div>
-</nav><article class="row card component mb-4 post"><div class="post-panel-wrapper">
+</nav><div class="post-panel-wrapper">
   <div class="d-flex flex-column component rounded post-panel">
     
     <a class="action action-panel-toggler" role="button" title="Panel toggler">
@@ -197,7 +200,8 @@
     
   </div>
 </div>
-<div class="card-header ">
+<article class="row card component mb-4 post">
+  <div class="card-header ">
     <h1 class="card-title post-title">Bsdiff
 </h1>
   </div>
@@ -208,24 +212,7 @@
     4 分钟阅读
   </span><span class="post-taxonomies"></span>
 </div>
-<div class="post-toc mb-4" id="postTOC">
-  <h2 class="mb-4">目录</h2>
-  <nav id="TableOfContents">
-  <ul>
-    <li><a href="#测试">测试</a></li>
-    <li><a href="#分析">分析</a>
-      <ul>
-        <li><a href="#接口分析">接口分析</a></li>
-        <li><a href="#diff算法核心">diff算法核心</a></li>
-        <li><a href="#代码分析">代码分析</a></li>
-        <li><a href="#patch代码分析">patch代码分析</a></li>
-        <li><a href="#writedata">writedata</a></li>
-        <li><a href="#diff文件生成核心代码">diff文件生成核心代码</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
-</div><div class="post-content mb-3"><h1 id="bsdiff">bsdiff<a class="anchor ms-1" href="#bsdiff"><i class="fas fa-link"></i></a></h1>
+<div class="post-content mb-3"><h1 id="bsdiff">bsdiff<a class="anchor ms-1" href="#bsdiff"><i class="fas fa-link"></i></a></h1>
 <blockquote>
 <p>bsdiff and bspatch are tools for building and applying patches to binary files. By using suffix &gt;  sorting (specifically, Larsson and Sadakane&rsquo;s qsufsort) and taking advantage of how
 executable files change, bsdiff routinely produces binary patches 50-80% smaller than
@@ -747,16 +734,7 @@ commercial patch tool) &ndash; 直接摘抄自官网</p>
 <span class="ln">113</span>
 <span class="ln">114</span>	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="ln">115</span><span class="p">}</span>
-</code></pre></div></div>
-<div class="post-copyright mb-3" id="post-copyright">
-    <h2 class="mb-4">版权</h2><a class="d-flex align-items-center flex-column" target="_blank" rel="license noopener noreferrer" href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh">
-  <span><i class="fab fa-fw fa-2x fa-creative-commons"></i><i class="fab fa-fw fa-2x fa-creative-commons-by"></i><i class="fab fa-fw fa-2x fa-creative-commons-nc"></i><i class="fab fa-fw fa-2x fa-creative-commons-nd"></i></span>
-  CC BY-NC-ND 4.0 
-</a>
-
-
-</div>
-</div>
+</code></pre></div></div></div>
   <div class="card-footer"><div class="post-navs d-flex justify-content-evenly">
   <div class="post-nav post-prev"><i class="fas fa-fw fa-chevron-left"></i>
     <a href="https://mengdemao.github.io/posts/arm/">Arm
@@ -766,9 +744,20 @@ commercial patch tool) &ndash; 直接摘抄自官网</p>
 </a>
     <i class="fas fa-fw fa-chevron-right"></i>
   </div></div></div>
-</article></div>
+</article><div class="post-copyright mb-3 row card component" id="post-copyright">
+    <div class="card-header">
+        <h2 class="card-title">版权</h2>
+    </div>
+    <div class="card-body"><a class="d-flex align-items-center flex-column" target="_blank" rel="license noopener noreferrer" href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh">
+  <span><i class="fab fa-fw fa-2x fa-creative-commons"></i><i class="fab fa-fw fa-2x fa-creative-commons-by"></i><i class="fab fa-fw fa-2x fa-creative-commons-nc"></i><i class="fab fa-fw fa-2x fa-creative-commons-nd"></i></span>
+  CC BY-NC-ND 4.0 
+</a>
+
+
+    </div>
+</div></div>
 </div><aside class="col-lg-4 sidebar d-flex">
-  <div class="container">
+  <div class="container d-flex flex-column">
     
     <section class="card row text-center profile component">
   <div class="card-body">
@@ -779,12 +768,36 @@ commercial patch tool) &ndash; 直接摘抄自官网</p>
     <div class="col-12 profile-meta"><div class="profile-name">MengDemao</div><div class="profile-bio">面向玄学编程</div><div class="profile-company"><i class="fas fa-fw fa-building"></i>Company</div><div class="profile-location"><i class="fas fa-fw fa-map-marker-alt"></i>Earth</div><div class="profile-about"><i class="fas fa-fw fa-user"></i><a href="https://mengdemao.github.io/about/">About</a></div></div>
   </div>
 </section>
-  <section class="recent-posts row card component">
+  <div class="post-toc row mb-4 card component" id="postTOC">
+  <div class="card-header">
+    <h2 class="card-title">目录</h2>
+  </div>
+  <div class="card-body">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#测试">测试</a></li>
+    <li><a href="#分析">分析</a>
+      <ul>
+        <li><a href="#接口分析">接口分析</a></li>
+        <li><a href="#diff算法核心">diff算法核心</a></li>
+        <li><a href="#代码分析">代码分析</a></li>
+        <li><a href="#patch代码分析">patch代码分析</a></li>
+        <li><a href="#writedata">writedata</a></li>
+        <li><a href="#diff文件生成核心代码">diff文件生成核心代码</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div><section class="recent-posts row card component">
   <div class="card-header">
     <h2 class="card-title">最近文章</h2>
   </div>
   <div class="card-body">
     <ul class="post-list"><li>
+        <a href="https://mengdemao.github.io/posts/c4/">C4
+</a>
+      </li><li>
         <a href="https://mengdemao.github.io/posts/lua/">Lua
 </a>
       </li><li>
@@ -796,12 +809,9 @@ commercial patch tool) &ndash; 直接摘抄自官网</p>
       </li><li>
         <a href="https://mengdemao.github.io/posts/dwl/">Dwl
 </a>
-      </li><li>
-        <a href="https://mengdemao.github.io/posts/tinycc/">Tinycc
-</a>
       </li></ul>
   </div>
-</section><section class="taxonomies row card component">
+</section><section class="categories-taxonomies row card component">
       <div class="card-header">
         <h2 class="card-title">
           <a href="https://mengdemao.github.io/categories">分类</a>
@@ -809,10 +819,11 @@ commercial patch tool) &ndash; 直接摘抄自官网</p>
       </div>
       <div class="card-body">
         <div class="py-2"><a href="https://mengdemao.github.io/categories/linux/" class="badge rounded post-taxonomy" title="linux">
-            linux</a><a href="https://mengdemao.github.io/categories/python/" class="badge rounded post-taxonomy" title="python">
+            linux</a><a href="https://mengdemao.github.io/categories/compiler/" class="badge rounded post-taxonomy" title="compiler">
+            compiler</a><a href="https://mengdemao.github.io/categories/python/" class="badge rounded post-taxonomy" title="python">
             python</a></div>
       </div>
-    </section><section class="taxonomies row card component">
+    </section><section class="tags-taxonomies row card component">
       <div class="card-header">
         <h2 class="card-title">
           <a href="https://mengdemao.github.io/tags">标签</a>
@@ -838,7 +849,7 @@ commercial patch tool) &ndash; 直接摘抄自官网</p>
 <div class="powered-by mb-2">
   Powered by <a href="https://gohugo.io" target="_blank" rel="noopener noreferrer">Hugo</a> and the <a href="https://github.com/razonyang/hugo-theme-bootstrap" target="_blank" rel="noopener noreferrer">Bootstrap</a> theme.
 </div></footer>
-<script src="https://mengdemao.github.io/js/main.min.7a0fc1a2bad50fa8cc99a4167ed69f60432d32e534e18e93fc8d8b4467e86d88.js" integrity="sha256-eg/BorrVD6jMmaQWftafYEMtMuU04Y6T/I2LRGfobYg=" crossorigin="anonymous" defer></script><script src="https://mengdemao.github.io/js/icons.min.a35670f2f90c398e5ee5c8e509b428fae75aa2746854cee10b60794633076859.js" integrity="sha256-o1Zw8vkMOY5e5cjlCbQo&#43;udaonRoVM7hC2B5RjMHaFk=" crossorigin="anonymous" defer></script>
+<script src="https://mengdemao.github.io/js/main.be6547dee74694dd4e7524da0db563884d2e85a402de8ea437fde7d196714836.js" integrity="sha256-vmVH3udGlN1OdSTaDbVjiE0uhaQC3o6kN/3n0ZZxSDY=" crossorigin="anonymous" defer></script><script src="https://mengdemao.github.io/js/icons.min.a35670f2f90c398e5ee5c8e509b428fae75aa2746854cee10b60794633076859.js" integrity="sha256-o1Zw8vkMOY5e5cjlCbQo&#43;udaonRoVM7hC2B5RjMHaFk=" crossorigin="anonymous" defer></script>
 <script src="https://mengdemao.github.io/js/viewer.min.4dba52a0a790f909408b7385316651299158381686401d50ff1f04dda6476473.js" integrity="sha256-TbpSoKeQ&#43;QlAi3OFMWZRKZFYOBaGQB1Q/x8E3aZHZHM=" crossorigin="anonymous" defer></script>
 </body>
 </html>

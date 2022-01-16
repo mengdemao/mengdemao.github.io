@@ -1,4 +1,4 @@
-<!doctype html><html lang="zh-cn"
+<!doctype html><html lang="zh-cn" data-palette="brown"
   >
   <head>
 	<meta name="generator" content="Hugo 0.88.0" />
@@ -19,13 +19,13 @@
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="编程日志"/>
 <meta name="twitter:description" content="编程日志"/>
-<link rel="alternate" type="application/rss+xml" href="https://mengdemao.github.io/index.xml" title="编程日志" /><link rel="stylesheet" href="https://mengdemao.github.io/css/main.min.702127d58e0a5778490e24163ec0ec8d40cfe62780936bf8b19b4c8ab0bc3ed8.css" integrity="sha256-cCEn1Y4KV3hJDiQWPsDsjUDP5ieAk2v4sZtMirC8Ptg=" crossorigin="anonymous"><link rel="stylesheet" href="https://mengdemao.github.io/css/viewer.min.3d228794bcedbbfa0412beb8fbc1ec6973202945e42af7004f742a4d7bd620ab.css" integrity="sha256-PSKHlLztu/oEEr64&#43;8HsaXMgKUXkKvcAT3QqTXvWIKs=" crossorigin="anonymous"></head>
+<link rel="alternate" type="application/rss+xml" href="https://mengdemao.github.io/index.xml" title="编程日志" /><link rel="stylesheet" href="https://mengdemao.github.io/css/main.min.b7a6eda8d46e39a549f182cf72a9ff4f4c1d4d82c31ecc3ede0b7f4d5b26f32b.css" integrity="sha256-t6btqNRuOaVJ8YLPcqn/T0wdTYLDHsw&#43;3gt/TVsm8ys=" crossorigin="anonymous"><link rel="stylesheet" href="https://mengdemao.github.io/css/viewer.min.3d228794bcedbbfa0412beb8fbc1ec6973202945e42af7004f742a4d7bd620ab.css" integrity="sha256-PSKHlLztu/oEEr64&#43;8HsaXMgKUXkKvcAT3QqTXvWIKs=" crossorigin="anonymous"></head>
   <body><script>const items=['mode','palette'];items.forEach(function(a){const b=localStorage.getItem('hbs-'+a);b&&document.body.parentElement.setAttribute('data-'+a,b)})</script><header><nav class="navbar top-app-bar top-app-bar-expand-lg fixed-top">
   <div class="container">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <i class="fas fa-bars"></i>
-    </button><a class="navbar-brand me-3 active" href="https://mengdemao.github.io/"><img class="logo" alt="Logo" src="https://mengdemao.github.io/images/logo.webp" loading="lazy"
+    </button><a class="navbar-brand flex-grow-1 flex-lg-grow-0 text-center text-lg-start mx-auto me-lg-3 active" href="https://mengdemao.github.io/"><img class="logo" alt="Logo" src="https://mengdemao.github.io/images/logo.webp" loading="lazy"
    width="136" height="69"
    />
 编程日志
@@ -107,6 +107,9 @@
       </button></div>
 </section>
 <section class="setting actions d-flex justify-content-around mt-auto overflow-auto">
+  <a role="button" class="action action-go-back" href="javascript: window.history.back();">
+    <span class="action-icon"><i class="fas fa-2x fa-arrow-left"></i></span> 返回
+  </a>
   <a role="button" class="action action-reload-page">
     <span class="action-icon"><i class="fas fa-2x fa-redo-alt"></i></span> 刷新
   </a>
@@ -167,31 +170,62 @@
       <div class="row content">
 <div class="col-lg-8">
   <div class="container"><div class="posts mb-4"><article class="row card post component"><div class="card-header">
-        <h2 class="card-title post-title">
-          <a href="https://mengdemao.github.io/posts/tkinter/">Tkinter
+    <h2 class="card-title post-title">
+      <a href="https://mengdemao.github.io/posts/fair/">Fair
 </a>
-        </h2>
-      </div>
-      <div class="card-body">
-        <div class="post-meta">
+    </h2>
+  </div>
+  <div class="card-body">
+    <div class="post-meta">
+  <span class="post-date" title="创建于 2021-10-27 23:40:31 &#43;0000 UTC。">
+    Oct 28, 2021
+  </span><span class="post-reading-time">
+    2 分钟阅读
+  </span><span class="post-taxonomies"><a href="https://mengdemao.github.io/categories/linux/" class="badge post-taxonomy">linux</a><a href="https://mengdemao.github.io/tags/kernel/" class="badge post-taxonomy">kernel</a></span>
+</div>
+<div class="post-summary">
+      <h1 id="完全公平调度器">完全公平调度器<a class="anchor ms-1" href="#完全公平调度器"><i class="fas fa-link"></i></a></h1>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="k">const</span> <span class="k">struct</span> <span class="n">sched_class</span> <span class="n">fair_sched_class</span> <span class="o">=</span> <span class="p">{</span>
+<span class="ln"> 2</span>	<span class="p">.</span><span class="n">next</span>			<span class="o">=</span> <span class="o">&amp;</span><span class="n">idle_sched_class</span><span class="p">,</span>
+<span class="ln"> 3</span>	<span class="p">.</span><span class="n">enqueue_task</span>		<span class="o">=</span> <span class="n">enqueue_task_fair</span><span class="p">,</span>
+<span class="ln"> 4</span>	<span class="p">.</span><span class="n">dequeue_task</span>		<span class="o">=</span> <span class="n">dequeue_task_fair</span><span class="p">,</span>
+<span class="ln"> 5</span>	<span class="p">.</span><span class="n">yield_task</span>			<span class="o">=</span> <span class="n">yield_task_fair</span><span class="p">,</span>
+<span class="ln"> 6</span>	<span class="p">.</span><span class="n">yield_to_task</span>		<span class="o">=</span> <span class="n">yield_to_task_fair</span><span class="p">,</span>
+<span class="ln"> 7</span>
+<span class="ln"> 8</span>	<span class="p">.</span><span class="n">check_preempt_curr</span>	<span class="o">=</span> <span class="n">check_preempt_wakeup</span><span class="p">,</span>
+<span class="ln"> 9</span>
+<span class="ln">10</span>	<span class="p">.</span><span class="n">pick_next_task<div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/fair/">阅读更多</a></div></span></code></pre></div>
+    </div>
+  </div>
+</article>
+<article class="row card post component"><div class="card-header">
+    <h2 class="card-title post-title">
+      <a href="https://mengdemao.github.io/posts/tkinter/">Tkinter
+</a>
+    </h2>
+  </div>
+  <div class="card-body">
+    <div class="post-meta">
   <span class="post-date" title="创建于 2021-10-16 12:13:10 &#43;0000 UTC。">
     Oct 16, 2021
   </span><span class="post-reading-time">
     1 分钟阅读
-  </span><span class="post-taxonomies"><a href="https://mengdemao.github.io/categories/python/" class="badge rounded-pill post-taxonomy">python</a></span>
+  </span><span class="post-taxonomies"><a href="https://mengdemao.github.io/categories/python/" class="badge post-taxonomy">python</a></span>
 </div>
 <div class="post-summary">
-          python基础绘图
-        </div>
-      </div>
-    </article><article class="row card post component"><div class="card-header">
-        <h2 class="card-title post-title">
-          <a href="https://mengdemao.github.io/posts/javascript/">Javascript
+      <p>python基础绘图</p>
+
+    </div>
+  </div>
+</article>
+<article class="row card post component"><div class="card-header">
+    <h2 class="card-title post-title">
+      <a href="https://mengdemao.github.io/posts/javascript/">Javascript
 </a>
-        </h2>
-      </div>
-      <div class="card-body">
-        <div class="post-meta">
+    </h2>
+  </div>
+  <div class="card-body">
+    <div class="post-meta">
   <span class="post-date" title="创建于 2021-10-07 03:52:24 &#43;0000 UTC。">
     Oct 7, 2021
   </span><span class="post-reading-time">
@@ -199,17 +233,18 @@
   </span><span class="post-taxonomies"></span>
 </div>
 <div class="post-summary">
-          
-        </div>
-      </div>
-    </article><article class="row card post component"><div class="card-header">
-        <h2 class="card-title post-title">
-          <a href="https://mengdemao.github.io/posts/css/">Css
+      
+    </div>
+  </div>
+</article>
+<article class="row card post component"><div class="card-header">
+    <h2 class="card-title post-title">
+      <a href="https://mengdemao.github.io/posts/css/">Css
 </a>
-        </h2>
-      </div>
-      <div class="card-body">
-        <div class="post-meta">
+    </h2>
+  </div>
+  <div class="card-body">
+    <div class="post-meta">
   <span class="post-date" title="创建于 2021-10-07 03:52:18 &#43;0000 UTC。">
     Oct 7, 2021
   </span><span class="post-reading-time">
@@ -217,17 +252,57 @@
   </span><span class="post-taxonomies"></span>
 </div>
 <div class="post-summary">
-          CSS开始(层叠样式表) HTML + CSS + JavaScript 名词 + 形容词 + 动词 相当于对原始的HTML进行美化 快速入门 CSS是什么 CSS怎么用 CSS选择器 美化网页 盒子模
-        </div>
-      </div>
-    </article><article class="row card post component"><div class="card-header">
-        <h2 class="card-title post-title">
-          <a href="https://mengdemao.github.io/posts/html5/">Html5
+      <h2 id="css开始层叠样式表">CSS开始(层叠样式表)<a class="anchor ms-1" href="#css开始层叠样式表"><i class="fas fa-link"></i></a></h2>
+<p>HTML + CSS + JavaScript
+名词 + 形容词 + 动词
+相当于对原始的HTML进行美化</p>
+<h3 id="快速入门">快速入门<a class="anchor ms-1" href="#快速入门"><i class="fas fa-link"></i></a></h3>
+<ol>
+<li>CSS是什么</li>
+<li>CSS怎么用</li>
+<li>CSS选择器</li>
+<li>美化网页</li>
+<li>盒子模型</li>
+<li>浮动</li>
+<li>定位</li>
+<li>网页动画</li>
+</ol>
+<h3 id="什么是css">什么是CSS<a class="anchor ms-1" href="#什么是css"><i class="fas fa-link"></i></a></h3>
+<p>美化:字体, 颜色,高度,宽度, 背景图片</p>
+<h3 id="css的优势">CSS的优势:<a class="anchor ms-1" href="#css的优势"><i class="fas fa-link"></i></a></h3>
+<ul>
+<li>内容和表现分离</li>
+<li>CSS文件可以复用</li>
+<li>样式十分丰富</li>
+<li>建议使用独立的CSS文件</li>
+</ul>
+<h3 id="css导入的方法">CSS导入的方法<a class="anchor ms-1" href="#css导入的方法"><i class="fas fa-link"></i></a></h3>
+<ol>
+<li>行内样式</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="ln">1</span><span class="p">&lt;</span><span class="nt">h1</span> <span class="na">style</span><span class="o">=</span><span class="s">&#34;color: red&#34;</span><span class="p">&gt;</span>一级标题<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+</code></pre></div><ol start="2">
+<li>style标签</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="ln">1</span><span class="p">&lt;</span><span class="nt">style</span><span class="p">&gt;&lt;/</span><span class="nt">style</span><span class="p">&gt;</span>
+</code></pre></div><ol start="3">
+<li>外部样式</li>
+</ol>
+<ul>
+<li>链接方式</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="ln">1<div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/css/">阅读更多</a></div></span></code></pre></div>
+    </div>
+  </div>
+</article>
+<article class="row card post component"><div class="card-header">
+    <h2 class="card-title post-title">
+      <a href="https://mengdemao.github.io/posts/html5/">Html5
 </a>
-        </h2>
-      </div>
-      <div class="card-body">
-        <div class="post-meta">
+    </h2>
+  </div>
+  <div class="card-body">
+    <div class="post-meta">
   <span class="post-date" title="创建于 2021-10-07 03:51:59 &#43;0000 UTC。">
     Oct 7, 2021
   </span><span class="post-reading-time">
@@ -235,28 +310,26 @@
   </span><span class="post-taxonomies"></span>
 </div>
 <div class="post-summary">
-          开始 网页基础结构 1&lt;!-- 告诉浏览器,需要使用的规范 --&gt; 2&lt;!DOCTYPE html&gt; 3&lt;html lang=&#34;en&#34;&gt; 4 5&lt;!-- 网页标题 --&gt; 6&lt;head&gt; 7 &lt;!-- 描述标签 --&gt; 8 &lt;meta charset=&#34;UTF-8&#34;&gt; 9 10 &lt;!-- 网页标题 --&gt; 11 &lt;title&gt;Document&lt;/title&gt; 12&lt;/head&gt; 13 14&lt;!-- 网页主体 --&gt; 15&lt;body&gt; …
-        </div>
-      </div>
-    </article><article class="row card post component"><div class="card-header">
-        <h2 class="card-title post-title">
-          <a href="https://mengdemao.github.io/posts/sds/">Sds
-</a>
-        </h2>
-      </div>
-      <div class="card-body">
-        <div class="post-meta">
-  <span class="post-date" title="创建于 2021-10-06 04:56:03 &#43;0000 UTC。">
-    Oct 6, 2021
-  </span><span class="post-reading-time">
-    2 分钟阅读
-  </span><span class="post-taxonomies"></span>
-</div>
-<div class="post-summary">
-          A C dynamic strings library C语言版本动态字符串库 SDS SDS的类型就是 1typedef char *sds; 可以明显的看到,sds就是普通的char类型 下面是sds的数据类型 1+--------+-------------------------------+-----------+ 2| Header | Binary safe C alike string...
-        </div>
-      </div>
-    </article></div><div class="row table-responsive mb-3">
+      <h2 id="开始">开始<a class="anchor ms-1" href="#开始"><i class="fas fa-link"></i></a></h2>
+<p><strong>网页基础结构</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="ln"> 1</span><span class="c">&lt;!-- 告诉浏览器,需要使用的规范 --&gt;</span>
+<span class="ln"> 2</span><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="ln"> 3</span><span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">&#34;en&#34;</span><span class="p">&gt;</span>
+<span class="ln"> 4</span>
+<span class="ln"> 5</span><span class="c">&lt;!-- 网页标题 --&gt;</span>
+<span class="ln"> 6</span><span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+<span class="ln"> 7</span>    <span class="c">&lt;!-- 描述标签 --&gt;</span>
+<span class="ln"> 8</span>    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&#34;UTF-8&#34;</span><span class="p">&gt;</span>
+<span class="ln"> 9</span>
+<span class="ln">10</span>    <span class="c">&lt;!-- 网页标题 --&gt;</span>
+<span class="ln">11</span>    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Document<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+<span class="ln">12</span><span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+<span class="ln">13</span>
+<span class="ln">14</span><span class="c">&lt;!-- 网页主体 --&gt;<div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/html5/">阅读更多</a></div></span></code></pre></div>
+    </div>
+  </div>
+</article>
+</div><div class="row table-responsive mb-3">
     <ul class="pagination pagination-default">
       <li class="page-item">
         <a href="/" aria-label="First" class="page-link" role="button"><span aria-hidden="true">&laquo;&laquo;</span></a>
@@ -289,7 +362,7 @@
 </div>
 
 </div><aside class="col-lg-4 sidebar d-flex">
-  <div class="container">
+  <div class="container d-flex flex-column">
     
     <section class="card row text-center profile component">
   <div class="card-body">
@@ -306,6 +379,9 @@
   </div>
   <div class="card-body">
     <ul class="post-list"><li>
+        <a href="https://mengdemao.github.io/posts/c4/">C4
+</a>
+      </li><li>
         <a href="https://mengdemao.github.io/posts/lua/">Lua
 </a>
       </li><li>
@@ -317,12 +393,9 @@
       </li><li>
         <a href="https://mengdemao.github.io/posts/dwl/">Dwl
 </a>
-      </li><li>
-        <a href="https://mengdemao.github.io/posts/tinycc/">Tinycc
-</a>
       </li></ul>
   </div>
-</section><section class="taxonomies row card component">
+</section><section class="categories-taxonomies row card component">
       <div class="card-header">
         <h2 class="card-title">
           <a href="https://mengdemao.github.io/categories">分类</a>
@@ -330,10 +403,11 @@
       </div>
       <div class="card-body">
         <div class="py-2"><a href="https://mengdemao.github.io/categories/linux/" class="badge rounded post-taxonomy" title="linux">
-            linux</a><a href="https://mengdemao.github.io/categories/python/" class="badge rounded post-taxonomy" title="python">
+            linux</a><a href="https://mengdemao.github.io/categories/compiler/" class="badge rounded post-taxonomy" title="compiler">
+            compiler</a><a href="https://mengdemao.github.io/categories/python/" class="badge rounded post-taxonomy" title="python">
             python</a></div>
       </div>
-    </section><section class="taxonomies row card component">
+    </section><section class="tags-taxonomies row card component">
       <div class="card-header">
         <h2 class="card-title">
           <a href="https://mengdemao.github.io/tags">标签</a>
@@ -352,14 +426,16 @@
   </div>
 </aside>
 </div>
-    </main><footer class="footer mt-auto py-3 text-center container"><nav class="social-links nav justify-content-center mb-2"></nav>
+    </main><footer class="footer mt-auto py-3 text-center container"><nav class="social-links nav justify-content-center mb-2"><a class="nav-link social-link" target="_blank" href="https://mengdemao.github.io/index.xml" title="RSS" rel="noopener noreferrer">
+      <i class="fas fa-fw fa-2x fa-rss"></i>
+    </a></nav>
 <div class="copyright mb-2">
   Copyright © 2020-2022 Meng Demao. All Rights Reserved.
 </div>
 <div class="powered-by mb-2">
   Powered by <a href="https://gohugo.io" target="_blank" rel="noopener noreferrer">Hugo</a> and the <a href="https://github.com/razonyang/hugo-theme-bootstrap" target="_blank" rel="noopener noreferrer">Bootstrap</a> theme.
 </div></footer>
-<script src="https://mengdemao.github.io/js/main.min.7a0fc1a2bad50fa8cc99a4167ed69f60432d32e534e18e93fc8d8b4467e86d88.js" integrity="sha256-eg/BorrVD6jMmaQWftafYEMtMuU04Y6T/I2LRGfobYg=" crossorigin="anonymous" defer></script><script src="https://mengdemao.github.io/js/icons.min.a35670f2f90c398e5ee5c8e509b428fae75aa2746854cee10b60794633076859.js" integrity="sha256-o1Zw8vkMOY5e5cjlCbQo&#43;udaonRoVM7hC2B5RjMHaFk=" crossorigin="anonymous" defer></script>
+<script src="https://mengdemao.github.io/js/main.be6547dee74694dd4e7524da0db563884d2e85a402de8ea437fde7d196714836.js" integrity="sha256-vmVH3udGlN1OdSTaDbVjiE0uhaQC3o6kN/3n0ZZxSDY=" crossorigin="anonymous" defer></script><script src="https://mengdemao.github.io/js/icons.min.a35670f2f90c398e5ee5c8e509b428fae75aa2746854cee10b60794633076859.js" integrity="sha256-o1Zw8vkMOY5e5cjlCbQo&#43;udaonRoVM7hC2B5RjMHaFk=" crossorigin="anonymous" defer></script>
 <script src="https://mengdemao.github.io/js/viewer.min.4dba52a0a790f909408b7385316651299158381686401d50ff1f04dda6476473.js" integrity="sha256-TbpSoKeQ&#43;QlAi3OFMWZRKZFYOBaGQB1Q/x8E3aZHZHM=" crossorigin="anonymous" defer></script>
 </body>
 </html>

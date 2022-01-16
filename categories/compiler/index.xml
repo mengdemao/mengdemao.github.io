@@ -2,11 +2,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>compiler on 编程日志</title>
-    <link>https://mengdemao.github.io/tags/compiler/</link>
+    <link>https://mengdemao.github.io/categories/compiler/</link>
     <description>Recent content in compiler on 编程日志</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>Copyright © 2020-{year} Meng Demao. All Rights Reserved.</copyright>
-    <lastBuildDate>Sun, 16 Jan 2022 21:54:00 +0800</lastBuildDate><atom:link href="https://mengdemao.github.io/tags/compiler/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 16 Jan 2022 21:54:00 +0800</lastBuildDate><atom:link href="https://mengdemao.github.io/categories/compiler/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>C4</title>
       <link>https://mengdemao.github.io/posts/c4/</link>
@@ -14,15 +14,6 @@
       
       <guid>https://mengdemao.github.io/posts/c4/</guid>
       <description>C4实现 C4共实现了4个函数 1void stmt(); 2void next(); 3void expr(int lev); 4int main(int argc, char **argv); 全局数据 全局变量 1char *p, *lp, // current position in source code 2 *data; // data/bss pointer 3 4int *e, *le, // current position in emitted code 5 *id, // currently parsed identifier 6 *sym, // symbol table (simple</description>
-    </item>
-    
-    <item>
-      <title>Engineering_compiler</title>
-      <link>https://mengdemao.github.io/posts/engineering_compiler/</link>
-      <pubDate>Sun, 03 Oct 2021 12:42:43 +0800</pubDate>
-      
-      <guid>https://mengdemao.github.io/posts/engineering_compiler/</guid>
-      <description></description>
     </item>
     
   </channel>

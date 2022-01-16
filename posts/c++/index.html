@@ -1,4 +1,4 @@
-<!doctype html><html lang="zh-cn"
+<!doctype html><html lang="zh-cn" data-palette="brown"
   >
   <head>
     <meta charset="utf-8">
@@ -9,7 +9,7 @@
 <link rel="icon" href="https://mengdemao.github.io/images/icons/favicon.ico">
 <link rel="manifest" href="https://mengdemao.github.io/manifest.json">
 <meta name="keywords" content="" />
-<meta name="description" content="" /><meta itemprop="name" content="C&#43;&#43;笔记">
+<meta name="description" content="C&#43;&#43;基础语法 第一个程序 1#include &lt;iostream&gt;2 3using namespace std; 4 5int main(int argc, char *argv[]) 6{ 7 cout &lt;&lt; &#34;Hello World&#34; &lt;&lt; endl; 8 return 0; 9} 注释类型 单行注释 1// 这个是一个单行注释 多行注释 1/* 2这个里面是一个注释 3*/ 变" /><meta itemprop="name" content="C&#43;&#43;笔记">
 <meta itemprop="description" content="C&#43;&#43;基础语法 第一个程序 1#include &lt;iostream&gt;2 3using namespace std; 4 5int main(int argc, char *argv[]) 6{ 7 cout &lt;&lt; &#34;Hello World&#34; &lt;&lt; endl; 8 return 0; 9} 注释类型 单行注释 1// 这个是一个单行注释 多行注释 1/* 2这个里面是一个注释 3*/ 变"><meta itemprop="datePublished" content="2021-10-03T13:20:54+08:00" />
 <meta itemprop="dateModified" content="2021-10-03T13:20:54+08:00" />
 <meta itemprop="wordCount" content="3945">
@@ -23,13 +23,13 @@
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="C&#43;&#43;笔记"/>
 <meta name="twitter:description" content="C&#43;&#43;基础语法 第一个程序 1#include &lt;iostream&gt;2 3using namespace std; 4 5int main(int argc, char *argv[]) 6{ 7 cout &lt;&lt; &#34;Hello World&#34; &lt;&lt; endl; 8 return 0; 9} 注释类型 单行注释 1// 这个是一个单行注释 多行注释 1/* 2这个里面是一个注释 3*/ 变"/>
-<link rel="stylesheet" href="https://mengdemao.github.io/css/main.min.702127d58e0a5778490e24163ec0ec8d40cfe62780936bf8b19b4c8ab0bc3ed8.css" integrity="sha256-cCEn1Y4KV3hJDiQWPsDsjUDP5ieAk2v4sZtMirC8Ptg=" crossorigin="anonymous"><link rel="stylesheet" href="https://mengdemao.github.io/css/viewer.min.3d228794bcedbbfa0412beb8fbc1ec6973202945e42af7004f742a4d7bd620ab.css" integrity="sha256-PSKHlLztu/oEEr64&#43;8HsaXMgKUXkKvcAT3QqTXvWIKs=" crossorigin="anonymous"></head>
+<link rel="stylesheet" href="https://mengdemao.github.io/css/main.min.b7a6eda8d46e39a549f182cf72a9ff4f4c1d4d82c31ecc3ede0b7f4d5b26f32b.css" integrity="sha256-t6btqNRuOaVJ8YLPcqn/T0wdTYLDHsw&#43;3gt/TVsm8ys=" crossorigin="anonymous"><link rel="stylesheet" href="https://mengdemao.github.io/css/viewer.min.3d228794bcedbbfa0412beb8fbc1ec6973202945e42af7004f742a4d7bd620ab.css" integrity="sha256-PSKHlLztu/oEEr64&#43;8HsaXMgKUXkKvcAT3QqTXvWIKs=" crossorigin="anonymous"></head>
   <body><script>const items=['mode','palette'];items.forEach(function(a){const b=localStorage.getItem('hbs-'+a);b&&document.body.parentElement.setAttribute('data-'+a,b)})</script><header><nav class="navbar top-app-bar top-app-bar-expand-lg fixed-top">
   <div class="container">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <i class="fas fa-bars"></i>
-    </button><a class="navbar-brand me-3" href="https://mengdemao.github.io/"><img class="logo" alt="Logo" src="https://mengdemao.github.io/images/logo.webp" loading="lazy"
+    </button><a class="navbar-brand flex-grow-1 flex-lg-grow-0 text-center text-lg-start mx-auto me-lg-3" href="https://mengdemao.github.io/"><img class="logo" alt="Logo" src="https://mengdemao.github.io/images/logo.webp" loading="lazy"
    width="136" height="69"
    />
 编程日志
@@ -111,6 +111,9 @@
       </button></div>
 </section>
 <section class="setting actions d-flex justify-content-around mt-auto overflow-auto">
+  <a role="button" class="action action-go-back" href="javascript: window.history.back();">
+    <span class="action-icon"><i class="fas fa-2x fa-arrow-left"></i></span> 返回
+  </a>
   <a role="button" class="action action-reload-page">
     <span class="action-icon"><i class="fas fa-2x fa-redo-alt"></i></span> 刷新
   </a>
@@ -174,7 +177,7 @@
   <div class="card-body">
     <ol class="breadcrumb "><li class="breadcrumb-item"><a href="https://mengdemao.github.io/">主页</a></li><li class="breadcrumb-item"><a href="https://mengdemao.github.io/posts/">文章</a></li><li class="breadcrumb-item active">C&#43;&#43;笔记</li></ol>
   </div>
-</nav><article class="row card component mb-4 post"><div class="post-panel-wrapper">
+</nav><div class="post-panel-wrapper">
   <div class="d-flex flex-column component rounded post-panel">
     
     <a class="action action-panel-toggler" role="button" title="Panel toggler">
@@ -197,7 +200,8 @@
     
   </div>
 </div>
-<div class="card-header ">
+<article class="row card component mb-4 post">
+  <div class="card-header ">
     <h1 class="card-title post-title">C&#43;&#43;笔记
 </h1>
   </div>
@@ -208,64 +212,7 @@
     8 分钟阅读
   </span><span class="post-taxonomies"></span>
 </div>
-<div class="post-toc mb-4" id="postTOC">
-  <h2 class="mb-4">目录</h2>
-  <nav id="TableOfContents">
-  <ul>
-    <li><a href="#c基础语法">C++基础语法</a>
-      <ul>
-        <li><a href="#第一个程序">第一个程序</a></li>
-        <li><a href="#注释类型">注释类型</a></li>
-        <li><a href="#变量">变量</a></li>
-        <li><a href="#常量">常量</a></li>
-        <li><a href="#关键字">关键字</a></li>
-        <li><a href="#标识符命名规则">标识符命名规则</a></li>
-        <li><a href="#数据类型">数据类型</a></li>
-        <li><a href="#运算符">运算符</a></li>
-        <li><a href="#赋值运算">赋值运算</a></li>
-        <li><a href="#比较运算符">比较运算符</a></li>
-        <li><a href="#逻辑运算符">逻辑运算符</a></li>
-        <li><a href="#程序流程结构">程序流程结构</a></li>
-        <li><a href="#数组">数组</a></li>
-        <li><a href="#函数定义">函数定义</a></li>
-        <li><a href="#函数的常见样式">函数的常见样式</a></li>
-        <li><a href="#函数的声明">函数的声明</a></li>
-        <li><a href="#函数的分文件编写">函数的分文件编写</a></li>
-        <li><a href="#指针">指针</a></li>
-        <li><a href="#结构体">结构体</a></li>
-      </ul>
-    </li>
-    <li><a href="#c核心编程">C++核心编程</a>
-      <ul>
-        <li><a href="#c内存分区">C++内存分区</a></li>
-        <li><a href="#newdelete操作符">new/delete操作符</a></li>
-        <li><a href="#引用">引用</a></li>
-        <li><a href="#函数提高">函数提高</a></li>
-        <li><a href="#类和对象">类和对象</a></li>
-        <li><a href="#初始化列表">初始化列表</a></li>
-        <li><a href="#类对象作为类成员">类对象作为类成员</a></li>
-        <li><a href="#静态成员">静态成员</a></li>
-        <li><a href="#成员变量和成员函数分开存储">成员变量和成员函数分开存储</a></li>
-        <li><a href="#c对象模型">C++对象模型</a></li>
-        <li><a href="#this指针">this指针</a></li>
-        <li><a href="#空指针访问成员函数">空指针访问成员函数</a></li>
-        <li><a href="#const修饰成员函数">const修饰成员函数</a></li>
-        <li><a href="#友元">友元</a></li>
-        <li><a href="#运算符重载">运算符重载</a></li>
-        <li><a href="#继承">继承</a></li>
-        <li><a href="#多态">多态</a></li>
-        <li><a href="#虚析构和纯虚析构">虚析构和纯虚析构</a></li>
-      </ul>
-    </li>
-    <li><a href="#c提高编程">C++提高编程</a>
-      <ul>
-        <li><a href="#模版">模版</a></li>
-        <li><a href="#类模板">类模板</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
-</div><div class="post-content mb-3"><h2 id="c基础语法">C++基础语法<a class="anchor ms-1" href="#c基础语法"><i class="fas fa-link"></i></a></h2>
+<div class="post-content mb-3"><h2 id="c基础语法">C++基础语法<a class="anchor ms-1" href="#c基础语法"><i class="fas fa-link"></i></a></h2>
 <h3 id="第一个程序">第一个程序<a class="anchor ms-1" href="#第一个程序"><i class="fas fa-link"></i></a></h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="ln">1</span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
 </span><span class="ln">2</span><span class="cp"></span>
@@ -1116,16 +1063,7 @@ this指针本质：指针常量</p>
 <span class="ln">11</span><span class="p">};</span>
 </code></pre></div><p>调用</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="ln">1</span><span class="n">Person</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">p</span><span class="p">(</span><span class="s">&#34;Hello&#34;</span><span class="p">,</span> <span class="mi">99</span><span class="p">);</span>
-</code></pre></div></div>
-<div class="post-copyright mb-3" id="post-copyright">
-    <h2 class="mb-4">版权</h2><a class="d-flex align-items-center flex-column" target="_blank" rel="license noopener noreferrer" href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh">
-  <span><i class="fab fa-fw fa-2x fa-creative-commons"></i><i class="fab fa-fw fa-2x fa-creative-commons-by"></i><i class="fab fa-fw fa-2x fa-creative-commons-nc"></i><i class="fab fa-fw fa-2x fa-creative-commons-nd"></i></span>
-  CC BY-NC-ND 4.0 
-</a>
-
-
-</div>
-</div>
+</code></pre></div></div></div>
   <div class="card-footer"><div class="post-navs d-flex justify-content-evenly">
   <div class="post-nav post-prev"><i class="fas fa-fw fa-chevron-left"></i>
     <a href="https://mengdemao.github.io/posts/doxygen/">Doxygen
@@ -1135,9 +1073,20 @@ this指针本质：指针常量</p>
 </a>
     <i class="fas fa-fw fa-chevron-right"></i>
   </div></div></div>
-</article></div>
+</article><div class="post-copyright mb-3 row card component" id="post-copyright">
+    <div class="card-header">
+        <h2 class="card-title">版权</h2>
+    </div>
+    <div class="card-body"><a class="d-flex align-items-center flex-column" target="_blank" rel="license noopener noreferrer" href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh">
+  <span><i class="fab fa-fw fa-2x fa-creative-commons"></i><i class="fab fa-fw fa-2x fa-creative-commons-by"></i><i class="fab fa-fw fa-2x fa-creative-commons-nc"></i><i class="fab fa-fw fa-2x fa-creative-commons-nd"></i></span>
+  CC BY-NC-ND 4.0 
+</a>
+
+
+    </div>
+</div></div>
 </div><aside class="col-lg-4 sidebar d-flex">
-  <div class="container">
+  <div class="container d-flex flex-column">
     
     <section class="card row text-center profile component">
   <div class="card-body">
@@ -1148,12 +1097,76 @@ this指针本质：指针常量</p>
     <div class="col-12 profile-meta"><div class="profile-name">MengDemao</div><div class="profile-bio">面向玄学编程</div><div class="profile-company"><i class="fas fa-fw fa-building"></i>Company</div><div class="profile-location"><i class="fas fa-fw fa-map-marker-alt"></i>Earth</div><div class="profile-about"><i class="fas fa-fw fa-user"></i><a href="https://mengdemao.github.io/about/">About</a></div></div>
   </div>
 </section>
-  <section class="recent-posts row card component">
+  <div class="post-toc row mb-4 card component" id="postTOC">
+  <div class="card-header">
+    <h2 class="card-title">目录</h2>
+  </div>
+  <div class="card-body">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#c基础语法">C++基础语法</a>
+      <ul>
+        <li><a href="#第一个程序">第一个程序</a></li>
+        <li><a href="#注释类型">注释类型</a></li>
+        <li><a href="#变量">变量</a></li>
+        <li><a href="#常量">常量</a></li>
+        <li><a href="#关键字">关键字</a></li>
+        <li><a href="#标识符命名规则">标识符命名规则</a></li>
+        <li><a href="#数据类型">数据类型</a></li>
+        <li><a href="#运算符">运算符</a></li>
+        <li><a href="#赋值运算">赋值运算</a></li>
+        <li><a href="#比较运算符">比较运算符</a></li>
+        <li><a href="#逻辑运算符">逻辑运算符</a></li>
+        <li><a href="#程序流程结构">程序流程结构</a></li>
+        <li><a href="#数组">数组</a></li>
+        <li><a href="#函数定义">函数定义</a></li>
+        <li><a href="#函数的常见样式">函数的常见样式</a></li>
+        <li><a href="#函数的声明">函数的声明</a></li>
+        <li><a href="#函数的分文件编写">函数的分文件编写</a></li>
+        <li><a href="#指针">指针</a></li>
+        <li><a href="#结构体">结构体</a></li>
+      </ul>
+    </li>
+    <li><a href="#c核心编程">C++核心编程</a>
+      <ul>
+        <li><a href="#c内存分区">C++内存分区</a></li>
+        <li><a href="#newdelete操作符">new/delete操作符</a></li>
+        <li><a href="#引用">引用</a></li>
+        <li><a href="#函数提高">函数提高</a></li>
+        <li><a href="#类和对象">类和对象</a></li>
+        <li><a href="#初始化列表">初始化列表</a></li>
+        <li><a href="#类对象作为类成员">类对象作为类成员</a></li>
+        <li><a href="#静态成员">静态成员</a></li>
+        <li><a href="#成员变量和成员函数分开存储">成员变量和成员函数分开存储</a></li>
+        <li><a href="#c对象模型">C++对象模型</a></li>
+        <li><a href="#this指针">this指针</a></li>
+        <li><a href="#空指针访问成员函数">空指针访问成员函数</a></li>
+        <li><a href="#const修饰成员函数">const修饰成员函数</a></li>
+        <li><a href="#友元">友元</a></li>
+        <li><a href="#运算符重载">运算符重载</a></li>
+        <li><a href="#继承">继承</a></li>
+        <li><a href="#多态">多态</a></li>
+        <li><a href="#虚析构和纯虚析构">虚析构和纯虚析构</a></li>
+      </ul>
+    </li>
+    <li><a href="#c提高编程">C++提高编程</a>
+      <ul>
+        <li><a href="#模版">模版</a></li>
+        <li><a href="#类模板">类模板</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div><section class="recent-posts row card component">
   <div class="card-header">
     <h2 class="card-title">最近文章</h2>
   </div>
   <div class="card-body">
     <ul class="post-list"><li>
+        <a href="https://mengdemao.github.io/posts/c4/">C4
+</a>
+      </li><li>
         <a href="https://mengdemao.github.io/posts/lua/">Lua
 </a>
       </li><li>
@@ -1165,12 +1178,9 @@ this指针本质：指针常量</p>
       </li><li>
         <a href="https://mengdemao.github.io/posts/dwl/">Dwl
 </a>
-      </li><li>
-        <a href="https://mengdemao.github.io/posts/tinycc/">Tinycc
-</a>
       </li></ul>
   </div>
-</section><section class="taxonomies row card component">
+</section><section class="categories-taxonomies row card component">
       <div class="card-header">
         <h2 class="card-title">
           <a href="https://mengdemao.github.io/categories">分类</a>
@@ -1178,10 +1188,11 @@ this指针本质：指针常量</p>
       </div>
       <div class="card-body">
         <div class="py-2"><a href="https://mengdemao.github.io/categories/linux/" class="badge rounded post-taxonomy" title="linux">
-            linux</a><a href="https://mengdemao.github.io/categories/python/" class="badge rounded post-taxonomy" title="python">
+            linux</a><a href="https://mengdemao.github.io/categories/compiler/" class="badge rounded post-taxonomy" title="compiler">
+            compiler</a><a href="https://mengdemao.github.io/categories/python/" class="badge rounded post-taxonomy" title="python">
             python</a></div>
       </div>
-    </section><section class="taxonomies row card component">
+    </section><section class="tags-taxonomies row card component">
       <div class="card-header">
         <h2 class="card-title">
           <a href="https://mengdemao.github.io/tags">标签</a>
@@ -1207,7 +1218,7 @@ this指针本质：指针常量</p>
 <div class="powered-by mb-2">
   Powered by <a href="https://gohugo.io" target="_blank" rel="noopener noreferrer">Hugo</a> and the <a href="https://github.com/razonyang/hugo-theme-bootstrap" target="_blank" rel="noopener noreferrer">Bootstrap</a> theme.
 </div></footer>
-<script src="https://mengdemao.github.io/js/main.min.7a0fc1a2bad50fa8cc99a4167ed69f60432d32e534e18e93fc8d8b4467e86d88.js" integrity="sha256-eg/BorrVD6jMmaQWftafYEMtMuU04Y6T/I2LRGfobYg=" crossorigin="anonymous" defer></script><script src="https://mengdemao.github.io/js/icons.min.a35670f2f90c398e5ee5c8e509b428fae75aa2746854cee10b60794633076859.js" integrity="sha256-o1Zw8vkMOY5e5cjlCbQo&#43;udaonRoVM7hC2B5RjMHaFk=" crossorigin="anonymous" defer></script>
+<script src="https://mengdemao.github.io/js/main.be6547dee74694dd4e7524da0db563884d2e85a402de8ea437fde7d196714836.js" integrity="sha256-vmVH3udGlN1OdSTaDbVjiE0uhaQC3o6kN/3n0ZZxSDY=" crossorigin="anonymous" defer></script><script src="https://mengdemao.github.io/js/icons.min.a35670f2f90c398e5ee5c8e509b428fae75aa2746854cee10b60794633076859.js" integrity="sha256-o1Zw8vkMOY5e5cjlCbQo&#43;udaonRoVM7hC2B5RjMHaFk=" crossorigin="anonymous" defer></script>
 <script src="https://mengdemao.github.io/js/viewer.min.4dba52a0a790f909408b7385316651299158381686401d50ff1f04dda6476473.js" integrity="sha256-TbpSoKeQ&#43;QlAi3OFMWZRKZFYOBaGQB1Q/x8E3aZHZHM=" crossorigin="anonymous" defer></script>
 </body>
 </html>

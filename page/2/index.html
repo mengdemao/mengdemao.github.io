@@ -1,4 +1,4 @@
-<!doctype html><html lang="zh-cn"
+<!doctype html><html lang="zh-cn" data-palette="brown"
   >
   <head>
 	<meta name="generator" content="Hugo 0.88.0" />
@@ -19,13 +19,13 @@
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="编程日志"/>
 <meta name="twitter:description" content="编程日志"/>
-<link rel="alternate" type="application/rss+xml" href="https://mengdemao.github.io/index.xml" title="编程日志" /><link rel="stylesheet" href="https://mengdemao.github.io/css/main.min.702127d58e0a5778490e24163ec0ec8d40cfe62780936bf8b19b4c8ab0bc3ed8.css" integrity="sha256-cCEn1Y4KV3hJDiQWPsDsjUDP5ieAk2v4sZtMirC8Ptg=" crossorigin="anonymous"><link rel="stylesheet" href="https://mengdemao.github.io/css/viewer.min.3d228794bcedbbfa0412beb8fbc1ec6973202945e42af7004f742a4d7bd620ab.css" integrity="sha256-PSKHlLztu/oEEr64&#43;8HsaXMgKUXkKvcAT3QqTXvWIKs=" crossorigin="anonymous"></head>
+<link rel="alternate" type="application/rss+xml" href="https://mengdemao.github.io/index.xml" title="编程日志" /><link rel="stylesheet" href="https://mengdemao.github.io/css/main.min.b7a6eda8d46e39a549f182cf72a9ff4f4c1d4d82c31ecc3ede0b7f4d5b26f32b.css" integrity="sha256-t6btqNRuOaVJ8YLPcqn/T0wdTYLDHsw&#43;3gt/TVsm8ys=" crossorigin="anonymous"><link rel="stylesheet" href="https://mengdemao.github.io/css/viewer.min.3d228794bcedbbfa0412beb8fbc1ec6973202945e42af7004f742a4d7bd620ab.css" integrity="sha256-PSKHlLztu/oEEr64&#43;8HsaXMgKUXkKvcAT3QqTXvWIKs=" crossorigin="anonymous"></head>
   <body><script>const items=['mode','palette'];items.forEach(function(a){const b=localStorage.getItem('hbs-'+a);b&&document.body.parentElement.setAttribute('data-'+a,b)})</script><header><nav class="navbar top-app-bar top-app-bar-expand-lg fixed-top">
   <div class="container">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <i class="fas fa-bars"></i>
-    </button><a class="navbar-brand me-3 active" href="https://mengdemao.github.io/"><img class="logo" alt="Logo" src="https://mengdemao.github.io/images/logo.webp" loading="lazy"
+    </button><a class="navbar-brand flex-grow-1 flex-lg-grow-0 text-center text-lg-start mx-auto me-lg-3 active" href="https://mengdemao.github.io/"><img class="logo" alt="Logo" src="https://mengdemao.github.io/images/logo.webp" loading="lazy"
    width="136" height="69"
    />
 编程日志
@@ -107,6 +107,9 @@
       </button></div>
 </section>
 <section class="setting actions d-flex justify-content-around mt-auto overflow-auto">
+  <a role="button" class="action action-go-back" href="javascript: window.history.back();">
+    <span class="action-icon"><i class="fas fa-2x fa-arrow-left"></i></span> 返回
+  </a>
   <a role="button" class="action action-reload-page">
     <span class="action-icon"><i class="fas fa-2x fa-redo-alt"></i></span> 刷新
   </a>
@@ -167,13 +170,65 @@
       <div class="row content">
 <div class="col-lg-8">
   <div class="container"><div class="posts mb-4"><article class="row card post component"><div class="card-header">
-        <h2 class="card-title post-title">
-          <a href="https://mengdemao.github.io/posts/server/">Server
+    <h2 class="card-title post-title">
+      <a href="https://mengdemao.github.io/posts/tinycc/">Tinycc
 </a>
-        </h2>
-      </div>
-      <div class="card-body">
-        <div class="post-meta">
+    </h2>
+  </div>
+  <div class="card-body">
+    <div class="post-meta">
+  <span class="post-date" title="创建于 2021-11-07 04:10:56 &#43;0000 UTC。">
+    Nov 7, 2021
+  </span><span class="post-reading-time">
+    4 分钟阅读
+  </span><span class="post-taxonomies"></span>
+</div>
+<div class="post-summary">
+      <h1 id="tinycc">TinyCC<a class="anchor ms-1" href="#tinycc"><i class="fas fa-link"></i></a></h1>
+<blockquote>
+<p>TinyCC (aka TCC) is a small but hyper fast C compiler.
+Unlike other C compilers, it is meant to be self-relying: you do not need an external
+assembler or linker because TCC does that for you.</p>
+</blockquote>
+<h2 id="tcc-执行概览">TCC 执行概览<a class="anchor ms-1" href="#tcc-执行概览"><i class="fas fa-link"></i></a></h2>
+<p>TCC组成代码</p>
+<table>
+<thead>
+<tr>
+<th>文件名</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tcc.c</code>/<code>libtcc.c</code></td>
+<td>tcc运行代码</td>
+</tr>
+<tr>
+<td><code>tccpp.c</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>tccelf.c</code> <code>tcccoff.c</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>tccasm.c</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>tccrun.c<div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/tinycc/">阅读更多</a></div></code></td></tr></tbody></table>
+    </div>
+  </div>
+</article>
+<article class="row card post component"><div class="card-header">
+    <h2 class="card-title post-title">
+      <a href="https://mengdemao.github.io/posts/server/">Server
+</a>
+    </h2>
+  </div>
+  <div class="card-body">
+    <div class="post-meta">
   <span class="post-date" title="创建于 2021-11-05 15:22:16 &#43;0000 UTC。">
     Nov 5, 2021
   </span><span class="post-reading-time">
@@ -181,17 +236,36 @@
   </span><span class="post-taxonomies"></span>
 </div>
 <div class="post-summary">
-          个人服务器安装记录 配置交换文件 1# 创建交换文件 2sudo fallocate -l 2G /swapfile 3 4# 修改权限只允许ROOT使用 5sudo chmod 600 /swapfile 6 7# 创建swapfile 8sudo mkswap /swapfile 9 10# 开启swapf
-        </div>
-      </div>
-    </article><article class="row card post component"><div class="card-header">
-        <h2 class="card-title post-title">
-          <a href="https://mengdemao.github.io/posts/bsdiff/">Bsdiff
+      <h1 id="个人服务器安装记录">个人服务器安装记录<a class="anchor ms-1" href="#个人服务器安装记录"><i class="fas fa-link"></i></a></h1>
+<h2 id="配置交换文件">配置交换文件<a class="anchor ms-1" href="#配置交换文件"><i class="fas fa-link"></i></a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="ln"> 1</span><span class="c1"># 创建交换文件</span>
+<span class="ln"> 2</span>sudo fallocate -l 2G /swapfile
+<span class="ln"> 3</span>
+<span class="ln"> 4</span><span class="c1"># 修改权限只允许ROOT使用</span>
+<span class="ln"> 5</span>sudo chmod <span class="m">600</span> /swapfile
+<span class="ln"> 6</span>
+<span class="ln"> 7</span><span class="c1"># 创建swapfile</span>
+<span class="ln"> 8</span>sudo mkswap /swapfile
+<span class="ln"> 9</span>
+<span class="ln">10</span><span class="c1"># 开启swapfile</span>
+<span class="ln">11</span>sudo swapon /swapfile
+<span class="ln">12</span>
+<span class="ln">13</span><span class="c1"># 写入fstab</span>
+<span class="ln">14</span><span class="nb">echo</span> <span class="s1">&#39;/swapfile none swap sw 0 0&#39;</span> <span class="p">|</span> sudo tee -a /etc/fstab
+</code></pre></div><h2 id="jenkins安装">jenkins安装<a class="anchor ms-1" href="#jenkins安装"><i class="fas fa-link"></i></a></h2>
+<h3 id="安装jdk">安装jdk<a class="anchor ms-1" href="#安装jdk"><i class="fas fa-link"></i></a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="ln">1</span>sudo apt install<div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/server/">阅读更多</a></div></code></pre></div>
+    </div>
+  </div>
+</article>
+<article class="row card post component"><div class="card-header">
+    <h2 class="card-title post-title">
+      <a href="https://mengdemao.github.io/posts/bsdiff/">Bsdiff
 </a>
-        </h2>
-      </div>
-      <div class="card-body">
-        <div class="post-meta">
+    </h2>
+  </div>
+  <div class="card-body">
+    <div class="post-meta">
   <span class="post-date" title="创建于 2021-10-30 09:24:30 &#43;0000 UTC。">
     Oct 30, 2021
   </span><span class="post-reading-time">
@@ -199,17 +273,22 @@
   </span><span class="post-taxonomies"></span>
 </div>
 <div class="post-summary">
-          bsdiff bsdiff and bspatch are tools for building and applying patches to binary files. By using suffix &gt; sorting (specifically, Larsson and Sadakane&rsquo;s qsufsort) and taking advantage of how executable files change, bsdiff routinely produces binary patches 50-80% smaller than those produced by Xdelta, and 15% …
-        </div>
-      </div>
-    </article><article class="row card post component"><div class="card-header">
-        <h2 class="card-title post-title">
-          <a href="https://mengdemao.github.io/posts/arm/">Arm
+      <h1 id="bsdiff">bsdiff<a class="anchor ms-1" href="#bsdiff"><i class="fas fa-link"></i></a></h1>
+<blockquote>
+<p>bsdiff and bspatch are tools for building and applying patches to binary files. By using suffix &gt;  sorting (specifically, Larsson and Sadakane&rsquo;s qsufsort) and taking advantage of how
+executable files change, bsdiff routinely produces binary patches 50-80% smaller than
+those produced by Xdelta, and 15%<div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/bsdiff/">阅读更多</a></div></p></blockquote>
+    </div>
+  </div>
+</article>
+<article class="row card post component"><div class="card-header">
+    <h2 class="card-title post-title">
+      <a href="https://mengdemao.github.io/posts/arm/">Arm
 </a>
-        </h2>
-      </div>
-      <div class="card-body">
-        <div class="post-meta">
+    </h2>
+  </div>
+  <div class="card-body">
+    <div class="post-meta">
   <span class="post-date" title="创建于 2021-10-30 02:37:25 &#43;0000 UTC。">
     Oct 30, 2021
   </span><span class="post-reading-time">
@@ -217,46 +296,109 @@
   </span><span class="post-taxonomies"></span>
 </div>
 <div class="post-summary">
-          ARM笔记 ARM体系结构 相关术语 流水线 DSP Jazelle ThumbEE Thumb-2 TrustZone VFP NEON LAPE big.LITTLE 工具链 文件名 详解 addr2line 把程序地址转化为文件名和行号 ar 建立、修改和提取归档文件 as 汇编编译器
-        </div>
-      </div>
-    </article><article class="row card post component"><div class="card-header">
-        <h2 class="card-title post-title">
-          <a href="https://mengdemao.github.io/posts/idle/">Idle
+      <h1 id="arm笔记">ARM笔记<a class="anchor ms-1" href="#arm笔记"><i class="fas fa-link"></i></a></h1>
+<h2 id="arm体系结构">ARM体系结构<a class="anchor ms-1" href="#arm体系结构"><i class="fas fa-link"></i></a></h2>
+<h3 id="相关术语">相关术语<a class="anchor ms-1" href="#相关术语"><i class="fas fa-link"></i></a></h3>
+<ul>
+<li>流水线</li>
+<li>DSP</li>
+<li>Jazelle</li>
+<li>ThumbEE</li>
+<li>Thumb-2</li>
+<li>TrustZone</li>
+<li>VFP</li>
+<li>NEON</li>
+<li>LAPE</li>
+<li>big.LITTLE</li>
+</ul>
+<h3 id="工具链">工具链<a class="anchor ms-1" href="#工具链"><i class="fas fa-link"></i></a></h3>
+<table>
+<thead>
+<tr>
+<th>文件名</th>
+<th>详解</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>addr2line</td>
+<td>把程序地址转化为文件名和行号</td>
+</tr>
+<tr>
+<td>ar</td>
+<td>建立、修改和提取归档文件</td>
+</tr>
+<tr>
+<td>as</td>
+<td>汇编编译器</td>
+</tr>
+<tr>
+<td>ld</td>
+<td>链接器</td>
+</tr>
+<tr>
+<td>nm</td>
+<td>列出文件的符号</td>
+</tr>
+<tr>
+<td>objcopy</td>
+<td>文件个数格式转换</td>
+</tr>
+<tr>
+<td>objdump</td>
+<td>反汇编</td>
+</tr>
+<tr>
+<td>ranlib</td>
+<td>产生索引,并且保存进入文件中</td>
+</tr>
+<tr>
+<td>readelf</td>
+<td>显示elf文件信息</td>
+</tr>
+<tr>
+<td>size</td>
+<td>列出文件大小</td>
+</tr>
+<tr>
+<td>string</td>
+<td>打印文件可打印字符串</td>
+</tr>
+<tr>
+<td>strip<div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/arm/">阅读更多</a></div></td></tr></tbody></table>
+    </div>
+  </div>
+</article>
+<article class="row card post component"><div class="card-header">
+    <h2 class="card-title post-title">
+      <a href="https://mengdemao.github.io/posts/idle/">Idle
 </a>
-        </h2>
-      </div>
-      <div class="card-body">
-        <div class="post-meta">
+    </h2>
+  </div>
+  <div class="card-body">
+    <div class="post-meta">
   <span class="post-date" title="创建于 2021-10-27 23:40:38 &#43;0000 UTC。">
     Oct 28, 2021
   </span><span class="post-reading-time">
     4 分钟阅读
-  </span><span class="post-taxonomies"><a href="https://mengdemao.github.io/categories/linux/" class="badge rounded-pill post-taxonomy">linux</a><a href="https://mengdemao.github.io/tags/kernel/" class="badge rounded-pill post-taxonomy">kernel</a></span>
+  </span><span class="post-taxonomies"><a href="https://mengdemao.github.io/categories/linux/" class="badge post-taxonomy">linux</a><a href="https://mengdemao.github.io/tags/kernel/" class="badge post-taxonomy">kernel</a></span>
 </div>
 <div class="post-summary">
-          IDLE调度器类 1/* 2* Generic entry points for the idle threads and 3* implementation of the idle task scheduling class. 4* 5* (NOTE: these are not related to SCHED_IDLE batch scheduled 6* tasks which are handled in sched/fair.c ) 7*/ 8#include &#34;sched.h&#34;9 10#include &lt;trace/events/power.h&gt;11 12/* Linker adds …
-        </div>
-      </div>
-    </article><article class="row card post component"><div class="card-header">
-        <h2 class="card-title post-title">
-          <a href="https://mengdemao.github.io/posts/fair/">Fair
-</a>
-        </h2>
-      </div>
-      <div class="card-body">
-        <div class="post-meta">
-  <span class="post-date" title="创建于 2021-10-27 23:40:31 &#43;0000 UTC。">
-    Oct 28, 2021
-  </span><span class="post-reading-time">
-    2 分钟阅读
-  </span><span class="post-taxonomies"><a href="https://mengdemao.github.io/categories/linux/" class="badge rounded-pill post-taxonomy">linux</a><a href="https://mengdemao.github.io/tags/kernel/" class="badge rounded-pill post-taxonomy">kernel</a></span>
-</div>
-<div class="post-summary">
-          完全公平调度器 1const struct sched_class fair_sched_class = { 2 .next = &amp;idle_sched_class, 3 .enqueue_task = enqueue_task_fair, 4 .dequeue_task = dequeue_task_fair, 5 .yield_task = yield_task_fair, 6 .yield_to_task = yield_to_task_fair, 7 8 .check_preempt_curr = check_preempt_wakeup, 9 10 .pick_next_task = …
-        </div>
-      </div>
-    </article></div><div class="row table-responsive mb-3">
+      <h1 id="idle调度器类">IDLE调度器类<a class="anchor ms-1" href="#idle调度器类"><i class="fas fa-link"></i></a></h1>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln">  1</span><span class="cm">/*
+</span><span class="ln">  2</span><span class="cm"> * Generic entry points for the idle threads and
+</span><span class="ln">  3</span><span class="cm"> * implementation of the idle task scheduling class.
+</span><span class="ln">  4</span><span class="cm"> *
+</span><span class="ln">  5</span><span class="cm"> * (NOTE: these are not related to SCHED_IDLE batch scheduled
+</span><span class="ln">  6</span><span class="cm"> *        tasks which are handled in sched/fair.c )
+</span><span class="ln">  7</span><span class="cm"> */</span>
+<span class="ln">  8</span><span class="cp">#include</span> <span class="cpf">&#34;sched.h&#34;</span><span class="cp">
+</span><span class="ln">  9</span><span class="cp"></span>
+<span class="ln"> 10</span><span class="cp">#include<div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/idle/">阅读更多</a></div></span></code></pre></div>
+    </div>
+  </div>
+</article>
+</div><div class="row table-responsive mb-3">
     <ul class="pagination pagination-default">
       <li class="page-item">
         <a href="/" aria-label="First" class="page-link" role="button"><span aria-hidden="true">&laquo;&laquo;</span></a>
@@ -289,7 +431,7 @@
 </div>
 
 </div><aside class="col-lg-4 sidebar d-flex">
-  <div class="container">
+  <div class="container d-flex flex-column">
     
     <section class="card row text-center profile component">
   <div class="card-body">
@@ -306,6 +448,9 @@
   </div>
   <div class="card-body">
     <ul class="post-list"><li>
+        <a href="https://mengdemao.github.io/posts/c4/">C4
+</a>
+      </li><li>
         <a href="https://mengdemao.github.io/posts/lua/">Lua
 </a>
       </li><li>
@@ -317,12 +462,9 @@
       </li><li>
         <a href="https://mengdemao.github.io/posts/dwl/">Dwl
 </a>
-      </li><li>
-        <a href="https://mengdemao.github.io/posts/tinycc/">Tinycc
-</a>
       </li></ul>
   </div>
-</section><section class="taxonomies row card component">
+</section><section class="categories-taxonomies row card component">
       <div class="card-header">
         <h2 class="card-title">
           <a href="https://mengdemao.github.io/categories">分类</a>
@@ -330,10 +472,11 @@
       </div>
       <div class="card-body">
         <div class="py-2"><a href="https://mengdemao.github.io/categories/linux/" class="badge rounded post-taxonomy" title="linux">
-            linux</a><a href="https://mengdemao.github.io/categories/python/" class="badge rounded post-taxonomy" title="python">
+            linux</a><a href="https://mengdemao.github.io/categories/compiler/" class="badge rounded post-taxonomy" title="compiler">
+            compiler</a><a href="https://mengdemao.github.io/categories/python/" class="badge rounded post-taxonomy" title="python">
             python</a></div>
       </div>
-    </section><section class="taxonomies row card component">
+    </section><section class="tags-taxonomies row card component">
       <div class="card-header">
         <h2 class="card-title">
           <a href="https://mengdemao.github.io/tags">标签</a>
@@ -352,14 +495,16 @@
   </div>
 </aside>
 </div>
-    </main><footer class="footer mt-auto py-3 text-center container"><nav class="social-links nav justify-content-center mb-2"></nav>
+    </main><footer class="footer mt-auto py-3 text-center container"><nav class="social-links nav justify-content-center mb-2"><a class="nav-link social-link" target="_blank" href="https://mengdemao.github.io/index.xml" title="RSS" rel="noopener noreferrer">
+      <i class="fas fa-fw fa-2x fa-rss"></i>
+    </a></nav>
 <div class="copyright mb-2">
   Copyright © 2020-2022 Meng Demao. All Rights Reserved.
 </div>
 <div class="powered-by mb-2">
   Powered by <a href="https://gohugo.io" target="_blank" rel="noopener noreferrer">Hugo</a> and the <a href="https://github.com/razonyang/hugo-theme-bootstrap" target="_blank" rel="noopener noreferrer">Bootstrap</a> theme.
 </div></footer>
-<script src="https://mengdemao.github.io/js/main.min.7a0fc1a2bad50fa8cc99a4167ed69f60432d32e534e18e93fc8d8b4467e86d88.js" integrity="sha256-eg/BorrVD6jMmaQWftafYEMtMuU04Y6T/I2LRGfobYg=" crossorigin="anonymous" defer></script><script src="https://mengdemao.github.io/js/icons.min.a35670f2f90c398e5ee5c8e509b428fae75aa2746854cee10b60794633076859.js" integrity="sha256-o1Zw8vkMOY5e5cjlCbQo&#43;udaonRoVM7hC2B5RjMHaFk=" crossorigin="anonymous" defer></script>
+<script src="https://mengdemao.github.io/js/main.be6547dee74694dd4e7524da0db563884d2e85a402de8ea437fde7d196714836.js" integrity="sha256-vmVH3udGlN1OdSTaDbVjiE0uhaQC3o6kN/3n0ZZxSDY=" crossorigin="anonymous" defer></script><script src="https://mengdemao.github.io/js/icons.min.a35670f2f90c398e5ee5c8e509b428fae75aa2746854cee10b60794633076859.js" integrity="sha256-o1Zw8vkMOY5e5cjlCbQo&#43;udaonRoVM7hC2B5RjMHaFk=" crossorigin="anonymous" defer></script>
 <script src="https://mengdemao.github.io/js/viewer.min.4dba52a0a790f909408b7385316651299158381686401d50ff1f04dda6476473.js" integrity="sha256-TbpSoKeQ&#43;QlAi3OFMWZRKZFYOBaGQB1Q/x8E3aZHZHM=" crossorigin="anonymous" defer></script>
 </body>
 </html>

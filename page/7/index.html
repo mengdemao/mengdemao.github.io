@@ -1,4 +1,4 @@
-<!doctype html><html lang="zh-cn"
+<!doctype html><html lang="zh-cn" data-palette="brown"
   >
   <head>
 	<meta name="generator" content="Hugo 0.88.0" />
@@ -19,13 +19,13 @@
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="编程日志"/>
 <meta name="twitter:description" content="编程日志"/>
-<link rel="alternate" type="application/rss+xml" href="https://mengdemao.github.io/index.xml" title="编程日志" /><link rel="stylesheet" href="https://mengdemao.github.io/css/main.min.702127d58e0a5778490e24163ec0ec8d40cfe62780936bf8b19b4c8ab0bc3ed8.css" integrity="sha256-cCEn1Y4KV3hJDiQWPsDsjUDP5ieAk2v4sZtMirC8Ptg=" crossorigin="anonymous"><link rel="stylesheet" href="https://mengdemao.github.io/css/viewer.min.3d228794bcedbbfa0412beb8fbc1ec6973202945e42af7004f742a4d7bd620ab.css" integrity="sha256-PSKHlLztu/oEEr64&#43;8HsaXMgKUXkKvcAT3QqTXvWIKs=" crossorigin="anonymous"></head>
+<link rel="alternate" type="application/rss+xml" href="https://mengdemao.github.io/index.xml" title="编程日志" /><link rel="stylesheet" href="https://mengdemao.github.io/css/main.min.b7a6eda8d46e39a549f182cf72a9ff4f4c1d4d82c31ecc3ede0b7f4d5b26f32b.css" integrity="sha256-t6btqNRuOaVJ8YLPcqn/T0wdTYLDHsw&#43;3gt/TVsm8ys=" crossorigin="anonymous"><link rel="stylesheet" href="https://mengdemao.github.io/css/viewer.min.3d228794bcedbbfa0412beb8fbc1ec6973202945e42af7004f742a4d7bd620ab.css" integrity="sha256-PSKHlLztu/oEEr64&#43;8HsaXMgKUXkKvcAT3QqTXvWIKs=" crossorigin="anonymous"></head>
   <body><script>const items=['mode','palette'];items.forEach(function(a){const b=localStorage.getItem('hbs-'+a);b&&document.body.parentElement.setAttribute('data-'+a,b)})</script><header><nav class="navbar top-app-bar top-app-bar-expand-lg fixed-top">
   <div class="container">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <i class="fas fa-bars"></i>
-    </button><a class="navbar-brand me-3 active" href="https://mengdemao.github.io/"><img class="logo" alt="Logo" src="https://mengdemao.github.io/images/logo.webp" loading="lazy"
+    </button><a class="navbar-brand flex-grow-1 flex-lg-grow-0 text-center text-lg-start mx-auto me-lg-3 active" href="https://mengdemao.github.io/"><img class="logo" alt="Logo" src="https://mengdemao.github.io/images/logo.webp" loading="lazy"
    width="136" height="69"
    />
 编程日志
@@ -107,6 +107,9 @@
       </button></div>
 </section>
 <section class="setting actions d-flex justify-content-around mt-auto overflow-auto">
+  <a role="button" class="action action-go-back" href="javascript: window.history.back();">
+    <span class="action-icon"><i class="fas fa-2x fa-arrow-left"></i></span> 返回
+  </a>
   <a role="button" class="action action-reload-page">
     <span class="action-icon"><i class="fas fa-2x fa-redo-alt"></i></span> 刷新
   </a>
@@ -167,13 +170,62 @@
       <div class="row content">
 <div class="col-lg-8">
   <div class="container"><div class="posts mb-4"><article class="row card post component"><div class="card-header">
-        <h2 class="card-title post-title">
-          <a href="https://mengdemao.github.io/posts/doxygen/">Doxygen
+    <h2 class="card-title post-title">
+      <a href="https://mengdemao.github.io/posts/c&#43;&#43;/">C&#43;&#43;笔记
 </a>
-        </h2>
-      </div>
-      <div class="card-body">
-        <div class="post-meta">
+    </h2>
+  </div>
+  <div class="card-body">
+    <div class="post-meta">
+  <span class="post-date" title="创建于 2021-10-03 05:20:54 &#43;0000 UTC。">
+    Oct 3, 2021
+  </span><span class="post-reading-time">
+    8 分钟阅读
+  </span><span class="post-taxonomies"></span>
+</div>
+<div class="post-summary">
+      <h2 id="c基础语法">C++基础语法<a class="anchor ms-1" href="#c基础语法"><i class="fas fa-link"></i></a></h2>
+<h3 id="第一个程序">第一个程序<a class="anchor ms-1" href="#第一个程序"><i class="fas fa-link"></i></a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="ln">1</span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="ln">2</span><span class="cp"></span>
+<span class="ln">3</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="ln">4</span>
+<span class="ln">5</span><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="ln">6</span><span class="p">{</span>
+<span class="ln">7</span>	<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Hello World&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="ln">8</span>	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="ln">9</span><span class="p">}</span>
+</code></pre></div><h3 id="注释类型">注释类型<a class="anchor ms-1" href="#注释类型"><i class="fas fa-link"></i></a></h3>
+<ul>
+<li>单行注释</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="ln">1</span><span class="c1">// 这个是一个单行注释
+</span></code></pre></div><ul>
+<li>多行注释</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="ln">1</span><span class="cm">/* 
+</span><span class="ln">2</span><span class="cm">	这个里面是一个注释
+</span><span class="ln">3</span><span class="cm"> */</span>
+</code></pre></div><h3 id="变量">变量<a class="anchor ms-1" href="#变量"><i class="fas fa-link"></i></a></h3>
+<p>变量的存在意义:方便我们管理内存</p>
+<p>变量创建的语法</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="ln">1</span><span class="err">数据类型</span> <span class="err">变量名</span> <span class="o">=</span> <span class="err">变量初始化</span><span class="p">;</span>
+</code></pre></div><h3 id="常量">常量<a class="anchor ms-1" href="#常量"><i class="fas fa-link"></i></a></h3>
+<p>作用: 记录程序中不可以改变的数据</p>
+<ul>
+<li>define 宏常量(预编译期)</li>
+<li>const 修<div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/c++/">阅读更多</a></div></li></ul>
+    </div>
+  </div>
+</article>
+<article class="row card post component"><div class="card-header">
+    <h2 class="card-title post-title">
+      <a href="https://mengdemao.github.io/posts/doxygen/">Doxygen
+</a>
+    </h2>
+  </div>
+  <div class="card-body">
+    <div class="post-meta">
   <span class="post-date" title="创建于 2021-10-03 04:58:02 &#43;0000 UTC。">
     Oct 3, 2021
   </span><span class="post-reading-time">
@@ -181,53 +233,116 @@
   </span><span class="post-taxonomies"></span>
 </div>
 <div class="post-summary">
-          doxygen教程 开始开始doxygen
-        </div>
-      </div>
-    </article><article class="row card post component"><div class="card-header">
-        <h2 class="card-title post-title">
-          <a href="https://mengdemao.github.io/posts/engineering_compiler/">Engineering_compiler
+      <h1 id="doxygen教程">doxygen教程<a class="anchor ms-1" href="#doxygen教程"><i class="fas fa-link"></i></a></h1>
+开始<h2 id="开始doxygenhttpsrawgithubusercontentcommengdemaopicturemasterdoxygenpng">开始doxygen<a class="anchor ms-1" href="#开始doxygenhttpsrawgithubusercontentcommengdemaopicturemasterdoxygenpng"><i class="fas fa-link"></i></a></h2>
+
+    </div>
+  </div>
+</article>
+<article class="row card post component"><div class="card-header">
+    <h2 class="card-title post-title">
+      <a href="https://mengdemao.github.io/posts/engineering_compiler/">Engineering_compiler
 </a>
-        </h2>
-      </div>
-      <div class="card-body">
-        <div class="post-meta">
+    </h2>
+  </div>
+  <div class="card-body">
+    <div class="post-meta">
   <span class="post-date" title="创建于 2021-10-03 04:42:43 &#43;0000 UTC。">
     Oct 3, 2021
   </span><span class="post-reading-time">
     0 分钟阅读
-  </span><span class="post-taxonomies"><a href="https://mengdemao.github.io/tags/compiler/" class="badge rounded-pill post-taxonomy">compiler</a></span>
+  </span><span class="post-taxonomies"><a href="https://mengdemao.github.io/tags/compiler/" class="badge post-taxonomy">compiler</a></span>
 </div>
 <div class="post-summary">
-          
-        </div>
-      </div>
-    </article><article class="row card post component"><div class="card-header">
-        <h2 class="card-title post-title">
-          <a href="https://mengdemao.github.io/posts/drivermodel/">驱动模型
+      
+    </div>
+  </div>
+</article>
+<article class="row card post component"><div class="card-header">
+    <h2 class="card-title post-title">
+      <a href="https://mengdemao.github.io/posts/drivermodel/">驱动模型
 </a>
-        </h2>
-      </div>
-      <div class="card-body">
-        <div class="post-meta">
+    </h2>
+  </div>
+  <div class="card-body">
+    <div class="post-meta">
   <span class="post-date" title="创建于 2021-10-01 15:32:46 &#43;0000 UTC，更新于 2021-10-24 15:32:46 &#43;0000 UTC。">
     Oct 1, 2021
   </span><span class="post-reading-time">
     6 分钟阅读
-  </span><span class="post-taxonomies"><a href="https://mengdemao.github.io/tags/kernel/" class="badge rounded-pill post-taxonomy">kernel</a></span>
+  </span><span class="post-taxonomies"><a href="https://mengdemao.github.io/tags/kernel/" class="badge post-taxonomy">kernel</a></span>
 </div>
 <div class="post-summary">
-          简述 驱动模型 顶级kobject 解释 block 块设备链接&ndash;&gt;/sys/deives相关文件 bus 存放各种总线文件 class 各种设备类 dev 存放(字符
-        </div>
-      </div>
-    </article><article class="row card post component"><div class="card-header">
-        <h2 class="card-title post-title">
-          <a href="https://mengdemao.github.io/posts/luajit/">LuaJIT
+      <h2 id="简述">简述<a class="anchor ms-1" href="#简述"><i class="fas fa-link"></i></a></h2>
+<blockquote>
+<p>驱动模型</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>顶级kobject</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>block</td>
+<td>块设备链接&ndash;&gt;/sys/deives相关文件</td>
+</tr>
+<tr>
+<td>bus</td>
+<td>存放各种总线文件</td>
+</tr>
+<tr>
+<td>class</td>
+<td>各种设备类</td>
+</tr>
+<tr>
+<td>dev</td>
+<td>存放(字符/块)设备主副设备号链接文件&ndash;&gt;/sys/deives</td>
+</tr>
+<tr>
+<td>devices</td>
+<td>设备的具体存放文件</td>
+</tr>
+<tr>
+<td>firmware</td>
+<td>固件存放</td>
+</tr>
+<tr>
+<td>fs</td>
+<td>文件类型</td>
+</tr>
+<tr>
+<td>kernel</td>
+<td>kernel子系统</td>
+</tr>
+<tr>
+<td>module</td>
+<td>模块信息</td>
+</tr>
+<tr>
+<td>power</td>
+<td>能源管理</td>
+</tr>
+</tbody>
+</table>
+<h2 id="底层机制">底层机制<a class="anchor ms-1" href="#底层机制"><i class="fas fa-link"></i></a></h2>
+<h3 id="kobject">kobject<a class="anchor ms-1" href="#kobject"><i class="fas fa-link"></i></a></h3>
+<blockquote>
+<p>内核对象:kobject/kobject_type/kset
+为模块提供一个底层抽象,其中文件存放于/sys<div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/drivermodel/">阅读更多</a></div></p></blockquote>
+    </div>
+  </div>
+</article>
+<article class="row card post component"><div class="card-header">
+    <h2 class="card-title post-title">
+      <a href="https://mengdemao.github.io/posts/luajit/">LuaJIT
 </a>
-        </h2>
-      </div>
-      <div class="card-body">
-        <div class="post-meta">
+    </h2>
+  </div>
+  <div class="card-body">
+    <div class="post-meta">
   <span class="post-date" title="创建于 2021-09-04 11:04:52 &#43;0000 UTC。">
     Sep 4, 2021
   </span><span class="post-reading-time">
@@ -235,28 +350,27 @@
   </span><span class="post-taxonomies"></span>
 </div>
 <div class="post-summary">
-          LuaJIT Lua语法 基本语法 1 print(&#34;Hello World&#34;) 表(table) LuaJIT分析 LuaJIT主函数 1int main(int argc, char **argv) 2{ 3 int status; /* 返回值 */ 4 lua_State *L = lua_open(); /* 创建LUA状态机 */ 5 if (L
-        </div>
-      </div>
-    </article><article class="row card post component"><div class="card-header">
-        <h2 class="card-title post-title">
-          <a href="https://mengdemao.github.io/posts/compilerprinciples/">编译原理
-</a>
-        </h2>
-      </div>
-      <div class="card-body">
-        <div class="post-meta">
-  <span class="post-date" title="创建于 2021-09-04 11:04:52 &#43;0000 UTC。">
-    Sep 4, 2021
-  </span><span class="post-reading-time">
-    1 分钟阅读
-  </span><span class="post-taxonomies"></span>
-</div>
-<div class="post-summary">
-          编译原理 基础概念 词法分析 RE NFA DFA 语法分析 上下文无关文法(CFG) 自上而下(Top Down) 自下而上(Bottom Up) 语义分析 中间代码 目标代码
-        </div>
-      </div>
-    </article></div><div class="row table-responsive mb-3">
+      <h1 id="luajit">LuaJIT<a class="anchor ms-1" href="#luajit"><i class="fas fa-link"></i></a></h1>
+<h2 id="lua语法">Lua语法<a class="anchor ms-1" href="#lua语法"><i class="fas fa-link"></i></a></h2>
+<h3 id="基本语法">基本语法<a class="anchor ms-1" href="#基本语法"><i class="fas fa-link"></i></a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="ln">1</span>	<span class="n">print</span><span class="p">(</span><span class="s2">&#34;Hello World&#34;</span><span class="p">)</span>
+</code></pre></div><h3 id="表table">表(table)<a class="anchor ms-1" href="#表table"><i class="fas fa-link"></i></a></h3>
+<h2 id="luajit分析">LuaJIT分析<a class="anchor ms-1" href="#luajit分析"><i class="fas fa-link"></i></a></h2>
+<h3 id="luajit主函数">LuaJIT主函数<a class="anchor ms-1" href="#luajit主函数"><i class="fas fa-link"></i></a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span>
+<span class="ln"> 2</span><span class="p">{</span>
+<span class="ln"> 3</span>	<span class="kt">int</span> <span class="n">status</span><span class="p">;</span> 				<span class="cm">/* 返回值 */</span>
+<span class="ln"> 4</span>	<span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span> <span class="o">=</span> <span class="n">lua_open</span><span class="p">();</span>  <span class="cm">/* 创建LUA状态机 */</span>
+<span class="ln"> 5</span>	<span class="k">if</span> <span class="p">(</span><span class="n">L</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+<span class="ln"> 6</span>		<span class="n">l_message</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s">&#34;cannot create state: not enough memory&#34;</span><span class="p">);</span>
+<span class="ln"> 7</span>		<span class="k">return</span> <span class="n">EXIT_FAILURE</span><span class="p">;</span>
+<span class="ln"> 8</span>	<span class="p">}</span>
+<span class="ln"> 9</span>	
+<span class="ln">10<div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/luajit/">阅读更多</a></div></span></code></pre></div>
+    </div>
+  </div>
+</article>
+</div><div class="row table-responsive mb-3">
     <ul class="pagination pagination-default">
       <li class="page-item">
         <a href="/" aria-label="First" class="page-link" role="button"><span aria-hidden="true">&laquo;&laquo;</span></a>
@@ -289,7 +403,7 @@
 </div>
 
 </div><aside class="col-lg-4 sidebar d-flex">
-  <div class="container">
+  <div class="container d-flex flex-column">
     
     <section class="card row text-center profile component">
   <div class="card-body">
@@ -306,6 +420,9 @@
   </div>
   <div class="card-body">
     <ul class="post-list"><li>
+        <a href="https://mengdemao.github.io/posts/c4/">C4
+</a>
+      </li><li>
         <a href="https://mengdemao.github.io/posts/lua/">Lua
 </a>
       </li><li>
@@ -317,12 +434,9 @@
       </li><li>
         <a href="https://mengdemao.github.io/posts/dwl/">Dwl
 </a>
-      </li><li>
-        <a href="https://mengdemao.github.io/posts/tinycc/">Tinycc
-</a>
       </li></ul>
   </div>
-</section><section class="taxonomies row card component">
+</section><section class="categories-taxonomies row card component">
       <div class="card-header">
         <h2 class="card-title">
           <a href="https://mengdemao.github.io/categories">分类</a>
@@ -330,10 +444,11 @@
       </div>
       <div class="card-body">
         <div class="py-2"><a href="https://mengdemao.github.io/categories/linux/" class="badge rounded post-taxonomy" title="linux">
-            linux</a><a href="https://mengdemao.github.io/categories/python/" class="badge rounded post-taxonomy" title="python">
+            linux</a><a href="https://mengdemao.github.io/categories/compiler/" class="badge rounded post-taxonomy" title="compiler">
+            compiler</a><a href="https://mengdemao.github.io/categories/python/" class="badge rounded post-taxonomy" title="python">
             python</a></div>
       </div>
-    </section><section class="taxonomies row card component">
+    </section><section class="tags-taxonomies row card component">
       <div class="card-header">
         <h2 class="card-title">
           <a href="https://mengdemao.github.io/tags">标签</a>
@@ -352,14 +467,16 @@
   </div>
 </aside>
 </div>
-    </main><footer class="footer mt-auto py-3 text-center container"><nav class="social-links nav justify-content-center mb-2"></nav>
+    </main><footer class="footer mt-auto py-3 text-center container"><nav class="social-links nav justify-content-center mb-2"><a class="nav-link social-link" target="_blank" href="https://mengdemao.github.io/index.xml" title="RSS" rel="noopener noreferrer">
+      <i class="fas fa-fw fa-2x fa-rss"></i>
+    </a></nav>
 <div class="copyright mb-2">
   Copyright © 2020-2022 Meng Demao. All Rights Reserved.
 </div>
 <div class="powered-by mb-2">
   Powered by <a href="https://gohugo.io" target="_blank" rel="noopener noreferrer">Hugo</a> and the <a href="https://github.com/razonyang/hugo-theme-bootstrap" target="_blank" rel="noopener noreferrer">Bootstrap</a> theme.
 </div></footer>
-<script src="https://mengdemao.github.io/js/main.min.7a0fc1a2bad50fa8cc99a4167ed69f60432d32e534e18e93fc8d8b4467e86d88.js" integrity="sha256-eg/BorrVD6jMmaQWftafYEMtMuU04Y6T/I2LRGfobYg=" crossorigin="anonymous" defer></script><script src="https://mengdemao.github.io/js/icons.min.a35670f2f90c398e5ee5c8e509b428fae75aa2746854cee10b60794633076859.js" integrity="sha256-o1Zw8vkMOY5e5cjlCbQo&#43;udaonRoVM7hC2B5RjMHaFk=" crossorigin="anonymous" defer></script>
+<script src="https://mengdemao.github.io/js/main.be6547dee74694dd4e7524da0db563884d2e85a402de8ea437fde7d196714836.js" integrity="sha256-vmVH3udGlN1OdSTaDbVjiE0uhaQC3o6kN/3n0ZZxSDY=" crossorigin="anonymous" defer></script><script src="https://mengdemao.github.io/js/icons.min.a35670f2f90c398e5ee5c8e509b428fae75aa2746854cee10b60794633076859.js" integrity="sha256-o1Zw8vkMOY5e5cjlCbQo&#43;udaonRoVM7hC2B5RjMHaFk=" crossorigin="anonymous" defer></script>
 <script src="https://mengdemao.github.io/js/viewer.min.4dba52a0a790f909408b7385316651299158381686401d50ff1f04dda6476473.js" integrity="sha256-TbpSoKeQ&#43;QlAi3OFMWZRKZFYOBaGQB1Q/x8E3aZHZHM=" crossorigin="anonymous" defer></script>
 </body>
 </html>
