@@ -187,17 +187,7 @@
   </span><span class="post-taxonomies"><a href="https://mengdemao.github.io/tags/nfs/" class="badge post-taxonomy">nfs</a></span>
 </div>
 <div class="post-summary">
-      <h1 id="nfs服务">nfs服务<a class="anchor ms-1" href="#nfs服务"><i class="fas fa-link"></i></a></h1>
-<h2 id="安装">安装<a class="anchor ms-1" href="#安装"><i class="fas fa-link"></i></a></h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="ln">1</span>sudo apt-get install nfs-kernel-server
-</code></pre></div><h2 id="设置导出">设置导出<a class="anchor ms-1" href="#设置导出"><i class="fas fa-link"></i></a></h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="ln">1</span>/home/exports *<span class="o">(</span>rw,nohide,insecure,no_subtree_check,async,no_root_squash<span class="o">)</span>
-</code></pre></div><h2 id="开启服务">开启服务<a class="anchor ms-1" href="#开启服务"><i class="fas fa-link"></i></a></h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="ln">1</span>sudo /etc/init.d/nfs-kernel-server restart
-</code></pre></div><h2 id="测试">测试<a class="anchor ms-1" href="#测试"><i class="fas fa-link"></i></a></h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="ln">1</span>sudo mount -t nfs -o nolock,vers<span class="o">=</span><span class="m">3</span> 127.0.0.1:/home/exports /mnt
-<span class="ln">2</span>ls /mnt
-</code></pre></div>
+      <p>nfs服务 安装 1sudo apt-get install nfs-kernel-server 设置导出 1/home/exports *(rw,nohide,insecure,no_subtree_check,async,no_root_squash) 开启服务 1sudo /etc/init.d/nfs-kernel-server restart 测试 1sudo mount -t nfs -o nolock,vers=3 127.0.0.1:/home/exports /mnt 2ls /mnt </p><div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/nfs/">阅读更多</a></div>
     </div>
   </div>
 </article>
@@ -221,7 +211,22 @@
     <h2 class="card-title">最近文章</h2>
   </div>
   <div class="card-body">
-    <ul class="post-list"></ul>
+    <ul class="post-list"><li>
+        <a href="https://mengdemao.github.io/posts/c4/">C4
+</a>
+      </li><li>
+        <a href="https://mengdemao.github.io/posts/lua/">Lua
+</a>
+      </li><li>
+        <a href="https://mengdemao.github.io/posts/complete/">Complete
+</a>
+      </li><li>
+        <a href="https://mengdemao.github.io/posts/schedulepriority/">调度优先级
+</a>
+      </li><li>
+        <a href="https://mengdemao.github.io/posts/dwl/">Dwl
+</a>
+      </li></ul>
   </div>
 </section><section class="categories-taxonomies row card component">
       <div class="card-header">

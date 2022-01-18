@@ -187,20 +187,8 @@
   </span><span class="post-taxonomies"><a href="https://mengdemao.github.io/categories/compiler/" class="badge post-taxonomy">compiler</a><a href="https://mengdemao.github.io/tags/compiler/" class="badge post-taxonomy">compiler</a></span>
 </div>
 <div class="post-summary">
-      <h2 id="c4实现">C4实现<a class="anchor ms-1" href="#c4实现"><i class="fas fa-link"></i></a></h2>
-<p>C4共实现了4个函数</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln">1</span><span class="kt">void</span> <span class="nf">stmt</span><span class="p">();</span>
-<span class="ln">2</span><span class="kt">void</span> <span class="nf">next</span><span class="p">();</span>
-<span class="ln">3</span><span class="kt">void</span> <span class="nf">expr</span><span class="p">(</span><span class="kt">int</span> <span class="n">lev</span><span class="p">);</span>
-<span class="ln">4</span><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">);</span>
-</code></pre></div><h3 id="全局数据">全局数据<a class="anchor ms-1" href="#全局数据"><i class="fas fa-link"></i></a></h3>
-<h4 id="全局变量">全局变量<a class="anchor ms-1" href="#全局变量"><i class="fas fa-link"></i></a></h4>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="kt">char</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="o">*</span><span class="n">lp</span><span class="p">,</span> <span class="c1">// current position in source code
-</span><span class="ln"> 2</span><span class="c1"></span>     <span class="o">*</span><span class="n">data</span><span class="p">;</span>   <span class="c1">// data/bss pointer
-</span><span class="ln"> 3</span><span class="c1"></span>
-<span class="ln"> 4</span><span class="kt">int</span> <span class="o">*</span><span class="n">e</span><span class="p">,</span> <span class="o">*</span><span class="n">le</span><span class="p">,</span>  <span class="c1">// current position in emitted code
-</span><span class="ln"> 5</span><span class="c1"></span>    <span class="o">*</span><span class="n">id</span><span class="p">,</span>      <span class="c1">// currently parsed identifier
-</span><span class="ln"> 6</span><span class="c1"></span>    <span class="o">*</span><span class="n">sym</span><span class="p">,</span>     <span class="c1">//<div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/c4/">阅读更多</a></div></span></code></pre></div>
+      <p>C4实现 C4共实现了4个函数
+1void stmt(); 2void next(); 3void expr(int lev); 4int main(int argc, char **argv); 全局数据 全局变量 1char *p, *lp, // current position in source code 2 *data; // data/bss pointer 3 4int *e, *le, // current position in emitted code 5 *id, // currently parsed identifier 6 *sym, // symbol table (simple list of...</p><div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/c4/">阅读更多</a></div>
     </div>
   </div>
 </article>
@@ -219,7 +207,7 @@
   </span><span class="post-taxonomies"><a href="https://mengdemao.github.io/tags/compiler/" class="badge post-taxonomy">compiler</a></span>
 </div>
 <div class="post-summary">
-      
+      <p></p><div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/engineering_compiler/">阅读更多</a></div>
     </div>
   </div>
 </article>
@@ -243,7 +231,22 @@
     <h2 class="card-title">最近文章</h2>
   </div>
   <div class="card-body">
-    <ul class="post-list"></ul>
+    <ul class="post-list"><li>
+        <a href="https://mengdemao.github.io/posts/c4/">C4
+</a>
+      </li><li>
+        <a href="https://mengdemao.github.io/posts/lua/">Lua
+</a>
+      </li><li>
+        <a href="https://mengdemao.github.io/posts/complete/">Complete
+</a>
+      </li><li>
+        <a href="https://mengdemao.github.io/posts/schedulepriority/">调度优先级
+</a>
+      </li><li>
+        <a href="https://mengdemao.github.io/posts/dwl/">Dwl
+</a>
+      </li></ul>
   </div>
 </section><section class="categories-taxonomies row card component">
       <div class="card-header">

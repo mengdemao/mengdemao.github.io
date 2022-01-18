@@ -187,11 +187,8 @@
   </span><span class="post-taxonomies"></span>
 </div>
 <div class="post-summary">
-      <h1 id="mmu内存管理单元">MMU内存管理单元<a class="anchor ms-1" href="#mmu内存管理单元"><i class="fas fa-link"></i></a></h1>
-<blockquote>
-<p>ARM内存管理单元分析</p>
-</blockquote>
-
+      <p>MMU内存管理单元  ARM内存管理单元分析
+ </p><div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/mmu/">阅读更多</a></div>
     </div>
   </div>
 </article>
@@ -210,7 +207,7 @@
   </span><span class="post-taxonomies"></span>
 </div>
 <div class="post-summary">
-      
+      <p></p><div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/page/">阅读更多</a></div>
     </div>
   </div>
 </article>
@@ -229,18 +226,10 @@
   </span><span class="post-taxonomies"></span>
 </div>
 <div class="post-summary">
-      <h1 id="fork">fork<a class="anchor ms-1" href="#fork"><i class="fas fa-link"></i></a></h1>
-<blockquote>
-<p>linux创建线程的函数
-fork &ndash;&gt; do_fork</p>
-</blockquote>
-<p>do_fork的执行线路
-<code>do_fork</code> &ndash;&gt; <code>copy_process</code> &ndash;&gt; <code>get_task_pid</code> &ndash;&gt; <code>wake_up_new_task</code> &ndash;&gt; <code>put_pid</code></p>
-<p>do_fork函数原型</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln">1</span><span class="kt">long</span> <span class="nf">_do_fork</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">clone_flags</span><span class="p">,</span>
-<span class="ln">2</span>	      <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">stack_start</span><span class="p">,</span>
-<span class="ln">3</span>	      <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">stack_size</span><span class="p">,</span>
-<span class="ln">4</span>	      <span class="kt">int</span> <span class="n">__user</span> <span class="o">*<div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/fork/">阅读更多</a></div></span></code></pre></div>
+      <p>fork  linux创建线程的函数 fork –&gt; do_fork
+ do_fork的执行线路 do_fork –&gt; copy_process –&gt; get_task_pid –&gt; wake_up_new_task –&gt; put_pid
+do_fork函数原型
+1long _do_fork(unsigned long clone_flags, 2	unsigned long stack_start, 3	unsigned long stack_size, 4	int __user *parent_tidptr, 5	int __user *child_tidptr, 6	unsigned long tls);...</p><div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/fork/">阅读更多</a></div>
     </div>
   </div>
 </article>
@@ -259,7 +248,7 @@ fork &ndash;&gt; do_fork</p>
   </span><span class="post-taxonomies"></span>
 </div>
 <div class="post-summary">
-      
+      <p></p><div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/task/">阅读更多</a></div>
     </div>
   </div>
 </article>
@@ -278,20 +267,7 @@ fork &ndash;&gt; do_fork</p>
   </span><span class="post-taxonomies"><a href="https://mengdemao.github.io/categories/linux/" class="badge post-taxonomy">linux</a><a href="https://mengdemao.github.io/tags/kernel/" class="badge post-taxonomy">kernel</a></span>
 </div>
 <div class="post-summary">
-      <h1 id="系统调度">系统调度<a class="anchor ms-1" href="#系统调度"><i class="fas fa-link"></i></a></h1>
-<ul>
-<li>主调度器<code>schedule</code></li>
-<li>周期调度器<code>scheduler_tick</code></li>
-</ul>
-<h2 id="周期调度器函数实现">周期调度器函数实现<a class="anchor ms-1" href="#周期调度器函数实现"><i class="fas fa-link"></i></a></h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="kt">void</span> <span class="nf">scheduler_tick</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
-<span class="ln"> 2</span><span class="p">{</span>
-<span class="ln"> 3</span>	<span class="kt">int</span> <span class="n">cpu</span> <span class="o">=</span> <span class="n">smp_processor_id</span><span class="p">();</span>				<span class="c1">// CPUID
-</span><span class="ln"> 4</span><span class="c1"></span>	<span class="k">struct</span> <span class="n">rq</span> <span class="o">*</span><span class="n">rq</span> <span class="o">=</span> <span class="n">cpu_rq</span><span class="p">(</span><span class="n">cpu</span><span class="p">);</span>				<span class="c1">// 提取消息队列
-</span><span class="ln"> 5</span><span class="c1"></span>	<span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">curr</span> <span class="o">=</span> <span class="n">rq</span><span class="o">-&gt;</span><span class="n">curr</span><span class="p">;</span>		<span class="c1">// 提取正在运行的进程
-</span><span class="ln"> 6</span><span class="c1"></span>	<span class="k">struct</span> <span class="n">rq_flags</span> <span class="n">rf</span><span class="p">;</span>							<span class="c1">// 
-</span><span class="ln"> 7</span><span class="c1"></span>	<span class="n">sched_clock_tick</span><span class="p">();</span>							<span class="c1">// 
-</span><span class="ln"> 8</span><span class="c1"></span>	<span class="n">rq_lock</span><span class="p">(</span><span class="n">rq</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rf</span><span class="p">);<div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/sched/">阅读更多</a></div></span></code></pre></div>
+      <p>系统调度  主调度器schedule 周期调度器scheduler_tick  周期调度器函数实现 1void scheduler_tick(void) 2{ 3	int cpu = smp_processor_id();	// CPUID 4	struct rq *rq = cpu_rq(cpu);	// 提取消息队列 5	struct task_struct *curr = rq-&gt;curr;	// 提取正在运行的进程 6	struct rq_flags rf;	// 7	sched_clock_tick();	// 8	rq_lock(rq, &amp;rf);	// 9	update_rq_clock(rq);	//...</p><div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/sched/">阅读更多</a></div>
     </div>
   </div>
 </article>

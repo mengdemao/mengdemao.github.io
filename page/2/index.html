@@ -184,40 +184,9 @@
   </span><span class="post-taxonomies"></span>
 </div>
 <div class="post-summary">
-      <h1 id="tinycc">TinyCC<a class="anchor ms-1" href="#tinycc"><i class="fas fa-link"></i></a></h1>
-<blockquote>
-<p>TinyCC (aka TCC) is a small but hyper fast C compiler.
-Unlike other C compilers, it is meant to be self-relying: you do not need an external
-assembler or linker because TCC does that for you.</p>
-</blockquote>
-<h2 id="tcc-执行概览">TCC 执行概览<a class="anchor ms-1" href="#tcc-执行概览"><i class="fas fa-link"></i></a></h2>
-<p>TCC组成代码</p>
-<table>
-<thead>
-<tr>
-<th>文件名</th>
-<th>解释</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>tcc.c</code>/<code>libtcc.c</code></td>
-<td>tcc运行代码</td>
-</tr>
-<tr>
-<td><code>tccpp.c</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>tccelf.c</code> <code>tcccoff.c</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>tccasm.c</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>tccrun.c<div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/tinycc/">阅读更多</a></div></code></td></tr></tbody></table>
+      <p>TinyCC  TinyCC (aka TCC) is a small but hyper fast C compiler. Unlike other C compilers, it is meant to be self-relying: you do not need an external assembler or linker because TCC does that for you.
+ TCC 执行概览 TCC组成代码
+   文件名 解释     tcc.c/libtcc.c tcc运行代码   tccpp.c    tccelf.c tcccoff.c    tccasm.c    tccrun.c...</p><div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/tinycc/">阅读更多</a></div>
     </div>
   </div>
 </article>
@@ -236,25 +205,7 @@ assembler or linker because TCC does that for you.</p>
   </span><span class="post-taxonomies"></span>
 </div>
 <div class="post-summary">
-      <h1 id="个人服务器安装记录">个人服务器安装记录<a class="anchor ms-1" href="#个人服务器安装记录"><i class="fas fa-link"></i></a></h1>
-<h2 id="配置交换文件">配置交换文件<a class="anchor ms-1" href="#配置交换文件"><i class="fas fa-link"></i></a></h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="ln"> 1</span><span class="c1"># 创建交换文件</span>
-<span class="ln"> 2</span>sudo fallocate -l 2G /swapfile
-<span class="ln"> 3</span>
-<span class="ln"> 4</span><span class="c1"># 修改权限只允许ROOT使用</span>
-<span class="ln"> 5</span>sudo chmod <span class="m">600</span> /swapfile
-<span class="ln"> 6</span>
-<span class="ln"> 7</span><span class="c1"># 创建swapfile</span>
-<span class="ln"> 8</span>sudo mkswap /swapfile
-<span class="ln"> 9</span>
-<span class="ln">10</span><span class="c1"># 开启swapfile</span>
-<span class="ln">11</span>sudo swapon /swapfile
-<span class="ln">12</span>
-<span class="ln">13</span><span class="c1"># 写入fstab</span>
-<span class="ln">14</span><span class="nb">echo</span> <span class="s1">&#39;/swapfile none swap sw 0 0&#39;</span> <span class="p">|</span> sudo tee -a /etc/fstab
-</code></pre></div><h2 id="jenkins安装">jenkins安装<a class="anchor ms-1" href="#jenkins安装"><i class="fas fa-link"></i></a></h2>
-<h3 id="安装jdk">安装jdk<a class="anchor ms-1" href="#安装jdk"><i class="fas fa-link"></i></a></h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="ln">1</span>sudo apt install<div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/server/">阅读更多</a></div></code></pre></div>
+      <p>个人服务器安装记录 配置交换文件 1# 创建交换文件 2sudo fallocate -l 2G /swapfile 3 4# 修改权限只允许ROOT使用 5sudo chmod 600 /swapfile 6 7# 创建swapfile 8sudo mkswap /swapfile 9 10# 开启swapfile 11sudo swapon /swapfile 12 13# 写入fstab 14echo &#39;/swapfile none swap sw 0 0&#39; | sudo tee -a /etc/fstab jenkins安装 安装jdk 1sudo apt install default-jdk 安装jenkins...</p><div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/server/">阅读更多</a></div>
     </div>
   </div>
 </article>
@@ -273,11 +224,7 @@ assembler or linker because TCC does that for you.</p>
   </span><span class="post-taxonomies"></span>
 </div>
 <div class="post-summary">
-      <h1 id="bsdiff">bsdiff<a class="anchor ms-1" href="#bsdiff"><i class="fas fa-link"></i></a></h1>
-<blockquote>
-<p>bsdiff and bspatch are tools for building and applying patches to binary files. By using suffix &gt;  sorting (specifically, Larsson and Sadakane&rsquo;s qsufsort) and taking advantage of how
-executable files change, bsdiff routinely produces binary patches 50-80% smaller than
-those produced by Xdelta, and 15%<div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/bsdiff/">阅读更多</a></div></p></blockquote>
+      <p>bsdiff  bsdiff and bspatch are tools for building and applying patches to binary files. By using suffix &gt; sorting (specifically, Larsson and Sadakane’s qsufsort) and taking advantage of how executable files change, bsdiff routinely produces binary patches 50-80% smaller than those produced by Xdelta, and 15% smaller...</p><div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/bsdiff/">阅读更多</a></div>
     </div>
   </div>
 </article>
@@ -296,76 +243,7 @@ those produced by Xdelta, and 15%<div><a class="btn btn-sm btn-primary btn-read-
   </span><span class="post-taxonomies"></span>
 </div>
 <div class="post-summary">
-      <h1 id="arm笔记">ARM笔记<a class="anchor ms-1" href="#arm笔记"><i class="fas fa-link"></i></a></h1>
-<h2 id="arm体系结构">ARM体系结构<a class="anchor ms-1" href="#arm体系结构"><i class="fas fa-link"></i></a></h2>
-<h3 id="相关术语">相关术语<a class="anchor ms-1" href="#相关术语"><i class="fas fa-link"></i></a></h3>
-<ul>
-<li>流水线</li>
-<li>DSP</li>
-<li>Jazelle</li>
-<li>ThumbEE</li>
-<li>Thumb-2</li>
-<li>TrustZone</li>
-<li>VFP</li>
-<li>NEON</li>
-<li>LAPE</li>
-<li>big.LITTLE</li>
-</ul>
-<h3 id="工具链">工具链<a class="anchor ms-1" href="#工具链"><i class="fas fa-link"></i></a></h3>
-<table>
-<thead>
-<tr>
-<th>文件名</th>
-<th>详解</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>addr2line</td>
-<td>把程序地址转化为文件名和行号</td>
-</tr>
-<tr>
-<td>ar</td>
-<td>建立、修改和提取归档文件</td>
-</tr>
-<tr>
-<td>as</td>
-<td>汇编编译器</td>
-</tr>
-<tr>
-<td>ld</td>
-<td>链接器</td>
-</tr>
-<tr>
-<td>nm</td>
-<td>列出文件的符号</td>
-</tr>
-<tr>
-<td>objcopy</td>
-<td>文件个数格式转换</td>
-</tr>
-<tr>
-<td>objdump</td>
-<td>反汇编</td>
-</tr>
-<tr>
-<td>ranlib</td>
-<td>产生索引,并且保存进入文件中</td>
-</tr>
-<tr>
-<td>readelf</td>
-<td>显示elf文件信息</td>
-</tr>
-<tr>
-<td>size</td>
-<td>列出文件大小</td>
-</tr>
-<tr>
-<td>string</td>
-<td>打印文件可打印字符串</td>
-</tr>
-<tr>
-<td>strip<div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/arm/">阅读更多</a></div></td></tr></tbody></table>
+      <p>ARM笔记 ARM体系结构 相关术语  流水线 DSP Jazelle ThumbEE Thumb-2 TrustZone VFP NEON LAPE big.LITTLE  工具链    文件名 详解     addr2line 把程序地址转化为文件名和行号   ar 建立、修改和提取归档文件   as 汇编编译器   ld 链接器   nm 列出文件的符号   objcopy 文件个数格式转换   objdump 反汇编   ranlib 产生索引,并且保存进入文件中   readelf 显示elf文件信息   size 列出文件大小   string 打印文件可打印字符串   strip...</p><div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/arm/">阅读更多</a></div>
     </div>
   </div>
 </article>
@@ -384,17 +262,7 @@ those produced by Xdelta, and 15%<div><a class="btn btn-sm btn-primary btn-read-
   </span><span class="post-taxonomies"><a href="https://mengdemao.github.io/categories/linux/" class="badge post-taxonomy">linux</a><a href="https://mengdemao.github.io/tags/kernel/" class="badge post-taxonomy">kernel</a></span>
 </div>
 <div class="post-summary">
-      <h1 id="idle调度器类">IDLE调度器类<a class="anchor ms-1" href="#idle调度器类"><i class="fas fa-link"></i></a></h1>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln">  1</span><span class="cm">/*
-</span><span class="ln">  2</span><span class="cm"> * Generic entry points for the idle threads and
-</span><span class="ln">  3</span><span class="cm"> * implementation of the idle task scheduling class.
-</span><span class="ln">  4</span><span class="cm"> *
-</span><span class="ln">  5</span><span class="cm"> * (NOTE: these are not related to SCHED_IDLE batch scheduled
-</span><span class="ln">  6</span><span class="cm"> *        tasks which are handled in sched/fair.c )
-</span><span class="ln">  7</span><span class="cm"> */</span>
-<span class="ln">  8</span><span class="cp">#include</span> <span class="cpf">&#34;sched.h&#34;</span><span class="cp">
-</span><span class="ln">  9</span><span class="cp"></span>
-<span class="ln"> 10</span><span class="cp">#include<div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/idle/">阅读更多</a></div></span></code></pre></div>
+      <p>IDLE调度器类 1/* 2* Generic entry points for the idle threads and 3* implementation of the idle task scheduling class. 4* 5* (NOTE: these are not related to SCHED_IDLE batch scheduled 6* tasks which are handled in sched/fair.c ) 7*/ 8#include &#34;sched.h&#34;9 10#include &lt;trace/events/power.h&gt;11 12/* Linker adds these: start and...</p><div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/idle/">阅读更多</a></div>
     </div>
   </div>
 </article>

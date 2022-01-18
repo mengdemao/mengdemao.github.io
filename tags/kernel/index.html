@@ -187,7 +187,7 @@
   </span><span class="post-taxonomies"><a href="https://mengdemao.github.io/tags/kernel/" class="badge post-taxonomy">kernel</a></span>
 </div>
 <div class="post-summary">
-      
+      <p></p><div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/complete/">阅读更多</a></div>
     </div>
   </div>
 </article>
@@ -206,17 +206,7 @@
   </span><span class="post-taxonomies"><a href="https://mengdemao.github.io/categories/linux/" class="badge post-taxonomy">linux</a><a href="https://mengdemao.github.io/tags/kernel/" class="badge post-taxonomy">kernel</a></span>
 </div>
 <div class="post-summary">
-      <h1 id="idle调度器类">IDLE调度器类<a class="anchor ms-1" href="#idle调度器类"><i class="fas fa-link"></i></a></h1>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln">  1</span><span class="cm">/*
-</span><span class="ln">  2</span><span class="cm"> * Generic entry points for the idle threads and
-</span><span class="ln">  3</span><span class="cm"> * implementation of the idle task scheduling class.
-</span><span class="ln">  4</span><span class="cm"> *
-</span><span class="ln">  5</span><span class="cm"> * (NOTE: these are not related to SCHED_IDLE batch scheduled
-</span><span class="ln">  6</span><span class="cm"> *        tasks which are handled in sched/fair.c )
-</span><span class="ln">  7</span><span class="cm"> */</span>
-<span class="ln">  8</span><span class="cp">#include</span> <span class="cpf">&#34;sched.h&#34;</span><span class="cp">
-</span><span class="ln">  9</span><span class="cp"></span>
-<span class="ln"> 10</span><span class="cp">#include<div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/idle/">阅读更多</a></div></span></code></pre></div>
+      <p>IDLE调度器类 1/* 2* Generic entry points for the idle threads and 3* implementation of the idle task scheduling class. 4* 5* (NOTE: these are not related to SCHED_IDLE batch scheduled 6* tasks which are handled in sched/fair.c ) 7*/ 8#include &#34;sched.h&#34;9 10#include &lt;trace/events/power.h&gt;11 12/* Linker adds these: start and...</p><div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/idle/">阅读更多</a></div>
     </div>
   </div>
 </article>
@@ -235,17 +225,7 @@
   </span><span class="post-taxonomies"><a href="https://mengdemao.github.io/categories/linux/" class="badge post-taxonomy">linux</a><a href="https://mengdemao.github.io/tags/kernel/" class="badge post-taxonomy">kernel</a></span>
 </div>
 <div class="post-summary">
-      <h1 id="完全公平调度器">完全公平调度器<a class="anchor ms-1" href="#完全公平调度器"><i class="fas fa-link"></i></a></h1>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="k">const</span> <span class="k">struct</span> <span class="n">sched_class</span> <span class="n">fair_sched_class</span> <span class="o">=</span> <span class="p">{</span>
-<span class="ln"> 2</span>	<span class="p">.</span><span class="n">next</span>			<span class="o">=</span> <span class="o">&amp;</span><span class="n">idle_sched_class</span><span class="p">,</span>
-<span class="ln"> 3</span>	<span class="p">.</span><span class="n">enqueue_task</span>		<span class="o">=</span> <span class="n">enqueue_task_fair</span><span class="p">,</span>
-<span class="ln"> 4</span>	<span class="p">.</span><span class="n">dequeue_task</span>		<span class="o">=</span> <span class="n">dequeue_task_fair</span><span class="p">,</span>
-<span class="ln"> 5</span>	<span class="p">.</span><span class="n">yield_task</span>			<span class="o">=</span> <span class="n">yield_task_fair</span><span class="p">,</span>
-<span class="ln"> 6</span>	<span class="p">.</span><span class="n">yield_to_task</span>		<span class="o">=</span> <span class="n">yield_to_task_fair</span><span class="p">,</span>
-<span class="ln"> 7</span>
-<span class="ln"> 8</span>	<span class="p">.</span><span class="n">check_preempt_curr</span>	<span class="o">=</span> <span class="n">check_preempt_wakeup</span><span class="p">,</span>
-<span class="ln"> 9</span>
-<span class="ln">10</span>	<span class="p">.</span><span class="n">pick_next_task<div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/fair/">阅读更多</a></div></span></code></pre></div>
+      <p>完全公平调度器 1const struct sched_class fair_sched_class = { 2	.next	= &amp;idle_sched_class, 3	.enqueue_task	= enqueue_task_fair, 4	.dequeue_task	= dequeue_task_fair, 5	.yield_task	= yield_task_fair, 6	.yield_to_task	= yield_to_task_fair, 7 8	.check_preempt_curr	= check_preempt_wakeup, 9 10	.pick_next_task	=...</p><div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/fair/">阅读更多</a></div>
     </div>
   </div>
 </article>
@@ -264,20 +244,7 @@
   </span><span class="post-taxonomies"><a href="https://mengdemao.github.io/categories/linux/" class="badge post-taxonomy">linux</a><a href="https://mengdemao.github.io/tags/kernel/" class="badge post-taxonomy">kernel</a></span>
 </div>
 <div class="post-summary">
-      <h1 id="系统调度">系统调度<a class="anchor ms-1" href="#系统调度"><i class="fas fa-link"></i></a></h1>
-<ul>
-<li>主调度器<code>schedule</code></li>
-<li>周期调度器<code>scheduler_tick</code></li>
-</ul>
-<h2 id="周期调度器函数实现">周期调度器函数实现<a class="anchor ms-1" href="#周期调度器函数实现"><i class="fas fa-link"></i></a></h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="kt">void</span> <span class="nf">scheduler_tick</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
-<span class="ln"> 2</span><span class="p">{</span>
-<span class="ln"> 3</span>	<span class="kt">int</span> <span class="n">cpu</span> <span class="o">=</span> <span class="n">smp_processor_id</span><span class="p">();</span>				<span class="c1">// CPUID
-</span><span class="ln"> 4</span><span class="c1"></span>	<span class="k">struct</span> <span class="n">rq</span> <span class="o">*</span><span class="n">rq</span> <span class="o">=</span> <span class="n">cpu_rq</span><span class="p">(</span><span class="n">cpu</span><span class="p">);</span>				<span class="c1">// 提取消息队列
-</span><span class="ln"> 5</span><span class="c1"></span>	<span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">curr</span> <span class="o">=</span> <span class="n">rq</span><span class="o">-&gt;</span><span class="n">curr</span><span class="p">;</span>		<span class="c1">// 提取正在运行的进程
-</span><span class="ln"> 6</span><span class="c1"></span>	<span class="k">struct</span> <span class="n">rq_flags</span> <span class="n">rf</span><span class="p">;</span>							<span class="c1">// 
-</span><span class="ln"> 7</span><span class="c1"></span>	<span class="n">sched_clock_tick</span><span class="p">();</span>							<span class="c1">// 
-</span><span class="ln"> 8</span><span class="c1"></span>	<span class="n">rq_lock</span><span class="p">(</span><span class="n">rq</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rf</span><span class="p">);<div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/sched/">阅读更多</a></div></span></code></pre></div>
+      <p>系统调度  主调度器schedule 周期调度器scheduler_tick  周期调度器函数实现 1void scheduler_tick(void) 2{ 3	int cpu = smp_processor_id();	// CPUID 4	struct rq *rq = cpu_rq(cpu);	// 提取消息队列 5	struct task_struct *curr = rq-&gt;curr;	// 提取正在运行的进程 6	struct rq_flags rf;	// 7	sched_clock_tick();	// 8	rq_lock(rq, &amp;rf);	// 9	update_rq_clock(rq);	//...</p><div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/sched/">阅读更多</a></div>
     </div>
   </div>
 </article>
@@ -296,65 +263,9 @@
   </span><span class="post-taxonomies"><a href="https://mengdemao.github.io/tags/kernel/" class="badge post-taxonomy">kernel</a></span>
 </div>
 <div class="post-summary">
-      <h2 id="简述">简述<a class="anchor ms-1" href="#简述"><i class="fas fa-link"></i></a></h2>
-<blockquote>
-<p>驱动模型</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>顶级kobject</th>
-<th>解释</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>block</td>
-<td>块设备链接&ndash;&gt;/sys/deives相关文件</td>
-</tr>
-<tr>
-<td>bus</td>
-<td>存放各种总线文件</td>
-</tr>
-<tr>
-<td>class</td>
-<td>各种设备类</td>
-</tr>
-<tr>
-<td>dev</td>
-<td>存放(字符/块)设备主副设备号链接文件&ndash;&gt;/sys/deives</td>
-</tr>
-<tr>
-<td>devices</td>
-<td>设备的具体存放文件</td>
-</tr>
-<tr>
-<td>firmware</td>
-<td>固件存放</td>
-</tr>
-<tr>
-<td>fs</td>
-<td>文件类型</td>
-</tr>
-<tr>
-<td>kernel</td>
-<td>kernel子系统</td>
-</tr>
-<tr>
-<td>module</td>
-<td>模块信息</td>
-</tr>
-<tr>
-<td>power</td>
-<td>能源管理</td>
-</tr>
-</tbody>
-</table>
-<h2 id="底层机制">底层机制<a class="anchor ms-1" href="#底层机制"><i class="fas fa-link"></i></a></h2>
-<h3 id="kobject">kobject<a class="anchor ms-1" href="#kobject"><i class="fas fa-link"></i></a></h3>
-<blockquote>
-<p>内核对象:kobject/kobject_type/kset
-为模块提供一个底层抽象,其中文件存放于/sys<div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/drivermodel/">阅读更多</a></div></p></blockquote>
+      <p>简述  驱动模型
+    顶级kobject 解释     block 块设备链接–&gt;/sys/deives相关文件   bus 存放各种总线文件   class 各种设备类   dev 存放(字符/块)设备主副设备号链接文件–&gt;/sys/deives   devices 设备的具体存放文件   firmware 固件存放   fs 文件类型   kernel kernel子系统   module 模块信息   power 能源管理    底层机制 kobject  内核对象:kobject/kobject_type/kset 为模块提供一个底层抽象,其中文件存放于/sys文件下面
+ 数据结构 1struct kobject { 2...</p><div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/drivermodel/">阅读更多</a></div>
     </div>
   </div>
 </article>
@@ -378,7 +289,22 @@
     <h2 class="card-title">最近文章</h2>
   </div>
   <div class="card-body">
-    <ul class="post-list"></ul>
+    <ul class="post-list"><li>
+        <a href="https://mengdemao.github.io/posts/c4/">C4
+</a>
+      </li><li>
+        <a href="https://mengdemao.github.io/posts/lua/">Lua
+</a>
+      </li><li>
+        <a href="https://mengdemao.github.io/posts/complete/">Complete
+</a>
+      </li><li>
+        <a href="https://mengdemao.github.io/posts/schedulepriority/">调度优先级
+</a>
+      </li><li>
+        <a href="https://mengdemao.github.io/posts/dwl/">Dwl
+</a>
+      </li></ul>
   </div>
 </section><section class="categories-taxonomies row card component">
       <div class="card-header">

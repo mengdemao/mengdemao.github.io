@@ -187,17 +187,7 @@
   </span><span class="post-taxonomies"><a href="https://mengdemao.github.io/categories/linux/" class="badge post-taxonomy">linux</a><a href="https://mengdemao.github.io/tags/kernel/" class="badge post-taxonomy">kernel</a></span>
 </div>
 <div class="post-summary">
-      <h1 id="完全公平调度器">完全公平调度器<a class="anchor ms-1" href="#完全公平调度器"><i class="fas fa-link"></i></a></h1>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="k">const</span> <span class="k">struct</span> <span class="n">sched_class</span> <span class="n">fair_sched_class</span> <span class="o">=</span> <span class="p">{</span>
-<span class="ln"> 2</span>	<span class="p">.</span><span class="n">next</span>			<span class="o">=</span> <span class="o">&amp;</span><span class="n">idle_sched_class</span><span class="p">,</span>
-<span class="ln"> 3</span>	<span class="p">.</span><span class="n">enqueue_task</span>		<span class="o">=</span> <span class="n">enqueue_task_fair</span><span class="p">,</span>
-<span class="ln"> 4</span>	<span class="p">.</span><span class="n">dequeue_task</span>		<span class="o">=</span> <span class="n">dequeue_task_fair</span><span class="p">,</span>
-<span class="ln"> 5</span>	<span class="p">.</span><span class="n">yield_task</span>			<span class="o">=</span> <span class="n">yield_task_fair</span><span class="p">,</span>
-<span class="ln"> 6</span>	<span class="p">.</span><span class="n">yield_to_task</span>		<span class="o">=</span> <span class="n">yield_to_task_fair</span><span class="p">,</span>
-<span class="ln"> 7</span>
-<span class="ln"> 8</span>	<span class="p">.</span><span class="n">check_preempt_curr</span>	<span class="o">=</span> <span class="n">check_preempt_wakeup</span><span class="p">,</span>
-<span class="ln"> 9</span>
-<span class="ln">10</span>	<span class="p">.</span><span class="n">pick_next_task<div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/fair/">阅读更多</a></div></span></code></pre></div>
+      <p>完全公平调度器 1const struct sched_class fair_sched_class = { 2	.next	= &amp;idle_sched_class, 3	.enqueue_task	= enqueue_task_fair, 4	.dequeue_task	= dequeue_task_fair, 5	.yield_task	= yield_task_fair, 6	.yield_to_task	= yield_to_task_fair, 7 8	.check_preempt_curr	= check_preempt_wakeup, 9 10	.pick_next_task	=...</p><div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/fair/">阅读更多</a></div>
     </div>
   </div>
 </article>
@@ -216,8 +206,8 @@
   </span><span class="post-taxonomies"><a href="https://mengdemao.github.io/categories/python/" class="badge post-taxonomy">python</a></span>
 </div>
 <div class="post-summary">
-      <p>python基础绘图</p>
-
+      <p>python基础绘图
+</p><div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/tkinter/">阅读更多</a></div>
     </div>
   </div>
 </article>
@@ -236,7 +226,7 @@
   </span><span class="post-taxonomies"></span>
 </div>
 <div class="post-summary">
-      
+      <p></p><div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/javascript/">阅读更多</a></div>
     </div>
   </div>
 </article>
@@ -255,46 +245,9 @@
   </span><span class="post-taxonomies"></span>
 </div>
 <div class="post-summary">
-      <h2 id="css开始层叠样式表">CSS开始(层叠样式表)<a class="anchor ms-1" href="#css开始层叠样式表"><i class="fas fa-link"></i></a></h2>
-<p>HTML + CSS + JavaScript
-名词 + 形容词 + 动词
-相当于对原始的HTML进行美化</p>
-<h3 id="快速入门">快速入门<a class="anchor ms-1" href="#快速入门"><i class="fas fa-link"></i></a></h3>
-<ol>
-<li>CSS是什么</li>
-<li>CSS怎么用</li>
-<li>CSS选择器</li>
-<li>美化网页</li>
-<li>盒子模型</li>
-<li>浮动</li>
-<li>定位</li>
-<li>网页动画</li>
-</ol>
-<h3 id="什么是css">什么是CSS<a class="anchor ms-1" href="#什么是css"><i class="fas fa-link"></i></a></h3>
-<p>美化:字体, 颜色,高度,宽度, 背景图片</p>
-<h3 id="css的优势">CSS的优势:<a class="anchor ms-1" href="#css的优势"><i class="fas fa-link"></i></a></h3>
-<ul>
-<li>内容和表现分离</li>
-<li>CSS文件可以复用</li>
-<li>样式十分丰富</li>
-<li>建议使用独立的CSS文件</li>
-</ul>
-<h3 id="css导入的方法">CSS导入的方法<a class="anchor ms-1" href="#css导入的方法"><i class="fas fa-link"></i></a></h3>
-<ol>
-<li>行内样式</li>
-</ol>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="ln">1</span><span class="p">&lt;</span><span class="nt">h1</span> <span class="na">style</span><span class="o">=</span><span class="s">&#34;color: red&#34;</span><span class="p">&gt;</span>一级标题<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
-</code></pre></div><ol start="2">
-<li>style标签</li>
-</ol>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="ln">1</span><span class="p">&lt;</span><span class="nt">style</span><span class="p">&gt;&lt;/</span><span class="nt">style</span><span class="p">&gt;</span>
-</code></pre></div><ol start="3">
-<li>外部样式</li>
-</ol>
-<ul>
-<li>链接方式</li>
-</ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="ln">1<div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/css/">阅读更多</a></div></span></code></pre></div>
+      <p>CSS开始(层叠样式表) HTML + CSS + JavaScript 名词 + 形容词 + 动词 相当于对原始的HTML进行美化
+快速入门  CSS是什么 CSS怎么用 CSS选择器 美化网页 盒子模型 浮动 定位 网页动画  什么是CSS 美化:字体, 颜色,高度,宽度, 背景图片
+CSS的优势:  内容和表现分离 CSS文件可以复用 样式十分丰富 建议使用独立的CSS文件  CSS导入的方法  行内样式  1&lt;h1 style=&#34;color: red&#34;&gt;一级标题&lt;/h1&gt; style标签  1&lt;style&gt;&lt;/style&gt; 外部样式   链接方式  1&lt;link rel=&#34;stylesheet&#34;...</p><div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/css/">阅读更多</a></div>
     </div>
   </div>
 </article>
@@ -313,22 +266,8 @@
   </span><span class="post-taxonomies"></span>
 </div>
 <div class="post-summary">
-      <h2 id="开始">开始<a class="anchor ms-1" href="#开始"><i class="fas fa-link"></i></a></h2>
-<p><strong>网页基础结构</strong></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="ln"> 1</span><span class="c">&lt;!-- 告诉浏览器,需要使用的规范 --&gt;</span>
-<span class="ln"> 2</span><span class="cp">&lt;!DOCTYPE html&gt;</span>
-<span class="ln"> 3</span><span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">&#34;en&#34;</span><span class="p">&gt;</span>
-<span class="ln"> 4</span>
-<span class="ln"> 5</span><span class="c">&lt;!-- 网页标题 --&gt;</span>
-<span class="ln"> 6</span><span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
-<span class="ln"> 7</span>    <span class="c">&lt;!-- 描述标签 --&gt;</span>
-<span class="ln"> 8</span>    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&#34;UTF-8&#34;</span><span class="p">&gt;</span>
-<span class="ln"> 9</span>
-<span class="ln">10</span>    <span class="c">&lt;!-- 网页标题 --&gt;</span>
-<span class="ln">11</span>    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Document<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
-<span class="ln">12</span><span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
-<span class="ln">13</span>
-<span class="ln">14</span><span class="c">&lt;!-- 网页主体 --&gt;<div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/html5/">阅读更多</a></div></span></code></pre></div>
+      <p>开始 网页基础结构
+1&lt;!-- 告诉浏览器,需要使用的规范 --&gt; 2&lt;!DOCTYPE html&gt; 3&lt;html lang=&#34;en&#34;&gt; 4 5&lt;!-- 网页标题 --&gt; 6&lt;head&gt; 7 &lt;!-- 描述标签 --&gt; 8 &lt;meta charset=&#34;UTF-8&#34;&gt; 9 10 &lt;!-- 网页标题 --&gt; 11 &lt;title&gt;Document&lt;/title&gt; 12&lt;/head&gt; 13 14&lt;!-- 网页主体 --&gt; 15&lt;body&gt; 16&lt;/body&gt; 17&lt;/html&gt; 网页基本标签 标题标签 1&lt;h1&gt;一级标签&lt;/h1&gt; 2&lt;h2&gt;二级标签&lt;/h2&gt; 3&lt;h3&gt;三级标签&lt;/h3&gt; 4&lt;h4&gt;四级标签&lt;/h4&gt; 5&lt;h5&gt;五级标...</p><div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/html5/">阅读更多</a></div>
     </div>
   </div>
 </article>

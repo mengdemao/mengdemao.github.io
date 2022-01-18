@@ -187,20 +187,8 @@
   </span><span class="post-taxonomies"><a href="https://mengdemao.github.io/categories/compiler/" class="badge post-taxonomy">compiler</a><a href="https://mengdemao.github.io/tags/compiler/" class="badge post-taxonomy">compiler</a></span>
 </div>
 <div class="post-summary">
-      <h2 id="c4实现">C4实现<a class="anchor ms-1" href="#c4实现"><i class="fas fa-link"></i></a></h2>
-<p>C4共实现了4个函数</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln">1</span><span class="kt">void</span> <span class="nf">stmt</span><span class="p">();</span>
-<span class="ln">2</span><span class="kt">void</span> <span class="nf">next</span><span class="p">();</span>
-<span class="ln">3</span><span class="kt">void</span> <span class="nf">expr</span><span class="p">(</span><span class="kt">int</span> <span class="n">lev</span><span class="p">);</span>
-<span class="ln">4</span><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">);</span>
-</code></pre></div><h3 id="全局数据">全局数据<a class="anchor ms-1" href="#全局数据"><i class="fas fa-link"></i></a></h3>
-<h4 id="全局变量">全局变量<a class="anchor ms-1" href="#全局变量"><i class="fas fa-link"></i></a></h4>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="kt">char</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="o">*</span><span class="n">lp</span><span class="p">,</span> <span class="c1">// current position in source code
-</span><span class="ln"> 2</span><span class="c1"></span>     <span class="o">*</span><span class="n">data</span><span class="p">;</span>   <span class="c1">// data/bss pointer
-</span><span class="ln"> 3</span><span class="c1"></span>
-<span class="ln"> 4</span><span class="kt">int</span> <span class="o">*</span><span class="n">e</span><span class="p">,</span> <span class="o">*</span><span class="n">le</span><span class="p">,</span>  <span class="c1">// current position in emitted code
-</span><span class="ln"> 5</span><span class="c1"></span>    <span class="o">*</span><span class="n">id</span><span class="p">,</span>      <span class="c1">// currently parsed identifier
-</span><span class="ln"> 6</span><span class="c1"></span>    <span class="o">*</span><span class="n">sym</span><span class="p">,</span>     <span class="c1">//<div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/c4/">阅读更多</a></div></span></code></pre></div>
+      <p>C4实现 C4共实现了4个函数
+1void stmt(); 2void next(); 3void expr(int lev); 4int main(int argc, char **argv); 全局数据 全局变量 1char *p, *lp, // current position in source code 2 *data; // data/bss pointer 3 4int *e, *le, // current position in emitted code 5 *id, // currently parsed identifier 6 *sym, // symbol table (simple list of...</p><div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/c4/">阅读更多</a></div>
     </div>
   </div>
 </article>
@@ -219,25 +207,9 @@
   </span><span class="post-taxonomies"></span>
 </div>
 <div class="post-summary">
-      <h1 id="lua源码分析">Lua源码分析<a class="anchor ms-1" href="#lua源码分析"><i class="fas fa-link"></i></a></h1>
-<blockquote>
-<p>Lua运行结构</p>
-</blockquote>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln">1</span>graph LR
-<span class="ln">2</span>编译器--&gt;PROTO
-<span class="ln">3</span>PROTO--&gt;虚拟机
-</code></pre></div><h2 id="相关数据结构">相关数据结构<a class="anchor ms-1" href="#相关数据结构"><i class="fas fa-link"></i></a></h2>
-<h3 id="全局状态机">全局状态机<a class="anchor ms-1" href="#全局状态机"><i class="fas fa-link"></i></a></h3>
-<blockquote>
-<p>描述Lua运行状态,同时可以产生一种面向对象的模拟</p>
-</blockquote>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="k">struct</span> <span class="n">lua_State</span> <span class="p">{</span>
-<span class="ln"> 2</span>  <span class="n">CommonHeader</span><span class="p">;</span>
-<span class="ln"> 3</span>  <span class="n">lu_byte</span> <span class="n">status</span><span class="p">;</span>
-<span class="ln"> 4</span>  <span class="n">lu_byte</span> <span class="n">allowhook</span><span class="p">;</span>
-<span class="ln"> 5</span>  <span class="kt">unsigned</span> <span class="kt">short</span> <span class="n">nci</span><span class="p">;</span>  <span class="cm">/* number of items in &#39;ci&#39; list */</span>
-<span class="ln"> 6</span>  <span class="n">StkId</span> <span class="n">top</span><span class="p">;</span>  <span class="cm">/* first free slot in the stack */</span>
-<span class="ln"> 7</span>  <span class="n">global_State</span> <span class="o">*<div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/lua/">阅读更多</a></div></span></code></pre></div>
+      <p>Lua源码分析  Lua运行结构
+ graph LR 编译器==PROTO==虚拟机  相关数据结构 全局状态机  描述Lua运行状态,同时可以产生一种面向对象的模拟
+ 1struct lua_State { 2 CommonHeader; 3 lu_byte status; 4 lu_byte allowhook; 5 unsigned short nci; /* number of items in &#39;ci&#39; list */ 6 StkId top; /* first free slot in the stack */ 7 global_State *l_G; 8 CallInfo *ci; /* call info for...</p><div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/lua/">阅读更多</a></div>
     </div>
   </div>
 </article>
@@ -256,7 +228,7 @@
   </span><span class="post-taxonomies"><a href="https://mengdemao.github.io/tags/kernel/" class="badge post-taxonomy">kernel</a></span>
 </div>
 <div class="post-summary">
-      
+      <p></p><div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/complete/">阅读更多</a></div>
     </div>
   </div>
 </article>
@@ -275,23 +247,9 @@
   </span><span class="post-taxonomies"></span>
 </div>
 <div class="post-summary">
-      <h2 id="优先级定义">优先级定义<a class="anchor ms-1" href="#优先级定义"><i class="fas fa-link"></i></a></h2>
-<blockquote>
-<p>内核优先级使用<code>0-139</code>确定内部优先级,<code>0-99</code>分配实时进程;
-<code>[100, 139]</code>分配非实时进程,nice的映射<code>[-20, 19]</code>与非实时优先级的相对应.</p>
-</blockquote>
-<h2 id="相关数据结构">相关数据结构<a class="anchor ms-1" href="#相关数据结构"><i class="fas fa-link"></i></a></h2>
-<p>任务相关数据</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln">1</span><span class="k">struct</span> <span class="n">task_struct</span> <span class="p">{</span>
-<span class="ln">2</span>	
-<span class="ln">3</span>	<span class="kt">int</span>				<span class="n">prio</span><span class="p">;</span>			<span class="c1">// 动态优先级
-</span><span class="ln">4</span><span class="c1"></span>	<span class="kt">int</span>				<span class="n">static_prio</span><span class="p">;</span>	<span class="c1">// 静态优先级
-</span><span class="ln">5</span><span class="c1"></span>	<span class="kt">int</span>				<span class="n">normal_prio</span><span class="p">;</span>	<span class="c1">// 普通优先级	
-</span><span class="ln">6</span><span class="c1"></span>	<span class="kt">unsigned</span> <span class="kt">int</span>	<span class="n">rt_priority</span><span class="p">;</span>	<span class="c1">// 实时优先级
-</span><span class="ln">7</span><span class="c1"></span><span class="p">};</span>
-</code></pre></div><h3 id="计算静态优先级">计算静态优先级<a class="anchor ms-1" href="#计算静态优先级"><i class="fas fa-link"></i></a></h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln"> 1</span><span class="k">static</span> <span class="kt">int</span> <span class="nf">effective_prio</span><span class="p">(</span><span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">p</span><span class="p">)</span>
-<span class="ln"> 2</span><span class="p">{<div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/schedulepriority/">阅读更多</a></div></span></code></pre></div>
+      <p>优先级定义  内核优先级使用0-139确定内部优先级,0-99分配实时进程; [100, 139]分配非实时进程,nice的映射[-20, 19]与非实时优先级的相对应.
+ 相关数据结构 任务相关数据
+1struct task_struct { 2	3	int	prio;	// 动态优先级 4	int	static_prio;	// 静态优先级 5	int	normal_prio;	// 普通优先级	6	unsigned int	rt_priority;	// 实时优先级 7}; 计算静态优先级 1static int effective_prio(struct task_struct *p) 2{ 3	/* 设置普通优先级 */...</p><div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/schedulepriority/">阅读更多</a></div>
     </div>
   </div>
 </article>
@@ -310,19 +268,7 @@
   </span><span class="post-taxonomies"></span>
 </div>
 <div class="post-summary">
-      <h1 id="dwl桌面环境">dwl桌面环境<a class="anchor ms-1" href="#dwl桌面环境"><i class="fas fa-link"></i></a></h1>
-<h2 id="编译流程">编译流程<a class="anchor ms-1" href="#编译流程"><i class="fas fa-link"></i></a></h2>
-<p><img class="img-fluid" alt="dwlCompileProcess.drawio" src="https://raw.githubusercontent.com/mengdemao/picture/master/dwlCompileProcess.drawio.png" loading="lazy"
-  
-   />
-
-</p>
-<h2 id="setup">setup<a class="anchor ms-1" href="#setup"><i class="fas fa-link"></i></a></h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="ln">  1</span><span class="kt">void</span>
-<span class="ln">  2</span><span class="nf">setup</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
-<span class="ln">  3</span><span class="p">{</span>
-<span class="ln">  4</span>	<span class="cm">/* The Wayland display is managed by libwayland. It handles accepting
-</span><span class="ln">  5</span><span class="cm">	 * clients from the<div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/dwl/">阅读更多</a></div></span></code></pre></div>
+      <p>dwl桌面环境 编译流程 setup 1void 2setup(void) 3{ 4	/* The Wayland display is managed by libwayland. It handles accepting 5* clients from the Unix socket, manging Wayland globals, and so on. */ 6	dpy = wl_display_create(); 7 8	/* Set up signal handlers */ 9	sigchld(0); 10	signal(SIGINT, quitsignal); 11	signal(SIGTERM,...</p><div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/dwl/">阅读更多</a></div>
     </div>
   </div>
 </article>
