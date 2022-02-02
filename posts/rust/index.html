@@ -12,7 +12,7 @@
 <meta name="description" content="RUST学习笔记 ==== 安装 添加环境变量.bashrc/profile 1set RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static 2set RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup 安装工具链 1curl https://mirrors.ustc.edu.cn/rust-static/rustup/rustup-init.sh | sh 设置rust的环境变量.bashrc/profil" /><meta itemprop="name" content="Rust">
 <meta itemprop="description" content="RUST学习笔记 ==== 安装 添加环境变量.bashrc/profile 1set RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static 2set RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup 安装工具链 1curl https://mirrors.ustc.edu.cn/rust-static/rustup/rustup-init.sh | sh 设置rust的环境变量.bashrc/profil"><meta itemprop="datePublished" content="2021-10-03T13:21:15+08:00" />
 <meta itemprop="dateModified" content="2021-10-03T13:21:15+08:00" />
-<meta itemprop="wordCount" content="194">
+<meta itemprop="wordCount" content="196">
 <meta itemprop="keywords" content="" /><meta property="og:title" content="Rust" />
 <meta property="og:description" content="RUST学习笔记 ==== 安装 添加环境变量.bashrc/profile 1set RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static 2set RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup 安装工具链 1curl https://mirrors.ustc.edu.cn/rust-static/rustup/rustup-init.sh | sh 设置rust的环境变量.bashrc/profil" />
 <meta property="og:type" content="article" />
@@ -23,7 +23,7 @@
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Rust"/>
 <meta name="twitter:description" content="RUST学习笔记 ==== 安装 添加环境变量.bashrc/profile 1set RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static 2set RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup 安装工具链 1curl https://mirrors.ustc.edu.cn/rust-static/rustup/rustup-init.sh | sh 设置rust的环境变量.bashrc/profil"/>
-<link rel="stylesheet" href="https://mengdemao.github.io/css/main.min.b7a6eda8d46e39a549f182cf72a9ff4f4c1d4d82c31ecc3ede0b7f4d5b26f32b.css" integrity="sha256-t6btqNRuOaVJ8YLPcqn/T0wdTYLDHsw&#43;3gt/TVsm8ys=" crossorigin="anonymous"><link rel="stylesheet" href="https://mengdemao.github.io/css/viewer.min.3d228794bcedbbfa0412beb8fbc1ec6973202945e42af7004f742a4d7bd620ab.css" integrity="sha256-PSKHlLztu/oEEr64&#43;8HsaXMgKUXkKvcAT3QqTXvWIKs=" crossorigin="anonymous"></head>
+<link rel="stylesheet" href="https://mengdemao.github.io/css/main.min.24ec7a17e35a0723a0dc6b5b069355fbf52be23265dd566ba59060641777f968.css" integrity="sha256-JOx6F&#43;NaByOg3GtbBpNV&#43;/Ur4jJl3VZrpZBgZBd3&#43;Wg=" crossorigin="anonymous"><link rel="stylesheet" href="https://mengdemao.github.io/css/viewer.min.3d228794bcedbbfa0412beb8fbc1ec6973202945e42af7004f742a4d7bd620ab.css" integrity="sha256-PSKHlLztu/oEEr64&#43;8HsaXMgKUXkKvcAT3QqTXvWIKs=" crossorigin="anonymous"></head>
   <body><script>const items=['mode','palette'];items.forEach(function(a){const b=localStorage.getItem('hbs-'+a);b&&document.body.parentElement.setAttribute('data-'+a,b)})</script><header><nav class="navbar top-app-bar top-app-bar-expand-lg fixed-top">
   <div class="container">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -288,20 +288,20 @@
 </span><span class="ln">3</span><span class="w"></span><span class="kd">let</span><span class="w"> </span><span class="n">_xu32</span>: <span class="kt">u32</span> <span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w">
 </span><span class="ln">4</span><span class="w"></span><span class="kd">let</span><span class="w"> </span><span class="n">_xi64</span>: <span class="kt">i64</span> <span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w">
 </span><span class="ln">5</span><span class="w"></span><span class="kd">let</span><span class="w"> </span><span class="n">_xu64</span>: <span class="kt">u64</span> <span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w">
-</span><span class="ln">6</span><span class="w"></span><span class="kd">let</span><span class="w"> </span><span class="n">_xi128</span>: <span class="nc">i128</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w">
-</span><span class="ln">7</span><span class="w"></span><span class="kd">let</span><span class="w"> </span><span class="n">_xu128</span>: <span class="nc">u128</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w">
+</span><span class="ln">6</span><span class="w"></span><span class="kd">let</span><span class="w"> </span><span class="n">_xi128</span>: <span class="kt">i128</span> <span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w">
+</span><span class="ln">7</span><span class="w"></span><span class="kd">let</span><span class="w"> </span><span class="n">_xu128</span>: <span class="kt">u128</span> <span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w">
 </span><span class="ln">8</span><span class="w"></span><span class="kd">let</span><span class="w"> </span><span class="n">_xisize</span>: <span class="kt">isize</span> <span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w">
 </span><span class="ln">9</span><span class="w"></span><span class="kd">let</span><span class="w"> </span><span class="n">_xusize</span>: <span class="kt">usize</span> <span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w">
 </span></code></pre></div><h3 id="函数">函数<a class="anchor ms-1" href="#函数"><i class="fas fa-link"></i></a></h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="ln"> 1</span><span class="c1">// 有返回值
 </span><span class="ln"> 2</span><span class="c1"></span><span class="k">fn</span> <span class="nf">function_return</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="kt">i32</span> <span class="p">{</span><span class="w">
-</span><span class="ln"> 3</span><span class="w">    </span><span class="n">println</span><span class="o">!</span><span class="p">(</span><span class="s">&#34;Hello, World!&#34;</span><span class="p">);</span><span class="w">
+</span><span class="ln"> 3</span><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;Hello, World!&#34;</span><span class="p">);</span><span class="w">
 </span><span class="ln"> 4</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">
 </span><span class="ln"> 5</span><span class="w"></span><span class="p">}</span><span class="w">
 </span><span class="ln"> 6</span><span class="w">
 </span><span class="ln"> 7</span><span class="w"></span><span class="c1">// 无返回值
 </span><span class="ln"> 8</span><span class="c1"></span><span class="k">fn</span> <span class="nf">function_noreturn</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">
-</span><span class="ln"> 9</span><span class="w">    </span><span class="n">println</span><span class="o">!</span><span class="p">(</span><span class="s">&#34;Hello, World!&#34;</span><span class="p">);</span><span class="w">
+</span><span class="ln"> 9</span><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;Hello, World!&#34;</span><span class="p">);</span><span class="w">
 </span><span class="ln">10</span><span class="w"></span><span class="p">}</span><span class="w">
 </span></code></pre></div><ol>
 <li>必须明确表示是否存在返回值</li>
@@ -417,7 +417,7 @@
 <div class="powered-by mb-2">
   Powered by <a href="https://gohugo.io" target="_blank" rel="noopener noreferrer">Hugo</a> and the <a href="https://github.com/razonyang/hugo-theme-bootstrap" target="_blank" rel="noopener noreferrer">Bootstrap</a> theme.
 </div></footer>
-<script src="https://mengdemao.github.io/js/main.be6547dee74694dd4e7524da0db563884d2e85a402de8ea437fde7d196714836.js" integrity="sha256-vmVH3udGlN1OdSTaDbVjiE0uhaQC3o6kN/3n0ZZxSDY=" crossorigin="anonymous" defer></script><script src="https://mengdemao.github.io/js/icons.min.a35670f2f90c398e5ee5c8e509b428fae75aa2746854cee10b60794633076859.js" integrity="sha256-o1Zw8vkMOY5e5cjlCbQo&#43;udaonRoVM7hC2B5RjMHaFk=" crossorigin="anonymous" defer></script>
+<script src="https://mengdemao.github.io/js/main.be6547dee74694dd4e7524da0db563884d2e85a402de8ea437fde7d196714836.js" integrity="sha256-vmVH3udGlN1OdSTaDbVjiE0uhaQC3o6kN/3n0ZZxSDY=" crossorigin="anonymous" defer></script><script src="https://mengdemao.github.io/js/icons.min.8ddcaafc364ff0296c2209c5495287f0de039b852da9b24847f94c198b7639b6.js" integrity="sha256-jdyq/DZP8ClsIgnFSVKH8N4Dm4UtqbJIR/lMGYt2ObY=" crossorigin="anonymous" defer></script>
 <script src="https://mengdemao.github.io/js/viewer.min.4dba52a0a790f909408b7385316651299158381686401d50ff1f04dda6476473.js" integrity="sha256-TbpSoKeQ&#43;QlAi3OFMWZRKZFYOBaGQB1Q/x8E3aZHZHM=" crossorigin="anonymous" defer></script>
 </body>
 </html>
