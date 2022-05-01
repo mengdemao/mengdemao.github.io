@@ -2,6 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://mengdemao.github.io/</loc>
+    <lastmod>2022-03-13T18:05:24+08:00</lastmod>
+  </url><url>
+    <loc>https://mengdemao.github.io/posts/memory_management/</loc>
+    <lastmod>2022-03-13T18:05:24+08:00</lastmod>
+  </url><url>
+    <loc>https://mengdemao.github.io/posts/</loc>
+    <lastmod>2022-03-13T18:05:24+08:00</lastmod>
+  </url><url>
+    <loc>https://mengdemao.github.io/posts/buildroot/</loc>
+    <lastmod>2022-03-13T08:29:42+08:00</lastmod>
+  </url><url>
+    <loc>https://mengdemao.github.io/tags/rootfs/</loc>
+    <lastmod>2022-03-13T08:29:42+08:00</lastmod>
+  </url><url>
+    <loc>https://mengdemao.github.io/categories/rootfs/</loc>
+    <lastmod>2022-03-13T08:29:42+08:00</lastmod>
+  </url><url>
+    <loc>https://mengdemao.github.io/tags/</loc>
+    <lastmod>2022-03-13T08:29:42+08:00</lastmod>
+  </url><url>
+    <loc>https://mengdemao.github.io/categories/</loc>
+    <lastmod>2022-03-13T08:29:42+08:00</lastmod>
+  </url><url>
     <loc>https://mengdemao.github.io/posts/c4/</loc>
     <lastmod>2022-01-16T21:54:00+08:00</lastmod>
   </url><url>
@@ -9,18 +33,6 @@
     <lastmod>2022-01-16T21:54:00+08:00</lastmod>
   </url><url>
     <loc>https://mengdemao.github.io/categories/compiler/</loc>
-    <lastmod>2022-01-16T21:54:00+08:00</lastmod>
-  </url><url>
-    <loc>https://mengdemao.github.io/categories/</loc>
-    <lastmod>2022-01-16T21:54:00+08:00</lastmod>
-  </url><url>
-    <loc>https://mengdemao.github.io/posts/</loc>
-    <lastmod>2022-01-16T21:54:00+08:00</lastmod>
-  </url><url>
-    <loc>https://mengdemao.github.io/tags/</loc>
-    <lastmod>2022-01-16T21:54:00+08:00</lastmod>
-  </url><url>
-    <loc>https://mengdemao.github.io/</loc>
     <lastmod>2022-01-16T21:54:00+08:00</lastmod>
   </url><url>
     <loc>https://mengdemao.github.io/posts/lua/</loc>
@@ -58,6 +70,9 @@
   </url><url>
     <loc>https://mengdemao.github.io/posts/fair/</loc>
     <lastmod>2021-10-28T07:40:31+08:00</lastmod>
+  </url><url>
+    <loc>https://mengdemao.github.io/posts/drivermodel/</loc>
+    <lastmod>2021-10-24T23:32:46+08:00</lastmod>
   </url><url>
     <loc>https://mengdemao.github.io/categories/python/</loc>
     <lastmod>2021-10-16T20:13:10+08:00</lastmod>
@@ -128,9 +143,6 @@
     <loc>https://mengdemao.github.io/posts/engineering_compiler/</loc>
     <lastmod>2021-10-03T12:42:43+08:00</lastmod>
   </url><url>
-    <loc>https://mengdemao.github.io/posts/drivermodel/</loc>
-    <lastmod>2021-10-24T23:32:46+08:00</lastmod>
-  </url><url>
     <loc>https://mengdemao.github.io/about/</loc>
     <lastmod>2021-09-25T22:06:38+08:00</lastmod>
   </url><url>
@@ -149,22 +161,24 @@
     <loc>https://mengdemao.github.io/posts/hugo/</loc>
     <lastmod>2021-05-04T22:53:09+08:00</lastmod>
   </url><url>
-    <loc>https://mengdemao.github.io/tags/%E6%8A%80%E5%B7%A7/</loc>
-    <lastmod>2021-05-04T22:53:09+08:00</lastmod>
-  </url><url>
     <loc>https://mengdemao.github.io/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/</loc>
     <lastmod>2021-05-04T22:53:09+08:00</lastmod>
   </url><url>
-    <loc>https://mengdemao.github.io/posts/nfs/</loc>
-    <lastmod>2021-05-03T18:02:48+08:00</lastmod>
+    <loc>https://mengdemao.github.io/tags/%E6%8A%80%E5%B7%A7/</loc>
+    <lastmod>2021-05-04T22:53:09+08:00</lastmod>
   </url><url>
     <loc>https://mengdemao.github.io/tags/nfs/</loc>
     <lastmod>2021-05-03T18:02:48+08:00</lastmod>
   </url><url>
-    <loc>https://mengdemao.github.io/series/</loc>
+    <loc>https://mengdemao.github.io/posts/nfs/</loc>
+    <lastmod>2021-05-03T18:02:48+08:00</lastmod>
+  </url><url>
+    <loc>https://mengdemao.github.io/posts/pthread/</loc>
   </url><url>
     <loc>https://mengdemao.github.io/archives/</loc>
   </url><url>
     <loc>https://mengdemao.github.io/search/</loc>
+  </url><url>
+    <loc>https://mengdemao.github.io/series/</loc>
   </url>
 </urlset>

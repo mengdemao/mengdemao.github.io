@@ -1,0 +1,596 @@
+<!doctype html><html class="position-relative" itemscope itemtype="http://schema.org/WebPage" lang="zh-cn"
+  
+   data-palette="brown"
+  >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>pthread源码分析 - 编程日志</title><link rel="apple-touch-icon" href="https://mengdemao.github.io/images/icons/icon-180x180.png" sizes="180x180">
+<link rel="icon" href="https://mengdemao.github.io/images/icons/icon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="https://mengdemao.github.io/images/icons/icon-16x16.png" sizes="16x16" type="image/png">
+<link rel="icon" href="https://mengdemao.github.io/images/icons/favicon.ico">
+<link rel="manifest" href="https://mengdemao.github.io/manifest.json">
+<meta name="keywords" content="" />
+<meta name="description" content="pthread源码分析 基于musl源码库 所有的函数 线程基础 1// 线程创建 2int pthread_create(pthread_t *__restrict, 3const pthread_attr_t *__restrict, 4void *(*)(void *), void *__restrict); 56// 线程退出 7void pthread_exit(void *); 89// 线程属性 10int pthread_attr_init(pthread_attr_t *); 11int pthread_attr_destroy(pthread_attr_t *); 1213int pthread_attr_getguardsize(const pthread_attr_t *__restrict, size_t *__restrict);" /><meta itemprop="name" content="pthread源码分析">
+<meta itemprop="description" content="pthread源码分析 基于musl源码库 所有的函数 线程基础 1// 线程创建 2int pthread_create(pthread_t *__restrict, 3const pthread_attr_t *__restrict, 4void *(*)(void *), void *__restrict); 56// 线程退出 7void pthread_exit(void *); 89// 线程属性 10int pthread_attr_init(pthread_attr_t *); 11int pthread_attr_destroy(pthread_attr_t *); 1213int pthread_attr_getguardsize(const pthread_attr_t *__restrict, size_t *__restrict);">
+
+<meta itemprop="wordCount" content="995">
+<meta itemprop="keywords" content="" /><meta property="og:title" content="pthread源码分析" />
+<meta property="og:description" content="pthread源码分析 基于musl源码库 所有的函数 线程基础 1// 线程创建 2int pthread_create(pthread_t *__restrict, 3const pthread_attr_t *__restrict, 4void *(*)(void *), void *__restrict); 56// 线程退出 7void pthread_exit(void *); 89// 线程属性 10int pthread_attr_init(pthread_attr_t *); 11int pthread_attr_destroy(pthread_attr_t *); 1213int pthread_attr_getguardsize(const pthread_attr_t *__restrict, size_t *__restrict);" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://mengdemao.github.io/posts/pthread/" /><meta property="article:section" content="posts" />
+
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="pthread源码分析"/>
+<meta name="twitter:description" content="pthread源码分析 基于musl源码库 所有的函数 线程基础 1// 线程创建 2int pthread_create(pthread_t *__restrict, 3const pthread_attr_t *__restrict, 4void *(*)(void *), void *__restrict); 56// 线程退出 7void pthread_exit(void *); 89// 线程属性 10int pthread_attr_init(pthread_attr_t *); 11int pthread_attr_destroy(pthread_attr_t *); 1213int pthread_attr_getguardsize(const pthread_attr_t *__restrict, size_t *__restrict);"/>
+<meta property="og:image" content="https://mengdemao.github.io/images/logo.png"/>
+  <meta name="twitter:image" content="https://mengdemao.github.io/images/logo.png"/><link rel="stylesheet" href="https://mengdemao.github.io/assets/main/bundle.min.c11ea85fbfb7d58f4d1e0633928dd2249375dd54ffb9945106e41b287fa1dbc9.css" integrity="sha256-wR6oX7+31Y9NHgYzko3SJJN13VT/uZRRBuQbKH+h28k=" crossorigin="anonymous"><link rel="stylesheet" href="https://mengdemao.github.io/assets/viewer/bundle.min.05d84cef8ecf0f936293c62c90ebe16275bf8f5f5649297e1a4338e63676ba2b.css" integrity="sha256-BdhM747PD5Nik8YskOvhYnW/j19WSSl&#43;GkM45jZ2uis=" crossorigin="anonymous"></head>
+  <body><script>const items=["mode","palette"];items.forEach(function(e){const t=localStorage.getItem("hbs-"+e);t&&document.body.parentElement.setAttribute("data-"+e,t)})</script><header><nav class="navbar top-app-bar top-app-bar-expand-lg fixed-top">
+  <div class="container">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="fas fa-bars"></i>
+    </button><a class="navbar-brand flex-grow-1 flex-lg-grow-0 text-center text-lg-start mx-auto me-lg-3" href="https://mengdemao.github.io/"><picture><img class="logo" alt="Logo" src="https://mengdemao.github.io/images/logo.webp" loading="lazy"
+    
+     width="136" height="69"
+     />
+</picture>
+编程日志
+    </a>
+    <div class="offcanvas offcanvas-bottom surface" tabindex="-1" id="offcanvasSocialShare" aria-labelledby="offcanvasSocialShare">
+  <div class="offcanvas-header">
+    <h3 class="offcanvas-title">Share</h3>
+    <button type="button" class="btn btn-sm btn-outline-primary" data-bs-dismiss="offcanvas" aria-label="Close">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+  <div class="offcanvas-body">
+    <a class="btn btn-sm btn-outline-primary social-share-button" rel="noopener noreferrer" aria-label="Twitter Share Button"
+      target="_blank" href="https://twitter.com/intent/tweet?title=pthread%e6%ba%90%e7%a0%81%e5%88%86%e6%9e%90&url=https%3a%2f%2fmengdemao.github.io%2fposts%2fpthread%2f">
+      <i class="fab fa-fw fa-twitter"></i> Twitter
+    </a>
+    <a class="btn btn-sm btn-outline-primary social-share-button" rel="noopener noreferrer" aria-label="Facebook Share Button"
+      target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmengdemao.github.io%2fposts%2fpthread%2f">
+      <i class="fab fa-fw fa-facebook-f"></i> Facebook
+    </a>
+  </div>
+</div>
+    <button class="navbar-settings" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSettings"
+  aria-controls="offcanvasSettings" aria-label="Toggle settings">
+  <i class="fas fa-ellipsis-v"></i>
+</button>
+
+<div class="offcanvas offcanvas-end surface h-100" tabindex="-1" id="offcanvasSettings" aria-labelledby="offcanvasSettings">
+  <div class="offcanvas-header">
+    <h3 class="offcanvas-title">设置</h3>
+    <button type="button" class="btn btn-sm btn-outline-primary" data-bs-dismiss="offcanvas" aria-label="Close">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+  <div class="offcanvas-body d-flex flex-column">
+
+<div class="setting">
+  <form class="row">
+    <div class="col-auto">
+      <label><i class="fas fa-fw fa-adjust"></i> 模式</label>
+    </div>
+    <div class="col-auto ms-auto">
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" id="modeSwitcher">
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="setting">
+  <form class="font-size-switcher-form row">
+    <div class="col-auto">
+      <label for="fontSize" class="form-label"><i class="fas fa-fw fa-font"></i> 字体大小</label>
+    </div>
+    <div class="col-auto ms-auto">
+      <input type="range" class="form-range" min="-2" max="2" id="fontSize">
+    </div>
+  </form>
+</div>
+
+
+<div class="setting palettes">
+  <form class="row">
+    <div class="col-auto">
+      <label><i class="fas fa-fw fa-palette"></i> 配色</label>
+    </div>
+    <div class="col-auto ms-auto">
+      <a id="btnPalette" class="btn btn-sm btn-outline-primary" role="button" aria-label="palettePicker">
+        <i class="fas fa-eye-dropper"></i>
+      </a>
+    </div>
+  </form>
+  <div class="mt-2 d-flex justify-content-between visually-hidden" id="palettePicker"><button type="button" id="palette-blue" aria-label="蓝色"
+        class="btn btn-sm w-100 palette" data-palette="blue">
+      </button><button type="button" id="palette-blue-gray" aria-label="蓝灰色"
+        class="btn btn-sm w-100 palette" data-palette="blue-gray">
+      </button><button type="button" id="palette-brown" aria-label="棕色"
+        class="btn btn-sm w-100 palette" data-palette="brown">
+      </button></div>
+</div>
+<div class="setting actions d-flex justify-content-around mt-auto overflow-auto">
+  <a role="button" class="action action-go-back" href="javascript: window.history.back();">
+    <span class="action-icon"><i class="fas fa-2x fa-chevron-circle-down" data-fa-transform="rotate-90"></i></span> 返回
+  </a>
+  <a role="button" class="action action-reload-page">
+    <span class="action-icon"><i class="fas fa-2x fa-redo-alt"></i></span> 刷新
+  </a>
+  <a role="button" class="action action-copy-url">
+    <span class="action-icon"><i class="fas fa-2x fa-link"></i></span> 复制链接
+  </a><a class="action action-social-share" role="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSocialShare"
+    aria-controls="offcanvasSocialShare" aria-label="Toggle social share">
+    <span class="action-icon"><i class="fas fa-2x fa-share-alt"></i></span> 分享
+  </a></div>
+
+</div>
+</div>
+
+    <div class="collapse navbar-collapse" tabindex="-1" id="navbarSupportedContent" aria-labelledby="navbarSupportedContent">
+      <form class="search-bar my-1" action="https://mengdemao.github.io/search">
+  <div class="input-group input-group-sm">
+    <span class="btn btn-search disabled position-absolute left-0"><i class="fas fa-fw fa-search"></i></span>
+    <input class="form-control rounded-pill" name="q" type="search" aria-label="Search">
+  </div>
+</form>
+      <ul class="navbar-nav ms-auto"><li class="nav-item">
+          <a class="nav-link" href="https://mengdemao.github.io/archives/">
+            <i class="fas fa-fw fa-file-archive"></i>归档
+          </a>
+        </li><li class="nav-item">
+          <a class="nav-link" href="https://mengdemao.github.io/categories/">
+            <i class="fas fa-fw fa-folder"></i>分类
+          </a>
+        </li><li class="nav-item">
+          <a class="nav-link" href="https://mengdemao.github.io/tags/">
+            <i class="fas fa-fw fa-tags"></i>标签
+          </a>
+        </li><li class="nav-item">
+          <a class="nav-link" href="https://mengdemao.github.io/series/">
+            <i class="fas fa-fw fa-columns"></i>专栏
+          </a>
+        </li><li class="nav-item dropdown">
+          <a class="nav-link" id="navbarDropdownDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-fw fa-chevron-circle-down"></i>下拉菜单
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownDropdown" data-bs-popper="none"><li>
+              <a class="dropdown-item"
+                href="https://github.com/mengdemao/mengdemao.github.io" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-fw fa-github"></i>Github
+              </a>
+            </li><li>
+              <a class="dropdown-item"
+                href="https://mengdemao.github.io/zh-cn/series/manual">
+                用户手册
+              </a>
+            </li></ul>
+        </li></ul>
+    </div>
+  </div>
+</nav>
+</header>
+<main class="container">
+      <div class="row content">
+<div class="col-lg-8">
+  <div class="container"><nav class="row card component" aria-label="breadcrumb">
+  <div class="card-body">
+    <ol class="breadcrumb "><li class="breadcrumb-item"><a href="https://mengdemao.github.io/">主页</a></li><li class="breadcrumb-item"><a href="https://mengdemao.github.io/posts/">文章</a></li><li class="breadcrumb-item active">Pthread源码分析</li></ol>
+  </div>
+</nav><div class="post-panel-wrapper position-sticky">
+  <div class="d-flex flex-column component rounded post-panel position-absolute">
+    
+    <a class="action action-panel-toggler" role="button" title="Panel toggler">
+      <i class="fas fa-fw fa-chevron-circle-down"></i>
+    </a>
+    <a id="sidebarToggler" class="action d-none d-lg-block" role="button" title="Sidebar toggler">
+  <i class="fas fa-fw fa-expand-alt" data-fa-transform="rotate-45"></i>
+</a>
+
+    
+
+    <a class="action btn-reward" role="button" data-bs-toggle="modal" data-bs-target="#rewardModal" title="打赏">
+  <i class="fas fa-fw fa-coffee"></i>
+</a>
+    <a class="action" href="#post-copyright" role="button" aria-label="Copyright" title="Copyright">
+  <i class="fas fa-fw fa-copyright"></i>
+</a>
+    
+    <a class="action" href="#postTOC" aria-controls="Table of contents" role="button" title="Table of contents">
+  <i class="fas fa-fw fa-list-alt"></i>
+</a>
+    
+  </div>
+</div>
+<article class="row card component mb-4 post">
+  <div class="card-header ">
+    <h1 class="card-title post-title">Pthread源码分析
+</h1>
+  </div>
+  <div class="card-body"><div class="post-meta">
+  <span class="post-date" title="创建于 0001-01-01 00:00:00 &#43;0000 UTC。">
+    Jan 1, 0001
+  </span><span class="post-reading-time">
+    2 分钟阅读
+  </span><span class="post-taxonomies"></span>
+</div>
+<div class="post-content mb-3"><h1 id="pthread源码分析">pthread源码分析<a class="anchor ms-1" href="#pthread源码分析"><i class="fas fa-link"></i></a></h1>
+<blockquote>
+<p>基于musl源码库</p>
+</blockquote>
+<h2 id="所有的函数">所有的函数<a class="anchor ms-1" href="#所有的函数"><i class="fas fa-link"></i></a></h2>
+<h3 id="线程基础">线程基础<a class="anchor ms-1" href="#线程基础"><i class="fas fa-link"></i></a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="c1">// 线程创建
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">pthread_create</span><span class="p">(</span><span class="n">pthread_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">,</span> 
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">                   <span class="k">const</span> <span class="n">pthread_attr_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">,</span> 
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">                   <span class="kt">void</span> <span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="p">)(</span><span class="kt">void</span> <span class="o">*</span><span class="p">),</span> <span class="kt">void</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="c1">// 线程退出
+</span></span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="c1"></span><span class="kt">void</span> <span class="nf">pthread_exit</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="c1">// 线程属性
+</span></span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">pthread_attr_init</span><span class="p">(</span><span class="n">pthread_attr_t</span> <span class="o">*</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_attr_destroy</span><span class="p">(</span><span class="n">pthread_attr_t</span> <span class="o">*</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl">
+</span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_attr_getguardsize</span><span class="p">(</span><span class="k">const</span> <span class="n">pthread_attr_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">,</span> <span class="n">size_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_attr_setguardsize</span><span class="p">(</span><span class="n">pthread_attr_t</span> <span class="o">*</span><span class="p">,</span> <span class="n">size_t</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">15</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_attr_getstacksize</span><span class="p">(</span><span class="k">const</span> <span class="n">pthread_attr_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">,</span> <span class="n">size_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">16</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_attr_setstacksize</span><span class="p">(</span><span class="n">pthread_attr_t</span> <span class="o">*</span><span class="p">,</span> <span class="n">size_t</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">17</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_attr_getdetachstate</span><span class="p">(</span><span class="k">const</span> <span class="n">pthread_attr_t</span> <span class="o">*</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">18</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_attr_setdetachstate</span><span class="p">(</span><span class="n">pthread_attr_t</span> <span class="o">*</span><span class="p">,</span> <span class="kt">int</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">19</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_attr_getstack</span><span class="p">(</span><span class="k">const</span> <span class="n">pthread_attr_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">,</span> <span class="kt">void</span> <span class="o">**</span><span class="n">__restrict</span><span class="p">,</span> <span class="n">size_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">20</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_attr_setstack</span><span class="p">(</span><span class="n">pthread_attr_t</span> <span class="o">*</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="p">,</span> <span class="n">size_t</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">21</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_attr_getscope</span><span class="p">(</span><span class="k">const</span> <span class="n">pthread_attr_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">22</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_attr_setscope</span><span class="p">(</span><span class="n">pthread_attr_t</span> <span class="o">*</span><span class="p">,</span> <span class="kt">int</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">23</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_attr_getschedpolicy</span><span class="p">(</span><span class="k">const</span> <span class="n">pthread_attr_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">24</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_attr_setschedpolicy</span><span class="p">(</span><span class="n">pthread_attr_t</span> <span class="o">*</span><span class="p">,</span> <span class="kt">int</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">25</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_attr_getschedparam</span><span class="p">(</span><span class="k">const</span> <span class="n">pthread_attr_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">,</span> <span class="k">struct</span> <span class="n">sched_param</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">26</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_attr_setschedparam</span><span class="p">(</span><span class="n">pthread_attr_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">,</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">sched_param</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">27</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_attr_getinheritsched</span><span class="p">(</span><span class="k">const</span> <span class="n">pthread_attr_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">28</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_attr_setinheritsched</span><span class="p">(</span><span class="n">pthread_attr_t</span> <span class="o">*</span><span class="p">,</span> <span class="kt">int</span><span class="p">);</span>
+</span></span></code></pre></div><h3 id="线程分离">线程分离<a class="anchor ms-1" href="#线程分离"><i class="fas fa-link"></i></a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="c1">// 线程分离
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">pthread_detach</span><span class="p">(</span><span class="n">pthread_t</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="c1">// 线程等待
+</span></span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">pthread_join</span><span class="p">(</span><span class="n">pthread_t</span><span class="p">,</span> <span class="kt">void</span> <span class="o">**</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="c1">// 获取线程自己的ID
+</span></span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="c1"></span><span class="n">pthread_t</span> <span class="nf">pthread_self</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">
+</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="c1">// 判断线程是否相等
+</span></span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">pthread_equal</span><span class="p">(</span><span class="n">pthread_t</span><span class="p">,</span> <span class="n">pthread_t</span><span class="p">);</span>
+</span></span></code></pre></div><h3 id="线程取消">线程取消<a class="anchor ms-1" href="#线程取消"><i class="fas fa-link"></i></a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="ln">1</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_setcancelstate</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_setcanceltype</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="kt">void</span> <span class="nf">pthread_testcancel</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">4</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_cancel</span><span class="p">(</span><span class="n">pthread_t</span><span class="p">);</span>
+</span></span></code></pre></div><h3 id="线程清理">线程清理<a class="anchor ms-1" href="#线程清理"><i class="fas fa-link"></i></a></h3>
+<h3 id="调度相关">调度相关<a class="anchor ms-1" href="#调度相关"><i class="fas fa-link"></i></a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="ln">1</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_getschedparam</span><span class="p">(</span><span class="n">pthread_t</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">,</span> <span class="k">struct</span> <span class="n">sched_param</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_setschedparam</span><span class="p">(</span><span class="n">pthread_t</span><span class="p">,</span> <span class="kt">int</span><span class="p">,</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">sched_param</span> <span class="o">*</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_setschedprio</span><span class="p">(</span><span class="n">pthread_t</span><span class="p">,</span> <span class="kt">int</span><span class="p">);</span>
+</span></span></code></pre></div><h3 id="线程同步">线程同步<a class="anchor ms-1" href="#线程同步"><i class="fas fa-link"></i></a></h3>
+<h4 id="互斥锁">互斥锁<a class="anchor ms-1" href="#互斥锁"><i class="fas fa-link"></i></a></h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_mutex_init</span><span class="p">(</span><span class="n">pthread_mutex_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">,</span> <span class="k">const</span> <span class="n">pthread_mutexattr_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_mutex_lock</span><span class="p">(</span><span class="n">pthread_mutex_t</span> <span class="o">*</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_mutex_unlock</span><span class="p">(</span><span class="n">pthread_mutex_t</span> <span class="o">*</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_mutex_trylock</span><span class="p">(</span><span class="n">pthread_mutex_t</span> <span class="o">*</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_mutex_timedlock</span><span class="p">(</span><span class="n">pthread_mutex_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">,</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">timespec</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_mutex_destroy</span><span class="p">(</span><span class="n">pthread_mutex_t</span> <span class="o">*</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_mutex_consistent</span><span class="p">(</span><span class="n">pthread_mutex_t</span> <span class="o">*</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_mutex_getprioceiling</span><span class="p">(</span><span class="k">const</span> <span class="n">pthread_mutex_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_mutex_setprioceiling</span><span class="p">(</span><span class="n">pthread_mutex_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">,</span> <span class="kt">int</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl">
+</span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_mutexattr_destroy</span><span class="p">(</span><span class="n">pthread_mutexattr_t</span> <span class="o">*</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_mutexattr_getprioceiling</span><span class="p">(</span><span class="k">const</span> <span class="n">pthread_mutexattr_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_mutexattr_getprotocol</span><span class="p">(</span><span class="k">const</span> <span class="n">pthread_mutexattr_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">15</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_mutexattr_getpshared</span><span class="p">(</span><span class="k">const</span> <span class="n">pthread_mutexattr_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">16</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_mutexattr_getrobust</span><span class="p">(</span><span class="k">const</span> <span class="n">pthread_mutexattr_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">17</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_mutexattr_gettype</span><span class="p">(</span><span class="k">const</span> <span class="n">pthread_mutexattr_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">18</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_mutexattr_init</span><span class="p">(</span><span class="n">pthread_mutexattr_t</span> <span class="o">*</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">19</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_mutexattr_setprioceiling</span><span class="p">(</span><span class="n">pthread_mutexattr_t</span> <span class="o">*</span><span class="p">,</span> <span class="kt">int</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">20</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_mutexattr_setprotocol</span><span class="p">(</span><span class="n">pthread_mutexattr_t</span> <span class="o">*</span><span class="p">,</span> <span class="kt">int</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">21</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_mutexattr_setpshared</span><span class="p">(</span><span class="n">pthread_mutexattr_t</span> <span class="o">*</span><span class="p">,</span> <span class="kt">int</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">22</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_mutexattr_setrobust</span><span class="p">(</span><span class="n">pthread_mutexattr_t</span> <span class="o">*</span><span class="p">,</span> <span class="kt">int</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">23</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_mutexattr_settype</span><span class="p">(</span><span class="n">pthread_mutexattr_t</span> <span class="o">*</span><span class="p">,</span> <span class="kt">int</span><span class="p">);</span>
+</span></span></code></pre></div><h4 id="条件变量">条件变量<a class="anchor ms-1" href="#条件变量"><i class="fas fa-link"></i></a></h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_cond_init</span><span class="p">(</span><span class="n">pthread_cond_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">,</span> <span class="k">const</span> <span class="n">pthread_condattr_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_cond_destroy</span><span class="p">(</span><span class="n">pthread_cond_t</span> <span class="o">*</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_cond_wait</span><span class="p">(</span><span class="n">pthread_cond_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">,</span> <span class="n">pthread_mutex_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_cond_timedwait</span><span class="p">(</span><span class="n">pthread_cond_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">,</span> <span class="n">pthread_mutex_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">,</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">timespec</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_cond_broadcast</span><span class="p">(</span><span class="n">pthread_cond_t</span> <span class="o">*</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_cond_signal</span><span class="p">(</span><span class="n">pthread_cond_t</span> <span class="o">*</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_condattr_init</span><span class="p">(</span><span class="n">pthread_condattr_t</span> <span class="o">*</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_condattr_destroy</span><span class="p">(</span><span class="n">pthread_condattr_t</span> <span class="o">*</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_condattr_setclock</span><span class="p">(</span><span class="n">pthread_condattr_t</span> <span class="o">*</span><span class="p">,</span> <span class="n">clockid_t</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_condattr_setpshared</span><span class="p">(</span><span class="n">pthread_condattr_t</span> <span class="o">*</span><span class="p">,</span> <span class="kt">int</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_condattr_getclock</span><span class="p">(</span><span class="k">const</span> <span class="n">pthread_condattr_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">,</span> <span class="n">clockid_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_condattr_getpshared</span><span class="p">(</span><span class="k">const</span> <span class="n">pthread_condattr_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">);</span>
+</span></span></code></pre></div><h4 id="读写锁">读写锁<a class="anchor ms-1" href="#读写锁"><i class="fas fa-link"></i></a></h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_rwlock_init</span><span class="p">(</span><span class="n">pthread_rwlock_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">,</span> <span class="k">const</span> <span class="n">pthread_rwlockattr_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_rwlock_destroy</span><span class="p">(</span><span class="n">pthread_rwlock_t</span> <span class="o">*</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_rwlock_rdlock</span><span class="p">(</span><span class="n">pthread_rwlock_t</span> <span class="o">*</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_rwlock_tryrdlock</span><span class="p">(</span><span class="n">pthread_rwlock_t</span> <span class="o">*</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_rwlock_timedrdlock</span><span class="p">(</span><span class="n">pthread_rwlock_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">,</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">timespec</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_rwlock_wrlock</span><span class="p">(</span><span class="n">pthread_rwlock_t</span> <span class="o">*</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_rwlock_trywrlock</span><span class="p">(</span><span class="n">pthread_rwlock_t</span> <span class="o">*</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_rwlock_timedwrlock</span><span class="p">(</span><span class="n">pthread_rwlock_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">,</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">timespec</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_rwlock_unlock</span><span class="p">(</span><span class="n">pthread_rwlock_t</span> <span class="o">*</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_rwlockattr_init</span><span class="p">(</span><span class="n">pthread_rwlockattr_t</span> <span class="o">*</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_rwlockattr_destroy</span><span class="p">(</span><span class="n">pthread_rwlockattr_t</span> <span class="o">*</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_rwlockattr_setpshared</span><span class="p">(</span><span class="n">pthread_rwlockattr_t</span> <span class="o">*</span><span class="p">,</span> <span class="kt">int</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_rwlockattr_getpshared</span><span class="p">(</span><span class="k">const</span> <span class="n">pthread_rwlockattr_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">);</span>
+</span></span></code></pre></div><h4 id="自旋锁">自旋锁<a class="anchor ms-1" href="#自旋锁"><i class="fas fa-link"></i></a></h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="ln">1</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_spin_init</span><span class="p">(</span><span class="n">pthread_spinlock_t</span> <span class="o">*</span><span class="p">,</span> <span class="kt">int</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_spin_destroy</span><span class="p">(</span><span class="n">pthread_spinlock_t</span> <span class="o">*</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_spin_lock</span><span class="p">(</span><span class="n">pthread_spinlock_t</span> <span class="o">*</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">4</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_spin_trylock</span><span class="p">(</span><span class="n">pthread_spinlock_t</span> <span class="o">*</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">5</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_spin_unlock</span><span class="p">(</span><span class="n">pthread_spinlock_t</span> <span class="o">*</span><span class="p">);</span>
+</span></span></code></pre></div><h4 id="屏障">屏障<a class="anchor ms-1" href="#屏障"><i class="fas fa-link"></i></a></h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="ln">1</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_barrier_init</span><span class="p">(</span><span class="n">pthread_barrier_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">,</span> <span class="k">const</span> <span class="n">pthread_barrierattr_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">,</span> <span class="kt">unsigned</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_barrier_destroy</span><span class="p">(</span><span class="n">pthread_barrier_t</span> <span class="o">*</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_barrier_wait</span><span class="p">(</span><span class="n">pthread_barrier_t</span> <span class="o">*</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">4</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_barrierattr_destroy</span><span class="p">(</span><span class="n">pthread_barrierattr_t</span> <span class="o">*</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">5</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_barrierattr_getpshared</span><span class="p">(</span><span class="k">const</span> <span class="n">pthread_barrierattr_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">6</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_barrierattr_init</span><span class="p">(</span><span class="n">pthread_barrierattr_t</span> <span class="o">*</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">7</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_barrierattr_setpshared</span><span class="p">(</span><span class="n">pthread_barrierattr_t</span> <span class="o">*</span><span class="p">,</span> <span class="kt">int</span><span class="p">);</span>
+</span></span></code></pre></div><h3 id="线程资源">线程资源<a class="anchor ms-1" href="#线程资源"><i class="fas fa-link"></i></a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="ln">1</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_key_create</span><span class="p">(</span><span class="n">pthread_key_t</span> <span class="o">*</span><span class="p">,</span> <span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="p">)(</span><span class="kt">void</span> <span class="o">*</span><span class="p">));</span>
+</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_key_delete</span><span class="p">(</span><span class="n">pthread_key_t</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="kt">void</span> <span class="o">*</span><span class="nf">pthread_getspecific</span><span class="p">(</span><span class="n">pthread_key_t</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">4</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_setspecific</span><span class="p">(</span><span class="n">pthread_key_t</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="p">);</span>
+</span></span></code></pre></div><h2 id="补充知识">补充知识<a class="anchor ms-1" href="#补充知识"><i class="fas fa-link"></i></a></h2>
+<blockquote>
+<p>Linux系统调用</p>
+</blockquote>
+<p>用户层调用SVC指令实现</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="cp">#define __asm_syscall(...) 
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="cp"></span><span class="k">do</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">	<span class="n">__asm__</span> <span class="n">__volatile__</span> <span class="p">(</span> <span class="s">&#34;svc 0&#34;</span> <span class="o">:</span> <span class="s">&#34;=r&#34;</span><span class="p">(</span><span class="n">r0</span><span class="p">)</span> <span class="o">:</span> <span class="nl">__VA_ARGS__</span> <span class="p">:</span> <span class="s">&#34;memory&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">	<span class="k">return</span> <span class="n">r0</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="cp">#define R7_OPERAND &#34;r&#34;(r7)
+</span></span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="cp"></span><span class="k">static</span> <span class="kr">inline</span> <span class="kt">long</span> <span class="nf">__syscall0</span><span class="p">(</span><span class="kt">long</span> <span class="n">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl">	<span class="k">register</span> <span class="kt">long</span> <span class="n">r7</span> <span class="n">__ASM____R7__</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span> <span class="c1">//使用R7传递个数
+</span></span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="c1"></span>	<span class="k">register</span> <span class="kt">long</span> <span class="n">r0</span> <span class="n">__asm__</span><span class="p">(</span><span class="s">&#34;r0&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl">	<span class="n">__asm_syscall</span><span class="p">(</span><span class="n">R7_OPERAND</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="ln">14</span><span class="cl">
+</span></span><span class="line"><span class="ln">15</span><span class="cl"><span class="k">static</span> <span class="kr">inline</span> <span class="kt">long</span> <span class="nf">__syscall1</span><span class="p">(</span><span class="kt">long</span> <span class="n">n</span><span class="p">,</span> <span class="kt">long</span> <span class="n">a</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">16</span><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="ln">17</span><span class="cl">	<span class="k">register</span> <span class="kt">long</span> <span class="n">r7</span> <span class="n">__ASM____R7__</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">18</span><span class="cl">	<span class="k">register</span> <span class="kt">long</span> <span class="n">r0</span> <span class="n">__asm__</span><span class="p">(</span><span class="s">&#34;r0&#34;</span><span class="p">)</span> <span class="o">=</span> <span class="n">a</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">19</span><span class="cl">	<span class="n">__asm_syscall</span><span class="p">(</span><span class="n">R7_OPERAND</span><span class="p">,</span> <span class="s">&#34;0&#34;</span><span class="p">(</span><span class="n">r0</span><span class="p">));</span>
+</span></span><span class="line"><span class="ln">20</span><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="ln">21</span><span class="cl">
+</span></span><span class="line"><span class="ln">22</span><span class="cl"><span class="k">static</span> <span class="kr">inline</span> <span class="kt">long</span> <span class="nf">__syscall6</span><span class="p">(</span><span class="kt">long</span> <span class="n">n</span><span class="p">,</span> <span class="kt">long</span> <span class="n">a</span><span class="p">,</span> <span class="kt">long</span> <span class="n">b</span><span class="p">,</span> <span class="kt">long</span> <span class="n">c</span><span class="p">,</span> <span class="kt">long</span> <span class="n">d</span><span class="p">,</span> <span class="kt">long</span> <span class="n">e</span><span class="p">,</span> <span class="kt">long</span> <span class="n">f</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">23</span><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="ln">24</span><span class="cl">	<span class="k">register</span> <span class="kt">long</span> <span class="n">r7</span> <span class="n">__ASM____R7__</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">25</span><span class="cl">	<span class="k">register</span> <span class="kt">long</span> <span class="n">r0</span> <span class="n">__asm__</span><span class="p">(</span><span class="s">&#34;r0&#34;</span><span class="p">)</span> <span class="o">=</span> <span class="n">a</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">26</span><span class="cl">	<span class="k">register</span> <span class="kt">long</span> <span class="n">r1</span> <span class="n">__asm__</span><span class="p">(</span><span class="s">&#34;r1&#34;</span><span class="p">)</span> <span class="o">=</span> <span class="n">b</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">27</span><span class="cl">	<span class="k">register</span> <span class="kt">long</span> <span class="n">r2</span> <span class="n">__asm__</span><span class="p">(</span><span class="s">&#34;r2&#34;</span><span class="p">)</span> <span class="o">=</span> <span class="n">c</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">28</span><span class="cl">	<span class="k">register</span> <span class="kt">long</span> <span class="n">r3</span> <span class="n">__asm__</span><span class="p">(</span><span class="s">&#34;r3&#34;</span><span class="p">)</span> <span class="o">=</span> <span class="n">d</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">29</span><span class="cl">	<span class="k">register</span> <span class="kt">long</span> <span class="n">r4</span> <span class="n">__asm__</span><span class="p">(</span><span class="s">&#34;r4&#34;</span><span class="p">)</span> <span class="o">=</span> <span class="n">e</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">30</span><span class="cl">	<span class="k">register</span> <span class="kt">long</span> <span class="n">r5</span> <span class="n">__asm__</span><span class="p">(</span><span class="s">&#34;r5&#34;</span><span class="p">)</span> <span class="o">=</span> <span class="n">f</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">31</span><span class="cl">	<span class="n">__asm_syscall</span><span class="p">(</span><span class="n">R7_OPERAND</span><span class="p">,</span> <span class="s">&#34;0&#34;</span><span class="p">(</span><span class="n">r0</span><span class="p">),</span> <span class="s">&#34;r&#34;</span><span class="p">(</span><span class="n">r1</span><span class="p">),</span> <span class="s">&#34;r&#34;</span><span class="p">(</span><span class="n">r2</span><span class="p">),</span> <span class="s">&#34;r&#34;</span><span class="p">(</span><span class="n">r3</span><span class="p">),</span> <span class="s">&#34;r&#34;</span><span class="p">(</span><span class="n">r4</span><span class="p">),</span> <span class="s">&#34;r&#34;</span><span class="p">(</span><span class="n">r5</span><span class="p">));</span>
+</span></span><span class="line"><span class="ln">32</span><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="ln">33</span><span class="cl">
+</span></span><span class="line"><span class="ln">34</span><span class="cl"><span class="c1">// 一个相当巧妙的宏定义的实现
+</span></span></span><span class="line"><span class="ln">35</span><span class="cl"><span class="c1"></span><span class="cp">#define __SYSCALL_NARGS_X(a,b,c,d,e,f,g,h,n,...) n
+</span></span></span><span class="line"><span class="ln">36</span><span class="cl"><span class="cp">#define __SYSCALL_NARGS(...) __SYSCALL_NARGS_X(__VA_ARGS__,7,6,5,4,3,2,1,0,)
+</span></span></span><span class="line"><span class="ln">37</span><span class="cl"><span class="cp"></span><span class="c1">// 每次添加一个参数,就会将数字向后面推一个位置,形成参数个数
+</span></span></span><span class="line"><span class="ln">38</span><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="ln">39</span><span class="cl"><span class="c1">// 拼装函数调用
+</span></span></span><span class="line"><span class="ln">40</span><span class="cl"><span class="c1"></span><span class="cp">#define __SYSCALL_CONCAT_X(a,b) a##b
+</span></span></span><span class="line"><span class="ln">41</span><span class="cl"><span class="cp">#define __SYSCALL_CONCAT(a,b) __SYSCALL_CONCAT_X(a,b)
+</span></span></span><span class="line"><span class="ln">42</span><span class="cl"><span class="cp">#define __SYSCALL_DISP(b,...) __SYSCALL_CONCAT(b,__SYSCALL_NARGS(__VA_ARGS__))(__VA_ARGS__)
+</span></span></span><span class="line"><span class="ln">43</span><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="ln">44</span><span class="cl"><span class="c1">// __syscall_ret仅仅检查了系统调用号
+</span></span></span><span class="line"><span class="ln">45</span><span class="cl"><span class="c1"></span><span class="cp">#define __syscall(...) __SYSCALL_DISP(__syscall,__VA_ARGS__)
+</span></span></span><span class="line"><span class="ln">46</span><span class="cl"><span class="cp">#define syscall(...) __syscall_ret(__syscall(__VA_ARGS__))
+</span></span></span></code></pre></div><ol>
+<li><code>syscall(SYS_close, fd)</code> 原始函数</li>
+<li><code>__syscall_ret(__syscall(SYS_close, fd))</code> syscall宏定义展开</li>
+<li><code>__syscall(SYS_close, fd)</code> 直接拿掉<code>syscall_ret</code></li>
+<li><code>__SYSCALL_DISP(__syscall, SYS_close, fd)</code> 展开__syscall</li>
+<li><code>__SYSCALL_CONCAT(__syscall, __SYSCALL_NARGS(SYS_close, fd))(SYS_close, fd)</code></li>
+<li><code>__SYSCALL_CONCAT(_syscall, 1, (SYS_close, fd))</code></li>
+<li><code>__syscall1(SYS_close, fd)</code> 生成结束</li>
+</ol>
+<p>系统调用号实现</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="cp">#ifndef _UAPI_ASM_ARM_UNISTD_COMMON_H
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="cp">#define _UAPI_ASM_ARM_UNISTD_COMMON_H 1
+</span></span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="cp">#define __NR_restart_syscall (__NR_SYSCALL_BASE + 0)
+</span></span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="cp">#define __NR_exit (__NR_SYSCALL_BASE + 1)
+</span></span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="cp">#define __NR_fork (__NR_SYSCALL_BASE + 2)
+</span></span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="cp">#define __NR_read (__NR_SYSCALL_BASE + 3)
+</span></span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="cp">#define __NR_write (__NR_SYSCALL_BASE + 4)
+</span></span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="cp">#define __NR_open (__NR_SYSCALL_BASE + 5)
+</span></span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="cp">#define __NR_close (__NR_SYSCALL_BASE + 6)
+</span></span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="cp">#define __NR_creat (__NR_SYSCALL_BASE + 8)
+</span></span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="cp"></span><span class="p">...</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="cp">#define __NR_io_pgetevents (__NR_SYSCALL_BASE + 399)
+</span></span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="cp">#endif </span><span class="cm">/* _UAPI_ASM_ARM_UNISTD_COMMON_H */</span><span class="cp">
+</span></span></span></code></pre></div><h3 id="clone系统调用">clone系统调用<a class="anchor ms-1" href="#clone系统调用"><i class="fas fa-link"></i></a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"></code></pre></div><h2 id="线程基础-1">线程基础<a class="anchor ms-1" href="#线程基础-1"><i class="fas fa-link"></i></a></h2>
+<h3 id="线程创建">线程创建<a class="anchor ms-1" href="#线程创建"><i class="fas fa-link"></i></a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">typedef</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">uintptr_t</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="k">typedef</span> <span class="n">uintptr_t</span> <span class="n">pthread_t</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="k">struct</span> <span class="n">sched_param</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="kt">int</span> <span class="n">sched_priority</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="k">typedef</span> <span class="k">struct</span> <span class="n">pthread_attr_t</span> <span class="n">pthread_attr_t</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="k">struct</span> <span class="n">pthread_attr_t</span> <span class="p">{</span>			<span class="c1">// 线程属性
+</span></span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="c1"></span>    <span class="kt">unsigned</span> <span class="n">p_state</span><span class="p">;</span>  			<span class="c1">// 线程状态
+</span></span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="c1"></span>    <span class="kt">void</span> <span class="o">*</span><span class="n">stack</span><span class="p">;</span>	   			<span class="c1">// 堆栈指针
+</span></span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="c1"></span>    <span class="n">size_t</span> <span class="n">s_size</span><span class="p">;</span>	   			<span class="c1">// 堆栈大小
+</span></span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="c1"></span>    <span class="k">struct</span> <span class="n">sched_param</span> <span class="n">param</span><span class="p">;</span> 	<span class="c1">// 调度参数
+</span></span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="c1"></span><span class="p">};</span>
+</span></span></code></pre></div></div><div class="modal fade" id="rewardModal" tabindex="-1" aria-labelledby="rewardModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content surface">
+      <div class="modal-header">
+        <h5 class="modal-title" id="rewardModalLabel"><i class="fas fa-fw fa-coffee me-1"></i>打赏</h5>
+        <a href="#" data-bs-dismiss="modal" class="btn btn-sm btn-outline-primary" aria-label="Close"><i class="fas fa-times"></i></a>
+      </div>
+      <div class="modal-body">
+        <ul class="nav nav-tabs mb-3" role="tablist"><li class="nav-item text-nowrap" role="presentation">
+            <a class="nav-link active" id="reward-alipay-tab" data-bs-toggle="tab" href="#reward-alipay" role="tab" aria-controls="reward-alipay" aria-selected="true">
+              <i class="fab fa-fw fa-alipay me-1"></i>支付宝
+            </a>
+          </li><li class="nav-item text-nowrap" role="presentation">
+            <a class="nav-link" id="reward-wechat-tab" data-bs-toggle="tab" href="#reward-wechat" role="tab" aria-controls="reward-wechat" aria-selected="true">
+              <i class="fab fa-fw fa-weixin me-1"></i>微信
+            </a>
+          </li></ul>
+        <div class="tab-content" id="rewardTabContent"><div class="tab-pane fade post-reward-content show active" id="reward-alipay" role="tabpanel" aria-labelledby="reward-alipay-tab">
+            <img class="img-fluid post-reward-img" src="https://mengdemao.github.io/images/reward/alipay.png" loading="lazy" data-viewer-invisible />
+          </div><div class="tab-pane fade post-reward-content show" id="reward-wechat" role="tabpanel" aria-labelledby="reward-wechat-tab">
+            <img class="img-fluid post-reward-img" src="https://mengdemao.github.io/images/reward/wechat.png" loading="lazy" data-viewer-invisible />
+          </div></div>
+      </div>
+    </div>
+  </div>
+</div></div>
+  <div class="card-footer"><div class="post-navs d-flex justify-content-evenly"><div class="post-nav post-next">
+    <a href="https://mengdemao.github.io/posts/nfs/">Nfs
+</a>
+    <i class="fas fa-fw fa-chevron-circle-down post-next-icon" data-fa-transform="rotate-270"></i>
+  </div></div></div>
+</article><div class="post-copyright mb-3 row card component" id="post-copyright">
+    <div class="card-header">
+        <h2 class="card-title">版权</h2>
+    </div>
+    <div class="card-body"><a class="d-flex align-items-center flex-column" target="_blank" rel="license noopener noreferrer" href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh">
+  <span><i class="fab fa-fw fa-2x fa-creative-commons"></i><i class="fab fa-fw fa-2x fa-creative-commons-by"></i><i class="fab fa-fw fa-2x fa-creative-commons-nc"></i><i class="fab fa-fw fa-2x fa-creative-commons-nd"></i></span>
+  CC BY-NC-ND 4.0 
+</a>
+
+
+    </div>
+</div></div>
+</div><aside class="col-lg-4 sidebar d-flex">
+  <div class="container d-flex flex-column">
+    
+    <div class="card row text-center profile component">
+  <div class="card-body">
+    <div class="col-12 d-flex align-items-center justify-content-center"><picture><img class="profile-avatar rounded-circle" alt="MengDemao" src="https://mengdemao.github.io/images/profile.webp" loading="lazy" data-viewer-invisible
+    
+     width="400" height="400"
+     />
+</picture>
+</div>
+    <div class="col-12 profile-meta"><div class="profile-name">MengDemao</div><div class="profile-bio">面向玄学编程</div><div class="profile-company"><i class="fas fa-fw fa-building"></i>Company</div><div class="profile-location"><i class="fas fa-fw fa-map-marker-alt"></i>Earth</div><div class="profile-about"><i class="fas fa-fw fa-user"></i><a href="https://mengdemao.github.io/about/">About</a></div></div>
+  </div>
+</div>
+<div class="post-toc row mb-4 card component" id="postTOC">
+  <div class="card-header">
+    <h2 class="card-title">目录</h2>
+  </div>
+  <div class="card-body">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#所有的函数">所有的函数</a>
+      <ul>
+        <li><a href="#线程基础">线程基础</a></li>
+        <li><a href="#线程分离">线程分离</a></li>
+        <li><a href="#线程取消">线程取消</a></li>
+        <li><a href="#线程清理">线程清理</a></li>
+        <li><a href="#调度相关">调度相关</a></li>
+        <li><a href="#线程同步">线程同步</a></li>
+        <li><a href="#线程资源">线程资源</a></li>
+      </ul>
+    </li>
+    <li><a href="#补充知识">补充知识</a>
+      <ul>
+        <li><a href="#clone系统调用">clone系统调用</a></li>
+      </ul>
+    </li>
+    <li><a href="#线程基础-1">线程基础</a>
+      <ul>
+        <li><a href="#线程创建">线程创建</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div><section class="recent-posts row card component">
+  <div class="card-header">
+    <h2 class="card-title">最近文章</h2>
+  </div>
+  <div class="card-body">
+    <ul class="post-list"><li>
+        <a href="https://mengdemao.github.io/posts/memory_management/">内存管理
+</a>
+      </li><li>
+        <a href="https://mengdemao.github.io/posts/buildroot/">Buildroot
+</a>
+      </li><li>
+        <a href="https://mengdemao.github.io/posts/c4/">C4
+</a>
+      </li><li>
+        <a href="https://mengdemao.github.io/posts/lua/">Lua
+</a>
+      </li><li>
+        <a href="https://mengdemao.github.io/posts/complete/">Complete
+</a>
+      </li></ul>
+  </div>
+</section><section class="categories-taxonomies row card component">
+      <div class="card-header">
+        <h2 class="card-title">
+          <a href="https://mengdemao.github.io/categories">分类</a>
+        </h2>
+      </div>
+      <div class="card-body">
+        <div class="py-2"><a href="https://mengdemao.github.io/categories/linux/" class="badge rounded post-taxonomy" title="linux">
+            linux</a><a href="https://mengdemao.github.io/categories/compiler/" class="badge rounded post-taxonomy" title="compiler">
+            compiler</a><a href="https://mengdemao.github.io/categories/python/" class="badge rounded post-taxonomy" title="python">
+            python</a><a href="https://mengdemao.github.io/categories/rootfs/" class="badge rounded post-taxonomy" title="rootfs">
+            rootfs</a></div>
+      </div>
+    </section><section class="tags-taxonomies row card component">
+      <div class="card-header">
+        <h2 class="card-title">
+          <a href="https://mengdemao.github.io/tags">标签</a>
+        </h2>
+      </div>
+      <div class="card-body">
+        <div class="py-2"><a href="https://mengdemao.github.io/tags/kernel/" class="badge rounded post-taxonomy" title="kernel">
+            kernel</a><a href="https://mengdemao.github.io/tags/compiler/" class="badge rounded post-taxonomy" title="compiler">
+            compiler</a><a href="https://mengdemao.github.io/tags/nfs/" class="badge rounded post-taxonomy" title="nfs">
+            nfs</a><a href="https://mengdemao.github.io/tags/rootfs/" class="badge rounded post-taxonomy" title="rootfs">
+            rootfs</a><a href="https://mengdemao.github.io/tags/%E6%8A%80%E5%B7%A7/" class="badge rounded post-taxonomy" title="技巧">
+            技巧</a><a href="https://mengdemao.github.io/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" class="badge rounded post-taxonomy" title="编译原理">
+            编译原理</a></div>
+      </div>
+    </section>
+    
+  </div>
+</aside>
+</div>
+    </main><footer class="footer mt-auto py-3 text-center container"><nav class="social-links nav justify-content-center mb-2"><a class="nav-link social-link" target="_blank" href="https://mengdemao.github.io/index.xml" title="RSS" rel="noopener noreferrer">
+    <i class="fas fa-fw fa-2x fa-rss"></i>
+  </a></nav>
+<div class="copyright mb-2">
+  Copyright © 2020-2022 Meng Demao. All Rights Reserved.
+</div>
+<div class="powered-by mb-2">
+  Powered by <a href="https://gohugo.io" target="_blank" rel="noopener noreferrer">Hugo</a> and the <a href="https://github.com/razonyang/hugo-theme-bootstrap" target="_blank" rel="noopener noreferrer">Bootstrap</a> theme.
+</div></footer>
+<script src="https://mengdemao.github.io/assets/main/bundle.min.542aabda067eec4942e382dbd383a8308069b86572c80dd1030155fbd04c1605.js" integrity="sha256-VCqr2gZ&#43;7ElC44Lb04OoMIBpuGVyyA3RAwFV&#43;9BMFgU=" crossorigin="anonymous" defer></script><script src="https://mengdemao.github.io/assets/icons/bundle.min.01022129e6cfc140c7f2686dbcac2a77faa67a3379f7a0e89ce27d8e1f0c0d19.js" integrity="sha256-AQIhKebPwUDH8mhtvKwqd/qmejN596DonOJ9jh8MDRk=" crossorigin="anonymous" defer></script>
+<script src="https://mengdemao.github.io/assets/viewer/bundle.min.4a24843ad29021dfd0834e65e2d6ff3da9cf42e223ef3428fe2726b54dcb3551.js" integrity="sha256-SiSEOtKQId/Qg05l4tb/PanPQuIj7zQo/icmtU3LNVE=" crossorigin="anonymous" defer></script>
+</body>
+</html>
