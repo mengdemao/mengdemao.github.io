@@ -6,7 +6,16 @@
     <description>Recent content on 编程日志</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>Copyright © 2020-{year} Meng Demao. All Rights Reserved.</copyright>
-    <lastBuildDate>Sun, 13 Mar 2022 18:05:24 +0800</lastBuildDate><atom:link href="https://mengdemao.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 01 May 2022 10:37:25 +0800</lastBuildDate><atom:link href="https://mengdemao.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>pthread源码分析</title>
+      <link>https://mengdemao.github.io/posts/pthread/</link>
+      <pubDate>Sun, 01 May 2022 10:37:25 +0800</pubDate>
+      
+      <guid>https://mengdemao.github.io/posts/pthread/</guid>
+      <description>pthread源码分析 基于musl源码库 pthread句柄 1struct pthread { 23struct pthread *self; 45#ifndef TLS_ABOVE_TP 6 uintptr_t *dtv; 7#endif 8 9/* 线程链表项 */ 10struct pthread *prev, *next; /* non-ABI */ 1112/* 系统信息 */ 13uintptr_t sysinfo; 1415#ifndef TLS_ABOVE_TP 16 #ifdef CANARY_PAD 17</description>
+    </item>
+    
     <item>
       <title>内存管理</title>
       <link>https://mengdemao.github.io/posts/memory_management/</link>
@@ -383,15 +392,6 @@
       
       <guid>https://mengdemao.github.io/posts/nfs/</guid>
       <description>nfs服务 安装 1sudo apt-get install nfs-kernel-server 设置导出 1/home/exports *(rw,nohide,insecure,no_subtree_check,async,no_root_squash) 开启服务 1sudo /etc/init.d/nfs-kernel-server restart 测试 1sudo mount -t nfs -o nolock,vers=3 127.0.0.1:/home/exports /mnt 2ls /mnt</description>
-    </item>
-    
-    <item>
-      <title>pthread源码分析</title>
-      <link>https://mengdemao.github.io/posts/pthread/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://mengdemao.github.io/posts/pthread/</guid>
-      <description>pthread源码分析 基于musl源码库 pthread句柄 1struct pthread { 23struct pthread *self; 45#ifndef TLS_ABOVE_TP 6 uintptr_t *dtv; 7#endif 8 9/* 线程链表项 */ 10struct pthread *prev, *next; /* non-ABI */ 1112/* 系统信息 */ 13uintptr_t sysinfo; 1415#ifndef TLS_ABOVE_TP 16 #ifdef CANARY_PAD 17</description>
     </item>
     
   </channel>

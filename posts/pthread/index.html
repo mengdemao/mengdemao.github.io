@@ -12,15 +12,15 @@
 <link rel="manifest" href="https://mengdemao.github.io/manifest.json">
 <meta name="keywords" content="" />
 <meta name="description" content="pthread源码分析 基于musl源码库 pthread句柄 1struct pthread { 23struct pthread *self; 45#ifndef TLS_ABOVE_TP 6 uintptr_t *dtv; 7#endif 8 9/* 线程链表项 */ 10struct pthread *prev, *next; /* non-ABI */ 1112/* 系统信息 */ 13uintptr_t sysinfo; 1415#ifndef TLS_ABOVE_TP 16 #ifdef CANARY_PAD 17" /><meta itemprop="name" content="pthread源码分析">
-<meta itemprop="description" content="pthread源码分析 基于musl源码库 pthread句柄 1struct pthread { 23struct pthread *self; 45#ifndef TLS_ABOVE_TP 6 uintptr_t *dtv; 7#endif 8 9/* 线程链表项 */ 10struct pthread *prev, *next; /* non-ABI */ 1112/* 系统信息 */ 13uintptr_t sysinfo; 1415#ifndef TLS_ABOVE_TP 16 #ifdef CANARY_PAD 17">
-
-<meta itemprop="wordCount" content="2782">
+<meta itemprop="description" content="pthread源码分析 基于musl源码库 pthread句柄 1struct pthread { 23struct pthread *self; 45#ifndef TLS_ABOVE_TP 6 uintptr_t *dtv; 7#endif 8 9/* 线程链表项 */ 10struct pthread *prev, *next; /* non-ABI */ 1112/* 系统信息 */ 13uintptr_t sysinfo; 1415#ifndef TLS_ABOVE_TP 16 #ifdef CANARY_PAD 17"><meta itemprop="datePublished" content="2022-05-01T10:37:25+08:00" />
+<meta itemprop="dateModified" content="2022-05-01T10:37:25+08:00" />
+<meta itemprop="wordCount" content="2866">
 <meta itemprop="keywords" content="" /><meta property="og:title" content="pthread源码分析" />
 <meta property="og:description" content="pthread源码分析 基于musl源码库 pthread句柄 1struct pthread { 23struct pthread *self; 45#ifndef TLS_ABOVE_TP 6 uintptr_t *dtv; 7#endif 8 9/* 线程链表项 */ 10struct pthread *prev, *next; /* non-ABI */ 1112/* 系统信息 */ 13uintptr_t sysinfo; 1415#ifndef TLS_ABOVE_TP 16 #ifdef CANARY_PAD 17" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://mengdemao.github.io/posts/pthread/" /><meta property="article:section" content="posts" />
-
-
+<meta property="article:published_time" content="2022-05-01T10:37:25+08:00" />
+<meta property="article:modified_time" content="2022-05-01T10:37:25+08:00" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="pthread源码分析"/>
@@ -213,8 +213,8 @@
 </h1>
   </div>
   <div class="card-body"><div class="post-meta">
-  <span class="post-date" title="创建于 0001-01-01 00:00:00 &#43;0000 UTC。">
-    Jan 1, 0001
+  <span class="post-date" title="创建于 2022-05-01 02:37:25 &#43;0000 UTC。">
+    May 1, 2022
   </span><span class="post-reading-time">
     6 分钟阅读
   </span><span class="post-taxonomies"></span>
@@ -251,58 +251,59 @@
 </span></span><span class="line"><span class="ln">25</span><span class="cl">	
 </span></span><span class="line"><span class="ln">26</span><span class="cl">    <span class="k">volatile</span> <span class="kt">int</span> <span class="n">detach_state</span><span class="p">;</span>  <span class="c1">// 分离状态
 </span></span></span><span class="line"><span class="ln">27</span><span class="cl"><span class="c1"></span>	
-</span></span><span class="line"><span class="ln">28</span><span class="cl">    <span class="k">volatile</span> <span class="kt">int</span> <span class="n">cancel</span><span class="p">;</span>		<span class="c1">// cancle标志
-</span></span></span><span class="line"><span class="ln">29</span><span class="cl"><span class="c1"></span>    <span class="k">volatile</span> <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">canceldisable</span><span class="p">,</span> <span class="n">cancelasync</span><span class="p">;</span> <span class="c1">// cancle控制
-</span></span></span><span class="line"><span class="ln">30</span><span class="cl"><span class="c1"></span>	
-</span></span><span class="line"><span class="ln">31</span><span class="cl">    <span class="kt">unsigned</span> <span class="kt">char</span> <span class="nl">tsd_used</span><span class="p">:</span><span class="mi">1</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">32</span><span class="cl">	<span class="kt">unsigned</span> <span class="kt">char</span> <span class="nl">dlerror_flag</span><span class="p">:</span><span class="mi">1</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">33</span><span class="cl">	
-</span></span><span class="line"><span class="ln">34</span><span class="cl">    <span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">map_base</span><span class="p">;</span>	<span class="c1">// mmap
-</span></span></span><span class="line"><span class="ln">35</span><span class="cl"><span class="c1"></span>	<span class="n">size_t</span> <span class="n">map_size</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">36</span><span class="cl">	
-</span></span><span class="line"><span class="ln">37</span><span class="cl">    <span class="kt">void</span> <span class="o">*</span><span class="n">stack</span><span class="p">;</span>	<span class="c1">// 堆栈
-</span></span></span><span class="line"><span class="ln">38</span><span class="cl"><span class="c1"></span>	<span class="n">size_t</span> <span class="n">stack_size</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">39</span><span class="cl">	
-</span></span><span class="line"><span class="ln">40</span><span class="cl">    <span class="n">size_t</span> <span class="n">guard_size</span><span class="p">;</span> 
-</span></span><span class="line"><span class="ln">41</span><span class="cl">	
-</span></span><span class="line"><span class="ln">42</span><span class="cl">    <span class="kt">void</span> <span class="o">*</span><span class="n">result</span><span class="p">;</span> <span class="c1">// 返回结果,
-</span></span></span><span class="line"><span class="ln">43</span><span class="cl"><span class="c1"></span>    
-</span></span><span class="line"><span class="ln">44</span><span class="cl">    <span class="cm">/* 线程清理回调函数 pthread_cleanup_push、pthread_cleanup_pop */</span>
-</span></span><span class="line"><span class="ln">45</span><span class="cl">	<span class="k">struct</span> <span class="n">__ptcb</span> <span class="o">*</span><span class="n">cancelbuf</span><span class="p">;</span> 
-</span></span><span class="line"><span class="ln">46</span><span class="cl">	
-</span></span><span class="line"><span class="ln">47</span><span class="cl">    <span class="kt">void</span> <span class="o">**</span><span class="n">tsd</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">48</span><span class="cl">	
-</span></span><span class="line"><span class="ln">49</span><span class="cl">    <span class="k">struct</span> <span class="p">{</span>
-</span></span><span class="line"><span class="ln">50</span><span class="cl">		<span class="k">volatile</span> <span class="kt">void</span> <span class="o">*</span><span class="k">volatile</span> <span class="n">head</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">51</span><span class="cl">		<span class="kt">long</span> <span class="n">off</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">52</span><span class="cl">		<span class="k">volatile</span> <span class="kt">void</span> <span class="o">*</span><span class="k">volatile</span> <span class="n">pending</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">53</span><span class="cl">	<span class="p">}</span> <span class="n">robust_list</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">54</span><span class="cl">	
-</span></span><span class="line"><span class="ln">55</span><span class="cl">    <span class="kt">int</span> <span class="n">h_errno_val</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">56</span><span class="cl">    
-</span></span><span class="line"><span class="ln">57</span><span class="cl">	<span class="k">volatile</span> <span class="kt">int</span> <span class="n">timer_id</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">58</span><span class="cl">	
-</span></span><span class="line"><span class="ln">59</span><span class="cl">    <span class="n">locale_t</span> <span class="n">locale</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">60</span><span class="cl">	
-</span></span><span class="line"><span class="ln">61</span><span class="cl">    <span class="k">volatile</span> <span class="kt">int</span> <span class="n">killlock</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
-</span></span><span class="line"><span class="ln">62</span><span class="cl">	
-</span></span><span class="line"><span class="ln">63</span><span class="cl">    <span class="kt">char</span> <span class="o">*</span><span class="n">dlerror_buf</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">64</span><span class="cl">	
-</span></span><span class="line"><span class="ln">65</span><span class="cl">    <span class="kt">void</span> <span class="o">*</span><span class="n">stdio_locks</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">66</span><span class="cl">
-</span></span><span class="line"><span class="ln">67</span><span class="cl">	<span class="cp">#ifdef TLS_ABOVE_TP
-</span></span></span><span class="line"><span class="ln">68</span><span class="cl"><span class="cp"></span>	<span class="n">uintptr_t</span> <span class="n">canary</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">69</span><span class="cl">	<span class="n">uintptr_t</span> <span class="o">*</span><span class="n">dtv</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">70</span><span class="cl">	<span class="cp">#endif
-</span></span></span><span class="line"><span class="ln">71</span><span class="cl"><span class="cp"></span>    
-</span></span><span class="line"><span class="ln">72</span><span class="cl"><span class="p">};</span>
-</span></span><span class="line"><span class="ln">73</span><span class="cl">
-</span></span><span class="line"><span class="ln">74</span><span class="cl"><span class="c1">// 因此在此处使用了技巧,在内部和外部使用的定义形式不一致
-</span></span></span><span class="line"><span class="ln">75</span><span class="cl"><span class="c1"></span><span class="cp">#ifdef __cplusplus
-</span></span></span><span class="line"><span class="ln">76</span><span class="cl"><span class="cp"></span><span class="k">typedef</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">pthread_t</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">77</span><span class="cl"><span class="cp">#else
-</span></span></span><span class="line"><span class="ln">78</span><span class="cl"><span class="cp"></span><span class="k">typedef</span> <span class="k">struct</span> <span class="n">__pthread</span><span class="o">*</span> <span class="n">pthread_t</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">79</span><span class="cl"><span class="cp">#endif
+</span></span><span class="line"><span class="ln">28</span><span class="cl">    <span class="k">volatile</span> <span class="kt">int</span> <span class="n">cancel</span><span class="p">;</span>					<span class="c1">// cancle启动标志
+</span></span></span><span class="line"><span class="ln">29</span><span class="cl"><span class="c1"></span>    <span class="k">volatile</span> <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">canceldisable</span><span class="p">;</span> 	<span class="c1">// cancle控制
+</span></span></span><span class="line"><span class="ln">30</span><span class="cl"><span class="c1"></span>    <span class="k">volatile</span> <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">cancelasync</span><span class="p">;</span>   	<span class="c1">// cancle同步标志
+</span></span></span><span class="line"><span class="ln">31</span><span class="cl"><span class="c1"></span>	
+</span></span><span class="line"><span class="ln">32</span><span class="cl">    <span class="kt">unsigned</span> <span class="kt">char</span> <span class="nl">tsd_used</span><span class="p">:</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">33</span><span class="cl">	<span class="kt">unsigned</span> <span class="kt">char</span> <span class="nl">dlerror_flag</span><span class="p">:</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">34</span><span class="cl">	
+</span></span><span class="line"><span class="ln">35</span><span class="cl">    <span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">map_base</span><span class="p">;</span>	<span class="c1">// mmap
+</span></span></span><span class="line"><span class="ln">36</span><span class="cl"><span class="c1"></span>	<span class="n">size_t</span> <span class="n">map_size</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">37</span><span class="cl">	
+</span></span><span class="line"><span class="ln">38</span><span class="cl">    <span class="kt">void</span> <span class="o">*</span><span class="n">stack</span><span class="p">;</span>	<span class="c1">// 堆栈
+</span></span></span><span class="line"><span class="ln">39</span><span class="cl"><span class="c1"></span>	<span class="n">size_t</span> <span class="n">stack_size</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">40</span><span class="cl">	
+</span></span><span class="line"><span class="ln">41</span><span class="cl">    <span class="n">size_t</span> <span class="n">guard_size</span><span class="p">;</span> 
+</span></span><span class="line"><span class="ln">42</span><span class="cl">	
+</span></span><span class="line"><span class="ln">43</span><span class="cl">    <span class="kt">void</span> <span class="o">*</span><span class="n">result</span><span class="p">;</span> <span class="c1">// 返回结果,
+</span></span></span><span class="line"><span class="ln">44</span><span class="cl"><span class="c1"></span>    
+</span></span><span class="line"><span class="ln">45</span><span class="cl">    <span class="cm">/* 线程清理回调函数 pthread_cleanup_push、pthread_cleanup_pop */</span>
+</span></span><span class="line"><span class="ln">46</span><span class="cl">	<span class="k">struct</span> <span class="n">__ptcb</span> <span class="o">*</span><span class="n">cancelbuf</span><span class="p">;</span> 
+</span></span><span class="line"><span class="ln">47</span><span class="cl">	
+</span></span><span class="line"><span class="ln">48</span><span class="cl">    <span class="kt">void</span> <span class="o">**</span><span class="n">tsd</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">49</span><span class="cl">	
+</span></span><span class="line"><span class="ln">50</span><span class="cl">    <span class="k">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln">51</span><span class="cl">		<span class="k">volatile</span> <span class="kt">void</span> <span class="o">*</span><span class="k">volatile</span> <span class="n">head</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">52</span><span class="cl">		<span class="kt">long</span> <span class="n">off</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">53</span><span class="cl">		<span class="k">volatile</span> <span class="kt">void</span> <span class="o">*</span><span class="k">volatile</span> <span class="n">pending</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">54</span><span class="cl">	<span class="p">}</span> <span class="n">robust_list</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">55</span><span class="cl">	
+</span></span><span class="line"><span class="ln">56</span><span class="cl">    <span class="kt">int</span> <span class="n">h_errno_val</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">57</span><span class="cl">    
+</span></span><span class="line"><span class="ln">58</span><span class="cl">	<span class="k">volatile</span> <span class="kt">int</span> <span class="n">timer_id</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">59</span><span class="cl">	
+</span></span><span class="line"><span class="ln">60</span><span class="cl">    <span class="n">locale_t</span> <span class="n">locale</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">61</span><span class="cl">	
+</span></span><span class="line"><span class="ln">62</span><span class="cl">    <span class="k">volatile</span> <span class="kt">int</span> <span class="n">killlock</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+</span></span><span class="line"><span class="ln">63</span><span class="cl">	
+</span></span><span class="line"><span class="ln">64</span><span class="cl">    <span class="kt">char</span> <span class="o">*</span><span class="n">dlerror_buf</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">65</span><span class="cl">	
+</span></span><span class="line"><span class="ln">66</span><span class="cl">    <span class="kt">void</span> <span class="o">*</span><span class="n">stdio_locks</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">67</span><span class="cl">
+</span></span><span class="line"><span class="ln">68</span><span class="cl">	<span class="cp">#ifdef TLS_ABOVE_TP
+</span></span></span><span class="line"><span class="ln">69</span><span class="cl"><span class="cp"></span>	<span class="n">uintptr_t</span> <span class="n">canary</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">70</span><span class="cl">	<span class="n">uintptr_t</span> <span class="o">*</span><span class="n">dtv</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">71</span><span class="cl">	<span class="cp">#endif
+</span></span></span><span class="line"><span class="ln">72</span><span class="cl"><span class="cp"></span>    
+</span></span><span class="line"><span class="ln">73</span><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="ln">74</span><span class="cl">
+</span></span><span class="line"><span class="ln">75</span><span class="cl"><span class="c1">// 因此在此处使用了技巧,在内部和外部使用的定义形式不一致
+</span></span></span><span class="line"><span class="ln">76</span><span class="cl"><span class="c1"></span><span class="cp">#ifdef __cplusplus
+</span></span></span><span class="line"><span class="ln">77</span><span class="cl"><span class="cp"></span><span class="k">typedef</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">pthread_t</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">78</span><span class="cl"><span class="cp">#else
+</span></span></span><span class="line"><span class="ln">79</span><span class="cl"><span class="cp"></span><span class="k">typedef</span> <span class="k">struct</span> <span class="n">__pthread</span><span class="o">*</span> <span class="n">pthread_t</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">80</span><span class="cl"><span class="cp">#endif
 </span></span></span></code></pre></div><h2 id="所有的函数">所有的函数<a class="anchor ms-1" href="#所有的函数"><i class="fas fa-link"></i></a></h2>
 <h3 id="线程基础">线程基础<a class="anchor ms-1" href="#线程基础"><i class="fas fa-link"></i></a></h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="c1">// 线程创建
@@ -343,16 +344,27 @@
 </span></span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="c1"></span><span class="n">pthread_t</span> <span class="nf">pthread_self</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
 </span></span><span class="line"><span class="ln">3</span><span class="cl">
 </span></span><span class="line"><span class="ln">4</span><span class="cl"><span class="c1">// 判断线程是否相等
-</span></span></span><span class="line"><span class="ln">5</span><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">pthread_equal</span><span class="p">(</span><span class="n">pthread_t</span><span class="p">,</span> <span class="n">pthread_t</span><span class="p">);</span>
-</span></span></code></pre></div><h3 id="线程取消">线程取消<a class="anchor ms-1" href="#线程取消"><i class="fas fa-link"></i></a></h3>
+</span></span></span><span class="line"><span class="ln">5</span><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">pthread_equal</span><span class="p">(</span><span class="n">pthread_t</span><span class="p">,</span> <span class="n">pthread_t</span><span class="p">);</span> <span class="c1">// 其实,之间简单的比较id就可以了
+</span></span></span></code></pre></div><h3 id="线程取消">线程取消<a class="anchor ms-1" href="#线程取消"><i class="fas fa-link"></i></a></h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="ln">1</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_setcancelstate</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="p">);</span>
 </span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_setcanceltype</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="p">);</span>
 </span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="kt">void</span> <span class="nf">pthread_testcancel</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
 </span></span><span class="line"><span class="ln">4</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_cancel</span><span class="p">(</span><span class="n">pthread_t</span><span class="p">);</span>
 </span></span></code></pre></div><h3 id="调度相关">调度相关<a class="anchor ms-1" href="#调度相关"><i class="fas fa-link"></i></a></h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="ln">1</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_getschedparam</span><span class="p">(</span><span class="n">pthread_t</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">,</span> <span class="k">struct</span> <span class="n">sched_param</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_setschedparam</span><span class="p">(</span><span class="n">pthread_t</span><span class="p">,</span> <span class="kt">int</span><span class="p">,</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">sched_param</span> <span class="o">*</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_setschedprio</span><span class="p">(</span><span class="n">pthread_t</span><span class="p">,</span> <span class="kt">int</span><span class="p">);</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_getschedparam</span><span class="p">(</span><span class="n">pthread_t</span> <span class="n">t</span><span class="p">,</span> 
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl">                          <span class="kt">int</span> <span class="o">*</span><span class="kr">restrict</span> <span class="n">policy</span><span class="p">,</span> 
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">                          <span class="k">struct</span> <span class="n">sched_param</span> <span class="o">*</span><span class="kr">restrict</span> <span class="n">param</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="n">__syscall</span><span class="p">(</span><span class="n">SYS_sched_getparam</span><span class="p">,</span> <span class="n">pthread_t</span><span class="o">-&gt;</span><span class="n">tid</span><span class="p">,</span> <span class="n">sched_param</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="n">__syscall</span><span class="p">(</span><span class="n">SYS_sched_getscheduler</span><span class="p">,</span> <span class="n">pthread_t</span><span class="o">-&gt;</span><span class="n">tid</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_setschedparam</span><span class="p">(</span><span class="n">pthread_t</span> <span class="n">t</span><span class="p">,</span> 
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">                          <span class="kt">int</span> <span class="n">policy</span><span class="p">,</span> 
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">                          <span class="k">const</span> <span class="k">struct</span> <span class="n">sched_param</span> <span class="o">*</span><span class="n">param</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="n">__syscall</span><span class="p">(</span><span class="n">SYS_sched_setscheduler</span><span class="p">,</span> <span class="n">pthread_t</span><span class="o">-&gt;</span><span class="n">tid</span><span class="p">,</span> <span class="n">policy</span><span class="p">,</span> <span class="n">sched_param</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="c1">// sched_param保存着优先级参数
+</span></span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_setschedprio</span><span class="p">(</span><span class="n">pthread_t</span> <span class="n">t</span><span class="p">,</span> <span class="kt">int</span> <span class="n">prio</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="n">__syscall</span><span class="p">(</span><span class="n">SYS_sched_setparam</span><span class="p">,</span> <span class="n">pthread_t</span><span class="o">-&gt;</span><span class="n">tid</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">prio</span><span class="p">);</span>
 </span></span></code></pre></div><h3 id="线程同步">线程同步<a class="anchor ms-1" href="#线程同步"><i class="fas fa-link"></i></a></h3>
 <h4 id="互斥锁">互斥锁<a class="anchor ms-1" href="#互斥锁"><i class="fas fa-link"></i></a></h4>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_mutex_init</span><span class="p">(</span><span class="n">pthread_mutex_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">,</span> <span class="k">const</span> <span class="n">pthread_mutexattr_t</span> <span class="o">*</span><span class="n">__restrict</span><span class="p">);</span>
@@ -918,7 +930,7 @@
 </span></span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="c1"></span>
 </span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="k">static</span> <span class="kt">int</span> <span class="n">__pthread_timedjoin_np</span><span class="p">(</span><span class="n">pthread_t</span> <span class="n">t</span><span class="p">,</span> <span class="kt">void</span> <span class="o">**</span><span class="n">res</span><span class="p">,</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">timespec</span> <span class="o">*</span><span class="n">at</span><span class="p">)</span>
 </span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="ln">15</span><span class="cl">
+</span></span><span class="line"><span class="ln">15</span><span class="cl">	<span class="cm">/* 设置线程分离状态 */</span>
 </span></span><span class="line"><span class="ln">16</span><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div></div><div class="modal fade" id="rewardModal" tabindex="-1" aria-labelledby="rewardModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -946,10 +958,10 @@
     </div>
   </div>
 </div></div>
-  <div class="card-footer"><div class="post-navs d-flex justify-content-evenly"><div class="post-nav post-next">
-    <a href="https://mengdemao.github.io/posts/nfs/">Nfs
+  <div class="card-footer"><div class="post-navs d-flex justify-content-evenly"><div class="post-nav post-prev">
+    <i class="fas fa-fw fa-chevron-circle-down post-prev-icon" data-fa-transform="rotate-90"></i>
+    <a href="https://mengdemao.github.io/posts/memory_management/">内存管理
 </a>
-    <i class="fas fa-fw fa-chevron-circle-down post-next-icon" data-fa-transform="rotate-270"></i>
   </div></div></div>
 </article><div class="post-copyright mb-3 row card component" id="post-copyright">
     <div class="card-header">
@@ -1018,6 +1030,9 @@
   </div>
   <div class="card-body">
     <ul class="post-list"><li>
+        <a href="https://mengdemao.github.io/posts/pthread/">Pthread源码分析
+</a>
+      </li><li>
         <a href="https://mengdemao.github.io/posts/memory_management/">内存管理
 </a>
       </li><li>
@@ -1028,9 +1043,6 @@
 </a>
       </li><li>
         <a href="https://mengdemao.github.io/posts/lua/">Lua
-</a>
-      </li><li>
-        <a href="https://mengdemao.github.io/posts/complete/">Complete
 </a>
       </li></ul>
   </div>

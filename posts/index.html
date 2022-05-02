@@ -179,6 +179,25 @@
   </div>
 </nav><div class="posts mb-4"><article class="row card post component"><div class="card-header">
     <h2 class="card-title post-title">
+      <a href="https://mengdemao.github.io/posts/pthread/">Pthread源码分析
+</a>
+    </h2>
+  </div>
+  <div class="card-body"><div class="post-meta">
+  <span class="post-date" title="创建于 2022-05-01 02:37:25 &#43;0000 UTC。">
+    May 1, 2022
+  </span><span class="post-reading-time">
+    6 分钟阅读
+  </span><span class="post-taxonomies"></span>
+</div>
+<div class="post-summary">
+      <p>pthread源码分析  基于musl源码库
+ pthread句柄 1struct pthread { 23struct pthread *self; 45#ifndef TLS_ABOVE_TP 6	uintptr_t *dtv; 7#endif 8	9/* 线程链表项 */ 10struct pthread *prev, *next; /* non-ABI */ 1112/* 系统信息 */ 13uintptr_t sysinfo; 1415#ifndef TLS_ABOVE_TP 16	#ifdef CANARY_PAD 17	uintptr_t canary_pad; 18#endif 19	uintptr_t...</p><div><a class="btn btn-sm btn-primary btn-read-more" href="https://mengdemao.github.io/posts/pthread/">阅读更多</a></div>
+    </div>
+  </div>
+</article>
+<article class="row card post component"><div class="card-header">
+    <h2 class="card-title post-title">
       <a href="https://mengdemao.github.io/posts/memory_management/">内存管理
 </a>
     </h2>
@@ -252,24 +271,6 @@
     </div>
   </div>
 </article>
-<article class="row card post component"><div class="card-header">
-    <h2 class="card-title post-title">
-      <a href="https://mengdemao.github.io/posts/complete/">Complete
-</a>
-    </h2>
-  </div>
-  <div class="card-body"><div class="post-meta">
-  <span class="post-date" title="创建于 2021-12-11 09:02:49 &#43;0000 UTC。">
-    Dec 11, 2021
-  </span><span class="post-reading-time">
-    0 分钟阅读
-  </span><span class="post-taxonomies"><a href="https://mengdemao.github.io/tags/kernel/" class="badge post-taxonomy">kernel</a></span>
-</div>
-<div class="post-summary">
-      <p></p>
-    </div>
-  </div>
-</article>
 </div><div class="row table-responsive mb-3">
     <ul class="pagination pagination-default">
       <li class="page-item disabled">
@@ -322,6 +323,9 @@
   </div>
   <div class="card-body">
     <ul class="post-list"><li>
+        <a href="https://mengdemao.github.io/posts/pthread/">Pthread源码分析
+</a>
+      </li><li>
         <a href="https://mengdemao.github.io/posts/memory_management/">内存管理
 </a>
       </li><li>
@@ -332,9 +336,6 @@
 </a>
       </li><li>
         <a href="https://mengdemao.github.io/posts/lua/">Lua
-</a>
-      </li><li>
-        <a href="https://mengdemao.github.io/posts/complete/">Complete
 </a>
       </li></ul>
   </div>
