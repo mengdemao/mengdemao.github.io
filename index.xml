@@ -391,7 +391,7 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://mengdemao.github.io/posts/pthread/</guid>
-      <description>pthread源码分析 基于musl源码库 所有的函数 线程基础 1// 线程创建 2int pthread_create(pthread_t *__restrict, 3const pthread_attr_t *__restrict, 4void *(*)(void *), void *__restrict); 56// 线程退出 7void pthread_exit(void *); 89// 线程属性 10int pthread_attr_init(pthread_attr_t *); 11int pthread_attr_destroy(pthread_attr_t *); 1213int pthread_attr_getguardsize(const pthread_attr_t *__restrict, size_t *__restrict);</description>
+      <description>pthread源码分析 基于musl源码库 pthread句柄 1struct pthread { 23struct pthread *self; 45#ifndef TLS_ABOVE_TP 6 uintptr_t *dtv; 7#endif 8 9/* 线程链表项 */ 10struct pthread *prev, *next; /* non-ABI */ 1112/* 系统信息 */ 13uintptr_t sysinfo; 1415#ifndef TLS_ABOVE_TP 16 #ifdef CANARY_PAD 17</description>
     </item>
     
   </channel>
