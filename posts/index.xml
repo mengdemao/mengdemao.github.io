@@ -13,7 +13,7 @@
       <pubDate>Sun, 01 May 2022 10:37:25 +0800</pubDate>
       
       <guid>https://mengdemao.github.io/posts/pthread/</guid>
-      <description>pthread源码分析 基于musl源码库 pthread句柄 1struct pthread { 23struct pthread *self; 45#ifndef TLS_ABOVE_TP 6 uintptr_t *dtv; 7#endif 8 9/* 线程链表项 */ 10struct pthread *prev, *next; /* non-ABI */ 1112/* 系统信息 */ 13uintptr_t sysinfo; 1415#ifndef TLS_ABOVE_TP 16 #ifdef CANARY_PAD 17</description>
+      <description>pthread源码分析 基于musl源码库与glibc库,其中musl提供分析的思路,glibc分析具体实现 pthread句柄 1/// musl实现 2struct</description>
     </item>
     
     <item>
