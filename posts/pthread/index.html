@@ -14,7 +14,7 @@
 <meta name="description" content="pthread源码分析 基于musl源码库与glibc库,其中musl提供分析的思路,glibc分析具体实现 pthread句柄 1/// musl实现 2struct" /><meta itemprop="name" content="pthread源码分析">
 <meta itemprop="description" content="pthread源码分析 基于musl源码库与glibc库,其中musl提供分析的思路,glibc分析具体实现 pthread句柄 1/// musl实现 2struct"><meta itemprop="datePublished" content="2022-05-01T10:37:25+08:00" />
 <meta itemprop="dateModified" content="2022-05-01T10:37:25+08:00" />
-<meta itemprop="wordCount" content="5284">
+<meta itemprop="wordCount" content="5601">
 <meta itemprop="keywords" content="" /><meta property="og:title" content="pthread源码分析" />
 <meta property="og:description" content="pthread源码分析 基于musl源码库与glibc库,其中musl提供分析的思路,glibc分析具体实现 pthread句柄 1/// musl实现 2struct" />
 <meta property="og:type" content="article" />
@@ -26,7 +26,7 @@
 <meta name="twitter:title" content="pthread源码分析"/>
 <meta name="twitter:description" content="pthread源码分析 基于musl源码库与glibc库,其中musl提供分析的思路,glibc分析具体实现 pthread句柄 1/// musl实现 2struct"/>
 <meta property="og:image" content="https://mengdemao.github.io/images/logo.png"/>
-  <meta name="twitter:image" content="https://mengdemao.github.io/images/logo.png"/><link rel="stylesheet" href="https://mengdemao.github.io/assets/main/bundle.min.c11ea85fbfb7d58f4d1e0633928dd2249375dd54ffb9945106e41b287fa1dbc9.css" integrity="sha256-wR6oX7+31Y9NHgYzko3SJJN13VT/uZRRBuQbKH+h28k=" crossorigin="anonymous"><link rel="stylesheet" href="https://mengdemao.github.io/assets/viewer/bundle.min.05d84cef8ecf0f936293c62c90ebe16275bf8f5f5649297e1a4338e63676ba2b.css" integrity="sha256-BdhM747PD5Nik8YskOvhYnW/j19WSSl&#43;GkM45jZ2uis=" crossorigin="anonymous"></head>
+  <meta name="twitter:image" content="https://mengdemao.github.io/images/logo.png"/><link rel="stylesheet" href="https://mengdemao.github.io/assets/main/bundle.min.a07d3ff03e23475d812cc3487e1eb414a13b6786d2c4eaa15edc2a88d71db209.css" integrity="sha256-oH0/8D4jR12BLMNIfh60FKE7Z4bSxOqhXtwqiNcdsgk=" crossorigin="anonymous"><link rel="stylesheet" href="https://mengdemao.github.io/assets/viewer/bundle.min.05d84cef8ecf0f936293c62c90ebe16275bf8f5f5649297e1a4338e63676ba2b.css" integrity="sha256-BdhM747PD5Nik8YskOvhYnW/j19WSSl&#43;GkM45jZ2uis=" crossorigin="anonymous"></head>
   <body><script>const items=["mode","palette"];items.forEach(function(e){const t=localStorage.getItem("hbs-"+e);t&&document.body.parentElement.setAttribute("data-"+e,t)})</script><header><nav class="navbar top-app-bar top-app-bar-expand-lg fixed-top">
   <div class="container">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -216,7 +216,7 @@
   <span class="post-date" title="创建于 2022-05-01 02:37:25 &#43;0000 UTC。">
     May 1, 2022
   </span><span class="post-reading-time">
-    11 分钟阅读
+    12 分钟阅读
   </span><span class="post-taxonomies"></span>
 </div>
 <div class="post-content mb-3"><h1 id="pthread源码分析">pthread源码分析<a class="anchor ms-1" href="#pthread源码分析"><i class="fas fa-link"></i></a></h1>
@@ -553,10 +553,8 @@
 </span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="kt">void</span> <span class="o">*</span><span class="nf">pthread_getspecific</span><span class="p">(</span><span class="n">pthread_key_t</span><span class="p">);</span>
 </span></span><span class="line"><span class="ln">4</span><span class="cl"><span class="kt">int</span> <span class="nf">pthread_setspecific</span><span class="p">(</span><span class="n">pthread_key_t</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="p">);</span>
 </span></span></code></pre></div><h2 id="补充知识">补充知识<a class="anchor ms-1" href="#补充知识"><i class="fas fa-link"></i></a></h2>
-<blockquote>
-<p>Linux系统调用</p>
-</blockquote>
-<p>用户层调用SVC指令实现</p>
+<h3 id="linux线程实现">Linux线程实现<a class="anchor ms-1" href="#linux线程实现"><i class="fas fa-link"></i></a></h3>
+<h3 id="系统调用实现">系统调用实现<a class="anchor ms-1" href="#系统调用实现"><i class="fas fa-link"></i></a></h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="cp">#define __asm_syscall(...) 
 </span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="cp"></span><span class="k">do</span> <span class="p">{</span>
 </span></span><span class="line"><span class="ln"> 3</span><span class="cl">	<span class="n">__asm__</span> <span class="n">__volatile__</span> <span class="p">(</span> <span class="s">&#34;svc 0&#34;</span> <span class="o">:</span> <span class="s">&#34;=r&#34;</span><span class="p">(</span><span class="n">r0</span><span class="p">)</span> <span class="o">:</span> <span class="nl">__VA_ARGS__</span> <span class="p">:</span> <span class="s">&#34;memory&#34;</span><span class="p">);</span>
@@ -669,67 +667,70 @@
 </span></span><span class="line"><span class="ln">24</span><span class="cl">	<span class="n">bx</span> <span class="n">lr</span>
 </span></span></code></pre></div><h3 id="futex设计与实现">Futex设计与实现<a class="anchor ms-1" href="#futex设计与实现"><i class="fas fa-link"></i></a></h3>
 <p>Futex 是Fast Userspace muTexes的缩写</p>
-<p>调用实例</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"></code></pre></div><p>内核调用基础</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">long</span> <span class="nf">do_futex</span><span class="p">(</span><span class="n">u32</span> <span class="n">__user</span> <span class="o">*</span><span class="n">uaddr</span><span class="p">,</span> <span class="kt">int</span> <span class="n">op</span><span class="p">,</span> <span class="n">u32</span> <span class="n">val</span><span class="p">,</span> <span class="n">ktime_t</span> <span class="o">*</span><span class="n">timeout</span><span class="p">,</span>
-</span></span><span class="line"><span class="ln"> 2</span><span class="cl">		<span class="n">u32</span> <span class="n">__user</span> <span class="o">*</span><span class="n">uaddr2</span><span class="p">,</span> <span class="n">u32</span> <span class="n">val2</span><span class="p">,</span> <span class="n">u32</span> <span class="n">val3</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="ln"> 4</span><span class="cl">	<span class="kt">int</span> <span class="n">cmd</span> <span class="o">=</span> <span class="n">op</span> <span class="o">&amp;</span> <span class="n">FUTEX_CMD_MASK</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln"> 5</span><span class="cl">	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">flags</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln"> 6</span><span class="cl">
-</span></span><span class="line"><span class="ln"> 7</span><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">op</span> <span class="o">&amp;</span> <span class="n">FUTEX_PRIVATE_FLAG</span><span class="p">))</span>
-</span></span><span class="line"><span class="ln"> 8</span><span class="cl">		<span class="n">flags</span> <span class="o">|=</span> <span class="n">FLAGS_SHARED</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln"> 9</span><span class="cl">
-</span></span><span class="line"><span class="ln">10</span><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="n">op</span> <span class="o">&amp;</span> <span class="n">FUTEX_CLOCK_REALTIME</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="ln">11</span><span class="cl">		<span class="n">flags</span> <span class="o">|=</span> <span class="n">FLAGS_CLOCKRT</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">12</span><span class="cl">		<span class="k">if</span> <span class="p">(</span><span class="n">cmd</span> <span class="o">!=</span> <span class="n">FUTEX_WAIT</span> <span class="o">&amp;&amp;</span> <span class="n">cmd</span> <span class="o">!=</span> <span class="n">FUTEX_WAIT_BITSET</span> <span class="o">&amp;&amp;</span> \
-</span></span><span class="line"><span class="ln">13</span><span class="cl">		    <span class="n">cmd</span> <span class="o">!=</span> <span class="n">FUTEX_WAIT_REQUEUE_PI</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">14</span><span class="cl">			<span class="k">return</span> <span class="o">-</span><span class="n">ENOSYS</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">15</span><span class="cl">	<span class="p">}</span>
-</span></span><span class="line"><span class="ln">16</span><span class="cl">
-</span></span><span class="line"><span class="ln">17</span><span class="cl">	<span class="k">switch</span> <span class="p">(</span><span class="n">cmd</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="ln">18</span><span class="cl">	<span class="k">case</span> <span class="nl">FUTEX_LOCK_PI</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln">19</span><span class="cl">	<span class="k">case</span> <span class="nl">FUTEX_UNLOCK_PI</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln">20</span><span class="cl">	<span class="k">case</span> <span class="nl">FUTEX_TRYLOCK_PI</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln">21</span><span class="cl">	<span class="k">case</span> <span class="nl">FUTEX_WAIT_REQUEUE_PI</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln">22</span><span class="cl">	<span class="k">case</span> <span class="nl">FUTEX_CMP_REQUEUE_PI</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln">23</span><span class="cl">		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">futex_cmpxchg_enabled</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">24</span><span class="cl">			<span class="k">return</span> <span class="o">-</span><span class="n">ENOSYS</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">25</span><span class="cl">	<span class="p">}</span>
+<p>但是我并没有搞明白futex实现的原理,造成我发继续分析,
+因此只能分析别人的文档(注:不分析原理 ,只进行使用)</p>
+<p>主要存在文件<code>futex-internal.c/futex-internal.h,lowlevellock-futex.h,lowlevellock.c</code></p>
+<p>另外<code>lll-&gt;lowlevellock</code>缩写形式</p>
+<p>其中futex提供的最重要的两个操作wait和wake</p>
+<p>常用的锁都是通过futex实现的</p>
+<ul>
+<li>mutex (互斥锁)</li>
+<li>rwlock (读写锁)</li>
+<li>cond  (条件变量)</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="cp">#define lll_trylock(lock) 		原子的(lock 0 --&gt; 1) 	</span><span class="c1">// 不等待
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="c1"></span><span class="cp">#define lll_cond_trylock(lock) 	原子的(lock 0 --&gt; 2)	</span><span class="c1">// 不等待
+</span></span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="cp">#define lll_lock(futex, private) 
+</span></span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="cp"></span><span class="mf">1.</span> <span class="err">原子的</span><span class="p">(</span><span class="n">futex</span> <span class="mi">0</span> <span class="o">--&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="c1">// 等待 
+</span></span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="c1"></span><span class="mf">2.</span> <span class="n">__lll_lock_wait</span> <span class="p">(</span><span class="n">futex</span><span class="p">,</span> <span class="n">private</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="cp">#define __lll_cond_lock(futex, private)
+</span></span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="cp"></span><span class="mf">1.</span> <span class="err">原子的</span><span class="p">(</span><span class="n">futex</span> <span class="mi">0</span> <span class="o">--&gt;</span> <span class="mi">2</span><span class="p">)</span> <span class="c1">// 等待 
+</span></span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="c1"></span><span class="mf">2.</span> <span class="n">__lll_lock_wait</span> <span class="p">(</span><span class="n">futex</span><span class="p">,</span> <span class="n">private</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl">
+</span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="cp">#define __lll_unlock(futex, private)
+</span></span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="cp"></span><span class="mf">1.</span> <span class="err">原子的</span><span class="p">(</span><span class="n">futex</span> <span class="o">?</span> <span class="o">--&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="c1">// 等待 
+</span></span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="c1"></span><span class="mf">2.</span> <span class="n">__lll_lock_wait</span> <span class="p">(</span><span class="n">futex</span><span class="p">,</span> <span class="n">private</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">15</span><span class="cl">
+</span></span><span class="line"><span class="ln">16</span><span class="cl"><span class="kt">void</span> <span class="n">__lll_lock_wake_private</span> <span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">futex</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">17</span><span class="cl"><span class="kt">void</span> <span class="nf">__lll_lock_wait_private</span> <span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">futex</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">18</span><span class="cl"><span class="kt">void</span> <span class="nf">__lll_lock_wait</span> <span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">futex</span><span class="p">,</span> <span class="kt">int</span> <span class="n">private</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">19</span><span class="cl"><span class="kt">void</span> <span class="nf">__lll_lock_wake</span> <span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">futex</span><span class="p">,</span> <span class="kt">int</span> <span class="n">private</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">20</span><span class="cl">
+</span></span><span class="line"><span class="ln">21</span><span class="cl"><span class="kt">int</span> <span class="nf">lll_futex_wake</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">futex</span><span class="p">,</span> <span class="kt">int</span> <span class="n">nr</span><span class="p">,</span> <span class="kt">int</span> <span class="n">private</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">22</span><span class="cl"><span class="kt">int</span> <span class="nf">lll_futex_wait</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">futex</span><span class="p">,</span> <span class="kt">int</span> <span class="n">val</span><span class="p">,</span> <span class="kt">int</span> <span class="n">private</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">23</span><span class="cl">
+</span></span><span class="line"><span class="ln">24</span><span class="cl"><span class="kt">int</span> <span class="nf">futex_wait</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="o">*</span><span class="n">futex_word</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">expected</span><span class="p">,</span> <span class="kt">int</span> <span class="n">private</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">25</span><span class="cl"><span class="kt">void</span> <span class="nf">futex_wake</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span><span class="o">*</span> <span class="n">futex_word</span><span class="p">,</span> <span class="kt">int</span> <span class="n">processes_to_wake</span><span class="p">,</span> <span class="kt">int</span> <span class="n">private</span><span class="p">);</span>
 </span></span><span class="line"><span class="ln">26</span><span class="cl">
-</span></span><span class="line"><span class="ln">27</span><span class="cl">	<span class="k">switch</span> <span class="p">(</span><span class="n">cmd</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="ln">28</span><span class="cl">	<span class="k">case</span> <span class="nl">FUTEX_WAIT</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln">29</span><span class="cl">		<span class="n">val3</span> <span class="o">=</span> <span class="n">FUTEX_BITSET_MATCH_ANY</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">30</span><span class="cl">		<span class="cm">/* fall through */</span>
-</span></span><span class="line"><span class="ln">31</span><span class="cl">	<span class="k">case</span> <span class="nl">FUTEX_WAIT_BITSET</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln">32</span><span class="cl">		<span class="k">return</span> <span class="n">futex_wait</span><span class="p">(</span><span class="n">uaddr</span><span class="p">,</span> <span class="n">flags</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">timeout</span><span class="p">,</span> <span class="n">val3</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">33</span><span class="cl">	<span class="k">case</span> <span class="nl">FUTEX_WAKE</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln">34</span><span class="cl">		<span class="n">val3</span> <span class="o">=</span> <span class="n">FUTEX_BITSET_MATCH_ANY</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">35</span><span class="cl">		<span class="cm">/* fall through */</span>
-</span></span><span class="line"><span class="ln">36</span><span class="cl">	<span class="k">case</span> <span class="nl">FUTEX_WAKE_BITSET</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln">37</span><span class="cl">		<span class="k">return</span> <span class="n">futex_wake</span><span class="p">(</span><span class="n">uaddr</span><span class="p">,</span> <span class="n">flags</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">val3</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">38</span><span class="cl">	<span class="k">case</span> <span class="nl">FUTEX_REQUEUE</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln">39</span><span class="cl">		<span class="k">return</span> <span class="n">futex_requeue</span><span class="p">(</span><span class="n">uaddr</span><span class="p">,</span> <span class="n">flags</span><span class="p">,</span> <span class="n">uaddr2</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">val2</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">40</span><span class="cl">	<span class="k">case</span> <span class="nl">FUTEX_CMP_REQUEUE</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln">41</span><span class="cl">		<span class="k">return</span> <span class="n">futex_requeue</span><span class="p">(</span><span class="n">uaddr</span><span class="p">,</span> <span class="n">flags</span><span class="p">,</span> <span class="n">uaddr2</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">val2</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">val3</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">42</span><span class="cl">	<span class="k">case</span> <span class="nl">FUTEX_WAKE_OP</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln">43</span><span class="cl">		<span class="k">return</span> <span class="n">futex_wake_op</span><span class="p">(</span><span class="n">uaddr</span><span class="p">,</span> <span class="n">flags</span><span class="p">,</span> <span class="n">uaddr2</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">val2</span><span class="p">,</span> <span class="n">val3</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">44</span><span class="cl">	<span class="k">case</span> <span class="nl">FUTEX_LOCK_PI</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln">45</span><span class="cl">		<span class="k">return</span> <span class="n">futex_lock_pi</span><span class="p">(</span><span class="n">uaddr</span><span class="p">,</span> <span class="n">flags</span><span class="p">,</span> <span class="n">timeout</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">46</span><span class="cl">	<span class="k">case</span> <span class="nl">FUTEX_UNLOCK_PI</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln">47</span><span class="cl">		<span class="k">return</span> <span class="n">futex_unlock_pi</span><span class="p">(</span><span class="n">uaddr</span><span class="p">,</span> <span class="n">flags</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">48</span><span class="cl">	<span class="k">case</span> <span class="nl">FUTEX_TRYLOCK_PI</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln">49</span><span class="cl">		<span class="k">return</span> <span class="n">futex_lock_pi</span><span class="p">(</span><span class="n">uaddr</span><span class="p">,</span> <span class="n">flags</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">50</span><span class="cl">	<span class="k">case</span> <span class="nl">FUTEX_WAIT_REQUEUE_PI</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln">51</span><span class="cl">		<span class="n">val3</span> <span class="o">=</span> <span class="n">FUTEX_BITSET_MATCH_ANY</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">52</span><span class="cl">		<span class="k">return</span> <span class="n">futex_wait_requeue_pi</span><span class="p">(</span><span class="n">uaddr</span><span class="p">,</span> <span class="n">flags</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">timeout</span><span class="p">,</span> <span class="n">val3</span><span class="p">,</span>
-</span></span><span class="line"><span class="ln">53</span><span class="cl">					     <span class="n">uaddr2</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">54</span><span class="cl">	<span class="k">case</span> <span class="nl">FUTEX_CMP_REQUEUE_PI</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln">55</span><span class="cl">		<span class="k">return</span> <span class="n">futex_requeue</span><span class="p">(</span><span class="n">uaddr</span><span class="p">,</span> <span class="n">flags</span><span class="p">,</span> <span class="n">uaddr2</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">val2</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">val3</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">56</span><span class="cl">	<span class="p">}</span>
-</span></span><span class="line"><span class="ln">57</span><span class="cl">	<span class="k">return</span> <span class="o">-</span><span class="n">ENOSYS</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">58</span><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h2 id="线程基础-1">线程基础<a class="anchor ms-1" href="#线程基础-1"><i class="fas fa-link"></i></a></h2>
+</span></span><span class="line"><span class="ln">27</span><span class="cl"><span class="c1">// 进入系统调用阶段
+</span></span></span><span class="line"><span class="ln">28</span><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">lll_futex_syscall</span><span class="p">(</span><span class="kt">int</span> <span class="n">nargs</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">futexp</span><span class="p">,</span> <span class="kt">int</span> <span class="n">op</span><span class="p">,</span> <span class="p">...);</span>
+</span></span></code></pre></div><p>那么进入到最后可以得知,一般会进行一些原子操作,启动的操作都是<code>INTERNAL_SYSCALL</code>进行实现的,然后就是<code>swi</code>指令实现的原理</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="c1">// 可以使用的op定义类型
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="c1"></span><span class="cp">#define FUTEX_WAIT			0
+</span></span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="cp">#define FUTEX_WAKE			1
+</span></span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="cp">#define FUTEX_REQUEUE		3
+</span></span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="cp">#define FUTEX_CMP_REQUEUE	4
+</span></span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="cp">#define FUTEX_WAKE_OP		5
+</span></span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="cp">#define FUTEX_OP_CLEAR_WAKE_IF_GT_ONE	((4 &lt;&lt; 24) | 1)
+</span></span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="cp">#define FUTEX_LOCK_PI		6
+</span></span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="cp">#define FUTEX_UNLOCK_PI		7
+</span></span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="cp">#define FUTEX_TRYLOCK_PI	8
+</span></span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="cp">#define FUTEX_WAIT_BITSET	9
+</span></span></span><span class="line"><span class="ln">15</span><span class="cl"><span class="cp">#define FUTEX_WAKE_BITSET	10
+</span></span></span><span class="line"><span class="ln">16</span><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="ln">17</span><span class="cl"><span class="cp">#define FUTEX_WAIT_REQUEUE_PI   11
+</span></span></span><span class="line"><span class="ln">18</span><span class="cl"><span class="cp">#define FUTEX_CMP_REQUEUE_PI    12
+</span></span></span><span class="line"><span class="ln">19</span><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="ln">20</span><span class="cl"><span class="cp">#define FUTEX_LOCK_PI2			13
+</span></span></span><span class="line"><span class="ln">21</span><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="ln">22</span><span class="cl"><span class="cp">#define FUTEX_PRIVATE_FLAG		128
+</span></span></span><span class="line"><span class="ln">23</span><span class="cl"><span class="cp">#define FUTEX_CLOCK_REALTIME	256  
+</span></span></span></code></pre></div><h2 id="线程基础-1">线程基础<a class="anchor ms-1" href="#线程基础-1"><i class="fas fa-link"></i></a></h2>
 <h3 id="线程创建">线程创建<a class="anchor ms-1" href="#线程创建"><i class="fas fa-link"></i></a></h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="ln">  1</span><span class="cl"><span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span> 
 </span></span><span class="line"><span class="ln">  2</span><span class="cl">    <span class="k">union</span> <span class="p">{</span> 
@@ -1242,7 +1243,23 @@
 </span></span><span class="line"><span class="ln">52</span><span class="cl">
 </span></span><span class="line"><span class="ln">53</span><span class="cl">	<span class="n">__syscall</span><span class="p">(</span><span class="n">SYS_tkill</span><span class="p">,</span> <span class="n">self</span><span class="o">-&gt;</span><span class="n">tid</span><span class="p">,</span> <span class="n">SIGCANCEL</span><span class="p">);</span>
 </span></span><span class="line"><span class="ln">54</span><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h3 id="线程分离-1">线程分离<a class="anchor ms-1" href="#线程分离-1"><i class="fas fa-link"></i></a></h3>
+</span></span></code></pre></div><p>在musl中分析结束,现在分析一下glibc是如何实现的？</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="c1">// 确实,在glibc中更加清晰,但是我还是没有明白,为什么会在此处进行退出呢
+</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="c1"></span><span class="kt">void</span> <span class="nf">__pthread_testcancel</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">  <span class="k">struct</span> <span class="n">__pthread</span> <span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="n">_pthread_self</span> <span class="p">();</span>
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl">  <span class="kt">int</span> <span class="n">cancelled</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">  <span class="n">__pthread_mutex_lock</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">cancel_lock</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">  <span class="n">cancelled</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">cancel_state</span> <span class="o">==</span> <span class="n">PTHREAD_CANCEL_ENABLE</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">cancel_pending</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">  <span class="n">__pthread_mutex_unlock</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">cancel_lock</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl">
+</span></span><span class="line"><span class="ln">11</span><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">cancelled</span><span class="p">)</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl">    <span class="n">__pthread_exit</span> <span class="p">(</span><span class="n">PTHREAD_CANCELED</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="ln">14</span><span class="cl">
+</span></span><span class="line"><span class="ln">15</span><span class="cl"><span class="c1">// 但是glibc没有什么特别的差别
+</span></span></span></code></pre></div><h3 id="线程分离-1">线程分离<a class="anchor ms-1" href="#线程分离-1"><i class="fas fa-link"></i></a></h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="c1">// 线程分离
 </span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">pthread_detach</span><span class="p">(</span><span class="n">pthread_t</span><span class="p">)</span>
 </span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="o">--&gt;</span> <span class="n">__pthread_join</span><span class="p">(</span><span class="n">pthread_t</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
@@ -1371,7 +1388,7 @@
 </span></span><span class="line"><span class="ln">74</span><span class="cl">	<span class="k">return</span> <span class="n">r</span><span class="p">;</span>
 </span></span><span class="line"><span class="ln">75</span><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><h3 id="互斥锁glibc实现">互斥锁glibc实现<a class="anchor ms-1" href="#互斥锁glibc实现"><i class="fas fa-link"></i></a></h3>
-<p>musl的互斥锁好像缺少了排队机制,造成可能抢占的问题;因此</p>
+<p>musl的互斥锁好像缺少了排队机制,造成可能抢占的问题(真正实现排队的是futex)</p>
 <h4 id="互斥锁的定义">互斥锁的定义<a class="anchor ms-1" href="#互斥锁的定义"><i class="fas fa-link"></i></a></h4>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">struct</span> <span class="n">__pthread_mutex_s</span>
 </span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>
@@ -1450,48 +1467,9 @@
 </span></span><span class="line"><span class="ln">55</span><span class="cl">
 </span></span><span class="line"><span class="ln">56</span><span class="cl">  <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
 </span></span><span class="line"><span class="ln">57</span><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p>普通上锁实现原理</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="cp">#define __lll_lock(futex, private)                                      \
-</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="cp">  ((void)                                                               \
-</span></span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="cp">   ({                                                                   \
-</span></span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="cp">     int *__futex = (futex);                                            \
-</span></span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="cp">     if (__glibc_unlikely                                               \
-</span></span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="cp">         (atomic_compare_and_exchange_bool_acq (__futex, 1, 0)))        \
-</span></span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="cp">       {                                                                \
-</span></span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="cp">         if (__builtin_constant_p (private) &amp;&amp; (private) == LLL_PRIVATE) \
-</span></span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="cp">           __lll_lock_wait_private (__futex);                           \
-</span></span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="cp">         else                                                           \
-</span></span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="cp">           __lll_lock_wait (__futex, private);                          \
-</span></span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="cp">       }                                                                \
-</span></span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="cp">   }))
-</span></span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="cp">#define lll_lock(futex, private) 			__lll_lock (&amp;(futex), private)
-</span></span></span><span class="line"><span class="ln">15</span><span class="cl"><span class="cp"></span>
-</span></span><span class="line"><span class="ln">16</span><span class="cl"><span class="kt">void</span> <span class="nf">__lll_lock_wait_private</span> <span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">futex</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">17</span><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="ln">18</span><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">atomic_load_relaxed</span> <span class="p">(</span><span class="n">futex</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">19</span><span class="cl">    <span class="k">goto</span> <span class="n">futex</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">20</span><span class="cl">
-</span></span><span class="line"><span class="ln">21</span><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="n">atomic_exchange_acquire</span> <span class="p">(</span><span class="n">futex</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">22</span><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="ln">23</span><span class="cl">    <span class="nl">futex</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln">24</span><span class="cl">      <span class="n">LIBC_PROBE</span> <span class="p">(</span><span class="n">lll_lock_wait_private</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">futex</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">25</span><span class="cl">      <span class="n">futex_wait</span> <span class="p">((</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="o">*</span><span class="p">)</span> <span class="n">futex</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">LLL_PRIVATE</span><span class="p">);</span> <span class="cm">/* Wait if *futex == 2.  */</span>
-</span></span><span class="line"><span class="ln">26</span><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="ln">27</span><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="ln">28</span><span class="cl">
-</span></span><span class="line"><span class="ln">29</span><span class="cl"><span class="kt">void</span> <span class="nf">__lll_lock_wait</span> <span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">futex</span><span class="p">,</span> <span class="kt">int</span> <span class="n">private</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">30</span><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="ln">31</span><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">atomic_load_relaxed</span> <span class="p">(</span><span class="n">futex</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">32</span><span class="cl">    <span class="k">goto</span> <span class="n">futex</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">33</span><span class="cl">
-</span></span><span class="line"><span class="ln">34</span><span class="cl">  <span class="k">while</span> <span class="p">(</span><span class="n">atomic_exchange_acquire</span> <span class="p">(</span><span class="n">futex</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">35</span><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="ln">36</span><span class="cl">    <span class="nl">futex</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln">37</span><span class="cl">      <span class="n">LIBC_PROBE</span> <span class="p">(</span><span class="n">lll_lock_wait</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">futex</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">38</span><span class="cl">      <span class="n">futex_wait</span><span class="p">((</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="o">*</span><span class="p">)</span> <span class="n">futex</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">private</span><span class="p">);</span> <span class="cm">/* Wait if *futex == 2.  */</span>
-</span></span><span class="line"><span class="ln">39</span><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="ln">40</span><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div></div><div class="modal fade" id="rewardModal" tabindex="-1" aria-labelledby="rewardModalLabel" aria-hidden="true">
+</span></span></code></pre></div><h2 id="条件变量-1">条件变量<a class="anchor ms-1" href="#条件变量-1"><i class="fas fa-link"></i></a></h2>
+<h2 id="读写锁-1">读写锁<a class="anchor ms-1" href="#读写锁-1"><i class="fas fa-link"></i></a></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"></code></pre></div></div><div class="modal fade" id="rewardModal" tabindex="-1" aria-labelledby="rewardModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content surface">
       <div class="modal-header">
@@ -1568,6 +1546,8 @@
     </li>
     <li><a href="#补充知识">补充知识</a>
       <ul>
+        <li><a href="#linux线程实现">Linux线程实现</a></li>
+        <li><a href="#系统调用实现">系统调用实现</a></li>
         <li><a href="#glibc系统调用">glibc系统调用</a></li>
         <li><a href="#clone系统调用">clone系统调用</a></li>
         <li><a href="#futex设计与实现">Futex设计与实现</a></li>
@@ -1591,6 +1571,8 @@
         <li><a href="#互斥锁glibc实现">互斥锁glibc实现</a></li>
       </ul>
     </li>
+    <li><a href="#条件变量-1">条件变量</a></li>
+    <li><a href="#读写锁-1">读写锁</a></li>
   </ul>
 </nav>
   </div>
@@ -1658,7 +1640,7 @@
 <div class="powered-by mb-2">
   Powered by <a href="https://gohugo.io" target="_blank" rel="noopener noreferrer">Hugo</a> and the <a href="https://github.com/razonyang/hugo-theme-bootstrap" target="_blank" rel="noopener noreferrer">Bootstrap</a> theme.
 </div></footer>
-<script src="https://mengdemao.github.io/assets/main/bundle.min.542aabda067eec4942e382dbd383a8308069b86572c80dd1030155fbd04c1605.js" integrity="sha256-VCqr2gZ&#43;7ElC44Lb04OoMIBpuGVyyA3RAwFV&#43;9BMFgU=" crossorigin="anonymous" defer></script><script src="https://mengdemao.github.io/assets/icons/bundle.min.01022129e6cfc140c7f2686dbcac2a77faa67a3379f7a0e89ce27d8e1f0c0d19.js" integrity="sha256-AQIhKebPwUDH8mhtvKwqd/qmejN596DonOJ9jh8MDRk=" crossorigin="anonymous" defer></script>
-<script src="https://mengdemao.github.io/assets/viewer/bundle.min.4a24843ad29021dfd0834e65e2d6ff3da9cf42e223ef3428fe2726b54dcb3551.js" integrity="sha256-SiSEOtKQId/Qg05l4tb/PanPQuIj7zQo/icmtU3LNVE=" crossorigin="anonymous" defer></script>
+<script src="https://mengdemao.github.io/assets/main/bundle.min.542aabda067eec4942e382dbd383a8308069b86572c80dd1030155fbd04c1605.js" integrity="sha256-VCqr2gZ&#43;7ElC44Lb04OoMIBpuGVyyA3RAwFV&#43;9BMFgU=" crossorigin="anonymous" defer></script><script src="https://mengdemao.github.io/assets/icons/bundle.min.756b08fe873f898b176c275047c84b1ca09f120ede9df62993f55bd1442b4bd0.js" integrity="sha256-dWsI/oc/iYsXbCdQR8hLHKCfEg7enfYpk/Vb0UQrS9A=" crossorigin="anonymous" defer></script>
+<script src="https://mengdemao.github.io/assets/viewer/bundle.min.8a04279f4c01c6129efc48d87356904980c31656ec5a60da26fb51a1d784e1e2.js" integrity="sha256-igQnn0wBxhKe/EjYc1aQSYDDFlbsWmDaJvtRodeE4eI=" crossorigin="anonymous" defer></script>
 </body>
 </html>

@@ -382,7 +382,7 @@
       <pubDate>Tue, 04 May 2021 22:53:09 +0800</pubDate>
       
       <guid>https://mengdemao.github.io/posts/hugo/</guid>
-      <description>基本操作 安装hugo 在linux/windows上只能通过直接release下载, 创建网站 1hugo new site 路径 添加主题 将主题直接添加到theme文件下</description>
+      <description>基本操作 安装hugo 在linux/windows上只能通过直接release 下载, 创建网站 1hugo new site 路径 添加主题 将主题直接添加到theme文件下</description>
     </item>
     
     <item>
