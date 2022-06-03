@@ -49,7 +49,7 @@
       <pubDate>Sun, 02 Jan 2022 00:23:06 +0800</pubDate>
       
       <guid>https://mengdemao.github.io/posts/lua/</guid>
-      <description>Lua源码分析 Lua运行结构 graph LR 编译器==PROTO==虚拟机 相关数据结构 全局状态机 描述Lua运行状态,同时可以产生一种面向对象的模拟 1struct lua_State {</description>
+      <description>Lua源码分析 Lua运行结构 graph LR 编译器==&gt;PROTO==&gt;虚拟机 相关数据结构 全局状态机 描述Lua运行状态,同时可以产生一种面向对象的模拟 1struct</description>
     </item>
     
     <item>
@@ -76,7 +76,7 @@
       <pubDate>Sun, 07 Nov 2021 15:17:05 +0800</pubDate>
       
       <guid>https://mengdemao.github.io/posts/dwl/</guid>
-      <description>dwl桌面环境 编译流程 setup 1void 2setup(void) 3{ 4/* The Wayland display is managed by libwayland. It handles accepting 5* clients from the Unix socket, manging Wayland globals, and so on. */ 6dpy = wl_display_create(); 78/* Set up signal handlers */ 9sigchld(0); 10signal(SIGINT, quitsignal); 11signal(SIGTERM, quitsignal); 1213/* The backend is a wlroots feature which abstracts the underlying input and 14* output hardware. The</description>
+      <description>dwl桌面环境 编译流程 setup 1void 2setup(void) 3{ 4 /* The Wayland display is managed by libwayland. It handles accepting 5 * clients from the Unix socket, manging Wayland globals, and so on. */ 6 dpy = wl_display_create(); 7 8 /* Set up signal handlers */ 9 sigchld(0); 10 signal(SIGINT, quitsignal); 11 signal(SIGTERM, quitsignal); 12 13 /* The backend is a wlroots feature</description>
     </item>
     
     <item>
@@ -94,7 +94,7 @@
       <pubDate>Fri, 05 Nov 2021 23:22:16 +0800</pubDate>
       
       <guid>https://mengdemao.github.io/posts/server/</guid>
-      <description>个人服务器安装记录 配置交换文件 1# 创建交换文件 2sudo fallocate -l 2G /swapfile 34# 修改权限只允许ROOT使用 5sudo chmod 600 /swapfile 67# 创建swapfile 8sudo mkswap /swapfile 910# 开启swapfile</description>
+      <description>个人服务器安装记录 配置交换文件 1# 创建交换文件 2sudo fallocate -l 2G /swapfile 3 4# 修改权限只允许ROOT使用 5sudo chmod 600 /swapfile 6 7# 创建swapfile 8sudo mkswap /swapfile 9 10# 开启swapf</description>
     </item>
     
     <item>
@@ -121,7 +121,7 @@
       <pubDate>Thu, 28 Oct 2021 07:40:38 +0800</pubDate>
       
       <guid>https://mengdemao.github.io/posts/idle/</guid>
-      <description>IDLE调度器类 1/* 2* Generic entry points for the idle threads and 3* implementation of the idle task scheduling class. 4* 5* (NOTE: these are not related to SCHED_IDLE batch scheduled 6* tasks which are handled in sched/fair.c ) 7*/ 8#include &amp;#34;sched.h&amp;#34;9 10#include &amp;lt;trace/events/power.h&amp;gt;11 12/* Linker adds these: start and end of __cpuidle functions */ 13extern char __cpuidle_text_start[], __cpuidle_text_end[]; 1415/** 16* sched_idle_set_state - Record</description>
+      <description>IDLE调度器类 1/* 2 * Generic entry points for the idle threads and 3 * implementation of the idle task scheduling class. 4 * 5 * (NOTE: these are not related to SCHED_IDLE batch scheduled 6 * tasks which are handled in sched/fair.c ) 7 */ 8#include &amp;#34;sched.h&amp;#34; 9 10#include &amp;lt;trace/events/power.h&amp;gt; 11 12/* Linker adds these: start and end of __cpuidle functions */ 13extern</description>
     </item>
     
     <item>
@@ -130,7 +130,7 @@
       <pubDate>Thu, 28 Oct 2021 07:40:31 +0800</pubDate>
       
       <guid>https://mengdemao.github.io/posts/fair/</guid>
-      <description>完全公平调度器 1const struct sched_class fair_sched_class = { 2.next = &amp;amp;idle_sched_class, 3.enqueue_task = enqueue_task_fair, 4.dequeue_task = dequeue_task_fair, 5.yield_task = yield_task_fair, 6.yield_to_task = yield_to_task_fair, 78.check_preempt_curr = check_preempt_wakeup, 910.pick_next_task = pick_next_task_fair, 11.put_prev_task = put_prev_task_fair, 1213#ifdef CONFIG_SMP 14 .select_task_rq = select_task_rq_fair, 15.migrate_task_rq = migrate_task_rq_fair, 1617.rq_online = rq_online_fair, 18.rq_offline = rq_offline_fair, 1920.task_dead = task_dead_fair, 21.set_cpus_allowed = set_cpus_allowed_common, 22#endif 23 24.set_curr_task = set_curr_task_fair, 25.task_tick = task_tick_fair, 26.task_fork = task_fork_fair, 2728.prio_changed</description>
+      <description>完全公平调度器 1const struct sched_class fair_sched_class = { 2 .next = &amp;amp;idle_sched_class, 3 .enqueue_task = enqueue_task_fair, 4 .dequeue_task = dequeue_task_fair, 5 .yield_task = yield_task_fair, 6 .yield_to_task = yield_to_task_fair, 7 8 .check_preempt_curr = check_preempt_wakeup, 9 10 .pick_next_task = pick_next_task_fair, 11 .put_prev_task = put_prev_task_fair, 12 13#ifdef CONFIG_SMP 14 .select_task_rq = select_task_rq_fair, 15 .migrate_task_rq = migrate_task_rq_fair, 16 17 .rq_online = rq_online_fair, 18 .rq_offline = rq_offline_fair, 19 20 .task_dead</description>
     </item>
     
     <item>
@@ -175,7 +175,7 @@
       <pubDate>Thu, 07 Oct 2021 11:51:59 +0800</pubDate>
       
       <guid>https://mengdemao.github.io/posts/html5/</guid>
-      <description>开始 网页基础结构 1&amp;lt;!-- 告诉浏览器,需要使用的规范 --&amp;gt; 2&amp;lt;!DOCTYPE html&amp;gt; 3&amp;lt;html lang=&amp;#34;en&amp;#34;&amp;gt; 45&amp;lt;!-- 网页标题 --&amp;gt; 6&amp;lt;head&amp;gt; 7&amp;lt;!-- 描述标签 --&amp;gt; 8&amp;lt;meta charset=&amp;#34;UTF-8&amp;#34;&amp;gt; 910&amp;lt;!-- 网页标题 --&amp;gt; 11&amp;lt;title&amp;gt;Document&amp;lt;/title&amp;gt; 12&amp;lt;/head&amp;gt; 1314&amp;lt;!-- 网页主体 --&amp;gt; 15&amp;lt;body&amp;gt; 16&amp;lt;/body&amp;gt; 17&amp;lt;/html&amp;gt; 网页基本标签 标题标签 1</description>
+      <description>开始 网页基础结构 1&amp;lt;!-- 告诉浏览器,需要使用的规范 --&amp;gt; 2&amp;lt;!DOCTYPE html&amp;gt; 3&amp;lt;html lang=&amp;#34;en&amp;#34;&amp;gt; 4 5&amp;lt;!-- 网页标题 --&amp;gt; 6&amp;lt;head&amp;gt; 7 &amp;lt;!-- 描述标签 --&amp;gt; 8 &amp;lt;meta charset=&amp;#34;UTF-8&amp;#34;&amp;gt; 9 10 &amp;lt;!-- 网页标题 --&amp;gt; 11 &amp;lt;title&amp;gt;Document&amp;lt;/title&amp;gt; 12&amp;lt;/head&amp;gt; 13 14&amp;lt;!-- 网页主体 --&amp;gt; 15&amp;lt;body&amp;gt; 16&amp;lt;/body&amp;gt; 17&amp;lt;/html&amp;gt; 网页基本</description>
     </item>
     
     <item>
@@ -202,7 +202,7 @@
       <pubDate>Tue, 05 Oct 2021 21:22:39 +0800</pubDate>
       
       <guid>https://mengdemao.github.io/posts/python/</guid>
-      <description>HelloWorld 1#!/bin/python3 23if __name__ == &amp;#39;__main__&amp;#39;: 4print(&amp;#39;Hello World&amp;#39;) 数据类型 Numbers(数字) 1intA = 10 2print(intA) 布尔类型 1true 2false String(字符串) 1strB = &amp;#34;Hello&amp;#34; 2print(strB) List(列表) 1listC = [&amp;#34;12&amp;#34;, 3, 4] 2print(listC) Tuple(元组</description>
+      <description>HelloWorld 1#!/bin/python3 2 3if __name__ == &amp;#39;__main__&amp;#39;: 4 print(&amp;#39;Hello World&amp;#39;) 数据类型 Numbers(数字) 1intA = 10 2print(intA) 布尔类型 1true 2false String(字符串) 1strB = &amp;#34;Hello&amp;#34; 2print(strB) List(列表) 1listC = [&amp;#34;12&amp;#34;, 3, 4] 2print(listC) Tuple(</description>
     </item>
     
     <item>
@@ -211,7 +211,7 @@
       <pubDate>Tue, 05 Oct 2021 21:14:34 +0800</pubDate>
       
       <guid>https://mengdemao.github.io/posts/input_drive/</guid>
-      <description>输入子设备分为三层 handle core device input的相关结构体 1struct input_dev { /* 输入设备的描述 */ 2const char *name; /* 设备名称 */ 3const char *phys; 4const char *uniq; 5struct input_id id; 67unsigned long propbit[BITS_TO_LONGS(INPUT_PROP_CNT)]; 89unsigned long evbit[BITS_TO_LONGS(EV_CNT)]; 10unsigned long keybit[BITS_TO_LONGS(KEY_CNT)]; 11unsigned long relbit[BITS_TO_LONGS(REL_CNT)]; 12unsigned long absbit[BITS_TO_LONGS(ABS_CNT)]; 13unsigned long</description>
+      <description>输入子设备分为三层 handle core device input的相关结构体 1 struct input_dev { /* 输入设备的描述 */ 2 const char *name; /* 设备名称 */ 3 const char *phys; 4 const char *uniq; 5 struct input_id id; 6 7 unsigned long propbit[BITS_TO_LONGS(INPUT_PROP_CNT)]; 8 9 unsigned long evbit[BITS_TO_LONGS(EV_CNT)]; 10 unsigned</description>
     </item>
     
     <item>
@@ -247,7 +247,7 @@
       <pubDate>Mon, 04 Oct 2021 12:11:31 +0800</pubDate>
       
       <guid>https://mengdemao.github.io/posts/fork/</guid>
-      <description>fork linux创建线程的函数 fork &amp;ndash;&amp;gt; do_fork do_fork的执行线路 do_fork &amp;ndash;&amp;gt; copy_process &amp;ndash;&amp;gt; get_task_pid &amp;ndash;&amp;gt; wake_up_new_task &amp;ndash;&amp;gt; put_pid do_fork函数原型 1long _do_fork(unsigned long clone_flags, 2unsigned long stack_start, 3unsigned long stack_size, 4int __user *parent_tidptr, 5int __user *child_tidptr, 6unsigned long tls); clone_flags stack_start stack_size</description>
+      <description>fork linux创建线程的函数 fork &amp;ndash;&amp;gt; do_fork do_fork的执行线路 do_fork &amp;ndash;&amp;gt; copy_process &amp;ndash;&amp;gt; get_task_pid &amp;ndash;&amp;gt; wake_up_new_task &amp;ndash;&amp;gt; put_pid do_fork函数原型 1long _do_fork(unsigned long clone_flags, 2 unsigned long stack_start, 3 unsigned long stack_size, 4 int __user *parent_tidptr, 5 int __user *child_tidptr, 6 unsigned</description>
     </item>
     
     <item>
@@ -265,7 +265,7 @@
       <pubDate>Mon, 04 Oct 2021 12:10:25 +0800</pubDate>
       
       <guid>https://mengdemao.github.io/posts/sched/</guid>
-      <description>系统调度 主调度器schedule 周期调度器scheduler_tick 周期调度器函数实现 1void scheduler_tick(void) 2{ 3int cpu = smp_processor_id(); // CPUID 4 struct rq *rq = cpu_rq(cpu); // 提取消息队列 5 struct task_struct *curr</description>
+      <description>系统调度 主调度器schedule 周期调度器scheduler_tick 周期调度器函数实现 1void scheduler_tick(void) 2{ 3 int cpu = smp_processor_id(); // CPUID 4 struct rq *rq = cpu_rq(cpu); // 提取消息队列 5 struct task_struct</description>
     </item>
     
     <item>
@@ -319,7 +319,7 @@
       <pubDate>Sun, 03 Oct 2021 13:20:54 +0800</pubDate>
       
       <guid>https://mengdemao.github.io/posts/c&#43;&#43;/</guid>
-      <description>C++基础语法 第一个程序 1#include &amp;lt;iostream&amp;gt;2 3using namespace std; 45int main(int argc, char *argv[]) 6{ 7cout &amp;lt;&amp;lt; &amp;#34;Hello World&amp;#34; &amp;lt;&amp;lt; endl; 8return 0; 9} 注释类型 单行注释 1// 这个是一个单行注释 多行注释 1/* 2这个里面是一个注释 3*/ 变量 变量</description>
+      <description>C++基础语法 第一个程序 1#include &amp;lt;iostream&amp;gt; 2 3using namespace std; 4 5int main(int argc, char *argv[]) 6{ 7 cout &amp;lt;&amp;lt; &amp;#34;Hello World&amp;#34; &amp;lt;&amp;lt; endl; 8 return 0; 9} 注释类型 单行注释 1// 这个是一个单行注释 多行注释 1/* 2 这个里面是一个注释 3</description>
     </item>
     
     <item>
@@ -346,7 +346,7 @@
       <pubDate>Sat, 04 Sep 2021 19:04:52 +0800</pubDate>
       
       <guid>https://mengdemao.github.io/posts/luajit/</guid>
-      <description>LuaJIT Lua语法 基本语法 1print(&amp;#34;Hello World&amp;#34;) 表(table) LuaJIT分析 LuaJIT主函数 1int main(int argc, char **argv) 2{ 3int status; /* 返回值 */ 4lua_State *L = lua_open(); /* 创建LUA状态机 */ 5if (L == NULL) { 6l_message(argv[0],</description>
+      <description>LuaJIT Lua语法 基本语法 1 print(&amp;#34;Hello World&amp;#34;) 表(table) LuaJIT分析 LuaJIT主函数 1int main(int argc, char **argv) 2{ 3 int status; /* 返回值 */ 4 lua_State *L = lua_open(); /* 创建LUA状态机 */ 5 if (L</description>
     </item>
     
     <item>
@@ -355,7 +355,7 @@
       <pubDate>Sun, 09 May 2021 16:03:16 +0800</pubDate>
       
       <guid>https://mengdemao.github.io/posts/page_allocator/</guid>
-      <description>页面分配器 核心函数: __alloc_pages_nodemask gfp_mask : 分配掩码 order : 分配阶数 preferred_nid nodemask 核心函数 1struct page *__alloc_pages_nodemask(gfp_t gfp_mask, unsigned int order, int preferred_nid, nodemask_t *nodemask) 2{ 3struct page *page; // 分配变量 4 unsigned int alloc_flags = ALLOC_WMARK_LOW; // 分配标志 5 gfp_t alloc_mask; // 真实分配掩码</description>
+      <description>页面分配器 核心函数: __alloc_pages_nodemask gfp_mask : 分配掩码 order : 分配阶数 preferred_nid nodemask 核心函数 1struct page *__alloc_pages_nodemask(gfp_t gfp_mask, unsigned int order, int preferred_nid, nodemask_t *nodemask) 2{ 3 struct page *page; // 分配变量 4 unsigned int alloc_flags = ALLOC_WMARK_LOW; // 分配标志 5 gfp_t alloc_mask; // 真实分配掩</description>
     </item>
     
     <item>
@@ -364,7 +364,7 @@
       <pubDate>Tue, 04 May 2021 23:17:55 +0000</pubDate>
       
       <guid>https://mengdemao.github.io/posts/wait_queue/</guid>
-      <description>等待事件是建立在调度的基础之上的一种同步机制 使用 等待队列头 1struct __wait_queue_head { 2wq_lock_t lock; 3struct list_head task_list; 4}; 5typedef struct __wait_queue_head wait_queue_head_t; 等待队列实体 1struct __wait_queue { 2unsigned int flags; 3struct task_struct * task; 4struct list_head task_list; 5}; 6typedef struct __wait_queue wait_queue_t; 初始化等</description>
+      <description>等待事件是建立在调度的基础之上的一种同步机制 使用 等待队列头 1struct __wait_queue_head { 2 wq_lock_t lock; 3 struct list_head task_list; 4}; 5typedef struct __wait_queue_head wait_queue_head_t; 等待队列实体 1struct __wait_queue { 2 unsigned int flags; 3 struct task_struct * task; 4 struct list_head task_list; 5}; 6typedef struct __wait_queue</description>
     </item>
     
     <item>

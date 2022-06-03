@@ -22,7 +22,7 @@
       <pubDate>Thu, 28 Oct 2021 07:40:38 +0800</pubDate>
       
       <guid>https://mengdemao.github.io/posts/idle/</guid>
-      <description>IDLE调度器类 1/* 2* Generic entry points for the idle threads and 3* implementation of the idle task scheduling class. 4* 5* (NOTE: these are not related to SCHED_IDLE batch scheduled 6* tasks which are handled in sched/fair.c ) 7*/ 8#include &amp;#34;sched.h&amp;#34;9 10#include &amp;lt;trace/events/power.h&amp;gt;11 12/* Linker adds these: start and end of __cpuidle functions */ 13extern char __cpuidle_text_start[], __cpuidle_text_end[]; 1415/** 16* sched_idle_set_state - Record</description>
+      <description>IDLE调度器类 1/* 2 * Generic entry points for the idle threads and 3 * implementation of the idle task scheduling class. 4 * 5 * (NOTE: these are not related to SCHED_IDLE batch scheduled 6 * tasks which are handled in sched/fair.c ) 7 */ 8#include &amp;#34;sched.h&amp;#34; 9 10#include &amp;lt;trace/events/power.h&amp;gt; 11 12/* Linker adds these: start and end of __cpuidle functions */ 13extern</description>
     </item>
     
     <item>
@@ -31,7 +31,7 @@
       <pubDate>Thu, 28 Oct 2021 07:40:31 +0800</pubDate>
       
       <guid>https://mengdemao.github.io/posts/fair/</guid>
-      <description>完全公平调度器 1const struct sched_class fair_sched_class = { 2.next = &amp;amp;idle_sched_class, 3.enqueue_task = enqueue_task_fair, 4.dequeue_task = dequeue_task_fair, 5.yield_task = yield_task_fair, 6.yield_to_task = yield_to_task_fair, 78.check_preempt_curr = check_preempt_wakeup, 910.pick_next_task = pick_next_task_fair, 11.put_prev_task = put_prev_task_fair, 1213#ifdef CONFIG_SMP 14 .select_task_rq = select_task_rq_fair, 15.migrate_task_rq = migrate_task_rq_fair, 1617.rq_online = rq_online_fair, 18.rq_offline = rq_offline_fair, 1920.task_dead = task_dead_fair, 21.set_cpus_allowed = set_cpus_allowed_common, 22#endif 23 24.set_curr_task = set_curr_task_fair, 25.task_tick = task_tick_fair, 26.task_fork = task_fork_fair, 2728.prio_changed</description>
+      <description>完全公平调度器 1const struct sched_class fair_sched_class = { 2 .next = &amp;amp;idle_sched_class, 3 .enqueue_task = enqueue_task_fair, 4 .dequeue_task = dequeue_task_fair, 5 .yield_task = yield_task_fair, 6 .yield_to_task = yield_to_task_fair, 7 8 .check_preempt_curr = check_preempt_wakeup, 9 10 .pick_next_task = pick_next_task_fair, 11 .put_prev_task = put_prev_task_fair, 12 13#ifdef CONFIG_SMP 14 .select_task_rq = select_task_rq_fair, 15 .migrate_task_rq = migrate_task_rq_fair, 16 17 .rq_online = rq_online_fair, 18 .rq_offline = rq_offline_fair, 19 20 .task_dead</description>
     </item>
     
     <item>
@@ -49,7 +49,7 @@
       <pubDate>Mon, 04 Oct 2021 12:10:25 +0800</pubDate>
       
       <guid>https://mengdemao.github.io/posts/sched/</guid>
-      <description>系统调度 主调度器schedule 周期调度器scheduler_tick 周期调度器函数实现 1void scheduler_tick(void) 2{ 3int cpu = smp_processor_id(); // CPUID 4 struct rq *rq = cpu_rq(cpu); // 提取消息队列 5 struct task_struct *curr</description>
+      <description>系统调度 主调度器schedule 周期调度器scheduler_tick 周期调度器函数实现 1void scheduler_tick(void) 2{ 3 int cpu = smp_processor_id(); // CPUID 4 struct rq *rq = cpu_rq(cpu); // 提取消息队列 5 struct task_struct</description>
     </item>
     
   </channel>
