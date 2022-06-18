@@ -1,10 +1,1 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>专栏 on 编程日志</title>
-    <link>https://mengdemao.github.io/series/</link>
-    <description>Recent content in 专栏 on 编程日志</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <copyright>Copyright © 2020-{year} Meng Demao. All Rights Reserved.</copyright><atom:link href="https://mengdemao.github.io/series/index.xml" rel="self" type="application/rss+xml" />
-  </channel>
-</rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>专栏 - series - 编程日志</title><link>https://mengdemao.github.io/series/</link><description>专栏 - series - 编程日志</description><generator>Hugo -- gohugo.io</generator><copyright>Copyright © 2020-{year} Meng Demao. All Rights Reserved.</copyright><atom:link href="https://mengdemao.github.io/series/" rel="self" type="application/rss+xml"/></channel></rss>

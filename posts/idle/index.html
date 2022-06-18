@@ -1,837 +1,490 @@
-<!doctype html><html class="position-relative" itemscope itemtype="http://schema.org/WebPage" lang="zh-cn"
-  
-   data-palette="brown"
-  >
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Idle - 编程日志</title><link rel="apple-touch-icon" href="https://mengdemao.github.io/images/icons/icon-180x180.png" sizes="180x180">
-<link rel="icon" href="https://mengdemao.github.io/images/icons/icon-32x32.png" sizes="32x32" type="image/png">
-<link rel="icon" href="https://mengdemao.github.io/images/icons/icon-16x16.png" sizes="16x16" type="image/png">
-<link rel="icon" href="https://mengdemao.github.io/images/icons/favicon.ico">
-<link rel="manifest" href="https://mengdemao.github.io/manifest.json">
-<meta name="keywords" content="sched" />
-<meta name="description" content="IDLE调度器类 1/* 2 * Generic entry points for the idle threads and 3 * implementation of the idle task scheduling class. 4 * 5 * (NOTE: these are not related to SCHED_IDLE batch scheduled 6 * tasks which are handled in sched/fair.c ) 7 */ 8#include &#34;sched.h&#34; 9 10#include &lt;trace/events/power.h&gt; 11 12/* Linker adds these: start and end of __cpuidle functions */ 13extern" /><meta itemprop="name" content="Idle">
-<meta itemprop="description" content="IDLE调度器类 1/* 2 * Generic entry points for the idle threads and 3 * implementation of the idle task scheduling class. 4 * 5 * (NOTE: these are not related to SCHED_IDLE batch scheduled 6 * tasks which are handled in sched/fair.c ) 7 */ 8#include &#34;sched.h&#34; 9 10#include &lt;trace/events/power.h&gt; 11 12/* Linker adds these: start and end of __cpuidle functions */ 13extern"><meta itemprop="datePublished" content="2021-10-28T07:40:38+08:00" />
-<meta itemprop="dateModified" content="2021-10-28T07:40:38+08:00" />
-<meta itemprop="wordCount" content="1829">
-<meta itemprop="keywords" content="kernel," /><meta property="og:title" content="Idle" />
-<meta property="og:description" content="IDLE调度器类 1/* 2 * Generic entry points for the idle threads and 3 * implementation of the idle task scheduling class. 4 * 5 * (NOTE: these are not related to SCHED_IDLE batch scheduled 6 * tasks which are handled in sched/fair.c ) 7 */ 8#include &#34;sched.h&#34; 9 10#include &lt;trace/events/power.h&gt; 11 12/* Linker adds these: start and end of __cpuidle functions */ 13extern" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://mengdemao.github.io/posts/idle/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2021-10-28T07:40:38+08:00" />
-<meta property="article:modified_time" content="2021-10-28T07:40:38+08:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Idle"/>
-<meta name="twitter:description" content="IDLE调度器类 1/* 2 * Generic entry points for the idle threads and 3 * implementation of the idle task scheduling class. 4 * 5 * (NOTE: these are not related to SCHED_IDLE batch scheduled 6 * tasks which are handled in sched/fair.c ) 7 */ 8#include &#34;sched.h&#34; 9 10#include &lt;trace/events/power.h&gt; 11 12/* Linker adds these: start and end of __cpuidle functions */ 13extern"/>
-<meta property="og:image" content="https://mengdemao.github.io/images/logo.png"/>
-  <meta name="twitter:image" content="https://mengdemao.github.io/images/logo.png"/><link rel="stylesheet" href="https://mengdemao.github.io/assets/main/bundle.min.a07d3ff03e23475d812cc3487e1eb414a13b6786d2c4eaa15edc2a88d71db209.css" integrity="sha256-oH0/8D4jR12BLMNIfh60FKE7Z4bSxOqhXtwqiNcdsgk=" crossorigin="anonymous"><link rel="stylesheet" href="https://mengdemao.github.io/assets/viewer/bundle.min.05d84cef8ecf0f936293c62c90ebe16275bf8f5f5649297e1a4338e63676ba2b.css" integrity="sha256-BdhM747PD5Nik8YskOvhYnW/j19WSSl&#43;GkM45jZ2uis=" crossorigin="anonymous"></head>
-  <body><script>const items=['mode','palette'];items.forEach(function(e){const t=localStorage.getItem('hbs-'+e);t&&document.body.parentElement.setAttribute('data-'+e,t)})</script><header><nav class="navbar top-app-bar top-app-bar-expand-lg fixed-top">
-  <div class="container">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <i class="fas fa-bars"></i>
-    </button><a class="navbar-brand flex-grow-1 flex-lg-grow-0 text-center text-lg-start mx-auto me-lg-3" href="https://mengdemao.github.io/"><picture><img class="logo" alt="Logo" src="https://mengdemao.github.io/images/logo.webp" loading="lazy"
-    
-     width="136" height="69"
-     />
-</picture>
-编程日志
-    </a>
-    <div class="offcanvas offcanvas-bottom surface" tabindex="-1" id="offcanvasSocialShare" aria-labelledby="offcanvasSocialShare">
-  <div class="offcanvas-header">
-    <h3 class="offcanvas-title">Share</h3>
-    <button type="button" class="btn btn-sm btn-outline-primary" data-bs-dismiss="offcanvas" aria-label="Close">
-      <i class="fas fa-times"></i>
-    </button>
-  </div>
-  <div class="offcanvas-body">
-    <a class="btn btn-sm btn-outline-primary social-share-button" rel="noopener noreferrer" aria-label="Twitter Share Button"
-      target="_blank" href="https://twitter.com/intent/tweet?title=Idle&url=https%3a%2f%2fmengdemao.github.io%2fposts%2fidle%2f">
-      <i class="fab fa-fw fa-twitter"></i> Twitter
-    </a>
-    <a class="btn btn-sm btn-outline-primary social-share-button" rel="noopener noreferrer" aria-label="Facebook Share Button"
-      target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fmengdemao.github.io%2fposts%2fidle%2f">
-      <i class="fab fa-fw fa-facebook-f"></i> Facebook
-    </a>
-  </div>
-</div>
-    <button class="navbar-settings" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSettings"
-  aria-controls="offcanvasSettings" aria-label="Toggle settings">
-  <i class="fas fa-ellipsis-v"></i>
-</button>
-
-<div class="offcanvas offcanvas-end surface h-100" tabindex="-1" id="offcanvasSettings" aria-labelledby="offcanvasSettings">
-  <div class="offcanvas-header">
-    <h3 class="offcanvas-title">设置</h3>
-    <button type="button" class="btn btn-sm btn-outline-primary" data-bs-dismiss="offcanvas" aria-label="Close">
-      <i class="fas fa-times"></i>
-    </button>
-  </div>
-  <div class="offcanvas-body d-flex flex-column">
-
-<div class="setting">
-  <form class="row">
-    <div class="col-auto">
-      <label><i class="fas fa-fw fa-adjust"></i> 模式</label>
-    </div>
-    <div class="col-auto ms-auto">
-      <div class="form-check form-switch">
-        <input class="form-check-input" type="checkbox" id="modeSwitcher">
-      </div>
-    </div>
-  </form>
-</div>
-
-<div class="setting">
-  <form class="font-size-switcher-form row">
-    <div class="col-auto">
-      <label for="fontSize" class="form-label"><i class="fas fa-fw fa-font"></i> 字体大小</label>
-    </div>
-    <div class="col-auto ms-auto">
-      <input type="range" class="form-range" min="-2" max="2" id="fontSize">
-    </div>
-  </form>
-</div>
-
-
-<div class="setting palettes">
-  <form class="row">
-    <div class="col-auto">
-      <label><i class="fas fa-fw fa-palette"></i> 配色</label>
-    </div>
-    <div class="col-auto ms-auto">
-      <a id="btnPalette" class="btn btn-sm btn-outline-primary" role="button" aria-label="palettePicker">
-        <i class="fas fa-eye-dropper"></i>
-      </a>
-    </div>
-  </form>
-  <div class="mt-2 d-flex justify-content-between visually-hidden" id="palettePicker"><button type="button" id="palette-blue" aria-label="蓝色"
-        class="btn btn-sm w-100 palette" data-palette="blue">
-      </button><button type="button" id="palette-blue-gray" aria-label="蓝灰色"
-        class="btn btn-sm w-100 palette" data-palette="blue-gray">
-      </button><button type="button" id="palette-brown" aria-label="棕色"
-        class="btn btn-sm w-100 palette" data-palette="brown">
-      </button></div>
-</div>
-<div class="setting actions d-flex justify-content-around mt-auto overflow-auto">
-  <a role="button" class="action action-go-back" href="javascript: window.history.back();">
-    <span class="action-icon"><i class="fas fa-2x fa-chevron-circle-down" data-fa-transform="rotate-90"></i></span> 返回
-  </a>
-  <a role="button" class="action action-reload-page">
-    <span class="action-icon"><i class="fas fa-2x fa-redo-alt"></i></span> 刷新
-  </a>
-  <a role="button" class="action action-copy-url">
-    <span class="action-icon"><i class="fas fa-2x fa-link"></i></span> 复制链接
-  </a><a class="action action-social-share" role="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSocialShare"
-    aria-controls="offcanvasSocialShare" aria-label="Toggle social share">
-    <span class="action-icon"><i class="fas fa-2x fa-share-alt"></i></span> 分享
-  </a></div>
-
-</div>
-</div>
-
-    <div class="collapse navbar-collapse" tabindex="-1" id="navbarSupportedContent" aria-labelledby="navbarSupportedContent">
-      <form class="search-bar my-1" action="https://mengdemao.github.io/search">
-  <div class="input-group input-group-sm">
-    <span class="btn btn-search disabled position-absolute left-0"><i class="fas fa-fw fa-search"></i></span>
-    <input class="form-control rounded-pill" name="q" type="search" aria-label="Search">
-  </div>
-</form>
-      <ul class="navbar-nav ms-auto"><li class="nav-item">
-          <a class="nav-link" href="https://mengdemao.github.io/archives/">
-            <i class="fas fa-fw fa-file-archive"></i>归档
-          </a>
-        </li><li class="nav-item">
-          <a class="nav-link" href="https://mengdemao.github.io/categories/">
-            <i class="fas fa-fw fa-folder"></i>分类
-          </a>
-        </li><li class="nav-item">
-          <a class="nav-link" href="https://mengdemao.github.io/tags/">
-            <i class="fas fa-fw fa-tags"></i>标签
-          </a>
-        </li><li class="nav-item">
-          <a class="nav-link" href="https://mengdemao.github.io/series/">
-            <i class="fas fa-fw fa-columns"></i>专栏
-          </a>
-        </li><li class="nav-item dropdown">
-          <a class="nav-link" id="navbarDropdownDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="fas fa-fw fa-chevron-circle-down"></i>下拉菜单
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownDropdown" data-bs-popper="none"><li>
-              <a class="dropdown-item"
-                href="https://github.com/mengdemao/mengdemao.github.io" target="_blank" rel="noopener noreferrer">
-                <i class="fab fa-fw fa-github"></i>Github
-              </a>
-            </li><li>
-              <a class="dropdown-item"
-                href="https://mengdemao.github.io/zh-cn/series/manual">
-                用户手册
-              </a>
-            </li></ul>
-        </li></ul>
-    </div>
-  </div>
-</nav>
-</header>
-<main class="container">
-      <div class="row content">
-<div class="col-lg-8">
-  <div class="container"><nav class="row card component" aria-label="breadcrumb">
-  <div class="card-body">
-    <ol class="breadcrumb "><li class="breadcrumb-item"><a href="https://mengdemao.github.io/">主页</a></li><li class="breadcrumb-item"><a href="https://mengdemao.github.io/posts/">文章</a></li><li class="breadcrumb-item active">Idle</li></ol>
-  </div>
-</nav><div class="post-panel-wrapper position-sticky">
-  <div class="d-flex flex-column component rounded post-panel position-absolute">
-    
-    <a class="action action-panel-toggler" role="button" title="Panel toggler">
-      <i class="fas fa-fw fa-chevron-circle-down"></i>
-    </a>
-    <a id="sidebarToggler" class="action d-none d-lg-block" role="button" title="Sidebar toggler">
-  <i class="fas fa-fw fa-expand-alt" data-fa-transform="rotate-45"></i>
-</a>
-
-    
-
-    
-    <a class="action" href="#post-copyright" role="button" aria-label="Copyright" title="Copyright">
-  <i class="fas fa-fw fa-copyright"></i>
-</a>
-    
-    
-    
-  </div>
-</div>
-<article class="row card component mb-4 post">
-  <div class="card-header ">
-    <h1 class="card-title post-title">Idle
-</h1>
-  </div>
-  <div class="card-body"><div class="post-meta">
-  <span class="post-date" title="创建于 2021-10-27 23:40:38 &#43;0000 UTC。">
-    Oct 28, 2021
-  </span><span class="post-reading-time">
-    4 分钟阅读
-  </span><span class="post-taxonomies"><a href="https://mengdemao.github.io/categories/linux/" class="badge post-taxonomy">linux</a><a href="https://mengdemao.github.io/tags/kernel/" class="badge post-taxonomy">kernel</a></span>
-</div>
-<div class="post-content mb-3"><h1 id="idle调度器类">IDLE调度器类<a class="anchor ms-1" href="#idle调度器类"><i class="fas fa-link"></i></a></h1>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="ln">  1</span><span class="cl"><span class="cm">/*
-</span></span></span><span class="line"><span class="ln">  2</span><span class="cl"><span class="cm"> * Generic entry points for the idle threads and
-</span></span></span><span class="line"><span class="ln">  3</span><span class="cl"><span class="cm"> * implementation of the idle task scheduling class.
-</span></span></span><span class="line"><span class="ln">  4</span><span class="cl"><span class="cm"> *
-</span></span></span><span class="line"><span class="ln">  5</span><span class="cl"><span class="cm"> * (NOTE: these are not related to SCHED_IDLE batch scheduled
-</span></span></span><span class="line"><span class="ln">  6</span><span class="cl"><span class="cm"> *        tasks which are handled in sched/fair.c )
-</span></span></span><span class="line"><span class="ln">  7</span><span class="cl"><span class="cm"> */</span>
-</span></span><span class="line"><span class="ln">  8</span><span class="cl"><span class="cp">#include</span> <span class="cpf">&#34;sched.h&#34;</span><span class="cp">
-</span></span></span><span class="line"><span class="ln">  9</span><span class="cl"><span class="cp"></span>
-</span></span><span class="line"><span class="ln"> 10</span><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;trace/events/power.h&gt;</span><span class="cp">
-</span></span></span><span class="line"><span class="ln"> 11</span><span class="cl"><span class="cp"></span>
-</span></span><span class="line"><span class="ln"> 12</span><span class="cl"><span class="cm">/* Linker adds these: start and end of __cpuidle functions */</span>
-</span></span><span class="line"><span class="ln"> 13</span><span class="cl"><span class="k">extern</span> <span class="kt">char</span> <span class="n">__cpuidle_text_start</span><span class="p">[],</span> <span class="n">__cpuidle_text_end</span><span class="p">[];</span>
-</span></span><span class="line"><span class="ln"> 14</span><span class="cl">
-</span></span><span class="line"><span class="ln"> 15</span><span class="cl"><span class="cm">/**
-</span></span></span><span class="line"><span class="ln"> 16</span><span class="cl"><span class="cm"> * sched_idle_set_state - Record idle state for the current CPU.
-</span></span></span><span class="line"><span class="ln"> 17</span><span class="cl"><span class="cm"> * @idle_state: State to record.
-</span></span></span><span class="line"><span class="ln"> 18</span><span class="cl"><span class="cm"> */</span>
-</span></span><span class="line"><span class="ln"> 19</span><span class="cl"><span class="kt">void</span> <span class="nf">sched_idle_set_state</span><span class="p">(</span><span class="k">struct</span> <span class="n">cpuidle_state</span> <span class="o">*</span><span class="n">idle_state</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln"> 20</span><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="ln"> 21</span><span class="cl">	<span class="n">idle_set_state</span><span class="p">(</span><span class="n">this_rq</span><span class="p">(),</span> <span class="n">idle_state</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln"> 22</span><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="ln"> 23</span><span class="cl">
-</span></span><span class="line"><span class="ln"> 24</span><span class="cl"><span class="k">static</span> <span class="kt">int</span> <span class="n">__read_mostly</span> <span class="n">cpu_idle_force_poll</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln"> 25</span><span class="cl">
-</span></span><span class="line"><span class="ln"> 26</span><span class="cl"><span class="kt">void</span> <span class="nf">cpu_idle_poll_ctrl</span><span class="p">(</span><span class="kt">bool</span> <span class="n">enable</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln"> 27</span><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="ln"> 28</span><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="n">enable</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="ln"> 29</span><span class="cl">		<span class="n">cpu_idle_force_poll</span><span class="o">++</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln"> 30</span><span class="cl">	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="ln"> 31</span><span class="cl">		<span class="n">cpu_idle_force_poll</span><span class="o">--</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln"> 32</span><span class="cl">		<span class="n">WARN_ON_ONCE</span><span class="p">(</span><span class="n">cpu_idle_force_poll</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln"> 33</span><span class="cl">	<span class="p">}</span>
-</span></span><span class="line"><span class="ln"> 34</span><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="ln"> 35</span><span class="cl">
-</span></span><span class="line"><span class="ln"> 36</span><span class="cl"><span class="cp">#ifdef CONFIG_GENERIC_IDLE_POLL_SETUP
-</span></span></span><span class="line"><span class="ln"> 37</span><span class="cl"><span class="cp"></span><span class="k">static</span> <span class="kt">int</span> <span class="n">__init</span> <span class="nf">cpu_idle_poll_setup</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">__unused</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln"> 38</span><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="ln"> 39</span><span class="cl">	<span class="n">cpu_idle_force_poll</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln"> 40</span><span class="cl">
-</span></span><span class="line"><span class="ln"> 41</span><span class="cl">	<span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln"> 42</span><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="ln"> 43</span><span class="cl"><span class="n">__setup</span><span class="p">(</span><span class="s">&#34;nohlt&#34;</span><span class="p">,</span> <span class="n">cpu_idle_poll_setup</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln"> 44</span><span class="cl">
-</span></span><span class="line"><span class="ln"> 45</span><span class="cl"><span class="k">static</span> <span class="kt">int</span> <span class="n">__init</span> <span class="nf">cpu_idle_nopoll_setup</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">__unused</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln"> 46</span><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="ln"> 47</span><span class="cl">	<span class="n">cpu_idle_force_poll</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln"> 48</span><span class="cl">
-</span></span><span class="line"><span class="ln"> 49</span><span class="cl">	<span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln"> 50</span><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="ln"> 51</span><span class="cl"><span class="n">__setup</span><span class="p">(</span><span class="s">&#34;hlt&#34;</span><span class="p">,</span> <span class="n">cpu_idle_nopoll_setup</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln"> 52</span><span class="cl"><span class="cp">#endif
-</span></span></span><span class="line"><span class="ln"> 53</span><span class="cl"><span class="cp"></span>
-</span></span><span class="line"><span class="ln"> 54</span><span class="cl"><span class="k">static</span> <span class="n">noinline</span> <span class="kt">int</span> <span class="n">__cpuidle</span> <span class="nf">cpu_idle_poll</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln"> 55</span><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="ln"> 56</span><span class="cl">	<span class="n">rcu_idle_enter</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln"> 57</span><span class="cl">	<span class="n">trace_cpu_idle_rcuidle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">smp_processor_id</span><span class="p">());</span>
-</span></span><span class="line"><span class="ln"> 58</span><span class="cl">	<span class="n">local_irq_enable</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln"> 59</span><span class="cl">	<span class="n">stop_critical_timings</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln"> 60</span><span class="cl">
-</span></span><span class="line"><span class="ln"> 61</span><span class="cl">	<span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">tif_need_resched</span><span class="p">()</span> <span class="o">&amp;&amp;</span>
-</span></span><span class="line"><span class="ln"> 62</span><span class="cl">		<span class="p">(</span><span class="n">cpu_idle_force_poll</span> <span class="o">||</span> <span class="n">tick_check_broadcast_expired</span><span class="p">()))</span>
-</span></span><span class="line"><span class="ln"> 63</span><span class="cl">		<span class="n">cpu_relax</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln"> 64</span><span class="cl">	<span class="n">start_critical_timings</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln"> 65</span><span class="cl">	<span class="n">trace_cpu_idle_rcuidle</span><span class="p">(</span><span class="n">PWR_EVENT_EXIT</span><span class="p">,</span> <span class="n">smp_processor_id</span><span class="p">());</span>
-</span></span><span class="line"><span class="ln"> 66</span><span class="cl">	<span class="n">rcu_idle_exit</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln"> 67</span><span class="cl">
-</span></span><span class="line"><span class="ln"> 68</span><span class="cl">	<span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln"> 69</span><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="ln"> 70</span><span class="cl">
-</span></span><span class="line"><span class="ln"> 71</span><span class="cl"><span class="cm">/* Weak implementations for optional arch specific functions */</span>
-</span></span><span class="line"><span class="ln"> 72</span><span class="cl"><span class="kt">void</span> <span class="n">__weak</span> <span class="nf">arch_cpu_idle_prepare</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
-</span></span><span class="line"><span class="ln"> 73</span><span class="cl"><span class="kt">void</span> <span class="n">__weak</span> <span class="nf">arch_cpu_idle_enter</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
-</span></span><span class="line"><span class="ln"> 74</span><span class="cl"><span class="kt">void</span> <span class="n">__weak</span> <span class="nf">arch_cpu_idle_exit</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
-</span></span><span class="line"><span class="ln"> 75</span><span class="cl"><span class="kt">void</span> <span class="n">__weak</span> <span class="nf">arch_cpu_idle_dead</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
-</span></span><span class="line"><span class="ln"> 76</span><span class="cl"><span class="kt">void</span> <span class="n">__weak</span> <span class="nf">arch_cpu_idle</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln"> 77</span><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="ln"> 78</span><span class="cl">	<span class="n">cpu_idle_force_poll</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln"> 79</span><span class="cl">	<span class="n">local_irq_enable</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln"> 80</span><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="ln"> 81</span><span class="cl">
-</span></span><span class="line"><span class="ln"> 82</span><span class="cl"><span class="cm">/**
-</span></span></span><span class="line"><span class="ln"> 83</span><span class="cl"><span class="cm"> * default_idle_call - Default CPU idle routine.
-</span></span></span><span class="line"><span class="ln"> 84</span><span class="cl"><span class="cm"> *
-</span></span></span><span class="line"><span class="ln"> 85</span><span class="cl"><span class="cm"> * To use when the cpuidle framework cannot be used.
-</span></span></span><span class="line"><span class="ln"> 86</span><span class="cl"><span class="cm"> */</span>
-</span></span><span class="line"><span class="ln"> 87</span><span class="cl"><span class="kt">void</span> <span class="n">__cpuidle</span> <span class="nf">default_idle_call</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln"> 88</span><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="ln"> 89</span><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="n">current_clr_polling_and_test</span><span class="p">())</span> <span class="p">{</span>
-</span></span><span class="line"><span class="ln"> 90</span><span class="cl">		<span class="n">local_irq_enable</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln"> 91</span><span class="cl">	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="ln"> 92</span><span class="cl">		<span class="n">stop_critical_timings</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln"> 93</span><span class="cl">		<span class="n">arch_cpu_idle</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln"> 94</span><span class="cl">		<span class="n">start_critical_timings</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln"> 95</span><span class="cl">	<span class="p">}</span>
-</span></span><span class="line"><span class="ln"> 96</span><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="ln"> 97</span><span class="cl">
-</span></span><span class="line"><span class="ln"> 98</span><span class="cl"><span class="k">static</span> <span class="kt">int</span> <span class="nf">call_cpuidle</span><span class="p">(</span><span class="k">struct</span> <span class="n">cpuidle_driver</span> <span class="o">*</span><span class="n">drv</span><span class="p">,</span> <span class="k">struct</span> <span class="n">cpuidle_device</span> <span class="o">*</span><span class="n">dev</span><span class="p">,</span>
-</span></span><span class="line"><span class="ln"> 99</span><span class="cl">		      <span class="kt">int</span> <span class="n">next_state</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">100</span><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="ln">101</span><span class="cl">	<span class="cm">/*
-</span></span></span><span class="line"><span class="ln">102</span><span class="cl"><span class="cm">	 * The idle task must be scheduled, it is pointless to go to idle, just
-</span></span></span><span class="line"><span class="ln">103</span><span class="cl"><span class="cm">	 * update no idle residency and return.
-</span></span></span><span class="line"><span class="ln">104</span><span class="cl"><span class="cm">	 */</span>
-</span></span><span class="line"><span class="ln">105</span><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="n">current_clr_polling_and_test</span><span class="p">())</span> <span class="p">{</span>
-</span></span><span class="line"><span class="ln">106</span><span class="cl">		<span class="n">dev</span><span class="o">-&gt;</span><span class="n">last_residency</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">107</span><span class="cl">		<span class="n">local_irq_enable</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">108</span><span class="cl">		<span class="k">return</span> <span class="o">-</span><span class="n">EBUSY</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">109</span><span class="cl">	<span class="p">}</span>
-</span></span><span class="line"><span class="ln">110</span><span class="cl">
-</span></span><span class="line"><span class="ln">111</span><span class="cl">	<span class="cm">/*
-</span></span></span><span class="line"><span class="ln">112</span><span class="cl"><span class="cm">	 * Enter the idle state previously returned by the governor decision.
-</span></span></span><span class="line"><span class="ln">113</span><span class="cl"><span class="cm">	 * This function will block until an interrupt occurs and will take
-</span></span></span><span class="line"><span class="ln">114</span><span class="cl"><span class="cm">	 * care of re-enabling the local interrupts
-</span></span></span><span class="line"><span class="ln">115</span><span class="cl"><span class="cm">	 */</span>
-</span></span><span class="line"><span class="ln">116</span><span class="cl">	<span class="k">return</span> <span class="n">cpuidle_enter</span><span class="p">(</span><span class="n">drv</span><span class="p">,</span> <span class="n">dev</span><span class="p">,</span> <span class="n">next_state</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">117</span><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="ln">118</span><span class="cl">
-</span></span><span class="line"><span class="ln">119</span><span class="cl"><span class="cm">/**
-</span></span></span><span class="line"><span class="ln">120</span><span class="cl"><span class="cm"> * cpuidle_idle_call - the main idle function
-</span></span></span><span class="line"><span class="ln">121</span><span class="cl"><span class="cm"> *
-</span></span></span><span class="line"><span class="ln">122</span><span class="cl"><span class="cm"> * NOTE: no locks or semaphores should be used here
-</span></span></span><span class="line"><span class="ln">123</span><span class="cl"><span class="cm"> *
-</span></span></span><span class="line"><span class="ln">124</span><span class="cl"><span class="cm"> * On archs that support TIF_POLLING_NRFLAG, is called with polling
-</span></span></span><span class="line"><span class="ln">125</span><span class="cl"><span class="cm"> * set, and it returns with polling set.  If it ever stops polling, it
-</span></span></span><span class="line"><span class="ln">126</span><span class="cl"><span class="cm"> * must clear the polling bit.
-</span></span></span><span class="line"><span class="ln">127</span><span class="cl"><span class="cm"> */</span>
-</span></span><span class="line"><span class="ln">128</span><span class="cl"><span class="k">static</span> <span class="kt">void</span> <span class="nf">cpuidle_idle_call</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">129</span><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="ln">130</span><span class="cl">	<span class="k">struct</span> <span class="n">cpuidle_device</span> <span class="o">*</span><span class="n">dev</span> <span class="o">=</span> <span class="n">cpuidle_get_device</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">131</span><span class="cl">	<span class="k">struct</span> <span class="n">cpuidle_driver</span> <span class="o">*</span><span class="n">drv</span> <span class="o">=</span> <span class="n">cpuidle_get_cpu_driver</span><span class="p">(</span><span class="n">dev</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">132</span><span class="cl">	<span class="kt">int</span> <span class="n">next_state</span><span class="p">,</span> <span class="n">entered_state</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">133</span><span class="cl">
-</span></span><span class="line"><span class="ln">134</span><span class="cl">	<span class="cm">/*
-</span></span></span><span class="line"><span class="ln">135</span><span class="cl"><span class="cm">	 * Check if the idle task must be rescheduled. If it is the
-</span></span></span><span class="line"><span class="ln">136</span><span class="cl"><span class="cm">	 * case, exit the function after re-enabling the local irq.
-</span></span></span><span class="line"><span class="ln">137</span><span class="cl"><span class="cm">	 */</span>
-</span></span><span class="line"><span class="ln">138</span><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="n">need_resched</span><span class="p">())</span> <span class="p">{</span>
-</span></span><span class="line"><span class="ln">139</span><span class="cl">		<span class="n">local_irq_enable</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">140</span><span class="cl">		<span class="k">return</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">141</span><span class="cl">	<span class="p">}</span>
-</span></span><span class="line"><span class="ln">142</span><span class="cl">
-</span></span><span class="line"><span class="ln">143</span><span class="cl">	<span class="cm">/*
-</span></span></span><span class="line"><span class="ln">144</span><span class="cl"><span class="cm">	 * The RCU framework needs to be told that we are entering an idle
-</span></span></span><span class="line"><span class="ln">145</span><span class="cl"><span class="cm">	 * section, so no more rcu read side critical sections and one more
-</span></span></span><span class="line"><span class="ln">146</span><span class="cl"><span class="cm">	 * step to the grace period
-</span></span></span><span class="line"><span class="ln">147</span><span class="cl"><span class="cm">	 */</span>
-</span></span><span class="line"><span class="ln">148</span><span class="cl">
-</span></span><span class="line"><span class="ln">149</span><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="n">cpuidle_not_available</span><span class="p">(</span><span class="n">drv</span><span class="p">,</span> <span class="n">dev</span><span class="p">))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="ln">150</span><span class="cl">		<span class="n">tick_nohz_idle_stop_tick</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">151</span><span class="cl">		<span class="n">rcu_idle_enter</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">152</span><span class="cl">
-</span></span><span class="line"><span class="ln">153</span><span class="cl">		<span class="n">default_idle_call</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">154</span><span class="cl">		<span class="k">goto</span> <span class="n">exit_idle</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">155</span><span class="cl">	<span class="p">}</span>
-</span></span><span class="line"><span class="ln">156</span><span class="cl">
-</span></span><span class="line"><span class="ln">157</span><span class="cl">	<span class="cm">/*
-</span></span></span><span class="line"><span class="ln">158</span><span class="cl"><span class="cm">	 * Suspend-to-idle (&#34;s2idle&#34;) is a system state in which all user space
-</span></span></span><span class="line"><span class="ln">159</span><span class="cl"><span class="cm">	 * has been frozen, all I/O devices have been suspended and the only
-</span></span></span><span class="line"><span class="ln">160</span><span class="cl"><span class="cm">	 * activity happens here and in iterrupts (if any).  In that case bypass
-</span></span></span><span class="line"><span class="ln">161</span><span class="cl"><span class="cm">	 * the cpuidle governor and go stratight for the deepest idle state
-</span></span></span><span class="line"><span class="ln">162</span><span class="cl"><span class="cm">	 * available.  Possibly also suspend the local tick and the entire
-</span></span></span><span class="line"><span class="ln">163</span><span class="cl"><span class="cm">	 * timekeeping to prevent timer interrupts from kicking us out of idle
-</span></span></span><span class="line"><span class="ln">164</span><span class="cl"><span class="cm">	 * until a proper wakeup interrupt happens.
-</span></span></span><span class="line"><span class="ln">165</span><span class="cl"><span class="cm">	 */</span>
-</span></span><span class="line"><span class="ln">166</span><span class="cl">
-</span></span><span class="line"><span class="ln">167</span><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="n">idle_should_enter_s2idle</span><span class="p">()</span> <span class="o">||</span> <span class="n">dev</span><span class="o">-&gt;</span><span class="n">use_deepest_state</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="ln">168</span><span class="cl">		<span class="k">if</span> <span class="p">(</span><span class="n">idle_should_enter_s2idle</span><span class="p">())</span> <span class="p">{</span>
-</span></span><span class="line"><span class="ln">169</span><span class="cl">			<span class="n">rcu_idle_enter</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">170</span><span class="cl">
-</span></span><span class="line"><span class="ln">171</span><span class="cl">			<span class="n">entered_state</span> <span class="o">=</span> <span class="n">cpuidle_enter_s2idle</span><span class="p">(</span><span class="n">drv</span><span class="p">,</span> <span class="n">dev</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">172</span><span class="cl">			<span class="k">if</span> <span class="p">(</span><span class="n">entered_state</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="ln">173</span><span class="cl">				<span class="n">local_irq_enable</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">174</span><span class="cl">				<span class="k">goto</span> <span class="n">exit_idle</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">175</span><span class="cl">			<span class="p">}</span>
-</span></span><span class="line"><span class="ln">176</span><span class="cl">
-</span></span><span class="line"><span class="ln">177</span><span class="cl">			<span class="n">rcu_idle_exit</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">178</span><span class="cl">		<span class="p">}</span>
-</span></span><span class="line"><span class="ln">179</span><span class="cl">
-</span></span><span class="line"><span class="ln">180</span><span class="cl">		<span class="n">tick_nohz_idle_stop_tick</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">181</span><span class="cl">		<span class="n">rcu_idle_enter</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">182</span><span class="cl">
-</span></span><span class="line"><span class="ln">183</span><span class="cl">		<span class="n">next_state</span> <span class="o">=</span> <span class="n">cpuidle_find_deepest_state</span><span class="p">(</span><span class="n">drv</span><span class="p">,</span> <span class="n">dev</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">184</span><span class="cl">		<span class="n">call_cpuidle</span><span class="p">(</span><span class="n">drv</span><span class="p">,</span> <span class="n">dev</span><span class="p">,</span> <span class="n">next_state</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">185</span><span class="cl">	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="ln">186</span><span class="cl">		<span class="kt">bool</span> <span class="n">stop_tick</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">187</span><span class="cl">
-</span></span><span class="line"><span class="ln">188</span><span class="cl">		<span class="cm">/*
-</span></span></span><span class="line"><span class="ln">189</span><span class="cl"><span class="cm">		 * Ask the cpuidle framework to choose a convenient idle state.
-</span></span></span><span class="line"><span class="ln">190</span><span class="cl"><span class="cm">		 */</span>
-</span></span><span class="line"><span class="ln">191</span><span class="cl">		<span class="n">next_state</span> <span class="o">=</span> <span class="n">cpuidle_select</span><span class="p">(</span><span class="n">drv</span><span class="p">,</span> <span class="n">dev</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">stop_tick</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">192</span><span class="cl">
-</span></span><span class="line"><span class="ln">193</span><span class="cl">		<span class="k">if</span> <span class="p">(</span><span class="n">stop_tick</span> <span class="o">||</span> <span class="n">tick_nohz_tick_stopped</span><span class="p">())</span>
-</span></span><span class="line"><span class="ln">194</span><span class="cl">			<span class="n">tick_nohz_idle_stop_tick</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">195</span><span class="cl">		<span class="k">else</span>
-</span></span><span class="line"><span class="ln">196</span><span class="cl">			<span class="n">tick_nohz_idle_retain_tick</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">197</span><span class="cl">
-</span></span><span class="line"><span class="ln">198</span><span class="cl">		<span class="n">rcu_idle_enter</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">199</span><span class="cl">
-</span></span><span class="line"><span class="ln">200</span><span class="cl">		<span class="n">entered_state</span> <span class="o">=</span> <span class="n">call_cpuidle</span><span class="p">(</span><span class="n">drv</span><span class="p">,</span> <span class="n">dev</span><span class="p">,</span> <span class="n">next_state</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">201</span><span class="cl">		<span class="cm">/*
-</span></span></span><span class="line"><span class="ln">202</span><span class="cl"><span class="cm">		 * Give the governor an opportunity to reflect on the outcome
-</span></span></span><span class="line"><span class="ln">203</span><span class="cl"><span class="cm">		 */</span>
-</span></span><span class="line"><span class="ln">204</span><span class="cl">		<span class="n">cpuidle_reflect</span><span class="p">(</span><span class="n">dev</span><span class="p">,</span> <span class="n">entered_state</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">205</span><span class="cl">	<span class="p">}</span>
-</span></span><span class="line"><span class="ln">206</span><span class="cl">
-</span></span><span class="line"><span class="ln">207</span><span class="cl"><span class="nl">exit_idle</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln">208</span><span class="cl">	<span class="n">__current_set_polling</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">209</span><span class="cl">
-</span></span><span class="line"><span class="ln">210</span><span class="cl">	<span class="cm">/*
-</span></span></span><span class="line"><span class="ln">211</span><span class="cl"><span class="cm">	 * It is up to the idle functions to reenable local interrupts
-</span></span></span><span class="line"><span class="ln">212</span><span class="cl"><span class="cm">	 */</span>
-</span></span><span class="line"><span class="ln">213</span><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="n">WARN_ON_ONCE</span><span class="p">(</span><span class="n">irqs_disabled</span><span class="p">()))</span>
-</span></span><span class="line"><span class="ln">214</span><span class="cl">		<span class="n">local_irq_enable</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">215</span><span class="cl">
-</span></span><span class="line"><span class="ln">216</span><span class="cl">	<span class="n">rcu_idle_exit</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">217</span><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="ln">218</span><span class="cl">
-</span></span><span class="line"><span class="ln">219</span><span class="cl"><span class="cm">/*
-</span></span></span><span class="line"><span class="ln">220</span><span class="cl"><span class="cm"> * Generic idle loop implementation
-</span></span></span><span class="line"><span class="ln">221</span><span class="cl"><span class="cm"> *
-</span></span></span><span class="line"><span class="ln">222</span><span class="cl"><span class="cm"> * Called with polling cleared.
-</span></span></span><span class="line"><span class="ln">223</span><span class="cl"><span class="cm"> */</span>
-</span></span><span class="line"><span class="ln">224</span><span class="cl"><span class="k">static</span> <span class="kt">void</span> <span class="nf">do_idle</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">225</span><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="ln">226</span><span class="cl">	<span class="kt">int</span> <span class="n">cpu</span> <span class="o">=</span> <span class="n">smp_processor_id</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">227</span><span class="cl">	<span class="cm">/*
-</span></span></span><span class="line"><span class="ln">228</span><span class="cl"><span class="cm">	 * If the arch has a polling bit, we maintain an invariant:
-</span></span></span><span class="line"><span class="ln">229</span><span class="cl"><span class="cm">	 *
-</span></span></span><span class="line"><span class="ln">230</span><span class="cl"><span class="cm">	 * Our polling bit is clear if we&#39;re not scheduled (i.e. if rq-&gt;curr !=
-</span></span></span><span class="line"><span class="ln">231</span><span class="cl"><span class="cm">	 * rq-&gt;idle). This means that, if rq-&gt;idle has the polling bit set,
-</span></span></span><span class="line"><span class="ln">232</span><span class="cl"><span class="cm">	 * then setting need_resched is guaranteed to cause the CPU to
-</span></span></span><span class="line"><span class="ln">233</span><span class="cl"><span class="cm">	 * reschedule.
-</span></span></span><span class="line"><span class="ln">234</span><span class="cl"><span class="cm">	 */</span>
-</span></span><span class="line"><span class="ln">235</span><span class="cl">
-</span></span><span class="line"><span class="ln">236</span><span class="cl">	<span class="n">__current_set_polling</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">237</span><span class="cl">	<span class="n">tick_nohz_idle_enter</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">238</span><span class="cl">
-</span></span><span class="line"><span class="ln">239</span><span class="cl">	<span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">need_resched</span><span class="p">())</span> <span class="p">{</span>
-</span></span><span class="line"><span class="ln">240</span><span class="cl">		<span class="n">check_pgt_cache</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">241</span><span class="cl">		<span class="n">rmb</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">242</span><span class="cl">
-</span></span><span class="line"><span class="ln">243</span><span class="cl">		<span class="n">local_irq_disable</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">244</span><span class="cl">
-</span></span><span class="line"><span class="ln">245</span><span class="cl">		<span class="k">if</span> <span class="p">(</span><span class="n">cpu_is_offline</span><span class="p">(</span><span class="n">cpu</span><span class="p">))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="ln">246</span><span class="cl">			<span class="n">tick_nohz_idle_stop_tick</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">247</span><span class="cl">			<span class="n">cpuhp_report_idle_dead</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">248</span><span class="cl">			<span class="n">arch_cpu_idle_dead</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">249</span><span class="cl">		<span class="p">}</span>
-</span></span><span class="line"><span class="ln">250</span><span class="cl">
-</span></span><span class="line"><span class="ln">251</span><span class="cl">		<span class="n">arch_cpu_idle_enter</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">252</span><span class="cl">
-</span></span><span class="line"><span class="ln">253</span><span class="cl">		<span class="cm">/*
-</span></span></span><span class="line"><span class="ln">254</span><span class="cl"><span class="cm">		 * In poll mode we reenable interrupts and spin. Also if we
-</span></span></span><span class="line"><span class="ln">255</span><span class="cl"><span class="cm">		 * detected in the wakeup from idle path that the tick
-</span></span></span><span class="line"><span class="ln">256</span><span class="cl"><span class="cm">		 * broadcast device expired for us, we don&#39;t want to go deep
-</span></span></span><span class="line"><span class="ln">257</span><span class="cl"><span class="cm">		 * idle as we know that the IPI is going to arrive right away.
-</span></span></span><span class="line"><span class="ln">258</span><span class="cl"><span class="cm">		 */</span>
-</span></span><span class="line"><span class="ln">259</span><span class="cl">		<span class="k">if</span> <span class="p">(</span><span class="n">cpu_idle_force_poll</span> <span class="o">||</span> <span class="n">tick_check_broadcast_expired</span><span class="p">())</span> <span class="p">{</span>
-</span></span><span class="line"><span class="ln">260</span><span class="cl">			<span class="n">tick_nohz_idle_restart_tick</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">261</span><span class="cl">			<span class="n">cpu_idle_poll</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">262</span><span class="cl">		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="ln">263</span><span class="cl">			<span class="n">cpuidle_idle_call</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">264</span><span class="cl">		<span class="p">}</span>
-</span></span><span class="line"><span class="ln">265</span><span class="cl">		<span class="n">arch_cpu_idle_exit</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">266</span><span class="cl">	<span class="p">}</span>
-</span></span><span class="line"><span class="ln">267</span><span class="cl">
-</span></span><span class="line"><span class="ln">268</span><span class="cl">	<span class="cm">/*
-</span></span></span><span class="line"><span class="ln">269</span><span class="cl"><span class="cm">	 * Since we fell out of the loop above, we know TIF_NEED_RESCHED must
-</span></span></span><span class="line"><span class="ln">270</span><span class="cl"><span class="cm">	 * be set, propagate it into PREEMPT_NEED_RESCHED.
-</span></span></span><span class="line"><span class="ln">271</span><span class="cl"><span class="cm">	 *
-</span></span></span><span class="line"><span class="ln">272</span><span class="cl"><span class="cm">	 * This is required because for polling idle loops we will not have had
-</span></span></span><span class="line"><span class="ln">273</span><span class="cl"><span class="cm">	 * an IPI to fold the state for us.
-</span></span></span><span class="line"><span class="ln">274</span><span class="cl"><span class="cm">	 */</span>
-</span></span><span class="line"><span class="ln">275</span><span class="cl">	<span class="n">preempt_set_need_resched</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">276</span><span class="cl">	<span class="n">tick_nohz_idle_exit</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">277</span><span class="cl">	<span class="n">__current_clr_polling</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">278</span><span class="cl">
-</span></span><span class="line"><span class="ln">279</span><span class="cl">	<span class="cm">/*
-</span></span></span><span class="line"><span class="ln">280</span><span class="cl"><span class="cm">	 * We promise to call sched_ttwu_pending() and reschedule if
-</span></span></span><span class="line"><span class="ln">281</span><span class="cl"><span class="cm">	 * need_resched() is set while polling is set. That means that clearing
-</span></span></span><span class="line"><span class="ln">282</span><span class="cl"><span class="cm">	 * polling needs to be visible before doing these things.
-</span></span></span><span class="line"><span class="ln">283</span><span class="cl"><span class="cm">	 */</span>
-</span></span><span class="line"><span class="ln">284</span><span class="cl">	<span class="n">smp_mb__after_atomic</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">285</span><span class="cl">
-</span></span><span class="line"><span class="ln">286</span><span class="cl">	<span class="n">sched_ttwu_pending</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">287</span><span class="cl">	<span class="n">schedule_idle</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">288</span><span class="cl">
-</span></span><span class="line"><span class="ln">289</span><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="n">klp_patch_pending</span><span class="p">(</span><span class="n">current</span><span class="p">)))</span>
-</span></span><span class="line"><span class="ln">290</span><span class="cl">		<span class="n">klp_update_patch_state</span><span class="p">(</span><span class="n">current</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">291</span><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="ln">292</span><span class="cl">
-</span></span><span class="line"><span class="ln">293</span><span class="cl"><span class="kt">bool</span> <span class="nf">cpu_in_idle</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">pc</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">294</span><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="ln">295</span><span class="cl">	<span class="k">return</span> <span class="n">pc</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)</span><span class="n">__cpuidle_text_start</span> <span class="o">&amp;&amp;</span>
-</span></span><span class="line"><span class="ln">296</span><span class="cl">		<span class="n">pc</span> <span class="o">&lt;</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)</span><span class="n">__cpuidle_text_end</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">297</span><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="ln">298</span><span class="cl">
-</span></span><span class="line"><span class="ln">299</span><span class="cl"><span class="k">struct</span> <span class="n">idle_timer</span> <span class="p">{</span>
-</span></span><span class="line"><span class="ln">300</span><span class="cl">	<span class="k">struct</span> <span class="n">hrtimer</span> <span class="n">timer</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">301</span><span class="cl">	<span class="kt">int</span> <span class="n">done</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">302</span><span class="cl"><span class="p">};</span>
-</span></span><span class="line"><span class="ln">303</span><span class="cl">
-</span></span><span class="line"><span class="ln">304</span><span class="cl"><span class="k">static</span> <span class="k">enum</span> <span class="n">hrtimer_restart</span> <span class="nf">idle_inject_timer_fn</span><span class="p">(</span><span class="k">struct</span> <span class="n">hrtimer</span> <span class="o">*</span><span class="n">timer</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">305</span><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="ln">306</span><span class="cl">	<span class="k">struct</span> <span class="n">idle_timer</span> <span class="o">*</span><span class="n">it</span> <span class="o">=</span> <span class="n">container_of</span><span class="p">(</span><span class="n">timer</span><span class="p">,</span> <span class="k">struct</span> <span class="n">idle_timer</span><span class="p">,</span> <span class="n">timer</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">307</span><span class="cl">
-</span></span><span class="line"><span class="ln">308</span><span class="cl">	<span class="n">WRITE_ONCE</span><span class="p">(</span><span class="n">it</span><span class="o">-&gt;</span><span class="n">done</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">309</span><span class="cl">	<span class="n">set_tsk_need_resched</span><span class="p">(</span><span class="n">current</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">310</span><span class="cl">
-</span></span><span class="line"><span class="ln">311</span><span class="cl">	<span class="k">return</span> <span class="n">HRTIMER_NORESTART</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">312</span><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="ln">313</span><span class="cl">
-</span></span><span class="line"><span class="ln">314</span><span class="cl"><span class="kt">void</span> <span class="nf">play_idle</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">duration_ms</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">315</span><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="ln">316</span><span class="cl">	<span class="k">struct</span> <span class="n">idle_timer</span> <span class="n">it</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">317</span><span class="cl">
-</span></span><span class="line"><span class="ln">318</span><span class="cl">	<span class="cm">/*
-</span></span></span><span class="line"><span class="ln">319</span><span class="cl"><span class="cm">	 * Only FIFO tasks can disable the tick since they don&#39;t need the forced
-</span></span></span><span class="line"><span class="ln">320</span><span class="cl"><span class="cm">	 * preemption.
-</span></span></span><span class="line"><span class="ln">321</span><span class="cl"><span class="cm">	 */</span>
-</span></span><span class="line"><span class="ln">322</span><span class="cl">	<span class="n">WARN_ON_ONCE</span><span class="p">(</span><span class="n">current</span><span class="o">-&gt;</span><span class="n">policy</span> <span class="o">!=</span> <span class="n">SCHED_FIFO</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">323</span><span class="cl">	<span class="n">WARN_ON_ONCE</span><span class="p">(</span><span class="n">current</span><span class="o">-&gt;</span><span class="n">nr_cpus_allowed</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">324</span><span class="cl">	<span class="n">WARN_ON_ONCE</span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">current</span><span class="o">-&gt;</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">PF_KTHREAD</span><span class="p">));</span>
-</span></span><span class="line"><span class="ln">325</span><span class="cl">	<span class="n">WARN_ON_ONCE</span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">current</span><span class="o">-&gt;</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">PF_NO_SETAFFINITY</span><span class="p">));</span>
-</span></span><span class="line"><span class="ln">326</span><span class="cl">	<span class="n">WARN_ON_ONCE</span><span class="p">(</span><span class="o">!</span><span class="n">duration_ms</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">327</span><span class="cl">
-</span></span><span class="line"><span class="ln">328</span><span class="cl">	<span class="n">rcu_sleep_check</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">329</span><span class="cl">	<span class="n">preempt_disable</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">330</span><span class="cl">	<span class="n">current</span><span class="o">-&gt;</span><span class="n">flags</span> <span class="o">|=</span> <span class="n">PF_IDLE</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">331</span><span class="cl">	<span class="n">cpuidle_use_deepest_state</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">332</span><span class="cl">
-</span></span><span class="line"><span class="ln">333</span><span class="cl">	<span class="n">it</span><span class="p">.</span><span class="n">done</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">334</span><span class="cl">	<span class="n">hrtimer_init_on_stack</span><span class="p">(</span><span class="o">&amp;</span><span class="n">it</span><span class="p">.</span><span class="n">timer</span><span class="p">,</span> <span class="n">CLOCK_MONOTONIC</span><span class="p">,</span> <span class="n">HRTIMER_MODE_REL</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">335</span><span class="cl">	<span class="n">it</span><span class="p">.</span><span class="n">timer</span><span class="p">.</span><span class="n">function</span> <span class="o">=</span> <span class="n">idle_inject_timer_fn</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">336</span><span class="cl">	<span class="n">hrtimer_start</span><span class="p">(</span><span class="o">&amp;</span><span class="n">it</span><span class="p">.</span><span class="n">timer</span><span class="p">,</span> <span class="n">ms_to_ktime</span><span class="p">(</span><span class="n">duration_ms</span><span class="p">),</span> <span class="n">HRTIMER_MODE_REL_PINNED</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">337</span><span class="cl">
-</span></span><span class="line"><span class="ln">338</span><span class="cl">	<span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">READ_ONCE</span><span class="p">(</span><span class="n">it</span><span class="p">.</span><span class="n">done</span><span class="p">))</span>
-</span></span><span class="line"><span class="ln">339</span><span class="cl">		<span class="n">do_idle</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">340</span><span class="cl">
-</span></span><span class="line"><span class="ln">341</span><span class="cl">	<span class="n">cpuidle_use_deepest_state</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">342</span><span class="cl">	<span class="n">current</span><span class="o">-&gt;</span><span class="n">flags</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="n">PF_IDLE</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">343</span><span class="cl">
-</span></span><span class="line"><span class="ln">344</span><span class="cl">	<span class="n">preempt_fold_need_resched</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">345</span><span class="cl">	<span class="n">preempt_enable</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">346</span><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="ln">347</span><span class="cl"><span class="n">EXPORT_SYMBOL_GPL</span><span class="p">(</span><span class="n">play_idle</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">348</span><span class="cl">
-</span></span><span class="line"><span class="ln">349</span><span class="cl"><span class="kt">void</span> <span class="nf">cpu_startup_entry</span><span class="p">(</span><span class="k">enum</span> <span class="n">cpuhp_state</span> <span class="n">state</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">350</span><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="ln">351</span><span class="cl">	<span class="cm">/*
-</span></span></span><span class="line"><span class="ln">352</span><span class="cl"><span class="cm">	 * This #ifdef needs to die, but it&#39;s too late in the cycle to
-</span></span></span><span class="line"><span class="ln">353</span><span class="cl"><span class="cm">	 * make this generic (ARM and SH have never invoked the canary
-</span></span></span><span class="line"><span class="ln">354</span><span class="cl"><span class="cm">	 * init for the non boot CPUs!). Will be fixed in 3.11
-</span></span></span><span class="line"><span class="ln">355</span><span class="cl"><span class="cm">	 */</span>
-</span></span><span class="line"><span class="ln">356</span><span class="cl"><span class="cp">#ifdef CONFIG_X86
-</span></span></span><span class="line"><span class="ln">357</span><span class="cl"><span class="cp"></span>	<span class="cm">/*
-</span></span></span><span class="line"><span class="ln">358</span><span class="cl"><span class="cm">	 * If we&#39;re the non-boot CPU, nothing set the stack canary up
-</span></span></span><span class="line"><span class="ln">359</span><span class="cl"><span class="cm">	 * for us. The boot CPU already has it initialized but no harm
-</span></span></span><span class="line"><span class="ln">360</span><span class="cl"><span class="cm">	 * in doing it again. This is a good place for updating it, as
-</span></span></span><span class="line"><span class="ln">361</span><span class="cl"><span class="cm">	 * we wont ever return from this function (so the invalid
-</span></span></span><span class="line"><span class="ln">362</span><span class="cl"><span class="cm">	 * canaries already on the stack wont ever trigger).
-</span></span></span><span class="line"><span class="ln">363</span><span class="cl"><span class="cm">	 */</span>
-</span></span><span class="line"><span class="ln">364</span><span class="cl">	<span class="n">boot_init_stack_canary</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">365</span><span class="cl"><span class="cp">#endif
-</span></span></span><span class="line"><span class="ln">366</span><span class="cl"><span class="cp"></span>	<span class="n">arch_cpu_idle_prepare</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">367</span><span class="cl">	<span class="n">cpuhp_online_idle</span><span class="p">(</span><span class="n">state</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">368</span><span class="cl">	<span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">369</span><span class="cl">		<span class="n">do_idle</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">370</span><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="ln">371</span><span class="cl">
-</span></span><span class="line"><span class="ln">372</span><span class="cl"><span class="cm">/*
-</span></span></span><span class="line"><span class="ln">373</span><span class="cl"><span class="cm"> * idle-task scheduling class.
-</span></span></span><span class="line"><span class="ln">374</span><span class="cl"><span class="cm"> */</span>
-</span></span><span class="line"><span class="ln">375</span><span class="cl">
-</span></span><span class="line"><span class="ln">376</span><span class="cl"><span class="cp">#ifdef CONFIG_SMP
-</span></span></span><span class="line"><span class="ln">377</span><span class="cl"><span class="cp"></span><span class="k">static</span> <span class="kt">int</span>
-</span></span><span class="line"><span class="ln">378</span><span class="cl"><span class="nf">select_task_rq_idle</span><span class="p">(</span><span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="kt">int</span> <span class="n">cpu</span><span class="p">,</span> <span class="kt">int</span> <span class="n">sd_flag</span><span class="p">,</span> <span class="kt">int</span> <span class="n">flags</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">379</span><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="ln">380</span><span class="cl">	<span class="k">return</span> <span class="n">task_cpu</span><span class="p">(</span><span class="n">p</span><span class="p">);</span> <span class="cm">/* IDLE tasks as never migrated */</span>
-</span></span><span class="line"><span class="ln">381</span><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="ln">382</span><span class="cl"><span class="cp">#endif
-</span></span></span><span class="line"><span class="ln">383</span><span class="cl"><span class="cp"></span>
-</span></span><span class="line"><span class="ln">384</span><span class="cl"><span class="cm">/*
-</span></span></span><span class="line"><span class="ln">385</span><span class="cl"><span class="cm"> * Idle tasks are unconditionally rescheduled:
-</span></span></span><span class="line"><span class="ln">386</span><span class="cl"><span class="cm"> */</span>
-</span></span><span class="line"><span class="ln">387</span><span class="cl"><span class="k">static</span> <span class="kt">void</span> <span class="nf">check_preempt_curr_idle</span><span class="p">(</span><span class="k">struct</span> <span class="n">rq</span> <span class="o">*</span><span class="n">rq</span><span class="p">,</span> <span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="kt">int</span> <span class="n">flags</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">388</span><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="ln">389</span><span class="cl">	<span class="n">resched_curr</span><span class="p">(</span><span class="n">rq</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">390</span><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="ln">391</span><span class="cl">
-</span></span><span class="line"><span class="ln">392</span><span class="cl"><span class="k">static</span> <span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span>
-</span></span><span class="line"><span class="ln">393</span><span class="cl"><span class="nf">pick_next_task_idle</span><span class="p">(</span><span class="k">struct</span> <span class="n">rq</span> <span class="o">*</span><span class="n">rq</span><span class="p">,</span> <span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">prev</span><span class="p">,</span> <span class="k">struct</span> <span class="n">rq_flags</span> <span class="o">*</span><span class="n">rf</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">394</span><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="ln">395</span><span class="cl">	<span class="n">put_prev_task</span><span class="p">(</span><span class="n">rq</span><span class="p">,</span> <span class="n">prev</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">396</span><span class="cl">	<span class="n">update_idle_core</span><span class="p">(</span><span class="n">rq</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">397</span><span class="cl">	<span class="n">schedstat_inc</span><span class="p">(</span><span class="n">rq</span><span class="o">-&gt;</span><span class="n">sched_goidle</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">398</span><span class="cl">
-</span></span><span class="line"><span class="ln">399</span><span class="cl">	<span class="k">return</span> <span class="n">rq</span><span class="o">-&gt;</span><span class="n">idle</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">400</span><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="ln">401</span><span class="cl">
-</span></span><span class="line"><span class="ln">402</span><span class="cl"><span class="cm">/*
-</span></span></span><span class="line"><span class="ln">403</span><span class="cl"><span class="cm"> * It is not legal to sleep in the idle task - print a warning
-</span></span></span><span class="line"><span class="ln">404</span><span class="cl"><span class="cm"> * message if some code attempts to do it:
-</span></span></span><span class="line"><span class="ln">405</span><span class="cl"><span class="cm"> */</span>
-</span></span><span class="line"><span class="ln">406</span><span class="cl"><span class="k">static</span> <span class="kt">void</span>
-</span></span><span class="line"><span class="ln">407</span><span class="cl"><span class="nf">dequeue_task_idle</span><span class="p">(</span><span class="k">struct</span> <span class="n">rq</span> <span class="o">*</span><span class="n">rq</span><span class="p">,</span> <span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="kt">int</span> <span class="n">flags</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">408</span><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="ln">409</span><span class="cl">	<span class="n">raw_spin_unlock_irq</span><span class="p">(</span><span class="o">&amp;</span><span class="n">rq</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">410</span><span class="cl">	<span class="n">printk</span><span class="p">(</span><span class="n">KERN_ERR</span> <span class="s">&#34;bad: scheduling from the idle thread!</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">411</span><span class="cl">	<span class="n">dump_stack</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">412</span><span class="cl">	<span class="n">raw_spin_lock_irq</span><span class="p">(</span><span class="o">&amp;</span><span class="n">rq</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">413</span><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="ln">414</span><span class="cl">
-</span></span><span class="line"><span class="ln">415</span><span class="cl"><span class="k">static</span> <span class="kt">void</span> <span class="nf">put_prev_task_idle</span><span class="p">(</span><span class="k">struct</span> <span class="n">rq</span> <span class="o">*</span><span class="n">rq</span><span class="p">,</span> <span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">prev</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">416</span><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="ln">417</span><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="ln">418</span><span class="cl">
-</span></span><span class="line"><span class="ln">419</span><span class="cl"><span class="cm">/*
-</span></span></span><span class="line"><span class="ln">420</span><span class="cl"><span class="cm"> * scheduler tick hitting a task of our scheduling class.
-</span></span></span><span class="line"><span class="ln">421</span><span class="cl"><span class="cm"> *
-</span></span></span><span class="line"><span class="ln">422</span><span class="cl"><span class="cm"> * NOTE: This function can be called remotely by the tick offload that
-</span></span></span><span class="line"><span class="ln">423</span><span class="cl"><span class="cm"> * goes along full dynticks. Therefore no local assumption can be made
-</span></span></span><span class="line"><span class="ln">424</span><span class="cl"><span class="cm"> * and everything must be accessed through the @rq and @curr passed in
-</span></span></span><span class="line"><span class="ln">425</span><span class="cl"><span class="cm"> * parameters.
-</span></span></span><span class="line"><span class="ln">426</span><span class="cl"><span class="cm"> */</span>
-</span></span><span class="line"><span class="ln">427</span><span class="cl"><span class="k">static</span> <span class="kt">void</span> <span class="nf">task_tick_idle</span><span class="p">(</span><span class="k">struct</span> <span class="n">rq</span> <span class="o">*</span><span class="n">rq</span><span class="p">,</span> <span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">curr</span><span class="p">,</span> <span class="kt">int</span> <span class="n">queued</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">428</span><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="ln">429</span><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="ln">430</span><span class="cl">
-</span></span><span class="line"><span class="ln">431</span><span class="cl"><span class="k">static</span> <span class="kt">void</span> <span class="nf">set_curr_task_idle</span><span class="p">(</span><span class="k">struct</span> <span class="n">rq</span> <span class="o">*</span><span class="n">rq</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">432</span><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="ln">433</span><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="ln">434</span><span class="cl">
-</span></span><span class="line"><span class="ln">435</span><span class="cl"><span class="k">static</span> <span class="kt">void</span> <span class="nf">switched_to_idle</span><span class="p">(</span><span class="k">struct</span> <span class="n">rq</span> <span class="o">*</span><span class="n">rq</span><span class="p">,</span> <span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">p</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">436</span><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="ln">437</span><span class="cl">	<span class="n">BUG</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">438</span><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="ln">439</span><span class="cl">
-</span></span><span class="line"><span class="ln">440</span><span class="cl"><span class="k">static</span> <span class="kt">void</span>
-</span></span><span class="line"><span class="ln">441</span><span class="cl"><span class="nf">prio_changed_idle</span><span class="p">(</span><span class="k">struct</span> <span class="n">rq</span> <span class="o">*</span><span class="n">rq</span><span class="p">,</span> <span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="kt">int</span> <span class="n">oldprio</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">442</span><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="ln">443</span><span class="cl">	<span class="n">BUG</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">444</span><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="ln">445</span><span class="cl">
-</span></span><span class="line"><span class="ln">446</span><span class="cl"><span class="k">static</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="nf">get_rr_interval_idle</span><span class="p">(</span><span class="k">struct</span> <span class="n">rq</span> <span class="o">*</span><span class="n">rq</span><span class="p">,</span> <span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">task</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">447</span><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="ln">448</span><span class="cl">	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">449</span><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="ln">450</span><span class="cl">
-</span></span><span class="line"><span class="ln">451</span><span class="cl"><span class="k">static</span> <span class="kt">void</span> <span class="nf">update_curr_idle</span><span class="p">(</span><span class="k">struct</span> <span class="n">rq</span> <span class="o">*</span><span class="n">rq</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">452</span><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="ln">453</span><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="ln">454</span><span class="cl">
-</span></span><span class="line"><span class="ln">455</span><span class="cl"><span class="cm">/*
-</span></span></span><span class="line"><span class="ln">456</span><span class="cl"><span class="cm"> * Simple, special scheduling class for the per-CPU idle tasks:
-</span></span></span><span class="line"><span class="ln">457</span><span class="cl"><span class="cm"> */</span>
-</span></span><span class="line"><span class="ln">458</span><span class="cl"><span class="k">const</span> <span class="k">struct</span> <span class="n">sched_class</span> <span class="n">idle_sched_class</span> <span class="o">=</span> <span class="p">{</span>
-</span></span><span class="line"><span class="ln">459</span><span class="cl">	<span class="cm">/* .next is NULL */</span>
-</span></span><span class="line"><span class="ln">460</span><span class="cl">	<span class="cm">/* no enqueue/yield_task for idle tasks */</span>
-</span></span><span class="line"><span class="ln">461</span><span class="cl">
-</span></span><span class="line"><span class="ln">462</span><span class="cl">	<span class="cm">/* dequeue is not valid, we print a debug message there: */</span>
-</span></span><span class="line"><span class="ln">463</span><span class="cl">	<span class="p">.</span><span class="n">dequeue_task</span>		<span class="o">=</span> <span class="n">dequeue_task_idle</span><span class="p">,</span>
-</span></span><span class="line"><span class="ln">464</span><span class="cl">
-</span></span><span class="line"><span class="ln">465</span><span class="cl">	<span class="p">.</span><span class="n">check_preempt_curr</span>	<span class="o">=</span> <span class="n">check_preempt_curr_idle</span><span class="p">,</span>
-</span></span><span class="line"><span class="ln">466</span><span class="cl">
-</span></span><span class="line"><span class="ln">467</span><span class="cl">	<span class="p">.</span><span class="n">pick_next_task</span>		<span class="o">=</span> <span class="n">pick_next_task_idle</span><span class="p">,</span>
-</span></span><span class="line"><span class="ln">468</span><span class="cl">	<span class="p">.</span><span class="n">put_prev_task</span>		<span class="o">=</span> <span class="n">put_prev_task_idle</span><span class="p">,</span>
-</span></span><span class="line"><span class="ln">469</span><span class="cl">
-</span></span><span class="line"><span class="ln">470</span><span class="cl"><span class="cp">#ifdef CONFIG_SMP
-</span></span></span><span class="line"><span class="ln">471</span><span class="cl"><span class="cp"></span>	<span class="p">.</span><span class="n">select_task_rq</span>		<span class="o">=</span> <span class="n">select_task_rq_idle</span><span class="p">,</span>
-</span></span><span class="line"><span class="ln">472</span><span class="cl">	<span class="p">.</span><span class="n">set_cpus_allowed</span>	<span class="o">=</span> <span class="n">set_cpus_allowed_common</span><span class="p">,</span>
-</span></span><span class="line"><span class="ln">473</span><span class="cl"><span class="cp">#endif
-</span></span></span><span class="line"><span class="ln">474</span><span class="cl"><span class="cp"></span>
-</span></span><span class="line"><span class="ln">475</span><span class="cl">	<span class="p">.</span><span class="n">set_curr_task</span>          <span class="o">=</span> <span class="n">set_curr_task_idle</span><span class="p">,</span>
-</span></span><span class="line"><span class="ln">476</span><span class="cl">	<span class="p">.</span><span class="n">task_tick</span>		<span class="o">=</span> <span class="n">task_tick_idle</span><span class="p">,</span>
-</span></span><span class="line"><span class="ln">477</span><span class="cl">
-</span></span><span class="line"><span class="ln">478</span><span class="cl">	<span class="p">.</span><span class="n">get_rr_interval</span>	<span class="o">=</span> <span class="n">get_rr_interval_idle</span><span class="p">,</span>
-</span></span><span class="line"><span class="ln">479</span><span class="cl">
-</span></span><span class="line"><span class="ln">480</span><span class="cl">	<span class="p">.</span><span class="n">prio_changed</span>		<span class="o">=</span> <span class="n">prio_changed_idle</span><span class="p">,</span>
-</span></span><span class="line"><span class="ln">481</span><span class="cl">	<span class="p">.</span><span class="n">switched_to</span>		<span class="o">=</span> <span class="n">switched_to_idle</span><span class="p">,</span>
-</span></span><span class="line"><span class="ln">482</span><span class="cl">	<span class="p">.</span><span class="n">update_curr</span>		<span class="o">=</span> <span class="n">update_curr_idle</span><span class="p">,</span>
-</span></span><span class="line"><span class="ln">483</span><span class="cl"><span class="p">};</span>
-</span></span></code></pre></div></div></div>
-  <div class="card-footer"><div class="post-navs d-flex justify-content-evenly"><div class="post-nav post-prev">
-    <i class="fas fa-fw fa-chevron-circle-down post-prev-icon" data-fa-transform="rotate-90"></i>
-    <a href="https://mengdemao.github.io/posts/fair/">Fair
-</a>
-  </div><div class="post-nav post-next">
-    <a href="https://mengdemao.github.io/posts/arm/">Arm
-</a>
-    <i class="fas fa-fw fa-chevron-circle-down post-next-icon" data-fa-transform="rotate-270"></i>
-  </div></div></div>
-</article><div class="post-copyright mb-3 row card component" id="post-copyright">
-    <div class="card-header">
-        <h2 class="card-title">版权</h2>
-    </div>
-    <div class="card-body"><a class="d-flex align-items-center flex-column" target="_blank" rel="license noopener noreferrer" href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh">
-  <span><i class="fab fa-fw fa-2x fa-creative-commons"></i><i class="fab fa-fw fa-2x fa-creative-commons-by"></i><i class="fab fa-fw fa-2x fa-creative-commons-nc"></i><i class="fab fa-fw fa-2x fa-creative-commons-nd"></i></span>
-  CC BY-NC-ND 4.0 
-</a>
-
-
-    </div>
-</div><section class="related-posts row card component">
-    <div class="card-header">
-      <h2 class="card-title">相关文章</h2>
-    </div>
-    <div class="card-body">
-      <ul class="post-list"><li>
-          <a href="https://mengdemao.github.io/posts/fair/">Fair
-</a>
-          <span class="float-end post-date">Oct 28, 2021
-</span>
-        </li><li>
-          <a href="https://mengdemao.github.io/posts/sched/">系统调度
-</a>
-          <span class="float-end post-date">Oct 4, 2021
-</span>
-        </li><li>
-          <a href="https://mengdemao.github.io/posts/drivermodel/">驱动模型
-</a>
-          <span class="float-end post-date">Oct 24, 2021
-</span>
-        </li></ul>
-    </div>
-  </section></div>
-</div><aside class="col-lg-4 sidebar d-flex">
-  <div class="container d-flex flex-column">
-    
-    <div class="card row text-center profile component">
-  <div class="card-body">
-    <div class="col-12 d-flex align-items-center justify-content-center"><picture><img class="profile-avatar rounded-circle" alt="MengDemao" src="https://mengdemao.github.io/images/profile.webp" loading="lazy" data-viewer-invisible
-    
-     width="400" height="400"
-     />
-</picture>
-</div>
-    <div class="col-12 profile-meta"><div class="profile-name">MengDemao</div><div class="profile-bio">面向玄学编程</div><div class="profile-company"><i class="fas fa-fw fa-building"></i>Company</div><div class="profile-location"><i class="fas fa-fw fa-map-marker-alt"></i>Earth</div><div class="profile-about"><i class="fas fa-fw fa-user"></i><a href="https://mengdemao.github.io/about/">About</a></div></div>
-  </div>
-</div>
-<section class="recent-posts row card component">
-  <div class="card-header">
-    <h2 class="card-title">最近文章</h2>
-  </div>
-  <div class="card-body">
-    <ul class="post-list"><li>
-        <a href="https://mengdemao.github.io/posts/pthread/">Pthread源码分析
-</a>
-      </li><li>
-        <a href="https://mengdemao.github.io/posts/memory_management/">内存管理
-</a>
-      </li><li>
-        <a href="https://mengdemao.github.io/posts/buildroot/">Buildroot
-</a>
-      </li><li>
-        <a href="https://mengdemao.github.io/posts/c4/">C4
-</a>
-      </li><li>
-        <a href="https://mengdemao.github.io/posts/lua/">Lua
-</a>
-      </li></ul>
-  </div>
-</section><section class="categories-taxonomies row card component">
-      <div class="card-header">
-        <h2 class="card-title">
-          <a href="https://mengdemao.github.io/categories">分类</a>
-        </h2>
-      </div>
-      <div class="card-body">
-        <div class="py-2"><a href="https://mengdemao.github.io/categories/linux/" class="badge rounded post-taxonomy" title="linux">
-            linux</a><a href="https://mengdemao.github.io/categories/compiler/" class="badge rounded post-taxonomy" title="compiler">
-            compiler</a><a href="https://mengdemao.github.io/categories/python/" class="badge rounded post-taxonomy" title="python">
-            python</a><a href="https://mengdemao.github.io/categories/rootfs/" class="badge rounded post-taxonomy" title="rootfs">
-            rootfs</a></div>
-      </div>
-    </section><section class="tags-taxonomies row card component">
-      <div class="card-header">
-        <h2 class="card-title">
-          <a href="https://mengdemao.github.io/tags">标签</a>
-        </h2>
-      </div>
-      <div class="card-body">
-        <div class="py-2"><a href="https://mengdemao.github.io/tags/kernel/" class="badge rounded post-taxonomy" title="kernel">
-            kernel</a><a href="https://mengdemao.github.io/tags/compiler/" class="badge rounded post-taxonomy" title="compiler">
-            compiler</a><a href="https://mengdemao.github.io/tags/nfs/" class="badge rounded post-taxonomy" title="nfs">
-            nfs</a><a href="https://mengdemao.github.io/tags/rootfs/" class="badge rounded post-taxonomy" title="rootfs">
-            rootfs</a><a href="https://mengdemao.github.io/tags/%E6%8A%80%E5%B7%A7/" class="badge rounded post-taxonomy" title="技巧">
-            技巧</a><a href="https://mengdemao.github.io/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" class="badge rounded post-taxonomy" title="编译原理">
-            编译原理</a></div>
-      </div>
-    </section><section class="row card component">
-    <div class="card-header">
-      <h2 class="card-title"><a href="https://mengdemao.github.io/archives/">归档</a></h2>
-    </div>
-    <div class="card-body">
-      <ul class="post-list">
-        <li><a href="https://mengdemao.github.io/archives/#archive-2022">2022(5)</a></li>
-        <li><a href="https://mengdemao.github.io/archives/#archive-2021">2021(38)</a></li>
-      </ul>
-    </div>
-</section>
-    
-  </div>
-</aside>
-</div>
-    </main><footer class="footer mt-auto py-3 text-center container"><nav class="social-links nav justify-content-center mb-2"><a class="nav-link social-link" target="_blank" href="https://mengdemao.github.io/index.xml" title="RSS" rel="noopener noreferrer">
-    <i class="fas fa-fw fa-2x fa-rss"></i>
-  </a></nav>
-<div class="copyright mb-2">
-  Copyright © 2020-2022 Meng Demao. All Rights Reserved.
-</div>
-<div class="powered-by mb-2">
-  Powered by <a href="https://gohugo.io" target="_blank" rel="noopener noreferrer">Hugo</a> and the <a href="https://github.com/razonyang/hugo-theme-bootstrap" target="_blank" rel="noopener noreferrer">Bootstrap</a> theme.
-</div></footer>
-<script src="https://mengdemao.github.io/assets/main/bundle.min.ab3cb0f93e5a2eb73681c73df324cd4f339067e49930ddb6113a0b2eba1348ce.js" integrity="sha256-qzyw&#43;T5aLrc2gcc98yTNTzOQZ&#43;SZMN22EToLLroTSM4=" crossorigin="anonymous" defer></script><script src="https://mengdemao.github.io/assets/icons/bundle.min.bfb722e9ecdba11fdaece2d3d9e7da457ad9d980216913567b7d92a092522be5.js" integrity="sha256-v7ci6ezboR/a7OLT2efaRXrZ2YAhaRNWe32SoJJSK&#43;U=" crossorigin="anonymous" defer></script>
-<script src="https://mengdemao.github.io/assets/viewer/bundle.min.8a04279f4c01c6129efc48d87356904980c31656ec5a60da26fb51a1d784e1e2.js" integrity="sha256-igQnn0wBxhKe/EjYc1aQSYDDFlbsWmDaJvtRodeE4eI=" crossorigin="anonymous" defer></script>
-</body>
-</html>
+<!doctype html><html lang><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Idle - 编程日志</title><meta name=Description content="编程日志"><meta property="og:title" content="Idle"><meta property="og:description" content="IDLE调度器类 1/* 2 * Generic entry points for the idle threads and 3 * implementation of the idle task scheduling class. 4 * 5 * (NOTE: these are not related to SCHED_IDLE batch scheduled 6 * tasks which are handled in sched/fair.c ) 7 */ 8#include &#34;sched.h&#34; 9 10#include <trace/events/power.h> 11 12/* Linker adds these: start and end of __cpuidle functions */ 13extern"><meta property="og:type" content="article"><meta property="og:url" content="https://mengdemao.github.io/posts/idle/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2021-10-28T07:40:38+08:00"><meta property="article:modified_time" content="2021-10-28T07:40:38+08:00"><meta property="og:site_name" content="My cool site"><meta name=twitter:card content="summary"><meta name=twitter:title content="Idle"><meta name=twitter:description content="IDLE调度器类 1/* 2 * Generic entry points for the idle threads and 3 * implementation of the idle task scheduling class. 4 * 5 * (NOTE: these are not related to SCHED_IDLE batch scheduled 6 * tasks which are handled in sched/fair.c ) 7 */ 8#include &#34;sched.h&#34; 9 10#include <trace/events/power.h> 11 12/* Linker adds these: start and end of __cpuidle functions */ 13extern"><meta name=application-name content="My cool site"><meta name=apple-mobile-web-app-title content="My cool site"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://mengdemao.github.io/posts/idle/><link rel=prev href=https://mengdemao.github.io/posts/fair/><link rel=next href=https://mengdemao.github.io/posts/arm/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Idle","inLanguage":"","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/mengdemao.github.io\/posts\/idle\/"},"genre":"posts","keywords":"kernel","wordcount":1829,"url":"https:\/\/mengdemao.github.io\/posts\/idle\/","datePublished":"2021-10-28T07:40:38+08:00","dateModified":"2021-10-28T07:40:38+08:00","license":"Copyright © 2020-{year} Meng Demao. All Rights Reserved.","publisher":{"@type":"Organization","name":""},"author":{"@type":"Person","name":"mengdemao"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=编程日志>My cool site</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/archives/ title=归档><i class="fas fa-fw fa-file-archive"></i> 归档 </a><a class=menu-item href=/categories/ title=分类><i class="fas fa-fw fa-folder"></i> 分类 </a><a class=menu-item href=/tags/ title=标签><i class="fas fa-fw fa-tags"></i> 标签 </a><a class=menu-item href=/series/ title=专栏><i class="fas fa-fw fa-columns"></i> 专栏 </a><a class=menu-item href=/><i class="fas fa-fw fa-chevron-circle-down"></i> 下拉菜单 </a><span class="menu-item delimiter"></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=编程日志>My cool site</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><a class=menu-item href=/archives/ title=归档><i class="fas fa-fw fa-file-archive"></i>归档</a><a class=menu-item href=/categories/ title=分类><i class="fas fa-fw fa-folder"></i>分类</a><a class=menu-item href=/tags/ title=标签><i class="fas fa-fw fa-tags"></i>标签</a><a class=menu-item href=/series/ title=专栏><i class="fas fa-fw fa-columns"></i>专栏</a><a class=menu-item href=/ title><i class="fas fa-fw fa-chevron-circle-down"></i>下拉菜单</a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></header><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Idle</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>mengdemao</a></span>&nbsp;<span class=post-category>收录于 <a href=/categories/linux/><i class="far fa-folder fa-fw" aria-hidden=true></i>linux</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2021-10-28>2021-10-28</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 1829 字&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 4 分钟&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents></nav></div></div><div class=content id=content><h1 id=idle调度器类>IDLE调度器类</h1><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=ln>  1</span><span class=cl><span class=cm>/*
+</span></span></span><span class=line><span class=ln>  2</span><span class=cl><span class=cm> * Generic entry points for the idle threads and
+</span></span></span><span class=line><span class=ln>  3</span><span class=cl><span class=cm> * implementation of the idle task scheduling class.
+</span></span></span><span class=line><span class=ln>  4</span><span class=cl><span class=cm> *
+</span></span></span><span class=line><span class=ln>  5</span><span class=cl><span class=cm> * (NOTE: these are not related to SCHED_IDLE batch scheduled
+</span></span></span><span class=line><span class=ln>  6</span><span class=cl><span class=cm> *        tasks which are handled in sched/fair.c )
+</span></span></span><span class=line><span class=ln>  7</span><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=ln>  8</span><span class=cl><span class=cp>#include</span> <span class=cpf>&#34;sched.h&#34;</span><span class=cp>
+</span></span></span><span class=line><span class=ln>  9</span><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=ln> 10</span><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;trace/events/power.h&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=ln> 11</span><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=ln> 12</span><span class=cl><span class=cm>/* Linker adds these: start and end of __cpuidle functions */</span>
+</span></span><span class=line><span class=ln> 13</span><span class=cl><span class=k>extern</span> <span class=kt>char</span> <span class=n>__cpuidle_text_start</span><span class=p>[],</span> <span class=n>__cpuidle_text_end</span><span class=p>[];</span>
+</span></span><span class=line><span class=ln> 14</span><span class=cl>
+</span></span><span class=line><span class=ln> 15</span><span class=cl><span class=cm>/**
+</span></span></span><span class=line><span class=ln> 16</span><span class=cl><span class=cm> * sched_idle_set_state - Record idle state for the current CPU.
+</span></span></span><span class=line><span class=ln> 17</span><span class=cl><span class=cm> * @idle_state: State to record.
+</span></span></span><span class=line><span class=ln> 18</span><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=ln> 19</span><span class=cl><span class=kt>void</span> <span class=nf>sched_idle_set_state</span><span class=p>(</span><span class=k>struct</span> <span class=n>cpuidle_state</span> <span class=o>*</span><span class=n>idle_state</span><span class=p>)</span>
+</span></span><span class=line><span class=ln> 20</span><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=ln> 21</span><span class=cl>	<span class=n>idle_set_state</span><span class=p>(</span><span class=n>this_rq</span><span class=p>(),</span> <span class=n>idle_state</span><span class=p>);</span>
+</span></span><span class=line><span class=ln> 22</span><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=ln> 23</span><span class=cl>
+</span></span><span class=line><span class=ln> 24</span><span class=cl><span class=k>static</span> <span class=kt>int</span> <span class=n>__read_mostly</span> <span class=n>cpu_idle_force_poll</span><span class=p>;</span>
+</span></span><span class=line><span class=ln> 25</span><span class=cl>
+</span></span><span class=line><span class=ln> 26</span><span class=cl><span class=kt>void</span> <span class=nf>cpu_idle_poll_ctrl</span><span class=p>(</span><span class=kt>bool</span> <span class=n>enable</span><span class=p>)</span>
+</span></span><span class=line><span class=ln> 27</span><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=ln> 28</span><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>enable</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln> 29</span><span class=cl>		<span class=n>cpu_idle_force_poll</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=ln> 30</span><span class=cl>	<span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln> 31</span><span class=cl>		<span class=n>cpu_idle_force_poll</span><span class=o>--</span><span class=p>;</span>
+</span></span><span class=line><span class=ln> 32</span><span class=cl>		<span class=n>WARN_ON_ONCE</span><span class=p>(</span><span class=n>cpu_idle_force_poll</span> <span class=o>&lt;</span> <span class=mi>0</span><span class=p>);</span>
+</span></span><span class=line><span class=ln> 33</span><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=ln> 34</span><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=ln> 35</span><span class=cl>
+</span></span><span class=line><span class=ln> 36</span><span class=cl><span class=cp>#ifdef CONFIG_GENERIC_IDLE_POLL_SETUP
+</span></span></span><span class=line><span class=ln> 37</span><span class=cl><span class=cp></span><span class=k>static</span> <span class=kt>int</span> <span class=n>__init</span> <span class=nf>cpu_idle_poll_setup</span><span class=p>(</span><span class=kt>char</span> <span class=o>*</span><span class=n>__unused</span><span class=p>)</span>
+</span></span><span class=line><span class=ln> 38</span><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=ln> 39</span><span class=cl>	<span class=n>cpu_idle_force_poll</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=ln> 40</span><span class=cl>
+</span></span><span class=line><span class=ln> 41</span><span class=cl>	<span class=k>return</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=ln> 42</span><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=ln> 43</span><span class=cl><span class=n>__setup</span><span class=p>(</span><span class=s>&#34;nohlt&#34;</span><span class=p>,</span> <span class=n>cpu_idle_poll_setup</span><span class=p>);</span>
+</span></span><span class=line><span class=ln> 44</span><span class=cl>
+</span></span><span class=line><span class=ln> 45</span><span class=cl><span class=k>static</span> <span class=kt>int</span> <span class=n>__init</span> <span class=nf>cpu_idle_nopoll_setup</span><span class=p>(</span><span class=kt>char</span> <span class=o>*</span><span class=n>__unused</span><span class=p>)</span>
+</span></span><span class=line><span class=ln> 46</span><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=ln> 47</span><span class=cl>	<span class=n>cpu_idle_force_poll</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=ln> 48</span><span class=cl>
+</span></span><span class=line><span class=ln> 49</span><span class=cl>	<span class=k>return</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=ln> 50</span><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=ln> 51</span><span class=cl><span class=n>__setup</span><span class=p>(</span><span class=s>&#34;hlt&#34;</span><span class=p>,</span> <span class=n>cpu_idle_nopoll_setup</span><span class=p>);</span>
+</span></span><span class=line><span class=ln> 52</span><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=ln> 53</span><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=ln> 54</span><span class=cl><span class=k>static</span> <span class=n>noinline</span> <span class=kt>int</span> <span class=n>__cpuidle</span> <span class=nf>cpu_idle_poll</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
+</span></span><span class=line><span class=ln> 55</span><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=ln> 56</span><span class=cl>	<span class=n>rcu_idle_enter</span><span class=p>();</span>
+</span></span><span class=line><span class=ln> 57</span><span class=cl>	<span class=n>trace_cpu_idle_rcuidle</span><span class=p>(</span><span class=mi>0</span><span class=p>,</span> <span class=n>smp_processor_id</span><span class=p>());</span>
+</span></span><span class=line><span class=ln> 58</span><span class=cl>	<span class=n>local_irq_enable</span><span class=p>();</span>
+</span></span><span class=line><span class=ln> 59</span><span class=cl>	<span class=n>stop_critical_timings</span><span class=p>();</span>
+</span></span><span class=line><span class=ln> 60</span><span class=cl>
+</span></span><span class=line><span class=ln> 61</span><span class=cl>	<span class=k>while</span> <span class=p>(</span><span class=o>!</span><span class=n>tif_need_resched</span><span class=p>()</span> <span class=o>&amp;&amp;</span>
+</span></span><span class=line><span class=ln> 62</span><span class=cl>		<span class=p>(</span><span class=n>cpu_idle_force_poll</span> <span class=o>||</span> <span class=n>tick_check_broadcast_expired</span><span class=p>()))</span>
+</span></span><span class=line><span class=ln> 63</span><span class=cl>		<span class=n>cpu_relax</span><span class=p>();</span>
+</span></span><span class=line><span class=ln> 64</span><span class=cl>	<span class=n>start_critical_timings</span><span class=p>();</span>
+</span></span><span class=line><span class=ln> 65</span><span class=cl>	<span class=n>trace_cpu_idle_rcuidle</span><span class=p>(</span><span class=n>PWR_EVENT_EXIT</span><span class=p>,</span> <span class=n>smp_processor_id</span><span class=p>());</span>
+</span></span><span class=line><span class=ln> 66</span><span class=cl>	<span class=n>rcu_idle_exit</span><span class=p>();</span>
+</span></span><span class=line><span class=ln> 67</span><span class=cl>
+</span></span><span class=line><span class=ln> 68</span><span class=cl>	<span class=k>return</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=ln> 69</span><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=ln> 70</span><span class=cl>
+</span></span><span class=line><span class=ln> 71</span><span class=cl><span class=cm>/* Weak implementations for optional arch specific functions */</span>
+</span></span><span class=line><span class=ln> 72</span><span class=cl><span class=kt>void</span> <span class=n>__weak</span> <span class=nf>arch_cpu_idle_prepare</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span> <span class=p>{</span> <span class=p>}</span>
+</span></span><span class=line><span class=ln> 73</span><span class=cl><span class=kt>void</span> <span class=n>__weak</span> <span class=nf>arch_cpu_idle_enter</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span> <span class=p>{</span> <span class=p>}</span>
+</span></span><span class=line><span class=ln> 74</span><span class=cl><span class=kt>void</span> <span class=n>__weak</span> <span class=nf>arch_cpu_idle_exit</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span> <span class=p>{</span> <span class=p>}</span>
+</span></span><span class=line><span class=ln> 75</span><span class=cl><span class=kt>void</span> <span class=n>__weak</span> <span class=nf>arch_cpu_idle_dead</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span> <span class=p>{</span> <span class=p>}</span>
+</span></span><span class=line><span class=ln> 76</span><span class=cl><span class=kt>void</span> <span class=n>__weak</span> <span class=nf>arch_cpu_idle</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
+</span></span><span class=line><span class=ln> 77</span><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=ln> 78</span><span class=cl>	<span class=n>cpu_idle_force_poll</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=ln> 79</span><span class=cl>	<span class=n>local_irq_enable</span><span class=p>();</span>
+</span></span><span class=line><span class=ln> 80</span><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=ln> 81</span><span class=cl>
+</span></span><span class=line><span class=ln> 82</span><span class=cl><span class=cm>/**
+</span></span></span><span class=line><span class=ln> 83</span><span class=cl><span class=cm> * default_idle_call - Default CPU idle routine.
+</span></span></span><span class=line><span class=ln> 84</span><span class=cl><span class=cm> *
+</span></span></span><span class=line><span class=ln> 85</span><span class=cl><span class=cm> * To use when the cpuidle framework cannot be used.
+</span></span></span><span class=line><span class=ln> 86</span><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=ln> 87</span><span class=cl><span class=kt>void</span> <span class=n>__cpuidle</span> <span class=nf>default_idle_call</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
+</span></span><span class=line><span class=ln> 88</span><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=ln> 89</span><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>current_clr_polling_and_test</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln> 90</span><span class=cl>		<span class=n>local_irq_enable</span><span class=p>();</span>
+</span></span><span class=line><span class=ln> 91</span><span class=cl>	<span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln> 92</span><span class=cl>		<span class=n>stop_critical_timings</span><span class=p>();</span>
+</span></span><span class=line><span class=ln> 93</span><span class=cl>		<span class=n>arch_cpu_idle</span><span class=p>();</span>
+</span></span><span class=line><span class=ln> 94</span><span class=cl>		<span class=n>start_critical_timings</span><span class=p>();</span>
+</span></span><span class=line><span class=ln> 95</span><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=ln> 96</span><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=ln> 97</span><span class=cl>
+</span></span><span class=line><span class=ln> 98</span><span class=cl><span class=k>static</span> <span class=kt>int</span> <span class=nf>call_cpuidle</span><span class=p>(</span><span class=k>struct</span> <span class=n>cpuidle_driver</span> <span class=o>*</span><span class=n>drv</span><span class=p>,</span> <span class=k>struct</span> <span class=n>cpuidle_device</span> <span class=o>*</span><span class=n>dev</span><span class=p>,</span>
+</span></span><span class=line><span class=ln> 99</span><span class=cl>		      <span class=kt>int</span> <span class=n>next_state</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>100</span><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=ln>101</span><span class=cl>	<span class=cm>/*
+</span></span></span><span class=line><span class=ln>102</span><span class=cl><span class=cm>	 * The idle task must be scheduled, it is pointless to go to idle, just
+</span></span></span><span class=line><span class=ln>103</span><span class=cl><span class=cm>	 * update no idle residency and return.
+</span></span></span><span class=line><span class=ln>104</span><span class=cl><span class=cm>	 */</span>
+</span></span><span class=line><span class=ln>105</span><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>current_clr_polling_and_test</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>106</span><span class=cl>		<span class=n>dev</span><span class=o>-&gt;</span><span class=n>last_residency</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>107</span><span class=cl>		<span class=n>local_irq_enable</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>108</span><span class=cl>		<span class=k>return</span> <span class=o>-</span><span class=n>EBUSY</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>109</span><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=ln>110</span><span class=cl>
+</span></span><span class=line><span class=ln>111</span><span class=cl>	<span class=cm>/*
+</span></span></span><span class=line><span class=ln>112</span><span class=cl><span class=cm>	 * Enter the idle state previously returned by the governor decision.
+</span></span></span><span class=line><span class=ln>113</span><span class=cl><span class=cm>	 * This function will block until an interrupt occurs and will take
+</span></span></span><span class=line><span class=ln>114</span><span class=cl><span class=cm>	 * care of re-enabling the local interrupts
+</span></span></span><span class=line><span class=ln>115</span><span class=cl><span class=cm>	 */</span>
+</span></span><span class=line><span class=ln>116</span><span class=cl>	<span class=k>return</span> <span class=n>cpuidle_enter</span><span class=p>(</span><span class=n>drv</span><span class=p>,</span> <span class=n>dev</span><span class=p>,</span> <span class=n>next_state</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>117</span><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=ln>118</span><span class=cl>
+</span></span><span class=line><span class=ln>119</span><span class=cl><span class=cm>/**
+</span></span></span><span class=line><span class=ln>120</span><span class=cl><span class=cm> * cpuidle_idle_call - the main idle function
+</span></span></span><span class=line><span class=ln>121</span><span class=cl><span class=cm> *
+</span></span></span><span class=line><span class=ln>122</span><span class=cl><span class=cm> * NOTE: no locks or semaphores should be used here
+</span></span></span><span class=line><span class=ln>123</span><span class=cl><span class=cm> *
+</span></span></span><span class=line><span class=ln>124</span><span class=cl><span class=cm> * On archs that support TIF_POLLING_NRFLAG, is called with polling
+</span></span></span><span class=line><span class=ln>125</span><span class=cl><span class=cm> * set, and it returns with polling set.  If it ever stops polling, it
+</span></span></span><span class=line><span class=ln>126</span><span class=cl><span class=cm> * must clear the polling bit.
+</span></span></span><span class=line><span class=ln>127</span><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=ln>128</span><span class=cl><span class=k>static</span> <span class=kt>void</span> <span class=nf>cpuidle_idle_call</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>129</span><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=ln>130</span><span class=cl>	<span class=k>struct</span> <span class=n>cpuidle_device</span> <span class=o>*</span><span class=n>dev</span> <span class=o>=</span> <span class=n>cpuidle_get_device</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>131</span><span class=cl>	<span class=k>struct</span> <span class=n>cpuidle_driver</span> <span class=o>*</span><span class=n>drv</span> <span class=o>=</span> <span class=n>cpuidle_get_cpu_driver</span><span class=p>(</span><span class=n>dev</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>132</span><span class=cl>	<span class=kt>int</span> <span class=n>next_state</span><span class=p>,</span> <span class=n>entered_state</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>133</span><span class=cl>
+</span></span><span class=line><span class=ln>134</span><span class=cl>	<span class=cm>/*
+</span></span></span><span class=line><span class=ln>135</span><span class=cl><span class=cm>	 * Check if the idle task must be rescheduled. If it is the
+</span></span></span><span class=line><span class=ln>136</span><span class=cl><span class=cm>	 * case, exit the function after re-enabling the local irq.
+</span></span></span><span class=line><span class=ln>137</span><span class=cl><span class=cm>	 */</span>
+</span></span><span class=line><span class=ln>138</span><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>need_resched</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>139</span><span class=cl>		<span class=n>local_irq_enable</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>140</span><span class=cl>		<span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>141</span><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=ln>142</span><span class=cl>
+</span></span><span class=line><span class=ln>143</span><span class=cl>	<span class=cm>/*
+</span></span></span><span class=line><span class=ln>144</span><span class=cl><span class=cm>	 * The RCU framework needs to be told that we are entering an idle
+</span></span></span><span class=line><span class=ln>145</span><span class=cl><span class=cm>	 * section, so no more rcu read side critical sections and one more
+</span></span></span><span class=line><span class=ln>146</span><span class=cl><span class=cm>	 * step to the grace period
+</span></span></span><span class=line><span class=ln>147</span><span class=cl><span class=cm>	 */</span>
+</span></span><span class=line><span class=ln>148</span><span class=cl>
+</span></span><span class=line><span class=ln>149</span><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>cpuidle_not_available</span><span class=p>(</span><span class=n>drv</span><span class=p>,</span> <span class=n>dev</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>150</span><span class=cl>		<span class=n>tick_nohz_idle_stop_tick</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>151</span><span class=cl>		<span class=n>rcu_idle_enter</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>152</span><span class=cl>
+</span></span><span class=line><span class=ln>153</span><span class=cl>		<span class=n>default_idle_call</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>154</span><span class=cl>		<span class=k>goto</span> <span class=n>exit_idle</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>155</span><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=ln>156</span><span class=cl>
+</span></span><span class=line><span class=ln>157</span><span class=cl>	<span class=cm>/*
+</span></span></span><span class=line><span class=ln>158</span><span class=cl><span class=cm>	 * Suspend-to-idle (&#34;s2idle&#34;) is a system state in which all user space
+</span></span></span><span class=line><span class=ln>159</span><span class=cl><span class=cm>	 * has been frozen, all I/O devices have been suspended and the only
+</span></span></span><span class=line><span class=ln>160</span><span class=cl><span class=cm>	 * activity happens here and in iterrupts (if any).  In that case bypass
+</span></span></span><span class=line><span class=ln>161</span><span class=cl><span class=cm>	 * the cpuidle governor and go stratight for the deepest idle state
+</span></span></span><span class=line><span class=ln>162</span><span class=cl><span class=cm>	 * available.  Possibly also suspend the local tick and the entire
+</span></span></span><span class=line><span class=ln>163</span><span class=cl><span class=cm>	 * timekeeping to prevent timer interrupts from kicking us out of idle
+</span></span></span><span class=line><span class=ln>164</span><span class=cl><span class=cm>	 * until a proper wakeup interrupt happens.
+</span></span></span><span class=line><span class=ln>165</span><span class=cl><span class=cm>	 */</span>
+</span></span><span class=line><span class=ln>166</span><span class=cl>
+</span></span><span class=line><span class=ln>167</span><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>idle_should_enter_s2idle</span><span class=p>()</span> <span class=o>||</span> <span class=n>dev</span><span class=o>-&gt;</span><span class=n>use_deepest_state</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>168</span><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=n>idle_should_enter_s2idle</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>169</span><span class=cl>			<span class=n>rcu_idle_enter</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>170</span><span class=cl>
+</span></span><span class=line><span class=ln>171</span><span class=cl>			<span class=n>entered_state</span> <span class=o>=</span> <span class=n>cpuidle_enter_s2idle</span><span class=p>(</span><span class=n>drv</span><span class=p>,</span> <span class=n>dev</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>172</span><span class=cl>			<span class=k>if</span> <span class=p>(</span><span class=n>entered_state</span> <span class=o>&gt;</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>173</span><span class=cl>				<span class=n>local_irq_enable</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>174</span><span class=cl>				<span class=k>goto</span> <span class=n>exit_idle</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>175</span><span class=cl>			<span class=p>}</span>
+</span></span><span class=line><span class=ln>176</span><span class=cl>
+</span></span><span class=line><span class=ln>177</span><span class=cl>			<span class=n>rcu_idle_exit</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>178</span><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=ln>179</span><span class=cl>
+</span></span><span class=line><span class=ln>180</span><span class=cl>		<span class=n>tick_nohz_idle_stop_tick</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>181</span><span class=cl>		<span class=n>rcu_idle_enter</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>182</span><span class=cl>
+</span></span><span class=line><span class=ln>183</span><span class=cl>		<span class=n>next_state</span> <span class=o>=</span> <span class=n>cpuidle_find_deepest_state</span><span class=p>(</span><span class=n>drv</span><span class=p>,</span> <span class=n>dev</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>184</span><span class=cl>		<span class=n>call_cpuidle</span><span class=p>(</span><span class=n>drv</span><span class=p>,</span> <span class=n>dev</span><span class=p>,</span> <span class=n>next_state</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>185</span><span class=cl>	<span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>186</span><span class=cl>		<span class=kt>bool</span> <span class=n>stop_tick</span> <span class=o>=</span> <span class=nb>true</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>187</span><span class=cl>
+</span></span><span class=line><span class=ln>188</span><span class=cl>		<span class=cm>/*
+</span></span></span><span class=line><span class=ln>189</span><span class=cl><span class=cm>		 * Ask the cpuidle framework to choose a convenient idle state.
+</span></span></span><span class=line><span class=ln>190</span><span class=cl><span class=cm>		 */</span>
+</span></span><span class=line><span class=ln>191</span><span class=cl>		<span class=n>next_state</span> <span class=o>=</span> <span class=n>cpuidle_select</span><span class=p>(</span><span class=n>drv</span><span class=p>,</span> <span class=n>dev</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>stop_tick</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>192</span><span class=cl>
+</span></span><span class=line><span class=ln>193</span><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=n>stop_tick</span> <span class=o>||</span> <span class=n>tick_nohz_tick_stopped</span><span class=p>())</span>
+</span></span><span class=line><span class=ln>194</span><span class=cl>			<span class=n>tick_nohz_idle_stop_tick</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>195</span><span class=cl>		<span class=k>else</span>
+</span></span><span class=line><span class=ln>196</span><span class=cl>			<span class=n>tick_nohz_idle_retain_tick</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>197</span><span class=cl>
+</span></span><span class=line><span class=ln>198</span><span class=cl>		<span class=n>rcu_idle_enter</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>199</span><span class=cl>
+</span></span><span class=line><span class=ln>200</span><span class=cl>		<span class=n>entered_state</span> <span class=o>=</span> <span class=n>call_cpuidle</span><span class=p>(</span><span class=n>drv</span><span class=p>,</span> <span class=n>dev</span><span class=p>,</span> <span class=n>next_state</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>201</span><span class=cl>		<span class=cm>/*
+</span></span></span><span class=line><span class=ln>202</span><span class=cl><span class=cm>		 * Give the governor an opportunity to reflect on the outcome
+</span></span></span><span class=line><span class=ln>203</span><span class=cl><span class=cm>		 */</span>
+</span></span><span class=line><span class=ln>204</span><span class=cl>		<span class=n>cpuidle_reflect</span><span class=p>(</span><span class=n>dev</span><span class=p>,</span> <span class=n>entered_state</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>205</span><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=ln>206</span><span class=cl>
+</span></span><span class=line><span class=ln>207</span><span class=cl><span class=nl>exit_idle</span><span class=p>:</span>
+</span></span><span class=line><span class=ln>208</span><span class=cl>	<span class=n>__current_set_polling</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>209</span><span class=cl>
+</span></span><span class=line><span class=ln>210</span><span class=cl>	<span class=cm>/*
+</span></span></span><span class=line><span class=ln>211</span><span class=cl><span class=cm>	 * It is up to the idle functions to reenable local interrupts
+</span></span></span><span class=line><span class=ln>212</span><span class=cl><span class=cm>	 */</span>
+</span></span><span class=line><span class=ln>213</span><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>WARN_ON_ONCE</span><span class=p>(</span><span class=n>irqs_disabled</span><span class=p>()))</span>
+</span></span><span class=line><span class=ln>214</span><span class=cl>		<span class=n>local_irq_enable</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>215</span><span class=cl>
+</span></span><span class=line><span class=ln>216</span><span class=cl>	<span class=n>rcu_idle_exit</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>217</span><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=ln>218</span><span class=cl>
+</span></span><span class=line><span class=ln>219</span><span class=cl><span class=cm>/*
+</span></span></span><span class=line><span class=ln>220</span><span class=cl><span class=cm> * Generic idle loop implementation
+</span></span></span><span class=line><span class=ln>221</span><span class=cl><span class=cm> *
+</span></span></span><span class=line><span class=ln>222</span><span class=cl><span class=cm> * Called with polling cleared.
+</span></span></span><span class=line><span class=ln>223</span><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=ln>224</span><span class=cl><span class=k>static</span> <span class=kt>void</span> <span class=nf>do_idle</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>225</span><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=ln>226</span><span class=cl>	<span class=kt>int</span> <span class=n>cpu</span> <span class=o>=</span> <span class=n>smp_processor_id</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>227</span><span class=cl>	<span class=cm>/*
+</span></span></span><span class=line><span class=ln>228</span><span class=cl><span class=cm>	 * If the arch has a polling bit, we maintain an invariant:
+</span></span></span><span class=line><span class=ln>229</span><span class=cl><span class=cm>	 *
+</span></span></span><span class=line><span class=ln>230</span><span class=cl><span class=cm>	 * Our polling bit is clear if we&#39;re not scheduled (i.e. if rq-&gt;curr !=
+</span></span></span><span class=line><span class=ln>231</span><span class=cl><span class=cm>	 * rq-&gt;idle). This means that, if rq-&gt;idle has the polling bit set,
+</span></span></span><span class=line><span class=ln>232</span><span class=cl><span class=cm>	 * then setting need_resched is guaranteed to cause the CPU to
+</span></span></span><span class=line><span class=ln>233</span><span class=cl><span class=cm>	 * reschedule.
+</span></span></span><span class=line><span class=ln>234</span><span class=cl><span class=cm>	 */</span>
+</span></span><span class=line><span class=ln>235</span><span class=cl>
+</span></span><span class=line><span class=ln>236</span><span class=cl>	<span class=n>__current_set_polling</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>237</span><span class=cl>	<span class=n>tick_nohz_idle_enter</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>238</span><span class=cl>
+</span></span><span class=line><span class=ln>239</span><span class=cl>	<span class=k>while</span> <span class=p>(</span><span class=o>!</span><span class=n>need_resched</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>240</span><span class=cl>		<span class=n>check_pgt_cache</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>241</span><span class=cl>		<span class=n>rmb</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>242</span><span class=cl>
+</span></span><span class=line><span class=ln>243</span><span class=cl>		<span class=n>local_irq_disable</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>244</span><span class=cl>
+</span></span><span class=line><span class=ln>245</span><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=n>cpu_is_offline</span><span class=p>(</span><span class=n>cpu</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>246</span><span class=cl>			<span class=n>tick_nohz_idle_stop_tick</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>247</span><span class=cl>			<span class=n>cpuhp_report_idle_dead</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>248</span><span class=cl>			<span class=n>arch_cpu_idle_dead</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>249</span><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=ln>250</span><span class=cl>
+</span></span><span class=line><span class=ln>251</span><span class=cl>		<span class=n>arch_cpu_idle_enter</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>252</span><span class=cl>
+</span></span><span class=line><span class=ln>253</span><span class=cl>		<span class=cm>/*
+</span></span></span><span class=line><span class=ln>254</span><span class=cl><span class=cm>		 * In poll mode we reenable interrupts and spin. Also if we
+</span></span></span><span class=line><span class=ln>255</span><span class=cl><span class=cm>		 * detected in the wakeup from idle path that the tick
+</span></span></span><span class=line><span class=ln>256</span><span class=cl><span class=cm>		 * broadcast device expired for us, we don&#39;t want to go deep
+</span></span></span><span class=line><span class=ln>257</span><span class=cl><span class=cm>		 * idle as we know that the IPI is going to arrive right away.
+</span></span></span><span class=line><span class=ln>258</span><span class=cl><span class=cm>		 */</span>
+</span></span><span class=line><span class=ln>259</span><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=n>cpu_idle_force_poll</span> <span class=o>||</span> <span class=n>tick_check_broadcast_expired</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>260</span><span class=cl>			<span class=n>tick_nohz_idle_restart_tick</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>261</span><span class=cl>			<span class=n>cpu_idle_poll</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>262</span><span class=cl>		<span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>263</span><span class=cl>			<span class=n>cpuidle_idle_call</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>264</span><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=ln>265</span><span class=cl>		<span class=n>arch_cpu_idle_exit</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>266</span><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=ln>267</span><span class=cl>
+</span></span><span class=line><span class=ln>268</span><span class=cl>	<span class=cm>/*
+</span></span></span><span class=line><span class=ln>269</span><span class=cl><span class=cm>	 * Since we fell out of the loop above, we know TIF_NEED_RESCHED must
+</span></span></span><span class=line><span class=ln>270</span><span class=cl><span class=cm>	 * be set, propagate it into PREEMPT_NEED_RESCHED.
+</span></span></span><span class=line><span class=ln>271</span><span class=cl><span class=cm>	 *
+</span></span></span><span class=line><span class=ln>272</span><span class=cl><span class=cm>	 * This is required because for polling idle loops we will not have had
+</span></span></span><span class=line><span class=ln>273</span><span class=cl><span class=cm>	 * an IPI to fold the state for us.
+</span></span></span><span class=line><span class=ln>274</span><span class=cl><span class=cm>	 */</span>
+</span></span><span class=line><span class=ln>275</span><span class=cl>	<span class=n>preempt_set_need_resched</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>276</span><span class=cl>	<span class=n>tick_nohz_idle_exit</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>277</span><span class=cl>	<span class=n>__current_clr_polling</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>278</span><span class=cl>
+</span></span><span class=line><span class=ln>279</span><span class=cl>	<span class=cm>/*
+</span></span></span><span class=line><span class=ln>280</span><span class=cl><span class=cm>	 * We promise to call sched_ttwu_pending() and reschedule if
+</span></span></span><span class=line><span class=ln>281</span><span class=cl><span class=cm>	 * need_resched() is set while polling is set. That means that clearing
+</span></span></span><span class=line><span class=ln>282</span><span class=cl><span class=cm>	 * polling needs to be visible before doing these things.
+</span></span></span><span class=line><span class=ln>283</span><span class=cl><span class=cm>	 */</span>
+</span></span><span class=line><span class=ln>284</span><span class=cl>	<span class=n>smp_mb__after_atomic</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>285</span><span class=cl>
+</span></span><span class=line><span class=ln>286</span><span class=cl>	<span class=n>sched_ttwu_pending</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>287</span><span class=cl>	<span class=n>schedule_idle</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>288</span><span class=cl>
+</span></span><span class=line><span class=ln>289</span><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>unlikely</span><span class=p>(</span><span class=n>klp_patch_pending</span><span class=p>(</span><span class=n>current</span><span class=p>)))</span>
+</span></span><span class=line><span class=ln>290</span><span class=cl>		<span class=n>klp_update_patch_state</span><span class=p>(</span><span class=n>current</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>291</span><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=ln>292</span><span class=cl>
+</span></span><span class=line><span class=ln>293</span><span class=cl><span class=kt>bool</span> <span class=nf>cpu_in_idle</span><span class=p>(</span><span class=kt>unsigned</span> <span class=kt>long</span> <span class=n>pc</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>294</span><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=ln>295</span><span class=cl>	<span class=k>return</span> <span class=n>pc</span> <span class=o>&gt;=</span> <span class=p>(</span><span class=kt>unsigned</span> <span class=kt>long</span><span class=p>)</span><span class=n>__cpuidle_text_start</span> <span class=o>&amp;&amp;</span>
+</span></span><span class=line><span class=ln>296</span><span class=cl>		<span class=n>pc</span> <span class=o>&lt;</span> <span class=p>(</span><span class=kt>unsigned</span> <span class=kt>long</span><span class=p>)</span><span class=n>__cpuidle_text_end</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>297</span><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=ln>298</span><span class=cl>
+</span></span><span class=line><span class=ln>299</span><span class=cl><span class=k>struct</span> <span class=n>idle_timer</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>300</span><span class=cl>	<span class=k>struct</span> <span class=n>hrtimer</span> <span class=n>timer</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>301</span><span class=cl>	<span class=kt>int</span> <span class=n>done</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>302</span><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=ln>303</span><span class=cl>
+</span></span><span class=line><span class=ln>304</span><span class=cl><span class=k>static</span> <span class=k>enum</span> <span class=n>hrtimer_restart</span> <span class=nf>idle_inject_timer_fn</span><span class=p>(</span><span class=k>struct</span> <span class=n>hrtimer</span> <span class=o>*</span><span class=n>timer</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>305</span><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=ln>306</span><span class=cl>	<span class=k>struct</span> <span class=n>idle_timer</span> <span class=o>*</span><span class=n>it</span> <span class=o>=</span> <span class=n>container_of</span><span class=p>(</span><span class=n>timer</span><span class=p>,</span> <span class=k>struct</span> <span class=n>idle_timer</span><span class=p>,</span> <span class=n>timer</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>307</span><span class=cl>
+</span></span><span class=line><span class=ln>308</span><span class=cl>	<span class=n>WRITE_ONCE</span><span class=p>(</span><span class=n>it</span><span class=o>-&gt;</span><span class=n>done</span><span class=p>,</span> <span class=mi>1</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>309</span><span class=cl>	<span class=n>set_tsk_need_resched</span><span class=p>(</span><span class=n>current</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>310</span><span class=cl>
+</span></span><span class=line><span class=ln>311</span><span class=cl>	<span class=k>return</span> <span class=n>HRTIMER_NORESTART</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>312</span><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=ln>313</span><span class=cl>
+</span></span><span class=line><span class=ln>314</span><span class=cl><span class=kt>void</span> <span class=nf>play_idle</span><span class=p>(</span><span class=kt>unsigned</span> <span class=kt>long</span> <span class=n>duration_ms</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>315</span><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=ln>316</span><span class=cl>	<span class=k>struct</span> <span class=n>idle_timer</span> <span class=n>it</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>317</span><span class=cl>
+</span></span><span class=line><span class=ln>318</span><span class=cl>	<span class=cm>/*
+</span></span></span><span class=line><span class=ln>319</span><span class=cl><span class=cm>	 * Only FIFO tasks can disable the tick since they don&#39;t need the forced
+</span></span></span><span class=line><span class=ln>320</span><span class=cl><span class=cm>	 * preemption.
+</span></span></span><span class=line><span class=ln>321</span><span class=cl><span class=cm>	 */</span>
+</span></span><span class=line><span class=ln>322</span><span class=cl>	<span class=n>WARN_ON_ONCE</span><span class=p>(</span><span class=n>current</span><span class=o>-&gt;</span><span class=n>policy</span> <span class=o>!=</span> <span class=n>SCHED_FIFO</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>323</span><span class=cl>	<span class=n>WARN_ON_ONCE</span><span class=p>(</span><span class=n>current</span><span class=o>-&gt;</span><span class=n>nr_cpus_allowed</span> <span class=o>!=</span> <span class=mi>1</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>324</span><span class=cl>	<span class=n>WARN_ON_ONCE</span><span class=p>(</span><span class=o>!</span><span class=p>(</span><span class=n>current</span><span class=o>-&gt;</span><span class=n>flags</span> <span class=o>&amp;</span> <span class=n>PF_KTHREAD</span><span class=p>));</span>
+</span></span><span class=line><span class=ln>325</span><span class=cl>	<span class=n>WARN_ON_ONCE</span><span class=p>(</span><span class=o>!</span><span class=p>(</span><span class=n>current</span><span class=o>-&gt;</span><span class=n>flags</span> <span class=o>&amp;</span> <span class=n>PF_NO_SETAFFINITY</span><span class=p>));</span>
+</span></span><span class=line><span class=ln>326</span><span class=cl>	<span class=n>WARN_ON_ONCE</span><span class=p>(</span><span class=o>!</span><span class=n>duration_ms</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>327</span><span class=cl>
+</span></span><span class=line><span class=ln>328</span><span class=cl>	<span class=n>rcu_sleep_check</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>329</span><span class=cl>	<span class=n>preempt_disable</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>330</span><span class=cl>	<span class=n>current</span><span class=o>-&gt;</span><span class=n>flags</span> <span class=o>|=</span> <span class=n>PF_IDLE</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>331</span><span class=cl>	<span class=n>cpuidle_use_deepest_state</span><span class=p>(</span><span class=nb>true</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>332</span><span class=cl>
+</span></span><span class=line><span class=ln>333</span><span class=cl>	<span class=n>it</span><span class=p>.</span><span class=n>done</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>334</span><span class=cl>	<span class=n>hrtimer_init_on_stack</span><span class=p>(</span><span class=o>&amp;</span><span class=n>it</span><span class=p>.</span><span class=n>timer</span><span class=p>,</span> <span class=n>CLOCK_MONOTONIC</span><span class=p>,</span> <span class=n>HRTIMER_MODE_REL</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>335</span><span class=cl>	<span class=n>it</span><span class=p>.</span><span class=n>timer</span><span class=p>.</span><span class=n>function</span> <span class=o>=</span> <span class=n>idle_inject_timer_fn</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>336</span><span class=cl>	<span class=n>hrtimer_start</span><span class=p>(</span><span class=o>&amp;</span><span class=n>it</span><span class=p>.</span><span class=n>timer</span><span class=p>,</span> <span class=n>ms_to_ktime</span><span class=p>(</span><span class=n>duration_ms</span><span class=p>),</span> <span class=n>HRTIMER_MODE_REL_PINNED</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>337</span><span class=cl>
+</span></span><span class=line><span class=ln>338</span><span class=cl>	<span class=k>while</span> <span class=p>(</span><span class=o>!</span><span class=n>READ_ONCE</span><span class=p>(</span><span class=n>it</span><span class=p>.</span><span class=n>done</span><span class=p>))</span>
+</span></span><span class=line><span class=ln>339</span><span class=cl>		<span class=n>do_idle</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>340</span><span class=cl>
+</span></span><span class=line><span class=ln>341</span><span class=cl>	<span class=n>cpuidle_use_deepest_state</span><span class=p>(</span><span class=nb>false</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>342</span><span class=cl>	<span class=n>current</span><span class=o>-&gt;</span><span class=n>flags</span> <span class=o>&amp;=</span> <span class=o>~</span><span class=n>PF_IDLE</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>343</span><span class=cl>
+</span></span><span class=line><span class=ln>344</span><span class=cl>	<span class=n>preempt_fold_need_resched</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>345</span><span class=cl>	<span class=n>preempt_enable</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>346</span><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=ln>347</span><span class=cl><span class=n>EXPORT_SYMBOL_GPL</span><span class=p>(</span><span class=n>play_idle</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>348</span><span class=cl>
+</span></span><span class=line><span class=ln>349</span><span class=cl><span class=kt>void</span> <span class=nf>cpu_startup_entry</span><span class=p>(</span><span class=k>enum</span> <span class=n>cpuhp_state</span> <span class=n>state</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>350</span><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=ln>351</span><span class=cl>	<span class=cm>/*
+</span></span></span><span class=line><span class=ln>352</span><span class=cl><span class=cm>	 * This #ifdef needs to die, but it&#39;s too late in the cycle to
+</span></span></span><span class=line><span class=ln>353</span><span class=cl><span class=cm>	 * make this generic (ARM and SH have never invoked the canary
+</span></span></span><span class=line><span class=ln>354</span><span class=cl><span class=cm>	 * init for the non boot CPUs!). Will be fixed in 3.11
+</span></span></span><span class=line><span class=ln>355</span><span class=cl><span class=cm>	 */</span>
+</span></span><span class=line><span class=ln>356</span><span class=cl><span class=cp>#ifdef CONFIG_X86
+</span></span></span><span class=line><span class=ln>357</span><span class=cl><span class=cp></span>	<span class=cm>/*
+</span></span></span><span class=line><span class=ln>358</span><span class=cl><span class=cm>	 * If we&#39;re the non-boot CPU, nothing set the stack canary up
+</span></span></span><span class=line><span class=ln>359</span><span class=cl><span class=cm>	 * for us. The boot CPU already has it initialized but no harm
+</span></span></span><span class=line><span class=ln>360</span><span class=cl><span class=cm>	 * in doing it again. This is a good place for updating it, as
+</span></span></span><span class=line><span class=ln>361</span><span class=cl><span class=cm>	 * we wont ever return from this function (so the invalid
+</span></span></span><span class=line><span class=ln>362</span><span class=cl><span class=cm>	 * canaries already on the stack wont ever trigger).
+</span></span></span><span class=line><span class=ln>363</span><span class=cl><span class=cm>	 */</span>
+</span></span><span class=line><span class=ln>364</span><span class=cl>	<span class=n>boot_init_stack_canary</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>365</span><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=ln>366</span><span class=cl><span class=cp></span>	<span class=n>arch_cpu_idle_prepare</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>367</span><span class=cl>	<span class=n>cpuhp_online_idle</span><span class=p>(</span><span class=n>state</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>368</span><span class=cl>	<span class=k>while</span> <span class=p>(</span><span class=mi>1</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>369</span><span class=cl>		<span class=n>do_idle</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>370</span><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=ln>371</span><span class=cl>
+</span></span><span class=line><span class=ln>372</span><span class=cl><span class=cm>/*
+</span></span></span><span class=line><span class=ln>373</span><span class=cl><span class=cm> * idle-task scheduling class.
+</span></span></span><span class=line><span class=ln>374</span><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=ln>375</span><span class=cl>
+</span></span><span class=line><span class=ln>376</span><span class=cl><span class=cp>#ifdef CONFIG_SMP
+</span></span></span><span class=line><span class=ln>377</span><span class=cl><span class=cp></span><span class=k>static</span> <span class=kt>int</span>
+</span></span><span class=line><span class=ln>378</span><span class=cl><span class=nf>select_task_rq_idle</span><span class=p>(</span><span class=k>struct</span> <span class=n>task_struct</span> <span class=o>*</span><span class=n>p</span><span class=p>,</span> <span class=kt>int</span> <span class=n>cpu</span><span class=p>,</span> <span class=kt>int</span> <span class=n>sd_flag</span><span class=p>,</span> <span class=kt>int</span> <span class=n>flags</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>379</span><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=ln>380</span><span class=cl>	<span class=k>return</span> <span class=n>task_cpu</span><span class=p>(</span><span class=n>p</span><span class=p>);</span> <span class=cm>/* IDLE tasks as never migrated */</span>
+</span></span><span class=line><span class=ln>381</span><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=ln>382</span><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=ln>383</span><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=ln>384</span><span class=cl><span class=cm>/*
+</span></span></span><span class=line><span class=ln>385</span><span class=cl><span class=cm> * Idle tasks are unconditionally rescheduled:
+</span></span></span><span class=line><span class=ln>386</span><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=ln>387</span><span class=cl><span class=k>static</span> <span class=kt>void</span> <span class=nf>check_preempt_curr_idle</span><span class=p>(</span><span class=k>struct</span> <span class=n>rq</span> <span class=o>*</span><span class=n>rq</span><span class=p>,</span> <span class=k>struct</span> <span class=n>task_struct</span> <span class=o>*</span><span class=n>p</span><span class=p>,</span> <span class=kt>int</span> <span class=n>flags</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>388</span><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=ln>389</span><span class=cl>	<span class=n>resched_curr</span><span class=p>(</span><span class=n>rq</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>390</span><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=ln>391</span><span class=cl>
+</span></span><span class=line><span class=ln>392</span><span class=cl><span class=k>static</span> <span class=k>struct</span> <span class=n>task_struct</span> <span class=o>*</span>
+</span></span><span class=line><span class=ln>393</span><span class=cl><span class=nf>pick_next_task_idle</span><span class=p>(</span><span class=k>struct</span> <span class=n>rq</span> <span class=o>*</span><span class=n>rq</span><span class=p>,</span> <span class=k>struct</span> <span class=n>task_struct</span> <span class=o>*</span><span class=n>prev</span><span class=p>,</span> <span class=k>struct</span> <span class=n>rq_flags</span> <span class=o>*</span><span class=n>rf</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>394</span><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=ln>395</span><span class=cl>	<span class=n>put_prev_task</span><span class=p>(</span><span class=n>rq</span><span class=p>,</span> <span class=n>prev</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>396</span><span class=cl>	<span class=n>update_idle_core</span><span class=p>(</span><span class=n>rq</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>397</span><span class=cl>	<span class=n>schedstat_inc</span><span class=p>(</span><span class=n>rq</span><span class=o>-&gt;</span><span class=n>sched_goidle</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>398</span><span class=cl>
+</span></span><span class=line><span class=ln>399</span><span class=cl>	<span class=k>return</span> <span class=n>rq</span><span class=o>-&gt;</span><span class=n>idle</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>400</span><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=ln>401</span><span class=cl>
+</span></span><span class=line><span class=ln>402</span><span class=cl><span class=cm>/*
+</span></span></span><span class=line><span class=ln>403</span><span class=cl><span class=cm> * It is not legal to sleep in the idle task - print a warning
+</span></span></span><span class=line><span class=ln>404</span><span class=cl><span class=cm> * message if some code attempts to do it:
+</span></span></span><span class=line><span class=ln>405</span><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=ln>406</span><span class=cl><span class=k>static</span> <span class=kt>void</span>
+</span></span><span class=line><span class=ln>407</span><span class=cl><span class=nf>dequeue_task_idle</span><span class=p>(</span><span class=k>struct</span> <span class=n>rq</span> <span class=o>*</span><span class=n>rq</span><span class=p>,</span> <span class=k>struct</span> <span class=n>task_struct</span> <span class=o>*</span><span class=n>p</span><span class=p>,</span> <span class=kt>int</span> <span class=n>flags</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>408</span><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=ln>409</span><span class=cl>	<span class=n>raw_spin_unlock_irq</span><span class=p>(</span><span class=o>&amp;</span><span class=n>rq</span><span class=o>-&gt;</span><span class=n>lock</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>410</span><span class=cl>	<span class=n>printk</span><span class=p>(</span><span class=n>KERN_ERR</span> <span class=s>&#34;bad: scheduling from the idle thread!</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>411</span><span class=cl>	<span class=n>dump_stack</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>412</span><span class=cl>	<span class=n>raw_spin_lock_irq</span><span class=p>(</span><span class=o>&amp;</span><span class=n>rq</span><span class=o>-&gt;</span><span class=n>lock</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>413</span><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=ln>414</span><span class=cl>
+</span></span><span class=line><span class=ln>415</span><span class=cl><span class=k>static</span> <span class=kt>void</span> <span class=nf>put_prev_task_idle</span><span class=p>(</span><span class=k>struct</span> <span class=n>rq</span> <span class=o>*</span><span class=n>rq</span><span class=p>,</span> <span class=k>struct</span> <span class=n>task_struct</span> <span class=o>*</span><span class=n>prev</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>416</span><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=ln>417</span><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=ln>418</span><span class=cl>
+</span></span><span class=line><span class=ln>419</span><span class=cl><span class=cm>/*
+</span></span></span><span class=line><span class=ln>420</span><span class=cl><span class=cm> * scheduler tick hitting a task of our scheduling class.
+</span></span></span><span class=line><span class=ln>421</span><span class=cl><span class=cm> *
+</span></span></span><span class=line><span class=ln>422</span><span class=cl><span class=cm> * NOTE: This function can be called remotely by the tick offload that
+</span></span></span><span class=line><span class=ln>423</span><span class=cl><span class=cm> * goes along full dynticks. Therefore no local assumption can be made
+</span></span></span><span class=line><span class=ln>424</span><span class=cl><span class=cm> * and everything must be accessed through the @rq and @curr passed in
+</span></span></span><span class=line><span class=ln>425</span><span class=cl><span class=cm> * parameters.
+</span></span></span><span class=line><span class=ln>426</span><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=ln>427</span><span class=cl><span class=k>static</span> <span class=kt>void</span> <span class=nf>task_tick_idle</span><span class=p>(</span><span class=k>struct</span> <span class=n>rq</span> <span class=o>*</span><span class=n>rq</span><span class=p>,</span> <span class=k>struct</span> <span class=n>task_struct</span> <span class=o>*</span><span class=n>curr</span><span class=p>,</span> <span class=kt>int</span> <span class=n>queued</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>428</span><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=ln>429</span><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=ln>430</span><span class=cl>
+</span></span><span class=line><span class=ln>431</span><span class=cl><span class=k>static</span> <span class=kt>void</span> <span class=nf>set_curr_task_idle</span><span class=p>(</span><span class=k>struct</span> <span class=n>rq</span> <span class=o>*</span><span class=n>rq</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>432</span><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=ln>433</span><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=ln>434</span><span class=cl>
+</span></span><span class=line><span class=ln>435</span><span class=cl><span class=k>static</span> <span class=kt>void</span> <span class=nf>switched_to_idle</span><span class=p>(</span><span class=k>struct</span> <span class=n>rq</span> <span class=o>*</span><span class=n>rq</span><span class=p>,</span> <span class=k>struct</span> <span class=n>task_struct</span> <span class=o>*</span><span class=n>p</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>436</span><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=ln>437</span><span class=cl>	<span class=n>BUG</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>438</span><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=ln>439</span><span class=cl>
+</span></span><span class=line><span class=ln>440</span><span class=cl><span class=k>static</span> <span class=kt>void</span>
+</span></span><span class=line><span class=ln>441</span><span class=cl><span class=nf>prio_changed_idle</span><span class=p>(</span><span class=k>struct</span> <span class=n>rq</span> <span class=o>*</span><span class=n>rq</span><span class=p>,</span> <span class=k>struct</span> <span class=n>task_struct</span> <span class=o>*</span><span class=n>p</span><span class=p>,</span> <span class=kt>int</span> <span class=n>oldprio</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>442</span><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=ln>443</span><span class=cl>	<span class=n>BUG</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>444</span><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=ln>445</span><span class=cl>
+</span></span><span class=line><span class=ln>446</span><span class=cl><span class=k>static</span> <span class=kt>unsigned</span> <span class=kt>int</span> <span class=nf>get_rr_interval_idle</span><span class=p>(</span><span class=k>struct</span> <span class=n>rq</span> <span class=o>*</span><span class=n>rq</span><span class=p>,</span> <span class=k>struct</span> <span class=n>task_struct</span> <span class=o>*</span><span class=n>task</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>447</span><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=ln>448</span><span class=cl>	<span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>449</span><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=ln>450</span><span class=cl>
+</span></span><span class=line><span class=ln>451</span><span class=cl><span class=k>static</span> <span class=kt>void</span> <span class=nf>update_curr_idle</span><span class=p>(</span><span class=k>struct</span> <span class=n>rq</span> <span class=o>*</span><span class=n>rq</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>452</span><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=ln>453</span><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=ln>454</span><span class=cl>
+</span></span><span class=line><span class=ln>455</span><span class=cl><span class=cm>/*
+</span></span></span><span class=line><span class=ln>456</span><span class=cl><span class=cm> * Simple, special scheduling class for the per-CPU idle tasks:
+</span></span></span><span class=line><span class=ln>457</span><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=ln>458</span><span class=cl><span class=k>const</span> <span class=k>struct</span> <span class=n>sched_class</span> <span class=n>idle_sched_class</span> <span class=o>=</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>459</span><span class=cl>	<span class=cm>/* .next is NULL */</span>
+</span></span><span class=line><span class=ln>460</span><span class=cl>	<span class=cm>/* no enqueue/yield_task for idle tasks */</span>
+</span></span><span class=line><span class=ln>461</span><span class=cl>
+</span></span><span class=line><span class=ln>462</span><span class=cl>	<span class=cm>/* dequeue is not valid, we print a debug message there: */</span>
+</span></span><span class=line><span class=ln>463</span><span class=cl>	<span class=p>.</span><span class=n>dequeue_task</span>		<span class=o>=</span> <span class=n>dequeue_task_idle</span><span class=p>,</span>
+</span></span><span class=line><span class=ln>464</span><span class=cl>
+</span></span><span class=line><span class=ln>465</span><span class=cl>	<span class=p>.</span><span class=n>check_preempt_curr</span>	<span class=o>=</span> <span class=n>check_preempt_curr_idle</span><span class=p>,</span>
+</span></span><span class=line><span class=ln>466</span><span class=cl>
+</span></span><span class=line><span class=ln>467</span><span class=cl>	<span class=p>.</span><span class=n>pick_next_task</span>		<span class=o>=</span> <span class=n>pick_next_task_idle</span><span class=p>,</span>
+</span></span><span class=line><span class=ln>468</span><span class=cl>	<span class=p>.</span><span class=n>put_prev_task</span>		<span class=o>=</span> <span class=n>put_prev_task_idle</span><span class=p>,</span>
+</span></span><span class=line><span class=ln>469</span><span class=cl>
+</span></span><span class=line><span class=ln>470</span><span class=cl><span class=cp>#ifdef CONFIG_SMP
+</span></span></span><span class=line><span class=ln>471</span><span class=cl><span class=cp></span>	<span class=p>.</span><span class=n>select_task_rq</span>		<span class=o>=</span> <span class=n>select_task_rq_idle</span><span class=p>,</span>
+</span></span><span class=line><span class=ln>472</span><span class=cl>	<span class=p>.</span><span class=n>set_cpus_allowed</span>	<span class=o>=</span> <span class=n>set_cpus_allowed_common</span><span class=p>,</span>
+</span></span><span class=line><span class=ln>473</span><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=ln>474</span><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=ln>475</span><span class=cl>	<span class=p>.</span><span class=n>set_curr_task</span>          <span class=o>=</span> <span class=n>set_curr_task_idle</span><span class=p>,</span>
+</span></span><span class=line><span class=ln>476</span><span class=cl>	<span class=p>.</span><span class=n>task_tick</span>		<span class=o>=</span> <span class=n>task_tick_idle</span><span class=p>,</span>
+</span></span><span class=line><span class=ln>477</span><span class=cl>
+</span></span><span class=line><span class=ln>478</span><span class=cl>	<span class=p>.</span><span class=n>get_rr_interval</span>	<span class=o>=</span> <span class=n>get_rr_interval_idle</span><span class=p>,</span>
+</span></span><span class=line><span class=ln>479</span><span class=cl>
+</span></span><span class=line><span class=ln>480</span><span class=cl>	<span class=p>.</span><span class=n>prio_changed</span>		<span class=o>=</span> <span class=n>prio_changed_idle</span><span class=p>,</span>
+</span></span><span class=line><span class=ln>481</span><span class=cl>	<span class=p>.</span><span class=n>switched_to</span>		<span class=o>=</span> <span class=n>switched_to_idle</span><span class=p>,</span>
+</span></span><span class=line><span class=ln>482</span><span class=cl>	<span class=p>.</span><span class=n>update_curr</span>		<span class=o>=</span> <span class=n>update_curr_idle</span><span class=p>,</span>
+</span></span><span class=line><span class=ln>483</span><span class=cl><span class=p>};</span>
+</span></span></code></pre></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2021-10-28</span></div></div><div class=post-info-line><div class=post-info-md></div><div class=post-info-share><span><a href=javascript:void(0); title="分享到 Twitter" data-sharer=twitter data-url=https://mengdemao.github.io/posts/idle/ data-title=Idle data-hashtags=kernel><i class="fab fa-twitter fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Facebook" data-sharer=facebook data-url=https://mengdemao.github.io/posts/idle/ data-hashtag=kernel><i class="fab fa-facebook-square fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Hacker News" data-sharer=hackernews data-url=https://mengdemao.github.io/posts/idle/ data-title=Idle><i class="fab fa-hacker-news fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Line" data-sharer=line data-url=https://mengdemao.github.io/posts/idle/ data-title=Idle><i data-svg-src=https://cdn.jsdelivr.net/npm/simple-icons@7.0.0/icons/line.svg aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 微博" data-sharer=weibo data-url=https://mengdemao.github.io/posts/idle/ data-title=Idle><i class="fab fa-weibo fa-fw" aria-hidden=true></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/kernel/>kernel</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/posts/fair/ class=prev rel=prev title=Fair><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>Fair</a>
+<a href=/posts/arm/ class=next rel=next title=Arm>Arm<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> 强力驱动 | 主题 - <a href=https://github.com/dillonzq/LoveIt target=_blank rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden=true></i> LoveIt</a></div><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2022</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=/ target=_blank>MengDemao</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:50},comment:{}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>
