@@ -197,6 +197,25 @@
   </div>
 </nav><div class="posts mb-4"><article class="row card post component"><div class="card-header">
     <h2 class="card-title post-title">
+      <a href="/posts/wait_queue/">Linux等待队列实现
+</a>
+    </h2>
+  </div>
+  <div class="card-body"><div class="post-meta">
+  <span class="post-date" title="创建于 2021-05-04 23:17:55 &#43;0000 UTC。">
+    4040-05-04
+  </span><span class="post-reading-time">
+    1 分钟阅读
+  </span><span class="post-taxonomies"></span>
+</div>
+<div class="post-summary">
+      <p>等待事件是建立在调度的基础之上的一种同步机制
+使用 等待队列头 1struct __wait_queue_head { 2	wq_lock_t lock; 3	struct list_head task_list; 4}; 5typedef struct __wait_queue_head wait_queue_head_t; 等待队列实体 1struct __wait_queue { 2	unsigned int flags; 3	struct task_struct * task; 4	struct list_head task_list; 5}; 6typedef struct __wait_queue...</p><div><a class="btn btn-sm btn-primary btn-read-more" href="/posts/wait_queue/">阅读更多</a></div>
+    </div>
+  </div>
+</article>
+<article class="row card post component"><div class="card-header">
+    <h2 class="card-title post-title">
       <a href="/posts/antlr/">Antlr教程
 </a>
     </h2>
@@ -311,6 +330,9 @@
   </div>
   <div class="card-body">
     <ul class="post-list"><li>
+        <a href="/posts/cxx_template/">C&#43;&#43;模板
+</a>
+      </li><li>
         <a href="/posts/pthread/">Pthread源码分析
 </a>
       </li><li>
@@ -322,9 +344,6 @@
       </li><li>
         <a href="/posts/c4/">C4
 </a>
-      </li><li>
-        <a href="/posts/lua/">Lua
-</a>
       </li></ul>
   </div>
 </section><section class="categories-taxonomies row card component">
@@ -335,7 +354,8 @@
       </div>
       <div class="card-body">
         <div class="py-2"><a href="/categories/linux/" class="badge rounded post-taxonomy" title="linux">
-            linux</a><a href="/categories/compiler/" class="badge rounded post-taxonomy" title="compiler">
+            linux</a><a href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/" class="badge rounded post-taxonomy" title="编程语言">
+            编程语言</a><a href="/categories/compiler/" class="badge rounded post-taxonomy" title="compiler">
             compiler</a><a href="/categories/python/" class="badge rounded post-taxonomy" title="python">
             python</a><a href="/categories/rootfs/" class="badge rounded post-taxonomy" title="rootfs">
             rootfs</a></div>
@@ -348,7 +368,8 @@
       </div>
       <div class="card-body">
         <div class="py-2"><a href="/tags/kernel/" class="badge rounded post-taxonomy" title="kernel">
-            kernel</a><a href="/tags/compiler/" class="badge rounded post-taxonomy" title="compiler">
+            kernel</a><a href="/tags/c&#43;&#43;/" class="badge rounded post-taxonomy" title="C&#43;&#43;">
+            C&#43;&#43;</a><a href="/tags/compiler/" class="badge rounded post-taxonomy" title="compiler">
             compiler</a><a href="/tags/nfs/" class="badge rounded post-taxonomy" title="nfs">
             nfs</a><a href="/tags/rootfs/" class="badge rounded post-taxonomy" title="rootfs">
             rootfs</a><a href="/tags/%E6%8A%80%E5%B7%A7/" class="badge rounded post-taxonomy" title="技巧">
@@ -361,7 +382,7 @@
     </div>
     <div class="card-body">
       <ul class="post-list">
-        <li><a href="/archives/#archive-2022">2022(5)</a></li>
+        <li><a href="/archives/#archive-2022">2022(6)</a></li>
         <li><a href="/archives/#archive-2021">2021(38)</a></li>
       </ul>
     </div>

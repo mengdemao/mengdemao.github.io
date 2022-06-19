@@ -193,6 +193,27 @@
       <div class="row content">
 <div class="col-lg-8"><div class="container"><div class="posts mb-4"><article class="row card post component"><div class="card-header">
     <h2 class="card-title post-title">
+      <a href="/posts/cxx_template/">C&#43;&#43;模板
+</a>
+    </h2>
+  </div>
+  <div class="card-body"><div class="post-meta">
+  <span class="post-date" title="创建于 2022-06-18 06:21:30 &#43;0000 UTC。">
+    18180-06-18
+  </span><span class="post-reading-time">
+    3 分钟阅读
+  </span><span class="post-taxonomies"><a href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/" class="badge post-taxonomy">编程语言</a><a href="/tags/c&#43;&#43;/" class="badge post-taxonomy">C&#43;&#43;</a></span>
+</div>
+<div class="post-summary">
+      <p>模板基础 魔板和宏定义区别:模板在编译期进行
+建立通用的模板,提高复用；
+C++提供两种模版机制:函数模版和类模板
+函数模版 1template &lt;typename T&gt; 2函数声明和定义 template – 声明创建模版 typename – 表明后面的符号是数据类型可以用class代替 T – 通用的数据类型 实例 1/* 两个数据交换 */ 2template &lt;typename T&gt; 3void swap(T &amp;a, T &amp;b) 4{ 5 T t= a; a = b; b = t; 6} 注意事项 自动类型推导,必须导出类型一致的T才可以使用 模版必须要确定T的数据类型,才可以使用 普通函数和函数模版的区别 普通函数可以发...</p><div><a class="btn btn-sm btn-primary btn-read-more" href="/posts/cxx_template/">阅读更多</a></div>
+    </div>
+  </div>
+</article>
+<article class="row card post component"><div class="card-header">
+    <h2 class="card-title post-title">
       <a href="/posts/pthread/">Pthread源码分析
 </a>
     </h2>
@@ -361,24 +382,6 @@ TCC 执行概览 TCC组成代码
     </div>
   </div>
 </article>
-<article class="row card post component"><div class="card-header">
-    <h2 class="card-title post-title">
-      <a href="/posts/server/">Server
-</a>
-    </h2>
-  </div>
-  <div class="card-body"><div class="post-meta">
-  <span class="post-date" title="创建于 2021-11-05 15:22:16 &#43;0000 UTC。">
-    5050-11-05
-  </span><span class="post-reading-time">
-    1 分钟阅读
-  </span><span class="post-taxonomies"></span>
-</div>
-<div class="post-summary">
-      <p>个人服务器安装记录 配置交换文件 1# 创建交换文件 2sudo fallocate -l 2G /swapfile 3 4# 修改权限只允许ROOT使用 5sudo chmod 600 /swapfile 6 7# 创建swapfile 8sudo mkswap /swapfile 9 10# 开启swapfile 11sudo swapon /swapfile 12 13# 写入fstab 14echo &#39;/swapfile none swap sw 0 0&#39; | sudo tee -a /etc/fstab jenkins安装 安装jdk 1sudo apt install default-jdk 安装jenkins...</p><div><a class="btn btn-sm btn-primary btn-read-more" href="/posts/server/">阅读更多</a></div>
-    </div>
-  </div>
-</article>
 </div><div class="row table-responsive mb-3">
     <ul class="pagination pagination-default">
       <li class="page-item disabled">
@@ -438,6 +441,9 @@ TCC 执行概览 TCC组成代码
   </div>
   <div class="card-body">
     <ul class="post-list"><li>
+        <a href="/posts/cxx_template/">C&#43;&#43;模板
+</a>
+      </li><li>
         <a href="/posts/pthread/">Pthread源码分析
 </a>
       </li><li>
@@ -449,9 +455,6 @@ TCC 执行概览 TCC组成代码
       </li><li>
         <a href="/posts/c4/">C4
 </a>
-      </li><li>
-        <a href="/posts/lua/">Lua
-</a>
       </li></ul>
   </div>
 </section><section class="categories-taxonomies row card component">
@@ -462,7 +465,8 @@ TCC 执行概览 TCC组成代码
       </div>
       <div class="card-body">
         <div class="py-2"><a href="/categories/linux/" class="badge rounded post-taxonomy" title="linux">
-            linux</a><a href="/categories/compiler/" class="badge rounded post-taxonomy" title="compiler">
+            linux</a><a href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/" class="badge rounded post-taxonomy" title="编程语言">
+            编程语言</a><a href="/categories/compiler/" class="badge rounded post-taxonomy" title="compiler">
             compiler</a><a href="/categories/python/" class="badge rounded post-taxonomy" title="python">
             python</a><a href="/categories/rootfs/" class="badge rounded post-taxonomy" title="rootfs">
             rootfs</a></div>
@@ -475,7 +479,8 @@ TCC 执行概览 TCC组成代码
       </div>
       <div class="card-body">
         <div class="py-2"><a href="/tags/kernel/" class="badge rounded post-taxonomy" title="kernel">
-            kernel</a><a href="/tags/compiler/" class="badge rounded post-taxonomy" title="compiler">
+            kernel</a><a href="/tags/c&#43;&#43;/" class="badge rounded post-taxonomy" title="C&#43;&#43;">
+            C&#43;&#43;</a><a href="/tags/compiler/" class="badge rounded post-taxonomy" title="compiler">
             compiler</a><a href="/tags/nfs/" class="badge rounded post-taxonomy" title="nfs">
             nfs</a><a href="/tags/rootfs/" class="badge rounded post-taxonomy" title="rootfs">
             rootfs</a><a href="/tags/%E6%8A%80%E5%B7%A7/" class="badge rounded post-taxonomy" title="技巧">
@@ -488,7 +493,7 @@ TCC 执行概览 TCC组成代码
     </div>
     <div class="card-body">
       <ul class="post-list">
-        <li><a href="/archives/#archive-2022">2022(5)</a></li>
+        <li><a href="/archives/#archive-2022">2022(6)</a></li>
         <li><a href="/archives/#archive-2021">2021(38)</a></li>
       </ul>
     </div>

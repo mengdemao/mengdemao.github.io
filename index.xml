@@ -6,7 +6,16 @@
     <description>Recent content on 编程日志</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>Copyright © 2020-{year} Meng Demao. All Rights Reserved.</copyright>
-    <lastBuildDate>Sun, 01 May 2022 10:37:25 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 18 Jun 2022 14:21:30 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>C&#43;&#43;模板</title>
+      <link>/posts/cxx_template/</link>
+      <pubDate>Sat, 18 Jun 2022 14:21:30 +0800</pubDate>
+      
+      <guid>/posts/cxx_template/</guid>
+      <description>模板基础 魔板和宏定义区别:模板在编译期进行 建立通用的模板,提高复用； C++提供两种模版机制:函数模版和类模板 函数模版 1template &amp;lt;typename T&amp;gt; 2函数声明和定义 template</description>
+    </item>
+    
     <item>
       <title>pthread源码分析</title>
       <link>/posts/pthread/</link>
@@ -315,10 +324,10 @@
     
     <item>
       <title>C&#43;&#43;笔记</title>
-      <link>/posts/c&#43;&#43;/</link>
+      <link>/posts/cxx_basic/</link>
       <pubDate>Sun, 03 Oct 2021 13:20:54 +0800</pubDate>
       
-      <guid>/posts/c&#43;&#43;/</guid>
+      <guid>/posts/cxx_basic/</guid>
       <description>C++基础语法 第一个程序 1#include &amp;lt;iostream&amp;gt; 2 3using namespace std; 4 5int main(int argc, char *argv[]) 6{ 7 cout &amp;lt;&amp;lt; &amp;#34;Hello World&amp;#34; &amp;lt;&amp;lt; endl; 8 return 0; 9} 注释类型 单行注释 1// 这个是一个单行注释 多行注释 1/* 2 这个里面是一个注释 3</description>
     </item>
     
