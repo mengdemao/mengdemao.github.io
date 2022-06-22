@@ -1,592 +1,206 @@
-<!doctype html><html class="position-relative" itemscope itemtype="http://schema.org/WebPage" lang="zh-cn"
-  
-   data-palette="blue"
-  >
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>系统调度 - 编程日志</title><link rel="apple-touch-icon" href="/images/icons/icon-180x180.png" sizes="180x180">
-<link rel="icon" href="/images/icons/icon-32x32.png" sizes="32x32" type="image/png">
-<link rel="icon" href="/images/icons/icon-16x16.png" sizes="16x16" type="image/png">
-<link rel="icon" href="/images/icons/favicon.ico">
-<link rel="manifest" href="/manifest.json">
-<meta name="keywords" content="sched" />
-<meta name="description" content="系统调度 主调度器schedule 周期调度器scheduler_tick 周期调度器函数实现 1void scheduler_tick(void) 2{ 3 int cpu = smp_processor_id(); // CPUID 4 struct rq *rq = cpu_rq(cpu); // 提取消息队列 5 struct task_struct" /><meta name="robots" content="index, follow" /><meta itemprop="name" content="系统调度">
-<meta itemprop="description" content="系统调度 主调度器schedule 周期调度器scheduler_tick 周期调度器函数实现 1void scheduler_tick(void) 2{ 3 int cpu = smp_processor_id(); // CPUID 4 struct rq *rq = cpu_rq(cpu); // 提取消息队列 5 struct task_struct"><meta itemprop="datePublished" content="2021-10-04T12:10:25+08:00" />
-<meta itemprop="dateModified" content="2021-10-04T12:10:25+08:00" />
-<meta itemprop="wordCount" content="693">
-<meta itemprop="keywords" content="kernel," /><meta property="og:title" content="系统调度" />
-<meta property="og:description" content="系统调度 主调度器schedule 周期调度器scheduler_tick 周期调度器函数实现 1void scheduler_tick(void) 2{ 3 int cpu = smp_processor_id(); // CPUID 4 struct rq *rq = cpu_rq(cpu); // 提取消息队列 5 struct task_struct" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="/posts/sched/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2021-10-04T12:10:25+08:00" />
-<meta property="article:modified_time" content="2021-10-04T12:10:25+08:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="系统调度"/>
-<meta name="twitter:description" content="系统调度 主调度器schedule 周期调度器scheduler_tick 周期调度器函数实现 1void scheduler_tick(void) 2{ 3 int cpu = smp_processor_id(); // CPUID 4 struct rq *rq = cpu_rq(cpu); // 提取消息队列 5 struct task_struct"/>
-<meta property="og:image" content="/images/logo.png"/>
-  <meta name="twitter:image" content="/images/logo.png"/><link rel="stylesheet" href="/assets/main/bundle.min.17d3b1bbbd1e3af82a60f2e86580333daf89587571f07d959b4bdc545540182f.css" integrity="sha256-F9Oxu70eOvgqYPLoZYAzPa+JWHVx8H2Vm0vcVFVAGC8=" crossorigin="anonymous"><link rel="stylesheet" href="/assets/viewer/bundle.min.05d84cef8ecf0f936293c62c90ebe16275bf8f5f5649297e1a4338e63676ba2b.css" integrity="sha256-BdhM747PD5Nik8YskOvhYnW/j19WSSl&#43;GkM45jZ2uis=" crossorigin="anonymous"></head>
-  <body><script>const items=["mode","palette"];items.forEach(function(e){const t=localStorage.getItem("hbs-"+e);t&&document.body.parentElement.setAttribute("data-"+e,t)})</script><header><nav class="navbar top-app-bar top-app-bar-expand-lg fixed-top">
-  <div class="container">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <i class="fas fa-bars"></i>
-    </button><a class="navbar-brand flex-grow-1 flex-lg-grow-0 text-center text-lg-start mx-auto me-lg-3" href="/"><picture><img class="logo" alt="Logo" src="/images/logo.webp" loading="lazy"
-    
-     width="136" height="69"
-     />
-</picture>
-编程日志
-    </a>
-    <div class="offcanvas offcanvas-bottom surface" tabindex="-1" id="offcanvasSocialShare" aria-labelledby="offcanvasSocialShare">
-  <div class="offcanvas-header">
-    <h3 class="offcanvas-title">Share</h3>
-    <button type="button" class="btn btn-sm btn-outline-primary" data-bs-dismiss="offcanvas" aria-label="Close">
-      <i class="fas fa-times"></i>
-    </button>
-  </div>
-  <div class="offcanvas-body">
-    <a class="btn btn-sm btn-outline-primary social-share-button" rel="noopener noreferrer" aria-label="Twitter Share Button"
-      target="_blank" href="https://twitter.com/intent/tweet?title=%e7%b3%bb%e7%bb%9f%e8%b0%83%e5%ba%a6&url=%2fposts%2fsched%2f">
-      <i class="fab fa-fw fa-twitter"></i> Twitter
-    </a>
-    <a class="btn btn-sm btn-outline-primary social-share-button" rel="noopener noreferrer" aria-label="Facebook Share Button"
-      target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=%2fposts%2fsched%2f">
-      <i class="fab fa-fw fa-facebook-f"></i> Facebook
-    </a>
-  </div>
-</div>
-    <button class="navbar-settings" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSettings"
-  aria-controls="offcanvasSettings" aria-label="Toggle settings">
-  <i class="fas fa-ellipsis-v"></i>
-</button>
-
-<div class="offcanvas offcanvas-end surface h-100" tabindex="-1" id="offcanvasSettings" aria-labelledby="offcanvasSettings">
-  <div class="offcanvas-header">
-    <h3 class="offcanvas-title">设置</h3>
-    <button type="button" class="btn btn-sm btn-outline-primary" data-bs-dismiss="offcanvas" aria-label="Close">
-      <i class="fas fa-times"></i>
-    </button>
-  </div>
-  <div class="offcanvas-body d-flex flex-column">
-
-<div class="setting">
-  <form class="row">
-    <div class="col-auto">
-      <label><i class="fas fa-fw fa-adjust"></i> 模式</label>
-    </div>
-    <div class="col-auto ms-auto">
-      <div class="form-check form-switch">
-        <input class="form-check-input" type="checkbox" id="modeSwitcher">
-      </div>
-    </div>
-  </form>
-</div>
-
-<div class="setting">
-  <form class="font-size-switcher-form row">
-    <div class="col-auto">
-      <label for="fontSize" class="form-label"><i class="fas fa-fw fa-font"></i> 字体大小</label>
-    </div>
-    <div class="col-auto ms-auto">
-      <input type="range" class="form-range" min="-2" max="2" id="fontSize">
-    </div>
-  </form>
-</div>
-
-
-<div class="setting palettes">
-  <form class="row">
-    <div class="col-auto">
-      <label><i class="fas fa-fw fa-palette"></i> 配色</label>
-    </div>
-    <div class="col-auto ms-auto">
-      <a id="btnPalette" class="btn btn-sm btn-outline-primary" role="button" aria-label="palettePicker">
-        <i class="fas fa-eye-dropper"></i>
-      </a>
-    </div>
-  </form>
-  <div class="mt-2 d-flex justify-content-between visually-hidden" id="palettePicker"><button type="button" id="palette-blue" aria-label="蓝色"
-        class="btn btn-sm w-100 palette" data-palette="blue">
-      </button><button type="button" id="palette-blue-gray" aria-label="蓝灰色"
-        class="btn btn-sm w-100 palette" data-palette="blue-gray">
-      </button><button type="button" id="palette-brown" aria-label="棕色"
-        class="btn btn-sm w-100 palette" data-palette="brown">
-      </button><button type="button" id="palette-cyan" aria-label="青色"
-        class="btn btn-sm w-100 palette" data-palette="cyan">
-      </button><button type="button" id="palette-green" aria-label="绿色"
-        class="btn btn-sm w-100 palette" data-palette="green">
-      </button><button type="button" id="palette-indigo" aria-label="靛青色"
-        class="btn btn-sm w-100 palette" data-palette="indigo">
-      </button><button type="button" id="palette-orange" aria-label="橙色"
-        class="btn btn-sm w-100 palette" data-palette="orange">
-      </button><button type="button" id="palette-pink" aria-label="粉色"
-        class="btn btn-sm w-100 palette" data-palette="pink">
-      </button><button type="button" id="palette-purple" aria-label="紫色"
-        class="btn btn-sm w-100 palette" data-palette="purple">
-      </button><button type="button" id="palette-red" aria-label="红色"
-        class="btn btn-sm w-100 palette" data-palette="red">
-      </button><button type="button" id="palette-teal" aria-label="蓝绿色"
-        class="btn btn-sm w-100 palette" data-palette="teal">
-      </button><button type="button" id="palette-yellow" aria-label="黄色"
-        class="btn btn-sm w-100 palette" data-palette="yellow">
-      </button></div>
-</div>
-<div class="setting actions d-flex justify-content-around mt-auto overflow-auto">
-  <a role="button" class="action action-go-back" href="javascript: window.history.back();">
-    <span class="action-icon"><i class="fas fa-2x fa-chevron-circle-down" data-fa-transform="rotate-90"></i></span> 返回
-  </a>
-  <a role="button" class="action action-reload-page">
-    <span class="action-icon"><i class="fas fa-2x fa-redo-alt"></i></span> 刷新
-  </a>
-  <a role="button" class="action action-copy-url">
-    <span class="action-icon"><i class="fas fa-2x fa-link"></i></span> 复制链接
-  </a><a class="action action-social-share" role="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSocialShare"
-    aria-controls="offcanvasSocialShare" aria-label="Toggle social share">
-    <span class="action-icon"><i class="fas fa-2x fa-share-alt"></i></span> 分享
-  </a></div>
-
-</div>
-</div>
-
-    <div class="collapse navbar-collapse" tabindex="-1" id="navbarSupportedContent" aria-labelledby="navbarSupportedContent">
-      <form class="search-bar my-1" action="/search">
-  <div class="input-group input-group-sm">
-    <span class="btn btn-search disabled position-absolute left-0"><i class="fas fa-fw fa-search"></i></span>
-    <input class="form-control rounded-pill" name="q" type="search" aria-label="Search">
-  </div>
-</form>
-      <ul class="navbar-nav ms-auto"><li class="nav-item">
-          <a class="nav-link" href="/archives/">
-            <i class="fas fa-fw fa-file-archive"></i>归档
-          </a>
-        </li><li class="nav-item">
-          <a class="nav-link" href="/categories/">
-            <i class="fas fa-fw fa-folder"></i>分类
-          </a>
-        </li><li class="nav-item">
-          <a class="nav-link" href="/tags/">
-            <i class="fas fa-fw fa-tags"></i>标签
-          </a>
-        </li><li class="nav-item">
-          <a class="nav-link" href="/series/">
-            <i class="fas fa-fw fa-columns"></i>专栏
-          </a>
-        </li><li class="nav-item dropdown">
-          <a class="nav-link" id="navbarDropdownDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="fas fa-fw fa-chevron-circle-down"></i>下拉菜单
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownDropdown" data-bs-popper="none"><li>
-              <a class="dropdown-item"
-                href="https://github.com/mengdemao/mengdemao.github.io" target="_blank" rel="noopener noreferrer">
-                <i class="fab fa-fw fa-github"></i>Github
-              </a>
-            </li><li>
-              <a class="dropdown-item"
-                href="/zh-cn/series/manual">
-                用户手册
-              </a>
-            </li></ul>
-        </li></ul>
-    </div>
-  </div>
-</nav>
-</header>
-<main class="container">
-      <div class="row content">
-<div class="col-lg-8">
-  <div class="container"><nav class="row card component" aria-label="breadcrumb">
-  <div class="card-body">
-    <ol class="breadcrumb "><li class="breadcrumb-item"><a href="/">主页</a></li><li class="breadcrumb-item"><a href="/posts/">文章</a></li><li class="breadcrumb-item active">系统调度</li></ol>
-  </div>
-</nav><div class="post-panel-wrapper position-sticky">
-  <div class="d-flex flex-column component rounded post-panel position-absolute">
-    
-    <a class="action action-panel-toggler" role="button" title="Panel toggler">
-      <i class="fas fa-fw fa-chevron-circle-down"></i>
-    </a>
-    <a id="sidebarToggler" class="action d-none d-lg-block" role="button" title="Sidebar toggler">
-  <i class="fas fa-fw fa-expand-alt" data-fa-transform="rotate-45"></i>
-</a>
-
-    
-
-    <a class="action btn-reward" role="button" data-bs-toggle="modal" data-bs-target="#rewardModal" title="打赏">
-  <i class="fas fa-fw fa-coffee"></i>
-</a>
-    <a class="action" href="#post-copyright" role="button" aria-label="Copyright" title="Copyright">
-  <i class="fas fa-fw fa-copyright"></i>
-</a>
-    
-    <a class="action" href="#postTOC" aria-controls="Table of contents" role="button" title="Table of contents">
-  <i class="fas fa-fw fa-list-alt"></i>
-</a>
-    
-  </div>
-</div>
-<article class="row card component mb-4 post">
-  <div class="card-header ">
-    <h1 class="card-title post-title">系统调度
-</h1>
-  </div>
-  <div class="card-body"><div class="post-meta">
-  <span class="post-date" title="创建于 2021-10-04 04:10:25 &#43;0000 UTC。">
-    4040-10-04
-  </span><span class="post-reading-time">
-    2 分钟阅读
-  </span><span class="post-taxonomies"><a href="/categories/linux/" class="badge post-taxonomy">linux</a><a href="/tags/kernel/" class="badge post-taxonomy">kernel</a></span>
-</div>
-<div class="post-content mb-3"><h1 id="系统调度">系统调度<a class="anchor ms-1" href="#系统调度"><i class="fas fa-link"></i></a></h1>
-<ul>
-<li>主调度器<code>schedule</code></li>
-<li>周期调度器<code>scheduler_tick</code></li>
-</ul>
-<h2 id="周期调度器函数实现">周期调度器函数实现<a class="anchor ms-1" href="#周期调度器函数实现"><i class="fas fa-link"></i></a></h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="kt">void</span> <span class="nf">scheduler_tick</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="ln"> 3</span><span class="cl">	<span class="kt">int</span> <span class="n">cpu</span> <span class="o">=</span> <span class="n">smp_processor_id</span><span class="p">();</span>				<span class="c1">// CPUID
-</span></span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="c1"></span>	<span class="k">struct</span> <span class="n">rq</span> <span class="o">*</span><span class="n">rq</span> <span class="o">=</span> <span class="n">cpu_rq</span><span class="p">(</span><span class="n">cpu</span><span class="p">);</span>				<span class="c1">// 提取消息队列
-</span></span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="c1"></span>	<span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">curr</span> <span class="o">=</span> <span class="n">rq</span><span class="o">-&gt;</span><span class="n">curr</span><span class="p">;</span>		<span class="c1">// 提取正在运行的进程
-</span></span></span><span class="line"><span class="ln"> 6</span><span class="cl"><span class="c1"></span>	<span class="k">struct</span> <span class="n">rq_flags</span> <span class="n">rf</span><span class="p">;</span>							<span class="c1">// 
-</span></span></span><span class="line"><span class="ln"> 7</span><span class="cl"><span class="c1"></span>	<span class="n">sched_clock_tick</span><span class="p">();</span>							<span class="c1">// 
-</span></span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="c1"></span>	<span class="n">rq_lock</span><span class="p">(</span><span class="n">rq</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rf</span><span class="p">);</span>							<span class="c1">//
-</span></span></span><span class="line"><span class="ln"> 9</span><span class="cl"><span class="c1"></span>	<span class="n">update_rq_clock</span><span class="p">(</span><span class="n">rq</span><span class="p">);</span>						<span class="c1">// 更新运行时钟
-</span></span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="c1"></span>	<span class="n">curr</span><span class="o">-&gt;</span><span class="n">sched_class</span><span class="o">-&gt;</span><span class="n">task_tick</span><span class="p">(</span><span class="n">rq</span><span class="p">,</span> <span class="n">curr</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>	<span class="c1">// 调用调度器类
-</span></span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="c1"></span>	<span class="n">cpu_load_update_active</span><span class="p">(</span><span class="n">rq</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">12</span><span class="cl">	<span class="n">calc_global_load_tick</span><span class="p">(</span><span class="n">rq</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">13</span><span class="cl">	<span class="n">rq_unlock</span><span class="p">(</span><span class="n">rq</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rf</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">14</span><span class="cl">	<span class="n">perf_event_task_tick</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">15</span><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h2 id="主调度器函数实现">主调度器函数实现<a class="anchor ms-1" href="#主调度器函数实现"><i class="fas fa-link"></i></a></h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">static</span> <span class="kt">void</span> <span class="n">__sched</span> <span class="n">notrace</span> <span class="nf">__schedule</span><span class="p">(</span><span class="kt">bool</span> <span class="n">preempt</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="ln"> 3</span><span class="cl">	<span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">prev</span><span class="p">,</span> <span class="o">*</span><span class="n">next</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln"> 4</span><span class="cl">	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="o">*</span><span class="n">switch_count</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln"> 5</span><span class="cl">	<span class="k">struct</span> <span class="n">rq_flags</span> <span class="n">rf</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln"> 6</span><span class="cl">	<span class="k">struct</span> <span class="n">rq</span> <span class="o">*</span><span class="n">rq</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln"> 7</span><span class="cl">	<span class="kt">int</span> <span class="n">cpu</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln"> 8</span><span class="cl">
-</span></span><span class="line"><span class="ln"> 9</span><span class="cl">	<span class="n">cpu</span> <span class="o">=</span> <span class="n">smp_processor_id</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">10</span><span class="cl">	<span class="n">rq</span> <span class="o">=</span> <span class="n">cpu_rq</span><span class="p">(</span><span class="n">cpu</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">11</span><span class="cl">	<span class="n">prev</span> <span class="o">=</span> <span class="n">rq</span><span class="o">-&gt;</span><span class="n">curr</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">12</span><span class="cl">
-</span></span><span class="line"><span class="ln">13</span><span class="cl">	<span class="n">schedule_debug</span><span class="p">(</span><span class="n">prev</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">14</span><span class="cl">
-</span></span><span class="line"><span class="ln">15</span><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="n">sched_feat</span><span class="p">(</span><span class="n">HRTICK</span><span class="p">))</span>
-</span></span><span class="line"><span class="ln">16</span><span class="cl">		<span class="n">hrtick_clear</span><span class="p">(</span><span class="n">rq</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">17</span><span class="cl">
-</span></span><span class="line"><span class="ln">18</span><span class="cl">	<span class="n">local_irq_disable</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">19</span><span class="cl">	<span class="n">rcu_note_context_switch</span><span class="p">(</span><span class="n">preempt</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">20</span><span class="cl">
-</span></span><span class="line"><span class="ln">21</span><span class="cl">	<span class="n">rq_lock</span><span class="p">(</span><span class="n">rq</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rf</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">22</span><span class="cl">	<span class="n">smp_mb__after_spinlock</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">23</span><span class="cl">
-</span></span><span class="line"><span class="ln">24</span><span class="cl">	<span class="n">rq</span><span class="o">-&gt;</span><span class="n">clock_update_flags</span> <span class="o">&lt;&lt;=</span> <span class="mi">1</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">25</span><span class="cl">	<span class="n">update_rq_clock</span><span class="p">(</span><span class="n">rq</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">26</span><span class="cl">
-</span></span><span class="line"><span class="ln">27</span><span class="cl">	<span class="n">switch_count</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">prev</span><span class="o">-&gt;</span><span class="n">nivcsw</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">28</span><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">preempt</span> <span class="o">&amp;&amp;</span> <span class="n">prev</span><span class="o">-&gt;</span><span class="n">state</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="ln">29</span><span class="cl">		<span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="n">signal_pending_state</span><span class="p">(</span><span class="n">prev</span><span class="o">-&gt;</span><span class="n">state</span><span class="p">,</span> <span class="n">prev</span><span class="p">)))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="ln">30</span><span class="cl">			<span class="n">prev</span><span class="o">-&gt;</span><span class="n">state</span> <span class="o">=</span> <span class="n">TASK_RUNNING</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">31</span><span class="cl">		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="ln">32</span><span class="cl">			<span class="n">deactivate_task</span><span class="p">(</span><span class="n">rq</span><span class="p">,</span> <span class="n">prev</span><span class="p">,</span> <span class="n">DEQUEUE_SLEEP</span> <span class="o">|</span> <span class="n">DEQUEUE_NOCLOCK</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">33</span><span class="cl">			<span class="n">prev</span><span class="o">-&gt;</span><span class="n">on_rq</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">34</span><span class="cl">
-</span></span><span class="line"><span class="ln">35</span><span class="cl">			<span class="k">if</span> <span class="p">(</span><span class="n">prev</span><span class="o">-&gt;</span><span class="n">in_iowait</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="ln">36</span><span class="cl">				<span class="n">atomic_inc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">rq</span><span class="o">-&gt;</span><span class="n">nr_iowait</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">37</span><span class="cl">				<span class="n">delayacct_blkio_start</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">38</span><span class="cl">			<span class="p">}</span>
-</span></span><span class="line"><span class="ln">39</span><span class="cl">			<span class="k">if</span> <span class="p">(</span><span class="n">prev</span><span class="o">-&gt;</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">PF_WQ_WORKER</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="ln">40</span><span class="cl">				<span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">to_wakeup</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">41</span><span class="cl">
-</span></span><span class="line"><span class="ln">42</span><span class="cl">				<span class="n">to_wakeup</span> <span class="o">=</span> <span class="n">wq_worker_sleeping</span><span class="p">(</span><span class="n">prev</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">43</span><span class="cl">				<span class="k">if</span> <span class="p">(</span><span class="n">to_wakeup</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln">44</span><span class="cl">					<span class="n">try_to_wake_up_local</span><span class="p">(</span><span class="n">to_wakeup</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rf</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">45</span><span class="cl">			<span class="p">}</span>
-</span></span><span class="line"><span class="ln">46</span><span class="cl">		<span class="p">}</span>
-</span></span><span class="line"><span class="ln">47</span><span class="cl">		<span class="n">switch_count</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">prev</span><span class="o">-&gt;</span><span class="n">nvcsw</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">48</span><span class="cl">	<span class="p">}</span>
-</span></span><span class="line"><span class="ln">49</span><span class="cl">
-</span></span><span class="line"><span class="ln">50</span><span class="cl">	<span class="n">next</span> <span class="o">=</span> <span class="n">pick_next_task</span><span class="p">(</span><span class="n">rq</span><span class="p">,</span> <span class="n">prev</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rf</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">51</span><span class="cl">	<span class="n">clear_tsk_need_resched</span><span class="p">(</span><span class="n">prev</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">52</span><span class="cl">	<span class="n">clear_preempt_need_resched</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">53</span><span class="cl">
-</span></span><span class="line"><span class="ln">54</span><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="n">likely</span><span class="p">(</span><span class="n">prev</span> <span class="o">!=</span> <span class="n">next</span><span class="p">))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="ln">55</span><span class="cl">		<span class="n">rq</span><span class="o">-&gt;</span><span class="n">nr_switches</span><span class="o">++</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">56</span><span class="cl">		<span class="n">rq</span><span class="o">-&gt;</span><span class="n">curr</span> <span class="o">=</span> <span class="n">next</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">57</span><span class="cl">		<span class="o">++*</span><span class="n">switch_count</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">58</span><span class="cl">
-</span></span><span class="line"><span class="ln">59</span><span class="cl">		<span class="n">trace_sched_switch</span><span class="p">(</span><span class="n">preempt</span><span class="p">,</span> <span class="n">prev</span><span class="p">,</span> <span class="n">next</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">60</span><span class="cl">		<span class="n">rq</span> <span class="o">=</span> <span class="n">context_switch</span><span class="p">(</span><span class="n">rq</span><span class="p">,</span> <span class="n">prev</span><span class="p">,</span> <span class="n">next</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rf</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">61</span><span class="cl">	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="ln">62</span><span class="cl">		<span class="n">rq</span><span class="o">-&gt;</span><span class="n">clock_update_flags</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="p">(</span><span class="n">RQCF_ACT_SKIP</span><span class="o">|</span><span class="n">RQCF_REQ_SKIP</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">63</span><span class="cl">		<span class="n">rq_unlock_irq</span><span class="p">(</span><span class="n">rq</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rf</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">64</span><span class="cl">	<span class="p">}</span>
-</span></span><span class="line"><span class="ln">65</span><span class="cl">
-</span></span><span class="line"><span class="ln">66</span><span class="cl">	<span class="n">balance_callback</span><span class="p">(</span><span class="n">rq</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">67</span><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h3 id="寻找最高优先级任务">寻找最高优先级任务<a class="anchor ms-1" href="#寻找最高优先级任务"><i class="fas fa-link"></i></a></h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="cm">/*
-</span></span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="cm"> * 获取最高优先级的任务:
-</span></span></span><span class="line"><span class="ln"> 3</span><span class="cl"><span class="cm"> */</span>
-</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="k">static</span> <span class="kr">inline</span> <span class="k">struct</span> <span class="n">task_struct</span> 
-</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="o">*</span><span class="nf">pick_next_task</span><span class="p">(</span><span class="k">struct</span> <span class="n">rq</span> <span class="o">*</span><span class="n">rq</span><span class="p">,</span> 
-</span></span><span class="line"><span class="ln"> 6</span><span class="cl">				<span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">prev</span><span class="p">,</span>
-</span></span><span class="line"><span class="ln"> 7</span><span class="cl">				<span class="k">struct</span> <span class="n">rq_flags</span> <span class="o">*</span><span class="n">rf</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln"> 8</span><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="ln"> 9</span><span class="cl">	<span class="k">const</span> <span class="k">struct</span> <span class="n">sched_class</span> <span class="o">*</span><span class="n">class</span><span class="p">;</span>			<span class="c1">// 调度器类
-</span></span></span><span class="line"><span class="ln">10</span><span class="cl"><span class="c1"></span>	<span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">p</span><span class="p">;</span>						<span class="c1">// 任务实体
-</span></span></span><span class="line"><span class="ln">11</span><span class="cl"><span class="c1"></span>
-</span></span><span class="line"><span class="ln">12</span><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="n">likely</span><span class="p">((</span><span class="n">prev</span><span class="o">-&gt;</span><span class="n">sched_class</span> <span class="o">==</span> <span class="o">&amp;</span><span class="n">idle_sched_class</span> <span class="o">||</span>
-</span></span><span class="line"><span class="ln">13</span><span class="cl">			<span class="n">prev</span><span class="o">-&gt;</span><span class="n">sched_class</span> <span class="o">==</span> <span class="o">&amp;</span><span class="n">fair_sched_class</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
-</span></span><span class="line"><span class="ln">14</span><span class="cl">		   <span class="n">rq</span><span class="o">-&gt;</span><span class="n">nr_running</span> <span class="o">==</span> <span class="n">rq</span><span class="o">-&gt;</span><span class="n">cfs</span><span class="p">.</span><span class="n">h_nr_running</span><span class="p">))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="ln">15</span><span class="cl">
-</span></span><span class="line"><span class="ln">16</span><span class="cl">		<span class="n">p</span> <span class="o">=</span> <span class="n">fair_sched_class</span><span class="p">.</span><span class="n">pick_next_task</span><span class="p">(</span><span class="n">rq</span><span class="p">,</span> <span class="n">prev</span><span class="p">,</span> <span class="n">rf</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">17</span><span class="cl">		<span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="n">p</span> <span class="o">==</span> <span class="n">RETRY_TASK</span><span class="p">))</span>
-</span></span><span class="line"><span class="ln">18</span><span class="cl">			<span class="k">goto</span> <span class="n">again</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">19</span><span class="cl">
-</span></span><span class="line"><span class="ln">20</span><span class="cl">		<span class="cm">/* Assumes fair_sched_class-&gt;next == idle_sched_class */</span>
-</span></span><span class="line"><span class="ln">21</span><span class="cl">		<span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="o">!</span><span class="n">p</span><span class="p">))</span>
-</span></span><span class="line"><span class="ln">22</span><span class="cl">			<span class="n">p</span> <span class="o">=</span> <span class="n">idle_sched_class</span><span class="p">.</span><span class="n">pick_next_task</span><span class="p">(</span><span class="n">rq</span><span class="p">,</span> <span class="n">prev</span><span class="p">,</span> <span class="n">rf</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">23</span><span class="cl">
-</span></span><span class="line"><span class="ln">24</span><span class="cl">		<span class="k">return</span> <span class="n">p</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">25</span><span class="cl">	<span class="p">}</span>
-</span></span><span class="line"><span class="ln">26</span><span class="cl">
-</span></span><span class="line"><span class="ln">27</span><span class="cl"><span class="nl">again</span><span class="p">:</span>
-</span></span><span class="line"><span class="ln">28</span><span class="cl">	<span class="n">for_each_class</span><span class="p">(</span><span class="n">class</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="ln">29</span><span class="cl">		<span class="n">p</span> <span class="o">=</span> <span class="n">class</span><span class="o">-&gt;</span><span class="n">pick_next_task</span><span class="p">(</span><span class="n">rq</span><span class="p">,</span> <span class="n">prev</span><span class="p">,</span> <span class="n">rf</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">30</span><span class="cl">		<span class="k">if</span> <span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="ln">31</span><span class="cl">			<span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="n">p</span> <span class="o">==</span> <span class="n">RETRY_TASK</span><span class="p">))</span>
-</span></span><span class="line"><span class="ln">32</span><span class="cl">				<span class="k">goto</span> <span class="n">again</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">33</span><span class="cl">			<span class="k">return</span> <span class="n">p</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">34</span><span class="cl">		<span class="p">}</span>
-</span></span><span class="line"><span class="ln">35</span><span class="cl">	<span class="p">}</span>
-</span></span><span class="line"><span class="ln">36</span><span class="cl">
-</span></span><span class="line"><span class="ln">37</span><span class="cl">	<span class="cm">/* IDLE线程不会退出 */</span>
-</span></span><span class="line"><span class="ln">38</span><span class="cl">	<span class="n">BUG</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">39</span><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h3 id="任务切换">任务切换<a class="anchor ms-1" href="#任务切换"><i class="fas fa-link"></i></a></h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">static</span> <span class="n">__always_inline</span> <span class="k">struct</span> <span class="n">rq</span> <span class="o">*</span>
-</span></span><span class="line"><span class="ln"> 2</span><span class="cl"><span class="nf">context_switch</span><span class="p">(</span><span class="k">struct</span> <span class="n">rq</span> <span class="o">*</span><span class="n">rq</span><span class="p">,</span> <span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">prev</span><span class="p">,</span>
-</span></span><span class="line"><span class="ln"> 3</span><span class="cl">		   <span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="n">next</span><span class="p">,</span> <span class="k">struct</span> <span class="n">rq_flags</span> <span class="o">*</span><span class="n">rf</span><span class="p">)</span>
-</span></span><span class="line"><span class="ln"> 4</span><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="ln"> 5</span><span class="cl">	<span class="k">struct</span> <span class="n">mm_struct</span> <span class="o">*</span><span class="n">mm</span><span class="p">,</span> <span class="o">*</span><span class="n">oldmm</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln"> 6</span><span class="cl">
-</span></span><span class="line"><span class="ln"> 7</span><span class="cl">	<span class="n">prepare_task_switch</span><span class="p">(</span><span class="n">rq</span><span class="p">,</span> <span class="n">prev</span><span class="p">,</span> <span class="n">next</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln"> 8</span><span class="cl">
-</span></span><span class="line"><span class="ln"> 9</span><span class="cl">	<span class="n">mm</span> <span class="o">=</span> <span class="n">next</span><span class="o">-&gt;</span><span class="n">mm</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">10</span><span class="cl">	<span class="n">oldmm</span> <span class="o">=</span> <span class="n">prev</span><span class="o">-&gt;</span><span class="n">active_mm</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">11</span><span class="cl">	<span class="cm">/*
-</span></span></span><span class="line"><span class="ln">12</span><span class="cl"><span class="cm">	 * For paravirt, this is coupled with an exit in switch_to to
-</span></span></span><span class="line"><span class="ln">13</span><span class="cl"><span class="cm">	 * combine the page table reload and the switch backend into
-</span></span></span><span class="line"><span class="ln">14</span><span class="cl"><span class="cm">	 * one hypercall.
-</span></span></span><span class="line"><span class="ln">15</span><span class="cl"><span class="cm">	 */</span>
-</span></span><span class="line"><span class="ln">16</span><span class="cl">	<span class="n">arch_start_context_switch</span><span class="p">(</span><span class="n">prev</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">17</span><span class="cl">
-</span></span><span class="line"><span class="ln">18</span><span class="cl">	<span class="cm">/*
-</span></span></span><span class="line"><span class="ln">19</span><span class="cl"><span class="cm">	 * If mm is non-NULL, we pass through switch_mm(). If mm is
-</span></span></span><span class="line"><span class="ln">20</span><span class="cl"><span class="cm">	 * NULL, we will pass through mmdrop() in finish_task_switch().
-</span></span></span><span class="line"><span class="ln">21</span><span class="cl"><span class="cm">	 * Both of these contain the full memory barrier required by
-</span></span></span><span class="line"><span class="ln">22</span><span class="cl"><span class="cm">	 * membarrier after storing to rq-&gt;curr, before returning to
-</span></span></span><span class="line"><span class="ln">23</span><span class="cl"><span class="cm">	 * user-space.
-</span></span></span><span class="line"><span class="ln">24</span><span class="cl"><span class="cm">	 */</span>
-</span></span><span class="line"><span class="ln">25</span><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">mm</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="ln">26</span><span class="cl">		<span class="n">next</span><span class="o">-&gt;</span><span class="n">active_mm</span> <span class="o">=</span> <span class="n">oldmm</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">27</span><span class="cl">		<span class="n">mmgrab</span><span class="p">(</span><span class="n">oldmm</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">28</span><span class="cl">		<span class="n">enter_lazy_tlb</span><span class="p">(</span><span class="n">oldmm</span><span class="p">,</span> <span class="n">next</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">29</span><span class="cl">	<span class="p">}</span> <span class="k">else</span>
-</span></span><span class="line"><span class="ln">30</span><span class="cl">		<span class="n">switch_mm_irqs_off</span><span class="p">(</span><span class="n">oldmm</span><span class="p">,</span> <span class="n">mm</span><span class="p">,</span> <span class="n">next</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">31</span><span class="cl">
-</span></span><span class="line"><span class="ln">32</span><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">prev</span><span class="o">-&gt;</span><span class="n">mm</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="ln">33</span><span class="cl">		<span class="n">prev</span><span class="o">-&gt;</span><span class="n">active_mm</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">34</span><span class="cl">		<span class="n">rq</span><span class="o">-&gt;</span><span class="n">prev_mm</span> <span class="o">=</span> <span class="n">oldmm</span><span class="p">;</span>
-</span></span><span class="line"><span class="ln">35</span><span class="cl">	<span class="p">}</span>
-</span></span><span class="line"><span class="ln">36</span><span class="cl">
-</span></span><span class="line"><span class="ln">37</span><span class="cl">	<span class="n">rq</span><span class="o">-&gt;</span><span class="n">clock_update_flags</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="p">(</span><span class="n">RQCF_ACT_SKIP</span><span class="o">|</span><span class="n">RQCF_REQ_SKIP</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">38</span><span class="cl">
-</span></span><span class="line"><span class="ln">39</span><span class="cl">	<span class="n">prepare_lock_switch</span><span class="p">(</span><span class="n">rq</span><span class="p">,</span> <span class="n">next</span><span class="p">,</span> <span class="n">rf</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">40</span><span class="cl">
-</span></span><span class="line"><span class="ln">41</span><span class="cl">	<span class="cm">/* Here we just switch the register state and the stack. */</span>
-</span></span><span class="line"><span class="ln">42</span><span class="cl">	<span class="n">switch_to</span><span class="p">(</span><span class="n">prev</span><span class="p">,</span> <span class="n">next</span><span class="p">,</span> <span class="n">prev</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">43</span><span class="cl">	<span class="n">barrier</span><span class="p">();</span>
-</span></span><span class="line"><span class="ln">44</span><span class="cl">
-</span></span><span class="line"><span class="ln">45</span><span class="cl">	<span class="k">return</span> <span class="n">finish_task_switch</span><span class="p">(</span><span class="n">prev</span><span class="p">);</span>
-</span></span><span class="line"><span class="ln">46</span><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div></div><div class="modal fade" id="rewardModal" tabindex="-1" aria-labelledby="rewardModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content surface">
-      <div class="modal-header">
-        <h5 class="modal-title" id="rewardModalLabel"><i class="fas fa-fw fa-coffee me-1"></i>打赏</h5>
-        <a href="#" data-bs-dismiss="modal" class="btn btn-sm btn-outline-primary" aria-label="Close"><i class="fas fa-times"></i></a>
-      </div>
-      <div class="modal-body">
-        <ul class="nav nav-tabs mb-3" role="tablist"><li class="nav-item text-nowrap" role="presentation">
-            <a class="nav-link active" id="reward-alipay-tab" data-bs-toggle="tab" href="#reward-alipay" role="tab" aria-controls="reward-alipay" aria-selected="true">
-              <i class="fab fa-fw fa-alipay me-1"></i>支付宝
-            </a>
-          </li><li class="nav-item text-nowrap" role="presentation">
-            <a class="nav-link" id="reward-wechat-tab" data-bs-toggle="tab" href="#reward-wechat" role="tab" aria-controls="reward-wechat" aria-selected="true">
-              <i class="fab fa-fw fa-weixin me-1"></i>微信
-            </a>
-          </li></ul>
-        <div class="tab-content" id="rewardTabContent"><div class="tab-pane fade post-reward-content show active" id="reward-alipay" role="tabpanel" aria-labelledby="reward-alipay-tab">
-            <img class="img-fluid post-reward-img" src="/images/reward/alipay.png" loading="lazy" data-viewer-invisible />
-          </div><div class="tab-pane fade post-reward-content show" id="reward-wechat" role="tabpanel" aria-labelledby="reward-wechat-tab">
-            <img class="img-fluid post-reward-img" src="/images/reward/wechat.png" loading="lazy" data-viewer-invisible />
-          </div></div>
-      </div>
-    </div>
-  </div>
-</div></div>
-  <div class="card-footer"><div class="post-navs d-flex justify-content-evenly"><div class="post-nav post-prev">
-    <i class="fas fa-fw fa-chevron-circle-down post-prev-icon" data-fa-transform="rotate-90"></i>
-    <a href="/posts/rime/">Rime
-</a>
-  </div><div class="post-nav post-next">
-    <a href="/posts/task/">任务管理
-</a>
-    <i class="fas fa-fw fa-chevron-circle-down post-next-icon" data-fa-transform="rotate-270"></i>
-  </div></div></div>
-</article><div class="post-copyright mb-3 row card component" id="post-copyright">
-    <div class="card-header">
-        <h2 class="card-title">版权</h2>
-    </div>
-    <div class="card-body"><a class="d-flex align-items-center flex-column" target="_blank" rel="license noopener noreferrer" href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh">
-  <span><i class="fab fa-fw fa-2x fa-creative-commons"></i><i class="fab fa-fw fa-2x fa-creative-commons-by"></i><i class="fab fa-fw fa-2x fa-creative-commons-nc"></i><i class="fab fa-fw fa-2x fa-creative-commons-nd"></i></span>
-  CC BY-NC-ND 4.0 
-</a>
-
-
-    </div>
-</div><section class="related-posts row card component">
-    <div class="card-header">
-      <h2 class="card-title">相关文章</h2>
-    </div>
-    <div class="card-body">
-      <ul class="post-list"><li>
-          <a href="/posts/drivermodel/">驱动模型
-</a>
-          <span class="float-end post-date">24240-10-24
-</span>
-        </li></ul>
-    </div>
-  </section></div>
-</div><aside class="col-lg-4 sidebar d-flex">
-  <div class="container d-flex flex-column">
-    
-    <div class="card row text-center profile component">
-  <div class="card-body">
-    <div class="col-12 d-flex align-items-center justify-content-center"><picture><img class="profile-avatar rounded-circle" alt="MengDemao" src="/images/profile.webp" loading="lazy" data-viewer-invisible
-    
-     width="400" height="400"
-     />
-</picture>
-</div>
-    <div class="col-12 profile-meta"><div class="profile-name">MengDemao</div><div class="profile-bio">面向玄学编程</div><div class="profile-company"><i class="fas fa-fw fa-building"></i>Company</div><div class="profile-location"><i class="fas fa-fw fa-map-marker-alt"></i>Earth</div><div class="profile-about"><i class="fas fa-fw fa-user"></i><a href="/about/">About</a></div><nav class="social-links nav justify-content-center"><a class="nav-link social-link" href="mailto:mengdemao19951021@gmail.com" title="Email">
-      <i class="fas fa-fw fa-2x fa-envelope"></i>
-    </a><a class="nav-link social-link" target="_blank" href="https://github.com/https://github.com/mengdemao" title="GitHub" rel="noopener noreferrer">
-        <i class="fa-fw fa-2x fab fa-github"></i>
-      </a><a class="nav-link social-link" target="_blank" href="/index.xml" title="RSS" rel="noopener noreferrer">
-    <i class="fas fa-fw fa-2x fa-rss"></i>
-  </a></nav>
-</div>
-  </div>
-</div>
-<div class="post-toc row mb-4 card component" id="postTOC">
-  <div class="card-header">
-    <h2 class="card-title">目录</h2>
-  </div>
-  <div class="card-body">
-    <nav id="TableOfContents">
-  <ul>
-    <li><a href="#周期调度器函数实现">周期调度器函数实现</a></li>
-    <li><a href="#主调度器函数实现">主调度器函数实现</a>
-      <ul>
-        <li><a href="#寻找最高优先级任务">寻找最高优先级任务</a></li>
-        <li><a href="#任务切换">任务切换</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
-  </div>
-</div><section class="recent-posts row card component">
-  <div class="card-header">
-    <h2 class="card-title">最近文章</h2>
-  </div>
-  <div class="card-body">
-    <ul class="post-list"><li>
-        <a href="/posts/cxx_template/">C&#43;&#43;模板
-</a>
-      </li><li>
-        <a href="/posts/pthread/">Pthread源码分析
-</a>
-      </li><li>
-        <a href="/posts/memory_management/">内存管理
-</a>
-      </li><li>
-        <a href="/posts/buildroot/">Buildroot
-</a>
-      </li><li>
-        <a href="/posts/c4/">C4
-</a>
-      </li></ul>
-  </div>
-</section><section class="categories-taxonomies row card component">
-      <div class="card-header">
-        <h2 class="card-title">
-          <a href="/categories">分类</a>
-        </h2>
-      </div>
-      <div class="card-body">
-        <div class="py-2"><a href="/categories/linux/" class="badge rounded post-taxonomy" title="linux">
-            linux</a><a href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/" class="badge rounded post-taxonomy" title="编程语言">
-            编程语言</a><a href="/categories/compiler/" class="badge rounded post-taxonomy" title="compiler">
-            compiler</a><a href="/categories/python/" class="badge rounded post-taxonomy" title="python">
-            python</a><a href="/categories/rootfs/" class="badge rounded post-taxonomy" title="rootfs">
-            rootfs</a></div>
-      </div>
-    </section><section class="tags-taxonomies row card component">
-      <div class="card-header">
-        <h2 class="card-title">
-          <a href="/tags">标签</a>
-        </h2>
-      </div>
-      <div class="card-body">
-        <div class="py-2"><a href="/tags/kernel/" class="badge rounded post-taxonomy" title="kernel">
-            kernel</a><a href="/tags/c&#43;&#43;/" class="badge rounded post-taxonomy" title="C&#43;&#43;">
-            C&#43;&#43;</a><a href="/tags/compiler/" class="badge rounded post-taxonomy" title="compiler">
-            compiler</a><a href="/tags/nfs/" class="badge rounded post-taxonomy" title="nfs">
-            nfs</a><a href="/tags/rootfs/" class="badge rounded post-taxonomy" title="rootfs">
-            rootfs</a><a href="/tags/%E6%8A%80%E5%B7%A7/" class="badge rounded post-taxonomy" title="技巧">
-            技巧</a><a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" class="badge rounded post-taxonomy" title="编译原理">
-            编译原理</a></div>
-      </div>
-    </section><section class="row card component">
-    <div class="card-header">
-      <h2 class="card-title"><a href="/archives/">归档</a></h2>
-    </div>
-    <div class="card-body">
-      <ul class="post-list">
-        <li><a href="/archives/#archive-2022">2022(6)</a></li>
-        <li><a href="/archives/#archive-2021">2021(38)</a></li>
-      </ul>
-    </div>
-</section>
-    
-  </div>
-</aside>
-</div>
-    </main><footer class="footer mt-auto py-3 text-center container"><nav class="social-links nav justify-content-center mb-2"><a class="nav-link social-link" target="_blank" href="/index.xml" title="RSS" rel="noopener noreferrer">
-    <i class="fas fa-fw fa-2x fa-rss"></i>
-  </a></nav>
-<div class="copyright mb-2">
-  Copyright © 2020-2022 Meng Demao. All Rights Reserved.
-</div>
-<div class="powered-by mb-2">
-  Powered by <a href="https://gohugo.io" target="_blank" rel="noopener noreferrer">Hugo</a> and the <a href="https://github.com/razonyang/hugo-theme-bootstrap" target="_blank" rel="noopener noreferrer">Bootstrap</a> theme.
-</div></footer>
-<script src="/assets/main/bundle.min.4f730cab1ba5fe5a9c74388caf0cc97f389ca70bf934a090ad15f51677bd9fe1.js" integrity="sha256-T3MMqxul/lqcdDiMrwzJfzicpwv5NKCQrRX1Fne9n&#43;E=" crossorigin="anonymous" defer></script><script src="/assets/icons/bundle.min.bfb722e9ecdba11fdaece2d3d9e7da457ad9d980216913567b7d92a092522be5.js" integrity="sha256-v7ci6ezboR/a7OLT2efaRXrZ2YAhaRNWe32SoJJSK&#43;U=" crossorigin="anonymous" defer></script>
-<script src="/assets/viewer/bundle.min.8a04279f4c01c6129efc48d87356904980c31656ec5a60da26fb51a1d784e1e2.js" integrity="sha256-igQnn0wBxhKe/EjYc1aQSYDDFlbsWmDaJvtRodeE4eI=" crossorigin="anonymous" defer></script>
-</body>
-</html>
+<!doctype html><html class=position-relative itemscope itemtype=http://schema.org/WebPage lang=zh-cn data-theme=auto data-palette=blue><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>系统调度 - 编程日志</title><link rel=apple-touch-icon href=/images/icons/icon-180x180.png sizes=180x180><link rel=icon href=/images/icons/icon-32x32.png sizes=32x32 type=image/png><link rel=icon href=/images/icons/icon-16x16.png sizes=16x16 type=image/png><link rel=icon href=/images/icons/favicon.ico><link rel=manifest href=/manifest.json><meta name=keywords content="sched"><meta name=description content="系统调度 主调度器schedule 周期调度器scheduler_tick 周期调度器函数实现 1void scheduler_tick(void) 2{ 3 int cpu = smp_processor_id(); // CPUID 4 struct rq *rq = cpu_rq(cpu); // 提取消息队列 5 struct task_struct"><meta name=robots content="index, follow"><meta itemprop=name content="系统调度"><meta itemprop=description content="系统调度 主调度器schedule 周期调度器scheduler_tick 周期调度器函数实现 1void scheduler_tick(void) 2{ 3 int cpu = smp_processor_id(); // CPUID 4 struct rq *rq = cpu_rq(cpu); // 提取消息队列 5 struct task_struct"><meta itemprop=datePublished content="2021-10-04T12:10:25+08:00"><meta itemprop=dateModified content="2021-10-04T12:10:25+08:00"><meta itemprop=wordCount content="693"><meta itemprop=keywords content="kernel,"><meta property="og:title" content="系统调度"><meta property="og:description" content="系统调度 主调度器schedule 周期调度器scheduler_tick 周期调度器函数实现 1void scheduler_tick(void) 2{ 3 int cpu = smp_processor_id(); // CPUID 4 struct rq *rq = cpu_rq(cpu); // 提取消息队列 5 struct task_struct"><meta property="og:type" content="article"><meta property="og:url" content="/posts/sched/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2021-10-04T12:10:25+08:00"><meta property="article:modified_time" content="2021-10-04T12:10:25+08:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="系统调度"><meta name=twitter:description content="系统调度 主调度器schedule 周期调度器scheduler_tick 周期调度器函数实现 1void scheduler_tick(void) 2{ 3 int cpu = smp_processor_id(); // CPUID 4 struct rq *rq = cpu_rq(cpu); // 提取消息队列 5 struct task_struct"><meta property="og:image" content="/images/logo.png"><meta name=twitter:image content="/images/logo.png"><link rel=stylesheet href="/assets/main/bundle.min.38bb44368e5b5446dad04accbfab92f5313ec41d8a62c8b1808fbe627f257d17.css" integrity="sha256-OLtENo5bVEba0ErMv6uS9TE+xB2KYsixgI++Yn8lfRc=" crossorigin=anonymous><link rel=stylesheet href=/assets/viewer/bundle.min.f05183267bb952fbc8c63a7178364de2951614ab71d544ec1068ad36c7447ccc.css integrity="sha256-8FGDJnu5UvvIxjpxeDZN4pUWFKtx1UTsEGitNsdEfMw=" crossorigin=anonymous></head><body><script>const items=["theme","palette"];items.forEach(function(e){const t=localStorage.getItem("hbs:"+e);t&&document.body.parentElement.setAttribute("data-"+e,t)})</script><header><nav class="top-app-bar shadow bg-primary text-white navbar navbar-expand-lg fixed-top"><div class=container><a class="navbar-brand flex-grow-1 flex-lg-grow-0 text-lg-start ms-2 ms-lg-0 mx-auto me-lg-3" href=/><picture><img class=logo alt=Logo src=/images/logo.webp loading=lazy width=136 height=69></picture>
+编程日志</a>
+<button class="navbar-toggler order-5" type=button data-bs-toggle=offcanvas data-bs-target=#navbarMenus aria-controls=navbarMenus aria-expanded=false aria-label="Toggle navigation">
+<i class="fas fa-ellipsis-h"></i></button><div class="offcanvas-lg offcanvas-end flex-grow-1 bg-primary text-white" tabindex=-1 id=navbarMenus aria-labelledby=navbarMenusLabel><div class="offcanvas-header px-4 pb-0"><h5 class=offcanvas-title id=navbarMenusLabel>编程日志</h5><button type=button class="btn-close btn-close-white" data-bs-dismiss=offcanvas data-bs-target=#navbarMenus aria-label=Close></button></div><div class="offcanvas-body p-4 pt-0 p-lg-0"><hr class=d-lg-none><ul class="navbar-nav flex-row flex-wrap align-items-center me-auto"><li class="nav-item col-6 col-lg-auto"><a class="nav-link py-2 px-0 px-lg-2" href=/archives/><i class="fas fa-fw fa-file-archive"></i>归档</a></li><li class="nav-item col-6 col-lg-auto"><a class="nav-link py-2 px-0 px-lg-2" href=/categories/><i class="fas fa-fw fa-folder"></i>分类</a></li><li class="nav-item col-6 col-lg-auto"><a class="nav-link py-2 px-0 px-lg-2" href=/tags/><i class="fas fa-fw fa-tags"></i>标签</a></li><li class="nav-item col-6 col-lg-auto"><a class="nav-link py-2 px-0 px-lg-2" href=/series/><i class="fas fa-fw fa-columns"></i>专栏</a></li><li class="nav-item col-6 col-lg-auto dropdown"><a class="dropdown-toggle py-2 px-0 px-lg-2" href=# class=nav-link id=navbarDropdownDropdown role=button data-bs-toggle=dropdown aria-expanded=false><i class="fas fa-fw fa-chevron-circle-down"></i>下拉菜单</a><ul class="dropdown-menu dropdown-menu-end" aria-labelledby=navbarDropdownDropdown data-bs-popper=none><li><a class="dropdown-item text-wrap" href=https://github.com/mengdemao/mengdemao.github.io target=_blank rel="noopener noreferrer"><i class="fab fa-fw fa-github"></i>Github</a></li><li><a class="dropdown-item text-wrap" href=/zh-cn/series/manual>用户手册</a></li></ul></li></ul><hr class=d-lg-none><form class="search-bar mx-auto my-1" action=/search novalidate><div class="input-group input-group-sm align-items-center"><span class="btn btn-search disabled position-absolute left-0 border-0"><i class="fas fa-fw fa-search fa-lg"></i></span>
+<input class="py-2 form-control rounded search-input" name=q type=search aria-label=Search required></div></form><hr class=d-lg-none><ul class="navbar-nav flex-row flex-wrap align-items-center ms-md-auto"><li class="nav-item dropdown py-2 py-lg-1 col-6 col-lg-auto"><a class="nav-link px-0 px-lg-1" href=# id=fontSizeDropdown role=button data-bs-toggle=dropdown aria-expanded=false><i class="fas fa-fw fa-font"></i>
+<span class=d-lg-none>字体大小</span></a><ul class="dropdown-menu dropdown-menu-end" aria-labelledby=fontSizeDropdown><li><a href=# class="font-size-item dropdown-item" data-size=xs>特小号</a></li><li><a href=# class="font-size-item dropdown-item" data-size=sm>小号</a></li><li><a href=# class="font-size-item dropdown-item active" data-size=md>中等</a></li><li><a href=# class="font-size-item dropdown-item" data-size=lg>大号</a></li><li><a href=# class="font-size-item dropdown-item" data-size=xl>特大号</a></li></ul></li><li class="nav-item dropdown py-1 py-lg-1 col-6 col-lg-auto"><a class="nav-link px-0 px-lg-1" href=# id=paletteDropdown role=button data-bs-toggle=dropdown aria-expanded=false><i class="fas fa-fw fa-palette"></i>
+<span class=d-lg-none>配色</span></a><ul class="dropdown-menu dropdown-menu-end px-2" aria-labelledby=paletteDropdown><div class=row><li class="col-3 my-1"><a role=button id=palette-blue aria-label=蓝色 class="btn btn-sm w-100 palette text-bg-blue" data-palette=blue></a></li><li class="col-3 my-1"><a role=button id=palette-blue-gray aria-label=蓝灰色 class="btn btn-sm w-100 palette text-bg-blue-gray" data-palette=blue-gray></a></li><li class="col-3 my-1"><a role=button id=palette-brown aria-label=棕色 class="btn btn-sm w-100 palette text-bg-brown" data-palette=brown></a></li><li class="col-3 my-1"><a role=button id=palette-cyan aria-label=青色 class="btn btn-sm w-100 palette text-bg-cyan" data-palette=cyan></a></li><li class="col-3 my-1"><a role=button id=palette-green aria-label=绿色 class="btn btn-sm w-100 palette text-bg-green" data-palette=green></a></li><li class="col-3 my-1"><a role=button id=palette-indigo aria-label=靛青色 class="btn btn-sm w-100 palette text-bg-indigo" data-palette=indigo></a></li><li class="col-3 my-1"><a role=button id=palette-orange aria-label=橙色 class="btn btn-sm w-100 palette text-bg-orange" data-palette=orange></a></li><li class="col-3 my-1"><a role=button id=palette-pink aria-label=粉色 class="btn btn-sm w-100 palette text-bg-pink" data-palette=pink></a></li><li class="col-3 my-1"><a role=button id=palette-purple aria-label=紫色 class="btn btn-sm w-100 palette text-bg-purple" data-palette=purple></a></li><li class="col-3 my-1"><a role=button id=palette-red aria-label=红色 class="btn btn-sm w-100 palette text-bg-red" data-palette=red></a></li><li class="col-3 my-1"><a role=button id=palette-teal aria-label=蓝绿色 class="btn btn-sm w-100 palette text-bg-teal" data-palette=teal></a></li><li class="col-3 my-1"><a role=button id=palette-yellow aria-label=黄色 class="btn btn-sm w-100 palette text-bg-yellow" data-palette=yellow></a></li></div></ul></li><li class="nav-item dropdown py-2 py-lg-1 col-6 col-lg-auto"><a class="nav-link px-0 px-lg-1" href=# id=modeDropdown role=button data-bs-toggle=dropdown aria-expanded=false><i class="mode-icon fas fa-fw fa-adjust" id=modeIcon></i>
+<span class=d-lg-none>模式</span></a><ul class="dropdown-menu dropdown-menu-end" aria-labelledby=modeDropdown><li class=mode-item data-color-mode=light data-icon=sun><a class=dropdown-item href=#><i class="mode-icon fas fa-fw fa-sun"></i> Light</a></li><li class=mode-item data-color-mode=dark data-icon=moon><a class=dropdown-item href=#><i class="mode-icon fas fa-fw fa-moon"></i> Dark</a></li><li class="mode-item active" data-color-mode=auto data-icon=adjust><a class=dropdown-item href=#><i class="mode-icon fas fa-fw fa-adjust"></i> Auto</a></li></ul></li></ul></div></div></div></nav></header><main class=container><div class="row content"><noscript><div class="alert alert-danger" role=alert>你的浏览器不支持 JavaScript。</div></noscript><div class=col-lg-8><div class=container><nav class="row card component" aria-label=breadcrumb><div class="card-body pb-0"><ol class=breadcrumb><li class="breadcrumb-item text-surface"><a href=/>主页</a></li><li class="breadcrumb-item text-surface"><a href=/posts/>文章</a></li><li class="breadcrumb-item active">系统调度</li></ol></div></nav><div class="post-panel-wrapper position-sticky"><div class="d-flex flex-column component rounded post-panel position-absolute border"><a class="action action-panel-toggler" role=button title="Panel toggler"><i class="fas fa-fw fa-chevron-circle-down"></i></a>
+<a id=sidebarToggler class="action d-none d-lg-block" role=button title="Sidebar toggler"><i class="fas fa-fw fa-expand-alt" data-fa-transform=rotate-45></i></a>
+<a class="action btn-reward" role=button data-bs-toggle=modal data-bs-target=#rewardModal title=打赏><i class="fas fa-fw fa-coffee"></i></a>
+<a class=action href=#post-copyright role=button aria-label=Copyright title=Copyright><i class="fas fa-fw fa-copyright"></i></a>
+<a class=action href=#postTOC aria-controls="Table of contents" role=button title="Table of contents"><i class="fas fa-fw fa-list-alt"></i></a></div></div><article class="row card component mb-4 post"><div class=card-header><h1 class="card-title post-title my-2">系统调度</h1></div><div class=card-body><div class="post-meta mb-3"><span class="post-date me-1 mb-1" title="创建于 2021-10-04 04:10:25 +0000 UTC。">4040-10-04
+</span><span class="post-reading-time me-1 mb-1">2 分钟阅读
+</span><a href=/categories/linux/ class="btn btn-sm btn-secondary mb-1 me-2 py-0 pe-1 post-taxonomy">Linux</a><a href=/tags/kernel/ class="btn btn-sm btn-secondary mb-1 me-2 py-0 pe-1 post-taxonomy">Kernel</a></div><div class="post-content mb-3"><h1 id=系统调度>系统调度<a class="anchor ms-1" href=#系统调度><i class="fas fa-link"></i></a></h1><ul><li>主调度器<code>schedule</code></li><li>周期调度器<code>scheduler_tick</code></li></ul><h2 id=周期调度器函数实现>周期调度器函数实现<a class="anchor ms-1" href=#周期调度器函数实现><i class="fas fa-link"></i></a></h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=ln> 1</span><span class=cl><span class=kt>void</span> <span class=nf>scheduler_tick</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
+</span></span><span class=line><span class=ln> 2</span><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=ln> 3</span><span class=cl>	<span class=kt>int</span> <span class=n>cpu</span> <span class=o>=</span> <span class=n>smp_processor_id</span><span class=p>();</span>				<span class=c1>// CPUID
+</span></span></span><span class=line><span class=ln> 4</span><span class=cl><span class=c1></span>	<span class=k>struct</span> <span class=n>rq</span> <span class=o>*</span><span class=n>rq</span> <span class=o>=</span> <span class=n>cpu_rq</span><span class=p>(</span><span class=n>cpu</span><span class=p>);</span>				<span class=c1>// 提取消息队列
+</span></span></span><span class=line><span class=ln> 5</span><span class=cl><span class=c1></span>	<span class=k>struct</span> <span class=n>task_struct</span> <span class=o>*</span><span class=n>curr</span> <span class=o>=</span> <span class=n>rq</span><span class=o>-&gt;</span><span class=n>curr</span><span class=p>;</span>		<span class=c1>// 提取正在运行的进程
+</span></span></span><span class=line><span class=ln> 6</span><span class=cl><span class=c1></span>	<span class=k>struct</span> <span class=n>rq_flags</span> <span class=n>rf</span><span class=p>;</span>							<span class=c1>// 
+</span></span></span><span class=line><span class=ln> 7</span><span class=cl><span class=c1></span>	<span class=n>sched_clock_tick</span><span class=p>();</span>							<span class=c1>// 
+</span></span></span><span class=line><span class=ln> 8</span><span class=cl><span class=c1></span>	<span class=n>rq_lock</span><span class=p>(</span><span class=n>rq</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>rf</span><span class=p>);</span>							<span class=c1>//
+</span></span></span><span class=line><span class=ln> 9</span><span class=cl><span class=c1></span>	<span class=n>update_rq_clock</span><span class=p>(</span><span class=n>rq</span><span class=p>);</span>						<span class=c1>// 更新运行时钟
+</span></span></span><span class=line><span class=ln>10</span><span class=cl><span class=c1></span>	<span class=n>curr</span><span class=o>-&gt;</span><span class=n>sched_class</span><span class=o>-&gt;</span><span class=n>task_tick</span><span class=p>(</span><span class=n>rq</span><span class=p>,</span> <span class=n>curr</span><span class=p>,</span> <span class=mi>0</span><span class=p>);</span>	<span class=c1>// 调用调度器类
+</span></span></span><span class=line><span class=ln>11</span><span class=cl><span class=c1></span>	<span class=n>cpu_load_update_active</span><span class=p>(</span><span class=n>rq</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>12</span><span class=cl>	<span class=n>calc_global_load_tick</span><span class=p>(</span><span class=n>rq</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>13</span><span class=cl>	<span class=n>rq_unlock</span><span class=p>(</span><span class=n>rq</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>rf</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>14</span><span class=cl>	<span class=n>perf_event_task_tick</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>15</span><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><h2 id=主调度器函数实现>主调度器函数实现<a class="anchor ms-1" href=#主调度器函数实现><i class="fas fa-link"></i></a></h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=ln> 1</span><span class=cl><span class=k>static</span> <span class=kt>void</span> <span class=n>__sched</span> <span class=n>notrace</span> <span class=nf>__schedule</span><span class=p>(</span><span class=kt>bool</span> <span class=n>preempt</span><span class=p>)</span>
+</span></span><span class=line><span class=ln> 2</span><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=ln> 3</span><span class=cl>	<span class=k>struct</span> <span class=n>task_struct</span> <span class=o>*</span><span class=n>prev</span><span class=p>,</span> <span class=o>*</span><span class=n>next</span><span class=p>;</span>
+</span></span><span class=line><span class=ln> 4</span><span class=cl>	<span class=kt>unsigned</span> <span class=kt>long</span> <span class=o>*</span><span class=n>switch_count</span><span class=p>;</span>
+</span></span><span class=line><span class=ln> 5</span><span class=cl>	<span class=k>struct</span> <span class=n>rq_flags</span> <span class=n>rf</span><span class=p>;</span>
+</span></span><span class=line><span class=ln> 6</span><span class=cl>	<span class=k>struct</span> <span class=n>rq</span> <span class=o>*</span><span class=n>rq</span><span class=p>;</span>
+</span></span><span class=line><span class=ln> 7</span><span class=cl>	<span class=kt>int</span> <span class=n>cpu</span><span class=p>;</span>
+</span></span><span class=line><span class=ln> 8</span><span class=cl>
+</span></span><span class=line><span class=ln> 9</span><span class=cl>	<span class=n>cpu</span> <span class=o>=</span> <span class=n>smp_processor_id</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>10</span><span class=cl>	<span class=n>rq</span> <span class=o>=</span> <span class=n>cpu_rq</span><span class=p>(</span><span class=n>cpu</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>11</span><span class=cl>	<span class=n>prev</span> <span class=o>=</span> <span class=n>rq</span><span class=o>-&gt;</span><span class=n>curr</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>12</span><span class=cl>
+</span></span><span class=line><span class=ln>13</span><span class=cl>	<span class=n>schedule_debug</span><span class=p>(</span><span class=n>prev</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>14</span><span class=cl>
+</span></span><span class=line><span class=ln>15</span><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>sched_feat</span><span class=p>(</span><span class=n>HRTICK</span><span class=p>))</span>
+</span></span><span class=line><span class=ln>16</span><span class=cl>		<span class=n>hrtick_clear</span><span class=p>(</span><span class=n>rq</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>17</span><span class=cl>
+</span></span><span class=line><span class=ln>18</span><span class=cl>	<span class=n>local_irq_disable</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>19</span><span class=cl>	<span class=n>rcu_note_context_switch</span><span class=p>(</span><span class=n>preempt</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>20</span><span class=cl>
+</span></span><span class=line><span class=ln>21</span><span class=cl>	<span class=n>rq_lock</span><span class=p>(</span><span class=n>rq</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>rf</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>22</span><span class=cl>	<span class=n>smp_mb__after_spinlock</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>23</span><span class=cl>
+</span></span><span class=line><span class=ln>24</span><span class=cl>	<span class=n>rq</span><span class=o>-&gt;</span><span class=n>clock_update_flags</span> <span class=o>&lt;&lt;=</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>25</span><span class=cl>	<span class=n>update_rq_clock</span><span class=p>(</span><span class=n>rq</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>26</span><span class=cl>
+</span></span><span class=line><span class=ln>27</span><span class=cl>	<span class=n>switch_count</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>prev</span><span class=o>-&gt;</span><span class=n>nivcsw</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>28</span><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>preempt</span> <span class=o>&amp;&amp;</span> <span class=n>prev</span><span class=o>-&gt;</span><span class=n>state</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>29</span><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=n>unlikely</span><span class=p>(</span><span class=n>signal_pending_state</span><span class=p>(</span><span class=n>prev</span><span class=o>-&gt;</span><span class=n>state</span><span class=p>,</span> <span class=n>prev</span><span class=p>)))</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>30</span><span class=cl>			<span class=n>prev</span><span class=o>-&gt;</span><span class=n>state</span> <span class=o>=</span> <span class=n>TASK_RUNNING</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>31</span><span class=cl>		<span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>32</span><span class=cl>			<span class=n>deactivate_task</span><span class=p>(</span><span class=n>rq</span><span class=p>,</span> <span class=n>prev</span><span class=p>,</span> <span class=n>DEQUEUE_SLEEP</span> <span class=o>|</span> <span class=n>DEQUEUE_NOCLOCK</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>33</span><span class=cl>			<span class=n>prev</span><span class=o>-&gt;</span><span class=n>on_rq</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>34</span><span class=cl>
+</span></span><span class=line><span class=ln>35</span><span class=cl>			<span class=k>if</span> <span class=p>(</span><span class=n>prev</span><span class=o>-&gt;</span><span class=n>in_iowait</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>36</span><span class=cl>				<span class=n>atomic_inc</span><span class=p>(</span><span class=o>&amp;</span><span class=n>rq</span><span class=o>-&gt;</span><span class=n>nr_iowait</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>37</span><span class=cl>				<span class=n>delayacct_blkio_start</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>38</span><span class=cl>			<span class=p>}</span>
+</span></span><span class=line><span class=ln>39</span><span class=cl>			<span class=k>if</span> <span class=p>(</span><span class=n>prev</span><span class=o>-&gt;</span><span class=n>flags</span> <span class=o>&amp;</span> <span class=n>PF_WQ_WORKER</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>40</span><span class=cl>				<span class=k>struct</span> <span class=n>task_struct</span> <span class=o>*</span><span class=n>to_wakeup</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>41</span><span class=cl>
+</span></span><span class=line><span class=ln>42</span><span class=cl>				<span class=n>to_wakeup</span> <span class=o>=</span> <span class=n>wq_worker_sleeping</span><span class=p>(</span><span class=n>prev</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>43</span><span class=cl>				<span class=k>if</span> <span class=p>(</span><span class=n>to_wakeup</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>44</span><span class=cl>					<span class=n>try_to_wake_up_local</span><span class=p>(</span><span class=n>to_wakeup</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>rf</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>45</span><span class=cl>			<span class=p>}</span>
+</span></span><span class=line><span class=ln>46</span><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=ln>47</span><span class=cl>		<span class=n>switch_count</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>prev</span><span class=o>-&gt;</span><span class=n>nvcsw</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>48</span><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=ln>49</span><span class=cl>
+</span></span><span class=line><span class=ln>50</span><span class=cl>	<span class=n>next</span> <span class=o>=</span> <span class=n>pick_next_task</span><span class=p>(</span><span class=n>rq</span><span class=p>,</span> <span class=n>prev</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>rf</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>51</span><span class=cl>	<span class=n>clear_tsk_need_resched</span><span class=p>(</span><span class=n>prev</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>52</span><span class=cl>	<span class=n>clear_preempt_need_resched</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>53</span><span class=cl>
+</span></span><span class=line><span class=ln>54</span><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>likely</span><span class=p>(</span><span class=n>prev</span> <span class=o>!=</span> <span class=n>next</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>55</span><span class=cl>		<span class=n>rq</span><span class=o>-&gt;</span><span class=n>nr_switches</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>56</span><span class=cl>		<span class=n>rq</span><span class=o>-&gt;</span><span class=n>curr</span> <span class=o>=</span> <span class=n>next</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>57</span><span class=cl>		<span class=o>++*</span><span class=n>switch_count</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>58</span><span class=cl>
+</span></span><span class=line><span class=ln>59</span><span class=cl>		<span class=n>trace_sched_switch</span><span class=p>(</span><span class=n>preempt</span><span class=p>,</span> <span class=n>prev</span><span class=p>,</span> <span class=n>next</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>60</span><span class=cl>		<span class=n>rq</span> <span class=o>=</span> <span class=n>context_switch</span><span class=p>(</span><span class=n>rq</span><span class=p>,</span> <span class=n>prev</span><span class=p>,</span> <span class=n>next</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>rf</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>61</span><span class=cl>	<span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>62</span><span class=cl>		<span class=n>rq</span><span class=o>-&gt;</span><span class=n>clock_update_flags</span> <span class=o>&amp;=</span> <span class=o>~</span><span class=p>(</span><span class=n>RQCF_ACT_SKIP</span><span class=o>|</span><span class=n>RQCF_REQ_SKIP</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>63</span><span class=cl>		<span class=n>rq_unlock_irq</span><span class=p>(</span><span class=n>rq</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>rf</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>64</span><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=ln>65</span><span class=cl>
+</span></span><span class=line><span class=ln>66</span><span class=cl>	<span class=n>balance_callback</span><span class=p>(</span><span class=n>rq</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>67</span><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><h3 id=寻找最高优先级任务>寻找最高优先级任务<a class="anchor ms-1" href=#寻找最高优先级任务><i class="fas fa-link"></i></a></h3><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=ln> 1</span><span class=cl><span class=cm>/*
+</span></span></span><span class=line><span class=ln> 2</span><span class=cl><span class=cm> * 获取最高优先级的任务:
+</span></span></span><span class=line><span class=ln> 3</span><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=ln> 4</span><span class=cl><span class=k>static</span> <span class=kr>inline</span> <span class=k>struct</span> <span class=n>task_struct</span> 
+</span></span><span class=line><span class=ln> 5</span><span class=cl><span class=o>*</span><span class=nf>pick_next_task</span><span class=p>(</span><span class=k>struct</span> <span class=n>rq</span> <span class=o>*</span><span class=n>rq</span><span class=p>,</span> 
+</span></span><span class=line><span class=ln> 6</span><span class=cl>				<span class=k>struct</span> <span class=n>task_struct</span> <span class=o>*</span><span class=n>prev</span><span class=p>,</span>
+</span></span><span class=line><span class=ln> 7</span><span class=cl>				<span class=k>struct</span> <span class=n>rq_flags</span> <span class=o>*</span><span class=n>rf</span><span class=p>)</span>
+</span></span><span class=line><span class=ln> 8</span><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=ln> 9</span><span class=cl>	<span class=k>const</span> <span class=k>struct</span> <span class=n>sched_class</span> <span class=o>*</span><span class=n>class</span><span class=p>;</span>			<span class=c1>// 调度器类
+</span></span></span><span class=line><span class=ln>10</span><span class=cl><span class=c1></span>	<span class=k>struct</span> <span class=n>task_struct</span> <span class=o>*</span><span class=n>p</span><span class=p>;</span>						<span class=c1>// 任务实体
+</span></span></span><span class=line><span class=ln>11</span><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=ln>12</span><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>likely</span><span class=p>((</span><span class=n>prev</span><span class=o>-&gt;</span><span class=n>sched_class</span> <span class=o>==</span> <span class=o>&amp;</span><span class=n>idle_sched_class</span> <span class=o>||</span>
+</span></span><span class=line><span class=ln>13</span><span class=cl>			<span class=n>prev</span><span class=o>-&gt;</span><span class=n>sched_class</span> <span class=o>==</span> <span class=o>&amp;</span><span class=n>fair_sched_class</span><span class=p>)</span> <span class=o>&amp;&amp;</span>
+</span></span><span class=line><span class=ln>14</span><span class=cl>		   <span class=n>rq</span><span class=o>-&gt;</span><span class=n>nr_running</span> <span class=o>==</span> <span class=n>rq</span><span class=o>-&gt;</span><span class=n>cfs</span><span class=p>.</span><span class=n>h_nr_running</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>15</span><span class=cl>
+</span></span><span class=line><span class=ln>16</span><span class=cl>		<span class=n>p</span> <span class=o>=</span> <span class=n>fair_sched_class</span><span class=p>.</span><span class=n>pick_next_task</span><span class=p>(</span><span class=n>rq</span><span class=p>,</span> <span class=n>prev</span><span class=p>,</span> <span class=n>rf</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>17</span><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=n>unlikely</span><span class=p>(</span><span class=n>p</span> <span class=o>==</span> <span class=n>RETRY_TASK</span><span class=p>))</span>
+</span></span><span class=line><span class=ln>18</span><span class=cl>			<span class=k>goto</span> <span class=n>again</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>19</span><span class=cl>
+</span></span><span class=line><span class=ln>20</span><span class=cl>		<span class=cm>/* Assumes fair_sched_class-&gt;next == idle_sched_class */</span>
+</span></span><span class=line><span class=ln>21</span><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=n>unlikely</span><span class=p>(</span><span class=o>!</span><span class=n>p</span><span class=p>))</span>
+</span></span><span class=line><span class=ln>22</span><span class=cl>			<span class=n>p</span> <span class=o>=</span> <span class=n>idle_sched_class</span><span class=p>.</span><span class=n>pick_next_task</span><span class=p>(</span><span class=n>rq</span><span class=p>,</span> <span class=n>prev</span><span class=p>,</span> <span class=n>rf</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>23</span><span class=cl>
+</span></span><span class=line><span class=ln>24</span><span class=cl>		<span class=k>return</span> <span class=n>p</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>25</span><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=ln>26</span><span class=cl>
+</span></span><span class=line><span class=ln>27</span><span class=cl><span class=nl>again</span><span class=p>:</span>
+</span></span><span class=line><span class=ln>28</span><span class=cl>	<span class=n>for_each_class</span><span class=p>(</span><span class=n>class</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>29</span><span class=cl>		<span class=n>p</span> <span class=o>=</span> <span class=n>class</span><span class=o>-&gt;</span><span class=n>pick_next_task</span><span class=p>(</span><span class=n>rq</span><span class=p>,</span> <span class=n>prev</span><span class=p>,</span> <span class=n>rf</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>30</span><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>31</span><span class=cl>			<span class=k>if</span> <span class=p>(</span><span class=n>unlikely</span><span class=p>(</span><span class=n>p</span> <span class=o>==</span> <span class=n>RETRY_TASK</span><span class=p>))</span>
+</span></span><span class=line><span class=ln>32</span><span class=cl>				<span class=k>goto</span> <span class=n>again</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>33</span><span class=cl>			<span class=k>return</span> <span class=n>p</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>34</span><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=ln>35</span><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=ln>36</span><span class=cl>
+</span></span><span class=line><span class=ln>37</span><span class=cl>	<span class=cm>/* IDLE线程不会退出 */</span>
+</span></span><span class=line><span class=ln>38</span><span class=cl>	<span class=n>BUG</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>39</span><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><h3 id=任务切换>任务切换<a class="anchor ms-1" href=#任务切换><i class="fas fa-link"></i></a></h3><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=ln> 1</span><span class=cl><span class=k>static</span> <span class=n>__always_inline</span> <span class=k>struct</span> <span class=n>rq</span> <span class=o>*</span>
+</span></span><span class=line><span class=ln> 2</span><span class=cl><span class=nf>context_switch</span><span class=p>(</span><span class=k>struct</span> <span class=n>rq</span> <span class=o>*</span><span class=n>rq</span><span class=p>,</span> <span class=k>struct</span> <span class=n>task_struct</span> <span class=o>*</span><span class=n>prev</span><span class=p>,</span>
+</span></span><span class=line><span class=ln> 3</span><span class=cl>		   <span class=k>struct</span> <span class=n>task_struct</span> <span class=o>*</span><span class=n>next</span><span class=p>,</span> <span class=k>struct</span> <span class=n>rq_flags</span> <span class=o>*</span><span class=n>rf</span><span class=p>)</span>
+</span></span><span class=line><span class=ln> 4</span><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=ln> 5</span><span class=cl>	<span class=k>struct</span> <span class=n>mm_struct</span> <span class=o>*</span><span class=n>mm</span><span class=p>,</span> <span class=o>*</span><span class=n>oldmm</span><span class=p>;</span>
+</span></span><span class=line><span class=ln> 6</span><span class=cl>
+</span></span><span class=line><span class=ln> 7</span><span class=cl>	<span class=n>prepare_task_switch</span><span class=p>(</span><span class=n>rq</span><span class=p>,</span> <span class=n>prev</span><span class=p>,</span> <span class=n>next</span><span class=p>);</span>
+</span></span><span class=line><span class=ln> 8</span><span class=cl>
+</span></span><span class=line><span class=ln> 9</span><span class=cl>	<span class=n>mm</span> <span class=o>=</span> <span class=n>next</span><span class=o>-&gt;</span><span class=n>mm</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>10</span><span class=cl>	<span class=n>oldmm</span> <span class=o>=</span> <span class=n>prev</span><span class=o>-&gt;</span><span class=n>active_mm</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>11</span><span class=cl>	<span class=cm>/*
+</span></span></span><span class=line><span class=ln>12</span><span class=cl><span class=cm>	 * For paravirt, this is coupled with an exit in switch_to to
+</span></span></span><span class=line><span class=ln>13</span><span class=cl><span class=cm>	 * combine the page table reload and the switch backend into
+</span></span></span><span class=line><span class=ln>14</span><span class=cl><span class=cm>	 * one hypercall.
+</span></span></span><span class=line><span class=ln>15</span><span class=cl><span class=cm>	 */</span>
+</span></span><span class=line><span class=ln>16</span><span class=cl>	<span class=n>arch_start_context_switch</span><span class=p>(</span><span class=n>prev</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>17</span><span class=cl>
+</span></span><span class=line><span class=ln>18</span><span class=cl>	<span class=cm>/*
+</span></span></span><span class=line><span class=ln>19</span><span class=cl><span class=cm>	 * If mm is non-NULL, we pass through switch_mm(). If mm is
+</span></span></span><span class=line><span class=ln>20</span><span class=cl><span class=cm>	 * NULL, we will pass through mmdrop() in finish_task_switch().
+</span></span></span><span class=line><span class=ln>21</span><span class=cl><span class=cm>	 * Both of these contain the full memory barrier required by
+</span></span></span><span class=line><span class=ln>22</span><span class=cl><span class=cm>	 * membarrier after storing to rq-&gt;curr, before returning to
+</span></span></span><span class=line><span class=ln>23</span><span class=cl><span class=cm>	 * user-space.
+</span></span></span><span class=line><span class=ln>24</span><span class=cl><span class=cm>	 */</span>
+</span></span><span class=line><span class=ln>25</span><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>mm</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>26</span><span class=cl>		<span class=n>next</span><span class=o>-&gt;</span><span class=n>active_mm</span> <span class=o>=</span> <span class=n>oldmm</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>27</span><span class=cl>		<span class=n>mmgrab</span><span class=p>(</span><span class=n>oldmm</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>28</span><span class=cl>		<span class=n>enter_lazy_tlb</span><span class=p>(</span><span class=n>oldmm</span><span class=p>,</span> <span class=n>next</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>29</span><span class=cl>	<span class=p>}</span> <span class=k>else</span>
+</span></span><span class=line><span class=ln>30</span><span class=cl>		<span class=n>switch_mm_irqs_off</span><span class=p>(</span><span class=n>oldmm</span><span class=p>,</span> <span class=n>mm</span><span class=p>,</span> <span class=n>next</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>31</span><span class=cl>
+</span></span><span class=line><span class=ln>32</span><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>prev</span><span class=o>-&gt;</span><span class=n>mm</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>33</span><span class=cl>		<span class=n>prev</span><span class=o>-&gt;</span><span class=n>active_mm</span> <span class=o>=</span> <span class=nb>NULL</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>34</span><span class=cl>		<span class=n>rq</span><span class=o>-&gt;</span><span class=n>prev_mm</span> <span class=o>=</span> <span class=n>oldmm</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>35</span><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=ln>36</span><span class=cl>
+</span></span><span class=line><span class=ln>37</span><span class=cl>	<span class=n>rq</span><span class=o>-&gt;</span><span class=n>clock_update_flags</span> <span class=o>&amp;=</span> <span class=o>~</span><span class=p>(</span><span class=n>RQCF_ACT_SKIP</span><span class=o>|</span><span class=n>RQCF_REQ_SKIP</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>38</span><span class=cl>
+</span></span><span class=line><span class=ln>39</span><span class=cl>	<span class=n>prepare_lock_switch</span><span class=p>(</span><span class=n>rq</span><span class=p>,</span> <span class=n>next</span><span class=p>,</span> <span class=n>rf</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>40</span><span class=cl>
+</span></span><span class=line><span class=ln>41</span><span class=cl>	<span class=cm>/* Here we just switch the register state and the stack. */</span>
+</span></span><span class=line><span class=ln>42</span><span class=cl>	<span class=n>switch_to</span><span class=p>(</span><span class=n>prev</span><span class=p>,</span> <span class=n>next</span><span class=p>,</span> <span class=n>prev</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>43</span><span class=cl>	<span class=n>barrier</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>44</span><span class=cl>
+</span></span><span class=line><span class=ln>45</span><span class=cl>	<span class=k>return</span> <span class=n>finish_task_switch</span><span class=p>(</span><span class=n>prev</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>46</span><span class=cl><span class=p>}</span>
+</span></span></code></pre></div></div><div class="modal fade" id=rewardModal tabindex=-1 aria-labelledby=rewardModalLabel aria-hidden=true><div class=modal-dialog><div class="modal-content surface"><div class=modal-header><h5 class="modal-title text-surface" id=rewardModalLabel><i class="fas fa-fw fa-coffee me-1"></i>打赏</h5><a href=# data-bs-dismiss=modal class=btn-close aria-label=Close></a></div><div class=modal-body><ul class="nav nav-tabs mb-3" role=tablist><li class="nav-item text-nowrap" role=presentation><a class="nav-link active" id=reward-alipay-tab data-bs-toggle=tab href=#reward-alipay role=tab aria-controls=reward-alipay aria-selected=true><i class="fab fa-fw fa-alipay me-1"></i>支付宝</a></li><li class="nav-item text-nowrap" role=presentation><a class=nav-link id=reward-wechat-tab data-bs-toggle=tab href=#reward-wechat role=tab aria-controls=reward-wechat aria-selected=true><i class="fab fa-fw fa-weixin me-1"></i>微信</a></li></ul><div class=tab-content id=rewardTabContent><div class="tab-pane fade post-reward-content show active" id=reward-alipay role=tabpanel aria-labelledby=reward-alipay-tab><img class="img-fluid post-reward-img" src=/images/reward/alipay.png loading=lazy data-viewer-invisible></div><div class="tab-pane fade post-reward-content show" id=reward-wechat role=tabpanel aria-labelledby=reward-wechat-tab><img class="img-fluid post-reward-img" src=/images/reward/wechat.png loading=lazy data-viewer-invisible></div></div></div></div></div></div></div><div class=card-footer><div class="post-navs d-flex justify-content-evenly"><div class="post-nav post-prev"><i class="fas fa-fw fa-chevron-circle-down post-prev-icon" data-fa-transform=rotate-90></i>
+<a href=/posts/rime/>Rime</a></div><div class="post-nav post-next"><a href=/posts/task/>任务管理</a>
+<i class="fas fa-fw fa-chevron-circle-down post-next-icon" data-fa-transform=rotate-270></i></div></div></div></article><div class="post-copyright mb-3 row card component" id=post-copyright><div class=card-header><h2 class="card-title fs-4 my-2 text-surface">版权</h2></div><div class=card-body><a class="d-flex align-items-center flex-column" target=_blank rel="license noopener noreferrer" href=https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh><span><i class="fab fa-fw fa-2x fa-creative-commons"></i><i class="fab fa-fw fa-2x fa-creative-commons-by"></i><i class="fab fa-fw fa-2x fa-creative-commons-nc"></i><i class="fab fa-fw fa-2x fa-creative-commons-nd"></i></span>
+CC BY-NC-ND 4.0</a></div></div><section class="related-posts row card component"><div class=card-header><h2 class="card-title fs-4 my-2 text-surface">相关文章</h2></div><div class=card-body><ul class="post-list list-unstyled"><li><a href=/posts/drivermodel/>驱动模型</a>
+<span class="float-end post-date">24240-10-24</span></li></ul></div></section></div></div><aside class="col-lg-4 sidebar d-flex"><div class="container d-flex flex-column"><div class="card row text-center profile component"><div class=card-body><div class="col-12 d-flex align-items-center justify-content-center"><picture><img class="profile-avatar rounded-circle" alt=MengDemao src=/images/profile.webp loading=lazy data-viewer-invisible width=400 height=400></picture></div><div class="col-12 profile-meta"><div class="profile-name fw-fold fs-lg">MengDemao</div><div class=profile-bio>面向玄学编程</div><div class=profile-company><i class="fas fa-fw fa-building"></i>Company</div><div class=profile-location><i class="fas fa-fw fa-map-marker-alt"></i>Earth</div><div class="profile-about text-primary"><i class="fas fa-fw fa-user"></i><a href=/about/>About</a></div><nav class="social-links nav justify-content-center"><a class="nav-link social-link" href=mailto:mengdemao19951021@gmail.com title=Email><i class="fas fa-fw fa-2x fa-envelope"></i></a><a class="nav-link social-link" target=_blank href=https://github.com/https://github.com/mengdemao title=GitHub rel="noopener noreferrer">
+<i class="fa-fw fa-2x fab fa-github"></i></a><a class="nav-link social-link" target=_blank href=/index.xml title=RSS rel="noopener noreferrer">
+<i class="fas fa-fw fa-2x fa-rss"></i></a></nav></div></div></div><section class="taxonomies row card component"><div class=card-body><ul class="nav nav-tabs" id=myTab role=tablist><li class=nav-item role=presentation><button class=nav-link id=taxonomyCategoriesTab data-bs-toggle=tab data-bs-target=#taxonomyCategories type=button role=tab aria-controls=分类 aria-selected=true>
+分类</button></li><li class=nav-item role=presentation><button class=nav-link id=taxonomyTagsTab data-bs-toggle=tab data-bs-target=#taxonomyTags type=button role=tab aria-controls=标签 aria-selected=true>
+标签</button></li><li class=nav-item role=presentation><button class=nav-link id=taxonomyArchivesTab data-bs-toggle=tab data-bs-target=#taxonomyArchive type=button role=tab aria-controls=taxonomyArchives aria-selected=true>
+归档</button></li></ul><div class="tab-content mt-3"><div class="tab-pane active" id=taxonomyCategories role=tabpanel aria-labelledby=taxonomyCategoriesTab tabindex=0><a href=/categories/linux/ class="btn btn-sm btn-secondary post-taxonomy me-2 mb-2" title=linux>linux</a><a href=/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/ class="btn btn-sm btn-secondary post-taxonomy me-2 mb-2" title=编程语言>
+编程语言</a><a href=/categories/compiler/ class="btn btn-sm btn-secondary post-taxonomy me-2 mb-2" title=compiler>
+compiler</a><a href=/categories/python/ class="btn btn-sm btn-secondary post-taxonomy me-2 mb-2" title=python>
+python</a><a href=/categories/rootfs/ class="btn btn-sm btn-secondary post-taxonomy me-2 mb-2" title=rootfs>
+rootfs</a></div><div class=tab-pane id=taxonomyTags role=tabpanel aria-labelledby=taxonomyTagsTab tabindex=0><a href=/tags/kernel/ class="btn btn-sm btn-secondary post-taxonomy me-2 mb-2" title=kernel>kernel</a><a href=/tags/c++/ class="btn btn-sm btn-secondary post-taxonomy me-2 mb-2" title=C++>
+C++</a><a href=/tags/compiler/ class="btn btn-sm btn-secondary post-taxonomy me-2 mb-2" title=compiler>
+compiler</a><a href=/tags/nfs/ class="btn btn-sm btn-secondary post-taxonomy me-2 mb-2" title=nfs>
+nfs</a><a href=/tags/rootfs/ class="btn btn-sm btn-secondary post-taxonomy me-2 mb-2" title=rootfs>
+rootfs</a><a href=/tags/%E6%8A%80%E5%B7%A7/ class="btn btn-sm btn-secondary post-taxonomy me-2 mb-2" title=技巧>
+技巧</a><a href=/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/ class="btn btn-sm btn-secondary post-taxonomy me-2 mb-2" title=编译原理>
+编译原理</a></div><div class=tab-pane id=taxonomyArchive role=tabpanel aria-labelledby=taxonomyArchiveTab tabindex=0><a href class="btn btn-sm btn-secondary post-taxonomy me-2 mb-2" title=2022>2022 <span class="badge badge-sm text-secondary bg-white ms-1">6</span></a>
+<a href class="btn btn-sm btn-secondary post-taxonomy me-2 mb-2" title=2021>2021 <span class="badge badge-sm text-secondary bg-white ms-1">38</span></a></div></div></div></section><div class="post-toc row mb-4 card component" id=postTOC><div class=card-header><h2 class="card-title fs-4 my-2 text-surface">目录</h2></div><div class=card-body><nav id=TableOfContents><ul><li><a href=#周期调度器函数实现>周期调度器函数实现</a></li><li><a href=#主调度器函数实现>主调度器函数实现</a><ul><li><a href=#寻找最高优先级任务>寻找最高优先级任务</a></li><li><a href=#任务切换>任务切换</a></li></ul></li></ul></nav></div></div><section class="recent-posts row card component"><div class=card-header><h2 class="card-title my-2 fs-4 text-surface">最近文章</h2></div><div class=card-body><ul class="post-list list-unstyled ms-1"><li class=mb-2><a href=/posts/cxx_template/>C++模板</a></li><li class=mb-2><a href=/posts/pthread/>Pthread源码分析</a></li><li class=mb-2><a href=/posts/memory_management/>内存管理</a></li><li class=mb-2><a href=/posts/buildroot/>Buildroot</a></li><li class=mb-2><a href=/posts/c4/>C4</a></li></ul></div></section></div></aside></div></main><footer class="footer mt-auto py-3 text-center container"><div class="offcanvas offcanvas-bottom h-auto" tabindex=-1 id=offcanvasActionsPanel aria-labelledby=offcanvasActionsPanelLabel><div class=offcanvas-header><h5 class="offcanvas-title fs-4" id=offcanvasActionsPanelLabel><i class="fas fa-fw fa-th-large me-1"></i>
+Actions</h5><button type=button class="btn-close ms-auto" data-bs-dismiss=offcanvas data-bs-target=offcanvasActionsPanel aria-label=Close></button></div><div class="offcanvas-body mt-2"><div class="social-share mb-4 d-flex overflow-auto"><a class="btn-social-share d-flex flex-column align-items-center me-3" rel="noopener noreferrer" aria-label="Twitter Share Button" target=_blank href="https://twitter.com/intent/tweet?title=%e7%b3%bb%e7%bb%9f%e8%b0%83%e5%ba%a6&url=%2fposts%2fsched%2f"><i class="fab fa-2x fa-fw fa-twitter mb-2"></i> Twitter</a>
+<a class="btn-social-share d-flex flex-column align-items-center me-3" rel="noopener noreferrer" aria-label="Facebook Share Button" target=_blank href="https://www.facebook.com/sharer/sharer.php?u=%2fposts%2fsched%2f"><i class="fab fa-2x fa-fw fa-facebook-f mb-2"></i> Facebook</a></div><hr class=mb-4><div class="actions d-flex overflow-auto align-items-center"><a role=button class="action action-go-back d-flex flex-column align-items-center me-3" href="javascript: window.history.back();"><span class="action-icon mb-2"><i class="fas fa-2x fa-chevron-circle-down" data-fa-transform=rotate-90></i></span> 返回</a>
+<a role=button class="action action-reload-page d-flex flex-column align-items-center me-3"><span class="action-icon mb-2"><i class="fas fa-2x fa-redo-alt"></i></span> 刷新</a>
+<a role=button class="action action-copy-url d-flex flex-column align-items-center me-3"><span class="action-icon mb-2"><i class="fas fa-2x fa-link"></i></span> 复制链接</a></div></div></div><nav class="social-links nav justify-content-center mb-2"><a class="nav-link social-link" target=_blank href=/index.xml title=RSS rel="noopener noreferrer"><i class="fas fa-fw fa-2x fa-rss"></i></a></nav><div class="copyright mb-2">Copyright © 2020-2022 Meng Demao. All Rights Reserved.</div><div class="powered-by mb-2">Powered by <a class=text-primary href=https://gohugo.io target=_blank rel="noopener noreferrer">Hugo</a> and the <a class=text-primary href=https://github.com/razonyang/hugo-theme-bootstrap target=_blank rel="noopener noreferrer">Bootstrap</a> theme.</div></footer><script src=/assets/main/bundle.min.51d1d8a398f6e194429a29b4ae61c310908222b2dc47465f409cb7646707101a.js integrity="sha256-UdHYo5j24ZRCmim0rmHDEJCCIrLcR0ZfQJy3ZGcHEBo=" crossorigin=anonymous defer></script><script src=/assets/icons/bundle.min.f4798fc469be1e5b2c0074c45f5f40bf60446acb1af9a801228be0886d8268c9.js integrity="sha256-9HmPxGm+HlssAHTEX19Av2BEassa+agBIovgiG2CaMk=" crossorigin=anonymous defer></script>
+<script src=/assets/viewer/bundle.min.92d4a694e2e9a4c4d89b6998067e2f8e502dc7a951682bb5a160a3004b434908.js integrity="sha256-ktSmlOLppMTYm2mYBn4vjlAtx6lRaCu1oWCjAEtDSQg=" crossorigin=anonymous defer></script></body></html>
