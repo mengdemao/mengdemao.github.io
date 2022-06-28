@@ -1,0 +1,450 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title class=pjax-title>调度优先级 - 编程日志</title><meta name=Description content="个人知识的总结、提高、归纳"><meta property="og:title" content="调度优先级"><meta property="og:description" content="1 优先级定义 内核优先级使用0-139确定内部优先级,0-99分配实时进程; [100, 139]分配非实时进程,nice的映射[-20, 19]与非实时优"><meta property="og:type" content="article"><meta property="og:url" content="https://mengdemao.github.io/schedulepriority/"><meta property="og:image" content="https://mengdemao.github.io/images/avatar.webp"><meta property="article:section" content="posts"><meta property="article:published_time" content="2021-11-14T12:47:03+08:00"><meta property="article:modified_time" content="2022-06-28T22:38:14+08:00"><meta property="og:site_name" content="编程日志"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://mengdemao.github.io/images/avatar.webp"><meta name=twitter:title content="调度优先级"><meta name=twitter:description content="1 优先级定义 内核优先级使用0-139确定内部优先级,0-99分配实时进程; [100, 139]分配非实时进程,nice的映射[-20, 19]与非实时优"><meta name=application-name content="面向玄学编程"><meta name=apple-mobile-web-app-title content="面向玄学编程"><meta name=theme-color content="#f8f8f8"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=canonical href=https://mengdemao.github.io/schedulepriority/><link rel=prev href=https://mengdemao.github.io/dwl/><link rel=next href=https://mengdemao.github.io/complete/><link rel=stylesheet href=/lib/normalize/normalize.min.8235a67a2521ef99fb1e455a5891b022af1653b4ede3cfffcac4e473beee88fbcc1a36bbb3cfdd75fd6df46732032f9d96e30adae9c88b769e1fbf7945cd27e0.css integrity="sha512-gjWmeiUh75n7HkVaWJGwIq8WU7Tt48//ysTkc77uiPvMGja7s8/ddf1t9GcyAy+dluMK2unIi3aeH795Rc0n4A=="><link rel=stylesheet href=/css/style.min.0f55137082d245ea45cddc893472e0064a8ae1ebf1ac0ec6c81be86a040cb43f360679ecd56d056a1c7f11d122b63baddace1a8659aa440dfb1890153405175d.css integrity="sha512-D1UTcILSRepFzdyJNHLgBkqK4evxrA7GyBvoagQMtD82Bnns1W0Fahx/EdEitjut2s4ahlmqRA37GJAVNAUXXQ=="><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/fontawesome-free/all.min.eb8387c9eb0ab6d4fa4d7ad397d15df13b92c009a1eb221b757dd1ecfccabc78a4c5b681847a7f4198ff7cd60abed8300508c9dea138cd1f4a85f09f09b2092a.css integrity="sha512-64OHyesKttT6TXrTl9Fd8TuSwAmh6yIbdX3R7PzKvHikxbaBhHp/QZj/fNYKvtgwBQjJ3qE4zR9KhfCfCbIJKg=="><noscript><link rel=stylesheet href=/lib/fontawesome-free/all.min.eb8387c9eb0ab6d4fa4d7ad397d15df13b92c009a1eb221b757dd1ecfccabc78a4c5b681847a7f4198ff7cd60abed8300508c9dea138cd1f4a85f09f09b2092a.css integrity="sha512-64OHyesKttT6TXrTl9Fd8TuSwAmh6yIbdX3R7PzKvHikxbaBhHp/QZj/fNYKvtgwBQjJ3qE4zR9KhfCfCbIJKg=="></noscript><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/animate/animate.min.738daa4d2c3fc0f677ff92c1cc3f81c397fb6d2176a31a2eeb011bf88fe5a9e68a57914321f32fbd1a7bef6cb88dc24b2ae1943a96c931d83f053979d1f25803.css integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw=="><noscript><link rel=stylesheet href=/lib/animate/animate.min.738daa4d2c3fc0f677ff92c1cc3f81c397fb6d2176a31a2eeb011bf88fe5a9e68a57914321f32fbd1a7bef6cb88dc24b2ae1943a96c931d83f053979d1f25803.css integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw=="></noscript><meta name=google-site-verification content="MQ8DNu27ayX6B_4ObiEDK09vGr1fdy7kOAnbd09hJk4"><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"调度优先级","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/mengdemao.github.io\/schedulepriority\/"},"image":["https:\/\/mengdemao.github.io\/images\/Apple-Devices-Preview.png"],"genre":"posts","wordcount":1283,"url":"https:\/\/mengdemao.github.io\/schedulepriority\/","datePublished":"2021-11-14T12:47:03+08:00","dateModified":"2022-06-28T22:38:14+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"xxxx","logo":{"@type":"ImageObject","url":"https:\/\/mengdemao.github.io\/images\/avatar.webp","width":528,"height":560}},"author":{"@type":"Person","name":"mengdemao"},"description":""}</script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>function setTheme(e){document.body.setAttribute("theme",e),document.documentElement.style.setProperty("color-scheme",e==="light"?"light":"dark")}function saveTheme(e){window.localStorage&&localStorage.setItem("theme",e)}function getMeta(e){const t=document.getElementsByTagName("meta");for(let n=0;n<t.length;n++)if(t[n].getAttribute("name")===e)return t[n];return""}if(window.localStorage&&localStorage.getItem("theme")){let e=localStorage.getItem("theme");e==="light"||e==="dark"||e==="black"?setTheme(e):setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}else"auto"==="light"||"auto"==="dark"||"auto"==="black"?(setTheme("auto"),saveTheme("auto")):(saveTheme("auto"),setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));let metaColors={light:"#f8f8f8",dark:"#252627",black:"#000000"};getMeta("theme-color").content=metaColors[document.body.getAttribute("theme")]</script><div id=back-to-top></div><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=header-title-pre><i class='far fa-edit fa-fw'></i></span><span id=desktop-header-typeit class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/series/>系列 </a><a class=menu-item href=/authors/>作者 </a><a class=menu-item href=/showcase/>作品 </a><a class=menu-item href=/categories/documentation/>文档 </a><a class=menu-item href=/about/>关于 </a><a class=menu-item href=https://github.com/mengdemao/github.io title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw'></i> </a><a class=menu-item href=/archives/ title=归档><i class="fas fa-fw fa-file-archive"></i> 归档 </a><a class=menu-item href=/categories/ title=分类><i class="fas fa-fw fa-folder"></i> 分类 </a><a class=menu-item href=/tags/ title=标签><i class="fas fa-fw fa-tags"></i> 标签 </a><a class=menu-item href=/series/ title=专栏><i class="fas fa-fw fa-columns"></i> 专栏 </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=# onclick=return!1 class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw"></i></a>
+<a href=# onclick=return!1 class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw"></i></a>
+<span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin"></i></span>
+</span><a href=# onclick=return!1 class="menu-item theme-select" title=切换主题><i class="fas fa-adjust fa-fw"></i>
+<select class=color-theme-select id=theme-select-desktop title=切换主题><option value=light>浅色</option><option value=dark>深色</option><option value=black>黑色</option><option value=auto>跟随系统</option></select></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=header-title-pre><i class='far fa-edit fa-fw'></i></span><span id=mobile-header-typeit class=typeit></span></a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=# onclick=return!1 class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw"></i></a>
+<a href=# onclick=return!1 class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw"></i></a>
+<span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin"></i></span></div><a href=# onclick=return!1 class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts/ title>所有文章</a><a class=menu-item href=/tags/ title>标签</a><a class=menu-item href=/categories/ title>分类</a><a class=menu-item href=/series/ title>系列</a><a class=menu-item href=/authors/ title>作者</a><a class=menu-item href=/showcase/ title>作品</a><a class=menu-item href=/categories/documentation/ title>文档</a><a class=menu-item href=/about/ title>关于</a><a class=menu-item href=https://github.com/mengdemao/github.io title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw'></i></a><a class=menu-item href=/archives/ title=归档><i class="fas fa-fw fa-file-archive"></i>归档</a><a class=menu-item href=/categories/ title=分类><i class="fas fa-fw fa-folder"></i>分类</a><a class=menu-item href=/tags/ title=标签><i class="fas fa-fw fa-tags"></i>标签</a><a class=menu-item href=/series/ title=专栏><i class="fas fa-fw fa-columns"></i>专栏</a><a href=# onclick=return!1 class="menu-item theme-select" title=切换主题>
+<i class="fas fa-adjust fa-fw"></i>
+<select class=color-theme-select id=theme-select-mobile title=切换主题><option value=light>浅色</option><option value=dark>深色</option><option value=black>黑色</option><option value=auto>跟随系统</option></select></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto><nav id=TableOfContents><ul><li><a href=#优先级定义>优先级定义</a></li><li><a href=#相关数据结构>相关数据结构</a><ul><li><a href=#计算静态优先级>计算静态优先级</a></li><li><a href=#获取普通优先级>获取普通优先级</a></li></ul></li><li><a href=#负载计算>负载计算</a><ul><li><a href=#设置负载权重>设置负载权重</a><ul><li><a href=#不需更新权重>不需更新权重</a></li><li><a href=#需要更新权重>需要更新权重</a></li></ul></li></ul></li></ul></nav></div></div><script>document.getElementsByTagName("main")[0].setAttribute("pageStyle","normal")</script><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC","true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">调度优先级</h1><div class=post-meta><div class=post-meta-line><span class=post-author><i class="author fas fa-user-circle fa-fw"></i><a href=https://github.com/mengdemao/github.io title=Author target=_blank rel="noopener noreffer author" class=author>mengdemao</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2021-11-14>2021-11-14</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime=2022-06-28>2022-06-28</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1283 字&nbsp;
+<i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;</div></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#优先级定义>优先级定义</a></li><li><a href=#相关数据结构>相关数据结构</a><ul><li><a href=#计算静态优先级>计算静态优先级</a></li><li><a href=#获取普通优先级>获取普通优先级</a></li></ul></li><li><a href=#负载计算>负载计算</a><ul><li><a href=#设置负载权重>设置负载权重</a><ul><li><a href=#不需更新权重>不需更新权重</a></li><li><a href=#需要更新权重>需要更新权重</a></li></ul></li></ul></li></ul></nav></div></div><div class=content id=content><h2 id=优先级定义 class=headerLink><a href=#%e4%bc%98%e5%85%88%e7%ba%a7%e5%ae%9a%e4%b9%89 class=header-mark></a>1 优先级定义</h2><blockquote><p>内核优先级使用<code>0-139</code>确定内部优先级,<code>0-99</code>分配实时进程;
+<code>[100, 139]</code>分配非实时进程,nice的映射<code>[-20, 19]</code>与非实时优先级的相对应.</p></blockquote><h2 id=相关数据结构 class=headerLink><a href=#%e7%9b%b8%e5%85%b3%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84 class=header-mark></a>2 相关数据结构</h2><p>任务相关数据</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>struct</span> <span class=n>task_struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>	<span class=kt>int</span>				<span class=n>prio</span><span class=p>;</span>			<span class=c1>// 动态优先级
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=kt>int</span>				<span class=n>static_prio</span><span class=p>;</span>	<span class=c1>// 静态优先级
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=kt>int</span>				<span class=n>normal_prio</span><span class=p>;</span>	<span class=c1>// 普通优先级	
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=kt>unsigned</span> <span class=kt>int</span>	<span class=n>rt_priority</span><span class=p>;</span>	<span class=c1>// 实时优先级
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=计算静态优先级 class=headerLink><a href=#%e8%ae%a1%e7%ae%97%e9%9d%99%e6%80%81%e4%bc%98%e5%85%88%e7%ba%a7 class=header-mark></a>2.1 计算静态优先级</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>static</span> <span class=kt>int</span> <span class=nf>effective_prio</span><span class=p>(</span><span class=k>struct</span> <span class=n>task_struct</span> <span class=o>*</span><span class=n>p</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=cm>/* 设置普通优先级 */</span>
+</span></span><span class=line><span class=cl>	<span class=n>p</span><span class=o>-&gt;</span><span class=n>normal_prio</span> <span class=o>=</span> <span class=n>normal_prio</span><span class=p>(</span><span class=n>p</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* 如果不是实时优先级,则返回普通优先级 */</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>rt_prio</span><span class=p>(</span><span class=n>p</span><span class=o>-&gt;</span><span class=n>prio</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span> <span class=n>p</span><span class=o>-&gt;</span><span class=n>normal_prio</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>	<span class=cm>/* 返回动态优先级 */</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=n>p</span><span class=o>-&gt;</span><span class=n>prio</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=获取普通优先级 class=headerLink><a href=#%e8%8e%b7%e5%8f%96%e6%99%ae%e9%80%9a%e4%bc%98%e5%85%88%e7%ba%a7 class=header-mark></a>2.2 获取普通优先级</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>static</span> <span class=kr>inline</span> <span class=kt>int</span> <span class=nf>__normal_prio</span><span class=p>(</span><span class=k>struct</span> <span class=n>task_struct</span> <span class=o>*</span><span class=n>p</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=n>p</span><span class=o>-&gt;</span><span class=n>static_prio</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>static</span> <span class=kr>inline</span> <span class=kt>int</span> <span class=nf>normal_prio</span><span class=p>(</span><span class=k>struct</span> <span class=n>task_struct</span> <span class=o>*</span><span class=n>p</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=n>prio</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>task_has_dl_policy</span><span class=p>(</span><span class=n>p</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>		<span class=n>prio</span> <span class=o>=</span> <span class=n>MAX_DL_PRIO</span><span class=o>-</span><span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=n>task_has_rt_policy</span><span class=p>(</span><span class=n>p</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>		<span class=n>prio</span> <span class=o>=</span> <span class=n>MAX_RT_PRIO</span><span class=o>-</span><span class=mi>1</span> <span class=o>-</span> <span class=n>p</span><span class=o>-&gt;</span><span class=n>rt_priority</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>else</span>
+</span></span><span class=line><span class=cl>		<span class=n>prio</span> <span class=o>=</span> <span class=n>__normal_prio</span><span class=p>(</span><span class=n>p</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=n>prio</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=负载计算 class=headerLink><a href=#%e8%b4%9f%e8%bd%bd%e8%ae%a1%e7%ae%97 class=header-mark></a>3 负载计算</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=c1>// 负载权重
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>struct</span> <span class=n>load_weight</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>long</span>			<span class=n>weight</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=n>u32</span>				<span class=n>inv_weight</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 调度实体
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>struct</span> <span class=n>sched_entity</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>load_weight</span>		<span class=n>load</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>struct</span> <span class=n>sched_rt_entity</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>list_head</span>		<span class=n>run_list</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>long</span>			<span class=n>timeout</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>long</span>			<span class=n>watchdog_stamp</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>int</span>			<span class=n>time_slice</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>short</span>			<span class=n>on_rq</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>short</span>			<span class=n>on_list</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>sched_rt_entity</span>		<span class=o>*</span><span class=n>back</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_RT_GROUP_SCHED
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=k>struct</span> <span class=n>sched_rt_entity</span>		<span class=o>*</span><span class=n>parent</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=cm>/* rq on which this entity is (to be) queued: */</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>rt_rq</span>			<span class=o>*</span><span class=n>rt_rq</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=cm>/* rq &#34;owned&#34; by this entity/group: */</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>rt_rq</span>			<span class=o>*</span><span class=n>my_q</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span><span class=p>}</span> <span class=n>__randomize_layout</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>struct</span> <span class=n>sched_dl_entity</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>rb_node</span>			<span class=n>rb_node</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm>	 * Original scheduling parameters. Copied here from sched_attr
+</span></span></span><span class=line><span class=cl><span class=cm>	 * during sched_setattr(), they will remain the same until
+</span></span></span><span class=line><span class=cl><span class=cm>	 * the next sched_setattr().
+</span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
+</span></span><span class=line><span class=cl>	<span class=n>u64</span>				<span class=n>dl_runtime</span><span class=p>;</span>	<span class=cm>/* Maximum runtime for each instance	*/</span>
+</span></span><span class=line><span class=cl>	<span class=n>u64</span>				<span class=n>dl_deadline</span><span class=p>;</span>	<span class=cm>/* Relative deadline of each instance	*/</span>
+</span></span><span class=line><span class=cl>	<span class=n>u64</span>				<span class=n>dl_period</span><span class=p>;</span>	<span class=cm>/* Separation of two instances (period) */</span>
+</span></span><span class=line><span class=cl>	<span class=n>u64</span>				<span class=n>dl_bw</span><span class=p>;</span>		<span class=cm>/* dl_runtime / dl_period		*/</span>
+</span></span><span class=line><span class=cl>	<span class=n>u64</span>				<span class=n>dl_density</span><span class=p>;</span>	<span class=cm>/* dl_runtime / dl_deadline		*/</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm>	 * Actual scheduling parameters. Initialized with the values above,
+</span></span></span><span class=line><span class=cl><span class=cm>	 * they are continously updated during task execution. Note that
+</span></span></span><span class=line><span class=cl><span class=cm>	 * the remaining runtime could be &lt; 0 in case we are in overrun.
+</span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
+</span></span><span class=line><span class=cl>	<span class=n>s64</span>				<span class=n>runtime</span><span class=p>;</span>	<span class=cm>/* Remaining runtime for this instance	*/</span>
+</span></span><span class=line><span class=cl>	<span class=n>u64</span>				<span class=n>deadline</span><span class=p>;</span>	<span class=cm>/* Absolute deadline for this instance	*/</span>
+</span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>int</span>			<span class=n>flags</span><span class=p>;</span>		<span class=cm>/* Specifying the scheduler behaviour	*/</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm>	 * Some bool flags:
+</span></span></span><span class=line><span class=cl><span class=cm>	 *
+</span></span></span><span class=line><span class=cl><span class=cm>	 * @dl_throttled tells if we exhausted the runtime. If so, the
+</span></span></span><span class=line><span class=cl><span class=cm>	 * task has to wait for a replenishment to be performed at the
+</span></span></span><span class=line><span class=cl><span class=cm>	 * next firing of dl_timer.
+</span></span></span><span class=line><span class=cl><span class=cm>	 *
+</span></span></span><span class=line><span class=cl><span class=cm>	 * @dl_boosted tells if we are boosted due to DI. If so we are
+</span></span></span><span class=line><span class=cl><span class=cm>	 * outside bandwidth enforcement mechanism (but only until we
+</span></span></span><span class=line><span class=cl><span class=cm>	 * exit the critical section);
+</span></span></span><span class=line><span class=cl><span class=cm>	 *
+</span></span></span><span class=line><span class=cl><span class=cm>	 * @dl_yielded tells if task gave up the CPU before consuming
+</span></span></span><span class=line><span class=cl><span class=cm>	 * all its available runtime during the last job.
+</span></span></span><span class=line><span class=cl><span class=cm>	 *
+</span></span></span><span class=line><span class=cl><span class=cm>	 * @dl_non_contending tells if the task is inactive while still
+</span></span></span><span class=line><span class=cl><span class=cm>	 * contributing to the active utilization. In other words, it
+</span></span></span><span class=line><span class=cl><span class=cm>	 * indicates if the inactive timer has been armed and its handler
+</span></span></span><span class=line><span class=cl><span class=cm>	 * has not been executed yet. This flag is useful to avoid race
+</span></span></span><span class=line><span class=cl><span class=cm>	 * conditions between the inactive timer handler and the wakeup
+</span></span></span><span class=line><span class=cl><span class=cm>	 * code.
+</span></span></span><span class=line><span class=cl><span class=cm>	 *
+</span></span></span><span class=line><span class=cl><span class=cm>	 * @dl_overrun tells if the task asked to be informed about runtime
+</span></span></span><span class=line><span class=cl><span class=cm>	 * overruns.
+</span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
+</span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>int</span>			<span class=nl>dl_throttled</span>      <span class=p>:</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>int</span>			<span class=nl>dl_boosted</span>        <span class=p>:</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>int</span>			<span class=nl>dl_yielded</span>        <span class=p>:</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>int</span>			<span class=nl>dl_non_contending</span> <span class=p>:</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>int</span>			<span class=nl>dl_overrun</span>	  <span class=p>:</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm>	 * Bandwidth enforcement timer. Each -deadline task has its
+</span></span></span><span class=line><span class=cl><span class=cm>	 * own bandwidth to be enforced, thus we need one timer per task.
+</span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>hrtimer</span>			<span class=n>dl_timer</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm>	 * Inactive timer, responsible for decreasing the active utilization
+</span></span></span><span class=line><span class=cl><span class=cm>	 * at the &#34;0-lag time&#34;. When a -deadline task blocks, it contributes
+</span></span></span><span class=line><span class=cl><span class=cm>	 * to GRUB&#39;s active utilization until the &#34;0-lag time&#34;, hence a
+</span></span></span><span class=line><span class=cl><span class=cm>	 * timer is needed to decrease the active utilization at the correct
+</span></span></span><span class=line><span class=cl><span class=cm>	 * time.
+</span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>hrtimer</span> <span class=n>inactive_timer</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 调度结构体
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>struct</span> <span class=n>task_struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>sched_entity</span>			<span class=n>se</span><span class=p>;</span>  <span class=c1>// 调度实体
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=k>struct</span> <span class=n>sched_rt_entity</span>		<span class=n>rt</span><span class=p>;</span>  <span class=c1>// 实时调度实体
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=k>struct</span> <span class=n>sched_dl_entity</span>		<span class=n>dl</span><span class=p>;</span>	 <span class=c1>// 限期调度实体
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=设置负载权重 class=headerLink><a href=#%e8%ae%be%e7%bd%ae%e8%b4%9f%e8%bd%bd%e6%9d%83%e9%87%8d class=header-mark></a>3.1 设置负载权重</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>const</span> <span class=kt>int</span> <span class=n>sched_prio_to_weight</span><span class=p>[</span><span class=mi>40</span><span class=p>]</span> <span class=o>=</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl> <span class=cm>/* -20 */</span>     <span class=mi>88761</span><span class=p>,</span>     <span class=mi>71755</span><span class=p>,</span>     <span class=mi>56483</span><span class=p>,</span>     <span class=mi>46273</span><span class=p>,</span>     <span class=mi>36291</span><span class=p>,</span>
+</span></span><span class=line><span class=cl> <span class=cm>/* -15 */</span>     <span class=mi>29154</span><span class=p>,</span>     <span class=mi>23254</span><span class=p>,</span>     <span class=mi>18705</span><span class=p>,</span>     <span class=mi>14949</span><span class=p>,</span>     <span class=mi>11916</span><span class=p>,</span>
+</span></span><span class=line><span class=cl> <span class=cm>/* -10 */</span>      <span class=mi>9548</span><span class=p>,</span>      <span class=mi>7620</span><span class=p>,</span>      <span class=mi>6100</span><span class=p>,</span>      <span class=mi>4904</span><span class=p>,</span>      <span class=mi>3906</span><span class=p>,</span>
+</span></span><span class=line><span class=cl> <span class=cm>/*  -5 */</span>      <span class=mi>3121</span><span class=p>,</span>      <span class=mi>2501</span><span class=p>,</span>      <span class=mi>1991</span><span class=p>,</span>      <span class=mi>1586</span><span class=p>,</span>      <span class=mi>1277</span><span class=p>,</span>
+</span></span><span class=line><span class=cl> <span class=cm>/*   0 */</span>      <span class=mi>1024</span><span class=p>,</span>       <span class=mi>820</span><span class=p>,</span>       <span class=mi>655</span><span class=p>,</span>       <span class=mi>526</span><span class=p>,</span>       <span class=mi>423</span><span class=p>,</span>
+</span></span><span class=line><span class=cl> <span class=cm>/*   5 */</span>       <span class=mi>335</span><span class=p>,</span>       <span class=mi>272</span><span class=p>,</span>       <span class=mi>215</span><span class=p>,</span>       <span class=mi>172</span><span class=p>,</span>       <span class=mi>137</span><span class=p>,</span>
+</span></span><span class=line><span class=cl> <span class=cm>/*  10 */</span>       <span class=mi>110</span><span class=p>,</span>        <span class=mi>87</span><span class=p>,</span>        <span class=mi>70</span><span class=p>,</span>        <span class=mi>56</span><span class=p>,</span>        <span class=mi>45</span><span class=p>,</span>
+</span></span><span class=line><span class=cl> <span class=cm>/*  15 */</span>        <span class=mi>36</span><span class=p>,</span>        <span class=mi>29</span><span class=p>,</span>        <span class=mi>23</span><span class=p>,</span>        <span class=mi>18</span><span class=p>,</span>        <span class=mi>15</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>const</span> <span class=n>u32</span> <span class=n>sched_prio_to_wmult</span><span class=p>[</span><span class=mi>40</span><span class=p>]</span> <span class=o>=</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl> <span class=cm>/* -20 */</span>     <span class=mi>48388</span><span class=p>,</span>     <span class=mi>59856</span><span class=p>,</span>     <span class=mi>76040</span><span class=p>,</span>     <span class=mi>92818</span><span class=p>,</span>    <span class=mi>118348</span><span class=p>,</span>
+</span></span><span class=line><span class=cl> <span class=cm>/* -15 */</span>    <span class=mi>147320</span><span class=p>,</span>    <span class=mi>184698</span><span class=p>,</span>    <span class=mi>229616</span><span class=p>,</span>    <span class=mi>287308</span><span class=p>,</span>    <span class=mi>360437</span><span class=p>,</span>
+</span></span><span class=line><span class=cl> <span class=cm>/* -10 */</span>    <span class=mi>449829</span><span class=p>,</span>    <span class=mi>563644</span><span class=p>,</span>    <span class=mi>704093</span><span class=p>,</span>    <span class=mi>875809</span><span class=p>,</span>   <span class=mi>1099582</span><span class=p>,</span>
+</span></span><span class=line><span class=cl> <span class=cm>/*  -5 */</span>   <span class=mi>1376151</span><span class=p>,</span>   <span class=mi>1717300</span><span class=p>,</span>   <span class=mi>2157191</span><span class=p>,</span>   <span class=mi>2708050</span><span class=p>,</span>   <span class=mi>3363326</span><span class=p>,</span>
+</span></span><span class=line><span class=cl> <span class=cm>/*   0 */</span>   <span class=mi>4194304</span><span class=p>,</span>   <span class=mi>5237765</span><span class=p>,</span>   <span class=mi>6557202</span><span class=p>,</span>   <span class=mi>8165337</span><span class=p>,</span>  <span class=mi>10153587</span><span class=p>,</span>
+</span></span><span class=line><span class=cl> <span class=cm>/*   5 */</span>  <span class=mi>12820798</span><span class=p>,</span>  <span class=mi>15790321</span><span class=p>,</span>  <span class=mi>19976592</span><span class=p>,</span>  <span class=mi>24970740</span><span class=p>,</span>  <span class=mi>31350126</span><span class=p>,</span>
+</span></span><span class=line><span class=cl> <span class=cm>/*  10 */</span>  <span class=mi>39045157</span><span class=p>,</span>  <span class=mi>49367440</span><span class=p>,</span>  <span class=mi>61356676</span><span class=p>,</span>  <span class=mi>76695844</span><span class=p>,</span>  <span class=mi>95443717</span><span class=p>,</span>
+</span></span><span class=line><span class=cl> <span class=cm>/*  15 */</span> <span class=mi>119304647</span><span class=p>,</span> <span class=mi>148102320</span><span class=p>,</span> <span class=mi>186737708</span><span class=p>,</span> <span class=mi>238609294</span><span class=p>,</span> <span class=mi>286331153</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>static</span> <span class=kt>void</span> <span class=nf>set_load_weight</span><span class=p>(</span><span class=k>struct</span> <span class=n>task_struct</span> <span class=o>*</span><span class=n>p</span><span class=p>,</span> <span class=kt>bool</span> <span class=n>update_load</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=n>prio</span> <span class=o>=</span> <span class=n>p</span><span class=o>-&gt;</span><span class=n>static_prio</span> <span class=o>-</span> <span class=n>MAX_RT_PRIO</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>load_weight</span> <span class=o>*</span><span class=n>load</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>p</span><span class=o>-&gt;</span><span class=n>se</span><span class=p>.</span><span class=n>load</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=c1>// SCHED_IDLE 拥有最低权重
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=k>if</span> <span class=p>(</span><span class=n>idle_policy</span><span class=p>(</span><span class=n>p</span><span class=o>-&gt;</span><span class=n>policy</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=n>load</span><span class=o>-&gt;</span><span class=n>weight</span>     <span class=o>=</span> <span class=n>scale_load</span><span class=p>(</span><span class=n>WEIGHT_IDLEPRIO</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=n>load</span><span class=o>-&gt;</span><span class=n>inv_weight</span> <span class=o>=</span> <span class=n>WMULT_IDLEPRIO</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>update_load</span> <span class=o>&amp;&amp;</span> <span class=n>p</span><span class=o>-&gt;</span><span class=n>sched_class</span> <span class=o>==</span> <span class=o>&amp;</span><span class=n>fair_sched_class</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=n>reweight_task</span><span class=p>(</span><span class=n>p</span><span class=p>,</span> <span class=n>prio</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=n>load</span><span class=o>-&gt;</span><span class=n>weight</span> <span class=o>=</span> <span class=n>scale_load</span><span class=p>(</span><span class=n>sched_prio_to_weight</span><span class=p>[</span><span class=n>prio</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>		<span class=n>load</span><span class=o>-&gt;</span><span class=n>inv_weight</span> <span class=o>=</span> <span class=n>sched_prio_to_wmult</span><span class=p>[</span><span class=n>prio</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=不需更新权重 class=headerLink><a href=#%e4%b8%8d%e9%9c%80%e6%9b%b4%e6%96%b0%e6%9d%83%e9%87%8d class=header-mark></a>3.1.1 不需更新权重</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl>	<span class=n>load</span><span class=o>-&gt;</span><span class=n>weight</span> <span class=o>=</span> <span class=n>scale_load</span><span class=p>(</span><span class=n>sched_prio_to_weight</span><span class=p>[</span><span class=n>prio</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>	<span class=n>load</span><span class=o>-&gt;</span><span class=n>inv_weight</span> <span class=o>=</span> <span class=n>sched_prio_to_wmult</span><span class=p>[</span><span class=n>prio</span><span class=p>];</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=需要更新权重 class=headerLink><a href=#%e9%9c%80%e8%a6%81%e6%9b%b4%e6%96%b0%e6%9d%83%e9%87%8d class=header-mark></a>3.1.2 需要更新权重</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>void</span> <span class=nf>reweight_task</span><span class=p>(</span><span class=k>struct</span> <span class=n>task_struct</span> <span class=o>*</span><span class=n>p</span><span class=p>,</span> <span class=kt>int</span> <span class=n>prio</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>sched_entity</span> <span class=o>*</span><span class=n>se</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>p</span><span class=o>-&gt;</span><span class=n>se</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>cfs_rq</span> <span class=o>*</span><span class=n>cfs_rq</span> <span class=o>=</span> <span class=n>cfs_rq_of</span><span class=p>(</span><span class=n>se</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>load_weight</span> <span class=o>*</span><span class=n>load</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>se</span><span class=o>-&gt;</span><span class=n>load</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>long</span> <span class=n>weight</span> <span class=o>=</span> <span class=n>scale_load</span><span class=p>(</span><span class=n>sched_prio_to_weight</span><span class=p>[</span><span class=n>prio</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=n>reweight_entity</span><span class=p>(</span><span class=n>cfs_rq</span><span class=p>,</span> <span class=n>se</span><span class=p>,</span> <span class=n>weight</span><span class=p>,</span> <span class=n>weight</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=n>load</span><span class=o>-&gt;</span><span class=n>inv_weight</span> <span class=o>=</span> <span class=n>sched_prio_to_wmult</span><span class=p>[</span><span class=n>prio</span><span class=p>];</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=k>static</span> <span class=kt>void</span> <span class=nf>reweight_entity</span><span class=p>(</span><span class=k>struct</span> <span class=n>cfs_rq</span> <span class=o>*</span><span class=n>cfs_rq</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>							<span class=k>struct</span> <span class=n>sched_entity</span> <span class=o>*</span><span class=n>se</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>							<span class=kt>unsigned</span> <span class=kt>long</span> <span class=n>weight</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>							<span class=kt>unsigned</span> <span class=kt>long</span> <span class=n>runnable</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>se</span><span class=o>-&gt;</span><span class=n>on_rq</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=cm>/* commit outstanding execution time */</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=n>cfs_rq</span><span class=o>-&gt;</span><span class=n>curr</span> <span class=o>==</span> <span class=n>se</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>			<span class=n>update_curr</span><span class=p>(</span><span class=n>cfs_rq</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=n>account_entity_dequeue</span><span class=p>(</span><span class=n>cfs_rq</span><span class=p>,</span> <span class=n>se</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=n>dequeue_runnable_load_avg</span><span class=p>(</span><span class=n>cfs_rq</span><span class=p>,</span> <span class=n>se</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=n>dequeue_load_avg</span><span class=p>(</span><span class=n>cfs_rq</span><span class=p>,</span> <span class=n>se</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=n>se</span><span class=o>-&gt;</span><span class=n>runnable_weight</span> <span class=o>=</span> <span class=n>runnable</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=n>update_load_set</span><span class=p>(</span><span class=o>&amp;</span><span class=n>se</span><span class=o>-&gt;</span><span class=n>load</span><span class=p>,</span> <span class=n>weight</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=n>enqueue_load_avg</span><span class=p>(</span><span class=n>cfs_rq</span><span class=p>,</span> <span class=n>se</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>se</span><span class=o>-&gt;</span><span class=n>on_rq</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=n>account_entity_enqueue</span><span class=p>(</span><span class=n>cfs_rq</span><span class=p>,</span> <span class=n>se</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=n>enqueue_runnable_load_avg</span><span class=p>(</span><span class=n>cfs_rq</span><span class=p>,</span> <span class=n>se</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2022-06-28&nbsp;<a class=git-hash href=https://github.com/mengdemao/github.io/commit/e35f4f64ee26791a206dfd494c4b8a3e0b449422 target=_blank title="commit by mengdemao(mengdemao19951021@163.com) e35f4f64ee26791a206dfd494c4b8a3e0b449422: * fix CI error" rel="noopener noreferrer">
+<i class="fas fa-hashtag fa-fw"></i>e35f4f6</a></span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-mardown href=/schedulepriority/index.md target=_blank rel="noopener noreferrer">阅读原始文档</a>
+</span><span>|&nbsp;<a class=link-to-source href=https://github.com/mengdemao/github.io/content/posts/SchedulePriority.md target=_blank rel="noopener noreferrer">查看源代码</a>
+</span><span>|&nbsp;<a class=link-to-edit href=https://github.com/mengdemao/github.io/content/posts/SchedulePriority.md target=_blank rel="noopener noreferrer">编辑此页</a></span></div><div class=post-info-share><span><a href=# onclick=return!1 title="分享到 Twitter" data-sharer=twitter data-url=https://mengdemao.github.io/schedulepriority/ data-title=调度优先级><i class="fab fa-twitter fa-fw"></i></a><a href=# onclick=return!1 title="分享到 Facebook" data-sharer=facebook data-url=https://mengdemao.github.io/schedulepriority/><i class="fab fa-facebook-square fa-fw"></i></a><a href=# onclick=return!1 title="分享到 Hacker News" data-sharer=hackernews data-url=https://mengdemao.github.io/schedulepriority/ data-title=调度优先级><i class="fab fa-hacker-news fa-fw"></i></a><a href=# onclick=return!1 title="分享到 Line" data-sharer=line data-url=https://mengdemao.github.io/schedulepriority/ data-title=调度优先级><i data-svg-src=/lib/simple-icons/icons/line.min.svg></i></a><a href=# onclick=return!1 title="分享到 微博" data-sharer=weibo data-url=https://mengdemao.github.io/schedulepriority/ data-title=调度优先级 data-ralateuid=xxxx><i class="fab fa-weibo fa-fw"></i></a><a href=# onclick=return!1 title="分享到 Telegram" data-sharer=telegram data-url=https://mengdemao.github.io/schedulepriority/ data-title=调度优先级 data-web><i class="fab fa-telegram-plane fa-fw"></i></a></span></div></div></div><div class=post-info-more><section class=post-tags></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/dwl/ class=prev rel=prev title=dwl><i class="fas fa-angle-left fa-fw"></i>dwl</a>
+<a href=/complete/ class=next rel=next title=Complete>Complete<i class="fas fa-angle-right fa-fw"></i></a></div></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreffer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a></div><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2019 - 2022</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://github.com/mengdemao/github.io target=_blank rel="noopener noreferrer">mengdemao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div><div class=footer-line></div><div class=footer-line></div></div></footer></div><div id=fixed-buttons><a href=#back-to-top id=back-to-top-button class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw"></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw"></i></a></div><div class=assets><script type=text/javascript src=/lib/autocomplete/autocomplete.min.0dcc8ee301dccbd9fb18115a1176e1293ca233b99aee5f5d12f218463c34eccea29f842827fc1ce330cf26e1e21b1382725ad3d0703cbde9f7e28552bcd92c07.js integrity="sha512-DcyO4wHcy9n7GBFaEXbhKTyiM7ma7l9dEvIYRjw07M6in4QoJ/wc4zDPJuHiGxOCclrT0HA8ven34oVSvNksBw=="></script><script type=text/javascript src=/lib/algoliasearch/algoliasearch-lite.umd.min.757eeb7f02d6fa8b75dc5edee7c758fb746cf3abed72462e6231350a14e645f06abaab4f42dc2c6f3cbaf190ad1fee51ea054a4d5ecef95e98f8905fe44e6022.js integrity="sha512-dX7rfwLW+ot13F7e58dY+3Rs86vtckYuYjE1ChTmRfBquqtPQtwsbzy68ZCtH+5R6gVKTV7O+V6Y+JBf5E5gIg=="></script><script type=text/javascript src=/lib/pjax/pjax.min.8f92ba6fd6079d25aa09e1be3b1e3568438eba0fa53a093eb559684245a9c227d65e346122eb048ee9439ac9af9ce653c1ed88f20305c6121e946035c42705b0.js integrity="sha512-j5K6b9YHnSWqCeG+Ox41aEOOug+lOgk+tVloQkWpwifWXjRhIusEjulDmsmvnOZTwe2I8gMFxhIelGA1xCcFsA=="></script><script type=text/javascript src=/js/theme.min.js defer></script></div><div class=pjax-assets><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:100},comment:{},data:{"desktop-header-typeit":"编程日志","mobile-header-typeit":"编程日志"},search:{algoliaAppID:"5YGRNRQK1G",algoliaIndex:"zh_cn_index",algoliaSearchKey:"0ff6874805de24b84aa1d5ebccad56cd",highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:50,type:"algolia"},sharerjs:!0,table:{sort:!0},typeit:{cursorChar:"|",cursorSpeed:1e3,data:{"desktop-header-typeit":["desktop-header-typeit"],"mobile-header-typeit":["mobile-header-typeit"]},duration:-1,speed:100}}</script><script type=text/javascript src=/lib/clipboard/clipboard.min.b08a94127467df50609e03e61edd897a7ce57830ec5f060efa2caf438e8cc3a44bfae7405198f69ffbbf3c663cd0dc51c729ceed1f71206c792c4cf0e0835625.js integrity="sha512-sIqUEnRn31BgngPmHt2JenzleDDsXwYO+iyvQ46Mw6RL+udAUZj2n/u/PGY80NxRxynO7R9xIGx5LEzw4INWJQ=="></script><script type=text/javascript src=/lib/sharer/sharer.min.cab91d53e60c836a90e16a5091059006925296eeed2c665fc744b7e7755ec3ab5c4e58e3c83899af70d8f690e004c2ca62062e11b0c7efdced87f80d074cfa3e.js integrity="sha512-yrkdU+YMg2qQ4WpQkQWQBpJSlu7tLGZfx0S353Vew6tcTljjyDiZr3DY9pDgBMLKYgYuEbDH79zth/gNB0z6Pg=="></script><script type=text/javascript src=/lib/typeit/typeit.min.f27efa857ac46448d67802135c65454dfc450176698f8fb06912d192dada782d98abfd8fbaf9ad33a15fb7971ed227e86d2082b88c2319260c237f147c9a624b.js integrity="sha512-8n76hXrEZEjWeAITXGVFTfxFAXZpj4+waRLRktraeC2Yq/2PuvmtM6Fft5ce0ifobSCCuIwjGSYMI38UfJpiSw=="></script></div></body></html>

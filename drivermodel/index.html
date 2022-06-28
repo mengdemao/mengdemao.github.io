@@ -1,0 +1,1029 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title class=pjax-title>驱动模型 - 编程日志</title><meta name=Description content="个人知识的总结、提高、归纳"><meta property="og:title" content="驱动模型"><meta property="og:description" content="1 简述 驱动模型 顶级kobject 解释 block 块设备链接&ndash;>/sys/deives相关文件 bus 存放各种总线文件 class 各种设备类 dev 存放(字"><meta property="og:type" content="article"><meta property="og:url" content="https://mengdemao.github.io/drivermodel/"><meta property="og:image" content="https://mengdemao.github.io/images/avatar.webp"><meta property="article:section" content="posts"><meta property="article:published_time" content="2021-10-01T23:32:46+08:00"><meta property="article:modified_time" content="2022-06-28T22:38:14+08:00"><meta property="og:site_name" content="编程日志"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://mengdemao.github.io/images/avatar.webp"><meta name=twitter:title content="驱动模型"><meta name=twitter:description content="1 简述 驱动模型 顶级kobject 解释 block 块设备链接&ndash;>/sys/deives相关文件 bus 存放各种总线文件 class 各种设备类 dev 存放(字"><meta name=application-name content="面向玄学编程"><meta name=apple-mobile-web-app-title content="面向玄学编程"><meta name=theme-color content="#f8f8f8"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=canonical href=https://mengdemao.github.io/drivermodel/><link rel=prev href=https://mengdemao.github.io/luajit/><link rel=next href=https://mengdemao.github.io/engineering_compiler/><link rel=stylesheet href=/lib/normalize/normalize.min.8235a67a2521ef99fb1e455a5891b022af1653b4ede3cfffcac4e473beee88fbcc1a36bbb3cfdd75fd6df46732032f9d96e30adae9c88b769e1fbf7945cd27e0.css integrity="sha512-gjWmeiUh75n7HkVaWJGwIq8WU7Tt48//ysTkc77uiPvMGja7s8/ddf1t9GcyAy+dluMK2unIi3aeH795Rc0n4A=="><link rel=stylesheet href=/css/style.min.0f55137082d245ea45cddc893472e0064a8ae1ebf1ac0ec6c81be86a040cb43f360679ecd56d056a1c7f11d122b63baddace1a8659aa440dfb1890153405175d.css integrity="sha512-D1UTcILSRepFzdyJNHLgBkqK4evxrA7GyBvoagQMtD82Bnns1W0Fahx/EdEitjut2s4ahlmqRA37GJAVNAUXXQ=="><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/fontawesome-free/all.min.eb8387c9eb0ab6d4fa4d7ad397d15df13b92c009a1eb221b757dd1ecfccabc78a4c5b681847a7f4198ff7cd60abed8300508c9dea138cd1f4a85f09f09b2092a.css integrity="sha512-64OHyesKttT6TXrTl9Fd8TuSwAmh6yIbdX3R7PzKvHikxbaBhHp/QZj/fNYKvtgwBQjJ3qE4zR9KhfCfCbIJKg=="><noscript><link rel=stylesheet href=/lib/fontawesome-free/all.min.eb8387c9eb0ab6d4fa4d7ad397d15df13b92c009a1eb221b757dd1ecfccabc78a4c5b681847a7f4198ff7cd60abed8300508c9dea138cd1f4a85f09f09b2092a.css integrity="sha512-64OHyesKttT6TXrTl9Fd8TuSwAmh6yIbdX3R7PzKvHikxbaBhHp/QZj/fNYKvtgwBQjJ3qE4zR9KhfCfCbIJKg=="></noscript><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/animate/animate.min.738daa4d2c3fc0f677ff92c1cc3f81c397fb6d2176a31a2eeb011bf88fe5a9e68a57914321f32fbd1a7bef6cb88dc24b2ae1943a96c931d83f053979d1f25803.css integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw=="><noscript><link rel=stylesheet href=/lib/animate/animate.min.738daa4d2c3fc0f677ff92c1cc3f81c397fb6d2176a31a2eeb011bf88fe5a9e68a57914321f32fbd1a7bef6cb88dc24b2ae1943a96c931d83f053979d1f25803.css integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw=="></noscript><meta name=google-site-verification content="MQ8DNu27ayX6B_4ObiEDK09vGr1fdy7kOAnbd09hJk4"><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"驱动模型","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/mengdemao.github.io\/drivermodel\/"},"image":["https:\/\/mengdemao.github.io\/images\/Apple-Devices-Preview.png"],"genre":"posts","keywords":"kernel","wordcount":2652,"url":"https:\/\/mengdemao.github.io\/drivermodel\/","datePublished":"2021-10-01T23:32:46+08:00","dateModified":"2022-06-28T22:38:14+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"xxxx","logo":{"@type":"ImageObject","url":"https:\/\/mengdemao.github.io\/images\/avatar.webp","width":528,"height":560}},"author":{"@type":"Person","name":"mengdemao"},"description":""}</script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>function setTheme(e){document.body.setAttribute("theme",e),document.documentElement.style.setProperty("color-scheme",e==="light"?"light":"dark")}function saveTheme(e){window.localStorage&&localStorage.setItem("theme",e)}function getMeta(e){const t=document.getElementsByTagName("meta");for(let n=0;n<t.length;n++)if(t[n].getAttribute("name")===e)return t[n];return""}if(window.localStorage&&localStorage.getItem("theme")){let e=localStorage.getItem("theme");e==="light"||e==="dark"||e==="black"?setTheme(e):setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}else"auto"==="light"||"auto"==="dark"||"auto"==="black"?(setTheme("auto"),saveTheme("auto")):(saveTheme("auto"),setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));let metaColors={light:"#f8f8f8",dark:"#252627",black:"#000000"};getMeta("theme-color").content=metaColors[document.body.getAttribute("theme")]</script><div id=back-to-top></div><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=header-title-pre><i class='far fa-edit fa-fw'></i></span><span id=desktop-header-typeit class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/series/>系列 </a><a class=menu-item href=/authors/>作者 </a><a class=menu-item href=/showcase/>作品 </a><a class=menu-item href=/categories/documentation/>文档 </a><a class=menu-item href=/about/>关于 </a><a class=menu-item href=https://github.com/mengdemao/github.io title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw'></i> </a><a class=menu-item href=/archives/ title=归档><i class="fas fa-fw fa-file-archive"></i> 归档 </a><a class=menu-item href=/categories/ title=分类><i class="fas fa-fw fa-folder"></i> 分类 </a><a class=menu-item href=/tags/ title=标签><i class="fas fa-fw fa-tags"></i> 标签 </a><a class=menu-item href=/series/ title=专栏><i class="fas fa-fw fa-columns"></i> 专栏 </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=# onclick=return!1 class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw"></i></a>
+<a href=# onclick=return!1 class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw"></i></a>
+<span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin"></i></span>
+</span><a href=# onclick=return!1 class="menu-item theme-select" title=切换主题><i class="fas fa-adjust fa-fw"></i>
+<select class=color-theme-select id=theme-select-desktop title=切换主题><option value=light>浅色</option><option value=dark>深色</option><option value=black>黑色</option><option value=auto>跟随系统</option></select></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=header-title-pre><i class='far fa-edit fa-fw'></i></span><span id=mobile-header-typeit class=typeit></span></a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=# onclick=return!1 class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw"></i></a>
+<a href=# onclick=return!1 class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw"></i></a>
+<span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin"></i></span></div><a href=# onclick=return!1 class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts/ title>所有文章</a><a class=menu-item href=/tags/ title>标签</a><a class=menu-item href=/categories/ title>分类</a><a class=menu-item href=/series/ title>系列</a><a class=menu-item href=/authors/ title>作者</a><a class=menu-item href=/showcase/ title>作品</a><a class=menu-item href=/categories/documentation/ title>文档</a><a class=menu-item href=/about/ title>关于</a><a class=menu-item href=https://github.com/mengdemao/github.io title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw'></i></a><a class=menu-item href=/archives/ title=归档><i class="fas fa-fw fa-file-archive"></i>归档</a><a class=menu-item href=/categories/ title=分类><i class="fas fa-fw fa-folder"></i>分类</a><a class=menu-item href=/tags/ title=标签><i class="fas fa-fw fa-tags"></i>标签</a><a class=menu-item href=/series/ title=专栏><i class="fas fa-fw fa-columns"></i>专栏</a><a href=# onclick=return!1 class="menu-item theme-select" title=切换主题>
+<i class="fas fa-adjust fa-fw"></i>
+<select class=color-theme-select id=theme-select-mobile title=切换主题><option value=light>浅色</option><option value=dark>深色</option><option value=black>黑色</option><option value=auto>跟随系统</option></select></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto><nav id=TableOfContents><ul><li><a href=#简述>简述</a></li><li><a href=#底层机制>底层机制</a><ul><li><a href=#kobject>kobject</a><ul><li><a href=#数据结构>数据结构</a></li><li><a href=#初始化>初始化</a></li><li><a href=#添加>添加</a><ul><li><a href=#sysfs文件夹生成>sysfs文件夹生成</a></li></ul></li><li><a href=#删除>删除</a></li><li><a href=#引用计数>引用计数</a></li></ul></li><li><a href=#kset>kset</a><ul><li><a href=#数据结构-1>数据结构</a></li></ul></li><li><a href=#ktype>ktype</a><ul><li><a href=#数据结构-2>数据结构</a></li></ul></li></ul></li><li><a href=#class>class</a></li><li><a href=#bus>bus</a><ul><li><a href=#总线类型>总线类型</a><ul><li><a href=#设备总线注册>设备总线注册</a></li><li><a href=#设备总线卸载>设备总线卸载</a></li></ul></li></ul></li><li><a href=#devices>devices</a><ul><li><a href=#heading></a><ul><li><a href=#device>device</a></li><li><a href=#driver>driver</a></li></ul></li></ul></li><li><a href=#kernel>kernel</a></li><li><a href=#module>module</a></li></ul></nav></div></div><script>document.getElementsByTagName("main")[0].setAttribute("pageStyle","normal")</script><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC","true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">驱动模型</h1><div class=post-meta><div class=post-meta-line><span class=post-author><i class="author fas fa-user-circle fa-fw"></i><a href=https://github.com/mengdemao/github.io title=Author target=_blank rel="noopener noreffer author" class=author>mengdemao</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2021-10-01>2021-10-01</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime=2022-06-28>2022-06-28</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2652 字&nbsp;
+<i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 6 分钟&nbsp;</div></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#简述>简述</a></li><li><a href=#底层机制>底层机制</a><ul><li><a href=#kobject>kobject</a><ul><li><a href=#数据结构>数据结构</a></li><li><a href=#初始化>初始化</a></li><li><a href=#添加>添加</a><ul><li><a href=#sysfs文件夹生成>sysfs文件夹生成</a></li></ul></li><li><a href=#删除>删除</a></li><li><a href=#引用计数>引用计数</a></li></ul></li><li><a href=#kset>kset</a><ul><li><a href=#数据结构-1>数据结构</a></li></ul></li><li><a href=#ktype>ktype</a><ul><li><a href=#数据结构-2>数据结构</a></li></ul></li></ul></li><li><a href=#class>class</a></li><li><a href=#bus>bus</a><ul><li><a href=#总线类型>总线类型</a><ul><li><a href=#设备总线注册>设备总线注册</a></li><li><a href=#设备总线卸载>设备总线卸载</a></li></ul></li></ul></li><li><a href=#devices>devices</a><ul><li><a href=#heading></a><ul><li><a href=#device>device</a></li><li><a href=#driver>driver</a></li></ul></li></ul></li><li><a href=#kernel>kernel</a></li><li><a href=#module>module</a></li></ul></nav></div></div><div class=content id=content><h2 id=简述 class=headerLink><a href=#%e7%ae%80%e8%bf%b0 class=header-mark></a>1 简述</h2><blockquote><p>驱动模型</p></blockquote><table><thead><tr><th>顶级kobject</th><th>解释</th></tr></thead><tbody><tr><td>block</td><td>块设备链接&ndash;>/sys/deives相关文件</td></tr><tr><td>bus</td><td>存放各种总线文件</td></tr><tr><td>class</td><td>各种设备类</td></tr><tr><td>dev</td><td>存放(字符/块)设备主副设备号链接文件&ndash;>/sys/deives</td></tr><tr><td>devices</td><td>设备的具体存放文件</td></tr><tr><td>firmware</td><td>固件存放</td></tr><tr><td>fs</td><td>文件类型</td></tr><tr><td>kernel</td><td>kernel子系统</td></tr><tr><td>module</td><td>模块信息</td></tr><tr><td>power</td><td>能源管理</td></tr></tbody></table><h2 id=底层机制 class=headerLink><a href=#%e5%ba%95%e5%b1%82%e6%9c%ba%e5%88%b6 class=header-mark></a>2 底层机制</h2><h3 id=kobject class=headerLink><a href=#kobject class=header-mark></a>2.1 kobject</h3><blockquote><p>内核对象:kobject/kobject_type/kset
+为模块提供一个底层抽象,其中文件存放于/sys文件下面</p></blockquote><h4 id=数据结构 class=headerLink><a href=#%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84 class=header-mark></a>2.1.1 数据结构</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>struct</span> <span class=n>kobject</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=kt>char</span>			<span class=o>*</span><span class=n>name</span><span class=p>;</span>		<span class=cm>/* 名字 */</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>list_head</span>	<span class=n>entry</span><span class=p>;</span>		<span class=cm>/* 链表:链接进入kset */</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>kobject</span>		<span class=o>*</span><span class=n>parent</span><span class=p>;</span>	<span class=cm>/* 指向父对象,建立层次结构 */</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>kset</span>			<span class=o>*</span><span class=n>kset</span><span class=p>;</span>		<span class=cm>/* 对象集合 */</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>kobj_type</span>	<span class=o>*</span><span class=n>ktype</span><span class=p>;</span>		<span class=cm>/* 对象类型 */</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>kernfs_node</span>	<span class=o>*</span><span class=n>sd</span><span class=p>;</span> 		<span class=cm>/* sysfs directory entry */</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>kref</span>			<span class=n>kref</span><span class=p>;</span>		<span class=cm>/* 引用计数 */</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cp>#ifdef CONFIG_DEBUG_KOBJECT_RELEASE
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=k>struct</span> <span class=n>delayed_work</span>	<span class=n>release</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>	
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>int</span> <span class=nl>state_initialized</span><span class=p>:</span><span class=mi>1</span><span class=p>;</span>			<span class=cm>/* 标志位:初始化 */</span>
+</span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>int</span> <span class=nl>state_in_sysfs</span><span class=p>:</span><span class=mi>1</span><span class=p>;</span>				<span class=cm>/* 标志位:在sysfs中 */</span>
+</span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>int</span> <span class=nl>state_add_uevent_sent</span><span class=p>:</span><span class=mi>1</span><span class=p>;</span>		<span class=cm>/* 标志位:发出KOBJ_ADD uevent */</span>
+</span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>int</span> <span class=nl>state_remove_uevent_sent</span><span class=p>:</span><span class=mi>1</span><span class=p>;</span>	<span class=cm>/* 标志位:发出KOBJ_REMOVE uevent */</span>
+</span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>int</span> <span class=nl>uevent_suppress</span><span class=p>:</span><span class=mi>1</span><span class=p>;</span>				<span class=cm>/* 标志位:禁止发出uevent */</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=初始化 class=headerLink><a href=#%e5%88%9d%e5%a7%8b%e5%8c%96 class=header-mark></a>2.1.2 初始化</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm> * kobject_init - initialize a kobject structure
+</span></span></span><span class=line><span class=cl><span class=cm> * @kobj: pointer to the kobject to initialize
+</span></span></span><span class=line><span class=cl><span class=cm> * @ktype: pointer to the ktype for this kobject.
+</span></span></span><span class=line><span class=cl><span class=cm> *
+</span></span></span><span class=line><span class=cl><span class=cm> * This function will properly initialize a kobject such that it can then
+</span></span></span><span class=line><span class=cl><span class=cm> * be passed to the kobject_add() call.
+</span></span></span><span class=line><span class=cl><span class=cm> *
+</span></span></span><span class=line><span class=cl><span class=cm> * After this function is called, the kobject MUST be cleaned up by a call
+</span></span></span><span class=line><span class=cl><span class=cm> * to kobject_put(), not by a call to kfree directly to ensure that all of
+</span></span></span><span class=line><span class=cl><span class=cm> * the memory is cleaned up properly.
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>kobject_init</span><span class=p>(</span><span class=k>struct</span> <span class=n>kobject</span> <span class=o>*</span><span class=n>kobj</span><span class=p>,</span> <span class=k>struct</span> <span class=n>kobj_type</span> <span class=o>*</span><span class=n>ktype</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kt>char</span> <span class=o>*</span><span class=n>err_str</span><span class=p>;</span>			<span class=cm>/** 错误信息 */</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/** 校验参数NULL */</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>kobj</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=n>err_str</span> <span class=o>=</span> <span class=s>&#34;invalid kobject pointer!&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=k>goto</span> <span class=n>error</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>ktype</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=n>err_str</span> <span class=o>=</span> <span class=s>&#34;must have a ktype to be initialized properly!</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=k>goto</span> <span class=n>error</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/** kobject是否已经初始化 */</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>kobj</span><span class=o>-&gt;</span><span class=n>state_initialized</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=cm>/* do not error out as sometimes we can recover */</span>
+</span></span><span class=line><span class=cl>		<span class=n>pr_err</span><span class=p>(</span><span class=s>&#34;kobject (%p): tried to init an initialized object, something is seriously wrong.</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		       <span class=n>kobj</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=n>dump_stack</span><span class=p>();</span> <span class=cm>/** 回溯堆栈 */</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/** 调用具体初始化函数 */</span>
+</span></span><span class=line><span class=cl>	<span class=n>kobject_init_internal</span><span class=p>(</span><span class=n>kobj</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* 设置类型 */</span>
+</span></span><span class=line><span class=cl>	<span class=n>kobj</span><span class=o>-&gt;</span><span class=n>ktype</span> <span class=o>=</span> <span class=n>ktype</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nl>error</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>	<span class=n>pr_err</span><span class=p>(</span><span class=s>&#34;kobject (%p): %s</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span> <span class=n>kobj</span><span class=p>,</span> <span class=n>err_str</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=n>dump_stack</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=n>EXPORT_SYMBOL</span><span class=p>(</span><span class=n>kobject_init</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=添加 class=headerLink><a href=#%e6%b7%bb%e5%8a%a0 class=header-mark></a>2.1.3 添加</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>int</span> <span class=nf>kobject_add</span><span class=p>(</span><span class=k>struct</span> <span class=n>kobject</span> <span class=o>*</span><span class=n>kobj</span><span class=p>,</span> 	<span class=cm>/* 需要添加kobject */</span>
+</span></span><span class=line><span class=cl>				<span class=k>struct</span> <span class=n>kobject</span> <span class=o>*</span><span class=n>parent</span><span class=p>,</span> <span class=cm>/* 父指针 */</span>
+</span></span><span class=line><span class=cl>				<span class=k>const</span> <span class=kt>char</span> <span class=o>*</span><span class=n>fmt</span><span class=p>,</span> <span class=p>...)</span>   <span class=cm>/* 命名 */</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=n>va_list</span> <span class=n>args</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=n>retval</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>	<span class=cm>/* 校验kobject */</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>kobj</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span> <span class=o>-</span><span class=n>EINVAL</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>	<span class=cm>/* 是否已经初始化 */</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>kobj</span><span class=o>-&gt;</span><span class=n>state_initialized</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=n>pr_err</span><span class=p>(</span><span class=s>&#34;kobject &#39;%s&#39; (%p): tried to add an uninitialized object, something is seriously wrong.</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		       <span class=n>kobject_name</span><span class=p>(</span><span class=n>kobj</span><span class=p>),</span> <span class=n>kobj</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=n>dump_stack</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span> <span class=o>-</span><span class=n>EINVAL</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=n>va_start</span><span class=p>(</span><span class=n>args</span><span class=p>,</span> <span class=n>fmt</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=cm>/* 设置名字并且将父指针添加到parent */</span>
+</span></span><span class=line><span class=cl>	<span class=n>retval</span> <span class=o>=</span> <span class=n>kobject_add_varg</span><span class=p>(</span><span class=n>kobj</span><span class=p>,</span> <span class=n>parent</span><span class=p>,</span> <span class=n>fmt</span><span class=p>,</span> <span class=n>args</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=n>va_end</span><span class=p>(</span><span class=n>args</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=n>retval</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>最终调用添加函数</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>static</span> <span class=kt>int</span> <span class=nf>kobject_add_internal</span><span class=p>(</span><span class=k>struct</span> <span class=n>kobject</span> <span class=o>*</span><span class=n>kobj</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=n>error</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>kobject</span> <span class=o>*</span><span class=n>parent</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>    <span class=cm>/* 判断参数NULL */</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>kobj</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span> <span class=o>-</span><span class=n>ENOENT</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>    <span class=cm>/* 判断名字是否有效 */</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>kobj</span><span class=o>-&gt;</span><span class=n>name</span> <span class=o>||</span> <span class=o>!</span><span class=n>kobj</span><span class=o>-&gt;</span><span class=n>name</span><span class=p>[</span><span class=mi>0</span><span class=p>])</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=n>WARN</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		     <span class=s>&#34;kobject: (%p): attempted to be registered with empty name!</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		     <span class=n>kobj</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span> <span class=o>-</span><span class=n>EINVAL</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>    <span class=cm>/** 获取父指针 */</span>
+</span></span><span class=line><span class=cl>	<span class=n>parent</span> <span class=o>=</span> <span class=n>kobject_get</span><span class=p>(</span><span class=n>kobj</span><span class=o>-&gt;</span><span class=n>parent</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* join kset if set, use it as parent if we do not already have one */</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>kobj</span><span class=o>-&gt;</span><span class=n>kset</span><span class=p>)</span> <span class=p>{</span>		<span class=cm>/* kset已经设置 */</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>parent</span><span class=p>)</span>		<span class=cm>/* 不存在父指针 */</span>
+</span></span><span class=line><span class=cl>			<span class=cm>/* kset的kobject作为父指针 */</span>
+</span></span><span class=line><span class=cl>            <span class=n>parent</span> <span class=o>=</span> <span class=n>kobject_get</span><span class=p>(</span><span class=o>&amp;</span><span class=n>kobj</span><span class=o>-&gt;</span><span class=n>kset</span><span class=o>-&gt;</span><span class=n>kobj</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=cm>/* 将kobject加入kset */</span>
+</span></span><span class=line><span class=cl>        <span class=n>kobj_kset_join</span><span class=p>(</span><span class=n>kobj</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		
+</span></span><span class=line><span class=cl>        <span class=cm>/* 保存父指针 */</span>
+</span></span><span class=line><span class=cl>        <span class=n>kobj</span><span class=o>-&gt;</span><span class=n>parent</span> <span class=o>=</span> <span class=n>parent</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=n>pr_debug</span><span class=p>(</span><span class=s>&#34;kobject: &#39;%s&#39; (%p): %s: parent: &#39;%s&#39;, set: &#39;%s&#39;</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		 <span class=n>kobject_name</span><span class=p>(</span><span class=n>kobj</span><span class=p>),</span> <span class=n>kobj</span><span class=p>,</span> <span class=n>__func__</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		 <span class=n>parent</span> <span class=o>?</span> <span class=n>kobject_name</span><span class=p>(</span><span class=n>parent</span><span class=p>)</span> <span class=o>:</span> <span class=s>&#34;&lt;NULL&gt;&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		 <span class=n>kobj</span><span class=o>-&gt;</span><span class=n>kset</span> <span class=o>?</span> <span class=n>kobject_name</span><span class=p>(</span><span class=o>&amp;</span><span class=n>kobj</span><span class=o>-&gt;</span><span class=n>kset</span><span class=o>-&gt;</span><span class=n>kobj</span><span class=p>)</span> <span class=o>:</span> <span class=s>&#34;&lt;NULL&gt;&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>    <span class=cm>/* 创建dir */</span>
+</span></span><span class=line><span class=cl>	<span class=n>error</span> <span class=o>=</span> <span class=n>create_dir</span><span class=p>(</span><span class=n>kobj</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>error</span><span class=p>)</span> <span class=p>{</span> <span class=cm>/* 出错,清理 */</span>
+</span></span><span class=line><span class=cl>		<span class=n>kobj_kset_leave</span><span class=p>(</span><span class=n>kobj</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=n>kobject_put</span><span class=p>(</span><span class=n>parent</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=n>kobj</span><span class=o>-&gt;</span><span class=n>parent</span> <span class=o>=</span> <span class=nb>NULL</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>		<span class=cm>/* be noisy on error issues */</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=n>error</span> <span class=o>==</span> <span class=o>-</span><span class=n>EEXIST</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>			<span class=n>pr_err</span><span class=p>(</span><span class=s>&#34;%s failed for %s with -EEXIST, don&#39;t try to register things with the same name in the same directory.</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>			       <span class=n>__func__</span><span class=p>,</span> <span class=n>kobject_name</span><span class=p>(</span><span class=n>kobj</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>		<span class=k>else</span>
+</span></span><span class=line><span class=cl>			<span class=n>pr_err</span><span class=p>(</span><span class=s>&#34;%s failed for %s (error: %d parent: %s)</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>			       <span class=n>__func__</span><span class=p>,</span> <span class=n>kobject_name</span><span class=p>(</span><span class=n>kobj</span><span class=p>),</span> <span class=n>error</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>			       <span class=n>parent</span> <span class=o>?</span> <span class=n>kobject_name</span><span class=p>(</span><span class=n>parent</span><span class=p>)</span> <span class=o>:</span> <span class=s>&#34;&#39;none&#39;&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span> <span class=k>else</span>
+</span></span><span class=line><span class=cl>		<span class=n>kobj</span><span class=o>-&gt;</span><span class=n>state_in_sysfs</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span>  <span class=cm>/* 添加到sysfs中 */</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=n>error</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h5 id=sysfs文件夹生成 class=headerLink><a href=#sysfs%e6%96%87%e4%bb%b6%e5%a4%b9%e7%94%9f%e6%88%90 class=header-mark></a>2.1.3.1 sysfs文件夹生成</h5><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>static</span> <span class=kt>int</span> <span class=nf>create_dir</span><span class=p>(</span><span class=k>struct</span> <span class=n>kobject</span> <span class=o>*</span><span class=n>kobj</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=k>struct</span> <span class=n>kobj_ns_type_operations</span> <span class=o>*</span><span class=n>ops</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=n>error</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=n>error</span> <span class=o>=</span> <span class=n>sysfs_create_dir_ns</span><span class=p>(</span><span class=n>kobj</span><span class=p>,</span> <span class=n>kobject_namespace</span><span class=p>(</span><span class=n>kobj</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>error</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span> <span class=n>error</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=n>error</span> <span class=o>=</span> <span class=n>populate_dir</span><span class=p>(</span><span class=n>kobj</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>error</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=n>sysfs_remove_dir</span><span class=p>(</span><span class=n>kobj</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span> <span class=n>error</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm>	 * @kobj-&gt;sd may be deleted by an ancestor going away.  Hold an
+</span></span></span><span class=line><span class=cl><span class=cm>	 * extra reference so that it stays until @kobj is gone.
+</span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
+</span></span><span class=line><span class=cl>	<span class=n>sysfs_get</span><span class=p>(</span><span class=n>kobj</span><span class=o>-&gt;</span><span class=n>sd</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm>	 * If @kobj has ns_ops, its children need to be filtered based on
+</span></span></span><span class=line><span class=cl><span class=cm>	 * their namespace tags.  Enable namespace support on @kobj-&gt;sd.
+</span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
+</span></span><span class=line><span class=cl>	<span class=n>ops</span> <span class=o>=</span> <span class=n>kobj_child_ns_ops</span><span class=p>(</span><span class=n>kobj</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>ops</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=n>BUG_ON</span><span class=p>(</span><span class=n>ops</span><span class=o>-&gt;</span><span class=n>type</span> <span class=o>&lt;=</span> <span class=n>KOBJ_NS_TYPE_NONE</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=n>BUG_ON</span><span class=p>(</span><span class=n>ops</span><span class=o>-&gt;</span><span class=n>type</span> <span class=o>&gt;=</span> <span class=n>KOBJ_NS_TYPES</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=n>BUG_ON</span><span class=p>(</span><span class=o>!</span><span class=n>kobj_ns_type_registered</span><span class=p>(</span><span class=n>ops</span><span class=o>-&gt;</span><span class=n>type</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>		<span class=n>sysfs_enable_ns</span><span class=p>(</span><span class=n>kobj</span><span class=o>-&gt;</span><span class=n>sd</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=删除 class=headerLink><a href=#%e5%88%a0%e9%99%a4 class=header-mark></a>2.1.4 删除</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>void</span> <span class=nf>kobject_del</span><span class=p>(</span><span class=k>struct</span> <span class=n>kobject</span> <span class=o>*</span><span class=n>kobj</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>kernfs_node</span> <span class=o>*</span><span class=n>sd</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>kobj</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=n>sd</span> <span class=o>=</span> <span class=n>kobj</span><span class=o>-&gt;</span><span class=n>sd</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=n>sysfs_remove_dir</span><span class=p>(</span><span class=n>kobj</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=n>sysfs_put</span><span class=p>(</span><span class=n>sd</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=n>kobj</span><span class=o>-&gt;</span><span class=n>state_in_sysfs</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=n>kobj_kset_leave</span><span class=p>(</span><span class=n>kobj</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=n>kobject_put</span><span class=p>(</span><span class=n>kobj</span><span class=o>-&gt;</span><span class=n>parent</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=n>kobj</span><span class=o>-&gt;</span><span class=n>parent</span> <span class=o>=</span> <span class=nb>NULL</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=引用计数 class=headerLink><a href=#%e5%bc%95%e7%94%a8%e8%ae%a1%e6%95%b0 class=header-mark></a>2.1.5 引用计数</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>struct</span> <span class=n>kobject</span> <span class=o>*</span><span class=nf>kobject_get</span><span class=p>(</span><span class=k>struct</span> <span class=n>kobject</span> <span class=o>*</span><span class=n>kobj</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>kobj</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>kobj</span><span class=o>-&gt;</span><span class=n>state_initialized</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>			<span class=n>WARN</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=n>KERN_WARNING</span>
+</span></span><span class=line><span class=cl>				<span class=s>&#34;kobject: &#39;%s&#39; (%p): is not initialized, yet kobject_get() is being called.</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>			     <span class=n>kobject_name</span><span class=p>(</span><span class=n>kobj</span><span class=p>),</span> <span class=n>kobj</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=n>kref_get</span><span class=p>(</span><span class=o>&amp;</span><span class=n>kobj</span><span class=o>-&gt;</span><span class=n>kref</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=n>kobj</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>kobject_put</span><span class=p>(</span><span class=k>struct</span> <span class=n>kobject</span> <span class=o>*</span><span class=n>kobj</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>kobj</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>kobj</span><span class=o>-&gt;</span><span class=n>state_initialized</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>			<span class=n>WARN</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=n>KERN_WARNING</span>
+</span></span><span class=line><span class=cl>				<span class=s>&#34;kobject: &#39;%s&#39; (%p): is not initialized, yet kobject_put() is being called.</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>			     <span class=n>kobject_name</span><span class=p>(</span><span class=n>kobj</span><span class=p>),</span> <span class=n>kobj</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=n>kref_put</span><span class=p>(</span><span class=o>&amp;</span><span class=n>kobj</span><span class=o>-&gt;</span><span class=n>kref</span><span class=p>,</span> <span class=n>kobject_release</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=kset class=headerLink><a href=#kset class=header-mark></a>2.2 kset</h3><h4 id=数据结构-1 class=headerLink><a href=#%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84-1 class=header-mark></a>2.2.1 数据结构</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>struct</span> <span class=n>kset</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>list_head</span> <span class=n>list</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=n>spinlock_t</span> <span class=n>list_lock</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>kobject</span> <span class=n>kobj</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=k>struct</span> <span class=n>kset_uevent_ops</span> <span class=o>*</span><span class=n>uevent_ops</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span> <span class=n>__randomize_layout</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=ktype class=headerLink><a href=#ktype class=header-mark></a>2.3 ktype</h3><h4 id=数据结构-2 class=headerLink><a href=#%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84-2 class=header-mark></a>2.3.1 数据结构</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>struct</span> <span class=n>kobj_type</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kt>void</span> <span class=p>(</span><span class=o>*</span><span class=n>release</span><span class=p>)(</span><span class=k>struct</span> <span class=n>kobject</span> <span class=o>*</span><span class=n>kobj</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=k>struct</span> <span class=n>sysfs_ops</span> <span class=o>*</span><span class=n>sysfs_ops</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>attribute</span> <span class=o>**</span><span class=n>default_attrs</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=k>struct</span> <span class=n>kobj_ns_type_operations</span> <span class=o>*</span><span class=p>(</span><span class=o>*</span><span class=n>child_ns_type</span><span class=p>)(</span><span class=k>struct</span> <span class=n>kobject</span> <span class=o>*</span><span class=n>kobj</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=kt>void</span> <span class=o>*</span><span class=p>(</span><span class=o>*</span><span class=n>namespace</span><span class=p>)(</span><span class=k>struct</span> <span class=n>kobject</span> <span class=o>*</span><span class=n>kobj</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=kt>void</span> <span class=p>(</span><span class=o>*</span><span class=n>get_ownership</span><span class=p>)(</span><span class=k>struct</span> <span class=n>kobject</span> <span class=o>*</span><span class=n>kobj</span><span class=p>,</span> <span class=n>kuid_t</span> <span class=o>*</span><span class=n>uid</span><span class=p>,</span> <span class=n>kgid_t</span> <span class=o>*</span><span class=n>gid</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=class class=headerLink><a href=#class class=header-mark></a>3 class</h2><blockquote><p>设备类描述</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>struct</span> <span class=n>class</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=kt>char</span>		<span class=o>*</span><span class=n>name</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>module</span>		<span class=o>*</span><span class=n>owner</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=k>struct</span> <span class=n>attribute_group</span>	<span class=o>**</span><span class=n>class_groups</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=k>struct</span> <span class=n>attribute_group</span>	<span class=o>**</span><span class=n>dev_groups</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>kobject</span>			<span class=o>*</span><span class=n>dev_kobj</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=p>(</span><span class=o>*</span><span class=n>dev_uevent</span><span class=p>)(</span><span class=k>struct</span> <span class=n>device</span> <span class=o>*</span><span class=n>dev</span><span class=p>,</span> <span class=k>struct</span> <span class=n>kobj_uevent_env</span> <span class=o>*</span><span class=n>env</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=kt>char</span> <span class=o>*</span><span class=p>(</span><span class=o>*</span><span class=n>devnode</span><span class=p>)(</span><span class=k>struct</span> <span class=n>device</span> <span class=o>*</span><span class=n>dev</span><span class=p>,</span> <span class=n>umode_t</span> <span class=o>*</span><span class=n>mode</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=kt>void</span> <span class=p>(</span><span class=o>*</span><span class=n>class_release</span><span class=p>)(</span><span class=k>struct</span> <span class=n>class</span> <span class=o>*</span><span class=n>class</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=kt>void</span> <span class=p>(</span><span class=o>*</span><span class=n>dev_release</span><span class=p>)(</span><span class=k>struct</span> <span class=n>device</span> <span class=o>*</span><span class=n>dev</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=p>(</span><span class=o>*</span><span class=n>shutdown_pre</span><span class=p>)(</span><span class=k>struct</span> <span class=n>device</span> <span class=o>*</span><span class=n>dev</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=k>struct</span> <span class=n>kobj_ns_type_operations</span> <span class=o>*</span><span class=n>ns_type</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=kt>void</span> <span class=o>*</span><span class=p>(</span><span class=o>*</span><span class=n>namespace</span><span class=p>)(</span><span class=k>struct</span> <span class=n>device</span> <span class=o>*</span><span class=n>dev</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=kt>void</span> <span class=p>(</span><span class=o>*</span><span class=n>get_ownership</span><span class=p>)(</span><span class=k>struct</span> <span class=n>device</span> <span class=o>*</span><span class=n>dev</span><span class=p>,</span> <span class=n>kuid_t</span> <span class=o>*</span><span class=n>uid</span><span class=p>,</span> <span class=n>kgid_t</span> <span class=o>*</span><span class=n>gid</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=k>struct</span> <span class=n>dev_pm_ops</span> <span class=o>*</span><span class=n>pm</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>subsys_private</span> <span class=o>*</span><span class=n>p</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=bus class=headerLink><a href=#bus class=header-mark></a>4 bus</h2><blockquote><p>设备总线描述</p></blockquote><h3 id=总线类型 class=headerLink><a href=#%e6%80%bb%e7%ba%bf%e7%b1%bb%e5%9e%8b class=header-mark></a>4.1 总线类型</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=c1># ls</span>
+</span></span><span class=line><span class=cl>amba          cpu           nvmem         platform      virtio
+</span></span><span class=line><span class=cl>clockevents   event_source  pci           scsi          workqueue
+</span></span><span class=line><span class=cl>clocksource   gpio          pci_express   serio
+</span></span><span class=line><span class=cl>container     hid           pcmcia        spi
+</span></span></code></pre></td></tr></table></div></div><p>其中每一个总线具有如下信息</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=c1># ls</span>
+</span></span><span class=line><span class=cl>devices            drivers_autoprobe  uevent
+</span></span><span class=line><span class=cl>drivers            drivers_probe
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>struct</span> <span class=n>bus_type</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=kt>char</span>		<span class=o>*</span><span class=n>name</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=kt>char</span>		<span class=o>*</span><span class=n>dev_name</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>device</span>		<span class=o>*</span><span class=n>dev_root</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=k>struct</span> <span class=n>attribute_group</span> <span class=o>**</span><span class=n>bus_groups</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=k>struct</span> <span class=n>attribute_group</span> <span class=o>**</span><span class=n>dev_groups</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=k>struct</span> <span class=n>attribute_group</span> <span class=o>**</span><span class=n>drv_groups</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=p>(</span><span class=o>*</span><span class=n>match</span><span class=p>)(</span><span class=k>struct</span> <span class=n>device</span> <span class=o>*</span><span class=n>dev</span><span class=p>,</span> <span class=k>struct</span> <span class=n>device_driver</span> <span class=o>*</span><span class=n>drv</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=p>(</span><span class=o>*</span><span class=n>uevent</span><span class=p>)(</span><span class=k>struct</span> <span class=n>device</span> <span class=o>*</span><span class=n>dev</span><span class=p>,</span> <span class=k>struct</span> <span class=n>kobj_uevent_env</span> <span class=o>*</span><span class=n>env</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=p>(</span><span class=o>*</span><span class=n>probe</span><span class=p>)(</span><span class=k>struct</span> <span class=n>device</span> <span class=o>*</span><span class=n>dev</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=p>(</span><span class=o>*</span><span class=n>remove</span><span class=p>)(</span><span class=k>struct</span> <span class=n>device</span> <span class=o>*</span><span class=n>dev</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=kt>void</span> <span class=p>(</span><span class=o>*</span><span class=n>shutdown</span><span class=p>)(</span><span class=k>struct</span> <span class=n>device</span> <span class=o>*</span><span class=n>dev</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=p>(</span><span class=o>*</span><span class=n>online</span><span class=p>)(</span><span class=k>struct</span> <span class=n>device</span> <span class=o>*</span><span class=n>dev</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=p>(</span><span class=o>*</span><span class=n>offline</span><span class=p>)(</span><span class=k>struct</span> <span class=n>device</span> <span class=o>*</span><span class=n>dev</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=p>(</span><span class=o>*</span><span class=n>suspend</span><span class=p>)(</span><span class=k>struct</span> <span class=n>device</span> <span class=o>*</span><span class=n>dev</span><span class=p>,</span> <span class=n>pm_message_t</span> <span class=n>state</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=p>(</span><span class=o>*</span><span class=n>resume</span><span class=p>)(</span><span class=k>struct</span> <span class=n>device</span> <span class=o>*</span><span class=n>dev</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=p>(</span><span class=o>*</span><span class=n>num_vf</span><span class=p>)(</span><span class=k>struct</span> <span class=n>device</span> <span class=o>*</span><span class=n>dev</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=p>(</span><span class=o>*</span><span class=n>dma_configure</span><span class=p>)(</span><span class=k>struct</span> <span class=n>device</span> <span class=o>*</span><span class=n>dev</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=k>struct</span> <span class=n>dev_pm_ops</span> <span class=o>*</span><span class=n>pm</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=k>struct</span> <span class=n>iommu_ops</span> <span class=o>*</span><span class=n>iommu_ops</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>subsys_private</span> <span class=o>*</span><span class=n>p</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>lock_class_key</span> <span class=n>lock_key</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=kt>bool</span> <span class=n>need_parent_lock</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=设备总线注册 class=headerLink><a href=#%e8%ae%be%e5%a4%87%e6%80%bb%e7%ba%bf%e6%b3%a8%e5%86%8c class=header-mark></a>4.1.1 设备总线注册</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span><span class=lnt>74
+</span><span class=lnt>75
+</span><span class=lnt>76
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>int</span> <span class=nf>bus_register</span><span class=p>(</span><span class=k>struct</span> <span class=n>bus_type</span> <span class=o>*</span><span class=n>bus</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=n>retval</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>subsys_private</span> <span class=o>*</span><span class=n>priv</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>lock_class_key</span> <span class=o>*</span><span class=n>key</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>bus</span><span class=o>-&gt;</span><span class=n>lock_key</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=n>priv</span> <span class=o>=</span> <span class=n>kzalloc</span><span class=p>(</span><span class=k>sizeof</span><span class=p>(</span><span class=k>struct</span> <span class=n>subsys_private</span><span class=p>),</span> <span class=n>GFP_KERNEL</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>priv</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span> <span class=o>-</span><span class=n>ENOMEM</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=n>priv</span><span class=o>-&gt;</span><span class=n>bus</span> <span class=o>=</span> <span class=n>bus</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=n>bus</span><span class=o>-&gt;</span><span class=n>p</span> <span class=o>=</span> <span class=n>priv</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=n>BLOCKING_INIT_NOTIFIER_HEAD</span><span class=p>(</span><span class=o>&amp;</span><span class=n>priv</span><span class=o>-&gt;</span><span class=n>bus_notifier</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=n>retval</span> <span class=o>=</span> <span class=n>kobject_set_name</span><span class=p>(</span><span class=o>&amp;</span><span class=n>priv</span><span class=o>-&gt;</span><span class=n>subsys</span><span class=p>.</span><span class=n>kobj</span><span class=p>,</span> <span class=s>&#34;%s&#34;</span><span class=p>,</span> <span class=n>bus</span><span class=o>-&gt;</span><span class=n>name</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>retval</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=k>goto</span> <span class=n>out</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=n>priv</span><span class=o>-&gt;</span><span class=n>subsys</span><span class=p>.</span><span class=n>kobj</span><span class=p>.</span><span class=n>kset</span> <span class=o>=</span> <span class=n>bus_kset</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=n>priv</span><span class=o>-&gt;</span><span class=n>subsys</span><span class=p>.</span><span class=n>kobj</span><span class=p>.</span><span class=n>ktype</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>bus_ktype</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=n>priv</span><span class=o>-&gt;</span><span class=n>drivers_autoprobe</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=n>retval</span> <span class=o>=</span> <span class=n>kset_register</span><span class=p>(</span><span class=o>&amp;</span><span class=n>priv</span><span class=o>-&gt;</span><span class=n>subsys</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>retval</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=k>goto</span> <span class=n>out</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=n>retval</span> <span class=o>=</span> <span class=n>bus_create_file</span><span class=p>(</span><span class=n>bus</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>bus_attr_uevent</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>retval</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=k>goto</span> <span class=n>bus_uevent_fail</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=n>priv</span><span class=o>-&gt;</span><span class=n>devices_kset</span> <span class=o>=</span> <span class=n>kset_create_and_add</span><span class=p>(</span><span class=s>&#34;devices&#34;</span><span class=p>,</span> <span class=nb>NULL</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>						 <span class=o>&amp;</span><span class=n>priv</span><span class=o>-&gt;</span><span class=n>subsys</span><span class=p>.</span><span class=n>kobj</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>priv</span><span class=o>-&gt;</span><span class=n>devices_kset</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=n>retval</span> <span class=o>=</span> <span class=o>-</span><span class=n>ENOMEM</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=k>goto</span> <span class=n>bus_devices_fail</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=n>priv</span><span class=o>-&gt;</span><span class=n>drivers_kset</span> <span class=o>=</span> <span class=n>kset_create_and_add</span><span class=p>(</span><span class=s>&#34;drivers&#34;</span><span class=p>,</span> <span class=nb>NULL</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>						 <span class=o>&amp;</span><span class=n>priv</span><span class=o>-&gt;</span><span class=n>subsys</span><span class=p>.</span><span class=n>kobj</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>priv</span><span class=o>-&gt;</span><span class=n>drivers_kset</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=n>retval</span> <span class=o>=</span> <span class=o>-</span><span class=n>ENOMEM</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=k>goto</span> <span class=n>bus_drivers_fail</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=n>INIT_LIST_HEAD</span><span class=p>(</span><span class=o>&amp;</span><span class=n>priv</span><span class=o>-&gt;</span><span class=n>interfaces</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=n>__mutex_init</span><span class=p>(</span><span class=o>&amp;</span><span class=n>priv</span><span class=o>-&gt;</span><span class=n>mutex</span><span class=p>,</span> <span class=s>&#34;subsys mutex&#34;</span><span class=p>,</span> <span class=n>key</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=n>klist_init</span><span class=p>(</span><span class=o>&amp;</span><span class=n>priv</span><span class=o>-&gt;</span><span class=n>klist_devices</span><span class=p>,</span> <span class=n>klist_devices_get</span><span class=p>,</span> <span class=n>klist_devices_put</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=n>klist_init</span><span class=p>(</span><span class=o>&amp;</span><span class=n>priv</span><span class=o>-&gt;</span><span class=n>klist_drivers</span><span class=p>,</span> <span class=nb>NULL</span><span class=p>,</span> <span class=nb>NULL</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=n>retval</span> <span class=o>=</span> <span class=n>add_probe_files</span><span class=p>(</span><span class=n>bus</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>retval</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=k>goto</span> <span class=n>bus_probe_files_fail</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=n>retval</span> <span class=o>=</span> <span class=n>bus_add_groups</span><span class=p>(</span><span class=n>bus</span><span class=p>,</span> <span class=n>bus</span><span class=o>-&gt;</span><span class=n>bus_groups</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>retval</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=k>goto</span> <span class=n>bus_groups_fail</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=n>pr_debug</span><span class=p>(</span><span class=s>&#34;bus: &#39;%s&#39;: registered</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span> <span class=n>bus</span><span class=o>-&gt;</span><span class=n>name</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nl>bus_groups_fail</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>	<span class=n>remove_probe_files</span><span class=p>(</span><span class=n>bus</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nl>bus_probe_files_fail</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>	<span class=n>kset_unregister</span><span class=p>(</span><span class=n>bus</span><span class=o>-&gt;</span><span class=n>p</span><span class=o>-&gt;</span><span class=n>drivers_kset</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nl>bus_drivers_fail</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>	<span class=n>kset_unregister</span><span class=p>(</span><span class=n>bus</span><span class=o>-&gt;</span><span class=n>p</span><span class=o>-&gt;</span><span class=n>devices_kset</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nl>bus_devices_fail</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>	<span class=n>bus_remove_file</span><span class=p>(</span><span class=n>bus</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>bus_attr_uevent</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nl>bus_uevent_fail</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>	<span class=n>kset_unregister</span><span class=p>(</span><span class=o>&amp;</span><span class=n>bus</span><span class=o>-&gt;</span><span class=n>p</span><span class=o>-&gt;</span><span class=n>subsys</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nl>out</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>	<span class=n>kfree</span><span class=p>(</span><span class=n>bus</span><span class=o>-&gt;</span><span class=n>p</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=n>bus</span><span class=o>-&gt;</span><span class=n>p</span> <span class=o>=</span> <span class=nb>NULL</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=n>retval</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=设备总线卸载 class=headerLink><a href=#%e8%ae%be%e5%a4%87%e6%80%bb%e7%ba%bf%e5%8d%b8%e8%bd%bd class=header-mark></a>4.1.2 设备总线卸载</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>void</span> <span class=nf>bus_unregister</span><span class=p>(</span><span class=k>struct</span> <span class=n>bus_type</span> <span class=o>*</span><span class=n>bus</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=n>pr_debug</span><span class=p>(</span><span class=s>&#34;bus: &#39;%s&#39;: unregistering</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span> <span class=n>bus</span><span class=o>-&gt;</span><span class=n>name</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>bus</span><span class=o>-&gt;</span><span class=n>dev_root</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=n>device_unregister</span><span class=p>(</span><span class=n>bus</span><span class=o>-&gt;</span><span class=n>dev_root</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=n>bus_remove_groups</span><span class=p>(</span><span class=n>bus</span><span class=p>,</span> <span class=n>bus</span><span class=o>-&gt;</span><span class=n>bus_groups</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=n>remove_probe_files</span><span class=p>(</span><span class=n>bus</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=n>kset_unregister</span><span class=p>(</span><span class=n>bus</span><span class=o>-&gt;</span><span class=n>p</span><span class=o>-&gt;</span><span class=n>drivers_kset</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=n>kset_unregister</span><span class=p>(</span><span class=n>bus</span><span class=o>-&gt;</span><span class=n>p</span><span class=o>-&gt;</span><span class=n>devices_kset</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=n>bus_remove_file</span><span class=p>(</span><span class=n>bus</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>bus_attr_uevent</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=n>kset_unregister</span><span class=p>(</span><span class=o>&amp;</span><span class=n>bus</span><span class=o>-&gt;</span><span class=n>p</span><span class=o>-&gt;</span><span class=n>subsys</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=devices class=headerLink><a href=#devices class=header-mark></a>5 devices</h2><blockquote><p>设备文件具体描述:
+device(设备描述)
+device_driver(驱动描述)
+bus_type(总线信息)</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=p>|</span>-- breakpoint
+</span></span><span class=line><span class=cl><span class=p>|</span>-- kprobe
+</span></span><span class=line><span class=cl><span class=p>|</span>-- platform
+</span></span><span class=line><span class=cl><span class=p>|</span>-- software
+</span></span><span class=line><span class=cl><span class=p>|</span>-- system
+</span></span><span class=line><span class=cl><span class=p>|</span>-- tracepoint
+</span></span><span class=line><span class=cl><span class=p>|</span>-- uprobe
+</span></span><span class=line><span class=cl><span class=sb>`</span>-- virtual
+</span></span></code></pre></td></tr></table></div></div><h3 id=heading class=headerLink><a href=#heading class=header-mark></a>5.1</h3><h4 id=device class=headerLink><a href=#device class=header-mark></a>5.1.1 device</h4><blockquote><p>描述设备</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span><span class=lnt>74
+</span><span class=lnt>75
+</span><span class=lnt>76
+</span><span class=lnt>77
+</span><span class=lnt>78
+</span><span class=lnt>79
+</span><span class=lnt>80
+</span><span class=lnt>81
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>struct</span> <span class=n>device</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>device</span>		<span class=o>*</span><span class=n>parent</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>device_private</span>	<span class=o>*</span><span class=n>p</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>kobject</span> <span class=n>kobj</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=kt>char</span>		<span class=o>*</span><span class=n>init_name</span><span class=p>;</span> <span class=cm>/* initial name of the device */</span>
+</span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=k>struct</span> <span class=n>device_type</span> <span class=o>*</span><span class=n>type</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>mutex</span>		<span class=n>mutex</span><span class=p>;</span>	<span class=cm>/* mutex to synchronize calls to
+</span></span></span><span class=line><span class=cl><span class=cm>					 * its driver.
+</span></span></span><span class=line><span class=cl><span class=cm>					 */</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>bus_type</span>	<span class=o>*</span><span class=n>bus</span><span class=p>;</span>		<span class=cm>/* type of bus device is on */</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>device_driver</span> <span class=o>*</span><span class=n>driver</span><span class=p>;</span>	<span class=cm>/* which driver has allocated this
+</span></span></span><span class=line><span class=cl><span class=cm>					   device */</span>
+</span></span><span class=line><span class=cl>	<span class=kt>void</span>		<span class=o>*</span><span class=n>platform_data</span><span class=p>;</span>	<span class=cm>/* Platform specific data, device
+</span></span></span><span class=line><span class=cl><span class=cm>					   core doesn&#39;t touch it */</span>
+</span></span><span class=line><span class=cl>	<span class=kt>void</span>		<span class=o>*</span><span class=n>driver_data</span><span class=p>;</span>	<span class=cm>/* Driver data, set and get with
+</span></span></span><span class=line><span class=cl><span class=cm>					   dev_set/get_drvdata */</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>dev_links_info</span>	<span class=n>links</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>dev_pm_info</span>	<span class=n>power</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>dev_pm_domain</span>	<span class=o>*</span><span class=n>pm_domain</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_GENERIC_MSI_IRQ_DOMAIN
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=k>struct</span> <span class=n>irq_domain</span>	<span class=o>*</span><span class=n>msi_domain</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_PINCTRL
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=k>struct</span> <span class=n>dev_pin_info</span>	<span class=o>*</span><span class=n>pins</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_GENERIC_MSI_IRQ
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=k>struct</span> <span class=n>list_head</span>	<span class=n>msi_list</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_NUMA
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=kt>int</span>		<span class=n>numa_node</span><span class=p>;</span>	<span class=cm>/* NUMA node this device is close to */</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=k>const</span> <span class=k>struct</span> <span class=n>dma_map_ops</span> <span class=o>*</span><span class=n>dma_ops</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=n>u64</span>		<span class=o>*</span><span class=n>dma_mask</span><span class=p>;</span>	<span class=cm>/* dma mask (if dma&#39;able device) */</span>
+</span></span><span class=line><span class=cl>	<span class=n>u64</span>		<span class=n>coherent_dma_mask</span><span class=p>;</span><span class=cm>/* Like dma_mask, but for
+</span></span></span><span class=line><span class=cl><span class=cm>					     alloc_coherent mappings as
+</span></span></span><span class=line><span class=cl><span class=cm>					     not all hardware supports
+</span></span></span><span class=line><span class=cl><span class=cm>					     64 bit addresses for consistent
+</span></span></span><span class=line><span class=cl><span class=cm>					     allocations such descriptors. */</span>
+</span></span><span class=line><span class=cl>	<span class=n>u64</span>		<span class=n>bus_dma_mask</span><span class=p>;</span>	<span class=cm>/* upstream dma_mask constraint */</span>
+</span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>long</span>	<span class=n>dma_pfn_offset</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>device_dma_parameters</span> <span class=o>*</span><span class=n>dma_parms</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>list_head</span>	<span class=n>dma_pools</span><span class=p>;</span>	<span class=cm>/* dma pools (if dma&#39;ble) */</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>dma_coherent_mem</span>	<span class=o>*</span><span class=n>dma_mem</span><span class=p>;</span> <span class=cm>/* internal for coherent mem
+</span></span></span><span class=line><span class=cl><span class=cm>					     override */</span>
+</span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_DMA_CMA
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=k>struct</span> <span class=n>cma</span> <span class=o>*</span><span class=n>cma_area</span><span class=p>;</span>		<span class=cm>/* contiguous memory area for dma
+</span></span></span><span class=line><span class=cl><span class=cm>					   allocations */</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/* arch specific additions */</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>dev_archdata</span>	<span class=n>archdata</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>device_node</span>	<span class=o>*</span><span class=n>of_node</span><span class=p>;</span> <span class=cm>/* associated device tree node */</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>fwnode_handle</span>	<span class=o>*</span><span class=n>fwnode</span><span class=p>;</span> <span class=cm>/* firmware device node */</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=n>dev_t</span>			<span class=n>devt</span><span class=p>;</span>	<span class=cm>/* dev_t, creates the sysfs &#34;dev&#34; */</span>
+</span></span><span class=line><span class=cl>	<span class=n>u32</span>			<span class=n>id</span><span class=p>;</span>	<span class=cm>/* device instance */</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=n>spinlock_t</span>		<span class=n>devres_lock</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>list_head</span>	<span class=n>devres_head</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>klist_node</span>	<span class=n>knode_class</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>class</span>		<span class=o>*</span><span class=n>class</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=k>struct</span> <span class=n>attribute_group</span> <span class=o>**</span><span class=n>groups</span><span class=p>;</span>	<span class=cm>/* optional groups */</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=kt>void</span>	<span class=p>(</span><span class=o>*</span><span class=n>release</span><span class=p>)(</span><span class=k>struct</span> <span class=n>device</span> <span class=o>*</span><span class=n>dev</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>iommu_group</span>	<span class=o>*</span><span class=n>iommu_group</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>iommu_fwspec</span>	<span class=o>*</span><span class=n>iommu_fwspec</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=kt>bool</span>			<span class=nl>offline_disabled</span><span class=p>:</span><span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=kt>bool</span>			<span class=nl>offline</span><span class=p>:</span><span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=kt>bool</span>			<span class=nl>of_node_reused</span><span class=p>:</span><span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=driver class=headerLink><a href=#driver class=header-mark></a>5.1.2 driver</h4><blockquote><p>描述驱动</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>struct</span> <span class=n>device_driver</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=kt>char</span>		<span class=o>*</span><span class=n>name</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>bus_type</span>		<span class=o>*</span><span class=n>bus</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>module</span>		<span class=o>*</span><span class=n>owner</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=kt>char</span>		<span class=o>*</span><span class=n>mod_name</span><span class=p>;</span>	<span class=cm>/* used for built-in modules */</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=kt>bool</span> <span class=n>suppress_bind_attrs</span><span class=p>;</span>	<span class=cm>/* disables bind/unbind via sysfs */</span>
+</span></span><span class=line><span class=cl>	<span class=k>enum</span> <span class=n>probe_type</span> <span class=n>probe_type</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=k>struct</span> <span class=n>of_device_id</span>	<span class=o>*</span><span class=n>of_match_table</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=k>struct</span> <span class=n>acpi_device_id</span>	<span class=o>*</span><span class=n>acpi_match_table</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=p>(</span><span class=o>*</span><span class=n>probe</span><span class=p>)</span> <span class=p>(</span><span class=k>struct</span> <span class=n>device</span> <span class=o>*</span><span class=n>dev</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=p>(</span><span class=o>*</span><span class=n>remove</span><span class=p>)</span> <span class=p>(</span><span class=k>struct</span> <span class=n>device</span> <span class=o>*</span><span class=n>dev</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=kt>void</span> <span class=p>(</span><span class=o>*</span><span class=n>shutdown</span><span class=p>)</span> <span class=p>(</span><span class=k>struct</span> <span class=n>device</span> <span class=o>*</span><span class=n>dev</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=p>(</span><span class=o>*</span><span class=n>suspend</span><span class=p>)</span> <span class=p>(</span><span class=k>struct</span> <span class=n>device</span> <span class=o>*</span><span class=n>dev</span><span class=p>,</span> <span class=n>pm_message_t</span> <span class=n>state</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=p>(</span><span class=o>*</span><span class=n>resume</span><span class=p>)</span> <span class=p>(</span><span class=k>struct</span> <span class=n>device</span> <span class=o>*</span><span class=n>dev</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=k>struct</span> <span class=n>attribute_group</span> <span class=o>**</span><span class=n>groups</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=k>struct</span> <span class=n>dev_pm_ops</span> <span class=o>*</span><span class=n>pm</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=kt>void</span> <span class=p>(</span><span class=o>*</span><span class=n>coredump</span><span class=p>)</span> <span class=p>(</span><span class=k>struct</span> <span class=n>device</span> <span class=o>*</span><span class=n>dev</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>driver_private</span> <span class=o>*</span><span class=n>p</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=kernel class=headerLink><a href=#kernel class=header-mark></a>6 kernel</h2><blockquote><p>kernel子系统</p></blockquote><h2 id=module class=headerLink><a href=#module class=header-mark></a>7 module</h2><blockquote><p>模块信息</p></blockquote></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2022-06-28&nbsp;<a class=git-hash href=https://github.com/mengdemao/github.io/commit/e35f4f64ee26791a206dfd494c4b8a3e0b449422 target=_blank title="commit by mengdemao(mengdemao19951021@163.com) e35f4f64ee26791a206dfd494c4b8a3e0b449422: * fix CI error" rel="noopener noreferrer">
+<i class="fas fa-hashtag fa-fw"></i>e35f4f6</a></span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-mardown href=/drivermodel/index.md target=_blank rel="noopener noreferrer">阅读原始文档</a>
+</span><span>|&nbsp;<a class=link-to-source href=https://github.com/mengdemao/github.io/content/posts/DriverModel.md target=_blank rel="noopener noreferrer">查看源代码</a>
+</span><span>|&nbsp;<a class=link-to-edit href=https://github.com/mengdemao/github.io/content/posts/DriverModel.md target=_blank rel="noopener noreferrer">编辑此页</a></span></div><div class=post-info-share><span><a href=# onclick=return!1 title="分享到 Twitter" data-sharer=twitter data-url=https://mengdemao.github.io/drivermodel/ data-title=驱动模型 data-hashtags=kernel><i class="fab fa-twitter fa-fw"></i></a><a href=# onclick=return!1 title="分享到 Facebook" data-sharer=facebook data-url=https://mengdemao.github.io/drivermodel/ data-hashtag=kernel><i class="fab fa-facebook-square fa-fw"></i></a><a href=# onclick=return!1 title="分享到 Hacker News" data-sharer=hackernews data-url=https://mengdemao.github.io/drivermodel/ data-title=驱动模型><i class="fab fa-hacker-news fa-fw"></i></a><a href=# onclick=return!1 title="分享到 Line" data-sharer=line data-url=https://mengdemao.github.io/drivermodel/ data-title=驱动模型><i data-svg-src=/lib/simple-icons/icons/line.min.svg></i></a><a href=# onclick=return!1 title="分享到 微博" data-sharer=weibo data-url=https://mengdemao.github.io/drivermodel/ data-title=驱动模型 data-ralateuid=xxxx><i class="fab fa-weibo fa-fw"></i></a><a href=# onclick=return!1 title="分享到 Telegram" data-sharer=telegram data-url=https://mengdemao.github.io/drivermodel/ data-title=驱动模型 data-web><i class="fab fa-telegram-plane fa-fw"></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw"></i>&nbsp;<a href=/tags/kernel/>kernel</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/luajit/ class=prev rel=prev title=LuaJIT><i class="fas fa-angle-left fa-fw"></i>LuaJIT</a>
+<a href=/engineering_compiler/ class=next rel=next title=Engineering_compiler>Engineering_compiler<i class="fas fa-angle-right fa-fw"></i></a></div></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreffer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a></div><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2019 - 2022</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://github.com/mengdemao/github.io target=_blank rel="noopener noreferrer">mengdemao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div><div class=footer-line></div><div class=footer-line></div></div></footer></div><div id=fixed-buttons><a href=#back-to-top id=back-to-top-button class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw"></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw"></i></a></div><div class=assets><script type=text/javascript src=/lib/autocomplete/autocomplete.min.0dcc8ee301dccbd9fb18115a1176e1293ca233b99aee5f5d12f218463c34eccea29f842827fc1ce330cf26e1e21b1382725ad3d0703cbde9f7e28552bcd92c07.js integrity="sha512-DcyO4wHcy9n7GBFaEXbhKTyiM7ma7l9dEvIYRjw07M6in4QoJ/wc4zDPJuHiGxOCclrT0HA8ven34oVSvNksBw=="></script><script type=text/javascript src=/lib/algoliasearch/algoliasearch-lite.umd.min.757eeb7f02d6fa8b75dc5edee7c758fb746cf3abed72462e6231350a14e645f06abaab4f42dc2c6f3cbaf190ad1fee51ea054a4d5ecef95e98f8905fe44e6022.js integrity="sha512-dX7rfwLW+ot13F7e58dY+3Rs86vtckYuYjE1ChTmRfBquqtPQtwsbzy68ZCtH+5R6gVKTV7O+V6Y+JBf5E5gIg=="></script><script type=text/javascript src=/lib/pjax/pjax.min.8f92ba6fd6079d25aa09e1be3b1e3568438eba0fa53a093eb559684245a9c227d65e346122eb048ee9439ac9af9ce653c1ed88f20305c6121e946035c42705b0.js integrity="sha512-j5K6b9YHnSWqCeG+Ox41aEOOug+lOgk+tVloQkWpwifWXjRhIusEjulDmsmvnOZTwe2I8gMFxhIelGA1xCcFsA=="></script><script type=text/javascript src=/js/theme.min.js defer></script></div><div class=pjax-assets><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:100},comment:{},data:{"desktop-header-typeit":"编程日志","mobile-header-typeit":"编程日志"},search:{algoliaAppID:"5YGRNRQK1G",algoliaIndex:"zh_cn_index",algoliaSearchKey:"0ff6874805de24b84aa1d5ebccad56cd",highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:50,type:"algolia"},sharerjs:!0,table:{sort:!0},typeit:{cursorChar:"|",cursorSpeed:1e3,data:{"desktop-header-typeit":["desktop-header-typeit"],"mobile-header-typeit":["mobile-header-typeit"]},duration:-1,speed:100}}</script><script type=text/javascript src=/lib/clipboard/clipboard.min.b08a94127467df50609e03e61edd897a7ce57830ec5f060efa2caf438e8cc3a44bfae7405198f69ffbbf3c663cd0dc51c729ceed1f71206c792c4cf0e0835625.js integrity="sha512-sIqUEnRn31BgngPmHt2JenzleDDsXwYO+iyvQ46Mw6RL+udAUZj2n/u/PGY80NxRxynO7R9xIGx5LEzw4INWJQ=="></script><script type=text/javascript src=/lib/sharer/sharer.min.cab91d53e60c836a90e16a5091059006925296eeed2c665fc744b7e7755ec3ab5c4e58e3c83899af70d8f690e004c2ca62062e11b0c7efdced87f80d074cfa3e.js integrity="sha512-yrkdU+YMg2qQ4WpQkQWQBpJSlu7tLGZfx0S353Vew6tcTljjyDiZr3DY9pDgBMLKYgYuEbDH79zth/gNB0z6Pg=="></script><script type=text/javascript src=/lib/typeit/typeit.min.f27efa857ac46448d67802135c65454dfc450176698f8fb06912d192dada782d98abfd8fbaf9ad33a15fb7971ed227e86d2082b88c2319260c237f147c9a624b.js integrity="sha512-8n76hXrEZEjWeAITXGVFTfxFAXZpj4+waRLRktraeC2Yq/2PuvmtM6Fft5ce0ifobSCCuIwjGSYMI38UfJpiSw=="></script></div></body></html>

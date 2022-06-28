@@ -1,0 +1,789 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title class=pjax-title>Tinycc - 编程日志</title><meta name=Description content="个人知识的总结、提高、归纳"><meta property="og:title" content="Tinycc"><meta property="og:description" content="TinyCC TinyCC (aka TCC) is a small but hyper fast C compiler. Unlike other C compilers, it is meant to be self-relying: you do not need an external assembler or linker because TCC does that for you. 1 TCC 执行概览TCC组成代码 文件名 解释 tcc.c/libtcc.c tcc运行代码 tccpp.c tccelf.c tcccoff.c tccasm.c tccrun.c tccgen.c x86_64-gen.c"><meta property="og:type" content="article"><meta property="og:url" content="https://mengdemao.github.io/tinycc/"><meta property="og:image" content="https://mengdemao.github.io/images/avatar.webp"><meta property="article:section" content="posts"><meta property="article:published_time" content="2021-11-07T12:10:56+08:00"><meta property="article:modified_time" content="2022-06-28T22:38:14+08:00"><meta property="og:site_name" content="编程日志"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://mengdemao.github.io/images/avatar.webp"><meta name=twitter:title content="Tinycc"><meta name=twitter:description content="TinyCC TinyCC (aka TCC) is a small but hyper fast C compiler. Unlike other C compilers, it is meant to be self-relying: you do not need an external assembler or linker because TCC does that for you. 1 TCC 执行概览TCC组成代码 文件名 解释 tcc.c/libtcc.c tcc运行代码 tccpp.c tccelf.c tcccoff.c tccasm.c tccrun.c tccgen.c x86_64-gen.c"><meta name=application-name content="面向玄学编程"><meta name=apple-mobile-web-app-title content="面向玄学编程"><meta name=theme-color content="#f8f8f8"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=canonical href=https://mengdemao.github.io/tinycc/><link rel=prev href=https://mengdemao.github.io/server/><link rel=next href=https://mengdemao.github.io/dwl/><link rel=stylesheet href=/lib/normalize/normalize.min.8235a67a2521ef99fb1e455a5891b022af1653b4ede3cfffcac4e473beee88fbcc1a36bbb3cfdd75fd6df46732032f9d96e30adae9c88b769e1fbf7945cd27e0.css integrity="sha512-gjWmeiUh75n7HkVaWJGwIq8WU7Tt48//ysTkc77uiPvMGja7s8/ddf1t9GcyAy+dluMK2unIi3aeH795Rc0n4A=="><link rel=stylesheet href=/css/style.min.0f55137082d245ea45cddc893472e0064a8ae1ebf1ac0ec6c81be86a040cb43f360679ecd56d056a1c7f11d122b63baddace1a8659aa440dfb1890153405175d.css integrity="sha512-D1UTcILSRepFzdyJNHLgBkqK4evxrA7GyBvoagQMtD82Bnns1W0Fahx/EdEitjut2s4ahlmqRA37GJAVNAUXXQ=="><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/fontawesome-free/all.min.eb8387c9eb0ab6d4fa4d7ad397d15df13b92c009a1eb221b757dd1ecfccabc78a4c5b681847a7f4198ff7cd60abed8300508c9dea138cd1f4a85f09f09b2092a.css integrity="sha512-64OHyesKttT6TXrTl9Fd8TuSwAmh6yIbdX3R7PzKvHikxbaBhHp/QZj/fNYKvtgwBQjJ3qE4zR9KhfCfCbIJKg=="><noscript><link rel=stylesheet href=/lib/fontawesome-free/all.min.eb8387c9eb0ab6d4fa4d7ad397d15df13b92c009a1eb221b757dd1ecfccabc78a4c5b681847a7f4198ff7cd60abed8300508c9dea138cd1f4a85f09f09b2092a.css integrity="sha512-64OHyesKttT6TXrTl9Fd8TuSwAmh6yIbdX3R7PzKvHikxbaBhHp/QZj/fNYKvtgwBQjJ3qE4zR9KhfCfCbIJKg=="></noscript><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/animate/animate.min.738daa4d2c3fc0f677ff92c1cc3f81c397fb6d2176a31a2eeb011bf88fe5a9e68a57914321f32fbd1a7bef6cb88dc24b2ae1943a96c931d83f053979d1f25803.css integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw=="><noscript><link rel=stylesheet href=/lib/animate/animate.min.738daa4d2c3fc0f677ff92c1cc3f81c397fb6d2176a31a2eeb011bf88fe5a9e68a57914321f32fbd1a7bef6cb88dc24b2ae1943a96c931d83f053979d1f25803.css integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw=="></noscript><meta name=google-site-verification content="MQ8DNu27ayX6B_4ObiEDK09vGr1fdy7kOAnbd09hJk4"><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Tinycc","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/mengdemao.github.io\/tinycc\/"},"image":["https:\/\/mengdemao.github.io\/images\/Apple-Devices-Preview.png"],"genre":"posts","wordcount":1886,"url":"https:\/\/mengdemao.github.io\/tinycc\/","datePublished":"2021-11-07T12:10:56+08:00","dateModified":"2022-06-28T22:38:14+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"xxxx","logo":{"@type":"ImageObject","url":"https:\/\/mengdemao.github.io\/images\/avatar.webp","width":528,"height":560}},"author":{"@type":"Person","name":"mengdemao"},"description":""}</script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>function setTheme(e){document.body.setAttribute("theme",e),document.documentElement.style.setProperty("color-scheme",e==="light"?"light":"dark")}function saveTheme(e){window.localStorage&&localStorage.setItem("theme",e)}function getMeta(e){const t=document.getElementsByTagName("meta");for(let n=0;n<t.length;n++)if(t[n].getAttribute("name")===e)return t[n];return""}if(window.localStorage&&localStorage.getItem("theme")){let e=localStorage.getItem("theme");e==="light"||e==="dark"||e==="black"?setTheme(e):setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}else"auto"==="light"||"auto"==="dark"||"auto"==="black"?(setTheme("auto"),saveTheme("auto")):(saveTheme("auto"),setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));let metaColors={light:"#f8f8f8",dark:"#252627",black:"#000000"};getMeta("theme-color").content=metaColors[document.body.getAttribute("theme")]</script><div id=back-to-top></div><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=header-title-pre><i class='far fa-edit fa-fw'></i></span><span id=desktop-header-typeit class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/series/>系列 </a><a class=menu-item href=/authors/>作者 </a><a class=menu-item href=/showcase/>作品 </a><a class=menu-item href=/categories/documentation/>文档 </a><a class=menu-item href=/about/>关于 </a><a class=menu-item href=https://github.com/mengdemao/github.io title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw'></i> </a><a class=menu-item href=/archives/ title=归档><i class="fas fa-fw fa-file-archive"></i> 归档 </a><a class=menu-item href=/categories/ title=分类><i class="fas fa-fw fa-folder"></i> 分类 </a><a class=menu-item href=/tags/ title=标签><i class="fas fa-fw fa-tags"></i> 标签 </a><a class=menu-item href=/series/ title=专栏><i class="fas fa-fw fa-columns"></i> 专栏 </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=# onclick=return!1 class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw"></i></a>
+<a href=# onclick=return!1 class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw"></i></a>
+<span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin"></i></span>
+</span><a href=# onclick=return!1 class="menu-item theme-select" title=切换主题><i class="fas fa-adjust fa-fw"></i>
+<select class=color-theme-select id=theme-select-desktop title=切换主题><option value=light>浅色</option><option value=dark>深色</option><option value=black>黑色</option><option value=auto>跟随系统</option></select></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=header-title-pre><i class='far fa-edit fa-fw'></i></span><span id=mobile-header-typeit class=typeit></span></a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=# onclick=return!1 class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw"></i></a>
+<a href=# onclick=return!1 class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw"></i></a>
+<span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin"></i></span></div><a href=# onclick=return!1 class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts/ title>所有文章</a><a class=menu-item href=/tags/ title>标签</a><a class=menu-item href=/categories/ title>分类</a><a class=menu-item href=/series/ title>系列</a><a class=menu-item href=/authors/ title>作者</a><a class=menu-item href=/showcase/ title>作品</a><a class=menu-item href=/categories/documentation/ title>文档</a><a class=menu-item href=/about/ title>关于</a><a class=menu-item href=https://github.com/mengdemao/github.io title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw'></i></a><a class=menu-item href=/archives/ title=归档><i class="fas fa-fw fa-file-archive"></i>归档</a><a class=menu-item href=/categories/ title=分类><i class="fas fa-fw fa-folder"></i>分类</a><a class=menu-item href=/tags/ title=标签><i class="fas fa-fw fa-tags"></i>标签</a><a class=menu-item href=/series/ title=专栏><i class="fas fa-fw fa-columns"></i>专栏</a><a href=# onclick=return!1 class="menu-item theme-select" title=切换主题>
+<i class="fas fa-adjust fa-fw"></i>
+<select class=color-theme-select id=theme-select-mobile title=切换主题><option value=light>浅色</option><option value=dark>深色</option><option value=black>黑色</option><option value=auto>跟随系统</option></select></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto><nav id=TableOfContents><ul><li><a href=#tcc-执行概览>TCC 执行概览</a></li><li><a href=#tcc状态信息>TCC状态信息</a></li><li><a href=#文件读取>文件读取</a><ul><li><a href=#文件描述信息>文件描述信息</a></li><li><a href=#文件相关操作>文件相关操作</a></li></ul></li><li><a href=#词法分析>词法分析</a></li><li><a href=#语法分析>语法分析</a></li><li><a href=#类型检查>类型检查</a></li><li><a href=#符号表>符号表</a></li><li><a href=#段机制>段机制</a></li><li><a href=#代码生成>代码生成</a></li></ul></nav></div></div><script>document.getElementsByTagName("main")[0].setAttribute("pageStyle","normal")</script><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC","true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Tinycc</h1><div class=post-meta><div class=post-meta-line><span class=post-author><i class="author fas fa-user-circle fa-fw"></i><a href=https://github.com/mengdemao/github.io title=Author target=_blank rel="noopener noreffer author" class=author>mengdemao</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2021-11-07>2021-11-07</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime=2022-06-28>2022-06-28</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1886 字&nbsp;
+<i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;</div></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#tcc-执行概览>TCC 执行概览</a></li><li><a href=#tcc状态信息>TCC状态信息</a></li><li><a href=#文件读取>文件读取</a><ul><li><a href=#文件描述信息>文件描述信息</a></li><li><a href=#文件相关操作>文件相关操作</a></li></ul></li><li><a href=#词法分析>词法分析</a></li><li><a href=#语法分析>语法分析</a></li><li><a href=#类型检查>类型检查</a></li><li><a href=#符号表>符号表</a></li><li><a href=#段机制>段机制</a></li><li><a href=#代码生成>代码生成</a></li></ul></nav></div></div><div class=content id=content><h1 id=tinycc class=headerLink><a href=#tinycc class=header-mark></a>TinyCC</h1><blockquote><p>TinyCC (aka TCC) is a small but hyper fast C compiler.
+Unlike other C compilers, it is meant to be self-relying: you do not need an external
+assembler or linker because TCC does that for you.</p></blockquote><h2 id=tcc-执行概览 class=headerLink><a href=#tcc-%e6%89%a7%e8%a1%8c%e6%a6%82%e8%a7%88 class=header-mark></a>1 TCC 执行概览</h2><p>TCC组成代码</p><table><thead><tr><th>文件名</th><th>解释</th></tr></thead><tbody><tr><td><code>tcc.c</code>/<code>libtcc.c</code></td><td>tcc运行代码</td></tr><tr><td><code>tccpp.c</code></td><td></td></tr><tr><td><code>tccelf.c</code> <code>tcccoff.c</code></td><td></td></tr><tr><td><code>tccasm.c</code></td><td></td></tr><tr><td><code>tccrun.c</code></td><td></td></tr><tr><td><code>tccgen.c</code></td><td></td></tr><tr><td><code>x86_64-gen.c</code> <code>x86_64-link.c</code> <code>i386-asm.c</code></td><td>不同架构的生成器</td></tr></tbody></table><p><img class=lazyload data-src=https://raw.githubusercontent.com/mengdemao/picture/master/TccMainExecute.png data-srcset="https://raw.githubusercontent.com/mengdemao/picture/master/TccMainExecute.png, https://raw.githubusercontent.com/mengdemao/picture/master/TccMainExecute.png 1.5x, https://raw.githubusercontent.com/mengdemao/picture/master/TccMainExecute.png 2x" data-sizes=auto alt=https://raw.githubusercontent.com/mengdemao/picture/master/TccMainExecute.png title=TccMainExecute></p><h2 id=tcc状态信息 class=headerLink><a href=#tcc%e7%8a%b6%e6%80%81%e4%bf%a1%e6%81%af class=header-mark></a>2 TCC状态信息</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span><span class=lnt>105
+</span><span class=lnt>106
+</span><span class=lnt>107
+</span><span class=lnt>108
+</span><span class=lnt>109
+</span><span class=lnt>110
+</span><span class=lnt>111
+</span><span class=lnt>112
+</span><span class=lnt>113
+</span><span class=lnt>114
+</span><span class=lnt>115
+</span><span class=lnt>116
+</span><span class=lnt>117
+</span><span class=lnt>118
+</span><span class=lnt>119
+</span><span class=lnt>120
+</span><span class=lnt>121
+</span><span class=lnt>122
+</span><span class=lnt>123
+</span><span class=lnt>124
+</span><span class=lnt>125
+</span><span class=lnt>126
+</span><span class=lnt>127
+</span><span class=lnt>128
+</span><span class=lnt>129
+</span><span class=lnt>130
+</span><span class=lnt>131
+</span><span class=lnt>132
+</span><span class=lnt>133
+</span><span class=lnt>134
+</span><span class=lnt>135
+</span><span class=lnt>136
+</span><span class=lnt>137
+</span><span class=lnt>138
+</span><span class=lnt>139
+</span><span class=lnt>140
+</span><span class=lnt>141
+</span><span class=lnt>142
+</span><span class=lnt>143
+</span><span class=lnt>144
+</span><span class=lnt>145
+</span><span class=lnt>146
+</span><span class=lnt>147
+</span><span class=lnt>148
+</span><span class=lnt>149
+</span><span class=lnt>150
+</span><span class=lnt>151
+</span><span class=lnt>152
+</span><span class=lnt>153
+</span><span class=lnt>154
+</span><span class=lnt>155
+</span><span class=lnt>156
+</span><span class=lnt>157
+</span><span class=lnt>158
+</span><span class=lnt>159
+</span><span class=lnt>160
+</span><span class=lnt>161
+</span><span class=lnt>162
+</span><span class=lnt>163
+</span><span class=lnt>164
+</span><span class=lnt>165
+</span><span class=lnt>166
+</span><span class=lnt>167
+</span><span class=lnt>168
+</span><span class=lnt>169
+</span><span class=lnt>170
+</span><span class=lnt>171
+</span><span class=lnt>172
+</span><span class=lnt>173
+</span><span class=lnt>174
+</span><span class=lnt>175
+</span><span class=lnt>176
+</span><span class=lnt>177
+</span><span class=lnt>178
+</span><span class=lnt>179
+</span><span class=lnt>180
+</span><span class=lnt>181
+</span><span class=lnt>182
+</span><span class=lnt>183
+</span><span class=lnt>184
+</span><span class=lnt>185
+</span><span class=lnt>186
+</span><span class=lnt>187
+</span><span class=lnt>188
+</span><span class=lnt>189
+</span><span class=lnt>190
+</span><span class=lnt>191
+</span><span class=lnt>192
+</span><span class=lnt>193
+</span><span class=lnt>194
+</span><span class=lnt>195
+</span><span class=lnt>196
+</span><span class=lnt>197
+</span><span class=lnt>198
+</span><span class=lnt>199
+</span><span class=lnt>200
+</span><span class=lnt>201
+</span><span class=lnt>202
+</span><span class=lnt>203
+</span><span class=lnt>204
+</span><span class=lnt>205
+</span><span class=lnt>206
+</span><span class=lnt>207
+</span><span class=lnt>208
+</span><span class=lnt>209
+</span><span class=lnt>210
+</span><span class=lnt>211
+</span><span class=lnt>212
+</span><span class=lnt>213
+</span><span class=lnt>214
+</span><span class=lnt>215
+</span><span class=lnt>216
+</span><span class=lnt>217
+</span><span class=lnt>218
+</span><span class=lnt>219
+</span><span class=lnt>220
+</span><span class=lnt>221
+</span><span class=lnt>222
+</span><span class=lnt>223
+</span><span class=lnt>224
+</span><span class=lnt>225
+</span><span class=lnt>226
+</span><span class=lnt>227
+</span><span class=lnt>228
+</span><span class=lnt>229
+</span><span class=lnt>230
+</span><span class=lnt>231
+</span><span class=lnt>232
+</span><span class=lnt>233
+</span><span class=lnt>234
+</span><span class=lnt>235
+</span><span class=lnt>236
+</span><span class=lnt>237
+</span><span class=lnt>238
+</span><span class=lnt>239
+</span><span class=lnt>240
+</span><span class=lnt>241
+</span><span class=lnt>242
+</span><span class=lnt>243
+</span><span class=lnt>244
+</span><span class=lnt>245
+</span><span class=lnt>246
+</span><span class=lnt>247
+</span><span class=lnt>248
+</span><span class=lnt>249
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>struct</span> <span class=n>TCCState</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>verbose</span><span class=p>;</span> <span class=cm>/* if true, display some information during compilation */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>nostdinc</span><span class=p>;</span> <span class=cm>/* if true, no standard headers are added */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>nostdlib</span><span class=p>;</span> <span class=cm>/* if true, no standard libraries are added */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>nocommon</span><span class=p>;</span> <span class=cm>/* if true, do not use common symbols for .bss data */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>static_link</span><span class=p>;</span> <span class=cm>/* if true, static linking is performed */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>rdynamic</span><span class=p>;</span> <span class=cm>/* if true, all symbols are exported */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>symbolic</span><span class=p>;</span> <span class=cm>/* if true, resolve symbols in the current module first */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>filetype</span><span class=p>;</span> <span class=cm>/* file type for compilation (NONE,C,ASM) */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>optimize</span><span class=p>;</span> <span class=cm>/* only to #define __OPTIMIZE__ */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>option_pthread</span><span class=p>;</span> <span class=cm>/* -pthread option */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>enable_new_dtags</span><span class=p>;</span> <span class=cm>/* -Wl,--enable-new-dtags */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>int</span>  <span class=n>cversion</span><span class=p>;</span> <span class=cm>/* supported C ISO version, 199901 (the default), 201112, ... */</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/* C language options */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>char_is_unsigned</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>leading_underscore</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>ms_extensions</span><span class=p>;</span> <span class=cm>/* allow nested named struct w/o identifier behave like unnamed */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>dollars_in_identifiers</span><span class=p>;</span>  <span class=cm>/* allows &#39;$&#39; char in identifiers */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>ms_bitfields</span><span class=p>;</span> <span class=cm>/* if true, emulate MS algorithm for aligning bitfields */</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/* warning switches */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>warn_none</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>warn_all</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>warn_error</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>warn_write_strings</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>warn_unsupported</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>warn_implicit_function_declaration</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>warn_discarded_qualifiers</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=cp>#define WARN_ON  1 </span><span class=cm>/* warning is on (-Woption) */</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>warn_num</span><span class=p>;</span> <span class=cm>/* temp var for tcc_warning_c() */</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>option_r</span><span class=p>;</span> <span class=cm>/* option -r */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>do_bench</span><span class=p>;</span> <span class=cm>/* option -bench */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>just_deps</span><span class=p>;</span> <span class=cm>/* option -M  */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>gen_deps</span><span class=p>;</span> <span class=cm>/* option -MD  */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>include_sys_deps</span><span class=p>;</span> <span class=cm>/* option -MD  */</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/* compile with debug symbol (and use them if error during execution) */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>do_debug</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>do_backtrace</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_TCC_BCHECK
+</span></span></span><span class=line><span class=cl><span class=cp></span>    <span class=cm>/* compile with built-in memory and bounds checker */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>do_bounds_check</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>test_coverage</span><span class=p>;</span>  <span class=cm>/* generate test coverage code */</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/* use GNU C extensions */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>gnu_ext</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=cm>/* use TinyCC extensions */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>tcc_ext</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>dflag</span><span class=p>;</span> <span class=cm>/* -dX value */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>Pflag</span><span class=p>;</span> <span class=cm>/* -P switch (LINE_MACRO_OUTPUT_FORMAT) */</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=cp>#ifdef TCC_TARGET_X86_64
+</span></span></span><span class=line><span class=cl><span class=cp></span>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>nosse</span><span class=p>;</span> <span class=cm>/* For -mno-sse support. */</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp>#ifdef TCC_TARGET_ARM
+</span></span></span><span class=line><span class=cl><span class=cp></span>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>float_abi</span><span class=p>;</span> <span class=cm>/* float ABI of the generated code*/</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>has_text_addr</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>addr_t</span> <span class=n>text_addr</span><span class=p>;</span> <span class=cm>/* address of text section */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=n>section_align</span><span class=p>;</span> <span class=cm>/* section alignment */</span>
+</span></span><span class=line><span class=cl><span class=cp>#ifdef TCC_TARGET_I386
+</span></span></span><span class=line><span class=cl><span class=cp></span>    <span class=kt>int</span> <span class=n>seg_size</span><span class=p>;</span> <span class=cm>/* 32. Can be 16 with i386 assembler (.code16) */</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl>    <span class=kt>char</span> <span class=o>*</span><span class=n>tcc_lib_path</span><span class=p>;</span> <span class=cm>/* CONFIG_TCCDIR or -B option */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>char</span> <span class=o>*</span><span class=n>soname</span><span class=p>;</span> <span class=cm>/* as specified on the command line (-soname) */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>char</span> <span class=o>*</span><span class=n>rpath</span><span class=p>;</span> <span class=cm>/* as specified on the command line (-Wl,-rpath=) */</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kt>char</span> <span class=o>*</span><span class=n>init_symbol</span><span class=p>;</span> <span class=cm>/* symbols to call at load-time (not used currently) */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>char</span> <span class=o>*</span><span class=n>fini_symbol</span><span class=p>;</span> <span class=cm>/* symbols to call at unload-time (not used currently) */</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/* output type, see TCC_OUTPUT_XXX */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>output_type</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=cm>/* output format, see TCC_OUTPUT_FORMAT_xxx */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>output_format</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=cm>/* nth test to run with -dt -run */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>run_test</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/* array of all loaded dlls (including those referenced by loaded dlls) */</span>
+</span></span><span class=line><span class=cl>    <span class=n>DLLReference</span> <span class=o>**</span><span class=n>loaded_dlls</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>nb_loaded_dlls</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/* include paths */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>char</span> <span class=o>**</span><span class=n>include_paths</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>nb_include_paths</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kt>char</span> <span class=o>**</span><span class=n>sysinclude_paths</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>nb_sysinclude_paths</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/* library paths */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>char</span> <span class=o>**</span><span class=n>library_paths</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>nb_library_paths</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/* crt?.o object path */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>char</span> <span class=o>**</span><span class=n>crt_paths</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>nb_crt_paths</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/* -D / -U options */</span>
+</span></span><span class=line><span class=cl>    <span class=n>CString</span> <span class=n>cmdline_defs</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=cm>/* -include options */</span>
+</span></span><span class=line><span class=cl>    <span class=n>CString</span> <span class=n>cmdline_incl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/* error handling */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=o>*</span><span class=n>error_opaque</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=p>(</span><span class=o>*</span><span class=n>error_func</span><span class=p>)(</span><span class=kt>void</span> <span class=o>*</span><span class=n>opaque</span><span class=p>,</span> <span class=k>const</span> <span class=kt>char</span> <span class=o>*</span><span class=n>msg</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>error_set_jmp_enabled</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>jmp_buf</span> <span class=n>error_jmp_buf</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>nb_errors</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/* output file for preprocessing (-E) */</span>
+</span></span><span class=line><span class=cl>    <span class=n>FILE</span> <span class=o>*</span><span class=n>ppfp</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/* for -MD/-MF: collected dependencies for this compilation */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>char</span> <span class=o>**</span><span class=n>target_deps</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>nb_target_deps</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/* compilation */</span>
+</span></span><span class=line><span class=cl>    <span class=n>BufferedFile</span> <span class=o>*</span><span class=n>include_stack</span><span class=p>[</span><span class=n>INCLUDE_STACK_SIZE</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>    <span class=n>BufferedFile</span> <span class=o>**</span><span class=n>include_stack_ptr</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>ifdef_stack</span><span class=p>[</span><span class=n>IFDEF_STACK_SIZE</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=o>*</span><span class=n>ifdef_stack_ptr</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/* included files enclosed with #ifndef MACRO */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>cached_includes_hash</span><span class=p>[</span><span class=n>CACHED_INCLUDES_HASH_SIZE</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>    <span class=n>CachedInclude</span> <span class=o>**</span><span class=n>cached_includes</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>nb_cached_includes</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/* #pragma pack stack */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>pack_stack</span><span class=p>[</span><span class=n>PACK_STACK_SIZE</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=o>*</span><span class=n>pack_stack_ptr</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>char</span> <span class=o>**</span><span class=n>pragma_libs</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>nb_pragma_libs</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/* inline functions are stored as token lists and compiled last
+</span></span></span><span class=line><span class=cl><span class=cm>       only if referenced */</span>
+</span></span><span class=line><span class=cl>    <span class=k>struct</span> <span class=n>InlineFunc</span> <span class=o>**</span><span class=n>inline_fns</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>nb_inline_fns</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/* sections */</span>
+</span></span><span class=line><span class=cl>    <span class=n>Section</span> <span class=o>**</span><span class=n>sections</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>nb_sections</span><span class=p>;</span> <span class=cm>/* number of sections, including first dummy section */</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>Section</span> <span class=o>**</span><span class=n>priv_sections</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>nb_priv_sections</span><span class=p>;</span> <span class=cm>/* number of private sections */</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/* got &amp; plt handling */</span>
+</span></span><span class=line><span class=cl>    <span class=n>Section</span> <span class=o>*</span><span class=n>got</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>Section</span> <span class=o>*</span><span class=n>plt</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/* predefined sections */</span>
+</span></span><span class=line><span class=cl>    <span class=n>Section</span> <span class=o>*</span><span class=n>text_section</span><span class=p>,</span> <span class=o>*</span><span class=n>data_section</span><span class=p>,</span> <span class=o>*</span><span class=n>rodata_section</span><span class=p>,</span> <span class=o>*</span><span class=n>bss_section</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>Section</span> <span class=o>*</span><span class=n>common_section</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>Section</span> <span class=o>*</span><span class=n>cur_text_section</span><span class=p>;</span> <span class=cm>/* current section where function code is generated */</span>
+</span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_TCC_BCHECK
+</span></span></span><span class=line><span class=cl><span class=cp></span>    <span class=cm>/* bound check related sections */</span>
+</span></span><span class=line><span class=cl>    <span class=n>Section</span> <span class=o>*</span><span class=n>bounds_section</span><span class=p>;</span> <span class=cm>/* contains global data bound description */</span>
+</span></span><span class=line><span class=cl>    <span class=n>Section</span> <span class=o>*</span><span class=n>lbounds_section</span><span class=p>;</span> <span class=cm>/* contains local data bound description */</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>    <span class=cm>/* test coverage */</span>
+</span></span><span class=line><span class=cl>    <span class=n>Section</span> <span class=o>*</span><span class=n>tcov_section</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=cm>/* symbol sections */</span>
+</span></span><span class=line><span class=cl>    <span class=n>Section</span> <span class=o>*</span><span class=n>symtab_section</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=cm>/* debug sections */</span>
+</span></span><span class=line><span class=cl>    <span class=n>Section</span> <span class=o>*</span><span class=n>stab_section</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=cm>/* Is there a new undefined sym since last new_undef_sym() */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>new_undef_sym</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/* temporary dynamic symbol sections (for dll loading) */</span>
+</span></span><span class=line><span class=cl>    <span class=n>Section</span> <span class=o>*</span><span class=n>dynsymtab_section</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=cm>/* exported dynamic symbol section */</span>
+</span></span><span class=line><span class=cl>    <span class=n>Section</span> <span class=o>*</span><span class=n>dynsym</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=cm>/* copy of the global symtab_section variable */</span>
+</span></span><span class=line><span class=cl>    <span class=n>Section</span> <span class=o>*</span><span class=n>symtab</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=cm>/* extra attributes (eg. GOT/PLT value) for symtab symbols */</span>
+</span></span><span class=line><span class=cl>    <span class=k>struct</span> <span class=n>sym_attr</span> <span class=o>*</span><span class=n>sym_attrs</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>nb_sym_attrs</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=cm>/* ptr to next reloc entry reused */</span>
+</span></span><span class=line><span class=cl>    <span class=n>ElfW_Rel</span> <span class=o>*</span><span class=n>qrel</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=cp>#define qrel s1-&gt;qrel
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=cp>#ifdef TCC_TARGET_RISCV64
+</span></span></span><span class=line><span class=cl><span class=cp></span>    <span class=k>struct</span> <span class=n>pcrel_hi</span> <span class=p>{</span> <span class=n>addr_t</span> <span class=n>addr</span><span class=p>,</span> <span class=n>val</span><span class=p>;</span> <span class=p>}</span> <span class=n>last_hi</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=cp>#define last_hi s1-&gt;last_hi
+</span></span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=cp>#ifdef TCC_TARGET_PE
+</span></span></span><span class=line><span class=cl><span class=cp></span>    <span class=cm>/* PE info */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>pe_subsystem</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=n>pe_characteristics</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=n>pe_file_align</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=n>pe_stack_size</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>addr_t</span> <span class=n>pe_imagebase</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=cp># ifdef TCC_TARGET_X86_64
+</span></span></span><span class=line><span class=cl><span class=cp></span>    <span class=n>Section</span> <span class=o>*</span><span class=n>uw_pdata</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>uw_sym</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=n>uw_offs</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=cp># endif
+</span></span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=cp>#ifndef ELF_OBJ_ONLY
+</span></span></span><span class=line><span class=cl><span class=cp></span>    <span class=kt>int</span> <span class=n>nb_sym_versions</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>struct</span> <span class=n>sym_version</span> <span class=o>*</span><span class=n>sym_versions</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>nb_sym_to_version</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=o>*</span><span class=n>sym_to_version</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>dt_verneednum</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>Section</span> <span class=o>*</span><span class=n>versym_section</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>Section</span> <span class=o>*</span><span class=n>verneed_section</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=cp>#ifdef TCC_IS_NATIVE
+</span></span></span><span class=line><span class=cl><span class=cp></span>    <span class=k>const</span> <span class=kt>char</span> <span class=o>*</span><span class=n>runtime_main</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=o>**</span><span class=n>runtime_mem</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>nb_runtime_mem</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_TCC_BACKTRACE
+</span></span></span><span class=line><span class=cl><span class=cp></span>    <span class=kt>int</span> <span class=n>rt_num_callers</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl>    <span class=cm>/* benchmark info */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>total_idents</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>total_lines</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>total_bytes</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>total_output</span><span class=p>[</span><span class=mi>4</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/* option -dnum (for general development purposes) */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>g_debug</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/* used by tcc_load_ldscript */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>fd</span><span class=p>,</span> <span class=n>cc</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/* for warnings/errors for object files */</span>
+</span></span><span class=line><span class=cl>    <span class=k>const</span> <span class=kt>char</span> <span class=o>*</span><span class=n>current_filename</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/* used by main and tcc_parse_args only */</span>
+</span></span><span class=line><span class=cl>    <span class=k>struct</span> <span class=n>filespec</span> <span class=o>**</span><span class=n>files</span><span class=p>;</span> <span class=cm>/* files seen on command line */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>nb_files</span><span class=p>;</span> <span class=cm>/* number thereof */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>nb_libraries</span><span class=p>;</span> <span class=cm>/* number of libs thereof */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>char</span> <span class=o>*</span><span class=n>outfile</span><span class=p>;</span> <span class=cm>/* output filename */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>char</span> <span class=o>*</span><span class=n>deps_outfile</span><span class=p>;</span> <span class=cm>/* option -MF */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>argc</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>char</span> <span class=o>**</span><span class=n>argv</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span><span class=lnt>74
+</span><span class=lnt>75
+</span><span class=lnt>76
+</span><span class=lnt>77
+</span><span class=lnt>78
+</span><span class=lnt>79
+</span><span class=lnt>80
+</span><span class=lnt>81
+</span><span class=lnt>82
+</span><span class=lnt>83
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=n>LIBTCCAPI</span> <span class=n>TCCState</span> <span class=o>*</span><span class=nf>tcc_new</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>TCCState</span> <span class=o>*</span><span class=n>s</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>s</span> <span class=o>=</span> <span class=n>tcc_mallocz</span><span class=p>(</span><span class=k>sizeof</span><span class=p>(</span><span class=n>TCCState</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>s</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nb>NULL</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=cp>#ifdef MEM_DEBUG
+</span></span></span><span class=line><span class=cl><span class=cp></span>    <span class=o>++</span><span class=n>nb_states</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=cp>#undef gnu_ext
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl>    <span class=n>s</span><span class=o>-&gt;</span><span class=n>gnu_ext</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>s</span><span class=o>-&gt;</span><span class=n>tcc_ext</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>s</span><span class=o>-&gt;</span><span class=n>nocommon</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>s</span><span class=o>-&gt;</span><span class=n>dollars_in_identifiers</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span> <span class=cm>/*on by default like in gcc/clang*/</span>
+</span></span><span class=line><span class=cl>    <span class=n>s</span><span class=o>-&gt;</span><span class=n>cversion</span> <span class=o>=</span> <span class=mi>199901</span><span class=p>;</span> <span class=cm>/* default unless -std=c11 is supplied */</span>
+</span></span><span class=line><span class=cl>    <span class=n>s</span><span class=o>-&gt;</span><span class=n>warn_implicit_function_declaration</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>s</span><span class=o>-&gt;</span><span class=n>warn_discarded_qualifiers</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>s</span><span class=o>-&gt;</span><span class=n>ms_extensions</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=cp>#ifdef CHAR_IS_UNSIGNED
+</span></span></span><span class=line><span class=cl><span class=cp></span>    <span class=n>s</span><span class=o>-&gt;</span><span class=n>char_is_unsigned</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp>#ifdef TCC_TARGET_I386
+</span></span></span><span class=line><span class=cl><span class=cp></span>    <span class=n>s</span><span class=o>-&gt;</span><span class=n>seg_size</span> <span class=o>=</span> <span class=mi>32</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>    <span class=cm>/* enable this if you want symbols with leading underscore on windows: */</span>
+</span></span><span class=line><span class=cl><span class=cp>#if defined TCC_TARGET_MACHO </span><span class=cm>/* || defined TCC_TARGET_PE */</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>    <span class=n>s</span><span class=o>-&gt;</span><span class=n>leading_underscore</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp>#ifdef TCC_TARGET_ARM
+</span></span></span><span class=line><span class=cl><span class=cp></span>    <span class=n>s</span><span class=o>-&gt;</span><span class=n>float_abi</span> <span class=o>=</span> <span class=n>ARM_FLOAT_ABI</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl>    <span class=n>s</span><span class=o>-&gt;</span><span class=n>ppfp</span> <span class=o>=</span> <span class=n>stdout</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=cm>/* might be used in error() before preprocess_start() */</span>
+</span></span><span class=line><span class=cl>    <span class=n>s</span><span class=o>-&gt;</span><span class=n>include_stack_ptr</span> <span class=o>=</span> <span class=n>s</span><span class=o>-&gt;</span><span class=n>include_stack</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>tccelf_new</span><span class=p>(</span><span class=n>s</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>tcc_set_lib_path</span><span class=p>(</span><span class=n>s</span><span class=p>,</span> <span class=n>CONFIG_TCCDIR</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>s</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>LIBTCCAPI</span> <span class=kt>void</span> <span class=nf>tcc_delete</span><span class=p>(</span><span class=n>TCCState</span> <span class=o>*</span><span class=n>s1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=cm>/* free sections */</span>
+</span></span><span class=line><span class=cl>    <span class=n>tccelf_delete</span><span class=p>(</span><span class=n>s1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/* free library paths */</span>
+</span></span><span class=line><span class=cl>    <span class=n>dynarray_reset</span><span class=p>(</span><span class=o>&amp;</span><span class=n>s1</span><span class=o>-&gt;</span><span class=n>library_paths</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>s1</span><span class=o>-&gt;</span><span class=n>nb_library_paths</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>dynarray_reset</span><span class=p>(</span><span class=o>&amp;</span><span class=n>s1</span><span class=o>-&gt;</span><span class=n>crt_paths</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>s1</span><span class=o>-&gt;</span><span class=n>nb_crt_paths</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/* free include paths */</span>
+</span></span><span class=line><span class=cl>    <span class=n>dynarray_reset</span><span class=p>(</span><span class=o>&amp;</span><span class=n>s1</span><span class=o>-&gt;</span><span class=n>include_paths</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>s1</span><span class=o>-&gt;</span><span class=n>nb_include_paths</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>dynarray_reset</span><span class=p>(</span><span class=o>&amp;</span><span class=n>s1</span><span class=o>-&gt;</span><span class=n>sysinclude_paths</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>s1</span><span class=o>-&gt;</span><span class=n>nb_sysinclude_paths</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>tcc_free</span><span class=p>(</span><span class=n>s1</span><span class=o>-&gt;</span><span class=n>tcc_lib_path</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>tcc_free</span><span class=p>(</span><span class=n>s1</span><span class=o>-&gt;</span><span class=n>soname</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>tcc_free</span><span class=p>(</span><span class=n>s1</span><span class=o>-&gt;</span><span class=n>rpath</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>tcc_free</span><span class=p>(</span><span class=n>s1</span><span class=o>-&gt;</span><span class=n>init_symbol</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>tcc_free</span><span class=p>(</span><span class=n>s1</span><span class=o>-&gt;</span><span class=n>fini_symbol</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>tcc_free</span><span class=p>(</span><span class=n>s1</span><span class=o>-&gt;</span><span class=n>outfile</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>tcc_free</span><span class=p>(</span><span class=n>s1</span><span class=o>-&gt;</span><span class=n>deps_outfile</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>dynarray_reset</span><span class=p>(</span><span class=o>&amp;</span><span class=n>s1</span><span class=o>-&gt;</span><span class=n>files</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>s1</span><span class=o>-&gt;</span><span class=n>nb_files</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>dynarray_reset</span><span class=p>(</span><span class=o>&amp;</span><span class=n>s1</span><span class=o>-&gt;</span><span class=n>target_deps</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>s1</span><span class=o>-&gt;</span><span class=n>nb_target_deps</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>dynarray_reset</span><span class=p>(</span><span class=o>&amp;</span><span class=n>s1</span><span class=o>-&gt;</span><span class=n>pragma_libs</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>s1</span><span class=o>-&gt;</span><span class=n>nb_pragma_libs</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>dynarray_reset</span><span class=p>(</span><span class=o>&amp;</span><span class=n>s1</span><span class=o>-&gt;</span><span class=n>argv</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>s1</span><span class=o>-&gt;</span><span class=n>argc</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>cstr_free</span><span class=p>(</span><span class=o>&amp;</span><span class=n>s1</span><span class=o>-&gt;</span><span class=n>cmdline_defs</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>cstr_free</span><span class=p>(</span><span class=o>&amp;</span><span class=n>s1</span><span class=o>-&gt;</span><span class=n>cmdline_incl</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=cp>#ifdef TCC_IS_NATIVE
+</span></span></span><span class=line><span class=cl><span class=cp></span>    <span class=cm>/* free runtime memory */</span>
+</span></span><span class=line><span class=cl>    <span class=n>tcc_run_free</span><span class=p>(</span><span class=n>s1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl>    <span class=n>tcc_free</span><span class=p>(</span><span class=n>s1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=cp>#ifdef MEM_DEBUG
+</span></span></span><span class=line><span class=cl><span class=cp></span>    <span class=k>if</span> <span class=p>(</span><span class=mi>0</span> <span class=o>==</span> <span class=o>--</span><span class=n>nb_states</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>tcc_memcheck</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=文件读取 class=headerLink><a href=#%e6%96%87%e4%bb%b6%e8%af%bb%e5%8f%96 class=header-mark></a>3 文件读取</h2><h3 id=文件描述信息 class=headerLink><a href=#%e6%96%87%e4%bb%b6%e6%8f%8f%e8%bf%b0%e4%bf%a1%e6%81%af class=header-mark></a>3.1 文件描述信息</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>typedef</span> <span class=k>struct</span> <span class=n>BufferedFile</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>uint8_t</span> <span class=o>*</span><span class=n>buf_ptr</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>uint8_t</span> <span class=o>*</span><span class=n>buf_end</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>fd</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>struct</span> <span class=n>BufferedFile</span> <span class=o>*</span><span class=n>prev</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>line_num</span><span class=p>;</span>    <span class=cm>/* current line number - here to simplify code */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>line_ref</span><span class=p>;</span>    <span class=cm>/* tcc -E: last printed line */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>ifndef_macro</span><span class=p>;</span>  <span class=cm>/* #ifndef macro / #endif search */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>ifndef_macro_saved</span><span class=p>;</span> <span class=cm>/* saved ifndef_macro */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=o>*</span><span class=n>ifdef_stack_ptr</span><span class=p>;</span> <span class=cm>/* ifdef_stack value at the start of the file */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>include_next_index</span><span class=p>;</span> <span class=cm>/* next search path */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>char</span> <span class=n>filename</span><span class=p>[</span><span class=mi>1024</span><span class=p>];</span>    <span class=cm>/* filename */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>char</span> <span class=o>*</span><span class=n>true_filename</span><span class=p>;</span> <span class=cm>/* filename not modified by # line directive */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>unget</span><span class=p>[</span><span class=mi>4</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>buffer</span><span class=p>[</span><span class=mi>1</span><span class=p>];</span> <span class=cm>/* extra size for CH_EOB char */</span>
+</span></span><span class=line><span class=cl><span class=p>}</span> <span class=n>BufferedFile</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=文件相关操作 class=headerLink><a href=#%e6%96%87%e4%bb%b6%e7%9b%b8%e5%85%b3%e6%93%8d%e4%bd%9c class=header-mark></a>3.2 文件相关操作</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>static</span> <span class=kt>int</span> <span class=nf>_tcc_open</span><span class=p>(</span><span class=n>TCCState</span> <span class=o>*</span><span class=n>s1</span><span class=p>,</span> <span class=k>const</span> <span class=kt>char</span> <span class=o>*</span><span class=n>filename</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>fd</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>strcmp</span><span class=p>(</span><span class=n>filename</span><span class=p>,</span> <span class=s>&#34;-&#34;</span><span class=p>)</span> <span class=o>==</span> <span class=mi>0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>fd</span> <span class=o>=</span> <span class=mi>0</span><span class=p>,</span> <span class=n>filename</span> <span class=o>=</span> <span class=s>&#34;&lt;stdin&gt;&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>else</span>
+</span></span><span class=line><span class=cl>        <span class=n>fd</span> <span class=o>=</span> <span class=n>open</span><span class=p>(</span><span class=n>filename</span><span class=p>,</span> <span class=n>O_RDONLY</span> <span class=o>|</span> <span class=n>O_BINARY</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>((</span><span class=n>s1</span><span class=o>-&gt;</span><span class=n>verbose</span> <span class=o>==</span> <span class=mi>2</span> <span class=o>&amp;&amp;</span> <span class=n>fd</span> <span class=o>&gt;=</span> <span class=mi>0</span><span class=p>)</span> <span class=o>||</span> <span class=n>s1</span><span class=o>-&gt;</span><span class=n>verbose</span> <span class=o>==</span> <span class=mi>3</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>printf</span><span class=p>(</span><span class=s>&#34;%s %*s%s</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span> <span class=n>fd</span> <span class=o>&lt;</span> <span class=mi>0</span> <span class=o>?</span> <span class=s>&#34;nf&#34;</span><span class=o>:</span><span class=s>&#34;-&gt;&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>               <span class=p>(</span><span class=kt>int</span><span class=p>)(</span><span class=n>s1</span><span class=o>-&gt;</span><span class=n>include_stack_ptr</span> <span class=o>-</span> <span class=n>s1</span><span class=o>-&gt;</span><span class=n>include_stack</span><span class=p>),</span> <span class=s>&#34;&#34;</span><span class=p>,</span> <span class=n>filename</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>fd</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>ST_FUNC</span> <span class=kt>int</span> <span class=nf>tcc_open</span><span class=p>(</span><span class=n>TCCState</span> <span class=o>*</span><span class=n>s1</span><span class=p>,</span> <span class=k>const</span> <span class=kt>char</span> <span class=o>*</span><span class=n>filename</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>fd</span> <span class=o>=</span> <span class=n>_tcc_open</span><span class=p>(</span><span class=n>s1</span><span class=p>,</span> <span class=n>filename</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>fd</span> <span class=o>&lt;</span> <span class=mi>0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=o>-</span><span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>tcc_open_bf</span><span class=p>(</span><span class=n>s1</span><span class=p>,</span> <span class=n>filename</span><span class=p>,</span> <span class=mi>0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>file</span><span class=o>-&gt;</span><span class=n>fd</span> <span class=o>=</span> <span class=n>fd</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>ST_FUNC</span> <span class=kt>void</span> <span class=nf>tcc_close</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>TCCState</span> <span class=o>*</span><span class=n>s1</span> <span class=o>=</span> <span class=n>tcc_state</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>BufferedFile</span> <span class=o>*</span><span class=n>bf</span> <span class=o>=</span> <span class=n>file</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>bf</span><span class=o>-&gt;</span><span class=n>fd</span> <span class=o>&gt;</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>close</span><span class=p>(</span><span class=n>bf</span><span class=o>-&gt;</span><span class=n>fd</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=n>total_lines</span> <span class=o>+=</span> <span class=n>bf</span><span class=o>-&gt;</span><span class=n>line_num</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>bf</span><span class=o>-&gt;</span><span class=n>true_filename</span> <span class=o>!=</span> <span class=n>bf</span><span class=o>-&gt;</span><span class=n>filename</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>tcc_free</span><span class=p>(</span><span class=n>bf</span><span class=o>-&gt;</span><span class=n>true_filename</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>file</span> <span class=o>=</span> <span class=n>bf</span><span class=o>-&gt;</span><span class=n>prev</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>tcc_free</span><span class=p>(</span><span class=n>bf</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=词法分析 class=headerLink><a href=#%e8%af%8d%e6%b3%95%e5%88%86%e6%9e%90 class=header-mark></a>4 词法分析</h2><h2 id=语法分析 class=headerLink><a href=#%e8%af%ad%e6%b3%95%e5%88%86%e6%9e%90 class=header-mark></a>5 语法分析</h2><h2 id=类型检查 class=headerLink><a href=#%e7%b1%bb%e5%9e%8b%e6%a3%80%e6%9f%a5 class=header-mark></a>6 类型检查</h2><h2 id=符号表 class=headerLink><a href=#%e7%ac%a6%e5%8f%b7%e8%a1%a8 class=header-mark></a>7 符号表</h2><h2 id=段机制 class=headerLink><a href=#%e6%ae%b5%e6%9c%ba%e5%88%b6 class=header-mark></a>8 段机制</h2><h2 id=代码生成 class=headerLink><a href=#%e4%bb%a3%e7%a0%81%e7%94%9f%e6%88%90 class=header-mark></a>9 代码生成</h2></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2022-06-28&nbsp;<a class=git-hash href=https://github.com/mengdemao/github.io/commit/e35f4f64ee26791a206dfd494c4b8a3e0b449422 target=_blank title="commit by mengdemao(mengdemao19951021@163.com) e35f4f64ee26791a206dfd494c4b8a3e0b449422: * fix CI error" rel="noopener noreferrer">
+<i class="fas fa-hashtag fa-fw"></i>e35f4f6</a></span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-mardown href=/tinycc/index.md target=_blank rel="noopener noreferrer">阅读原始文档</a>
+</span><span>|&nbsp;<a class=link-to-source href=https://github.com/mengdemao/github.io/content/posts/tinycc.md target=_blank rel="noopener noreferrer">查看源代码</a>
+</span><span>|&nbsp;<a class=link-to-edit href=https://github.com/mengdemao/github.io/content/posts/tinycc.md target=_blank rel="noopener noreferrer">编辑此页</a></span></div><div class=post-info-share><span><a href=# onclick=return!1 title="分享到 Twitter" data-sharer=twitter data-url=https://mengdemao.github.io/tinycc/ data-title=Tinycc><i class="fab fa-twitter fa-fw"></i></a><a href=# onclick=return!1 title="分享到 Facebook" data-sharer=facebook data-url=https://mengdemao.github.io/tinycc/><i class="fab fa-facebook-square fa-fw"></i></a><a href=# onclick=return!1 title="分享到 Hacker News" data-sharer=hackernews data-url=https://mengdemao.github.io/tinycc/ data-title=Tinycc><i class="fab fa-hacker-news fa-fw"></i></a><a href=# onclick=return!1 title="分享到 Line" data-sharer=line data-url=https://mengdemao.github.io/tinycc/ data-title=Tinycc><i data-svg-src=/lib/simple-icons/icons/line.min.svg></i></a><a href=# onclick=return!1 title="分享到 微博" data-sharer=weibo data-url=https://mengdemao.github.io/tinycc/ data-title=Tinycc data-ralateuid=xxxx><i class="fab fa-weibo fa-fw"></i></a><a href=# onclick=return!1 title="分享到 Telegram" data-sharer=telegram data-url=https://mengdemao.github.io/tinycc/ data-title=Tinycc data-web><i class="fab fa-telegram-plane fa-fw"></i></a></span></div></div></div><div class=post-info-more><section class=post-tags></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/server/ class=prev rel=prev title=Server><i class="fas fa-angle-left fa-fw"></i>Server</a>
+<a href=/dwl/ class=next rel=next title=dwl>dwl<i class="fas fa-angle-right fa-fw"></i></a></div></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreffer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a></div><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2019 - 2022</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://github.com/mengdemao/github.io target=_blank rel="noopener noreferrer">mengdemao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div><div class=footer-line></div><div class=footer-line></div></div></footer></div><div id=fixed-buttons><a href=#back-to-top id=back-to-top-button class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw"></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw"></i></a></div><div class=assets><script type=text/javascript src=/lib/autocomplete/autocomplete.min.0dcc8ee301dccbd9fb18115a1176e1293ca233b99aee5f5d12f218463c34eccea29f842827fc1ce330cf26e1e21b1382725ad3d0703cbde9f7e28552bcd92c07.js integrity="sha512-DcyO4wHcy9n7GBFaEXbhKTyiM7ma7l9dEvIYRjw07M6in4QoJ/wc4zDPJuHiGxOCclrT0HA8ven34oVSvNksBw=="></script><script type=text/javascript src=/lib/algoliasearch/algoliasearch-lite.umd.min.757eeb7f02d6fa8b75dc5edee7c758fb746cf3abed72462e6231350a14e645f06abaab4f42dc2c6f3cbaf190ad1fee51ea054a4d5ecef95e98f8905fe44e6022.js integrity="sha512-dX7rfwLW+ot13F7e58dY+3Rs86vtckYuYjE1ChTmRfBquqtPQtwsbzy68ZCtH+5R6gVKTV7O+V6Y+JBf5E5gIg=="></script><script type=text/javascript src=/lib/pjax/pjax.min.8f92ba6fd6079d25aa09e1be3b1e3568438eba0fa53a093eb559684245a9c227d65e346122eb048ee9439ac9af9ce653c1ed88f20305c6121e946035c42705b0.js integrity="sha512-j5K6b9YHnSWqCeG+Ox41aEOOug+lOgk+tVloQkWpwifWXjRhIusEjulDmsmvnOZTwe2I8gMFxhIelGA1xCcFsA=="></script><script type=text/javascript src=/js/theme.min.js defer></script></div><div class=pjax-assets><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:100},comment:{},data:{"desktop-header-typeit":"编程日志","mobile-header-typeit":"编程日志"},search:{algoliaAppID:"5YGRNRQK1G",algoliaIndex:"zh_cn_index",algoliaSearchKey:"0ff6874805de24b84aa1d5ebccad56cd",highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:50,type:"algolia"},sharerjs:!0,table:{sort:!0},typeit:{cursorChar:"|",cursorSpeed:1e3,data:{"desktop-header-typeit":["desktop-header-typeit"],"mobile-header-typeit":["mobile-header-typeit"]},duration:-1,speed:100}}</script><script type=text/javascript src=/lib/clipboard/clipboard.min.b08a94127467df50609e03e61edd897a7ce57830ec5f060efa2caf438e8cc3a44bfae7405198f69ffbbf3c663cd0dc51c729ceed1f71206c792c4cf0e0835625.js integrity="sha512-sIqUEnRn31BgngPmHt2JenzleDDsXwYO+iyvQ46Mw6RL+udAUZj2n/u/PGY80NxRxynO7R9xIGx5LEzw4INWJQ=="></script><script type=text/javascript src=/lib/sharer/sharer.min.cab91d53e60c836a90e16a5091059006925296eeed2c665fc744b7e7755ec3ab5c4e58e3c83899af70d8f690e004c2ca62062e11b0c7efdced87f80d074cfa3e.js integrity="sha512-yrkdU+YMg2qQ4WpQkQWQBpJSlu7tLGZfx0S353Vew6tcTljjyDiZr3DY9pDgBMLKYgYuEbDH79zth/gNB0z6Pg=="></script><script type=text/javascript src=/lib/typeit/typeit.min.f27efa857ac46448d67802135c65454dfc450176698f8fb06912d192dada782d98abfd8fbaf9ad33a15fb7971ed227e86d2082b88c2319260c237f147c9a624b.js integrity="sha512-8n76hXrEZEjWeAITXGVFTfxFAXZpj4+waRLRktraeC2Yq/2PuvmtM6Fft5ce0ifobSCCuIwjGSYMI38UfJpiSw=="></script></div></body></html>
