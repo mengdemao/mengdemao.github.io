@@ -81,19 +81,154 @@ var x = 1;
 
 ### 字符串
 
+#### 定义字符串
+
+```javascript
+
+var a = "hello";
+var b = "world";
+
+var c = a + ',' + b;
+var d = `${a}, ${b}`;
+
+console.log(c);
+console.log(d);
+```
+
+{{< script >}}
+    var a = "hello";
+    var b = "world";
+
+    var c = a + ',' + b;
+    var d = `${a}, ${b}`;
+
+    console.log(c);
+    console.log(d);
+{{< /script >}}
+
+根据上面的例子可以看出,
+字符串的的拼接可以分成两种情况:
+1. 使用`+`拼接字符串
+2. 使用``拼接(前面的符号是Esc按键下面的按键)
+
+#### 拼接字符串
+
+要获取字符串某个指定位置的字符,类似于C语言的字符数组,
+`str[0]`,`str[1]`,`str[2]`....分别可以得到字符;
+
+#### 字符串函数
+
++ `toUpperCase()`把一个字符串全部变为大写
++ `toLowerCase()`把一个字符串全部变为小写
++ `indexOf()` 会搜索指定字符串出现的位置
++ `substring()`返回指定索引区间的子串
+
+```javascript
+var s = 'Hello';
+console.log(s.toUpperCase());	// 'HELLO'
+console.log(s.toLowerCase());	// 'HELLO'
+console.log(s.indexOf('ll'));	// 2
+console.log(s.substring(1,3));	// el
+console.log(s.substring(1));	// ello
+```
+
+> 执行测试,可以在浏览器中看到日志
+
+{{< script >}}
+    var s = 'Hello';
+    console.log(s.toUpperCase());	// 'HELLO'
+    console.log(s.toLowerCase());	// 'HELLO'
+    console.log(s.indexOf('ll'));	// 2
+    console.log(s.substring(1,3));	// el
+    console.log(s.substring(1));	// ello
+{{< /script >}}
+
 ### 数组
+
+`JavaScript`的数组可以包含任意数据类型;并通过索引来访问每个元素.
+
+```javascript
+var array = [1, 2, 'hello', "world", true]; // 定义一个数组
+array.length;   // 5
+array[0];       // 打印
+```
 
 ### 对象
 
+#### 定义对象
+JavaScript的对象类似于`Json`,但是表示方法不同;
+
+```javascript
+var student = {
+    name: "hello",
+    age: 18
+};
+```
+JavaScript用一个{...}表示一个对象,键值对以`成员名:属性值`声明;
+与`Json`相同的是,最后一个元素不可以添加`,`;
+
+#### 访问成员
+> 访问成员的方式存在两种
+
++ C方式:`对象名.成员名`
++ 反射式:`对象名['成员名']`
+
+```javascript
+'use strict';
+
+var student = {
+    name: "hello",
+    age: 18
+};
+
+console.log(student.name);         // hello
+console.log(student['age']);       // 18
+```
+
 ### 条件判断
+> 与`C`相似,此处就不过多赘述
+
+1. if 
+2. else
+3. else if
 
 ### 循环语句
+
+1. for
+2. for-in
+3. while
+4. do-while
 
 ### Map和Set
 
 ### 遍历语句
 
 ### 函数
+
+#### 函数模型
+
+1. c语言类型
+
+```javascript
+function functionName(args)
+{
+    return retVal;
+}
+```
+
++ function:函数定义
++ functionName
++ parameter
++ retVal
+
+2. 一种完全等价的定义
+
+```javascript
+var functionName = function(args)
+{
+    return retVal;
+}
+```
 
 ## javascript提高
 
