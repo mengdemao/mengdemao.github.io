@@ -371,15 +371,6 @@ int pthread_barrierattr_init(pthread_barrierattr_t *);
 int pthread_barrierattr_setpshared(pthread_barrierattr_t *, int);
 ```
 
-### 线程资源
-
-```c
-int pthread_key_create(pthread_key_t *, void (*)(void *));
-int pthread_key_delete(pthread_key_t);
-void *pthread_getspecific(pthread_key_t);
-int pthread_setspecific(pthread_key_t, const void *);
-```
-
 ## 补充知识
 
 ### Linux线程实现
@@ -1417,9 +1408,6 @@ int __pthread_mutex_lock (pthread_mutex_t *mtxp)
 
 ## 读写锁
 
-```c
-
-```
 
 
 

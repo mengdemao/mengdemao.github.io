@@ -1,4 +1,4 @@
-# Fork
+# 进程创建
 
 
 fork
@@ -7,7 +7,11 @@ fork
 > fork --> do_fork
 
 do_fork的执行线路
-`do_fork` --> `copy_process` --> `get_task_pid` --> `wake_up_new_task` --> `put_pid`
+
+```mermaid
+graph LR
+do_fork --> copy_process --> get_task_pid --> wake_up_new_task --> put_pid
+```
 
 do_fork函数原型
 ```c
