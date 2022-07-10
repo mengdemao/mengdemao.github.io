@@ -1,12 +1,14 @@
-# 系统调度
+# linux内核系统调度基础
 
 
-系统调度
-====
+## 调度器分类
+
 + 主调度器`schedule`
 + 周期调度器`scheduler_tick`
 
 ## 周期调度器函数实现
+
+> 主要实现在CFS中的`task_tick`中但是不在本节中分析
 
 ```c
 void scheduler_tick(void)
@@ -14,17 +16,57 @@ void scheduler_tick(void)
 	int cpu = smp_processor_id();				// CPUID
 	struct rq *rq = cpu_rq(cpu);				// 提取消息队列
 	struct task_struct *curr = rq->curr;		// 提取正在运行的进程
-	struct rq_flags rf;							// 
-	sched_clock_tick();							// 
-	rq_lock(rq, &rf);							//
-	update_rq_clock(rq);						// 更新运行时钟
-	curr->sched_class->task_tick(rq, curr, 0);	// 调用调度器类
-	cpu_load_update_active(rq);
-	calc_global_load_tick(rq);
-	rq_unlock(rq, &rf);
-	perf_event_task_tick();
+	struct rq_flags rf;							// 运行队列上锁标志
+	
+	sched_clock_tick();							// 1. 
+	
+	rq_lock(rq, &rf);							// 上锁
+	
+	update_rq_clock(rq);						// 2. 更新运行时钟
+	
+	curr->sched_class->task_tick(rq, curr, 0);	// 3. 调用调度器类
+	
+	cpu_load_update_active(rq);					// 4. 
+	
+	calc_global_load_tick(rq);					// 5. 
+	
+	rq_unlock(rq, &rf);							// 解锁
+
+	perf_event_task_tick();						// 
 }
 ```
+
+### sched_clock_tick
+
+```c
+void sched_clock_tick(void)
+{
+	struct sched_clock_data *scd;
+
+	if (sched_clock_stable())
+		return;
+
+	if (!static_branch_unlikely(&sched_clock_running))
+		return;
+
+	lockdep_assert_irqs_disabled();
+
+	scd = this_scd();
+	__scd_stamp(scd);
+	sched_clock_local(scd);
+}
+```
+
+### update_rq_clock
+
+### task_tick
+
+### cpu_load_update_active
+
+### calc_global_load_tick
+
+### perf_event_task_tick
+
 
 ## 主调度器函数实现
 
@@ -99,6 +141,7 @@ static void __sched notrace __schedule(bool preempt)
 ```
 
 ### 寻找最高优先级任务
+
 ```c
 /*
  * 获取最高优先级的任务:

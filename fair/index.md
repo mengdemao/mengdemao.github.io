@@ -1,8 +1,7 @@
-# Fair
+# 完全公平调度器
 
 
-完全公平调度器
-====
+## 调度器类分析
 
 ```c
 const struct sched_class fair_sched_class = {
