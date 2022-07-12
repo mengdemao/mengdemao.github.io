@@ -104,4 +104,78 @@ sudo apt install qemu-user-binfmt
 sudo apt install u-boot-tools
 ```
 
+## 代码在线阅读工具`Opengrok`
+
++ 安装jdk
++ 安装tomcat
++ 安装opengrok
++ 配置opengrok
+
+下载链接</br>
+[下载tomcat8](https://tomcat.apache.org/download-80.cgi)</br>
+[下载tomcat9](https://tomcat.apache.org/download-90.cgi)</br>
+[下载tomcat10](https://tomcat.apache.org/download-10.cgi)</br>
+
+解压到/opt文件夹下面
+
+```shell
+tar zxvf apache-tomcat-x.x.x.tar.gz
+sudo mv apache-tomcat-x.x.x/ /opt/apache-tomcat-x.x.x
+sudo ln -s /opt/apache-tomcat-x.x.x /opt/tomcat
+/opt/tomcat/bin/startup.sh
+```
+
+输入ip:8080,可以得到tomcat的网页,说明服务器安装成功
+
+安装opengrok[官方参考](https://github.com/oracle/opengrok/wiki/How-to-setup-OpenGrok)</br>
+[opengrok下载链接](https://github.com/oracle/opengrok/releases),
+找到最新的进行下载即可;
+
+1. 创建工作空间
+
+为了保证所有的空间整洁,我们可以包所有的东西全部放到'opengrok'目录下,那么
+
+```shell
+mkdir /opt/opengrok
+mkdir /opt/opengrok/{src,data,dist,etc,log}
+tar -C /opt/opengrok/dist --strip-components=1 -xzf opengrok-X.Y.Z.tar.gz
+```
+
+2. 拷贝日志配置
+
+```shell
+cp /opt/opengrok/dist/doc/logging.properties /opt/opengrok/etc
+```
+
+3. 拷贝源码文件
+
+**将文件放到/opt/opengrok/src**
+
+4. 安装管理工具(可选)
+
+```shell
+$ cd tools
+$ python3 -m venv env
+$ . ./env/bin/activate
+$ pip install opengrok-tools.tar.gz
+```
+
+5. 部署web应用
+> 拷贝应用目录`lib/source.war`到`tomcat/webapps`中,程序就会自动部署;
+> 但是我们本次不进行如此处理,这种部署方式需要手动处理文件索引.
+
+```shell
+opengrok-deploy -c /opt/opengrok/etc/configuration.xml \
+    /opt/opengrok/dist/lib/source.war /opt/apache-tomcat/webapps
+```
+
+6. 执行扫描
+```shell
+opengrok-indexer \
+    -J=-Djava.util.logging.config.file=/opt/opengrok/etc/logging.properties \
+    -a /opt/opengrok/dist/lib/opengrok.jar -- \
+    -c /usr/local/bin/ctags \
+    -s /opt/opengrok/src -d /opt/opengrok/data -H -P -S -G \
+    -W /opt/opengrok/etc/configuration.xml -U http://localhost:8080/source
+```
 
