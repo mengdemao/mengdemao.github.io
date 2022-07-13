@@ -232,15 +232,68 @@ var functionName = function(args)
 
 ## javascript提高
 
-### 标准队形
+### 标准对象
+
++ Date
++ RegExp
++ JSON
 
 ### 面向对象编程
 
-### 浏览器对象
+### 浏览器
+
++ window
++ navigator
++ location
++ document
++ history
+
+#### 浏览器对象
+
++ DOM
++ 表单
++ 文件
++ AJAX
++ Promise
++ Canvas
 
 ### 错误处理
 
+> 程序有可能会出错,因此需要进行错误处理;高级语言`try ... catch ... finally`,
+
+```javacript
+'use strict';
+var r1, r2, s = null;
+try {
+    r1 = s.length; // 此处应产生错误
+    r2 = 100; // 该语句不会执行
+} catch (e) {
+    console.log('出错了：' + e);
+} finally {
+    console.log('finally');
+}
+console.log('r1 = ' + r1); // r1应为undefined
+console.log('r2 = ' + r2); // r2应为undefined
+
+// 下面的文件
+// 出错了：TypeError: Cannot read properties of null (reading 'length')
+// finally
+// r1 = undefined
+// r2 = undefined
+```
+
++ 出错
+    1. 先执行`try { ... }`的代码;
+    2. 执行到出错的语句时,后续语句不再继续执行.转而执行`catch (e) { ... }`代码；
+    3. 最后执行finally`{ ... }`代码。
+
++ 无错
+    1. 先执行try { ... }的代码；
+    2. 因为没有出错，catch (e) { ... }代码不会被执行；
+    3. 最后执行finally { ... }代码。
+
 ## javascript进阶
 
-### jQuery
+### jQuery.js
 
+### underscore.js
