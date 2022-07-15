@@ -24,24 +24,34 @@ if (typeid(_x) == typeid(type)) { \
 
 #define check_type(_x) \
 ({ \
+	check_type_item(_x, bool) 			\
 	check_type_item(_x, char) 			\
 	check_type_item(_x, short) 			\
 	check_type_item(_x, int) 			\
 	check_type_item(_x, long) 			\
+	check_type_item(_x, wchar_t)		\
 	check_type_item(_x, unsigned char) 	\
 	check_type_item(_x, unsigned short) \
 	check_type_item(_x, unsigned int) 	\
 	check_type_item(_x, unsigned long) 	\
 	check_type_item(_x, float) 			\
 	check_type_item(_x, double) 		\
+	check_type_item(_x, std::string) 	\
 	check_type_tail(_x)					\
 })
 ```
 
-另外从内核中学到的一种用来编译期间校验的宏函数,用来确定推导过程是否正确
+从内核中学到的一种用来编译期间校验的宏函数,用来确定推导过程是否正确
 
 ```c
 #define BUILD_BUG_ON(cond) ((void)sizeof(int[1-2*(!!(cond))]))
+```
+
+C++还提供了一种运算符*static_assert*,用作编译期间静态静态检查;
+
+```C++
+static_assert(true);	// 正确: 编译通过
+static_assert(false);	// 错误: static assertion failed
 ```
 
 那么就可以通过此工具来分析模板推导过程是否是正确的
@@ -343,6 +353,93 @@ class MyClass {};
 + 运算符sizeof...用来计算参数包中模板参数的数目。
 + 变参模板的一个典型应用是用来发送（forward）任意多个任意类型的模板参数。
 + 通过使用折叠表达式,可以将某种运算应用于参数包中的所有参数.
+
+#### 变参模板实例
+
+```c++
+template<typename T, typename... Types>
+void print_var_args(T firstArg, Types... args)
+{
+	std::cout << firstArg << '\n'; //print first argument
+	print_var_args(args...);
+}
+```
+通过上面的实例我们可以得到,声明可变参数模板的方法
+**typename... Types**或者**class... Types**,其中Types就可以用来声明可变参数
+**Types... args**,但是为什么还需要在写一次`...`,我个人是不太理解的.
+
+以args的剩余参数则称之为**函数参数包**;
+
+但是只有上述的是编译不过的,因为存在参数消耗殆尽的情况,因此添加一个空的函数,
+用作递归结束;
+
+这就是编译期间编程的概念
+
+```C++
+void print_var_args()
+{
+	std::cout << "变参模板结束" << std::endl;
+}
+```
+
+测试函数
+
+```C++
+int main(int argc, char *argv[])
+{
+	int a = 1;
+	int b = 2;
+	int c = 3;
+	print_var_args(a, b, c);
+	return 0;
+}
+```
+最后运行情况的打印就是
+{{< highlight shell >}}
+# 1
+# 2
+# 3
+# 变参模板结束
+{{< /highlight >}}
+
+#### 变参个运算符**sizeof...**
+
+> C++11为变参模板引入了一种新的`sizeof`运算符:`sizeof...`
+> 它会被扩展成参数包中所包含的参数数目
+
+```C++
+	// void print_var_args(T firstArg, Types... args)
+	std::cout << "sizeof...(Types)\t" << sizeof...(Types) << std::endl;	// 模板参数包
+	std::cout << "sizeof...(args) \t" << sizeof...(args)  << std::endl;	// 函数参数包
+```
+
+运行结果
+```bash
+# sizeof...(Types)	2
+# sizeof...(args)	2
+```
+
+因此,可以得出结论
++ sizeof...可以计算每一次展开的个数
++ 既可以用于模板参数包,也可以用于函数参数包
+
+#### 折叠表达式
+
+> 从C++17开始,提供了一种可以用来计算参数包(可以有初始值)中所有参数运算结果的二
+> 元运算符.
+
+测试程序
+
+```c++
+template<class... T>
+auto foldSun(T... s)
+{
+	// s1 + s2 + s3 + sn (其中n参数的个数) 
+	return (... + s);
+}
+```
+
+#### 变参模板的使用
 
 ## 模板提高
 
