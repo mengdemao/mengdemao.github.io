@@ -1,14 +1,14 @@
-# C++提高笔记
+# C++增强笔记
 
----
-title: "C++提高笔记"
-date: 2022-07-28T22:37:49+08:00
-draft: false
-keywords: [C++]
-description: "C++编程提高"
-tags: [C++]
-categories: [编程语言]
-series: [编程基础]
-author: "mengdemao"
-featuredImage: "featuredImage/13.jpg"
----
+
+<!--more-->
+
+> 这个是我在学习`C++`语言中所记录的笔记,有可能会存在错误和遗漏,并且我有一点点C语言基础,
+> 会大量的提及C语言与C++的不同,从而造成笔记晦涩;
+> 另外C++的学习是一个长期且艰难的过程,因此本文进行了切分;
+
+[C++基础笔记]({{< ref "cxx_basic.md ">}})</br>
+[C++提高笔记]({{< ref "cxx_enhance.md ">}})</br>
+[C++增强笔记]({{< ref "cxx_advance.md ">}})</br>
+
+<!--more-->

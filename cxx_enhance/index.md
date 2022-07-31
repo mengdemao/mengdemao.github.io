@@ -1,92 +1,23 @@
-# C++增强笔记
+# C++提高笔记
 
 
-本阶段主要对面向对象进行详细讲解
+<!--more-->
 
-## C++内存分区
-c++程序在运行时,将内存分为4个区域
-1. 代码区: 存放程序的二进制代码,由操作系统管理
-2. 全局区: 存放全局变量、静态变量和常量
-3. 栈区: 编译器自动分配
-4. 堆区: 程序负责分配和释放
+> 这个是我在学习`C++`语言中所记录的笔记,有可能会存在错误和遗漏,并且我有一点点C语言基础,
+> 会大量的提及C语言与C++的不同,从而造成笔记晦涩;
+> 另外C++的学习是一个长期且艰难的过程,因此本文进行了切分;
 
-## new/delete操作符
-C++利用new操作符在堆区开辟内存
+[C++基础笔记]({{< ref "cxx_basic.md ">}})</br>
+[C++提高笔记]({{< ref "cxx_enhance.md ">}})</br>
+[C++增强笔记]({{< ref "cxx_advance.md ">}})</br>
 
-## 引用
-作用: 给变量起别名
-语法: 数据类型 &别名 = 原名;
-
-### 引用做参数
-```c++
-#include <iostream>
-void swap(int &a, int &b) 
-{
-    int t; t = a;a = b;b = t;
-}
-int main(int argc, char *argv[])
-{
-    int a = 10;int b = 12;
-    std::cout << "交换前" << a << '\t' << b << std::endl;
-    swap(a, b);
-    std::cout << "交换后" << a << '\t' << b << std::endl;
-    return 0;
-}
-```
-执行结果
-
-![image-20211003222910241](https://raw.githubusercontent.com/mengdemao/picture/master/image-20211003222910241.png)
-
-### 引用做返回值
-
-
-### 引用的本质
-引用的本质是C++内部实现的一个指针常量
-
-### 常量引用
-```c++
-const int &ref = 10;
-```
-
-## 函数提高
-
-### 函数默认值
-
-1. 某个位置有默认值，那么后面的参数也必须由默认值
-2. 如果声明了默认值，那么实现不可以有默认值(默认参数会产生冲突)
-
-```c++
-void test_default_param(int a = 0, int b = 0, int c = 0)
-{
-    std::cout << a + b + c << std::endl; 
-}
-```
-### 函数的占位参数
-
-占位参数还可以有默认值
-
-```c++
-void test(int a, int = 10) {
-    std::cout << a << std::endl;
-}
-```
-### 函数重载
-作用:函数名相同,提高复用性
-
-重载的条件:
-1. 相同作用域
-
-2. 函数名相同
-
-3. 参数不同(类型, 个数,顺序)
-
-注意事项:
-
-1. 引用作为重载条件
-2. 函数重载碰到默认参数
+<!--more-->
 
 ## 类和对象
-类的访问属性
+
++ 类的访问属性
++ 类的继承属性
+
 1. public:
 2. protected:
 3. private:
@@ -104,25 +35,29 @@ struct默认权限是public
 
 ### 拷贝构造函数
 
-```c++
+```cpp
 class Person {
 public:
     /* 构造函数 */
     Person(std::string name, int age) {
         std::cout << "构造函数" << std::endl;
     }
+
     /* 析构函数 */
     ~Person() {
         std::cout << "析构函数" << std::endl;
     }
+    
     /* 拷贝构造函数 */
     Person(const Person &p) {
         std::cout << "拷贝构造函数" << std::endl;
     }
 };
 ```
+
 * 调用无参构造函数的时候不可以添加();否则就会产生函数声明的效果
-```c++
+
+```cpp
 Person testPerson();	// 表面上是执行构造函数
 int func();				// 类似函数声明
 ```
