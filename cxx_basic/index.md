@@ -431,6 +431,7 @@ const int *const p = &a;
 ### 位域
 
 ## C++内存分区
+
 c++程序在运行时,将内存分为4个区域
 1. 代码区: 存放程序的二进制代码,由操作系统管理
 2. 全局区: 存放全局变量、静态变量和常量
@@ -448,6 +449,7 @@ c++程序在运行时,将内存分为4个区域
 语法: 数据类型 &别名 = 原名;
 
 ### 引用做参数
+
 ```c++
 #include <iostream>
 void swap(int &a, int &b) 
@@ -463,8 +465,8 @@ int main(int argc, char *argv[])
     return 0;
 }
 ```
-执行结果
 
+执行结果
 ![image-20211003222910241](https://raw.githubusercontent.com/mengdemao/picture/master/image-20211003222910241.png)
 
 ### 引用做返回值
@@ -491,6 +493,7 @@ void test_default_param(int a = 0, int b = 0, int c = 0)
     std::cout << a + b + c << std::endl; 
 }
 ```
+
 ### 函数的占位参数
 
 占位参数还可以有默认值
@@ -500,7 +503,9 @@ void test(int a, int = 10) {
     std::cout << a << std::endl;
 }
 ```
+
 ### 函数重载
+
 作用:函数名相同,提高复用性
 
 重载的条件:
