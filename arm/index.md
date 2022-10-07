@@ -41,7 +41,7 @@
 
 交叉工具链测试
 
-```
+```shell
 arm-none-linux-gnueabihf-addr2line      arm-none-linux-gnueabihf-gdb          
 arm-none-linux-gnueabihf-ar             arm-none-linux-gnueabihf-gdb-add-index
 arm-none-linux-gnueabihf-as             arm-none-linux-gnueabihf-gfortran     
@@ -60,6 +60,7 @@ arm-none-linux-gnueabihf-gcov           arm-none-linux-gnueabihf-strings
 arm-none-linux-gnueabihf-gcov-dump      arm-none-linux-gnueabihf-strip        
 arm-none-linux-gnueabihf-gcov-tool
 ```
+
 ### ARMv7处理器模式
 
 | 模式             | 编码  | 功能                          | 安全       | 优先级 |
