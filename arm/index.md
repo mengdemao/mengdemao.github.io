@@ -1,7 +1,7 @@
 # Arm笔记
 
 
-## ARM体系结构
+## 体系结构
 
 参考文件
 
@@ -42,23 +42,23 @@
 交叉工具链测试
 
 ```shell
-arm-none-linux-gnueabihf-addr2line      arm-none-linux-gnueabihf-gdb          
-arm-none-linux-gnueabihf-ar             arm-none-linux-gnueabihf-gdb-add-index
-arm-none-linux-gnueabihf-as             arm-none-linux-gnueabihf-gfortran     
-arm-none-linux-gnueabihf-c++            arm-none-linux-gnueabihf-gprof        
-arm-none-linux-gnueabihf-c++filt        arm-none-linux-gnueabihf-ld           
-arm-none-linux-gnueabihf-cpp            arm-none-linux-gnueabihf-ld.bfd       
-arm-none-linux-gnueabihf-dwp            arm-none-linux-gnueabihf-ld.gold      
-arm-none-linux-gnueabihf-elfedit        arm-none-linux-gnueabihf-lto-dump     
-arm-none-linux-gnueabihf-g++            arm-none-linux-gnueabihf-nm           
-arm-none-linux-gnueabihf-gcc            arm-none-linux-gnueabihf-objcopy      
-arm-none-linux-gnueabihf-gcc-10.2.1     arm-none-linux-gnueabihf-objdump      
-arm-none-linux-gnueabihf-gcc-ar         arm-none-linux-gnueabihf-ranlib       
-arm-none-linux-gnueabihf-gcc-nm         arm-none-linux-gnueabihf-readelf      
-arm-none-linux-gnueabihf-gcc-ranlib     arm-none-linux-gnueabihf-size         
-arm-none-linux-gnueabihf-gcov           arm-none-linux-gnueabihf-strings      
-arm-none-linux-gnueabihf-gcov-dump      arm-none-linux-gnueabihf-strip        
-arm-none-linux-gnueabihf-gcov-tool
+arm-none-eabi-addr2line      arm-none-eabi-gdb          
+arm-none-eabi-ar             arm-none-eabi-gdb-add-index
+arm-none-eabi-as             arm-none-eabi-gfortran     
+arm-none-eabi-c++            arm-none-eabi-gprof        
+arm-none-eabi-c++filt        arm-none-eabi-ld           
+arm-none-eabi-cpp            arm-none-eabi-ld.bfd       
+arm-none-eabi-dwp            arm-none-eabi-ld.gold      
+arm-none-eabi-elfedit        arm-none-eabi-lto-dump     
+arm-none-eabi-g++            arm-none-eabi-nm           
+arm-none-eabi-gcc            arm-none-eabi-objcopy      
+arm-none-eabi-gcc-10.2.1     arm-none-eabi-objdump      
+arm-none-eabi-gcc-ar         arm-none-eabi-ranlib       
+arm-none-eabi-gcc-nm         arm-none-eabi-readelf      
+arm-none-eabi-gcc-ranlib     arm-none-eabi-size         
+arm-none-eabi-gcov           arm-none-eabi-strings      
+arm-none-eabi-gcov-dump      arm-none-eabi-strip        
+arm-none-eabi-gcov-tool
 ```
 
 ### ARMv7处理器模式
@@ -195,39 +195,238 @@ STMFD    SP!,{R1-R7,LR}
 
 ## 指令集
 
-### 数据处理
+### 跳转指令
 
-#### 数据传送
+> 跳转指令可以向前后32M地址跳转
+> 跳转为24位长有符号数据
 
-+ mov
-+ mvn
++ B: 绝对跳转
++ BL: 带返回的跳转 
++ BLX: 带返回和状态切换的跳转
++ BX: 状态切换的跳转
 
-#### 算数指令
+B(跳转) 
+L(设置链接寄存器)
+X(切换arm/thumb状态)
+
+跳转指令的详细解释:
+add pc, pc, #跳转地址
+
+```assembly
+;; 跳转指令
+	B label_jump_B
+label_jump_B:
+	mov pc, lr
+
+;; 但是此时编译会报错,需要状态切换
+BX label_jump_BX
+	label_jump_BX:
+
+	BL label_jump_BL
+label_jump_BL:
+	
+	BLX label_jump_BLX
+label_jump_BLX:
+```
+### 数据处理指令
+
+#### 数据传送指令
+
++ mov: 直接传送 
++ mvn: 取反码传送
+
+```assembly
+	mov r0, #12 ;; R0 = 0x0000000C
+	mvn r1, #12 ;; R1 = 0xFFFFFFF3
+```
+
+#### 比较指令
+
++ cmp
++ cmn
++ tst
++ teq
+
+```assembly
+	cmp r0, r1 ;; r0 - r1 ==> NZCV
+	cmn r0, r1 ;; r0 + r1 ==> NZCV
+	tst r0, r1 ;; r0 & r1 ==> NZCV
+```
+
+比较指令会影响到NZCV标志
+
+N -> Negative 负数
+Z -> Zero     零
+C -> Carry    进位
+V -> oVerflow 溢出
+
+#### 加减法
 
 + add
 + sub
 + rsb
 + adc
++ sbc
 + rsc
 
-#### 逻辑指令
+```assembly
+
+```
+
+#### 逻辑运算
 
 + and
-+ orr
-+ eor
 + bic
++ eor
++ orr
 
-### 分支指令
+```assembly
 
-### 状态寄存器访问指令
+```
 
-### 杂项指令
+### 乘法指令
 
-### 异常生成与处理指令
++ mul
++ mla
++ smull
++ umull
++ umlal
+
+### 杂项算数指令
+
++ clz
+
+### 状态寄存器
+
++ mrs: 状态寄存器到通用寄存器
++ msr: 通用寄存器到状态寄存器
+
+### 内存操作指令
+
++ ldr/str
++ ldm/stm
+
+### 信号量操作指令
+
+> 原子操作指令
+
++ swp
++ swpb
+
+### 异常与中端指令
+
++ swi
++ bkpt
 
 ### 协处理器指令
 
-### SIMD指令
++ cdp
++ ldc
++ stc
+
++ mcr
++ mrc
+
+### NEON指令
+
+> 16个NEON寄存器(128bit), Q0-Q15(同时也可以被视为32个64bit的寄存器,D0-D31)
+
+### VFP指令
+
++ 16个VFP寄存器(32bit),S0-S15
+
+## 伪指令
+
+### 启动符号
+
+#### IAR
+
+```assembly
+	SECTION .intvec:CODE:NOROOT (2)
+	END
+```
+
+但是此时是无法进行编译的
+
+#### GCC
+
+```assembly
+.global _start
+_start:      @汇编入口
+loop:
+	B loop
+.end         @汇编程序结束
+```
+
+### 符号定义
+
+#### IAR
+
+#### GCC
+
+### 数据定义
+
+#### IAR
+
+#### GCC
+
+### 汇编控制
+
+#### IAR
+
+#### GCC
+
+### 段定义
+
+#### IAR
+
+#### GCC
+
+### 杂项指令
+
+| GCC      | armasm         | 描述信息                       	 |
+| -------- | -------------- | --------------------------------- |
+| @        | ;              | Comment                           |
+| #&       | #0x            | An immediate hex value            |
+| .if      | IFDEF, IF      | 条件编译                           |
+| .else    | ELSE           |                                   |
+| .elseif  | ELSEIF         |                                   |
+| .endif   | ENDIF          |                                   |
+| .ltorg   | LTORG          |                                   |
+| `|`      | :OR:           | OR                                |
+| &        | :AND:          | AND                               |
+| <<       | :SHL:          | Shift Left                        |
+| >>       | :SHR:          | Shift Right                       |
+| .macro   | MACRO          | Start macro definition            |
+| .endm    | ENDM           | End macro definition              |
+| .include | INCLUDE        | GNU Assembler requires “filename” |
+| .word    | DCD            | A data word                       |
+| .short   | DCW            |                                   |
+| .long    | DCD            |                                   |
+| .byte    | DCB            |                                   |
+| .req     | RN             |                                   |
+| .global  | IMPORT, EXPORT |                                   |
+| .equ     | EQU            |                                   |
+
+## 程序设计
+
+### 条件语句
+
+### 循环语句
+
+### 函数定义
+
+## 混合编程
+
+### C与汇编
+
+### C与thumb
+
+## 存储系统
+
+### MMU
+
+### cache
 
 ## 仿真工具
 
@@ -244,3 +443,9 @@ STMFD    SP!,{R1-R7,LR}
 构建仿真
 
 ![debug-project](picture/debug-project.png)
+
+### eclipse仿真设置
+
++ arm-none-eabi-gcc: 编译器
++ openocd: 调试器
++ qemu: 仿真器
