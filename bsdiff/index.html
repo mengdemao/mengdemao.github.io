@@ -1,0 +1,919 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title class=pjax-title>Bsdiff - 编程日志</title><meta name=Description content="Bsdiff"><meta property="og:title" content="Bsdiff"><meta property="og:description" content="Bsdiff"><meta property="og:type" content="article"><meta property="og:url" content="https://mengdemao.github.io/bsdiff/"><meta property="og:image" content="https://mengdemao.github.io/images/avatar.webp"><meta property="article:section" content="posts"><meta property="article:published_time" content="2022-08-17T17:24:30+08:00"><meta property="article:modified_time" content="2022-10-29T12:09:34+08:00"><meta property="og:site_name" content="编程日志"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://mengdemao.github.io/images/avatar.webp"><meta name=twitter:title content="Bsdiff"><meta name=twitter:description content="Bsdiff"><meta name=application-name content="面向玄学编程"><meta name=apple-mobile-web-app-title content="面向玄学编程"><meta name=theme-color content="#f8f8f8"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://mengdemao.github.io/bsdiff/><link rel=prev href=https://mengdemao.github.io/cxx_basic/><link rel=next href=https://mengdemao.github.io/arm/><link rel=stylesheet href=/lib/normalize/normalize.min.8235a67a2521ef99fb1e455a5891b022af1653b4ede3cfffcac4e473beee88fbcc1a36bbb3cfdd75fd6df46732032f9d96e30adae9c88b769e1fbf7945cd27e0.css integrity="sha512-gjWmeiUh75n7HkVaWJGwIq8WU7Tt48//ysTkc77uiPvMGja7s8/ddf1t9GcyAy+dluMK2unIi3aeH795Rc0n4A=="><link rel=stylesheet href=/css/style.min.88728363266acb9b1d96691c97137b605cbf430aaac4102c4aae57c0aeee3afd5718bb04a12bc03c3aa5c3b89f69c3327db0de163ecc0a305dda8a1539a3f670.css integrity="sha512-iHKDYyZqy5sdlmkclxN7YFy/QwqqxBAsSq5XwK7uOv1XGLsEoSvAPDqlw7ifacMyfbDeFj7MCjBd2ooVOaP2cA=="><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/fontawesome-free/all.min.eb8387c9eb0ab6d4fa4d7ad397d15df13b92c009a1eb221b757dd1ecfccabc78a4c5b681847a7f4198ff7cd60abed8300508c9dea138cd1f4a85f09f09b2092a.css integrity="sha512-64OHyesKttT6TXrTl9Fd8TuSwAmh6yIbdX3R7PzKvHikxbaBhHp/QZj/fNYKvtgwBQjJ3qE4zR9KhfCfCbIJKg=="><noscript><link rel=stylesheet href=/lib/fontawesome-free/all.min.eb8387c9eb0ab6d4fa4d7ad397d15df13b92c009a1eb221b757dd1ecfccabc78a4c5b681847a7f4198ff7cd60abed8300508c9dea138cd1f4a85f09f09b2092a.css integrity="sha512-64OHyesKttT6TXrTl9Fd8TuSwAmh6yIbdX3R7PzKvHikxbaBhHp/QZj/fNYKvtgwBQjJ3qE4zR9KhfCfCbIJKg=="></noscript><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/animate/animate.min.738daa4d2c3fc0f677ff92c1cc3f81c397fb6d2176a31a2eeb011bf88fe5a9e68a57914321f32fbd1a7bef6cb88dc24b2ae1943a96c931d83f053979d1f25803.css integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw=="><noscript><link rel=stylesheet href=/lib/animate/animate.min.738daa4d2c3fc0f677ff92c1cc3f81c397fb6d2176a31a2eeb011bf88fe5a9e68a57914321f32fbd1a7bef6cb88dc24b2ae1943a96c931d83f053979d1f25803.css integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw=="></noscript><meta name=google-site-verification content="MQ8DNu27ayX6B_4ObiEDK09vGr1fdy7kOAnbd09hJk4"><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Bsdiff","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/mengdemao.github.io\/bsdiff\/"},"image":["https:\/\/mengdemao.github.io\/images\/Apple-Devices-Preview.png"],"genre":"posts","wordcount":2099,"url":"https:\/\/mengdemao.github.io\/bsdiff\/","datePublished":"2022-08-17T17:24:30+08:00","dateModified":"2022-10-29T12:09:34+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"mengdemao","logo":{"@type":"ImageObject","url":"https:\/\/mengdemao.github.io\/images\/avatar.webp","width":528,"height":560}},"author":{"@type":"Person","name":"mengdemao"},"description":"Bsdiff"}</script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>function setTheme(e){document.body.setAttribute("theme",e),document.documentElement.style.setProperty("color-scheme",e==="light"?"light":"dark")}function saveTheme(e){window.localStorage&&localStorage.setItem("theme",e)}function getMeta(e){const t=document.getElementsByTagName("meta");for(let n=0;n<t.length;n++)if(t[n].getAttribute("name")===e)return t[n];return""}if(window.localStorage&&localStorage.getItem("theme")){let e=localStorage.getItem("theme");e==="light"||e==="dark"||e==="black"?setTheme(e):setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}else"auto"==="light"||"auto"==="dark"||"auto"==="black"?(setTheme("auto"),saveTheme("auto")):(saveTheme("auto"),setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));let metaColors={light:"#f8f8f8",dark:"#252627",black:"#000000"};getMeta("theme-color").content=metaColors[document.body.getAttribute("theme")]</script><div id=back-to-top></div><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=header-title-pre><i class='far fa-edit fa-fw'></i></span><span id=desktop-header-typeit class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/ title=归档>归档 </a><a class=menu-item href=/tags/ title=标签>标签 </a><a class=menu-item href=/categories/ title=分类>分类 </a><a class=menu-item href=/series/ title=系列>系列 </a><a class=menu-item href=/about/ title=关于>关于 </a><a class=menu-item href=https://github.com/mengdemao/github.io title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github-alt fa-fw'></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=# onclick=return!1 class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw"></i></a>
+<a href=# onclick=return!1 class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw"></i></a>
+<span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin"></i></span>
+</span><a href=# onclick=return!1 class="menu-item theme-select" title=切换主题><i class="fas fa-adjust fa-fw"></i>
+<select class=color-theme-select id=theme-select-desktop title=切换主题><option value=light>浅色</option><option value=dark>深色</option><option value=black>黑色</option><option value=auto>跟随系统</option></select></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=header-title-pre><i class='far fa-edit fa-fw'></i></span><span id=mobile-header-typeit class=typeit></span></a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=# onclick=return!1 class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw"></i></a>
+<a href=# onclick=return!1 class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw"></i></a>
+<span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin"></i></span></div><a href=# onclick=return!1 class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts/ title=归档>归档</a><a class=menu-item href=/tags/ title=标签>标签</a><a class=menu-item href=/categories/ title=分类>分类</a><a class=menu-item href=/series/ title=系列>系列</a><a class=menu-item href=/about/ title=关于>关于</a><a class=menu-item href=https://github.com/mengdemao/github.io title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github-alt fa-fw'></i></a><a href=# onclick=return!1 class="menu-item theme-select" title=切换主题>
+<i class="fas fa-adjust fa-fw"></i>
+<select class=color-theme-select id=theme-select-mobile title=切换主题><option value=light>浅色</option><option value=dark>深色</option><option value=black>黑色</option><option value=auto>跟随系统</option></select></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto><nav id=TableOfContents><ul><li><a href=#引言>引言</a></li><li><a href=#测试>测试</a></li><li><a href=#原理>原理</a><ul><li><a href=#后缀数组定义>后缀数组定义</a></li><li><a href=#后缀数组计算>后缀数组计算</a></li></ul></li><li><a href=#补丁文件>补丁文件</a></li><li><a href=#生成补丁>生成补丁</a><ul><li><a href=#数据结构>数据结构</a></li><li><a href=#接口分析>接口分析</a><ul><li><a href=#函数执行>函数执行</a></li><li><a href=#代码分析>代码分析</a></li></ul></li><li><a href=#核心处理>核心处理</a><ul><li><a href=#函数执行-1>函数执行</a></li><li><a href=#代码分析-1>代码分析</a></li></ul></li><li><a href=#偏移转缓存>偏移转缓存</a></li><li><a href=#搜索>搜索</a><ul><li><a href=#函数执行-2>函数执行</a></li><li><a href=#代码分析-2>代码分析</a></li></ul></li><li><a href=#排序>排序</a><ul><li><a href=#函数执行-3>函数执行</a></li><li><a href=#代码分析-3>代码分析</a></li></ul></li><li><a href=#保存文件>保存文件</a></li></ul></li><li><a href=#打入补丁>打入补丁</a><ul><li><a href=#缓存转偏移>缓存转偏移</a></li><li><a href=#核心功能>核心功能</a><ul><li><a href=#执行路线>执行路线</a></li><li><a href=#代码分析-4>代码分析</a></li></ul></li></ul></li></ul></nav></div></div><script>document.getElementsByTagName("main")[0].setAttribute("pageStyle","wide")</script><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC","true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Bsdiff</h1><div class=post-meta><div class=post-meta-line><span class=post-author><i class="author fas fa-user-circle fa-fw"></i><a href=https://github.com/mengdemao/github.io title=Author target=_blank rel="noopener noreferrer author" class=author>mengdemao</a>
+</span>&nbsp;<span class=post-category>收录于 </span>&nbsp;<span class=post-category>类别 <a href=/categories/bsdiff/><i class="far fa-folder fa-fw"></i>Bsdiff</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2022-08-17>2022-08-17</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime=2022-10-29>2022-10-29</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2099 字&nbsp;
+<i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 5 分钟&nbsp;</div></div><div class=featured-image><img class=lazyload data-src=featuredImage/10.jpg data-srcset="/featuredImage/10.jpg, featuredImage/10.jpg 1.5x, /featuredImage/10.jpg 2x" data-sizes=auto alt=/featuredImage/10.jpg title=Bsdiff height=auto width=auto></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#引言>引言</a></li><li><a href=#测试>测试</a></li><li><a href=#原理>原理</a><ul><li><a href=#后缀数组定义>后缀数组定义</a></li><li><a href=#后缀数组计算>后缀数组计算</a></li></ul></li><li><a href=#补丁文件>补丁文件</a></li><li><a href=#生成补丁>生成补丁</a><ul><li><a href=#数据结构>数据结构</a></li><li><a href=#接口分析>接口分析</a><ul><li><a href=#函数执行>函数执行</a></li><li><a href=#代码分析>代码分析</a></li></ul></li><li><a href=#核心处理>核心处理</a><ul><li><a href=#函数执行-1>函数执行</a></li><li><a href=#代码分析-1>代码分析</a></li></ul></li><li><a href=#偏移转缓存>偏移转缓存</a></li><li><a href=#搜索>搜索</a><ul><li><a href=#函数执行-2>函数执行</a></li><li><a href=#代码分析-2>代码分析</a></li></ul></li><li><a href=#排序>排序</a><ul><li><a href=#函数执行-3>函数执行</a></li><li><a href=#代码分析-3>代码分析</a></li></ul></li><li><a href=#保存文件>保存文件</a></li></ul></li><li><a href=#打入补丁>打入补丁</a><ul><li><a href=#缓存转偏移>缓存转偏移</a></li><li><a href=#核心功能>核心功能</a><ul><li><a href=#执行路线>执行路线</a></li><li><a href=#代码分析-4>代码分析</a></li></ul></li></ul></li></ul></nav></div></div><div class=content id=content><h2 id=引言 class=headerLink><a href=#%e5%bc%95%e8%a8%80 class=header-mark></a>1 引言</h2><blockquote><p>bsdiff and bspatch are tools for building and applying patches to binary files. By using suffix > sorting (specifically, Larsson and Sadakane&rsquo;s qsufsort) and taking advantage of how
+executable files change, bsdiff routinely produces binary patches 50-80% smaller than
+those produced by Xdelta, and 15% smaller than those produced by .RTPatch (a $2750/seat
+commercial patch tool) &ndash; 直接摘抄自官网</p></blockquote><p>详情可以查看<a href=http://www.daemonology.net/bsdiff/ target=_blank rel="noopener noreferrer">bsdiff官网</a>,存在这个详细描述.</p><p>bsdiff基本原理：</p><ol><li>存在差异的数据: diff</li><li>不存在的数据: extra</li></ol><p>最后生成的文件 = diff + extra;</p><h2 id=测试 class=headerLink><a href=#%e6%b5%8b%e8%af%95 class=header-mark></a>2 测试</h2><p>新建立两个文件<code>old.c</code>与<code>new.c</code>,二者的差别是</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=c1>// new.c
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=cp>#include</span> <span class=cpf>&lt;stdio.h&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span><span class=kt>int</span> <span class=nf>main</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=n>printf</span><span class=p>(</span><span class=s>&#34;Hello World</span><span class=se>\r\n</span><span class=s>&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// old.c
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=cp>#include</span> <span class=cpf>&lt;stdio.h&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span><span class=kt>int</span> <span class=nf>main</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>测试的情况</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=c1># 执行编译</span>
+</span></span><span class=line><span class=cl>gcc old.c -o old <span class=o>&amp;&amp;</span> ./old
+</span></span><span class=line><span class=cl>gcc new.c -o new <span class=o>&amp;&amp;</span> ./new
+</span></span></code></pre></td></tr></table></div></div><p>计算md5</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>md5sum old
+</span></span><span class=line><span class=cl><span class=c1># d08fd167e74f279522fe8aa64d8e27dd  old</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>md5sum new
+</span></span><span class=line><span class=cl><span class=c1># b0b4be993de61064a118d32a692bf795  new</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>md5sum mid 
+</span></span><span class=line><span class=cl><span class=c1># b0b4be993de61064a118d32a692bf795  mid</span>
+</span></span></code></pre></td></tr></table></div></div><p>生成补丁并且测试</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=c1># 生成diff</span>
+</span></span><span class=line><span class=cl>bsdiff  old new  test.diff
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 打入补丁--&gt;mid</span>
+</span></span><span class=line><span class=cl>bspatch old mid test.diff
+</span></span></code></pre></td></tr></table></div></div><h2 id=原理 class=headerLink><a href=#%e5%8e%9f%e7%90%86 class=header-mark></a>3 原理</h2><blockquote><p>后缀数组实现</p></blockquote><h3 id=后缀数组定义 class=headerLink><a href=#%e5%90%8e%e7%bc%80%e6%95%b0%e7%bb%84%e5%ae%9a%e4%b9%89 class=header-mark></a>3.1 后缀数组定义</h3><h3 id=后缀数组计算 class=headerLink><a href=#%e5%90%8e%e7%bc%80%e6%95%b0%e7%bb%84%e8%ae%a1%e7%ae%97 class=header-mark></a>3.2 后缀数组计算</h3><blockquote><p>倍增法和桶排序</p></blockquote><ol><li>倍增法的时间复杂度是O(NlogN)的,程序简单,算法过程易于理解.</li><li>桶排序时间复杂度是O(N),数据量大的时候,效率比倍增算法有显著提升,但是缺点在于DC3算法原理较难理解,代码冗长.</li></ol><h2 id=补丁文件 class=headerLink><a href=#%e8%a1%a5%e4%b8%81%e6%96%87%e4%bb%b6 class=header-mark></a>4 补丁文件</h2><p>bsdiff更新数据由四部分组成:Header,ctrl block,diff block,extra block</p><ul><li>Header描述了文件基本信息</li><li>ctrl 包含了ADD和INSERT指令的控制文件<ul><li>每一个ADD指令指定了旧文件中的偏移位置和长度，从旧文件中读取相应数量的字节内容并且从差异文件中读取相同字节的内容添加进去。</li><li>INSERT指令仅仅制定一个长度，用于从额外文件中读取指定数量的字节内容</li></ul></li><li>diff 含了概率匹配中不同字节内容的差异文件</li><li>extra 包含了不属于概略匹配中内容的额外的文件</li></ul><table><thead><tr><th>start/bytes</th><th>length/bytes</th><th>content</th></tr></thead><tbody><tr><td>0</td><td>8</td><td>&ldquo;BSDIFF40&rdquo;</td></tr><tr><td>8</td><td>8</td><td>the length of ctrl block</td></tr><tr><td>16</td><td>8</td><td>the length of diff block</td></tr><tr><td>24</td><td>8</td><td>新文件的大小</td></tr></tbody></table><p><a class=lightgallery href=https://raw.githubusercontent.com/mengdemao/picture/master/image-20211030212535065.png title=image-20211030212535065 data-thumbnail=https://raw.githubusercontent.com/mengdemao/picture/master/image-20211030212535065.png><img class=lazyload data-src=https://raw.githubusercontent.com/mengdemao/picture/master/image-20211030212535065.png data-srcset="https://raw.githubusercontent.com/mengdemao/picture/master/image-20211030212535065.png, https://raw.githubusercontent.com/mengdemao/picture/master/image-20211030212535065.png 1.5x, https://raw.githubusercontent.com/mengdemao/picture/master/image-20211030212535065.png 2x" data-sizes=auto alt=https://raw.githubusercontent.com/mengdemao/picture/master/image-20211030212535065.png></a></p><ol><li>BSDIFF40</li><li>0x93 &ndash;> 147</li><li>0x313 &ndash;> 787</li><li>0x3ED0 &ndash;> 16080 可以匹配新生成的文件</li></ol><h2 id=生成补丁 class=headerLink><a href=#%e7%94%9f%e6%88%90%e8%a1%a5%e4%b8%81 class=header-mark></a>5 生成补丁</h2><ul><li><a href=#%e7%94%9f%e6%88%90%e8%a1%a5%e4%b8%81 rel>bsdiff</a></li><li><a href=#%e6%89%93%e5%85%a5%e8%a1%a5%e4%b8%81 rel>bspatch</a></li></ul><h3 id=数据结构 class=headerLink><a href=#%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84 class=header-mark></a>5.1 数据结构</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>struct</span> <span class=n>bsdiff_stream</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kt>void</span><span class=o>*</span> <span class=n>opaque</span><span class=p>;</span>								<span class=cm>/* bzip文件 */</span>
+</span></span><span class=line><span class=cl>	<span class=kt>void</span><span class=o>*</span> <span class=p>(</span><span class=o>*</span><span class=n>malloc</span><span class=p>)(</span><span class=n>size_t</span> <span class=n>size</span><span class=p>);</span>				<span class=cm>/* 内存申请接口 */</span>
+</span></span><span class=line><span class=cl>	<span class=kt>void</span> <span class=p>(</span><span class=o>*</span><span class=n>free</span><span class=p>)(</span><span class=kt>void</span><span class=o>*</span> <span class=n>ptr</span><span class=p>);</span>					<span class=cm>/* 内存释放接口 */</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=p>(</span><span class=o>*</span><span class=n>write</span><span class=p>)(</span><span class=k>struct</span> <span class=n>bsdiff_stream</span><span class=o>*</span> <span class=n>stream</span><span class=p>,</span>  <span class=cm>/* 写文件接口 */</span> 
+</span></span><span class=line><span class=cl>                 <span class=k>const</span> <span class=kt>void</span><span class=o>*</span> <span class=n>buffer</span><span class=p>,</span> <span class=kt>int</span> <span class=n>size</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>struct</span> <span class=n>bsdiff_request</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=kt>uint8_t</span><span class=o>*</span> <span class=n>old</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int64_t</span> <span class=n>oldsize</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=kt>uint8_t</span><span class=o>*</span> <span class=n>new</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int64_t</span> <span class=n>newsize</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>bsdiff_stream</span><span class=o>*</span> <span class=n>stream</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int64_t</span> <span class=o>*</span><span class=n>I</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=kt>uint8_t</span> <span class=o>*</span><span class=n>buffer</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=接口分析 class=headerLink><a href=#%e6%8e%a5%e5%8f%a3%e5%88%86%e6%9e%90 class=header-mark></a>5.2 接口分析</h3><h4 id=函数执行 class=headerLink><a href=#%e5%87%bd%e6%95%b0%e6%89%a7%e8%a1%8c class=header-mark></a>5.2.1 函数执行</h4><div class=mermaid id=id-1></div><h4 id=代码分析 class=headerLink><a href=#%e4%bb%a3%e7%a0%81%e5%88%86%e6%9e%90 class=header-mark></a>5.2.2 代码分析</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>int</span> <span class=nf>bsdiff</span><span class=p>(</span><span class=k>const</span> <span class=kt>uint8_t</span><span class=o>*</span> <span class=n>old</span><span class=p>,</span> <span class=kt>int64_t</span> <span class=n>oldsize</span><span class=p>,</span> <span class=k>const</span> <span class=kt>uint8_t</span><span class=o>*</span> <span class=n>new</span><span class=p>,</span> <span class=kt>int64_t</span> <span class=n>newsize</span><span class=p>,</span> <span class=k>struct</span> <span class=n>bsdiff_stream</span><span class=o>*</span> <span class=n>stream</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=n>result</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>bsdiff_request</span> <span class=n>req</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>if</span><span class=p>((</span><span class=n>req</span><span class=p>.</span><span class=n>I</span><span class=o>=</span><span class=n>stream</span><span class=o>-&gt;</span><span class=n>malloc</span><span class=p>((</span><span class=n>oldsize</span><span class=o>+</span><span class=mi>1</span><span class=p>)</span><span class=o>*</span><span class=k>sizeof</span><span class=p>(</span><span class=kt>int64_t</span><span class=p>)))</span><span class=o>==</span><span class=nb>NULL</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span> <span class=o>-</span><span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>if</span><span class=p>((</span><span class=n>req</span><span class=p>.</span><span class=n>buffer</span><span class=o>=</span><span class=n>stream</span><span class=o>-&gt;</span><span class=n>malloc</span><span class=p>(</span><span class=n>newsize</span><span class=o>+</span><span class=mi>1</span><span class=p>))</span><span class=o>==</span><span class=nb>NULL</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=n>stream</span><span class=o>-&gt;</span><span class=n>free</span><span class=p>(</span><span class=n>req</span><span class=p>.</span><span class=n>I</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span> <span class=o>-</span><span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=n>req</span><span class=p>.</span><span class=n>old</span> <span class=o>=</span> <span class=n>old</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=n>req</span><span class=p>.</span><span class=n>oldsize</span> <span class=o>=</span> <span class=n>oldsize</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=n>req</span><span class=p>.</span><span class=n>new</span> <span class=o>=</span> <span class=n>new</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=n>req</span><span class=p>.</span><span class=n>newsize</span> <span class=o>=</span> <span class=n>newsize</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=n>req</span><span class=p>.</span><span class=n>stream</span> <span class=o>=</span> <span class=n>stream</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=n>result</span> <span class=o>=</span> <span class=n>bsdiff_internal</span><span class=p>(</span><span class=n>req</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=n>stream</span><span class=o>-&gt;</span><span class=n>free</span><span class=p>(</span><span class=n>req</span><span class=p>.</span><span class=n>buffer</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=n>stream</span><span class=o>-&gt;</span><span class=n>free</span><span class=p>(</span><span class=n>req</span><span class=p>.</span><span class=n>I</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=n>result</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>此处的代码只能</p><h3 id=核心处理 class=headerLink><a href=#%e6%a0%b8%e5%bf%83%e5%a4%84%e7%90%86 class=header-mark></a>5.3 核心处理</h3><h4 id=函数执行-1 class=headerLink><a href=#%e5%87%bd%e6%95%b0%e6%89%a7%e8%a1%8c-1 class=header-mark></a>5.3.1 函数执行</h4><div class=mermaid id=id-2></div><h4 id=代码分析-1 class=headerLink><a href=#%e4%bb%a3%e7%a0%81%e5%88%86%e6%9e%90-1 class=header-mark></a>5.3.2 代码分析</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>static</span> <span class=kt>int</span> <span class=nf>bsdiff_internal</span><span class=p>(</span><span class=k>const</span> <span class=k>struct</span> <span class=n>bsdiff_request</span> <span class=n>req</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int64_t</span> <span class=o>*</span><span class=n>I</span><span class=p>,</span><span class=o>*</span><span class=n>V</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int64_t</span> <span class=n>scan</span><span class=p>,</span><span class=n>pos</span><span class=p>,</span><span class=n>len</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int64_t</span> <span class=n>lastscan</span><span class=p>,</span><span class=n>lastpos</span><span class=p>,</span><span class=n>lastoffset</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int64_t</span> <span class=n>oldscore</span><span class=p>,</span><span class=n>scsc</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int64_t</span> <span class=n>s</span><span class=p>,</span><span class=n>Sf</span><span class=p>,</span><span class=n>lenf</span><span class=p>,</span><span class=n>Sb</span><span class=p>,</span><span class=n>lenb</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int64_t</span> <span class=n>overlap</span><span class=p>,</span><span class=n>Ss</span><span class=p>,</span><span class=n>lens</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int64_t</span> <span class=n>i</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=kt>uint8_t</span> <span class=o>*</span><span class=n>buffer</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=kt>uint8_t</span> <span class=n>buf</span><span class=p>[</span><span class=mi>8</span> <span class=o>*</span> <span class=mi>3</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>if</span><span class=p>((</span><span class=n>V</span><span class=o>=</span><span class=n>req</span><span class=p>.</span><span class=n>stream</span><span class=o>-&gt;</span><span class=n>malloc</span><span class=p>((</span><span class=n>req</span><span class=p>.</span><span class=n>oldsize</span><span class=o>+</span><span class=mi>1</span><span class=p>)</span><span class=o>*</span><span class=k>sizeof</span><span class=p>(</span><span class=kt>int64_t</span><span class=p>)))</span><span class=o>==</span><span class=nb>NULL</span><span class=p>)</span> <span class=k>return</span> <span class=o>-</span><span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=n>I</span> <span class=o>=</span> <span class=n>req</span><span class=p>.</span><span class=n>I</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=n>qsufsort</span><span class=p>(</span><span class=n>I</span><span class=p>,</span> <span class=n>V</span><span class=p>,</span> <span class=n>req</span><span class=p>.</span><span class=n>old</span><span class=p>,</span> <span class=n>req</span><span class=p>.</span><span class=n>oldsize</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=n>req</span><span class=p>.</span><span class=n>stream</span><span class=o>-&gt;</span><span class=n>free</span><span class=p>(</span><span class=n>V</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=n>buffer</span> <span class=o>=</span> <span class=n>req</span><span class=p>.</span><span class=n>buffer</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* Compute the differences, writing ctrl as we go */</span>
+</span></span><span class=line><span class=cl>	<span class=n>scan</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span><span class=n>len</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span><span class=n>pos</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=n>lastscan</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span><span class=n>lastpos</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span><span class=n>lastoffset</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>while</span><span class=p>(</span><span class=n>scan</span><span class=o>&lt;</span><span class=n>req</span><span class=p>.</span><span class=n>newsize</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=n>oldscore</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>		<span class=k>for</span><span class=p>(</span><span class=n>scsc</span><span class=o>=</span><span class=n>scan</span><span class=o>+=</span><span class=n>len</span><span class=p>;</span><span class=n>scan</span><span class=o>&lt;</span><span class=n>req</span><span class=p>.</span><span class=n>newsize</span><span class=p>;</span><span class=n>scan</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=n>len</span><span class=o>=</span><span class=n>search</span><span class=p>(</span><span class=n>I</span><span class=p>,</span><span class=n>req</span><span class=p>.</span><span class=n>old</span><span class=p>,</span><span class=n>req</span><span class=p>.</span><span class=n>oldsize</span><span class=p>,</span><span class=n>req</span><span class=p>.</span><span class=n>new</span><span class=o>+</span><span class=n>scan</span><span class=p>,</span><span class=n>req</span><span class=p>.</span><span class=n>newsize</span><span class=o>-</span><span class=n>scan</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>					<span class=mi>0</span><span class=p>,</span><span class=n>req</span><span class=p>.</span><span class=n>oldsize</span><span class=p>,</span><span class=o>&amp;</span><span class=n>pos</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>			<span class=k>for</span><span class=p>(;</span><span class=n>scsc</span><span class=o>&lt;</span><span class=n>scan</span><span class=o>+</span><span class=n>len</span><span class=p>;</span><span class=n>scsc</span><span class=o>++</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>			<span class=k>if</span><span class=p>((</span><span class=n>scsc</span><span class=o>+</span><span class=n>lastoffset</span><span class=o>&lt;</span><span class=n>req</span><span class=p>.</span><span class=n>oldsize</span><span class=p>)</span> <span class=o>&amp;&amp;</span>
+</span></span><span class=line><span class=cl>				<span class=p>(</span><span class=n>req</span><span class=p>.</span><span class=n>old</span><span class=p>[</span><span class=n>scsc</span><span class=o>+</span><span class=n>lastoffset</span><span class=p>]</span> <span class=o>==</span> <span class=n>req</span><span class=p>.</span><span class=n>new</span><span class=p>[</span><span class=n>scsc</span><span class=p>]))</span>
+</span></span><span class=line><span class=cl>				<span class=n>oldscore</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>			<span class=k>if</span><span class=p>(((</span><span class=n>len</span><span class=o>==</span><span class=n>oldscore</span><span class=p>)</span> <span class=o>&amp;&amp;</span> <span class=p>(</span><span class=n>len</span><span class=o>!=</span><span class=mi>0</span><span class=p>))</span> <span class=o>||</span> 
+</span></span><span class=line><span class=cl>				<span class=p>(</span><span class=n>len</span><span class=o>&gt;</span><span class=n>oldscore</span><span class=o>+</span><span class=mi>8</span><span class=p>))</span> <span class=k>break</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>			<span class=k>if</span><span class=p>((</span><span class=n>scan</span><span class=o>+</span><span class=n>lastoffset</span><span class=o>&lt;</span><span class=n>req</span><span class=p>.</span><span class=n>oldsize</span><span class=p>)</span> <span class=o>&amp;&amp;</span>
+</span></span><span class=line><span class=cl>				<span class=p>(</span><span class=n>req</span><span class=p>.</span><span class=n>old</span><span class=p>[</span><span class=n>scan</span><span class=o>+</span><span class=n>lastoffset</span><span class=p>]</span> <span class=o>==</span> <span class=n>req</span><span class=p>.</span><span class=n>new</span><span class=p>[</span><span class=n>scan</span><span class=p>]))</span>
+</span></span><span class=line><span class=cl>				<span class=n>oldscore</span><span class=o>--</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>		<span class=k>if</span><span class=p>((</span><span class=n>len</span><span class=o>!=</span><span class=n>oldscore</span><span class=p>)</span> <span class=o>||</span> <span class=p>(</span><span class=n>scan</span><span class=o>==</span><span class=n>req</span><span class=p>.</span><span class=n>newsize</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=n>s</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span><span class=n>Sf</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span><span class=n>lenf</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>			<span class=k>for</span><span class=p>(</span><span class=n>i</span><span class=o>=</span><span class=mi>0</span><span class=p>;(</span><span class=n>lastscan</span><span class=o>+</span><span class=n>i</span><span class=o>&lt;</span><span class=n>scan</span><span class=p>)</span><span class=o>&amp;&amp;</span><span class=p>(</span><span class=n>lastpos</span><span class=o>+</span><span class=n>i</span><span class=o>&lt;</span><span class=n>req</span><span class=p>.</span><span class=n>oldsize</span><span class=p>);)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>				<span class=k>if</span><span class=p>(</span><span class=n>req</span><span class=p>.</span><span class=n>old</span><span class=p>[</span><span class=n>lastpos</span><span class=o>+</span><span class=n>i</span><span class=p>]</span><span class=o>==</span><span class=n>req</span><span class=p>.</span><span class=n>new</span><span class=p>[</span><span class=n>lastscan</span><span class=o>+</span><span class=n>i</span><span class=p>])</span> <span class=n>s</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>				<span class=n>i</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>				<span class=k>if</span><span class=p>(</span><span class=n>s</span><span class=o>*</span><span class=mi>2</span><span class=o>-</span><span class=n>i</span><span class=o>&gt;</span><span class=n>Sf</span><span class=o>*</span><span class=mi>2</span><span class=o>-</span><span class=n>lenf</span><span class=p>)</span> <span class=p>{</span> <span class=n>Sf</span><span class=o>=</span><span class=n>s</span><span class=p>;</span> <span class=n>lenf</span><span class=o>=</span><span class=n>i</span><span class=p>;</span> <span class=p>};</span>
+</span></span><span class=line><span class=cl>			<span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>			<span class=n>lenb</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>			<span class=k>if</span><span class=p>(</span><span class=n>scan</span><span class=o>&lt;</span><span class=n>req</span><span class=p>.</span><span class=n>newsize</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>				<span class=n>s</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span><span class=n>Sb</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>				<span class=k>for</span><span class=p>(</span><span class=n>i</span><span class=o>=</span><span class=mi>1</span><span class=p>;(</span><span class=n>scan</span><span class=o>&gt;=</span><span class=n>lastscan</span><span class=o>+</span><span class=n>i</span><span class=p>)</span><span class=o>&amp;&amp;</span><span class=p>(</span><span class=n>pos</span><span class=o>&gt;=</span><span class=n>i</span><span class=p>);</span><span class=n>i</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>					<span class=k>if</span><span class=p>(</span><span class=n>req</span><span class=p>.</span><span class=n>old</span><span class=p>[</span><span class=n>pos</span><span class=o>-</span><span class=n>i</span><span class=p>]</span><span class=o>==</span><span class=n>req</span><span class=p>.</span><span class=n>new</span><span class=p>[</span><span class=n>scan</span><span class=o>-</span><span class=n>i</span><span class=p>])</span> <span class=n>s</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>					<span class=k>if</span><span class=p>(</span><span class=n>s</span><span class=o>*</span><span class=mi>2</span><span class=o>-</span><span class=n>i</span><span class=o>&gt;</span><span class=n>Sb</span><span class=o>*</span><span class=mi>2</span><span class=o>-</span><span class=n>lenb</span><span class=p>)</span> <span class=p>{</span> <span class=n>Sb</span><span class=o>=</span><span class=n>s</span><span class=p>;</span> <span class=n>lenb</span><span class=o>=</span><span class=n>i</span><span class=p>;</span> <span class=p>};</span>
+</span></span><span class=line><span class=cl>				<span class=p>};</span>
+</span></span><span class=line><span class=cl>			<span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>			<span class=k>if</span><span class=p>(</span><span class=n>lastscan</span><span class=o>+</span><span class=n>lenf</span><span class=o>&gt;</span><span class=n>scan</span><span class=o>-</span><span class=n>lenb</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>				<span class=n>overlap</span><span class=o>=</span><span class=p>(</span><span class=n>lastscan</span><span class=o>+</span><span class=n>lenf</span><span class=p>)</span><span class=o>-</span><span class=p>(</span><span class=n>scan</span><span class=o>-</span><span class=n>lenb</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>				<span class=n>s</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span><span class=n>Ss</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span><span class=n>lens</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>				<span class=k>for</span><span class=p>(</span><span class=n>i</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span><span class=n>i</span><span class=o>&lt;</span><span class=n>overlap</span><span class=p>;</span><span class=n>i</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>					<span class=k>if</span><span class=p>(</span><span class=n>req</span><span class=p>.</span><span class=n>new</span><span class=p>[</span><span class=n>lastscan</span><span class=o>+</span><span class=n>lenf</span><span class=o>-</span><span class=n>overlap</span><span class=o>+</span><span class=n>i</span><span class=p>]</span><span class=o>==</span>
+</span></span><span class=line><span class=cl>					   <span class=n>req</span><span class=p>.</span><span class=n>old</span><span class=p>[</span><span class=n>lastpos</span><span class=o>+</span><span class=n>lenf</span><span class=o>-</span><span class=n>overlap</span><span class=o>+</span><span class=n>i</span><span class=p>])</span> <span class=n>s</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>					<span class=k>if</span><span class=p>(</span><span class=n>req</span><span class=p>.</span><span class=n>new</span><span class=p>[</span><span class=n>scan</span><span class=o>-</span><span class=n>lenb</span><span class=o>+</span><span class=n>i</span><span class=p>]</span><span class=o>==</span>
+</span></span><span class=line><span class=cl>					   <span class=n>req</span><span class=p>.</span><span class=n>old</span><span class=p>[</span><span class=n>pos</span><span class=o>-</span><span class=n>lenb</span><span class=o>+</span><span class=n>i</span><span class=p>])</span> <span class=n>s</span><span class=o>--</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>					<span class=k>if</span><span class=p>(</span><span class=n>s</span><span class=o>&gt;</span><span class=n>Ss</span><span class=p>)</span> <span class=p>{</span> <span class=n>Ss</span><span class=o>=</span><span class=n>s</span><span class=p>;</span> <span class=n>lens</span><span class=o>=</span><span class=n>i</span><span class=o>+</span><span class=mi>1</span><span class=p>;</span> <span class=p>};</span>
+</span></span><span class=line><span class=cl>				<span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>				<span class=n>lenf</span><span class=o>+=</span><span class=n>lens</span><span class=o>-</span><span class=n>overlap</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>				<span class=n>lenb</span><span class=o>-=</span><span class=n>lens</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>			<span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>			<span class=n>offtout</span><span class=p>(</span><span class=n>lenf</span><span class=p>,</span><span class=n>buf</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>			<span class=n>offtout</span><span class=p>((</span><span class=n>scan</span><span class=o>-</span><span class=n>lenb</span><span class=p>)</span><span class=o>-</span><span class=p>(</span><span class=n>lastscan</span><span class=o>+</span><span class=n>lenf</span><span class=p>),</span><span class=n>buf</span><span class=o>+</span><span class=mi>8</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>			<span class=n>offtout</span><span class=p>((</span><span class=n>pos</span><span class=o>-</span><span class=n>lenb</span><span class=p>)</span><span class=o>-</span><span class=p>(</span><span class=n>lastpos</span><span class=o>+</span><span class=n>lenf</span><span class=p>),</span><span class=n>buf</span><span class=o>+</span><span class=mi>16</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>			<span class=cm>/* Write control data */</span>
+</span></span><span class=line><span class=cl>			<span class=k>if</span> <span class=p>(</span><span class=n>writedata</span><span class=p>(</span><span class=n>req</span><span class=p>.</span><span class=n>stream</span><span class=p>,</span> <span class=n>buf</span><span class=p>,</span> <span class=k>sizeof</span><span class=p>(</span><span class=n>buf</span><span class=p>)))</span>
+</span></span><span class=line><span class=cl>				<span class=k>return</span> <span class=o>-</span><span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>			<span class=cm>/* Write diff data */</span>
+</span></span><span class=line><span class=cl>			<span class=k>for</span><span class=p>(</span><span class=n>i</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span><span class=n>i</span><span class=o>&lt;</span><span class=n>lenf</span><span class=p>;</span><span class=n>i</span><span class=o>++</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>				<span class=n>buffer</span><span class=p>[</span><span class=n>i</span><span class=p>]</span><span class=o>=</span><span class=n>req</span><span class=p>.</span><span class=n>new</span><span class=p>[</span><span class=n>lastscan</span><span class=o>+</span><span class=n>i</span><span class=p>]</span><span class=o>-</span><span class=n>req</span><span class=p>.</span><span class=n>old</span><span class=p>[</span><span class=n>lastpos</span><span class=o>+</span><span class=n>i</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>			<span class=k>if</span> <span class=p>(</span><span class=n>writedata</span><span class=p>(</span><span class=n>req</span><span class=p>.</span><span class=n>stream</span><span class=p>,</span> <span class=n>buffer</span><span class=p>,</span> <span class=n>lenf</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>				<span class=k>return</span> <span class=o>-</span><span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>			<span class=cm>/* Write extra data */</span>
+</span></span><span class=line><span class=cl>			<span class=k>for</span><span class=p>(</span><span class=n>i</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span><span class=n>i</span><span class=o>&lt;</span><span class=p>(</span><span class=n>scan</span><span class=o>-</span><span class=n>lenb</span><span class=p>)</span><span class=o>-</span><span class=p>(</span><span class=n>lastscan</span><span class=o>+</span><span class=n>lenf</span><span class=p>);</span><span class=n>i</span><span class=o>++</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>				<span class=n>buffer</span><span class=p>[</span><span class=n>i</span><span class=p>]</span><span class=o>=</span><span class=n>req</span><span class=p>.</span><span class=n>new</span><span class=p>[</span><span class=n>lastscan</span><span class=o>+</span><span class=n>lenf</span><span class=o>+</span><span class=n>i</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>			<span class=k>if</span> <span class=p>(</span><span class=n>writedata</span><span class=p>(</span><span class=n>req</span><span class=p>.</span><span class=n>stream</span><span class=p>,</span> <span class=n>buffer</span><span class=p>,</span> <span class=p>(</span><span class=n>scan</span><span class=o>-</span><span class=n>lenb</span><span class=p>)</span><span class=o>-</span><span class=p>(</span><span class=n>lastscan</span><span class=o>+</span><span class=n>lenf</span><span class=p>)))</span>
+</span></span><span class=line><span class=cl>				<span class=k>return</span> <span class=o>-</span><span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>			<span class=n>lastscan</span><span class=o>=</span><span class=n>scan</span><span class=o>-</span><span class=n>lenb</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>			<span class=n>lastpos</span><span class=o>=</span><span class=n>pos</span><span class=o>-</span><span class=n>lenb</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>			<span class=n>lastoffset</span><span class=o>=</span><span class=n>pos</span><span class=o>-</span><span class=n>scan</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=p>};</span>
+</span></span><span class=line><span class=cl>	<span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=偏移转缓存 class=headerLink><a href=#%e5%81%8f%e7%a7%bb%e8%bd%ac%e7%bc%93%e5%ad%98 class=header-mark></a>5.4 偏移转缓存</h3><ul><li><a href=#%e5%81%8f%e7%a7%bb%e8%bd%ac%e7%bc%93%e5%ad%98 rel>偏移转缓存</a></li><li><a href=#%e7%bc%93%e5%ad%98%e8%bd%ac%e5%81%8f%e7%a7%bb rel>缓存转偏移</a></li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>static</span> <span class=kt>void</span> <span class=nf>offtout</span><span class=p>(</span><span class=kt>int64_t</span> <span class=n>x</span><span class=p>,</span> <span class=kt>uint8_t</span> <span class=o>*</span><span class=n>buf</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int64_t</span> <span class=n>y</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>if</span><span class=p>(</span><span class=n>x</span><span class=o>&lt;</span><span class=mi>0</span><span class=p>)</span> <span class=n>y</span><span class=o>=-</span><span class=n>x</span><span class=p>;</span> <span class=k>else</span> <span class=n>y</span><span class=o>=</span><span class=n>x</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=n>buf</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span><span class=o>=</span><span class=n>y</span><span class=o>%</span><span class=mi>256</span><span class=p>;</span><span class=n>y</span><span class=o>-=</span><span class=n>buf</span><span class=p>[</span><span class=mi>0</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>	<span class=n>y</span><span class=o>=</span><span class=n>y</span><span class=o>/</span><span class=mi>256</span><span class=p>;</span><span class=n>buf</span><span class=p>[</span><span class=mi>1</span><span class=p>]</span><span class=o>=</span><span class=n>y</span><span class=o>%</span><span class=mi>256</span><span class=p>;</span><span class=n>y</span><span class=o>-=</span><span class=n>buf</span><span class=p>[</span><span class=mi>1</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>	<span class=n>y</span><span class=o>=</span><span class=n>y</span><span class=o>/</span><span class=mi>256</span><span class=p>;</span><span class=n>buf</span><span class=p>[</span><span class=mi>2</span><span class=p>]</span><span class=o>=</span><span class=n>y</span><span class=o>%</span><span class=mi>256</span><span class=p>;</span><span class=n>y</span><span class=o>-=</span><span class=n>buf</span><span class=p>[</span><span class=mi>2</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>	<span class=n>y</span><span class=o>=</span><span class=n>y</span><span class=o>/</span><span class=mi>256</span><span class=p>;</span><span class=n>buf</span><span class=p>[</span><span class=mi>3</span><span class=p>]</span><span class=o>=</span><span class=n>y</span><span class=o>%</span><span class=mi>256</span><span class=p>;</span><span class=n>y</span><span class=o>-=</span><span class=n>buf</span><span class=p>[</span><span class=mi>3</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>	<span class=n>y</span><span class=o>=</span><span class=n>y</span><span class=o>/</span><span class=mi>256</span><span class=p>;</span><span class=n>buf</span><span class=p>[</span><span class=mi>4</span><span class=p>]</span><span class=o>=</span><span class=n>y</span><span class=o>%</span><span class=mi>256</span><span class=p>;</span><span class=n>y</span><span class=o>-=</span><span class=n>buf</span><span class=p>[</span><span class=mi>4</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>	<span class=n>y</span><span class=o>=</span><span class=n>y</span><span class=o>/</span><span class=mi>256</span><span class=p>;</span><span class=n>buf</span><span class=p>[</span><span class=mi>5</span><span class=p>]</span><span class=o>=</span><span class=n>y</span><span class=o>%</span><span class=mi>256</span><span class=p>;</span><span class=n>y</span><span class=o>-=</span><span class=n>buf</span><span class=p>[</span><span class=mi>5</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>	<span class=n>y</span><span class=o>=</span><span class=n>y</span><span class=o>/</span><span class=mi>256</span><span class=p>;</span><span class=n>buf</span><span class=p>[</span><span class=mi>6</span><span class=p>]</span><span class=o>=</span><span class=n>y</span><span class=o>%</span><span class=mi>256</span><span class=p>;</span><span class=n>y</span><span class=o>-=</span><span class=n>buf</span><span class=p>[</span><span class=mi>6</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>	<span class=n>y</span><span class=o>=</span><span class=n>y</span><span class=o>/</span><span class=mi>256</span><span class=p>;</span><span class=n>buf</span><span class=p>[</span><span class=mi>7</span><span class=p>]</span><span class=o>=</span><span class=n>y</span><span class=o>%</span><span class=mi>256</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>if</span><span class=p>(</span><span class=n>x</span><span class=o>&lt;</span><span class=mi>0</span><span class=p>)</span> <span class=n>buf</span><span class=p>[</span><span class=mi>7</span><span class=p>]</span><span class=o>|=</span><span class=mh>0x80</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=搜索 class=headerLink><a href=#%e6%90%9c%e7%b4%a2 class=header-mark></a>5.5 搜索</h3><h4 id=函数执行-2 class=headerLink><a href=#%e5%87%bd%e6%95%b0%e6%89%a7%e8%a1%8c-2 class=header-mark></a>5.5.1 函数执行</h4><div class=mermaid id=id-3></div><h4 id=代码分析-2 class=headerLink><a href=#%e4%bb%a3%e7%a0%81%e5%88%86%e6%9e%90-2 class=header-mark></a>5.5.2 代码分析</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>static</span> <span class=kt>int64_t</span> <span class=nf>matchlen</span><span class=p>(</span><span class=k>const</span> <span class=kt>uint8_t</span> <span class=o>*</span><span class=n>old</span><span class=p>,</span><span class=kt>int64_t</span> <span class=n>oldsize</span><span class=p>,</span><span class=k>const</span> <span class=kt>uint8_t</span> <span class=o>*</span><span class=n>new</span><span class=p>,</span><span class=kt>int64_t</span> <span class=n>newsize</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int64_t</span> <span class=n>i</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>for</span><span class=p>(</span><span class=n>i</span><span class=o>=</span><span class=mi>0</span><span class=p>;(</span><span class=n>i</span><span class=o>&lt;</span><span class=n>oldsize</span><span class=p>)</span><span class=o>&amp;&amp;</span><span class=p>(</span><span class=n>i</span><span class=o>&lt;</span><span class=n>newsize</span><span class=p>);</span><span class=n>i</span><span class=o>++</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span><span class=p>(</span><span class=n>old</span><span class=p>[</span><span class=n>i</span><span class=p>]</span><span class=o>!=</span><span class=n>new</span><span class=p>[</span><span class=n>i</span><span class=p>])</span> <span class=k>break</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=n>i</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>static</span> <span class=kt>int64_t</span> <span class=nf>search</span><span class=p>(</span><span class=k>const</span> <span class=kt>int64_t</span> <span class=o>*</span><span class=n>I</span><span class=p>,</span><span class=k>const</span> <span class=kt>uint8_t</span> <span class=o>*</span><span class=n>old</span><span class=p>,</span><span class=kt>int64_t</span> <span class=n>oldsize</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		<span class=k>const</span> <span class=kt>uint8_t</span> <span class=o>*</span><span class=n>new</span><span class=p>,</span><span class=kt>int64_t</span> <span class=n>newsize</span><span class=p>,</span><span class=kt>int64_t</span> <span class=n>st</span><span class=p>,</span><span class=kt>int64_t</span> <span class=n>en</span><span class=p>,</span><span class=kt>int64_t</span> <span class=o>*</span><span class=n>pos</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int64_t</span> <span class=n>x</span><span class=p>,</span><span class=n>y</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>if</span><span class=p>(</span><span class=n>en</span><span class=o>-</span><span class=n>st</span><span class=o>&lt;</span><span class=mi>2</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=n>x</span><span class=o>=</span><span class=n>matchlen</span><span class=p>(</span><span class=n>old</span><span class=o>+</span><span class=n>I</span><span class=p>[</span><span class=n>st</span><span class=p>],</span><span class=n>oldsize</span><span class=o>-</span><span class=n>I</span><span class=p>[</span><span class=n>st</span><span class=p>],</span><span class=n>new</span><span class=p>,</span><span class=n>newsize</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=n>y</span><span class=o>=</span><span class=n>matchlen</span><span class=p>(</span><span class=n>old</span><span class=o>+</span><span class=n>I</span><span class=p>[</span><span class=n>en</span><span class=p>],</span><span class=n>oldsize</span><span class=o>-</span><span class=n>I</span><span class=p>[</span><span class=n>en</span><span class=p>],</span><span class=n>new</span><span class=p>,</span><span class=n>newsize</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>		<span class=k>if</span><span class=p>(</span><span class=n>x</span><span class=o>&gt;</span><span class=n>y</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=o>*</span><span class=n>pos</span><span class=o>=</span><span class=n>I</span><span class=p>[</span><span class=n>st</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>			<span class=k>return</span> <span class=n>x</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=o>*</span><span class=n>pos</span><span class=o>=</span><span class=n>I</span><span class=p>[</span><span class=n>en</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>			<span class=k>return</span> <span class=n>y</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=n>x</span><span class=o>=</span><span class=n>st</span><span class=o>+</span><span class=p>(</span><span class=n>en</span><span class=o>-</span><span class=n>st</span><span class=p>)</span><span class=o>/</span><span class=mi>2</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span><span class=p>(</span><span class=n>memcmp</span><span class=p>(</span><span class=n>old</span><span class=o>+</span><span class=n>I</span><span class=p>[</span><span class=n>x</span><span class=p>],</span><span class=n>new</span><span class=p>,</span><span class=n>MIN</span><span class=p>(</span><span class=n>oldsize</span><span class=o>-</span><span class=n>I</span><span class=p>[</span><span class=n>x</span><span class=p>],</span><span class=n>newsize</span><span class=p>))</span><span class=o>&lt;</span><span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span> <span class=n>search</span><span class=p>(</span><span class=n>I</span><span class=p>,</span><span class=n>old</span><span class=p>,</span><span class=n>oldsize</span><span class=p>,</span><span class=n>new</span><span class=p>,</span><span class=n>newsize</span><span class=p>,</span><span class=n>x</span><span class=p>,</span><span class=n>en</span><span class=p>,</span><span class=n>pos</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span> <span class=n>search</span><span class=p>(</span><span class=n>I</span><span class=p>,</span><span class=n>old</span><span class=p>,</span><span class=n>oldsize</span><span class=p>,</span><span class=n>new</span><span class=p>,</span><span class=n>newsize</span><span class=p>,</span><span class=n>st</span><span class=p>,</span><span class=n>x</span><span class=p>,</span><span class=n>pos</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=p>};</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=排序 class=headerLink><a href=#%e6%8e%92%e5%ba%8f class=header-mark></a>5.6 排序</h3><h4 id=函数执行-3 class=headerLink><a href=#%e5%87%bd%e6%95%b0%e6%89%a7%e8%a1%8c-3 class=header-mark></a>5.6.1 函数执行</h4><div class=mermaid id=id-4></div><h4 id=代码分析-3 class=headerLink><a href=#%e4%bb%a3%e7%a0%81%e5%88%86%e6%9e%90-3 class=header-mark></a>5.6.2 代码分析</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span><span class=lnt>105
+</span><span class=lnt>106
+</span><span class=lnt>107
+</span><span class=lnt>108
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>static</span> <span class=kt>void</span> <span class=nf>split</span><span class=p>(</span><span class=kt>int64_t</span> <span class=o>*</span><span class=n>I</span><span class=p>,</span><span class=kt>int64_t</span> <span class=o>*</span><span class=n>V</span><span class=p>,</span><span class=kt>int64_t</span> <span class=n>start</span><span class=p>,</span><span class=kt>int64_t</span> <span class=n>len</span><span class=p>,</span><span class=kt>int64_t</span> <span class=n>h</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int64_t</span> <span class=n>i</span><span class=p>,</span><span class=n>j</span><span class=p>,</span><span class=n>k</span><span class=p>,</span><span class=n>x</span><span class=p>,</span><span class=n>tmp</span><span class=p>,</span><span class=n>jj</span><span class=p>,</span><span class=n>kk</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>if</span><span class=p>(</span><span class=n>len</span><span class=o>&lt;</span><span class=mi>16</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>for</span><span class=p>(</span><span class=n>k</span><span class=o>=</span><span class=n>start</span><span class=p>;</span><span class=n>k</span><span class=o>&lt;</span><span class=n>start</span><span class=o>+</span><span class=n>len</span><span class=p>;</span><span class=n>k</span><span class=o>+=</span><span class=n>j</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=n>j</span><span class=o>=</span><span class=mi>1</span><span class=p>;</span><span class=n>x</span><span class=o>=</span><span class=n>V</span><span class=p>[</span><span class=n>I</span><span class=p>[</span><span class=n>k</span><span class=p>]</span><span class=o>+</span><span class=n>h</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>			<span class=k>for</span><span class=p>(</span><span class=n>i</span><span class=o>=</span><span class=mi>1</span><span class=p>;</span><span class=n>k</span><span class=o>+</span><span class=n>i</span><span class=o>&lt;</span><span class=n>start</span><span class=o>+</span><span class=n>len</span><span class=p>;</span><span class=n>i</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>				<span class=k>if</span><span class=p>(</span><span class=n>V</span><span class=p>[</span><span class=n>I</span><span class=p>[</span><span class=n>k</span><span class=o>+</span><span class=n>i</span><span class=p>]</span><span class=o>+</span><span class=n>h</span><span class=p>]</span><span class=o>&lt;</span><span class=n>x</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>					<span class=n>x</span><span class=o>=</span><span class=n>V</span><span class=p>[</span><span class=n>I</span><span class=p>[</span><span class=n>k</span><span class=o>+</span><span class=n>i</span><span class=p>]</span><span class=o>+</span><span class=n>h</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>					<span class=n>j</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>				<span class=p>};</span>
+</span></span><span class=line><span class=cl>				<span class=k>if</span><span class=p>(</span><span class=n>V</span><span class=p>[</span><span class=n>I</span><span class=p>[</span><span class=n>k</span><span class=o>+</span><span class=n>i</span><span class=p>]</span><span class=o>+</span><span class=n>h</span><span class=p>]</span><span class=o>==</span><span class=n>x</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>					<span class=n>tmp</span><span class=o>=</span><span class=n>I</span><span class=p>[</span><span class=n>k</span><span class=o>+</span><span class=n>j</span><span class=p>];</span><span class=n>I</span><span class=p>[</span><span class=n>k</span><span class=o>+</span><span class=n>j</span><span class=p>]</span><span class=o>=</span><span class=n>I</span><span class=p>[</span><span class=n>k</span><span class=o>+</span><span class=n>i</span><span class=p>];</span><span class=n>I</span><span class=p>[</span><span class=n>k</span><span class=o>+</span><span class=n>i</span><span class=p>]</span><span class=o>=</span><span class=n>tmp</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>					<span class=n>j</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>				<span class=p>};</span>
+</span></span><span class=line><span class=cl>			<span class=p>};</span>
+</span></span><span class=line><span class=cl>			<span class=k>for</span><span class=p>(</span><span class=n>i</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span><span class=n>i</span><span class=o>&lt;</span><span class=n>j</span><span class=p>;</span><span class=n>i</span><span class=o>++</span><span class=p>)</span> <span class=n>V</span><span class=p>[</span><span class=n>I</span><span class=p>[</span><span class=n>k</span><span class=o>+</span><span class=n>i</span><span class=p>]]</span><span class=o>=</span><span class=n>k</span><span class=o>+</span><span class=n>j</span><span class=o>-</span><span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>			<span class=k>if</span><span class=p>(</span><span class=n>j</span><span class=o>==</span><span class=mi>1</span><span class=p>)</span> <span class=n>I</span><span class=p>[</span><span class=n>k</span><span class=p>]</span><span class=o>=-</span><span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=p>};</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=n>x</span><span class=o>=</span><span class=n>V</span><span class=p>[</span><span class=n>I</span><span class=p>[</span><span class=n>start</span><span class=o>+</span><span class=n>len</span><span class=o>/</span><span class=mi>2</span><span class=p>]</span><span class=o>+</span><span class=n>h</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>	<span class=n>jj</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span><span class=n>kk</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>for</span><span class=p>(</span><span class=n>i</span><span class=o>=</span><span class=n>start</span><span class=p>;</span><span class=n>i</span><span class=o>&lt;</span><span class=n>start</span><span class=o>+</span><span class=n>len</span><span class=p>;</span><span class=n>i</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span><span class=p>(</span><span class=n>V</span><span class=p>[</span><span class=n>I</span><span class=p>[</span><span class=n>i</span><span class=p>]</span><span class=o>+</span><span class=n>h</span><span class=p>]</span><span class=o>&lt;</span><span class=n>x</span><span class=p>)</span> <span class=n>jj</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span><span class=p>(</span><span class=n>V</span><span class=p>[</span><span class=n>I</span><span class=p>[</span><span class=n>i</span><span class=p>]</span><span class=o>+</span><span class=n>h</span><span class=p>]</span><span class=o>==</span><span class=n>x</span><span class=p>)</span> <span class=n>kk</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=p>};</span>
+</span></span><span class=line><span class=cl>	<span class=n>jj</span><span class=o>+=</span><span class=n>start</span><span class=p>;</span><span class=n>kk</span><span class=o>+=</span><span class=n>jj</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=n>i</span><span class=o>=</span><span class=n>start</span><span class=p>;</span><span class=n>j</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span><span class=n>k</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>while</span><span class=p>(</span><span class=n>i</span><span class=o>&lt;</span><span class=n>jj</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span><span class=p>(</span><span class=n>V</span><span class=p>[</span><span class=n>I</span><span class=p>[</span><span class=n>i</span><span class=p>]</span><span class=o>+</span><span class=n>h</span><span class=p>]</span><span class=o>&lt;</span><span class=n>x</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=n>i</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span> <span class=k>else</span> <span class=k>if</span><span class=p>(</span><span class=n>V</span><span class=p>[</span><span class=n>I</span><span class=p>[</span><span class=n>i</span><span class=p>]</span><span class=o>+</span><span class=n>h</span><span class=p>]</span><span class=o>==</span><span class=n>x</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=n>tmp</span><span class=o>=</span><span class=n>I</span><span class=p>[</span><span class=n>i</span><span class=p>];</span><span class=n>I</span><span class=p>[</span><span class=n>i</span><span class=p>]</span><span class=o>=</span><span class=n>I</span><span class=p>[</span><span class=n>jj</span><span class=o>+</span><span class=n>j</span><span class=p>];</span><span class=n>I</span><span class=p>[</span><span class=n>jj</span><span class=o>+</span><span class=n>j</span><span class=p>]</span><span class=o>=</span><span class=n>tmp</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>			<span class=n>j</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=n>tmp</span><span class=o>=</span><span class=n>I</span><span class=p>[</span><span class=n>i</span><span class=p>];</span><span class=n>I</span><span class=p>[</span><span class=n>i</span><span class=p>]</span><span class=o>=</span><span class=n>I</span><span class=p>[</span><span class=n>kk</span><span class=o>+</span><span class=n>k</span><span class=p>];</span><span class=n>I</span><span class=p>[</span><span class=n>kk</span><span class=o>+</span><span class=n>k</span><span class=p>]</span><span class=o>=</span><span class=n>tmp</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>			<span class=n>k</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=p>};</span>
+</span></span><span class=line><span class=cl>	<span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>while</span><span class=p>(</span><span class=n>jj</span><span class=o>+</span><span class=n>j</span><span class=o>&lt;</span><span class=n>kk</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span><span class=p>(</span><span class=n>V</span><span class=p>[</span><span class=n>I</span><span class=p>[</span><span class=n>jj</span><span class=o>+</span><span class=n>j</span><span class=p>]</span><span class=o>+</span><span class=n>h</span><span class=p>]</span><span class=o>==</span><span class=n>x</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=n>j</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=n>tmp</span><span class=o>=</span><span class=n>I</span><span class=p>[</span><span class=n>jj</span><span class=o>+</span><span class=n>j</span><span class=p>];</span><span class=n>I</span><span class=p>[</span><span class=n>jj</span><span class=o>+</span><span class=n>j</span><span class=p>]</span><span class=o>=</span><span class=n>I</span><span class=p>[</span><span class=n>kk</span><span class=o>+</span><span class=n>k</span><span class=p>];</span><span class=n>I</span><span class=p>[</span><span class=n>kk</span><span class=o>+</span><span class=n>k</span><span class=p>]</span><span class=o>=</span><span class=n>tmp</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>			<span class=n>k</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=p>};</span>
+</span></span><span class=line><span class=cl>	<span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>if</span><span class=p>(</span><span class=n>jj</span><span class=o>&gt;</span><span class=n>start</span><span class=p>)</span> <span class=n>split</span><span class=p>(</span><span class=n>I</span><span class=p>,</span><span class=n>V</span><span class=p>,</span><span class=n>start</span><span class=p>,</span><span class=n>jj</span><span class=o>-</span><span class=n>start</span><span class=p>,</span><span class=n>h</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>for</span><span class=p>(</span><span class=n>i</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span><span class=n>i</span><span class=o>&lt;</span><span class=n>kk</span><span class=o>-</span><span class=n>jj</span><span class=p>;</span><span class=n>i</span><span class=o>++</span><span class=p>)</span> <span class=n>V</span><span class=p>[</span><span class=n>I</span><span class=p>[</span><span class=n>jj</span><span class=o>+</span><span class=n>i</span><span class=p>]]</span><span class=o>=</span><span class=n>kk</span><span class=o>-</span><span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span><span class=p>(</span><span class=n>jj</span><span class=o>==</span><span class=n>kk</span><span class=o>-</span><span class=mi>1</span><span class=p>)</span> <span class=n>I</span><span class=p>[</span><span class=n>jj</span><span class=p>]</span><span class=o>=-</span><span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>if</span><span class=p>(</span><span class=n>start</span><span class=o>+</span><span class=n>len</span><span class=o>&gt;</span><span class=n>kk</span><span class=p>)</span> <span class=n>split</span><span class=p>(</span><span class=n>I</span><span class=p>,</span><span class=n>V</span><span class=p>,</span><span class=n>kk</span><span class=p>,</span><span class=n>start</span><span class=o>+</span><span class=n>len</span><span class=o>-</span><span class=n>kk</span><span class=p>,</span><span class=n>h</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>static</span> <span class=kt>void</span> <span class=nf>qsufsort</span><span class=p>(</span><span class=kt>int64_t</span> <span class=o>*</span><span class=n>I</span><span class=p>,</span> <span class=k>const</span> <span class=kt>uint8_t</span> <span class=o>*</span><span class=n>old</span><span class=p>,</span> <span class=kt>int64_t</span> <span class=n>oldsize</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int64_t</span> <span class=n>buckets</span><span class=p>[</span><span class=mi>256</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int64_t</span> <span class=n>i</span><span class=p>,</span><span class=n>h</span><span class=p>,</span><span class=n>len</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int64_t</span> <span class=o>*</span><span class=n>V</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>((</span><span class=n>V</span> <span class=o>=</span> <span class=n>req</span><span class=p>.</span><span class=n>stream</span><span class=o>-&gt;</span><span class=n>malloc</span><span class=p>((</span><span class=n>req</span><span class=p>.</span><span class=n>oldsize</span><span class=o>+</span><span class=mi>1</span><span class=p>)</span> <span class=o>*</span> <span class=k>sizeof</span><span class=p>(</span><span class=kt>int64_t</span><span class=p>)))</span> <span class=o>==</span> <span class=nb>NULL</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span> <span class=o>-</span><span class=mi>1</span><span class=p>;</span>	
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>for</span> <span class=p>(</span><span class=n>i</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span> <span class=n>i</span><span class=o>&lt;</span><span class=mi>256</span><span class=p>;</span> <span class=n>i</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=n>buckets</span><span class=p>[</span><span class=n>i</span><span class=p>]</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>for</span><span class=p>(</span><span class=n>i</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span><span class=n>i</span><span class=o>&lt;</span><span class=n>oldsize</span><span class=p>;</span><span class=n>i</span><span class=o>++</span><span class=p>)</span> <span class=n>buckets</span><span class=p>[</span><span class=n>old</span><span class=p>[</span><span class=n>i</span><span class=p>]]</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>for</span><span class=p>(</span><span class=n>i</span><span class=o>=</span><span class=mi>1</span><span class=p>;</span><span class=n>i</span><span class=o>&lt;</span><span class=mi>256</span><span class=p>;</span><span class=n>i</span><span class=o>++</span><span class=p>)</span> <span class=n>buckets</span><span class=p>[</span><span class=n>i</span><span class=p>]</span><span class=o>+=</span><span class=n>buckets</span><span class=p>[</span><span class=n>i</span><span class=o>-</span><span class=mi>1</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>	<span class=k>for</span><span class=p>(</span><span class=n>i</span><span class=o>=</span><span class=mi>255</span><span class=p>;</span><span class=n>i</span><span class=o>&gt;</span><span class=mi>0</span><span class=p>;</span><span class=n>i</span><span class=o>--</span><span class=p>)</span> <span class=n>buckets</span><span class=p>[</span><span class=n>i</span><span class=p>]</span><span class=o>=</span><span class=n>buckets</span><span class=p>[</span><span class=n>i</span><span class=o>-</span><span class=mi>1</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>	<span class=n>buckets</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>for</span><span class=p>(</span><span class=n>i</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span><span class=n>i</span><span class=o>&lt;</span><span class=n>oldsize</span><span class=p>;</span><span class=n>i</span><span class=o>++</span><span class=p>)</span> <span class=n>I</span><span class=p>[</span><span class=o>++</span><span class=n>buckets</span><span class=p>[</span><span class=n>old</span><span class=p>[</span><span class=n>i</span><span class=p>]]]</span><span class=o>=</span><span class=n>i</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=n>I</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span><span class=o>=</span><span class=n>oldsize</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>for</span><span class=p>(</span><span class=n>i</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span><span class=n>i</span><span class=o>&lt;</span><span class=n>oldsize</span><span class=p>;</span><span class=n>i</span><span class=o>++</span><span class=p>)</span> <span class=n>V</span><span class=p>[</span><span class=n>i</span><span class=p>]</span><span class=o>=</span><span class=n>buckets</span><span class=p>[</span><span class=n>old</span><span class=p>[</span><span class=n>i</span><span class=p>]];</span>
+</span></span><span class=line><span class=cl>	<span class=n>V</span><span class=p>[</span><span class=n>oldsize</span><span class=p>]</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>for</span><span class=p>(</span><span class=n>i</span><span class=o>=</span><span class=mi>1</span><span class=p>;</span><span class=n>i</span><span class=o>&lt;</span><span class=mi>256</span><span class=p>;</span><span class=n>i</span><span class=o>++</span><span class=p>)</span> <span class=k>if</span><span class=p>(</span><span class=n>buckets</span><span class=p>[</span><span class=n>i</span><span class=p>]</span><span class=o>==</span><span class=n>buckets</span><span class=p>[</span><span class=n>i</span><span class=o>-</span><span class=mi>1</span><span class=p>]</span><span class=o>+</span><span class=mi>1</span><span class=p>)</span> <span class=n>I</span><span class=p>[</span><span class=n>buckets</span><span class=p>[</span><span class=n>i</span><span class=p>]]</span><span class=o>=-</span><span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=n>I</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span><span class=o>=-</span><span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>for</span><span class=p>(</span><span class=n>h</span><span class=o>=</span><span class=mi>1</span><span class=p>;</span><span class=n>I</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span><span class=o>!=-</span><span class=p>(</span><span class=n>oldsize</span><span class=o>+</span><span class=mi>1</span><span class=p>);</span><span class=n>h</span><span class=o>+=</span><span class=n>h</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=n>len</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=k>for</span><span class=p>(</span><span class=n>i</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span><span class=n>i</span><span class=o>&lt;</span><span class=n>oldsize</span><span class=o>+</span><span class=mi>1</span><span class=p>;)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=k>if</span><span class=p>(</span><span class=n>I</span><span class=p>[</span><span class=n>i</span><span class=p>]</span><span class=o>&lt;</span><span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>				<span class=n>len</span><span class=o>-=</span><span class=n>I</span><span class=p>[</span><span class=n>i</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>				<span class=n>i</span><span class=o>-=</span><span class=n>I</span><span class=p>[</span><span class=n>i</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>			<span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>				<span class=k>if</span><span class=p>(</span><span class=n>len</span><span class=p>)</span> <span class=n>I</span><span class=p>[</span><span class=n>i</span><span class=o>-</span><span class=n>len</span><span class=p>]</span><span class=o>=-</span><span class=n>len</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>				<span class=n>len</span><span class=o>=</span><span class=n>V</span><span class=p>[</span><span class=n>I</span><span class=p>[</span><span class=n>i</span><span class=p>]]</span><span class=o>+</span><span class=mi>1</span><span class=o>-</span><span class=n>i</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>				<span class=n>split</span><span class=p>(</span><span class=n>I</span><span class=p>,</span><span class=n>V</span><span class=p>,</span><span class=n>i</span><span class=p>,</span><span class=n>len</span><span class=p>,</span><span class=n>h</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>				<span class=n>i</span><span class=o>+=</span><span class=n>len</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>				<span class=n>len</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>			<span class=p>};</span>
+</span></span><span class=line><span class=cl>		<span class=p>};</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span><span class=p>(</span><span class=n>len</span><span class=p>)</span> <span class=n>I</span><span class=p>[</span><span class=n>i</span><span class=o>-</span><span class=n>len</span><span class=p>]</span><span class=o>=-</span><span class=n>len</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>for</span><span class=p>(</span><span class=n>i</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span><span class=n>i</span><span class=o>&lt;</span><span class=n>oldsize</span><span class=o>+</span><span class=mi>1</span><span class=p>;</span><span class=n>i</span><span class=o>++</span><span class=p>)</span> <span class=n>I</span><span class=p>[</span><span class=n>V</span><span class=p>[</span><span class=n>i</span><span class=p>]]</span><span class=o>=</span><span class=n>i</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=n>free</span><span class=p>(</span><span class=n>V</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=保存文件 class=headerLink><a href=#%e4%bf%9d%e5%ad%98%e6%96%87%e4%bb%b6 class=header-mark></a>5.7 保存文件</h3><blockquote><p>简要写法</br>主要的操作就是将buffer直接写到文件中</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>static</span> <span class=kt>int64_t</span> <span class=nf>writedata</span><span class=p>(</span><span class=k>struct</span> <span class=n>bsdiff_stream</span><span class=o>*</span> <span class=n>stream</span><span class=p>,</span> <span class=k>const</span> <span class=kt>void</span><span class=o>*</span> <span class=n>buffer</span><span class=p>,</span> <span class=kt>int64_t</span> <span class=n>length</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=kt>int</span> <span class=n>writeresult</span> <span class=o>=</span> <span class=n>stream</span><span class=o>-&gt;</span><span class=n>write</span><span class=p>(</span><span class=n>stream</span><span class=p>,</span> <span class=n>buffer</span><span class=p>,</span> <span class=n>length</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=n>writeresult</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>原始写法</br>为了保证大小不超过API的大小</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>static</span> <span class=kt>int64_t</span> <span class=nf>writedata</span><span class=p>(</span><span class=k>struct</span> <span class=n>bsdiff_stream</span><span class=o>*</span> <span class=n>stream</span><span class=p>,</span> <span class=k>const</span> <span class=kt>void</span><span class=o>*</span> <span class=n>buffer</span><span class=p>,</span> <span class=kt>int64_t</span> <span class=n>length</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int64_t</span> <span class=n>result</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>while</span> <span class=p>(</span><span class=n>length</span> <span class=o>&gt;</span> <span class=mi>0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>const</span> <span class=kt>int</span> <span class=n>smallsize</span> <span class=o>=</span> <span class=p>(</span><span class=kt>int</span><span class=p>)</span><span class=n>MIN</span><span class=p>(</span><span class=n>length</span><span class=p>,</span> <span class=n>INT_MAX</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=k>const</span> <span class=kt>int</span> <span class=n>writeresult</span> <span class=o>=</span> <span class=n>stream</span><span class=o>-&gt;</span><span class=n>write</span><span class=p>(</span><span class=n>stream</span><span class=p>,</span> <span class=n>buffer</span><span class=p>,</span> <span class=n>smallsize</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=n>writeresult</span> <span class=o>==</span> <span class=o>-</span><span class=mi>1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=k>return</span> <span class=o>-</span><span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>		<span class=n>result</span> <span class=o>+=</span> <span class=n>writeresult</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=n>length</span> <span class=o>-=</span> <span class=n>smallsize</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=n>buffer</span> <span class=o>=</span> <span class=p>(</span><span class=kt>uint8_t</span><span class=o>*</span><span class=p>)</span><span class=n>buffer</span> <span class=o>+</span> <span class=n>smallsize</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=n>result</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=打入补丁 class=headerLink><a href=#%e6%89%93%e5%85%a5%e8%a1%a5%e4%b8%81 class=header-mark></a>6 打入补丁</h2><ul><li><a href=#%e7%94%9f%e6%88%90%e8%a1%a5%e4%b8%81 rel>bsdiff</a></li><li><a href=#%e6%89%93%e5%85%a5%e8%a1%a5%e4%b8%81 rel>bspatch</a></li></ul><h3 id=缓存转偏移 class=headerLink><a href=#%e7%bc%93%e5%ad%98%e8%bd%ac%e5%81%8f%e7%a7%bb class=header-mark></a>6.1 缓存转偏移</h3><ul><li><a href=#%e5%81%8f%e7%a7%bb%e8%bd%ac%e7%bc%93%e5%ad%98 rel>偏移转缓存</a></li><li><a href=#%e7%bc%93%e5%ad%98%e8%bd%ac%e5%81%8f%e7%a7%bb rel>缓存转偏移</a></li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cm>/* 一般情况下,buf的长度为8个字节 */</span>
+</span></span><span class=line><span class=cl><span class=k>static</span> <span class=kt>int64_t</span> <span class=nf>offtin</span><span class=p>(</span><span class=kt>uint8_t</span> <span class=o>*</span><span class=n>buf</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int64_t</span> <span class=n>y</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=n>y</span><span class=o>=</span><span class=n>buf</span><span class=p>[</span><span class=mi>7</span><span class=p>]</span><span class=o>&amp;</span><span class=mh>0x7F</span><span class=p>;</span> 		<span class=cm>/* 提取绝对值 */</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>	<span class=n>y</span><span class=o>=</span><span class=n>y</span><span class=o>*</span><span class=mi>256</span><span class=p>;</span><span class=n>y</span><span class=o>+=</span><span class=n>buf</span><span class=p>[</span><span class=mi>6</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>	<span class=n>y</span><span class=o>=</span><span class=n>y</span><span class=o>*</span><span class=mi>256</span><span class=p>;</span><span class=n>y</span><span class=o>+=</span><span class=n>buf</span><span class=p>[</span><span class=mi>5</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>	<span class=n>y</span><span class=o>=</span><span class=n>y</span><span class=o>*</span><span class=mi>256</span><span class=p>;</span><span class=n>y</span><span class=o>+=</span><span class=n>buf</span><span class=p>[</span><span class=mi>4</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>	<span class=n>y</span><span class=o>=</span><span class=n>y</span><span class=o>*</span><span class=mi>256</span><span class=p>;</span><span class=n>y</span><span class=o>+=</span><span class=n>buf</span><span class=p>[</span><span class=mi>3</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>	<span class=n>y</span><span class=o>=</span><span class=n>y</span><span class=o>*</span><span class=mi>256</span><span class=p>;</span><span class=n>y</span><span class=o>+=</span><span class=n>buf</span><span class=p>[</span><span class=mi>2</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>	<span class=n>y</span><span class=o>=</span><span class=n>y</span><span class=o>*</span><span class=mi>256</span><span class=p>;</span><span class=n>y</span><span class=o>+=</span><span class=n>buf</span><span class=p>[</span><span class=mi>1</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>	<span class=n>y</span><span class=o>=</span><span class=n>y</span><span class=o>*</span><span class=mi>256</span><span class=p>;</span><span class=n>y</span><span class=o>+=</span><span class=n>buf</span><span class=p>[</span><span class=mi>0</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/* 根据最高位置确定正负 */</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>buf</span><span class=p>[</span><span class=mi>7</span><span class=p>]</span> <span class=o>&amp;</span> <span class=mh>0x80</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>y</span><span class=o>=-</span><span class=n>y</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=n>y</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=核心功能 class=headerLink><a href=#%e6%a0%b8%e5%bf%83%e5%8a%9f%e8%83%bd class=header-mark></a>6.2 核心功能</h3><h4 id=执行路线 class=headerLink><a href=#%e6%89%a7%e8%a1%8c%e8%b7%af%e7%ba%bf class=header-mark></a>6.2.1 执行路线</h4><p><a class=lightgallery href=https://raw.githubusercontent.com/mengdemao/picture/master/Bspatch.svg title=Bspatch data-thumbnail=https://raw.githubusercontent.com/mengdemao/picture/master/Bspatch.svg><img class=lazyload data-src=https://raw.githubusercontent.com/mengdemao/picture/master/Bspatch.svg data-srcset="https://raw.githubusercontent.com/mengdemao/picture/master/Bspatch.svg, https://raw.githubusercontent.com/mengdemao/picture/master/Bspatch.svg 1.5x, https://raw.githubusercontent.com/mengdemao/picture/master/Bspatch.svg 2x" data-sizes=auto alt=https://raw.githubusercontent.com/mengdemao/picture/master/Bspatch.svg></a></p><h4 id=代码分析-4 class=headerLink><a href=#%e4%bb%a3%e7%a0%81%e5%88%86%e6%9e%90-4 class=header-mark></a>6.2.2 代码分析</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>int</span> <span class=nf>bspatch</span><span class=p>(</span><span class=k>const</span> <span class=kt>uint8_t</span><span class=o>*</span> <span class=n>old</span><span class=p>,</span> <span class=kt>int64_t</span> <span class=n>oldsize</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>            <span class=kt>uint8_t</span><span class=o>*</span> <span class=n>new</span><span class=p>,</span> <span class=kt>int64_t</span> <span class=n>newsize</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>            <span class=k>struct</span> <span class=n>bspatch_stream</span><span class=o>*</span> <span class=n>stream</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kt>uint8_t</span> <span class=n>buf</span><span class=p>[</span><span class=mi>8</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int64_t</span> <span class=n>oldpos</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int64_t</span> <span class=n>newpos</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int64_t</span> <span class=n>ctrl</span><span class=p>[</span><span class=mi>3</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int64_t</span> <span class=n>i</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=n>oldpos</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>newpos</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>while</span> <span class=p>(</span><span class=n>newpos</span> <span class=o>&lt;</span> <span class=n>newsize</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=cm>/* Read control data 3*8个为一组,每次生成3个控制数据 */</span>
+</span></span><span class=line><span class=cl>		<span class=k>for</span><span class=p>(</span><span class=n>i</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span><span class=n>i</span><span class=o>&lt;=</span><span class=mi>2</span><span class=p>;</span><span class=n>i</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=k>if</span> <span class=p>(</span><span class=n>stream</span><span class=o>-&gt;</span><span class=n>read</span><span class=p>(</span><span class=n>stream</span><span class=p>,</span> <span class=n>buf</span><span class=p>,</span> <span class=mi>8</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>				<span class=k>return</span> <span class=o>-</span><span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>			<span class=n>ctrl</span><span class=p>[</span><span class=n>i</span><span class=p>]</span><span class=o>=</span><span class=n>offtin</span><span class=p>(</span><span class=n>buf</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>		<span class=cm>/* 健壮性检查 */</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=n>ctrl</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span><span class=o>&lt;</span><span class=mi>0</span> <span class=o>||</span> <span class=n>ctrl</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span><span class=o>&gt;</span><span class=n>INT_MAX</span> <span class=o>||</span>
+</span></span><span class=line><span class=cl>			<span class=n>ctrl</span><span class=p>[</span><span class=mi>1</span><span class=p>]</span><span class=o>&lt;</span><span class=mi>0</span> <span class=o>||</span> <span class=n>ctrl</span><span class=p>[</span><span class=mi>1</span><span class=p>]</span><span class=o>&gt;</span><span class=n>INT_MAX</span> <span class=o>||</span>
+</span></span><span class=line><span class=cl>			<span class=n>newpos</span><span class=o>+</span><span class=n>ctrl</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span><span class=o>&gt;</span><span class=n>newsize</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>			<span class=k>return</span> <span class=o>-</span><span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>		<span class=cm>/* Read diff string */</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=n>stream</span><span class=o>-&gt;</span><span class=n>read</span><span class=p>(</span><span class=n>stream</span><span class=p>,</span> <span class=n>new</span> <span class=o>+</span> <span class=n>newpos</span><span class=p>,</span> <span class=n>ctrl</span><span class=p>[</span><span class=mi>0</span><span class=p>]))</span>
+</span></span><span class=line><span class=cl>			<span class=k>return</span> <span class=o>-</span><span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>		<span class=cm>/* Add old data to diff string */</span>
+</span></span><span class=line><span class=cl>		<span class=k>for</span><span class=p>(</span><span class=n>i</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span><span class=n>i</span><span class=o>&lt;</span><span class=n>ctrl</span><span class=p>[</span><span class=mi>0</span><span class=p>];</span><span class=n>i</span><span class=o>++</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>			<span class=k>if</span><span class=p>((</span><span class=n>oldpos</span><span class=o>+</span><span class=n>i</span><span class=o>&gt;=</span><span class=mi>0</span><span class=p>)</span> <span class=o>&amp;&amp;</span> <span class=p>(</span><span class=n>oldpos</span><span class=o>+</span><span class=n>i</span><span class=o>&lt;</span><span class=n>oldsize</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>				<span class=n>new</span><span class=p>[</span><span class=n>newpos</span><span class=o>+</span><span class=n>i</span><span class=p>]</span><span class=o>+=</span><span class=n>old</span><span class=p>[</span><span class=n>oldpos</span><span class=o>+</span><span class=n>i</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>		<span class=cm>/* Adjust pointers */</span>
+</span></span><span class=line><span class=cl>		<span class=n>newpos</span><span class=o>+=</span><span class=n>ctrl</span><span class=p>[</span><span class=mi>0</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>		<span class=n>oldpos</span><span class=o>+=</span><span class=n>ctrl</span><span class=p>[</span><span class=mi>0</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>		<span class=cm>/* Sanity-check */</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span><span class=p>(</span><span class=n>newpos</span><span class=o>+</span><span class=n>ctrl</span><span class=p>[</span><span class=mi>1</span><span class=p>]</span><span class=o>&gt;</span><span class=n>newsize</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>			<span class=k>return</span> <span class=o>-</span><span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>		<span class=cm>/* Read extra string */</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=n>stream</span><span class=o>-&gt;</span><span class=n>read</span><span class=p>(</span><span class=n>stream</span><span class=p>,</span> <span class=n>new</span> <span class=o>+</span> <span class=n>newpos</span><span class=p>,</span> <span class=n>ctrl</span><span class=p>[</span><span class=mi>1</span><span class=p>]))</span>
+</span></span><span class=line><span class=cl>			<span class=k>return</span> <span class=o>-</span><span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>		<span class=cm>/* Adjust pointers */</span>
+</span></span><span class=line><span class=cl>		<span class=n>newpos</span><span class=o>+=</span><span class=n>ctrl</span><span class=p>[</span><span class=mi>1</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>		<span class=n>oldpos</span><span class=o>+=</span><span class=n>ctrl</span><span class=p>[</span><span class=mi>2</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>	<span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2022-10-29&nbsp;<a class=git-hash href=https://github.com/mengdemao/github.io/commit/cc5735a1f640ba31407107740adec831200e1f52 target=_blank title="commit by mengdemao(mengdemao19951021@163.com) cc5735a1f640ba31407107740adec831200e1f52: 优化" rel="noopener noreferrer">
+<i class="fas fa-hashtag fa-fw"></i>cc5735a</a></span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-mardown href=/bsdiff/index.md target=_blank rel="noopener noreferrer">阅读原始文档</a>
+</span><span>|&nbsp;<a class=link-to-source href=https://github.com/mengdemao/github.io/content/posts/bsdiff/index.md target=_blank rel="noopener noreferrer">查看源代码</a>
+</span><span>|&nbsp;<a class=link-to-edit href=https://github.com/mengdemao/github.io/content/posts/bsdiff/index.md target=_blank rel="noopener noreferrer">编辑此页</a></span></div><div class=post-info-share><span><a href=# onclick=return!1 title="分享到 Twitter" data-sharer=twitter data-url=https://mengdemao.github.io/bsdiff/ data-title=Bsdiff><i class="fab fa-twitter fa-fw"></i></a><a href=# onclick=return!1 title="分享到 Facebook" data-sharer=facebook data-url=https://mengdemao.github.io/bsdiff/><i class="fab fa-facebook-square fa-fw"></i></a><a href=# onclick=return!1 title="分享到 Hacker News" data-sharer=hackernews data-url=https://mengdemao.github.io/bsdiff/ data-title=Bsdiff><i class="fab fa-hacker-news fa-fw"></i></a><a href=# onclick=return!1 title="分享到 Line" data-sharer=line data-url=https://mengdemao.github.io/bsdiff/ data-title=Bsdiff><i data-svg-src=/lib/simple-icons/icons/line.min.svg></i></a><a href=# onclick=return!1 title="分享到 微博" data-sharer=weibo data-url=https://mengdemao.github.io/bsdiff/ data-title=Bsdiff data-image=featuredImage/10.jpg><i class="fab fa-weibo fa-fw"></i></a><a href=# onclick=return!1 title="分享到 Telegram" data-sharer=telegram data-url=https://mengdemao.github.io/bsdiff/ data-title=Bsdiff data-web><i class="fab fa-telegram-plane fa-fw"></i></a></span></div></div></div><div class=post-info-more><section class=post-tags></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/cxx_basic/ class=prev rel=prev title=C++基础笔记><i class="fas fa-angle-left fa-fw"></i>C++基础笔记</a>
+<a href=/arm/ class=next rel=next title=Arm笔记>Arm笔记<i class="fas fa-angle-right fa-fw"></i></a></div></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.105.0">Hugo</a> 强力驱动&nbsp;|&nbsp;托管在 <a title="Github Pages" href=https://docs.github.com/en/pages/ target=_blank rel="noopener noreffer">GitHub Pages</a> 上&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a></div><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2020 - 2022</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://github.com/mengdemao/github.io target=_blank rel="noopener noreferrer">mengdemao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div><div class=footer-line></div><div class=footer-line></div></div><script>"serviceWorker"in navigator&&(navigator.serviceWorker.register("/sw.min.js",{scope:"/"}).then(function(){}),navigator.serviceWorker.ready.then(function(){}))</script></footer></div><div id=fixed-buttons><a href=#back-to-top id=back-to-top-button class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw"></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw"></i></a></div><div class=assets><script type=text/javascript src=/lib/autocomplete/autocomplete.min.0dcc8ee301dccbd9fb18115a1176e1293ca233b99aee5f5d12f218463c34eccea29f842827fc1ce330cf26e1e21b1382725ad3d0703cbde9f7e28552bcd92c07.js integrity="sha512-DcyO4wHcy9n7GBFaEXbhKTyiM7ma7l9dEvIYRjw07M6in4QoJ/wc4zDPJuHiGxOCclrT0HA8ven34oVSvNksBw=="></script><script type=text/javascript src=/lib/fuse/fuse.min.3dd1499ec34f39e57a4363bb184754a5023e0f9c47115d67dbec47058d78fb562f0c929c84d44a0a1ca7f84ed73b907e40fa84995338a66677721853139fb70f.js integrity="sha512-PdFJnsNPOeV6Q2O7GEdUpQI+D5xHEV1n2+xHBY14+1YvDJKchNRKChyn+E7XO5B+QPqEmVM4pmZ3chhTE5+3Dw=="></script><script type=text/javascript src=/lib/lazysizes/lazysizes.min.ab9f37a692ab09173b3793b49f69f352227eb2e52fec4b752467a5b386d739a30541c6a63e4f478dd5249d9bae16304db3bb6c32e69d81ee64f51cdd98efb519.js integrity="sha512-q583ppKrCRc7N5O0n2nzUiJ+suUv7Et1JGels4bXOaMFQcamPk9HjdUknZuuFjBNs7tsMuadge5k9RzdmO+1GQ=="></script><script type=text/javascript src=/lib/tablesort/tablesort.min.23640461c9e6941882f50f4208436e1932c806bcc32323a34ff378781204951e05534a0bbc3c1e401d111aa22a26ecc5d4f2cfb43af59d94da8a24f2b8ef8506.js integrity="sha512-I2QEYcnmlBiC9Q9CCENuGTLIBrzDIyOjT/N4eBIElR4FU0oLvDweQB0RGqIqJuzF1PLPtDr1nZTaiiTyuO+FBg=="></script><script type=text/javascript src=/lib/topbar/topbar.min.db5613fde0d014e29123106077225a764bdb4bdf791c2d252c1db5c09f19ea0bd181d29e10a1c03fddc6b0666d83ed17645ee84c31fb405fc7c0b8b38fd95eb0.js integrity="sha512-21YT/eDQFOKRIxBgdyJadkvbS995HC0lLB21wJ8Z6gvRgdKeEKHAP93GsGZtg+0XZF7oTDH7QF/HwLizj9lesA=="></script><script type=text/javascript src=/lib/pjax/pjax.min.8f92ba6fd6079d25aa09e1be3b1e3568438eba0fa53a093eb559684245a9c227d65e346122eb048ee9439ac9af9ce653c1ed88f20305c6121e946035c42705b0.js integrity="sha512-j5K6b9YHnSWqCeG+Ox41aEOOug+lOgk+tVloQkWpwifWXjRhIusEjulDmsmvnOZTwe2I8gMFxhIelGA1xCcFsA=="></script><script type=text/javascript src=/js/theme.min.js defer></script></div><div class=pjax-assets><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:100},comment:{},data:{"desktop-header-typeit":"编程日志","id-1":`graph LR
+bsdiff --\u003e bsdiff_internal`,"id-2":`graph LR
+
+bsdiff --\u003e bsdiff_internal
+
+bsdiff_internal --\u003e offout
+bsdiff_internal --\u003e qsufsort
+bsdiff_internal --\u003e search
+bsdiff_internal --\u003e writedata
+
+qsufsort --\u003e split
+search --\u003e matchlen`,"id-3":`graph LR
+
+search --\u003e matchlen
+search --\u003e search`,"id-4":`graph LR
+qsufsort --\u003e split
+split --\u003e split`,"mobile-header-typeit":"编程日志"},lightGallery:{actualSize:!1,exThumbImage:"data-thumbnail",hideBarsDelay:2e3,selector:".lightgallery",speed:400,thumbContHeight:80,thumbWidth:80,thumbnail:!0},math:{delimiters:[{display:!0,left:"$$",right:"$$"},{display:!0,left:"\\[",right:"\\]"},{display:!1,left:"$",right:"$"},{display:!1,left:"\\(",right:"\\)"}],strict:!1},mermaid:!0,search:{distance:100,findAllMatches:!1,fuseIndexURL:"/index.json",highlightTag:"em",ignoreFieldNorm:!1,ignoreLocation:!0,isCaseSensitive:!1,location:0,maxResultLength:10,minMatchCharLength:2,noResultsFound:"没有找到结果",snippetLength:50,threshold:.1,type:"fuse",useExtendedSearch:!1},sharerjs:!0,table:{sort:!0},twemoji:!0,typeit:{cursorChar:"|",cursorSpeed:1e3,data:{"desktop-header-typeit":["desktop-header-typeit"],"mobile-header-typeit":["mobile-header-typeit"]},duration:-1,speed:100}}</script><script type=text/javascript src=/lib/twemoji/twemoji.min.6c24276208463913359c7a512e70acd942789811a0c7557daacb6770d2d0e2f7a31f04c7461f9bf02e13eae0e3b77ee1c5be0bbdbabaefcc99ff324627fa43a9.js integrity="sha512-bCQnYghGORM1nHpRLnCs2UJ4mBGgx1V9qstncNLQ4vejHwTHRh+b8C4T6uDjt37hxb4Lvbq678yZ/zJGJ/pDqQ==" defer></script><script type=text/javascript src=/js/twemoji.min.js defer></script><script type=text/javascript src=/lib/lightgallery/lightgallery.min.8fd5f6e14a601e69308a4eff21d4aa21cc9ffcdf5dc0eb7fa1de387edf652539710e2d27577ba1820a74a48912c8ee0cc6a6c406ea22f6b5da49fedf04c9c509.js integrity="sha512-j9X24UpgHmkwik7/IdSqIcyf/N9dwOt/od44ft9lJTlxDi0nV3uhggp0pIkSyO4MxqbEBuoi9rXaSf7fBMnFCQ=="></script><script type=text/javascript src=/lib/lightgallery/lg-thumbnail.min.f6a93c2d6d1e1bea27fc3a077de18e64f4e5e36ae35edef047efb9e23a922cc5afeec7aa06baca0dd611ffe183ab59f4f9e3609b71de735932eb38bf4765b6ad.js integrity="sha512-9qk8LW0eG+on/DoHfeGOZPTl42rjXt7wR++54jqSLMWv7seqBrrKDdYR/+GDq1n0+eNgm3Hec1ky6zi/R2W2rQ=="></script><script type=text/javascript src=/lib/lightgallery/lg-zoom.min.4947f9add389ede26f0e96a5fb76d0b517e7515762a3b9ab7486468359c4d9e35863685b060bdeabb8f81cc4bf6f062a9934af9f45ffc61a3a716009fed20b82.js integrity="sha512-SUf5rdOJ7eJvDpal+3bQtRfnUVdio7mrdIZGg1nE2eNYY2hbBgveq7j4HMS/bwYqmTSvn0X/xho6cWAJ/tILgg=="></script><script type=text/javascript src=/lib/clipboard/clipboard.min.b08a94127467df50609e03e61edd897a7ce57830ec5f060efa2caf438e8cc3a44bfae7405198f69ffbbf3c663cd0dc51c729ceed1f71206c792c4cf0e0835625.js integrity="sha512-sIqUEnRn31BgngPmHt2JenzleDDsXwYO+iyvQ46Mw6RL+udAUZj2n/u/PGY80NxRxynO7R9xIGx5LEzw4INWJQ=="></script><script type=text/javascript src=/lib/sharer/sharer.min.cab91d53e60c836a90e16a5091059006925296eeed2c665fc744b7e7755ec3ab5c4e58e3c83899af70d8f690e004c2ca62062e11b0c7efdced87f80d074cfa3e.js integrity="sha512-yrkdU+YMg2qQ4WpQkQWQBpJSlu7tLGZfx0S353Vew6tcTljjyDiZr3DY9pDgBMLKYgYuEbDH79zth/gNB0z6Pg=="></script><script type=text/javascript src=/lib/typeit/typeit.min.f27efa857ac46448d67802135c65454dfc450176698f8fb06912d192dada782d98abfd8fbaf9ad33a15fb7971ed227e86d2082b88c2319260c237f147c9a624b.js integrity="sha512-8n76hXrEZEjWeAITXGVFTfxFAXZpj4+waRLRktraeC2Yq/2PuvmtM6Fft5ce0ifobSCCuIwjGSYMI38UfJpiSw=="></script><script type=text/javascript src=/lib/katex/katex.min.6fd20a8f82c236bb423c185c79172860e1d65bf4b6abd7e997b880265cb1629ca4463d5228cec513df84d0d12727c83c9e2e3b2c1af61ae5fdab383fc5ebb0cd.js integrity="sha512-b9IKj4LCNrtCPBhceRcoYOHWW/S2q9fpl7iAJlyxYpykRj1SKM7FE9+E0NEnJ8g8ni47LBr2GuX9qzg/xeuwzQ==" defer></script><script type=text/javascript src=/lib/katex/auto-render.min.8968ae052e67b7aafad1f0b3dba35dd19a9ed276e4d594c841b9772afee462c5fec8a314147ce3687dbe02733abe9d97b3e80d99a0405562634a6b8fc3be847e.js integrity="sha512-iWiuBS5nt6r60fCz26Nd0Zqe0nbk1ZTIQbl3Kv7kYsX+yKMUFHzjaH2+AnM6vp2Xs+gNmaBAVWJjSmuPw76Efg==" defer></script><script type=text/javascript src=/lib/katex/copy-tex.min.710c5291333846f1408dd05e04392b9658587c44706568ccfe88a329f3ec9a1474248d94ddf5d295b51a269e52960061fc5cd898cc96b9d4535cb9cd8f731b10.js integrity="sha512-cQxSkTM4RvFAjdBeBDkrllhYfERwZWjM/oijKfPsmhR0JI2U3fXSlbUaJp5SlgBh/FzYmMyWudRTXLnNj3MbEA==" defer></script><script type=text/javascript src=/lib/katex/mhchem.min.575865d1f9ce5d6e8276a7b9655aadc3c4c1a49569bb75d10d142d8bdea3ff4e3eb4c6ab3eb09d5c4504dd475fbdf2984e93a7f43578cc464156bd078438ae89.js integrity="sha512-V1hl0fnOXW6Cdqe5ZVqtw8TBpJVpu3XRDRQti96j/04+tMarPrCdXEUE3UdfvfKYTpOn9DV4zEZBVr0HhDiuiQ==" defer></script><script type=text/javascript src=/js/katex.min.js defer></script><script type=text/javascript src=/lib/mermaid/mermaid.min.d72a5af6d754ac9016bf9836f0c6f9c74cd7694b88e120687ca7dff3c386ca4e43fe839de31d483f1607b31dcaf356f004ab7c35552f1a0c3b4e0359e8f257d8.js integrity="sha512-1ypa9tdUrJAWv5g28Mb5x0zXaUuI4SBofKff88OGyk5D/oOd4x1IPxYHsx3K81bwBKt8NVUvGgw7TgNZ6PJX2A==" defer></script><script type=text/javascript src=/js/mermaid.min.js defer></script><link rel=stylesheet href=/lib/lightgallery/lightgallery.min.93025484925a4c3cc6a7a5533c16cc4160455287fafa9bf448cdecf1fa3e13a5e73e6566b5fc0434ad2f1d8ba9dedb189ea1e0443a010d3256a2aeeb9d0c36fa.css integrity="sha512-kwJUhJJaTDzGp6VTPBbMQWBFUof6+pv0SM3s8fo+E6XnPmVmtfwENK0vHYup3tsYnqHgRDoBDTJWoq7rnQw2+g=="><link rel=stylesheet href=/lib/katex/katex.min.e95315732ed740dc9aae156e88be74173a600852acc9377a60ef7769a404c844fe04d696be3d0880a47ce817faf80996733c407129cbf891a3a3e892b603b581.css integrity="sha512-6VMVcy7XQNyarhVuiL50FzpgCFKsyTd6YO93aaQEyET+BNaWvj0IgKR86Bf6+AmWczxAcSnL+JGjo+iStgO1gQ=="><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/katex/copy-tex.min.b0251fdfe529f8aa1c9a24473a32d4adf4d2e298acdba05fc37a93816e299615aa9026959eafcf37ae05beefc5345cf7039acd8238c9cfe76a00529b0eba5f57.css integrity="sha512-sCUf3+Up+KocmiRHOjLUrfTS4pis26Bfw3qTgW4plhWqkCaVnq/PN64Fvu/FNFz3A5rNgjjJz+dqAFKbDrpfVw=="><noscript><link rel=stylesheet href=/lib/katex/copy-tex.min.b0251fdfe529f8aa1c9a24473a32d4adf4d2e298acdba05fc37a93816e299615aa9026959eafcf37ae05beefc5345cf7039acd8238c9cfe76a00529b0eba5f57.css integrity="sha512-sCUf3+Up+KocmiRHOjLUrfTS4pis26Bfw3qTgW4plhWqkCaVnq/PN64Fvu/FNFz3A5rNgjjJz+dqAFKbDrpfVw=="></noscript><link rel=stylesheet href=/lib/mermaid/mermaid.min.8135ae40b81f211c8b9c10760d6a27449401953709c2ec4252f1540790ca68c6db6b8947357e8d5f75943c8d385006493229f17d7eee095ab4256b7ec4ac70e4.css integrity="sha512-gTWuQLgfIRyLnBB2DWonRJQBlTcJwuxCUvFUB5DKaMbba4lHNX6NX3WUPI04UAZJMinxfX7uCVq0JWt+xKxw5A=="></div></body></html>
