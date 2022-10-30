@@ -1,0 +1,1210 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title class=pjax-title>FreeRTOS - 编程日志</title><meta name=Description content="RTOS"><meta property="og:title" content="FreeRTOS"><meta property="og:description" content="RTOS"><meta property="og:type" content="article"><meta property="og:url" content="https://mengdemao.github.io/freertos/"><meta property="og:image" content="https://mengdemao.github.io/images/avatar.webp"><meta property="article:section" content="posts"><meta property="article:published_time" content="2022-10-30T14:23:11+08:00"><meta property="article:modified_time" content="2022-10-30T20:27:59+08:00"><meta property="og:site_name" content="编程日志"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://mengdemao.github.io/images/avatar.webp"><meta name=twitter:title content="FreeRTOS"><meta name=twitter:description content="RTOS"><meta name=application-name content="面向玄学编程"><meta name=apple-mobile-web-app-title content="面向玄学编程"><meta name=theme-color content="#f8f8f8"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://mengdemao.github.io/freertos/><link rel=prev href=https://mengdemao.github.io/arm/><link rel=stylesheet href=/lib/normalize/normalize.min.8235a67a2521ef99fb1e455a5891b022af1653b4ede3cfffcac4e473beee88fbcc1a36bbb3cfdd75fd6df46732032f9d96e30adae9c88b769e1fbf7945cd27e0.css integrity="sha512-gjWmeiUh75n7HkVaWJGwIq8WU7Tt48//ysTkc77uiPvMGja7s8/ddf1t9GcyAy+dluMK2unIi3aeH795Rc0n4A=="><link rel=stylesheet href=/css/style.min.88728363266acb9b1d96691c97137b605cbf430aaac4102c4aae57c0aeee3afd5718bb04a12bc03c3aa5c3b89f69c3327db0de163ecc0a305dda8a1539a3f670.css integrity="sha512-iHKDYyZqy5sdlmkclxN7YFy/QwqqxBAsSq5XwK7uOv1XGLsEoSvAPDqlw7ifacMyfbDeFj7MCjBd2ooVOaP2cA=="><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/fontawesome-free/all.min.eb8387c9eb0ab6d4fa4d7ad397d15df13b92c009a1eb221b757dd1ecfccabc78a4c5b681847a7f4198ff7cd60abed8300508c9dea138cd1f4a85f09f09b2092a.css integrity="sha512-64OHyesKttT6TXrTl9Fd8TuSwAmh6yIbdX3R7PzKvHikxbaBhHp/QZj/fNYKvtgwBQjJ3qE4zR9KhfCfCbIJKg=="><noscript><link rel=stylesheet href=/lib/fontawesome-free/all.min.eb8387c9eb0ab6d4fa4d7ad397d15df13b92c009a1eb221b757dd1ecfccabc78a4c5b681847a7f4198ff7cd60abed8300508c9dea138cd1f4a85f09f09b2092a.css integrity="sha512-64OHyesKttT6TXrTl9Fd8TuSwAmh6yIbdX3R7PzKvHikxbaBhHp/QZj/fNYKvtgwBQjJ3qE4zR9KhfCfCbIJKg=="></noscript><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/animate/animate.min.738daa4d2c3fc0f677ff92c1cc3f81c397fb6d2176a31a2eeb011bf88fe5a9e68a57914321f32fbd1a7bef6cb88dc24b2ae1943a96c931d83f053979d1f25803.css integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw=="><noscript><link rel=stylesheet href=/lib/animate/animate.min.738daa4d2c3fc0f677ff92c1cc3f81c397fb6d2176a31a2eeb011bf88fe5a9e68a57914321f32fbd1a7bef6cb88dc24b2ae1943a96c931d83f053979d1f25803.css integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw=="></noscript><meta name=google-site-verification content="MQ8DNu27ayX6B_4ObiEDK09vGr1fdy7kOAnbd09hJk4"><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"FreeRTOS","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/mengdemao.github.io\/freertos\/"},"image":["https:\/\/mengdemao.github.io\/images\/Apple-Devices-Preview.png"],"genre":"posts","keywords":"RTOS","wordcount":3810,"url":"https:\/\/mengdemao.github.io\/freertos\/","datePublished":"2022-10-30T14:23:11+08:00","dateModified":"2022-10-30T20:27:59+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"mengdemao","logo":{"@type":"ImageObject","url":"https:\/\/mengdemao.github.io\/images\/avatar.webp","width":528,"height":560}},"author":{"@type":"Person","name":"mengdemao"},"description":"RTOS"}</script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>function setTheme(e){document.body.setAttribute("theme",e),document.documentElement.style.setProperty("color-scheme",e==="light"?"light":"dark")}function saveTheme(e){window.localStorage&&localStorage.setItem("theme",e)}function getMeta(e){const t=document.getElementsByTagName("meta");for(let n=0;n<t.length;n++)if(t[n].getAttribute("name")===e)return t[n];return""}if(window.localStorage&&localStorage.getItem("theme")){let e=localStorage.getItem("theme");e==="light"||e==="dark"||e==="black"?setTheme(e):setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}else"auto"==="light"||"auto"==="dark"||"auto"==="black"?(setTheme("auto"),saveTheme("auto")):(saveTheme("auto"),setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));let metaColors={light:"#f8f8f8",dark:"#252627",black:"#000000"};getMeta("theme-color").content=metaColors[document.body.getAttribute("theme")]</script><div id=back-to-top></div><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=header-title-pre><i class='far fa-edit fa-fw'></i></span><span id=desktop-header-typeit class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/ title=归档>归档 </a><a class=menu-item href=/tags/ title=标签>标签 </a><a class=menu-item href=/categories/ title=分类>分类 </a><a class=menu-item href=/series/ title=系列>系列 </a><a class=menu-item href=/about/ title=关于>关于 </a><a class=menu-item href=https://github.com/mengdemao/github.io title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github-alt fa-fw'></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=# onclick=return!1 class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw"></i></a>
+<a href=# onclick=return!1 class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw"></i></a>
+<span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin"></i></span>
+</span><a href=# onclick=return!1 class="menu-item theme-select" title=切换主题><i class="fas fa-adjust fa-fw"></i>
+<select class=color-theme-select id=theme-select-desktop title=切换主题><option value=light>浅色</option><option value=dark>深色</option><option value=black>黑色</option><option value=auto>跟随系统</option></select></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=header-title-pre><i class='far fa-edit fa-fw'></i></span><span id=mobile-header-typeit class=typeit></span></a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=# onclick=return!1 class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw"></i></a>
+<a href=# onclick=return!1 class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw"></i></a>
+<span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin"></i></span></div><a href=# onclick=return!1 class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts/ title=归档>归档</a><a class=menu-item href=/tags/ title=标签>标签</a><a class=menu-item href=/categories/ title=分类>分类</a><a class=menu-item href=/series/ title=系列>系列</a><a class=menu-item href=/about/ title=关于>关于</a><a class=menu-item href=https://github.com/mengdemao/github.io title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github-alt fa-fw'></i></a><a href=# onclick=return!1 class="menu-item theme-select" title=切换主题>
+<i class="fas fa-adjust fa-fw"></i>
+<select class=color-theme-select id=theme-select-mobile title=切换主题><option value=light>浅色</option><option value=dark>深色</option><option value=black>黑色</option><option value=auto>跟随系统</option></select></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto><nav id=TableOfContents><ul><li><a href=#基本概念>基本概念</a><ul><li><a href=#任务>任务</a></li><li><a href=#函数运行环境context>函数运行环境(context)</a></li><li><a href=#函数执行原理>函数执行原理</a></li><li><a href=#总结>总结</a></li></ul></li><li><a href=#任务-1>任务</a><ul><li><a href=#任务创建>任务创建</a><ul><li><a href=#分配tcb结构体>分配TCB结构体</a></li><li><a href=#初始化tcb成员变量>初始化TCB成员变量</a></li><li><a href=#加入就绪列表>加入就绪列表</a></li></ul></li><li><a href=#任务调度>任务调度</a><ul><li><a href=#调度器核心>调度器核心</a></li></ul></li><li><a href=#任务状态>任务状态</a></li></ul></li></ul></nav></div></div><script>document.getElementsByTagName("main")[0].setAttribute("pageStyle","wide")</script><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC","true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">FreeRTOS</h1><div class=post-meta><div class=post-meta-line><span class=post-author><i class="author fas fa-user-circle fa-fw"></i><a href=https://github.com/mengdemao/github.io title=Author target=_blank rel="noopener noreferrer author" class=author>mengdemao</a>
+</span>&nbsp;<span class=post-category>收录于 </span>&nbsp;<span class=post-category>类别 <a href=/categories/rtos/><i class="far fa-folder fa-fw"></i>RTOS</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2022-10-30>2022-10-30</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime=2022-10-30>2022-10-30</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3810 字&nbsp;
+<i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 8 分钟&nbsp;</div></div><div class=featured-image><img class=lazyload data-src=featuredImage/04.jpg data-srcset="/featuredImage/04.jpg, featuredImage/04.jpg 1.5x, /featuredImage/04.jpg 2x" data-sizes=auto alt=/featuredImage/04.jpg title=RTOS height=auto width=auto></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#基本概念>基本概念</a><ul><li><a href=#任务>任务</a></li><li><a href=#函数运行环境context>函数运行环境(context)</a></li><li><a href=#函数执行原理>函数执行原理</a></li><li><a href=#总结>总结</a></li></ul></li><li><a href=#任务-1>任务</a><ul><li><a href=#任务创建>任务创建</a><ul><li><a href=#分配tcb结构体>分配TCB结构体</a></li><li><a href=#初始化tcb成员变量>初始化TCB成员变量</a></li><li><a href=#加入就绪列表>加入就绪列表</a></li></ul></li><li><a href=#任务调度>任务调度</a><ul><li><a href=#调度器核心>调度器核心</a></li></ul></li><li><a href=#任务状态>任务状态</a></li></ul></li></ul></nav></div></div><div class=content id=content><h2 id=基本概念 class=headerLink><a href=#%e5%9f%ba%e6%9c%ac%e6%a6%82%e5%bf%b5 class=header-mark></a>1 基本概念</h2><h3 id=任务 class=headerLink><a href=#%e4%bb%bb%e5%8a%a1 class=header-mark></a>1.1 任务</h3><blockquote><p>一个死循环的函数运行(在RTOS中)</p></blockquote><h3 id=函数运行环境context class=headerLink><a href=#%e5%87%bd%e6%95%b0%e8%bf%90%e8%a1%8c%e7%8e%af%e5%a2%83context class=header-mark></a>1.2 函数运行环境(context)</h3><ul><li>寄存器</li><li>堆栈信息</li></ul><h3 id=函数执行原理 class=headerLink><a href=#%e5%87%bd%e6%95%b0%e6%89%a7%e8%a1%8c%e5%8e%9f%e7%90%86 class=header-mark></a>1.3 函数执行原理</h3><ul><li>pc/lr</li><li>push/pop</li></ul><p>下面写一个简单的函数,测试一下
+函数是如何尽心调用的;</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>int</span> <span class=nf>test</span><span class=p>(</span><span class=kt>int</span> <span class=n>a</span><span class=p>,</span> <span class=kt>int</span> <span class=n>b</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>test</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>main &ndash;> test</p><p>下面是程序编译后得到的汇编源码</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-asm data-lang=asm><span class=line><span class=cl><span class=nl>test:</span>
+</span></span><span class=line><span class=cl>    <span class=nf>push</span>    <span class=err>{</span><span class=no>r7</span><span class=err>}</span>                <span class=err>@</span> <span class=no>r7</span> <span class=p>--</span><span class=err>&gt;</span> <span class=no>stack</span>
+</span></span><span class=line><span class=cl>    <span class=nf>sub</span>     <span class=no>sp</span><span class=p>,</span> <span class=no>sp</span><span class=p>,</span> <span class=c1>#12         @ sp = sp + 12  // 三个局部变量
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nf>add</span>     <span class=no>r7</span><span class=p>,</span> <span class=no>sp</span><span class=p>,</span> <span class=c1>#0          @ r7 = sp
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nf>str</span>     <span class=no>r0</span><span class=p>,</span> <span class=p>[</span><span class=no>r7</span><span class=p>,</span> <span class=c1>#4]        @ 保存第一个变量
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nf>str</span>     <span class=no>r1</span><span class=p>,</span> <span class=p>[</span><span class=no>r7</span><span class=p>]</span>            <span class=err>@</span> <span class=err>保存第二个变量</span>
+</span></span><span class=line><span class=cl>    <span class=nf>movs</span>    <span class=no>r3</span><span class=p>,</span> <span class=c1>#0              @ r3 = 0
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nf>mov</span>     <span class=no>r0</span><span class=p>,</span> <span class=no>r3</span>              <span class=err>@</span> <span class=no>r0</span> <span class=err>=</span> <span class=no>r3</span>
+</span></span><span class=line><span class=cl>    <span class=nf>adds</span>    <span class=no>r7</span><span class=p>,</span> <span class=no>r7</span><span class=p>,</span> <span class=c1>#12         @ r7 = r7 + 12
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nf>mov</span>     <span class=no>sp</span><span class=p>,</span> <span class=no>r7</span>              <span class=err>@</span> <span class=no>sp</span> <span class=err>=</span> <span class=no>r7</span> <span class=p>(</span><span class=err>销毁堆栈</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nf>ldr</span>     <span class=no>r7</span><span class=p>,</span> <span class=p>[</span><span class=no>sp</span><span class=p>],</span> <span class=c1>#4        @ 恢复r7
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nf>bx</span>      <span class=no>lr</span>                  <span class=err>@</span> <span class=err>执行返回</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nl>main:</span>
+</span></span><span class=line><span class=cl>    <span class=nf>push</span>    <span class=err>{</span><span class=no>r7</span><span class=p>,</span> <span class=no>lr</span><span class=err>}</span>    <span class=err>@</span> <span class=err>保存</span><span class=no>r7</span><span class=p>,</span> <span class=no>lr</span>
+</span></span><span class=line><span class=cl>    <span class=nf>add</span>     <span class=no>r7</span><span class=p>,</span> <span class=no>sp</span><span class=p>,</span> <span class=c1>#0  @ r7 = sp
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nf>movs</span>    <span class=no>r1</span><span class=p>,</span> <span class=c1>#2      @ r1 = 2
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nf>movs</span>    <span class=no>r0</span><span class=p>,</span> <span class=c1>#1      @ r0 = 1
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nf>bl</span>      <span class=no>test</span>        <span class=err>@</span> <span class=no>call</span> <span class=no>test</span>
+</span></span><span class=line><span class=cl>    <span class=nf>nop</span>                 <span class=err>@</span> <span class=no>nop</span>
+</span></span><span class=line><span class=cl>    <span class=nf>pop</span>     <span class=err>{</span><span class=no>r7</span><span class=p>,</span> <span class=no>pc</span><span class=err>}</span>    <span class=err>@</span> <span class=no>lr_r</span> <span class=err>=</span> <span class=no>pc_v</span>
+</span></span><span class=line><span class=cl>                        <span class=err>@</span> <span class=nf>r7_r</span> <span class=err>=</span> <span class=no>r7_v</span>
+</span></span></code></pre></td></tr></table></div></div><p>详细分析可以看下面的实现</p><iframe width=1000px height=600px src="https://gcc.godbolt.org/e#g:!((g:!((g:!((h:codeEditor,i:(filename:'1',fontScale:14,fontUsePx:'0',j:1,lang:___c,selection:(endColumn:2,endLineNumber:9,positionColumn:1,positionLineNumber:1,selectionStartColumn:2,selectionStartLineNumber:9,startColumn:1,startLineNumber:1),source:'int+test(int+a,+int+b)%0A%7B%0A++++return+0%3B%0A%7D%0A%0Avoid+main(void)%0A%7B%0A++++test(1,+2)%3B%0A%7D'),l:'5',n:'0',o:'C+source+%231',t:'0')),k:50,l:'4',n:'0',o:'',s:0,t:'0'),(g:!((h:compiler,i:(compiler:carmgtrunk,deviceViewOpen:'1',filters:(b:'0',binary:'1',commentOnly:'0',demangle:'0',directives:'0',execute:'1',intel:'0',libraryCode:'0',trim:'1'),flagsViewOpen:'1',fontScale:14,fontUsePx:'0',j:1,lang:___c,libs:!(),options:'',selection:(endColumn:27,endLineNumber:4,positionColumn:27,positionLineNumber:4,selectionStartColumn:27,selectionStartLineNumber:4,startColumn:27,startLineNumber:4),source:1),l:'5',n:'0',o:'+ARM+gcc+trunk+(linux)+(Editor+%231)',t:'0')),k:50,l:'4',n:'0',o:'',s:0,t:'0')),l:'2',n:'0',o:'',t:'0')),version:4"></iframe><h3 id=总结 class=headerLink><a href=#%e6%80%bb%e7%bb%93 class=header-mark></a>1.4 总结</h3><p>那么,多任务就可以任务是从一个函数切换到另外一个函数;</br>但是此种切换对于任务来说是不可见的;</p><ul><li>任务切换需要特权(定时器中断)</li><li>任务切换需要时停(开关中断)</li></ul><h2 id=任务-1 class=headerLink><a href=#%e4%bb%bb%e5%8a%a1-1 class=header-mark></a>2 任务</h2><h3 id=任务创建 class=headerLink><a href=#%e4%bb%bb%e5%8a%a1%e5%88%9b%e5%bb%ba class=header-mark></a>2.1 任务创建</h3><ul><li>分配TCB_t结构体</li><li>初始化参数(prvInitialiseNewTask)</li><li>添加到就绪列表(prvAddNewTaskToReadyList)</li></ul><h4 id=分配tcb结构体 class=headerLink><a href=#%e5%88%86%e9%85%8dtcb%e7%bb%93%e6%9e%84%e4%bd%93 class=header-mark></a>2.1.1 分配TCB结构体</h4><ol><li>申请TCB内存</li><li>申请栈内存</li></ol><p>TCB结构体类型</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span><span class=lnt>74
+</span><span class=lnt>75
+</span><span class=lnt>76
+</span><span class=lnt>77
+</span><span class=lnt>78
+</span><span class=lnt>79
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>typedef</span> <span class=n>tskTCB</span> <span class=n>TCB_t</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>typedef</span> <span class=k>struct</span> <span class=n>tskTaskControlBlock</span>       <span class=cm>/* The old naming convention is used to prevent breaking kernel aware debuggers. */</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>volatile</span> <span class=n>StackType_t</span> <span class=o>*</span> <span class=n>pxTopOfStack</span><span class=p>;</span> <span class=cm>/*&lt; Points to the location of the last item placed on the tasks stack.  THIS MUST BE THE FIRST MEMBER OF THE TCB STRUCT. */</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cp>#if ( portUSING_MPU_WRAPPERS == 1 )
+</span></span></span><span class=line><span class=cl><span class=cp></span>        <span class=n>xMPU_SETTINGS</span> <span class=n>xMPUSettings</span><span class=p>;</span> <span class=cm>/*&lt; The MPU settings are defined as part of the port layer.  THIS MUST BE THE SECOND MEMBER OF THE TCB STRUCT. */</span>
+</span></span><span class=line><span class=cl>    <span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl>    <span class=n>ListItem_t</span> <span class=n>xStateListItem</span><span class=p>;</span>                  <span class=cm>/*&lt; The list that the state list item of a task is reference from denotes the state of that task (Ready, Blocked, Suspended ). */</span>
+</span></span><span class=line><span class=cl>    <span class=n>ListItem_t</span> <span class=n>xEventListItem</span><span class=p>;</span>                  <span class=cm>/*&lt; Used to reference a task from an event list. */</span>
+</span></span><span class=line><span class=cl>    <span class=n>UBaseType_t</span> <span class=n>uxPriority</span><span class=p>;</span>                     <span class=cm>/*&lt; The priority of the task.  0 is the lowest priority. */</span>
+</span></span><span class=line><span class=cl>    <span class=n>StackType_t</span> <span class=o>*</span> <span class=n>pxStack</span><span class=p>;</span>                      <span class=cm>/*&lt; Points to the start of the stack. */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>char</span> <span class=n>pcTaskName</span><span class=p>[</span> <span class=n>configMAX_TASK_NAME_LEN</span> <span class=p>];</span> <span class=cm>/*&lt; Descriptive name given to the task when created.  Facilitates debugging only. */</span> <span class=cm>/*lint !e971 Unqualified char types are allowed for strings and single characters only. */</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cp>#if ( ( portSTACK_GROWTH &gt; 0 ) || ( configRECORD_STACK_HIGH_ADDRESS == 1 ) )
+</span></span></span><span class=line><span class=cl><span class=cp></span>        <span class=n>StackType_t</span> <span class=o>*</span> <span class=n>pxEndOfStack</span><span class=p>;</span> <span class=cm>/*&lt; Points to the highest valid address for the stack. */</span>
+</span></span><span class=line><span class=cl>    <span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl>    <span class=cp>#if ( portCRITICAL_NESTING_IN_TCB == 1 )
+</span></span></span><span class=line><span class=cl><span class=cp></span>        <span class=n>UBaseType_t</span> <span class=n>uxCriticalNesting</span><span class=p>;</span> <span class=cm>/*&lt; Holds the critical section nesting depth for ports that do not maintain their own count in the port layer. */</span>
+</span></span><span class=line><span class=cl>    <span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl>    <span class=cp>#if ( configUSE_TRACE_FACILITY == 1 )
+</span></span></span><span class=line><span class=cl><span class=cp></span>        <span class=n>UBaseType_t</span> <span class=n>uxTCBNumber</span><span class=p>;</span>  <span class=cm>/*&lt; Stores a number that increments each time a TCB is created.  It allows debuggers to determine when a task has been deleted and then recreated. */</span>
+</span></span><span class=line><span class=cl>        <span class=n>UBaseType_t</span> <span class=n>uxTaskNumber</span><span class=p>;</span> <span class=cm>/*&lt; Stores a number specifically for use by third party trace code. */</span>
+</span></span><span class=line><span class=cl>    <span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl>    <span class=cp>#if ( configUSE_MUTEXES == 1 )
+</span></span></span><span class=line><span class=cl><span class=cp></span>        <span class=n>UBaseType_t</span> <span class=n>uxBasePriority</span><span class=p>;</span> <span class=cm>/*&lt; The priority last assigned to the task - used by the priority inheritance mechanism. */</span>
+</span></span><span class=line><span class=cl>        <span class=n>UBaseType_t</span> <span class=n>uxMutexesHeld</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl>    <span class=cp>#if ( configUSE_APPLICATION_TASK_TAG == 1 )
+</span></span></span><span class=line><span class=cl><span class=cp></span>        <span class=n>TaskHookFunction_t</span> <span class=n>pxTaskTag</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl>    <span class=cp>#if ( configNUM_THREAD_LOCAL_STORAGE_POINTERS &gt; 0 )
+</span></span></span><span class=line><span class=cl><span class=cp></span>        <span class=kt>void</span> <span class=o>*</span> <span class=n>pvThreadLocalStoragePointers</span><span class=p>[</span> <span class=n>configNUM_THREAD_LOCAL_STORAGE_POINTERS</span> <span class=p>];</span>
+</span></span><span class=line><span class=cl>    <span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl>    <span class=cp>#if ( configGENERATE_RUN_TIME_STATS == 1 )
+</span></span></span><span class=line><span class=cl><span class=cp></span>        <span class=n>configRUN_TIME_COUNTER_TYPE</span> <span class=n>ulRunTimeCounter</span><span class=p>;</span> <span class=cm>/*&lt; Stores the amount of time the task has spent in the Running state. */</span>
+</span></span><span class=line><span class=cl>    <span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl>    <span class=cp>#if ( configUSE_NEWLIB_REENTRANT == 1 )
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl>        <span class=cm>/* Allocate a Newlib reent structure that is specific to this task.
+</span></span></span><span class=line><span class=cl><span class=cm>         * Note Newlib support has been included by popular demand, but is not
+</span></span></span><span class=line><span class=cl><span class=cm>         * used by the FreeRTOS maintainers themselves.  FreeRTOS is not
+</span></span></span><span class=line><span class=cl><span class=cm>         * responsible for resulting newlib operation.  User must be familiar with
+</span></span></span><span class=line><span class=cl><span class=cm>         * newlib and must provide system-wide implementations of the necessary
+</span></span></span><span class=line><span class=cl><span class=cm>         * stubs. Be warned that (at the time of writing) the current newlib design
+</span></span></span><span class=line><span class=cl><span class=cm>         * implements a system-wide malloc() that must be provided with locks.
+</span></span></span><span class=line><span class=cl><span class=cm>         *
+</span></span></span><span class=line><span class=cl><span class=cm>         * See the third party link http://www.nadler.com/embedded/newlibAndFreeRTOS.html
+</span></span></span><span class=line><span class=cl><span class=cm>         * for additional information. */</span>
+</span></span><span class=line><span class=cl>        <span class=k>struct</span>  <span class=n>_reent</span> <span class=n>xNewLib_reent</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl>    <span class=cp>#if ( configUSE_TASK_NOTIFICATIONS == 1 )
+</span></span></span><span class=line><span class=cl><span class=cp></span>        <span class=k>volatile</span> <span class=kt>uint32_t</span> <span class=n>ulNotifiedValue</span><span class=p>[</span> <span class=n>configTASK_NOTIFICATION_ARRAY_ENTRIES</span> <span class=p>];</span>
+</span></span><span class=line><span class=cl>        <span class=k>volatile</span> <span class=kt>uint8_t</span> <span class=n>ucNotifyState</span><span class=p>[</span> <span class=n>configTASK_NOTIFICATION_ARRAY_ENTRIES</span> <span class=p>];</span>
+</span></span><span class=line><span class=cl>    <span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl>    <span class=cm>/* See the comments in FreeRTOS.h with the definition of
+</span></span></span><span class=line><span class=cl><span class=cm>     * tskSTATIC_AND_DYNAMIC_ALLOCATION_POSSIBLE. */</span>
+</span></span><span class=line><span class=cl>    <span class=cp>#if ( tskSTATIC_AND_DYNAMIC_ALLOCATION_POSSIBLE != 0 ) </span><span class=cm>/*lint !e731 !e9029 Macro has been consolidated for readability reasons. */</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>        <span class=kt>uint8_t</span> <span class=n>ucStaticallyAllocated</span><span class=p>;</span>                     <span class=cm>/*&lt; Set to pdTRUE if the task is a statically allocated to ensure no attempt is made to free the memory. */</span>
+</span></span><span class=line><span class=cl>    <span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl>    <span class=cp>#if ( INCLUDE_xTaskAbortDelay == 1 )
+</span></span></span><span class=line><span class=cl><span class=cp></span>        <span class=kt>uint8_t</span> <span class=n>ucDelayAborted</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl>    <span class=cp>#if ( configUSE_POSIX_ERRNO == 1 )
+</span></span></span><span class=line><span class=cl><span class=cp></span>        <span class=kt>int</span> <span class=n>iTaskErrno</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span><span class=p>}</span> <span class=n>tskTCB</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><p>实现的地方</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=n>StackType_t</span> <span class=o>*</span> <span class=n>pxStack</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=cm>/* Allocate space for the stack used by the task being created. */</span>
+</span></span><span class=line><span class=cl><span class=n>pxStack</span> <span class=o>=</span> <span class=n>pvPortMallocStack</span><span class=p>(</span> <span class=p>(</span> <span class=p>(</span> <span class=p>(</span> <span class=n>size_t</span> <span class=p>)</span> <span class=n>usStackDepth</span> <span class=p>)</span> <span class=o>*</span> <span class=k>sizeof</span><span class=p>(</span> <span class=n>StackType_t</span> <span class=p>)</span> <span class=p>)</span> <span class=p>);</span> <span class=cm>/*lint !e9079 All values returned by pvPortMalloc() have at least the alignment required by the MCU&#39;s stack and this allocation is the stack. */</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>if</span><span class=p>(</span> <span class=n>pxStack</span> <span class=o>!=</span> <span class=nb>NULL</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=cm>/* Allocate space for the TCB. */</span>
+</span></span><span class=line><span class=cl>    <span class=n>pxNewTCB</span> <span class=o>=</span> <span class=p>(</span> <span class=n>TCB_t</span> <span class=o>*</span> <span class=p>)</span> <span class=n>pvPortMalloc</span><span class=p>(</span> <span class=k>sizeof</span><span class=p>(</span> <span class=n>TCB_t</span> <span class=p>)</span> <span class=p>);</span> <span class=cm>/*lint !e9087 !e9079 All values returned by pvPortMalloc() have at least the alignment required by the MCU&#39;s stack, and the first member of TCB_t is always a pointer to the task&#39;s stack. */</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>if</span><span class=p>(</span> <span class=n>pxNewTCB</span> <span class=o>!=</span> <span class=nb>NULL</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>memset</span><span class=p>(</span> <span class=p>(</span> <span class=kt>void</span> <span class=o>*</span> <span class=p>)</span> <span class=n>pxNewTCB</span><span class=p>,</span> <span class=mh>0x00</span><span class=p>,</span> <span class=k>sizeof</span><span class=p>(</span> <span class=n>TCB_t</span> <span class=p>)</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=cm>/* Store the stack location in the TCB. */</span>
+</span></span><span class=line><span class=cl>        <span class=n>pxNewTCB</span><span class=o>-&gt;</span><span class=n>pxStack</span> <span class=o>=</span> <span class=n>pxStack</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=k>else</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=cm>/* The stack cannot be used as the TCB was not created.  Free
+</span></span></span><span class=line><span class=cl><span class=cm>          * it again. */</span>
+</span></span><span class=line><span class=cl>        <span class=n>vPortFreeStack</span><span class=p>(</span> <span class=n>pxStack</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=k>else</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>pxNewTCB</span> <span class=o>=</span> <span class=nb>NULL</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>实现还是较为简单的</p><h4 id=初始化tcb成员变量 class=headerLink><a href=#%e5%88%9d%e5%a7%8b%e5%8c%96tcb%e6%88%90%e5%91%98%e5%8f%98%e9%87%8f class=header-mark></a>2.1.2 初始化TCB成员变量</h4><blockquote><p>初始化一些成员数据</p></blockquote><h4 id=加入就绪列表 class=headerLink><a href=#%e5%8a%a0%e5%85%a5%e5%b0%b1%e7%bb%aa%e5%88%97%e8%a1%a8 class=header-mark></a>2.1.3 加入就绪列表</h4><p>prvAddNewTaskToReadyList&ndash;>prvAddTaskToReadyList</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span><span class=lnt>74
+</span><span class=lnt>75
+</span><span class=lnt>76
+</span><span class=lnt>77
+</span><span class=lnt>78
+</span><span class=lnt>79
+</span><span class=lnt>80
+</span><span class=lnt>81
+</span><span class=lnt>82
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>static</span> <span class=kt>void</span> <span class=nf>prvAddNewTaskToReadyList</span><span class=p>(</span> <span class=n>TCB_t</span> <span class=o>*</span> <span class=n>pxNewTCB</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=cm>/* Ensure interrupts don&#39;t access the task lists while the lists are being
+</span></span></span><span class=line><span class=cl><span class=cm>     * updated. */</span>
+</span></span><span class=line><span class=cl>    <span class=n>taskENTER_CRITICAL</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>uxCurrentNumberOfTasks</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>if</span><span class=p>(</span> <span class=n>pxCurrentTCB</span> <span class=o>==</span> <span class=nb>NULL</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=cm>/* There are no other tasks, or all the other tasks are in
+</span></span></span><span class=line><span class=cl><span class=cm>             * the suspended state - make this the current task. */</span>
+</span></span><span class=line><span class=cl>            <span class=n>pxCurrentTCB</span> <span class=o>=</span> <span class=n>pxNewTCB</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=k>if</span><span class=p>(</span> <span class=n>uxCurrentNumberOfTasks</span> <span class=o>==</span> <span class=p>(</span> <span class=n>UBaseType_t</span> <span class=p>)</span> <span class=mi>1</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=cm>/* This is the first task to be created so do the preliminary
+</span></span></span><span class=line><span class=cl><span class=cm>                 * initialisation required.  We will not recover if this call
+</span></span></span><span class=line><span class=cl><span class=cm>                 * fails, but we will report the failure. */</span>
+</span></span><span class=line><span class=cl>                <span class=n>prvInitialiseTaskLists</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>            <span class=k>else</span>
+</span></span><span class=line><span class=cl>            <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=n>mtCOVERAGE_TEST_MARKER</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=k>else</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=cm>/* If the scheduler is not already running, make this task the
+</span></span></span><span class=line><span class=cl><span class=cm>             * current task if it is the highest priority task to be created
+</span></span></span><span class=line><span class=cl><span class=cm>             * so far. */</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span><span class=p>(</span> <span class=n>xSchedulerRunning</span> <span class=o>==</span> <span class=n>pdFALSE</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=k>if</span><span class=p>(</span> <span class=n>pxCurrentTCB</span><span class=o>-&gt;</span><span class=n>uxPriority</span> <span class=o>&lt;=</span> <span class=n>pxNewTCB</span><span class=o>-&gt;</span><span class=n>uxPriority</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl>                <span class=p>{</span>
+</span></span><span class=line><span class=cl>                    <span class=n>pxCurrentTCB</span> <span class=o>=</span> <span class=n>pxNewTCB</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>                <span class=p>}</span>
+</span></span><span class=line><span class=cl>                <span class=k>else</span>
+</span></span><span class=line><span class=cl>                <span class=p>{</span>
+</span></span><span class=line><span class=cl>                    <span class=n>mtCOVERAGE_TEST_MARKER</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>                <span class=p>}</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>            <span class=k>else</span>
+</span></span><span class=line><span class=cl>            <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=n>mtCOVERAGE_TEST_MARKER</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=n>uxTaskNumber</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=cp>#if ( configUSE_TRACE_FACILITY == 1 )
+</span></span></span><span class=line><span class=cl><span class=cp></span>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=cm>/* Add a counter into the TCB for tracing only. */</span>
+</span></span><span class=line><span class=cl>            <span class=n>pxNewTCB</span><span class=o>-&gt;</span><span class=n>uxTCBNumber</span> <span class=o>=</span> <span class=n>uxTaskNumber</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=cp>#endif </span><span class=cm>/* configUSE_TRACE_FACILITY */</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>        <span class=n>traceTASK_CREATE</span><span class=p>(</span> <span class=n>pxNewTCB</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=n>prvAddTaskToReadyList</span><span class=p>(</span> <span class=n>pxNewTCB</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=n>portSETUP_TCB</span><span class=p>(</span> <span class=n>pxNewTCB</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=n>taskEXIT_CRITICAL</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>if</span><span class=p>(</span> <span class=n>xSchedulerRunning</span> <span class=o>!=</span> <span class=n>pdFALSE</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=cm>/* If the created task is of a higher priority than the current task
+</span></span></span><span class=line><span class=cl><span class=cm>         * then it should run now. */</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span><span class=p>(</span> <span class=n>pxCurrentTCB</span><span class=o>-&gt;</span><span class=n>uxPriority</span> <span class=o>&lt;</span> <span class=n>pxNewTCB</span><span class=o>-&gt;</span><span class=n>uxPriority</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>taskYIELD_IF_USING_PREEMPTION</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=k>else</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>mtCOVERAGE_TEST_MARKER</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=k>else</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>mtCOVERAGE_TEST_MARKER</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cp>#define prvAddTaskToReadyList( pxTCB )                                                                 \
+</span></span></span><span class=line><span class=cl><span class=cp>    traceMOVED_TASK_TO_READY_STATE( pxTCB );                                                           \
+</span></span></span><span class=line><span class=cl><span class=cp>    taskRECORD_READY_PRIORITY( ( pxTCB )-&gt;uxPriority );                                                \
+</span></span></span><span class=line><span class=cl><span class=cp>    listINSERT_END( &amp;( pxReadyTasksLists[ ( pxTCB )-&gt;uxPriority ] ), &amp;( ( pxTCB )-&gt;xStateListItem ) ); \
+</span></span></span><span class=line><span class=cl><span class=cp>    tracePOST_MOVED_TASK_TO_READY_STATE( pxTCB )
+</span></span></span></code></pre></td></tr></table></div></div><p>此时任务就加入了就绪列表,可以被调度器进行调度了</p><h3 id=任务调度 class=headerLink><a href=#%e4%bb%bb%e5%8a%a1%e8%b0%83%e5%ba%a6 class=header-mark></a>2.2 任务调度</h3><blockquote><p>任务调度的基础</p></blockquote><ul><li>可调用中断(可选)</li><li>定时器中断</li></ul><h4 id=调度器核心 class=headerLink><a href=#%e8%b0%83%e5%ba%a6%e5%99%a8%e6%a0%b8%e5%bf%83 class=header-mark></a>2.2.1 调度器核心</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>void</span> <span class=nf>vTaskSwitchContext</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span><span class=p>(</span> <span class=n>uxSchedulerSuspended</span> <span class=o>!=</span> <span class=p>(</span> <span class=n>UBaseType_t</span> <span class=p>)</span> <span class=n>pdFALSE</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=cm>/* The scheduler is currently suspended - do not allow a context
+</span></span></span><span class=line><span class=cl><span class=cm>         * switch. */</span>
+</span></span><span class=line><span class=cl>        <span class=n>xYieldPending</span> <span class=o>=</span> <span class=n>pdTRUE</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=k>else</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>xYieldPending</span> <span class=o>=</span> <span class=n>pdFALSE</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>traceTASK_SWITCHED_OUT</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=cp>#if ( configGENERATE_RUN_TIME_STATS == 1 )
+</span></span></span><span class=line><span class=cl><span class=cp></span>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=cp>#ifdef portALT_GET_RUN_TIME_COUNTER_VALUE
+</span></span></span><span class=line><span class=cl><span class=cp></span>                <span class=n>portALT_GET_RUN_TIME_COUNTER_VALUE</span><span class=p>(</span> <span class=n>ulTotalRunTime</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=cp>#else
+</span></span></span><span class=line><span class=cl><span class=cp></span>                <span class=n>ulTotalRunTime</span> <span class=o>=</span> <span class=n>portGET_RUN_TIME_COUNTER_VALUE</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>            <span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl>            <span class=cm>/* Add the amount of time the task has been running to the
+</span></span></span><span class=line><span class=cl><span class=cm>             * accumulated time so far.  The time the task started running was
+</span></span></span><span class=line><span class=cl><span class=cm>             * stored in ulTaskSwitchedInTime.  Note that there is no overflow
+</span></span></span><span class=line><span class=cl><span class=cm>             * protection here so count values are only valid until the timer
+</span></span></span><span class=line><span class=cl><span class=cm>             * overflows.  The guard against negative values is to protect
+</span></span></span><span class=line><span class=cl><span class=cm>             * against suspect run time stat counter implementations - which
+</span></span></span><span class=line><span class=cl><span class=cm>             * are provided by the application, not the kernel. */</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span><span class=p>(</span> <span class=n>ulTotalRunTime</span> <span class=o>&gt;</span> <span class=n>ulTaskSwitchedInTime</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=n>pxCurrentTCB</span><span class=o>-&gt;</span><span class=n>ulRunTimeCounter</span> <span class=o>+=</span> <span class=p>(</span> <span class=n>ulTotalRunTime</span> <span class=o>-</span> <span class=n>ulTaskSwitchedInTime</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>            <span class=k>else</span>
+</span></span><span class=line><span class=cl>            <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=n>mtCOVERAGE_TEST_MARKER</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=n>ulTaskSwitchedInTime</span> <span class=o>=</span> <span class=n>ulTotalRunTime</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=cp>#endif </span><span class=cm>/* configGENERATE_RUN_TIME_STATS */</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl>        <span class=cm>/* Check for stack overflow, if configured. */</span>
+</span></span><span class=line><span class=cl>        <span class=n>taskCHECK_FOR_STACK_OVERFLOW</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=cm>/* Before the currently running task is switched out, save its errno. */</span>
+</span></span><span class=line><span class=cl>        <span class=cp>#if ( configUSE_POSIX_ERRNO == 1 )
+</span></span></span><span class=line><span class=cl><span class=cp></span>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>pxCurrentTCB</span><span class=o>-&gt;</span><span class=n>iTaskErrno</span> <span class=o>=</span> <span class=n>FreeRTOS_errno</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl>        <span class=cm>/* Select a new task to run using either the generic C or port
+</span></span></span><span class=line><span class=cl><span class=cm>         * optimised asm code. */</span>
+</span></span><span class=line><span class=cl>        <span class=n>taskSELECT_HIGHEST_PRIORITY_TASK</span><span class=p>();</span> <span class=cm>/*lint !e9079 void * is used as this macro is used with timers and co-routines too.  Alignment is known to be fine as the type of the pointer stored and retrieved is the same. */</span>
+</span></span><span class=line><span class=cl>        <span class=n>traceTASK_SWITCHED_IN</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=cm>/* After the new task is switched in, update the global errno. */</span>
+</span></span><span class=line><span class=cl>        <span class=cp>#if ( configUSE_POSIX_ERRNO == 1 )
+</span></span></span><span class=line><span class=cl><span class=cp></span>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>FreeRTOS_errno</span> <span class=o>=</span> <span class=n>pxCurrentTCB</span><span class=o>-&gt;</span><span class=n>iTaskErrno</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl>        <span class=cp>#if ( ( configUSE_NEWLIB_REENTRANT == 1 ) || ( configUSE_C_RUNTIME_TLS_SUPPORT == 1 ) )
+</span></span></span><span class=line><span class=cl><span class=cp></span>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=cm>/* Switch C-Runtime&#39;s TLS Block to point to the TLS
+</span></span></span><span class=line><span class=cl><span class=cm>             * Block specific to this task. */</span>
+</span></span><span class=line><span class=cl>            <span class=n>configSET_TLS_BLOCK</span><span class=p>(</span> <span class=n>pxCurrentTCB</span><span class=o>-&gt;</span><span class=n>xTLSBlock</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>分析M3的调度实现</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>void</span> <span class=nf>xPortPendSVHandler</span><span class=p>(</span> <span class=kt>void</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=cm>/* This is a naked function. */</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kr>__asm</span> <span class=k>volatile</span>
+</span></span><span class=line><span class=cl>    <span class=p>(</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;	mrs r0, psp							</span><span class=se>\n</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;	isb									</span><span class=se>\n</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;										</span><span class=se>\n</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;	ldr	r3, pxCurrentTCBConst			</span><span class=se>\n</span><span class=s>&#34;</span><span class=cm>/* Get the location of the current TCB. */</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;	ldr	r2, [r3]						</span><span class=se>\n</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;										</span><span class=se>\n</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;	stmdb r0!, {r4-r11}					</span><span class=se>\n</span><span class=s>&#34;</span><span class=cm>/* Save the remaining registers. */</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;	str r0, [r2]						</span><span class=se>\n</span><span class=s>&#34;</span><span class=cm>/* Save the new top of stack into the first member of the TCB. */</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;										</span><span class=se>\n</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;	stmdb sp!, {r3, r14}				</span><span class=se>\n</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;	mov r0, %0							</span><span class=se>\n</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;	msr basepri, r0						</span><span class=se>\n</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;	bl vTaskSwitchContext				</span><span class=se>\n</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;	mov r0, #0							</span><span class=se>\n</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;	msr basepri, r0						</span><span class=se>\n</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;	ldmia sp!, {r3, r14}				</span><span class=se>\n</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;										</span><span class=se>\n</span><span class=s>&#34;</span><span class=cm>/* Restore the context, including the critical nesting count. */</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;	ldr r1, [r3]						</span><span class=se>\n</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;	ldr r0, [r1]						</span><span class=se>\n</span><span class=s>&#34;</span><span class=cm>/* The first item in pxCurrentTCB is the task top of stack. */</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;	ldmia r0!, {r4-r11}					</span><span class=se>\n</span><span class=s>&#34;</span><span class=cm>/* Pop the registers. */</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;	msr psp, r0							</span><span class=se>\n</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;	isb									</span><span class=se>\n</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;	bx r14								</span><span class=se>\n</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;										</span><span class=se>\n</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;	.align 4							</span><span class=se>\n</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;pxCurrentTCBConst: .word pxCurrentTCB	</span><span class=se>\n</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=o>::</span><span class=s>&#34;i&#34;</span> <span class=p>(</span> <span class=n>configMAX_SYSCALL_INTERRUPT_PRIORITY</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>分析A9实现</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span><span class=lnt>74
+</span><span class=lnt>75
+</span><span class=lnt>76
+</span><span class=lnt>77
+</span><span class=lnt>78
+</span><span class=lnt>79
+</span><span class=lnt>80
+</span><span class=lnt>81
+</span><span class=lnt>82
+</span><span class=lnt>83
+</span><span class=lnt>84
+</span><span class=lnt>85
+</span><span class=lnt>86
+</span><span class=lnt>87
+</span><span class=lnt>88
+</span><span class=lnt>89
+</span><span class=lnt>90
+</span><span class=lnt>91
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nl>vTaskSwitchContextConst</span><span class=p>:</span> <span class=p>.</span><span class=n>word</span> <span class=n>vTaskSwitchContext</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>.</span><span class=n>macro</span> <span class=n>portSAVE_CONTEXT</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* Save the LR and SPSR onto the system mode stack before switching to
+</span></span></span><span class=line><span class=cl><span class=cm>	system mode to save the remaining system mode registers. */</span>
+</span></span><span class=line><span class=cl>	<span class=n>SRSDB</span>	<span class=n>sp</span><span class=o>!</span><span class=p>,</span> <span class=err>#</span><span class=n>SYS_MODE</span>
+</span></span><span class=line><span class=cl>	<span class=n>CPS</span>		<span class=err>#</span><span class=n>SYS_MODE</span>
+</span></span><span class=line><span class=cl>	<span class=n>PUSH</span>	<span class=p>{</span><span class=n>R0</span><span class=o>-</span><span class=n>R12</span><span class=p>,</span> <span class=n>R14</span><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* Push the critical nesting count. */</span>
+</span></span><span class=line><span class=cl>	<span class=n>LDR</span>		<span class=n>R2</span><span class=p>,</span> <span class=n>ulCriticalNestingConst</span>
+</span></span><span class=line><span class=cl>	<span class=n>LDR</span>		<span class=n>R1</span><span class=p>,</span> <span class=p>[</span><span class=n>R2</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>	<span class=n>PUSH</span>	<span class=p>{</span><span class=n>R1</span><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* Does the task have a floating point context that needs saving?  If
+</span></span></span><span class=line><span class=cl><span class=cm>	ulPortTaskHasFPUContext is 0 then no. */</span>
+</span></span><span class=line><span class=cl>	<span class=n>LDR</span>		<span class=n>R2</span><span class=p>,</span> <span class=n>ulPortTaskHasFPUContextConst</span>
+</span></span><span class=line><span class=cl>	<span class=n>LDR</span>		<span class=n>R3</span><span class=p>,</span> <span class=p>[</span><span class=n>R2</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>	<span class=n>CMP</span>		<span class=n>R3</span><span class=p>,</span> <span class=err>#</span><span class=mi>0</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* Save the floating point context, if any. */</span>
+</span></span><span class=line><span class=cl>	<span class=n>FMRXNE</span>  <span class=n>R1</span><span class=p>,</span>  <span class=n>FPSCR</span>
+</span></span><span class=line><span class=cl>	<span class=n>VPUSHNE</span> <span class=p>{</span><span class=n>D0</span><span class=o>-</span><span class=n>D15</span><span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=n>VPUSHNE</span>	<span class=p>{</span><span class=n>D16</span><span class=o>-</span><span class=n>D31</span><span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=n>PUSHNE</span>	<span class=p>{</span><span class=n>R1</span><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* Save ulPortTaskHasFPUContext itself. */</span>
+</span></span><span class=line><span class=cl>	<span class=n>PUSH</span>	<span class=p>{</span><span class=n>R3</span><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* Save the stack pointer in the TCB. */</span>
+</span></span><span class=line><span class=cl>	<span class=n>LDR</span>		<span class=n>R0</span><span class=p>,</span> <span class=n>pxCurrentTCBConst</span>
+</span></span><span class=line><span class=cl>	<span class=n>LDR</span>		<span class=n>R1</span><span class=p>,</span> <span class=p>[</span><span class=n>R0</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>	<span class=n>STR</span>		<span class=n>SP</span><span class=p>,</span> <span class=p>[</span><span class=n>R1</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=p>.</span><span class=n>endm</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>;</span> <span class=cm>/**********************************************************************/</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>.</span><span class=n>macro</span> <span class=n>portRESTORE_CONTEXT</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* Set the SP to point to the stack of the task being restored. */</span>
+</span></span><span class=line><span class=cl>	<span class=n>LDR</span>		<span class=n>R0</span><span class=p>,</span> <span class=n>pxCurrentTCBConst</span>
+</span></span><span class=line><span class=cl>	<span class=n>LDR</span>		<span class=n>R1</span><span class=p>,</span> <span class=p>[</span><span class=n>R0</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>	<span class=n>LDR</span>		<span class=n>SP</span><span class=p>,</span> <span class=p>[</span><span class=n>R1</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* Is there a floating point context to restore?  If the restored
+</span></span></span><span class=line><span class=cl><span class=cm>	ulPortTaskHasFPUContext is zero then no. */</span>
+</span></span><span class=line><span class=cl>	<span class=n>LDR</span>		<span class=n>R0</span><span class=p>,</span> <span class=n>ulPortTaskHasFPUContextConst</span>
+</span></span><span class=line><span class=cl>	<span class=n>POP</span>		<span class=p>{</span><span class=n>R1</span><span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=n>STR</span>		<span class=n>R1</span><span class=p>,</span> <span class=p>[</span><span class=n>R0</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>	<span class=n>CMP</span>		<span class=n>R1</span><span class=p>,</span> <span class=err>#</span><span class=mi>0</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* Restore the floating point context, if any. */</span>
+</span></span><span class=line><span class=cl>	<span class=n>POPNE</span> 	<span class=p>{</span><span class=n>R0</span><span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=n>VPOPNE</span>	<span class=p>{</span><span class=n>D16</span><span class=o>-</span><span class=n>D31</span><span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=n>VPOPNE</span>	<span class=p>{</span><span class=n>D0</span><span class=o>-</span><span class=n>D15</span><span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=n>VMSRNE</span>  <span class=n>FPSCR</span><span class=p>,</span> <span class=n>R0</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* Restore the critical section nesting depth. */</span>
+</span></span><span class=line><span class=cl>	<span class=n>LDR</span>		<span class=n>R0</span><span class=p>,</span> <span class=n>ulCriticalNestingConst</span>
+</span></span><span class=line><span class=cl>	<span class=n>POP</span>		<span class=p>{</span><span class=n>R1</span><span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=n>STR</span>		<span class=n>R1</span><span class=p>,</span> <span class=p>[</span><span class=n>R0</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* Ensure the priority mask is correct for the critical nesting depth. */</span>
+</span></span><span class=line><span class=cl>	<span class=n>LDR</span>		<span class=n>R2</span><span class=p>,</span> <span class=n>ulICCPMRConst</span>
+</span></span><span class=line><span class=cl>	<span class=n>LDR</span>		<span class=n>R2</span><span class=p>,</span> <span class=p>[</span><span class=n>R2</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>	<span class=n>CMP</span>		<span class=n>R1</span><span class=p>,</span> <span class=err>#</span><span class=mi>0</span>
+</span></span><span class=line><span class=cl>	<span class=n>MOVEQ</span>	<span class=n>R4</span><span class=p>,</span> <span class=err>#</span><span class=mi>255</span>
+</span></span><span class=line><span class=cl>	<span class=n>LDRNE</span>	<span class=n>R4</span><span class=p>,</span> <span class=n>ulMaxAPIPriorityMaskConst</span>
+</span></span><span class=line><span class=cl>	<span class=n>LDRNE</span>	<span class=n>R4</span><span class=p>,</span> <span class=p>[</span><span class=n>R4</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>	<span class=n>STR</span>		<span class=n>R4</span><span class=p>,</span> <span class=p>[</span><span class=n>R2</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* Restore all system mode registers other than the SP (which is already
+</span></span></span><span class=line><span class=cl><span class=cm>	being used). */</span>
+</span></span><span class=line><span class=cl>	<span class=n>POP</span>		<span class=p>{</span><span class=n>R0</span><span class=o>-</span><span class=n>R12</span><span class=p>,</span> <span class=n>R14</span><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* Return to the task code, loading CPSR on the way. */</span>
+</span></span><span class=line><span class=cl>	<span class=n>RFEIA</span>	<span class=n>sp</span><span class=o>!</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=p>.</span><span class=n>endm</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>.</span><span class=n>align</span> <span class=mi>4</span>
+</span></span><span class=line><span class=cl><span class=p>.</span><span class=n>type</span> <span class=n>FreeRTOS_SWI_Handler</span><span class=p>,</span> <span class=o>%</span><span class=n>function</span>
+</span></span><span class=line><span class=cl><span class=nl>FreeRTOS_SWI_Handler</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>	<span class=cm>/* Save the context of the current task and select a new task to run. */</span>
+</span></span><span class=line><span class=cl>	<span class=n>portSAVE_CONTEXT</span>
+</span></span><span class=line><span class=cl>	<span class=n>LDR</span> <span class=n>R0</span><span class=p>,</span> <span class=n>vTaskSwitchContextConst</span>
+</span></span><span class=line><span class=cl>	<span class=n>BLX</span>	<span class=n>R0</span>
+</span></span><span class=line><span class=cl>	<span class=n>portRESTORE_CONTEXT</span>
+</span></span></code></pre></td></tr></table></div></div><p>中断实现</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-asm data-lang=asm><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=na>.extern</span> <span class=no>FreeRTOS_IRQ_Handler</span>
+</span></span><span class=line><span class=cl><span class=na>.extern</span> <span class=no>FreeRTOS_SWI_Handler</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=na>.section</span> <span class=no>.freertos_vectors</span>
+</span></span><span class=line><span class=cl><span class=nl>_freertos_vector_table:</span>
+</span></span><span class=line><span class=cl>	<span class=nf>B</span>	  <span class=no>_boot</span>
+</span></span><span class=line><span class=cl>	<span class=nf>B</span>	  <span class=no>FreeRTOS_Undefined</span>
+</span></span><span class=line><span class=cl>	<span class=nf>ldr</span>   <span class=no>pc</span><span class=p>,</span> <span class=no>_swi</span>
+</span></span><span class=line><span class=cl>	<span class=nf>B</span>	  <span class=no>FreeRTOS_PrefetchAbortHandler</span>
+</span></span><span class=line><span class=cl>	<span class=nf>B</span>	  <span class=no>FreeRTOS_DataAbortHandler</span>
+</span></span><span class=line><span class=cl>	<span class=nf>NOP</span>	  <span class=cm>/* Placeholder for address exception vector*/</span>
+</span></span><span class=line><span class=cl>	<span class=nf>LDR</span>   <span class=no>PC</span><span class=p>,</span> <span class=no>_irq</span>
+</span></span><span class=line><span class=cl>	<span class=nf>B</span>	  <span class=no>FreeRTOS_FIQHandler</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nl>_irq:</span>   <span class=na>.word</span> <span class=no>FreeRTOS_IRQ_Handler</span>
+</span></span><span class=line><span class=cl><span class=nl>_swi:</span>   <span class=na>.word</span> <span class=no>FreeRTOS_SWI_Handler</span>
+</span></span></code></pre></td></tr></table></div></div><p>主动放弃运行,强制开启调度</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cp>#define taskYIELD()                        portYIELD()
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=c1>// M3实现
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=cp>#define portYIELD()                                 \
+</span></span></span><span class=line><span class=cl><span class=cp>{                                                   \
+</span></span></span><span class=line><span class=cl><span class=cp>    </span><span class=cm>/* Set a PendSV to request a context switch. */</span><span class=cp> \
+</span></span></span><span class=line><span class=cl><span class=cp>    portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT; \
+</span></span></span><span class=line><span class=cl><span class=cp>                                                    \
+</span></span></span><span class=line><span class=cl><span class=cp>    </span><span class=cm>/* Barriers are normally not required but do ensure the code is completely \
+</span></span></span><span class=line><span class=cl><span class=cm>      * within the specified behaviour for the architecture. */</span><span class=cp> \
+</span></span></span><span class=line><span class=cl><span class=cp>    __asm volatile ( &#34;dsb&#34; ::: &#34;memory&#34; );                     \
+</span></span></span><span class=line><span class=cl><span class=cp>    __asm volatile ( &#34;isb&#34; );                                  \
+</span></span></span><span class=line><span class=cl><span class=cp>}
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=c1>// A9实现
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=cp>#define portYIELD() __asm volatile ( &#34;SWI 0&#34; ::: &#34;memory&#34; );
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=任务状态 class=headerLink><a href=#%e4%bb%bb%e5%8a%a1%e7%8a%b6%e6%80%81 class=header-mark></a>2.3 任务状态</h3><blockquote><p>心跳实现</p></blockquote><p>M3实现</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>void</span> <span class=nf>xPortPendSVHandler</span><span class=p>(</span> <span class=kt>void</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=cm>/* This is a naked function. */</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kr>__asm</span> <span class=k>volatile</span>
+</span></span><span class=line><span class=cl>    <span class=p>(</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;	mrs r0, psp							</span><span class=se>\n</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;	isb									</span><span class=se>\n</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;										</span><span class=se>\n</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;	ldr	r3, pxCurrentTCBConst			</span><span class=se>\n</span><span class=s>&#34;</span><span class=cm>/* Get the location of the current TCB. */</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;	ldr	r2, [r3]						</span><span class=se>\n</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;										</span><span class=se>\n</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;	stmdb r0!, {r4-r11}					</span><span class=se>\n</span><span class=s>&#34;</span><span class=cm>/* Save the remaining registers. */</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;	str r0, [r2]						</span><span class=se>\n</span><span class=s>&#34;</span><span class=cm>/* Save the new top of stack into the first member of the TCB. */</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;										</span><span class=se>\n</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;	stmdb sp!, {r3, r14}				</span><span class=se>\n</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;	mov r0, %0							</span><span class=se>\n</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;	msr basepri, r0						</span><span class=se>\n</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;	bl vTaskSwitchContext				</span><span class=se>\n</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;	mov r0, #0							</span><span class=se>\n</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;	msr basepri, r0						</span><span class=se>\n</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;	ldmia sp!, {r3, r14}				</span><span class=se>\n</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;										</span><span class=se>\n</span><span class=s>&#34;</span><span class=cm>/* Restore the context, including the critical nesting count. */</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;	ldr r1, [r3]						</span><span class=se>\n</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;	ldr r0, [r1]						</span><span class=se>\n</span><span class=s>&#34;</span><span class=cm>/* The first item in pxCurrentTCB is the task top of stack. */</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;	ldmia r0!, {r4-r11}					</span><span class=se>\n</span><span class=s>&#34;</span><span class=cm>/* Pop the registers. */</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;	msr psp, r0							</span><span class=se>\n</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;	isb									</span><span class=se>\n</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;	bx r14								</span><span class=se>\n</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;										</span><span class=se>\n</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;	.align 4							</span><span class=se>\n</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;pxCurrentTCBConst: .word pxCurrentTCB	</span><span class=se>\n</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=o>::</span><span class=s>&#34;i&#34;</span> <span class=p>(</span> <span class=n>configMAX_SYSCALL_INTERRUPT_PRIORITY</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>A9实现</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-asm data-lang=asm><span class=line><span class=cl><span class=na>.align</span> <span class=mi>4</span>
+</span></span><span class=line><span class=cl><span class=na>.type</span> <span class=no>FreeRTOS_IRQ_Handler</span><span class=p>,</span> <span class=nv>%function</span>
+</span></span><span class=line><span class=cl><span class=nl>FreeRTOS_IRQ_Handler:</span>
+</span></span><span class=line><span class=cl>	<span class=cm>/* Return to the interrupted instruction. */</span>
+</span></span><span class=line><span class=cl>	<span class=nf>SUB</span>		<span class=no>lr</span><span class=p>,</span> <span class=no>lr</span><span class=p>,</span> <span class=c1>#4
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>	<span class=cm>/* Push the return address and SPSR. */</span>
+</span></span><span class=line><span class=cl>	<span class=nf>PUSH</span>	<span class=err>{</span><span class=no>lr</span><span class=err>}</span>
+</span></span><span class=line><span class=cl>	<span class=nf>MRS</span>		<span class=no>lr</span><span class=p>,</span> <span class=no>SPSR</span>
+</span></span><span class=line><span class=cl>	<span class=nf>PUSH</span>	<span class=err>{</span><span class=no>lr</span><span class=err>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* Change to supervisor mode to allow reentry. */</span>
+</span></span><span class=line><span class=cl>	<span class=nf>CPS</span>		<span class=c1>#SVC_MODE
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>	<span class=cm>/* Push used registers. */</span>
+</span></span><span class=line><span class=cl>	<span class=nf>PUSH</span>	<span class=err>{</span><span class=no>r0-r4</span><span class=p>,</span> <span class=no>r12</span><span class=err>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* Increment nesting count.  r3 holds the address of ulPortInterruptNesting
+</span></span></span><span class=line><span class=cl><span class=cm>	for future use.  r1 holds the original ulPortInterruptNesting value for
+</span></span></span><span class=line><span class=cl><span class=cm>	future use. */</span>
+</span></span><span class=line><span class=cl>	<span class=nf>LDR</span>		<span class=no>r3</span><span class=p>,</span> <span class=no>ulPortInterruptNestingConst</span>
+</span></span><span class=line><span class=cl>	<span class=nf>LDR</span>		<span class=no>r1</span><span class=p>,</span> <span class=p>[</span><span class=no>r3</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>	<span class=nf>ADD</span>		<span class=no>r4</span><span class=p>,</span> <span class=no>r1</span><span class=p>,</span> <span class=c1>#1
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nf>STR</span>		<span class=no>r4</span><span class=p>,</span> <span class=p>[</span><span class=no>r3</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* Read value from the interrupt acknowledge register, which is stored in r0
+</span></span></span><span class=line><span class=cl><span class=cm>	for future parameter and interrupt clearing use. */</span>
+</span></span><span class=line><span class=cl>	<span class=nf>LDR</span> 	<span class=no>r2</span><span class=p>,</span> <span class=no>ulICCIARConst</span>
+</span></span><span class=line><span class=cl>	<span class=nf>LDR</span>		<span class=no>r2</span><span class=p>,</span> <span class=p>[</span><span class=no>r2</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>	<span class=nf>LDR</span>		<span class=no>r0</span><span class=p>,</span> <span class=p>[</span><span class=no>r2</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* Ensure bit 2 of the stack pointer is clear.  r2 holds the bit 2 value for
+</span></span></span><span class=line><span class=cl><span class=cm>	future use.  _RB_ Does this ever actually need to be done provided the start
+</span></span></span><span class=line><span class=cl><span class=cm>	of the stack is 8-byte aligned? */</span>
+</span></span><span class=line><span class=cl>	<span class=nf>MOV</span>		<span class=no>r2</span><span class=p>,</span> <span class=no>sp</span>
+</span></span><span class=line><span class=cl>	<span class=nf>AND</span>		<span class=no>r2</span><span class=p>,</span> <span class=no>r2</span><span class=p>,</span> <span class=c1>#4
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nf>SUB</span>		<span class=no>sp</span><span class=p>,</span> <span class=no>sp</span><span class=p>,</span> <span class=no>r2</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* Call the interrupt handler.  r4 pushed to maintain alignment. */</span>
+</span></span><span class=line><span class=cl>	<span class=nf>PUSH</span>	<span class=err>{</span><span class=no>r0-r4</span><span class=p>,</span> <span class=no>lr</span><span class=err>}</span>
+</span></span><span class=line><span class=cl>	<span class=nf>LDR</span>		<span class=no>r1</span><span class=p>,</span> <span class=no>vApplicationIRQHandlerConst</span>
+</span></span><span class=line><span class=cl>	<span class=nf>BLX</span>		<span class=no>r1</span>
+</span></span><span class=line><span class=cl>	<span class=nf>POP</span>		<span class=err>{</span><span class=no>r0-r4</span><span class=p>,</span> <span class=no>lr</span><span class=err>}</span>
+</span></span><span class=line><span class=cl>	<span class=nf>ADD</span>		<span class=no>sp</span><span class=p>,</span> <span class=no>sp</span><span class=p>,</span> <span class=no>r2</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nf>CPSID</span>	<span class=no>i</span>
+</span></span><span class=line><span class=cl>	<span class=nf>DSB</span>
+</span></span><span class=line><span class=cl>	<span class=nf>ISB</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* Write the value read from ICCIAR to ICCEOIR. */</span>
+</span></span><span class=line><span class=cl>	<span class=nf>LDR</span> 	<span class=no>r4</span><span class=p>,</span> <span class=no>ulICCEOIRConst</span>
+</span></span><span class=line><span class=cl>	<span class=nf>LDR</span>		<span class=no>r4</span><span class=p>,</span> <span class=p>[</span><span class=no>r4</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>	<span class=nf>STR</span>		<span class=no>r0</span><span class=p>,</span> <span class=p>[</span><span class=no>r4</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* Restore the old nesting count. */</span>
+</span></span><span class=line><span class=cl>	<span class=nf>STR</span>		<span class=no>r1</span><span class=p>,</span> <span class=p>[</span><span class=no>r3</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* A context switch is never performed if the nesting count is not 0. */</span>
+</span></span><span class=line><span class=cl>	<span class=nf>CMP</span>		<span class=no>r1</span><span class=p>,</span> <span class=c1>#0
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nf>BNE</span>		<span class=no>exit_without_switch</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* Did the interrupt request a context switch?  r1 holds the address of
+</span></span></span><span class=line><span class=cl><span class=cm>	ulPortYieldRequired and r0 the value of ulPortYieldRequired for future
+</span></span></span><span class=line><span class=cl><span class=cm>	use. */</span>
+</span></span><span class=line><span class=cl>	<span class=nf>LDR</span>		<span class=no>r1</span><span class=p>,</span> <span class=err>=</span><span class=no>ulPortYieldRequired</span>
+</span></span><span class=line><span class=cl>	<span class=nf>LDR</span>		<span class=no>r0</span><span class=p>,</span> <span class=p>[</span><span class=no>r1</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>	<span class=nf>CMP</span>		<span class=no>r0</span><span class=p>,</span> <span class=c1>#0
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nf>BNE</span>		<span class=no>switch_before_exit</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nl>exit_without_switch:</span>
+</span></span><span class=line><span class=cl>	<span class=cm>/* No context switch.  Restore used registers, LR_irq and SPSR before
+</span></span></span><span class=line><span class=cl><span class=cm>	returning. */</span>
+</span></span><span class=line><span class=cl>	<span class=nf>POP</span>		<span class=err>{</span><span class=no>r0-r4</span><span class=p>,</span> <span class=no>r12</span><span class=err>}</span>
+</span></span><span class=line><span class=cl>	<span class=nf>CPS</span>		<span class=c1>#IRQ_MODE
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nf>POP</span>		<span class=err>{</span><span class=no>LR</span><span class=err>}</span>
+</span></span><span class=line><span class=cl>	<span class=nf>MSR</span>		<span class=no>SPSR_cxsf</span><span class=p>,</span> <span class=no>LR</span>
+</span></span><span class=line><span class=cl>	<span class=nf>POP</span>		<span class=err>{</span><span class=no>LR</span><span class=err>}</span>
+</span></span><span class=line><span class=cl>	<span class=nf>MOVS</span>	<span class=no>PC</span><span class=p>,</span> <span class=no>LR</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nl>switch_before_exit:</span>
+</span></span><span class=line><span class=cl>	<span class=cm>/* A context swtich is to be performed.  Clear the context switch pending
+</span></span></span><span class=line><span class=cl><span class=cm>	flag. */</span>
+</span></span><span class=line><span class=cl>	<span class=nf>MOV</span>		<span class=no>r0</span><span class=p>,</span> <span class=c1>#0
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nf>STR</span>		<span class=no>r0</span><span class=p>,</span> <span class=p>[</span><span class=no>r1</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* Restore used registers, LR-irq and SPSR before saving the context
+</span></span></span><span class=line><span class=cl><span class=cm>	to the task stack. */</span>
+</span></span><span class=line><span class=cl>	<span class=nf>POP</span>		<span class=err>{</span><span class=no>r0-r4</span><span class=p>,</span> <span class=no>r12</span><span class=err>}</span>
+</span></span><span class=line><span class=cl>	<span class=nf>CPS</span>		<span class=c1>#IRQ_MODE
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nf>POP</span>		<span class=err>{</span><span class=no>LR</span><span class=err>}</span>
+</span></span><span class=line><span class=cl>	<span class=nf>MSR</span>		<span class=no>SPSR_cxsf</span><span class=p>,</span> <span class=no>LR</span>
+</span></span><span class=line><span class=cl>	<span class=nf>POP</span>		<span class=err>{</span><span class=no>LR</span><span class=err>}</span>
+</span></span><span class=line><span class=cl>	<span class=nf>portSAVE_CONTEXT</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* Call the function that selects the new task to execute.
+</span></span></span><span class=line><span class=cl><span class=cm>	vTaskSwitchContext() if vTaskSwitchContext() uses LDRD or STRD
+</span></span></span><span class=line><span class=cl><span class=cm>	instructions, or 8 byte aligned stack allocated data.  LR does not need
+</span></span></span><span class=line><span class=cl><span class=cm>	saving as a new LR will be loaded by portRESTORE_CONTEXT anyway. */</span>
+</span></span><span class=line><span class=cl>	<span class=nf>LDR</span>		<span class=no>R0</span><span class=p>,</span> <span class=no>vTaskSwitchContextConst</span>
+</span></span><span class=line><span class=cl>	<span class=nf>BLX</span>		<span class=no>R0</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* Restore the context of, and branch to, the task selected to execute
+</span></span></span><span class=line><span class=cl><span class=cm>	next. */</span>
+</span></span><span class=line><span class=cl>	<span class=nf>portRESTORE_CONTEXT</span>
+</span></span></code></pre></td></tr></table></div></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2022-10-30&nbsp;<a class=git-hash href=https://github.com/mengdemao/github.io/commit/a7b08c6c9bb4ccd89b21acbea294361ad58de18c target=_blank title="commit by mengdemao(mengdemao19951021@163.com) a7b08c6c9bb4ccd89b21acbea294361ad58de18c: Add FreeRTOS" rel="noopener noreferrer">
+<i class="fas fa-hashtag fa-fw"></i>a7b08c6</a></span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-mardown href=/freertos/index.md target=_blank rel="noopener noreferrer">阅读原始文档</a>
+</span><span>|&nbsp;<a class=link-to-source href=https://github.com/mengdemao/github.io/content/posts/FreeRTOS.md target=_blank rel="noopener noreferrer">查看源代码</a>
+</span><span>|&nbsp;<a class=link-to-edit href=https://github.com/mengdemao/github.io/content/posts/FreeRTOS.md target=_blank rel="noopener noreferrer">编辑此页</a></span></div><div class=post-info-share><span><a href=# onclick=return!1 title="分享到 Twitter" data-sharer=twitter data-url=https://mengdemao.github.io/freertos/ data-title=FreeRTOS data-hashtags=RTOS><i class="fab fa-twitter fa-fw"></i></a><a href=# onclick=return!1 title="分享到 Facebook" data-sharer=facebook data-url=https://mengdemao.github.io/freertos/ data-hashtag=RTOS><i class="fab fa-facebook-square fa-fw"></i></a><a href=# onclick=return!1 title="分享到 Hacker News" data-sharer=hackernews data-url=https://mengdemao.github.io/freertos/ data-title=FreeRTOS><i class="fab fa-hacker-news fa-fw"></i></a><a href=# onclick=return!1 title="分享到 Line" data-sharer=line data-url=https://mengdemao.github.io/freertos/ data-title=FreeRTOS><i data-svg-src=/lib/simple-icons/icons/line.min.svg></i></a><a href=# onclick=return!1 title="分享到 微博" data-sharer=weibo data-url=https://mengdemao.github.io/freertos/ data-title=FreeRTOS data-image=featuredImage/04.jpg><i class="fab fa-weibo fa-fw"></i></a><a href=# onclick=return!1 title="分享到 Telegram" data-sharer=telegram data-url=https://mengdemao.github.io/freertos/ data-title=FreeRTOS data-web><i class="fab fa-telegram-plane fa-fw"></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw"></i>&nbsp;<a href=/tags/rtos/>RTOS</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/arm/ class=prev rel=prev title=Arm笔记><i class="fas fa-angle-left fa-fw"></i>Arm笔记</a></div></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.105.0">Hugo</a> 强力驱动&nbsp;|&nbsp;托管在 <a title="Github Pages" href=https://docs.github.com/en/pages/ target=_blank rel="noopener noreffer">GitHub Pages</a> 上&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a></div><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2020 - 2022</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://github.com/mengdemao/github.io target=_blank rel="noopener noreferrer">mengdemao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div><div class=footer-line></div><div class=footer-line></div></div><script>"serviceWorker"in navigator&&(navigator.serviceWorker.register("/sw.min.js",{scope:"/"}).then(function(){}),navigator.serviceWorker.ready.then(function(){}))</script></footer></div><div id=fixed-buttons><a href=#back-to-top id=back-to-top-button class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw"></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw"></i></a></div><div class=assets><script type=text/javascript src=/lib/autocomplete/autocomplete.min.0dcc8ee301dccbd9fb18115a1176e1293ca233b99aee5f5d12f218463c34eccea29f842827fc1ce330cf26e1e21b1382725ad3d0703cbde9f7e28552bcd92c07.js integrity="sha512-DcyO4wHcy9n7GBFaEXbhKTyiM7ma7l9dEvIYRjw07M6in4QoJ/wc4zDPJuHiGxOCclrT0HA8ven34oVSvNksBw=="></script><script type=text/javascript src=/lib/fuse/fuse.min.3dd1499ec34f39e57a4363bb184754a5023e0f9c47115d67dbec47058d78fb562f0c929c84d44a0a1ca7f84ed73b907e40fa84995338a66677721853139fb70f.js integrity="sha512-PdFJnsNPOeV6Q2O7GEdUpQI+D5xHEV1n2+xHBY14+1YvDJKchNRKChyn+E7XO5B+QPqEmVM4pmZ3chhTE5+3Dw=="></script><script type=text/javascript src=/lib/lazysizes/lazysizes.min.ab9f37a692ab09173b3793b49f69f352227eb2e52fec4b752467a5b386d739a30541c6a63e4f478dd5249d9bae16304db3bb6c32e69d81ee64f51cdd98efb519.js integrity="sha512-q583ppKrCRc7N5O0n2nzUiJ+suUv7Et1JGels4bXOaMFQcamPk9HjdUknZuuFjBNs7tsMuadge5k9RzdmO+1GQ=="></script><script type=text/javascript src=/lib/tablesort/tablesort.min.23640461c9e6941882f50f4208436e1932c806bcc32323a34ff378781204951e05534a0bbc3c1e401d111aa22a26ecc5d4f2cfb43af59d94da8a24f2b8ef8506.js integrity="sha512-I2QEYcnmlBiC9Q9CCENuGTLIBrzDIyOjT/N4eBIElR4FU0oLvDweQB0RGqIqJuzF1PLPtDr1nZTaiiTyuO+FBg=="></script><script type=text/javascript src=/lib/topbar/topbar.min.db5613fde0d014e29123106077225a764bdb4bdf791c2d252c1db5c09f19ea0bd181d29e10a1c03fddc6b0666d83ed17645ee84c31fb405fc7c0b8b38fd95eb0.js integrity="sha512-21YT/eDQFOKRIxBgdyJadkvbS995HC0lLB21wJ8Z6gvRgdKeEKHAP93GsGZtg+0XZF7oTDH7QF/HwLizj9lesA=="></script><script type=text/javascript src=/lib/pjax/pjax.min.8f92ba6fd6079d25aa09e1be3b1e3568438eba0fa53a093eb559684245a9c227d65e346122eb048ee9439ac9af9ce653c1ed88f20305c6121e946035c42705b0.js integrity="sha512-j5K6b9YHnSWqCeG+Ox41aEOOug+lOgk+tVloQkWpwifWXjRhIusEjulDmsmvnOZTwe2I8gMFxhIelGA1xCcFsA=="></script><script type=text/javascript src=/js/theme.min.js defer></script></div><div class=pjax-assets><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:100},comment:{},data:{"desktop-header-typeit":"编程日志","mobile-header-typeit":"编程日志"},lightGallery:{actualSize:!1,exThumbImage:"data-thumbnail",hideBarsDelay:2e3,selector:".lightgallery",speed:400,thumbContHeight:80,thumbWidth:80,thumbnail:!0},math:{delimiters:[{display:!0,left:"$$",right:"$$"},{display:!0,left:"\\[",right:"\\]"},{display:!1,left:"$",right:"$"},{display:!1,left:"\\(",right:"\\)"}],strict:!1},search:{distance:100,findAllMatches:!1,fuseIndexURL:"/index.json",highlightTag:"em",ignoreFieldNorm:!1,ignoreLocation:!0,isCaseSensitive:!1,location:0,maxResultLength:10,minMatchCharLength:2,noResultsFound:"没有找到结果",snippetLength:50,threshold:.1,type:"fuse",useExtendedSearch:!1},sharerjs:!0,table:{sort:!0},twemoji:!0,typeit:{cursorChar:"|",cursorSpeed:1e3,data:{"desktop-header-typeit":["desktop-header-typeit"],"mobile-header-typeit":["mobile-header-typeit"]},duration:-1,speed:100}}</script><script type=text/javascript src=/lib/twemoji/twemoji.min.6c24276208463913359c7a512e70acd942789811a0c7557daacb6770d2d0e2f7a31f04c7461f9bf02e13eae0e3b77ee1c5be0bbdbabaefcc99ff324627fa43a9.js integrity="sha512-bCQnYghGORM1nHpRLnCs2UJ4mBGgx1V9qstncNLQ4vejHwTHRh+b8C4T6uDjt37hxb4Lvbq678yZ/zJGJ/pDqQ==" defer></script><script type=text/javascript src=/js/twemoji.min.js defer></script><script type=text/javascript src=/lib/lightgallery/lightgallery.min.8fd5f6e14a601e69308a4eff21d4aa21cc9ffcdf5dc0eb7fa1de387edf652539710e2d27577ba1820a74a48912c8ee0cc6a6c406ea22f6b5da49fedf04c9c509.js integrity="sha512-j9X24UpgHmkwik7/IdSqIcyf/N9dwOt/od44ft9lJTlxDi0nV3uhggp0pIkSyO4MxqbEBuoi9rXaSf7fBMnFCQ=="></script><script type=text/javascript src=/lib/lightgallery/lg-thumbnail.min.f6a93c2d6d1e1bea27fc3a077de18e64f4e5e36ae35edef047efb9e23a922cc5afeec7aa06baca0dd611ffe183ab59f4f9e3609b71de735932eb38bf4765b6ad.js integrity="sha512-9qk8LW0eG+on/DoHfeGOZPTl42rjXt7wR++54jqSLMWv7seqBrrKDdYR/+GDq1n0+eNgm3Hec1ky6zi/R2W2rQ=="></script><script type=text/javascript src=/lib/lightgallery/lg-zoom.min.4947f9add389ede26f0e96a5fb76d0b517e7515762a3b9ab7486468359c4d9e35863685b060bdeabb8f81cc4bf6f062a9934af9f45ffc61a3a716009fed20b82.js integrity="sha512-SUf5rdOJ7eJvDpal+3bQtRfnUVdio7mrdIZGg1nE2eNYY2hbBgveq7j4HMS/bwYqmTSvn0X/xho6cWAJ/tILgg=="></script><script type=text/javascript src=/lib/clipboard/clipboard.min.b08a94127467df50609e03e61edd897a7ce57830ec5f060efa2caf438e8cc3a44bfae7405198f69ffbbf3c663cd0dc51c729ceed1f71206c792c4cf0e0835625.js integrity="sha512-sIqUEnRn31BgngPmHt2JenzleDDsXwYO+iyvQ46Mw6RL+udAUZj2n/u/PGY80NxRxynO7R9xIGx5LEzw4INWJQ=="></script><script type=text/javascript src=/lib/sharer/sharer.min.cab91d53e60c836a90e16a5091059006925296eeed2c665fc744b7e7755ec3ab5c4e58e3c83899af70d8f690e004c2ca62062e11b0c7efdced87f80d074cfa3e.js integrity="sha512-yrkdU+YMg2qQ4WpQkQWQBpJSlu7tLGZfx0S353Vew6tcTljjyDiZr3DY9pDgBMLKYgYuEbDH79zth/gNB0z6Pg=="></script><script type=text/javascript src=/lib/typeit/typeit.min.f27efa857ac46448d67802135c65454dfc450176698f8fb06912d192dada782d98abfd8fbaf9ad33a15fb7971ed227e86d2082b88c2319260c237f147c9a624b.js integrity="sha512-8n76hXrEZEjWeAITXGVFTfxFAXZpj4+waRLRktraeC2Yq/2PuvmtM6Fft5ce0ifobSCCuIwjGSYMI38UfJpiSw=="></script><script type=text/javascript src=/lib/katex/katex.min.6fd20a8f82c236bb423c185c79172860e1d65bf4b6abd7e997b880265cb1629ca4463d5228cec513df84d0d12727c83c9e2e3b2c1af61ae5fdab383fc5ebb0cd.js integrity="sha512-b9IKj4LCNrtCPBhceRcoYOHWW/S2q9fpl7iAJlyxYpykRj1SKM7FE9+E0NEnJ8g8ni47LBr2GuX9qzg/xeuwzQ==" defer></script><script type=text/javascript src=/lib/katex/auto-render.min.8968ae052e67b7aafad1f0b3dba35dd19a9ed276e4d594c841b9772afee462c5fec8a314147ce3687dbe02733abe9d97b3e80d99a0405562634a6b8fc3be847e.js integrity="sha512-iWiuBS5nt6r60fCz26Nd0Zqe0nbk1ZTIQbl3Kv7kYsX+yKMUFHzjaH2+AnM6vp2Xs+gNmaBAVWJjSmuPw76Efg==" defer></script><script type=text/javascript src=/lib/katex/copy-tex.min.710c5291333846f1408dd05e04392b9658587c44706568ccfe88a329f3ec9a1474248d94ddf5d295b51a269e52960061fc5cd898cc96b9d4535cb9cd8f731b10.js integrity="sha512-cQxSkTM4RvFAjdBeBDkrllhYfERwZWjM/oijKfPsmhR0JI2U3fXSlbUaJp5SlgBh/FzYmMyWudRTXLnNj3MbEA==" defer></script><script type=text/javascript src=/lib/katex/mhchem.min.575865d1f9ce5d6e8276a7b9655aadc3c4c1a49569bb75d10d142d8bdea3ff4e3eb4c6ab3eb09d5c4504dd475fbdf2984e93a7f43578cc464156bd078438ae89.js integrity="sha512-V1hl0fnOXW6Cdqe5ZVqtw8TBpJVpu3XRDRQti96j/04+tMarPrCdXEUE3UdfvfKYTpOn9DV4zEZBVr0HhDiuiQ==" defer></script><script type=text/javascript src=/js/katex.min.js defer></script><link rel=stylesheet href=/lib/lightgallery/lightgallery.min.93025484925a4c3cc6a7a5533c16cc4160455287fafa9bf448cdecf1fa3e13a5e73e6566b5fc0434ad2f1d8ba9dedb189ea1e0443a010d3256a2aeeb9d0c36fa.css integrity="sha512-kwJUhJJaTDzGp6VTPBbMQWBFUof6+pv0SM3s8fo+E6XnPmVmtfwENK0vHYup3tsYnqHgRDoBDTJWoq7rnQw2+g=="><link rel=stylesheet href=/lib/katex/katex.min.e95315732ed740dc9aae156e88be74173a600852acc9377a60ef7769a404c844fe04d696be3d0880a47ce817faf80996733c407129cbf891a3a3e892b603b581.css integrity="sha512-6VMVcy7XQNyarhVuiL50FzpgCFKsyTd6YO93aaQEyET+BNaWvj0IgKR86Bf6+AmWczxAcSnL+JGjo+iStgO1gQ=="><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/katex/copy-tex.min.b0251fdfe529f8aa1c9a24473a32d4adf4d2e298acdba05fc37a93816e299615aa9026959eafcf37ae05beefc5345cf7039acd8238c9cfe76a00529b0eba5f57.css integrity="sha512-sCUf3+Up+KocmiRHOjLUrfTS4pis26Bfw3qTgW4plhWqkCaVnq/PN64Fvu/FNFz3A5rNgjjJz+dqAFKbDrpfVw=="><noscript><link rel=stylesheet href=/lib/katex/copy-tex.min.b0251fdfe529f8aa1c9a24473a32d4adf4d2e298acdba05fc37a93816e299615aa9026959eafcf37ae05beefc5345cf7039acd8238c9cfe76a00529b0eba5f57.css integrity="sha512-sCUf3+Up+KocmiRHOjLUrfTS4pis26Bfw3qTgW4plhWqkCaVnq/PN64Fvu/FNFz3A5rNgjjJz+dqAFKbDrpfVw=="></noscript></div></body></html>

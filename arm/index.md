@@ -85,7 +85,6 @@ arm-none-eabi-gcov-tool
 
 ![image-20221007201037402](picture/image-20221007201037402.png)
 
-
 ## 寻址方式
 
 + 立即数寻址
