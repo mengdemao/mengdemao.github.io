@@ -188,7 +188,7 @@ console.log(student['age']);       // 18
 ### 条件判断
 > 与`C`相似,此处就不过多赘述
 
-1. if 
+1. if
 2. else
 3. else if
 

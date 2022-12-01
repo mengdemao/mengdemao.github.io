@@ -60,11 +60,6 @@ main:
                         @ r7_r = r7_v
 ```
 
-详细分析可以看下面的实现
-
-<iframe width="1000px" height="600px" src="https://gcc.godbolt.org/e#g:!((g:!((g:!((h:codeEditor,i:(filename:'1',fontScale:14,fontUsePx:'0',j:1,lang:___c,selection:(endColumn:2,endLineNumber:9,positionColumn:1,positionLineNumber:1,selectionStartColumn:2,selectionStartLineNumber:9,startColumn:1,startLineNumber:1),source:'int+test(int+a,+int+b)%0A%7B%0A++++return+0%3B%0A%7D%0A%0Avoid+main(void)%0A%7B%0A++++test(1,+2)%3B%0A%7D'),l:'5',n:'0',o:'C+source+%231',t:'0')),k:50,l:'4',n:'0',o:'',s:0,t:'0'),(g:!((h:compiler,i:(compiler:carmgtrunk,deviceViewOpen:'1',filters:(b:'0',binary:'1',commentOnly:'0',demangle:'0',directives:'0',execute:'1',intel:'0',libraryCode:'0',trim:'1'),flagsViewOpen:'1',fontScale:14,fontUsePx:'0',j:1,lang:___c,libs:!(),options:'',selection:(endColumn:27,endLineNumber:4,positionColumn:27,positionLineNumber:4,selectionStartColumn:27,selectionStartLineNumber:4,startColumn:27,startLineNumber:4),source:1),l:'5',n:'0',o:'+ARM+gcc+trunk+(linux)+(Editor+%231)',t:'0')),k:50,l:'4',n:'0',o:'',s:0,t:'0')),l:'2',n:'0',o:'',t:'0')),version:4">
-</iframe>
-
 ### 总结
 
 那么,多任务就可以任务是从一个函数切换到另外一个函数; </br>

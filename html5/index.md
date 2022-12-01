@@ -1,30 +1,10 @@
 # HTML5基础教程
 
- 
 
 ## 网页结构
+
 > hugo中`markdown`可以直接渲染`html`,可以直接得到效果
 > 但是网页基础结构却不可以编写,这样会破坏渲染过程
-
-```html
-<!-- 告诉浏览器,需要使用的规范 -->
-<!DOCTYPE html>
-<html lang="en">
-
-<!-- 网页标题 -->
-<head>
-    <!-- 描述标签 -->
-    <meta charset="UTF-8">
-
-    <!-- 网页标题 -->
-    <title>Document</title>
-</head>
-
-<!-- 网页主体 -->
-<body>
-</body>
-</html>
-```
 
 + <!DOCTYPE html> www规范
 + 注释的写法 `<!-- 注释  -->`
@@ -107,6 +87,7 @@
 ```
 
 ### 水平线标签
+
 ```html
 <hr/>
 ```
@@ -115,8 +96,8 @@
 <hr/>
 <p>我在水平线标签下方</p>
 
-
 ### 字体样式标签
+
 ```html
 <!-- 字体样式标签 -->
 普通文本<span>无效果</span></br>
@@ -274,7 +255,7 @@ bilibili的例子
     <p>名字: <input type="text" name="name"></p>
     <p>密码: <input type="password" name="password"></p>
     <p>
-        <input type="submit">        
+        <input type="submit">
         <input type="reset">
     </p>
 </form>
@@ -288,7 +269,7 @@ bilibili的例子
     <p>名字: <input type="text" name="name"></p>
     <p>密码: <input type="password" name="password"></p>
     <p>
-        <input type="submit">        
+        <input type="submit">
         <input type="reset">
     </p>
 </form>
