@@ -21,14 +21,16 @@ git checkout [new branch]
 ### 使用自定义的内核
 
 在defconfig文件中添加下面的配置
+
 ```c
 BR2_LINUX_KERNEL=y # 是否编译内核
 BR2_LINUX_KERNEL_CUSTOM_GIT=y # 是否使用git版本管理
 BR2_LINUX_KERNEL_CUSTOM_REPO_URL="git@github.com:mengdemao/kernel.git" # kernel的地址
 BR2_LINUX_KERNEL_CUSTOM_REPO_VERSION="master" # 版本
-BR2_LINUX_KERNEL_VERSION="master" 
+BR2_LINUX_KERNEL_VERSION="master"
 BR2_LINUX_KERNEL_USE_DEFCONFIG=y
 BR2_LINUX_KERNEL_DEFCONFIG="debian"
 BR2_LINUX_KERNEL_ZIMAGE=y
 BR2_LINUX_KERNEL_GZIP=y
 ```
+
