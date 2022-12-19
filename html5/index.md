@@ -1,10 +1,38 @@
 # HTML5基础教程
 
 
-## 网页结构
-
 > hugo中`markdown`可以直接渲染`html`,可以直接得到效果
 > 但是网页基础结构却不可以编写,这样会破坏渲染过程
+
+因此[点击例子](/demo/web/html5/body.html),同时点击F12,确定效果.
+
+**页面显示空白**
+
+但是我们可以在源代码中看到
+
+```html
+<!-- 告诉浏览器,需要使用的规范 -->
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- 网页标题 -->
+<head>
+    <!-- 描述标签 -->
+    <meta charset="UTF-8">
+
+    <!-- 网页标题 -->
+    <title>Document</title>
+</head>
+
+<!-- 网页主体 -->
+<body>
+</body>
+</html>
+```
+
+因此后面我们就使用独立的html文件进行学习
+
+## 网页结构
 
 + <!DOCTYPE html> www规范
 + 注释的写法 `<!-- 注释  -->`
@@ -23,6 +51,18 @@
 <meta charset="UTF-8">
 </head>
 ```
+
+**实现自动跳转**
+
+因此[点击例子](/demo/web/html5/autojump.html),网页显示空白,等待3S,网页自动回到本页面
+
+实现原理
+
+```html
+<meta http-equiv="refresh" content="3; https://mengdemao.github.io/html5"/>
+```
+
+头文件区添加,可以看到虽然meta没有显示,但还是存在较大用处
 
 ## 基本标签
 
