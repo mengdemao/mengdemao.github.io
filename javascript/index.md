@@ -4,6 +4,12 @@
 ## 基础知识
 
 > JavaScript是一种运行在浏览器中的解释型的编程语言
+> JavaScript（JS）是一种具有函数优先特性的轻量级、解释型或者说即时编译型的编程语言。
+> 虽然作为 Web 页面中的脚本语言被人所熟知，但是它也被用到了很多非浏览器环境中，
+> 例如 Node.js、Apache CouchDB、Adobe Acrobat 等。
+> 进一步说，JavaScript 是一种基于原型、多范式、单线程的动态 (en-US)语言，
+> 并且支持面向对象、命令式和声明式（如函数式编程）风格。
+
 > 在hugo中运行javacsript脚本,可以使用`hugo`的`script shortcode`在文章中插入`Javascript`脚本
 
 ```markdown
@@ -17,8 +23,6 @@
 {{< script >}}
     console.log('javascript基础教程!');
 {{< /script >}}
-
-## javascript基础
 
 > JavaScript严格区分大小写
 
@@ -36,12 +40,13 @@ document.write("hello world");
 console.log("Hello world")
 ```
 
-### 基本语句
+## 基本语句
 
 1. 赋值语句
 
 ```javascript
-var x = 1;
+var x = 1;		// 定义全局变量
+let y = 12;		// 定义局部变量
 ```
 
 2. 注释语句
@@ -60,9 +65,9 @@ var x = 1;
 + 变量也能以`$`和`_`符号开头
 + 变量名称对大小写敏感
 
-### 数据类型
+## 数据类型
 
-#### 值类型(基本类型)
+### 值类型(基本类型)
 
 1. 字符串(String)
 2. 数字(Number)
@@ -71,7 +76,7 @@ var x = 1;
 5. 未定义(Undefined)
 6. Symbol
 
-#### 引用数据类型(对象类型)
+### 引用数据类型(对象类型)
 
 1. 对象(Object)
 2. 数组(Array)
@@ -101,7 +106,7 @@ console.log(d);
 
     var c = a + ',' + b;
     var d = `${a}, ${b}`;
-
+    
     console.log(c);
     console.log(d);
 {{< /script >}}
@@ -153,59 +158,27 @@ array.length;   // 5
 array[0];       // 打印
 ```
 
-### 对象
-
-#### 定义对象
-JavaScript的对象类似于`Json`,但是表示方法不同;
-
-```javascript
-var student = {
-    name: "hello",
-    age: 18
-};
-```
-JavaScript用一个{...}表示一个对象,键值对以`成员名:属性值`声明;
-与`Json`相同的是,最后一个元素不可以添加`,`;
-
-#### 访问成员
-> 访问成员的方式存在两种
-
-+ C方式:`对象名.成员名`
-+ 反射式:`对象名['成员名']`
-
-```javascript
-'use strict';
-
-var student = {
-    name: "hello",
-    age: 18
-};
-
-console.log(student.name);         // hello
-console.log(student['age']);       // 18
-```
-
-### 条件判断
+## 条件判断
 > 与`C`相似,此处就不过多赘述
 
 1. if
 2. else
 3. else if
 
-### 循环语句
+## 循环语句
 
 1. for
 2. for-in
 3. while
 4. do-while
 
-### Map和Set
+## Map和Set
 
-### 遍历语句
+## 遍历语句
 
-### 函数
+## 函数
 
-#### 函数模型
+### 函数模型
 
 1. c语言类型
 
@@ -230,15 +203,110 @@ var functionName = function(args)
 }
 ```
 
-## javascript提高
+## 面向对象
+
+### 定义对象(ES5)
+
+> ES5设计的面向对象真的麻烦
+
+#### 对象初始化器
+
+JavaScript的对象类似于`Json`,但是表示方法不同;
+
+```javascript
+var student = {
+    name: "hello",
+    age: 18
+};
+```
+JavaScript用一个{...}表示一个对象,键值对以`成员名:属性值`声明;
+与`Json`相同的是,最后一个元素不可以添加`,`;
+
+#### 构造函数
+
++ 通过创建一个构造函数来定义对象的类型。首字母大写是非常普遍而且很恰当的惯用法。
++ 通过 new 创建对象实例。
+
+```javascript
+function Student(name, age) {
+	this.name = name;
+	this.age = age;
+}
+var student = new student("world", 19);
+```
+
+#### 访问成员
+
+> 访问成员的方式存在两种
+
++ C方式:`对象名.成员名`
++ 反射式:`对象名['成员名']`
+
+```javascript
+'use strict';
+
+var student = {
+    name: "hello",
+    age: 18
+};
+
+console.log(student.name);         // hello
+console.log(student['age']);       // 18
+```
+
+#### 继承语法
+
+#### 封装语法
+
+### 定义对象(ES6)
+
+```javascript
+class StudentClass {
+    // constructor
+    constructor(name, age) {
+        this.name = name;
+        this.age = age;
+    }
+	
+     // Getter
+    get info() {
+        return this.name + this.age;
+    }
+    
+    // Method
+    printStudent() {
+        console.log('name : ' + this.name);
+        console.log('age : ' + this.age);
+    }
+}
+var student3 = new StudentClass('test', 12);
+
+// 使用getter函数的方法
+console.log(student3.info);
+```
+
+#### 访问成员
+
+#### 继承语法
+
+#### 封装语法
 
 ### 标准对象
 
-+ Date
-+ RegExp
-+ JSON
+> JS为我们定义的标准对象
 
-### 面向对象编程
++ Date(日期)
++ RegExp(正则表达式)
++ JSON(JSON)
++ Math(数学)
+
+#### Date(日期)
+
+#### RegExp(正则表达式)
+
+#### JSON(JSON)
+
+#### Math(数学)
 
 ### 浏览器
 
@@ -247,9 +315,6 @@ var functionName = function(args)
 + location
 + document
 + history
-
-#### 浏览器对象
-
 + DOM
 + 表单
 + 文件
@@ -257,11 +322,11 @@ var functionName = function(args)
 + Promise
 + Canvas
 
-### 错误处理
+## 错误处理
 
 > 程序有可能会出错,因此需要进行错误处理;高级语言`try ... catch ... finally`,
 
-```javacript
+```javascript
 'use strict';
 var r1, r2, s = null;
 try {
@@ -292,8 +357,3 @@ console.log('r2 = ' + r2); // r2应为undefined
     2. 因为没有出错，catch (e) { ... }代码不会被执行；
     3. 最后执行finally { ... }代码。
 
-## javascript进阶
-
-### jQuery.js
-
-### underscore.js

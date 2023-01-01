@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>js对象</title>
+	</head>
+	<body>
+		<script>
+		'use strict';
+	
+		// 1. ES5定义对象
+		
+		// 1.1 对象初始化器
+		var student1 = {
+		    name: "hello",
+		    age: 18,
+			printStudent : function() {
+				console.log('name : ' + this.name);
+				console.log('age : ' + this.age);
+			}
+		};
+		
+		// 1.2 构造函数
+		function Student(name, age) {
+			this.name = name;
+			this.age = age;
+			this.printStudent = function() {
+				console.log('name : ' + this.name);
+				console.log('age : ' + this.age);
+			}
+		}
+		var student2 = new Student("world", 19);
+		
+		// 2. ES6定义对象
+		class StudentClass {
+		  constructor(name, age) {
+		    this.name = name;
+		    this.age = age;
+		  }
+		  
+		  get info() {
+			  return this.name + this.age;
+		  }
+		  
+		  printStudent() {
+		  	console.log('name : ' + this.name);
+		  	console.log('age : ' + this.age);
+		  }
+		}
+		var student3 = new StudentClass('test', 12);
+		
+		// 执行函数调用
+		student1.printStudent();
+		student2.printStudent();
+		student3.printStudent();
+
+		console.log(student3.info);
+		</script>
+	</body>
+</html>
