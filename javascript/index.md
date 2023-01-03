@@ -24,6 +24,14 @@
     console.log('javascript基础教程!');
 {{< /script >}}
 
+
+同样的道理,也可以直接写在html中;
+```html
+<button onclick='alert(Date())'>现在的时间是? </button>
+```
+点击下面的按钮，**显示效果**
+<button onclick='alert(Date())'>现在的时间是? </button>
+
 > JavaScript严格区分大小写
 
 作为一个新的语言,我们学的第一个程序
@@ -39,6 +47,23 @@ document.write("hello world");
 /* 打印在调试窗口 */
 console.log("Hello world")
 ```
+
+但是直接在浏览器中运行显得特别麻烦,此时我们可以使用`NodeJS`在命令行中运行程序
+
+1. Nodejs中的内容
+
+    {{< typeit code=javascript group=nodejs_print_first >}}
+console.log("hello NodeJS");
+    {{< /typeit >}}
+
+2. 执行js脚本
+
+    {{< typeit group=nodejs_print_first >}}
+    $ node 1.NodeJS.js
+    {{< /typeit >}}
+    {{< typeit group=nodejs_print_first >}}
+    $ hello NodeJS
+    {{< /typeit >}}
 
 ## 基本语句
 
@@ -67,22 +92,143 @@ let y = 12;		// 定义局部变量
 
 ## 数据类型
 
-### 值类型(基本类型)
+> 九种数据类型
 
-1. 字符串(String)
-2. 数字(Number)
-3. 布尔(Boolean)
-4. 空(Null)
-5. 未定义(Undefined)
-6. Symbol
++ 值类型(基本类型)
+    1. 字符串(String)
+    2. 数字(Number)
+    3. 布尔(Boolean)
+    4. 空(Null)
+    5. 未定义(Undefined)
+    6. Symbol
 
-### 引用数据类型(对象类型)
++ 引用数据类型(对象类型)
+    1. 对象(Object)
+    2. 数组(Array)
+    3. 函数(Function)
 
-1. 对象(Object)
-2. 数组(Array)
-3. 函数(Function)
-4. 正则(RegExp)
-5. 日期(Date)
+### 定义数据
+
+```javascript
+var a = 'Hello';			// 字符串(String)		
+var b = 10;					// 数字(Number)
+var c = true;				// 布尔(Boolean)
+var d = function() {		// 函数(Function)
+	console.log("Hello");
+};
+var e = [1, 2, 3];			// 数组(Array)
+var f = null;				// 空(Null)
+var g = Symbol();			// Symbol
+var h;						// 未定义(Undefined)
+var i = Object();			// 对象(Object)
+```
+
+### 检测数据
+
++ typeof 只可以检测基本数据类型
++ constructor返回实例的构造函数
++ instanceof 原型查找
++ Object.prototype.toString
+
+```javascript
+// 1. typeof检测类型
+console.log("\r\n1. typeof检测类型")
+console.log('type of a is ' + typeof(a));
+console.log('type of b is ' + typeof(b));
+console.log('type of c is ' + typeof(c));
+console.log('type of d is ' + typeof(d));
+console.log('type of e is ' + typeof(e));
+console.log('type of f is ' + typeof(f));
+console.log('type of g is ' + typeof(g));
+console.log('type of h is ' + typeof(h));
+console.log('type of i is ' + typeof(i));
+
+// 2. constructor返回实例的构造函数
+console.log("\r\n2. constructor返回实例的构造函数")
+console.log(a.constructor == String);
+console.log(a.constructor == Number);
+
+console.log(e.constructor == Object);
+console.log(e.constructor == Array);
+
+// 3. instanceof 原型查找
+console.log("\r\n3. instanceof 原型查找")
+console.log(a instanceof String);
+console.log(a instanceof Number);
+
+console.log(e instanceof Object);
+console.log(e instanceof Array);
+
+// 4. Object.prototype.toString
+console.log("\r\n4. Object.prototype.toString")
+console.log('type of a is ' + toString.call(a));
+console.log('type of b is ' + toString.call(b));
+console.log('type of c is ' + toString.call(c));
+console.log('type of d is ' + toString.call(d));
+console.log('type of e is ' + toString.call(e));
+console.log('type of f is ' + toString.call(f));
+console.log('type of g is ' + toString.call(g));
+console.log('type of h is ' + toString.call(h));
+console.log('type of i is ' + toString.call(i));
+```
+
+{{< script >}}
+var a = 'Hello';			// 字符串(String)		
+var b = 10;					// 数字(Number)
+var c = true;				// 布尔(Boolean)
+var d = function() {		// 函数(Function)
+	console.log("Hello");
+};
+var e = [1, 2, 3];			// 数组(Array)
+var f = null;				// 空(Null)
+var g = Symbol();			// Symbol
+var h;						// 未定义(Undefined)
+var i = Object();			// 对象(Object)
+
+console.log("\r\n3.2 数据类型检测类型")
+
+// 1. typeof检测类型
+console.log("\r\n1. typeof检测类型")
+console.log('type of a is ' + typeof(a));
+console.log('type of b is ' + typeof(b));
+console.log('type of c is ' + typeof(c));
+console.log('type of d is ' + typeof(d));
+console.log('type of e is ' + typeof(e));
+console.log('type of f is ' + typeof(f));
+console.log('type of g is ' + typeof(g));
+console.log('type of h is ' + typeof(h));
+console.log('type of i is ' + typeof(i));
+
+// 2. constructor返回实例的构造函数
+console.log("\r\n2. constructor返回实例的构造函数")
+console.log(a.constructor == String);
+console.log(a.constructor == Number);
+
+console.log(e.constructor == Object);
+console.log(e.constructor == Array);
+
+// 3. instanceof 原型查找
+console.log("\r\n3. instanceof 原型查找")
+console.log(a instanceof String);
+console.log(a instanceof Number);
+
+console.log(e instanceof Object);
+console.log(e instanceof Array);
+
+// 4. Object.prototype.toString
+console.log("\r\n4. Object.prototype.toString")
+console.log('type of a is ' + toString.call(a));
+console.log('type of b is ' + toString.call(b));
+console.log('type of c is ' + toString.call(c));
+console.log('type of d is ' + toString.call(d));
+console.log('type of e is ' + toString.call(e));
+console.log('type of f is ' + toString.call(f));
+console.log('type of g is ' + toString.call(g));
+console.log('type of h is ' + toString.call(h));
+console.log('type of i is ' + toString.call(i));
+
+console.log("\r\n\r\n");
+{{< /script >}}
 
 ### 字符串
 
@@ -164,13 +310,79 @@ array[0];       // 打印
 1. if
 2. else
 3. else if
+4. switch
+
+```javascript
+if (1 < 3) {
+	console.log("1 < 3 \r\n");
+}
+
+if (false) {
+	console.log("false \r\n");
+} else {
+	console.log("true \r\n");
+}
+
+if (false) {
+	console.log("false \r\n");
+} else if(false) {
+	console.log("false \r\n");
+} else {
+	console.log("true  \r\n");
+}
+```
+
+同样的道理,js也存在这多路选择
+
+```javascript
+switch (new Date().getDay()) {
+    case 0:
+        day = "星期天";
+        break;
+    case 1:
+        day = "星期一";
+         break;
+    case 2:
+        day = "星期二";
+         break;
+    case 3:
+        day = "星期三";
+         break;
+    case 4:
+        day = "星期四";
+         break;
+    case 5:
+        day = "星期五";
+         break;
+    case 6:
+        day = "星期六";
+}
+console.log('今天是' + day);
+```
 
 ## 循环语句
 
 1. for
+
+```javascript
+for (语句 1; 语句 2; 语句 3) {
+     要执行的代码块
+}
+```
+
 2. for-in
-3. while
-4. do-while
+
+```javascript
+for (key in object) {
+  // code block to be executed
+}
+```
+
+3. for-of
+
+4. while
+
+5. do-while
 
 ## Map和Set
 
