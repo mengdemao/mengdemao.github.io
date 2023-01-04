@@ -384,8 +384,6 @@ for (key in object) {
 
 5. do-while
 
-## Map和Set
-
 ## 遍历语句
 
 ## 函数
@@ -414,6 +412,10 @@ var functionName = function(args)
     return retVal;
 }
 ```
+
+### 函数调用
+
+### 箭头函数
 
 ## 面向对象
 
@@ -503,24 +505,75 @@ console.log(student3.info);
 
 #### 封装语法
 
-### 标准对象
+## 标准对象
 
 > JS为我们定义的标准对象
 
++ Map(映射)
++ Set(集合)
 + Date(日期)
 + RegExp(正则表达式)
 + JSON(JSON)
 + Math(数学)
 
-#### Date(日期)
+### Map(映射)
 
-#### RegExp(正则表达式)
+### Set(集合)
 
-#### JSON(JSON)
+### Date(日期)
 
-#### Math(数学)
+### RegExp(正则表达式)
 
-### 浏览器
+### JSON(JSON)
+
++ 序列化: stringify()
++ 反序列化: parse() 
+
+```javascript
+var text = '{ "student" : [' +
+'{ "name":"hello" , "age": 18 },' +
+'{ "name":"world" , "age": 18 }]}';
+
+var jsonObj = JSON.parse(text);
+var jsonTxt = JSON.stringify(jsonObj);
+
+console.log(jsonObj);
+console.log(jsonTxt);
+```
+
+### Math(数学)
+
+> 与其他全局对象不同的是，Math 不是一个构造器。</br>
+> Math 的所有属性与方法都是静态的. </br>
+> 引用圆周率的写法是 Math.PI,调用正余弦函数的写法是 Math.sin(x)，x 是要传入的参数。</br>
+> Math 的常量是使用 JavaScript 中的全精度浮点数来定义的。</br>
+> Math 用于 Number 类型。它不支持 BigInt </br>
+
+```javascript
+// 常数
+console.log("自然常数:      " + Math.E);
+console.log("2的自然对数:   " + Math.LN2);
+console.log("10的自然对数:  " + Math.LN10);
+
+// 函数
+console.log("-10的绝对值:   " + Math.abs(-10));
+console.log("10的正弦值:    " + Math.sin(10));
+console.log("10的余弦值:    " + Math.cos(10));
+```
+
+输出值
+
+```bash
+$ node Math.js
+自然常数:      2.718281828459045
+2的自然对数:   0.6931471805599453
+10的自然对数:  2.302585092994046
+-10的绝对值:   10
+10的正弦值:    -0.5440211108893698
+10的余弦值:    -0.8390715290764524
+```
+
+## 浏览器
 
 + window
 + navigator
@@ -534,6 +587,36 @@ console.log(student3.info);
 + Promise
 + Canvas
 
+### window
+
+> window 对象表示一个包含 DOM 文档的窗口，其 document 属性指向窗口中载入的 DOM 文档。
+> 使用 document.defaultView 属性可以获取指定文档所在窗口。
+
+> window作为全局变量，代表了脚本正在运行的窗口，暴露给 Javascript 代码。
+
+### navigator
+
+### location
+
+### document
+
+### history
+
+### DOM
+
+> 文档对象模型(DOM)将**web**页面与到脚本或编程语言连接起来.
+> JS通过DOM访问文档;
+
+### 表单
+
+### 文件
+
+### AJAX
+
+### Promise
+
+### Canvas
+
 ## 错误处理
 
 > 程序有可能会出错,因此需要进行错误处理;高级语言`try ... catch ... finally`,
@@ -545,7 +628,7 @@ try {
     r1 = s.length; // 此处应产生错误
     r2 = 100; // 该语句不会执行
 } catch (e) {
-    console.log('出错了：' + e);
+    console.log('error: ' + e);
 } finally {
     console.log('finally');
 }
