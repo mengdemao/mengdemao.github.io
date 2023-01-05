@@ -419,9 +419,57 @@ var functionName = function(args)
 
 ## 面向对象
 
-### 定义对象(ES5)
+### 创建对象(ES5)
 
 > ES5设计的面向对象真的麻烦
+
+#### Object对象
+
++ 创建对象
+
+```javascript
+// 定义对象
+var student = new object();
+```
+
++ 添加成员
+
+```javascript
+// 添加属性
+student.age = 18;
+student.name = "hello";
+
+// 添加方法
+student3.printStudent = function() {
+	console.log('name : ' + this.name);
+	console.log('age : ' + this.age);
+}
+```
+
++ 修改成员
+
+```javascript
+// 修改属性
+student.age = 19;
+student.name = "world";
+
+// 修改方法
+student3.printStudent = function() {
+	console.log('new name : ' + this.name);
+	console.log('new age : ' + this.age);
+}
+```
+
++ 删除成员
+
+```javascript
+delete(student3.name);
+student3.printStudent();
+
+// 打印结果
+// new name : undefined
+// new age : 19
+```
 
 #### 对象初始化器
 
@@ -448,31 +496,11 @@ function Student(name, age) {
 }
 var student = new student("world", 19);
 ```
-
-#### 访问成员
-
-> 访问成员的方式存在两种
-
-+ C方式:`对象名.成员名`
-+ 反射式:`对象名['成员名']`
-
-```javascript
-'use strict';
-
-var student = {
-    name: "hello",
-    age: 18
-};
-
-console.log(student.name);         // hello
-console.log(student['age']);       // 18
-```
-
 #### 继承语法
 
 #### 封装语法
 
-### 定义对象(ES6)
+### 创建对象(ES6)
 
 ```javascript
 class StudentClass {
@@ -499,11 +527,28 @@ var student3 = new StudentClass('test', 12);
 console.log(student3.info);
 ```
 
-#### 访问成员
-
 #### 继承语法
 
 #### 封装语法
+
+### 访问成员
+
+> 访问成员的方式存在两种
+
++ C方式:`对象名.成员名`
++ 反射式:`对象名['成员名']`
+
+```javascript
+'use strict';
+
+var student = {
+    name: "hello",
+    age: 18
+};
+
+console.log(student.name);         // hello
+console.log(student['age']);       // 18
+```
 
 ## 标准对象
 
@@ -573,14 +618,17 @@ $ node Math.js
 10的余弦值:    -0.8390715290764524
 ```
 
-## 浏览器
+## 宿主对象
+
+> 由浏览器提供的对象
 
 + window
 + navigator
 + location
 + document
 + history
-+ DOM
++ Dom
++ Bom
 + 表单
 + 文件
 + AJAX
@@ -606,6 +654,8 @@ $ node Math.js
 
 > 文档对象模型(DOM)将**web**页面与到脚本或编程语言连接起来.
 > JS通过DOM访问文档;
+
+### BOM
 
 ### 表单
 
