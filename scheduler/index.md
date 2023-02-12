@@ -12,10 +12,96 @@
 [系统调度器基础]({{< ref "scheduler.md ">}})</br>
 [完全公平调度器]({{< ref "cfs.md ">}})</br>
 
+## 权重计算
+
+### 优先级计算
+
+优先级
+```c
+// 1. 当前优先级normal_prio
+p->prio = current->normal_prio;
+
+// 2. 静态优先级 
+p->static_prio = NICE_TO_PRIO(0)
+
+// 3. 继续计算优先级
+p->prio = p->normal_prio = __normal_prio(p);
+
+// 4. 这在计算什么?
+#define NICE_TO_PRIO(nice)	((nice) + DEFAULT_PRIO)
+#define PRIO_TO_NICE(prio)	((prio) - DEFAULT_PRIO)
+
+static inline int __normal_prio(struct task_struct *p)
+{
+	return p->static_prio;
+}
+```
+
+### 权重计算
+
+```c
+struct load_weight {
+	unsigned long weight;
+	u32 inv_weight;
+};
+static void set_load_weight(struct task_struct *p)
+{
+	int prio = p->static_prio - MAX_RT_PRIO;
+	struct load_weight *load = &p->se.load;
+
+	/*
+	 * SCHED_IDLE tasks get minimal weight:
+	 */
+	if (p->policy == SCHED_IDLE) {
+		load->weight = scale_load(WEIGHT_IDLEPRIO);
+		load->inv_weight = WMULT_IDLEPRIO;
+		return;
+	}
+
+	load->weight = scale_load(prio_to_weight[prio]);
+	load->inv_weight = prio_to_wmult[prio];
+}
+
+static const int prio_to_weight[40] = {
+ /* -20 */     88761,     71755,     56483,     46273,     36291,
+ /* -15 */     29154,     23254,     18705,     14949,     11916,
+ /* -10 */      9548,      7620,      6100,      4904,      3906,
+ /*  -5 */      3121,      2501,      1991,      1586,      1277,
+ /*   0 */      1024,       820,       655,       526,       423,
+ /*   5 */       335,       272,       215,       172,       137,
+ /*  10 */       110,        87,        70,        56,        45,
+ /*  15 */        36,        29,        23,        18,        15,
+};
+
+static const u32 prio_to_wmult[40] = {
+ /* -20 */     48388,     59856,     76040,     92818,    118348,
+ /* -15 */    147320,    184698,    229616,    287308,    360437,
+ /* -10 */    449829,    563644,    704093,    875809,   1099582,
+ /*  -5 */   1376151,   1717300,   2157191,   2708050,   3363326,
+ /*   0 */   4194304,   5237765,   6557202,   8165337,  10153587,
+ /*   5 */  12820798,  15790321,  19976592,  24970740,  31350126,
+ /*  10 */  39045157,  49367440,  61356676,  76695844,  95443717,
+ /*  15 */ 119304647, 148102320, 186737708, 238609294, 286331153,
+};
+```
+
+优先级与负载计算关系 
+			$weight = \frac{1024}{1.25^{nice}}$
+			${inv\_weight} = \frac{2^{32}}{weight}$
+
 ## 调度器类
 
 linux内核充分使用了面向对象的思想,
 依靠`sched_class`将所有的调度器整合
+
+linux上的调度器
+
+|     调度器类     |    描述信息    |        用户接口调度策略        |
+| :--------------: | :------------: | :----------------------------: |
+|  dl_sched_class  | deadline调度器 |        `SCHED_DEADLINE`        |
+|  rt_sched_class  |   实时调度器   |   `SCHED_FIFO`、``SCHED_RR`    |
+| fair_sched_class | 完全公平调度器 | `SCHED_NORMAL`、``SCHED_BATCH` |
+| idle_sched_class |   idle task    |          `SCHED_IDLE`          |
 
 ### 调度器类结构体
 
@@ -538,7 +624,12 @@ void wake_up_new_task(struct task_struct *p)
 }
 ```
 
-## 主调度
+## 调度基础
+
++ 主调度器
++ 滴答调度器
+
+### 主调度器
 
 ```c
 static void __sched __schedule(void)
@@ -617,9 +708,7 @@ static void __sched __schedule(void)
 }
 ```
 
-
-
-## 滴答调度器
+### 滴答调度器
 
 ```c
 void scheduler_tick(void)
@@ -646,4 +735,9 @@ void scheduler_tick(void)
 }
 ```
 
+## 调度增强
+
+### 组调度
+
+### 负载均衡
 
