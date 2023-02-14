@@ -708,6 +708,107 @@ static void __sched __schedule(void)
 }
 ```
 
+```mermaid
+graph TD
+schedule --> __schedule --> context_switch
+
+```
+
+进入任务切换的核心函数`context_switch`,这个函数真够复杂的;
+
+```c
+static inline struct rq *context_switch(struct rq *rq, 
+                                        struct task_struct *prev,
+	       								struct task_struct *next)
+{
+	struct mm_struct *mm, *oldmm;
+	
+    // 执行切换前准备
+	prepare_task_switch(rq, prev, next);
+	
+    // 普通进程mm和active_mm相等
+	// 但是内核线程没有mm,只有active_mm
+    mm = next->mm;
+	oldmm = prev->active_mm;
+    
+	arch_start_context_switch(prev);
+
+	if (!mm) {	// 这个是内核线程
+		next->active_mm = oldmm; 		// next线程借用oldmem，什么原因
+		atomic_inc(&oldmm->mm_count);	// 减少计数
+		enter_lazy_tlb(oldmm, next);	// 进入lazytlb，arm上为空
+	} else	// 这个是用户线程
+		switch_mm(oldmm, mm, next);
+
+	if (!prev->mm) {					// 代表prev是一个内核线程
+		prev->active_mm = NULL;	
+		rq->prev_mm = oldmm;			// 内核线程共享内存
+	}
+	/*
+	 * Since the runqueue lock will be released by the next
+	 * task (which is an invalid locking op but in the case
+	 * of the scheduler it's an obvious special-case), so we
+	 * do an early lockdep release here:
+	 */
+	spin_release(&rq->lock.dep_map, 1, _THIS_IP_);
+
+	context_tracking_task_switch(prev, next);		// 调试使用
+	
+    /* Here we just switch the register state and the stack. */
+	switch_to(prev, next, prev); // 这个函数和体系相关
+	
+    barrier();
+
+	return finish_task_switch(prev);
+}
+
+extern struct task_struct *__switch_to(struct task_struct *, 
+                                       struct thread_info *, 
+                                       struct thread_info *);
+
+#define switch_to(prev,next,last)					\
+do {									\
+	last = __switch_to(prev,task_thread_info(prev), task_thread_info(next));	\
+} while (0)
+```
+
+在arm32的实现中,这个是汇编编写的；我并没有看明白
+这个地方和硬件进行强相关；
+
+最终需要考虑的是进程在队列中的实现;
+
+### 内存空间切换`switch_mm`
+
+当然也是和硬件体系强相关
+
+```c
+static inline void
+switch_mm(struct mm_struct *prev, struct mm_struct *next,
+	  struct task_struct *tsk)
+{
+#ifdef CONFIG_MMU
+	unsigned int cpu = smp_processor_id();
+
+	/*
+	 * __sync_icache_dcache doesn't broadcast the I-cache invalidation,
+	 * so check for possible thread migration and invalidate the I-cache
+	 * if we're new to this CPU.
+	 */
+	if (cache_ops_need_broadcast() &&
+	    !cpumask_empty(mm_cpumask(next)) &&
+	    !cpumask_test_cpu(cpu, mm_cpumask(next)))
+		__flush_icache_all();
+
+	if (!cpumask_test_and_set_cpu(cpu, mm_cpumask(next)) || prev != next) {
+		check_and_switch_context(next, tsk);
+		if (cache_is_vivt())
+			cpumask_clear_cpu(cpu, mm_cpumask(prev));
+	}
+#endif
+}
+```
+
+
 ### 滴答调度器
 
 ```c
@@ -738,6 +839,48 @@ void scheduler_tick(void)
 ## 调度增强
 
 ### 组调度
+
+组调度:多个用户登录时平均分配计算机时间;
+
+```c
+/* task group related information */
+struct task_group {
+	struct cgroup_subsys_state css;
+
+#ifdef CONFIG_FAIR_GROUP_SCHED
+	/* schedulable entities of this group on each cpu */
+	struct sched_entity **se;
+	/* runqueue "owned" by this group on each cpu */
+	struct cfs_rq **cfs_rq;
+	unsigned long shares;
+
+#ifdef	CONFIG_SMP
+	atomic_long_t load_avg;
+	atomic_t runnable_avg;
+#endif
+#endif
+
+#ifdef CONFIG_RT_GROUP_SCHED
+	struct sched_rt_entity **rt_se;
+	struct rt_rq **rt_rq;
+
+	struct rt_bandwidth rt_bandwidth;
+#endif
+
+	struct rcu_head rcu;
+	struct list_head list;
+
+	struct task_group *parent;
+	struct list_head siblings;
+	struct list_head children;
+
+#ifdef CONFIG_SCHED_AUTOGROUP
+	struct autogroup *autogroup;
+#endif
+
+	struct cfs_bandwidth cfs_bandwidth;
+};
+```
 
 ### 负载均衡
 
