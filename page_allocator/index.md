@@ -2,20 +2,68 @@
 
 
 # 页面分配器
-核心函数: __alloc_pages_nodemask
-+ gfp_mask : 分配掩码
-+ order : 分配阶数
-+ preferred_nid
-+ nodemask
+
+linux常用的物理界面分配器的函数是`alloc_pages`,下面分析是如何实现的.
+
+```c
+#define alloc_pages(gfp_mask, order) alloc_pages_node(numa_node_id(), gfp_mask, order)
+
+static inline struct page *alloc_pages_node(int nid, gfp_t gfp_mask, unsigned int order)
+{
+	/* Unknown node is current node */
+	if (nid < 0)
+		nid = numa_node_id();
+
+	return __alloc_pages(gfp_mask, order, node_zonelist(nid, gfp_mask));
+}
+
+static inline struct page *__alloc_pages(gfp_t gfp_mask, unsigned int order, struct zonelist *zonelist)
+{
+	return __alloc_pages_nodemask(gfp_mask, order, zonelist, NULL);
+}
+```
+
+**此时正式进入函数分析阶段**
+```c
+/**
+ * @brief  分配物理页面
+ * @param  gfp_mask         分配掩码
+ * @param  order            分配阶数
+ * @param  zonelist			内存区域
+ * @param  nodemask			节点掩码
+ * @return struct page*     分配的物理页面
+ */
+struct page *__alloc_pages_nodemask(gfp_t gfp_mask, unsigned int order, struct zonelist *zonelist, nodemask_t *nodemask);
+```
+
+详细解析接口实现
+
++ 分配掩码
+
+```c
+typedef unsigned __bitwise__ gfp_t;
+```
+
++ 分配阶数
+
+描述分配的大小 $$ {page\_number} = 2 ^ {order} $$
+
++ 内存区域
+
+zone令行分析
+
++ 节点掩码
+
+nodemask令行分析
 
 ## 核心函数
 ``` c
 struct page *__alloc_pages_nodemask(gfp_t gfp_mask, unsigned int order, int preferred_nid, nodemask_t *nodemask)
 {
-	struct page *page;			// 分配变量
+	struct page *page;							// 分配变量
 	unsigned int alloc_flags = ALLOC_WMARK_LOW;	// 分配标志
-	gfp_t alloc_mask; // 真实分配掩码
-	struct alloc_context ac = { };	// 保存相关参数
+	gfp_t alloc_mask; 							// 真实分配掩码
+	struct alloc_context ac = { };				// 保存相关参数
 
 	/*
 	 * There are several places where we assume that the order value is sane
