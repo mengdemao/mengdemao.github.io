@@ -430,6 +430,8 @@ enqueue_task_fair(struct rq *rq, struct task_struct *p, int flags)
 
 ## dequeue_task_fair
 
+> 将任务从CFS队列中移除
+
 ```c
 static void dequeue_task_fair(struct rq *rq, struct task_struct *p, int flags)
 {
