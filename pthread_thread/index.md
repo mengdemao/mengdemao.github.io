@@ -3,6 +3,62 @@
 
 > 基于musl源码库与glibc库,其中musl提供分析的思路,glibc分析具体实现
 
+## 调试环境搭建
+
+### 下载源码
+
+执行`/usr/lib/libc.so.6`,确定版本
+
+```shell
+/usr/lib/libc.so.6
+GNU C Library (GNU libc) stable release version 2.37.
+Copyright (C) 2023 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.
+There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.
+Compiled by GNU CC version 12.2.1 20230201.
+libc ABIs: UNIQUE IFUNC ABSOLUTE
+Minimum supported kernel: 4.4.0
+For bug reporting instructions, please see:
+<https://bugs.archlinux.org/>.
+```
+
+[清华源下载glibc2.37](https://mirrors.tuna.tsinghua.edu.cn/gnu/glibc/glibc-2.37.tar.xz)
+
+### 编译glibc
+
+```shell
+#!/bin/bash
+# shellcheck disable=SC2034
+
+root_path=$(pwd)
+install_path=${root_path}/install/glibc
+glibc_path=${root_path}/glibc-2.37
+
+pushd "${glibc_path}" >> /dev/null || exit
+mkdir build && pushd build >> /dev/null || exit
+CFLAGS="-g -g3 -ggdb -gdwarf-4 -Og -Wno-error" \
+CXXFLAGS="-g -g3 -ggdb -gdwarf-4 -Og -Wno-error"
+../configure --prefix="${install_path}" --disable-werror
+make -j"$(nproc)"
+make install
+
+popd >> /dev/null || exit
+popd >> /dev/null || exit
+```
+
+### 测试代码
+
+```
+gcc -g -L $(PWD)/../install/lib -Wl,--rpath=$(PWD)/../install/lib -Wl,-I $(PWD)/../install/lib/ld-linux-x86-64.so.2 test_main.c -o test_main
+```
+
+![image-20230226010046096](picture/image-20230226010046096.png)
+
+![image-20230226010204462](picture/image-20230226010204462.png)
+
+完美实现效果
+
 ## pthread句柄
 
 ### musl实现

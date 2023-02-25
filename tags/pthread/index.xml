@@ -4,4 +4,4 @@
 &lt;img src="featuredImage/02.jpg" referrerpolicy="no-referrer">
 &lt;/div>1 futex实现 高级锁的实现都是与futex实现相关 Futex是Fast Userspace muTexes的缩写 常用的锁都是通过futex实现的 mutex (互斥锁) rwlock</description></item><item><title>pthread线程源码分析</title><link>https://mengdemao.github.io/pthread_thread/</link><pubDate>Mon, 18 Jul 2022 21:27:23 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.github.io/pthread_thread/</guid><description>&lt;div class="featured-image">
 &lt;img src="featuredImage/02.jpg" referrerpolicy="no-referrer">
-&lt;/div>基于musl源码库与glibc库,其中musl提供分析的思路,glibc分析具体实现 1 pthread句柄 1.1 musl实现 1 2 3 4 5 6 7 8 9 10 11</description></item></channel></rss>
+&lt;/div>基于musl源码库与glibc库,其中musl提供分析的思路,glibc分析具体实现 1 调试环境搭建 1.1 下载源码执行/usr/lib/libc.</description></item></channel></rss>
