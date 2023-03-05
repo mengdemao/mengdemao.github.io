@@ -1,4 +1,4 @@
-<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>pthread线程同步 - 编程日志</title><meta name=Description content="pthread线程源码分析"><meta property="og:title" content="pthread线程同步"><meta property="og:description" content="pthread线程源码分析"><meta property="og:type" content="article"><meta property="og:url" content="https://mengdemao.github.io/pthread_lock/"><meta property="og:image" content="https://mengdemao.github.io/images/avatar.webp"><meta property="article:section" content="posts"><meta property="article:published_time" content="2022-07-18T21:27:24+08:00"><meta property="article:modified_time" content="2023-02-26T20:51:48+08:00"><meta property="og:site_name" content="编程日志"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://mengdemao.github.io/images/avatar.webp"><meta name=twitter:title content="pthread线程同步"><meta name=twitter:description content="pthread线程源码分析"><meta name=application-name content="面向玄学编程"><meta name=apple-mobile-web-app-title content="面向玄学编程"><meta name=theme-color content="#f8f8f8"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://mengdemao.github.io/pthread_lock/><link rel=prev href=https://mengdemao.github.io/pthread_thread/><link rel=next href=https://mengdemao.github.io/pthread_local_storage/><link rel=stylesheet href=/lib/normalize/normalize.min.8235a67a2521ef99fb1e455a5891b022af1653b4ede3cfffcac4e473beee88fbcc1a36bbb3cfdd75fd6df46732032f9d96e30adae9c88b769e1fbf7945cd27e0.css integrity="sha512-gjWmeiUh75n7HkVaWJGwIq8WU7Tt48//ysTkc77uiPvMGja7s8/ddf1t9GcyAy+dluMK2unIi3aeH795Rc0n4A=="><link rel=stylesheet href=/css/color.346090a8e4618da38ff45853421bbd1d5ffa3c25e678a3f0131c9f7d5300e15669f91c74f1ed5fab76e7424a2a6a5619a9dc45f99e04f246e37d8af51295b6ae.css integrity="sha512-NGCQqORhjaOP9FhTQhu9HV/6PCXmeKPwExyffVMA4VZp+Rx08e1fq3bnQkoqalYZqdxF+Z4E8kbjfYr1EpW2rg=="><link rel=stylesheet href=/css/style.min.8d076c5338ba6689f985513752ef83afe5c81bed30b21d87bb60a642c5a8f68d9ae554f4ce827d1f4570bf45ab0a42c575a189f7783c4857cb76f32b4da86440.css integrity="sha512-jQdsUzi6Zon5hVE3Uu+Dr+XIG+0wsh2Hu2CmQsWo9o2a5VT0zoJ9H0Vwv0WrCkLFdaGJ93g8SFfLdvMrTahkQA=="><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/fontawesome-free/all.min.eb8387c9eb0ab6d4fa4d7ad397d15df13b92c009a1eb221b757dd1ecfccabc78a4c5b681847a7f4198ff7cd60abed8300508c9dea138cd1f4a85f09f09b2092a.css integrity="sha512-64OHyesKttT6TXrTl9Fd8TuSwAmh6yIbdX3R7PzKvHikxbaBhHp/QZj/fNYKvtgwBQjJ3qE4zR9KhfCfCbIJKg=="><noscript><link rel=stylesheet href=/lib/fontawesome-free/all.min.eb8387c9eb0ab6d4fa4d7ad397d15df13b92c009a1eb221b757dd1ecfccabc78a4c5b681847a7f4198ff7cd60abed8300508c9dea138cd1f4a85f09f09b2092a.css integrity="sha512-64OHyesKttT6TXrTl9Fd8TuSwAmh6yIbdX3R7PzKvHikxbaBhHp/QZj/fNYKvtgwBQjJ3qE4zR9KhfCfCbIJKg=="></noscript><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/animate/animate.min.738daa4d2c3fc0f677ff92c1cc3f81c397fb6d2176a31a2eeb011bf88fe5a9e68a57914321f32fbd1a7bef6cb88dc24b2ae1943a96c931d83f053979d1f25803.css integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw=="><noscript><link rel=stylesheet href=/lib/animate/animate.min.738daa4d2c3fc0f677ff92c1cc3f81c397fb6d2176a31a2eeb011bf88fe5a9e68a57914321f32fbd1a7bef6cb88dc24b2ae1943a96c931d83f053979d1f25803.css integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw=="></noscript><meta name=google-site-verification content="MQ8DNu27ayX6B_4ObiEDK09vGr1fdy7kOAnbd09hJk4"><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"pthread线程同步","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/mengdemao.github.io\/pthread_lock\/"},"image":["https:\/\/mengdemao.github.io\/images\/Apple-Devices-Preview.png"],"genre":"posts","keywords":"pthread","wordcount":1808,"url":"https:\/\/mengdemao.github.io\/pthread_lock\/","datePublished":"2022-07-18T21:27:24+08:00","dateModified":"2023-02-26T20:51:48+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"mengdemao","logo":{"@type":"ImageObject","url":"https:\/\/mengdemao.github.io\/images\/avatar.webp","width":528,"height":560}},"author":{"@type":"Person","name":"mengdemao"},"description":"pthread线程源码分析"}</script><script src=//instant.page/5.1.1 defer type=module integrity=sha384-MWfCL6g1OTGsbSwfuMHc8+8J2u71/LA8dzlIN3ycajckxuZZmF+DNjdm7O6H3PSq></script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>function setTheme(e){document.body.setAttribute("theme",e),document.documentElement.style.setProperty("color-scheme",e==="light"?"light":"dark")}function saveTheme(e){window.localStorage&&localStorage.setItem("theme",e)}function getMeta(e){const t=document.getElementsByTagName("meta");for(let n=0;n<t.length;n++)if(t[n].getAttribute("name")===e)return t[n];return""}if(window.localStorage&&localStorage.getItem("theme")){let e=localStorage.getItem("theme");e==="light"||e==="dark"||e==="black"?setTheme(e):setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}else"auto"==="light"||"auto"==="dark"||"auto"==="black"?(setTheme("auto"),saveTheme("auto")):(saveTheme("auto"),setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));let metaColors={light:"#f8f8f8",dark:"#252627",black:"#000000"};getMeta("theme-color").content=metaColors[document.body.getAttribute("theme")]</script><div id=back-to-top></div><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=header-title-pre><i class='far fa-edit fa-fw'></i></span><span id=desktop-header-typeit class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/ title=归档>归档 </a><a class=menu-item href=/tags/ title=标签>标签 </a><a class=menu-item href=/categories/ title=分类>分类 </a><a class=menu-item href=/series/ title=系列>系列 </a><a class=menu-item href=/about/ title=关于>关于 </a><a class=menu-item href=https://github.com/mengdemao/github.io title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github-alt fa-fw'></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>pthread线程同步 - 编程日志</title><meta name=Description content="pthread线程源码分析"><meta property="og:title" content="pthread线程同步"><meta property="og:description" content="pthread线程源码分析"><meta property="og:type" content="article"><meta property="og:url" content="https://mengdemao.github.io/pthread_lock/"><meta property="og:image" content="https://mengdemao.github.io/images/avatar.webp"><meta property="article:section" content="posts"><meta property="article:published_time" content="2022-07-18T21:27:24+08:00"><meta property="article:modified_time" content="2023-03-05T08:33:20+08:00"><meta property="og:site_name" content="编程日志"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://mengdemao.github.io/images/avatar.webp"><meta name=twitter:title content="pthread线程同步"><meta name=twitter:description content="pthread线程源码分析"><meta name=application-name content="面向玄学编程"><meta name=apple-mobile-web-app-title content="面向玄学编程"><meta name=theme-color content="#f8f8f8"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://mengdemao.github.io/pthread_lock/><link rel=prev href=https://mengdemao.github.io/pthread_thread/><link rel=next href=https://mengdemao.github.io/pthread_local_storage/><link rel=stylesheet href=/lib/normalize/normalize.min.8235a67a2521ef99fb1e455a5891b022af1653b4ede3cfffcac4e473beee88fbcc1a36bbb3cfdd75fd6df46732032f9d96e30adae9c88b769e1fbf7945cd27e0.css integrity="sha512-gjWmeiUh75n7HkVaWJGwIq8WU7Tt48//ysTkc77uiPvMGja7s8/ddf1t9GcyAy+dluMK2unIi3aeH795Rc0n4A=="><link rel=stylesheet href=/css/color.346090a8e4618da38ff45853421bbd1d5ffa3c25e678a3f0131c9f7d5300e15669f91c74f1ed5fab76e7424a2a6a5619a9dc45f99e04f246e37d8af51295b6ae.css integrity="sha512-NGCQqORhjaOP9FhTQhu9HV/6PCXmeKPwExyffVMA4VZp+Rx08e1fq3bnQkoqalYZqdxF+Z4E8kbjfYr1EpW2rg=="><link rel=stylesheet href=/css/style.min.3f2463a3abb5cc638522b4a28d5145540c4e35111e10fa27a388155d2489eacc103adfab2bcb506effbad33646120dff1f2a85bebda061b29055a37602fe1947.css integrity="sha512-PyRjo6u1zGOFIrSijVFFVAxONREeEPono4gVXSSJ6swQOt+rK8tQbv+60zZGEg3/HyqFvr2gYbKQVaN2Av4ZRw=="><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/fontawesome-free/all.min.eb8387c9eb0ab6d4fa4d7ad397d15df13b92c009a1eb221b757dd1ecfccabc78a4c5b681847a7f4198ff7cd60abed8300508c9dea138cd1f4a85f09f09b2092a.css integrity="sha512-64OHyesKttT6TXrTl9Fd8TuSwAmh6yIbdX3R7PzKvHikxbaBhHp/QZj/fNYKvtgwBQjJ3qE4zR9KhfCfCbIJKg=="><noscript><link rel=stylesheet href=/lib/fontawesome-free/all.min.eb8387c9eb0ab6d4fa4d7ad397d15df13b92c009a1eb221b757dd1ecfccabc78a4c5b681847a7f4198ff7cd60abed8300508c9dea138cd1f4a85f09f09b2092a.css integrity="sha512-64OHyesKttT6TXrTl9Fd8TuSwAmh6yIbdX3R7PzKvHikxbaBhHp/QZj/fNYKvtgwBQjJ3qE4zR9KhfCfCbIJKg=="></noscript><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/animate/animate.min.738daa4d2c3fc0f677ff92c1cc3f81c397fb6d2176a31a2eeb011bf88fe5a9e68a57914321f32fbd1a7bef6cb88dc24b2ae1943a96c931d83f053979d1f25803.css integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw=="><noscript><link rel=stylesheet href=/lib/animate/animate.min.738daa4d2c3fc0f677ff92c1cc3f81c397fb6d2176a31a2eeb011bf88fe5a9e68a57914321f32fbd1a7bef6cb88dc24b2ae1943a96c931d83f053979d1f25803.css integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw=="></noscript><meta name=google-site-verification content="MQ8DNu27ayX6B_4ObiEDK09vGr1fdy7kOAnbd09hJk4"><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"pthread线程同步","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/mengdemao.github.io\/pthread_lock\/"},"image":["https:\/\/mengdemao.github.io\/images\/Apple-Devices-Preview.png"],"genre":"posts","keywords":"pthread","wordcount":4818,"url":"https:\/\/mengdemao.github.io\/pthread_lock\/","datePublished":"2022-07-18T21:27:24+08:00","dateModified":"2023-03-05T08:33:20+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"mengdemao","logo":{"@type":"ImageObject","url":"https:\/\/mengdemao.github.io\/images\/avatar.webp","width":528,"height":560}},"author":{"@type":"Person","name":"mengdemao"},"description":"pthread线程源码分析"}</script><script src=//instant.page/5.1.1 defer type=module integrity=sha384-MWfCL6g1OTGsbSwfuMHc8+8J2u71/LA8dzlIN3ycajckxuZZmF+DNjdm7O6H3PSq></script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>function setTheme(e){document.body.setAttribute("theme",e),document.documentElement.style.setProperty("color-scheme",e==="light"?"light":"dark")}function saveTheme(e){window.localStorage&&localStorage.setItem("theme",e)}function getMeta(e){const t=document.getElementsByTagName("meta");for(let n=0;n<t.length;n++)if(t[n].getAttribute("name")===e)return t[n];return""}if(window.localStorage&&localStorage.getItem("theme")){let e=localStorage.getItem("theme");e==="light"||e==="dark"||e==="black"?setTheme(e):setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}else"auto"==="light"||"auto"==="dark"||"auto"==="black"?(setTheme("auto"),saveTheme("auto")):(saveTheme("auto"),setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));let metaColors={light:"#f8f8f8",dark:"#252627",black:"#000000"};getMeta("theme-color").content=metaColors[document.body.getAttribute("theme")]</script><div id=back-to-top></div><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=header-title-pre><i class='far fa-edit fa-fw'></i></span><span id=desktop-header-typeit class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/ title=归档>归档 </a><a class=menu-item href=/tags/ title=标签>标签 </a><a class=menu-item href=/categories/ title=分类>分类 </a><a class=menu-item href=/series/ title=系列>系列 </a><a class=menu-item href=/about/ title=关于>关于 </a><a class=menu-item href=https://github.com/mengdemao/github.io title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github-alt fa-fw'></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
 <input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
 <a href=# class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw"></i></a>
 <a href=# class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw"></i></a>
@@ -9,10 +9,24 @@
 <a href=# class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw"></i></a>
 <span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin"></i></span></div><a href=# class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts/ title=归档>归档</a><a class=menu-item href=/tags/ title=标签>标签</a><a class=menu-item href=/categories/ title=分类>分类</a><a class=menu-item href=/series/ title=系列>系列</a><a class=menu-item href=/about/ title=关于>关于</a><a class=menu-item href=https://github.com/mengdemao/github.io title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github-alt fa-fw'></i></a><a href=# class="menu-item theme-select" title=切换主题>
 <i class="fas fa-adjust fa-fw"></i>
-<select class=color-theme-select id=theme-select-mobile title=切换主题><option value=light>浅色</option><option value=dark>深色</option><option value=black>黑色</option><option value=auto>跟随系统</option></select></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto><nav id=TableOfContents><ul><li><a href=#futex实现>futex实现</a><ul><li><a href=#内核实现>内核实现</a></li><li><a href=#musl实现>musl实现</a></li></ul></li><li><a href=#原子操作>原子操作</a><ul><li><a href=#musl实现-1>musl实现</a></li><li><a href=#glibc实现>glibc实现</a></li></ul></li><li><a href=#自旋锁>自旋锁</a><ul><li><a href=#musl实现-2>musl实现</a></li><li><a href=#glibc实现-1>glibc实现</a></li></ul></li><li><a href=#内存屏障>内存屏障</a><ul><li><a href=#musl实现-3>musl实现</a></li><li><a href=#glibc实现-2>glibc实现</a></li></ul></li><li><a href=#互斥锁>互斥锁</a><ul><li><a href=#musl实现-4>musl实现</a></li><li><a href=#glibc实现-3>glibc实现</a><ul><li><a href=#互斥锁的定义>互斥锁的定义</a></li></ul></li></ul></li><li><a href=#条件变量>条件变量</a><ul><li><a href=#musl实现-5>musl实现</a></li><li><a href=#glibc实现-4>glibc实现</a></li></ul></li><li><a href=#读写锁>读写锁</a><ul><li><a href=#musl实现-6>musl实现</a></li><li><a href=#glibc实现-5>glibc实现</a></li></ul></li><li><a href=#pthread杂项>pthread杂项</a></li></ul></nav></div></div><script>document.getElementsByTagName("main")[0].setAttribute("pageStyle","normal")</script><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC","true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">pthread线程同步</h1><div class=post-meta><div class=post-meta-line><span class=post-author><i class="author fas fa-user-circle fa-fw"></i><a href=https://github.com/mengdemao/github.io title=Author target=_blank rel="noopener noreferrer author" class=author>mengdemao</a>
-</span>&nbsp;<span class=post-category>收录于 </span>&nbsp;<span class=post-category>类别 <a href=/categories/pthread/><i class="far fa-folder fa-fw"></i>pthread</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2022-07-18>2022-07-18</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime=2023-02-26>2023-02-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1808 字&nbsp;
-<i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;</div></div><div class=featured-image><img loading=eager src=featuredImage/02.jpg srcset="/featuredImage/02.jpg, featuredImage/02.jpg 1.5x, /featuredImage/02.jpg 2x" sizes=auto alt=/featuredImage/02.jpg title=pthread线程源码分析 height=auto width=auto></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>目录</span>
-<span><i class="details-icon fas fa-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#futex实现>futex实现</a><ul><li><a href=#内核实现>内核实现</a></li><li><a href=#musl实现>musl实现</a></li></ul></li><li><a href=#原子操作>原子操作</a><ul><li><a href=#musl实现-1>musl实现</a></li><li><a href=#glibc实现>glibc实现</a></li></ul></li><li><a href=#自旋锁>自旋锁</a><ul><li><a href=#musl实现-2>musl实现</a></li><li><a href=#glibc实现-1>glibc实现</a></li></ul></li><li><a href=#内存屏障>内存屏障</a><ul><li><a href=#musl实现-3>musl实现</a></li><li><a href=#glibc实现-2>glibc实现</a></li></ul></li><li><a href=#互斥锁>互斥锁</a><ul><li><a href=#musl实现-4>musl实现</a></li><li><a href=#glibc实现-3>glibc实现</a><ul><li><a href=#互斥锁的定义>互斥锁的定义</a></li></ul></li></ul></li><li><a href=#条件变量>条件变量</a><ul><li><a href=#musl实现-5>musl实现</a></li><li><a href=#glibc实现-4>glibc实现</a></li></ul></li><li><a href=#读写锁>读写锁</a><ul><li><a href=#musl实现-6>musl实现</a></li><li><a href=#glibc实现-5>glibc实现</a></li></ul></li><li><a href=#pthread杂项>pthread杂项</a></li></ul></nav></div></div><div class=content id=content><h2 id=futex实现 class=headerLink><a href=#futex%e5%ae%9e%e7%8e%b0 class=header-mark></a>1 futex实现</h2><blockquote><p>高级锁的实现都是与futex实现相关</p></blockquote><p><strong>Futex</strong>是<strong>Fast Userspace muTexes</strong>的缩写</p><p>常用的锁都是通过futex实现的</p><ul><li>mutex (互斥锁)</li><li>rwlock (读写锁)</li><li>cond (条件变量)</li></ul><div class=mermaid id=id-1></div><h3 id=内核实现 class=headerLink><a href=#%e5%86%85%e6%a0%b8%e5%ae%9e%e7%8e%b0 class=header-mark></a>1.1 内核实现</h3><p>但是我并没有搞明白futex实现的原理,造成难以继续分析,
+<select class=color-theme-select id=theme-select-mobile title=切换主题><option value=light>浅色</option><option value=dark>深色</option><option value=black>黑色</option><option value=auto>跟随系统</option></select></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto><nav id=TableOfContents><ul><li><a href=#futex原理>futex原理</a></li><li><a href=#futex实现>futex实现</a><ul><li><a href=#musl实现>musl实现</a></li><li><a href=#glibc实现>glibc实现</a></li></ul></li><li><a href=#原子操作>原子操作</a><ul><li><a href=#musl实现-1>musl实现</a></li><li><a href=#glibc实现-1>glibc实现</a></li></ul></li><li><a href=#自旋锁>自旋锁</a><ul><li><a href=#musl实现-2>musl实现</a></li><li><a href=#glibc实现-2>glibc实现</a></li></ul></li><li><a href=#内存屏障>内存屏障</a><ul><li><a href=#musl实现-3>musl实现</a></li><li><a href=#glibc实现-3>glibc实现</a></li></ul></li><li><a href=#互斥锁>互斥锁</a><ul><li><a href=#musl实现-4>musl实现</a></li><li><a href=#glibc实现-4>glibc实现</a></li></ul></li><li><a href=#条件变量>条件变量</a><ul><li><a href=#musl实现-5>musl实现</a></li><li><a href=#glibc实现-5>glibc实现</a></li></ul></li><li><a href=#读写锁>读写锁</a><ul><li><a href=#musl实现-6>musl实现</a></li><li><a href=#glibc实现-6>glibc实现</a></li></ul></li></ul></nav></div></div><script>document.getElementsByTagName("main")[0].setAttribute("pageStyle","normal")</script><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC","true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">pthread线程同步</h1><div class=post-meta><div class=post-meta-line><span class=post-author><i class="author fas fa-user-circle fa-fw"></i><a href=https://github.com/mengdemao/github.io title=Author target=_blank rel="noopener noreferrer author" class=author>mengdemao</a>
+</span>&nbsp;<span class=post-category>收录于 </span>&nbsp;<span class=post-category>类别 <a href=/categories/pthread/><i class="far fa-folder fa-fw"></i>pthread</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2022-07-18>2022-07-18</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime=2023-03-05>2023-03-05</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 4818 字&nbsp;
+<i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 10 分钟&nbsp;</div></div><div class=featured-image><img loading=eager src=featuredImage/02.jpg srcset="/featuredImage/02.jpg, featuredImage/02.jpg 1.5x, /featuredImage/02.jpg 2x" sizes=auto alt=/featuredImage/02.jpg title=pthread线程源码分析 height=auto width=auto></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#futex原理>futex原理</a></li><li><a href=#futex实现>futex实现</a><ul><li><a href=#musl实现>musl实现</a></li><li><a href=#glibc实现>glibc实现</a></li></ul></li><li><a href=#原子操作>原子操作</a><ul><li><a href=#musl实现-1>musl实现</a></li><li><a href=#glibc实现-1>glibc实现</a></li></ul></li><li><a href=#自旋锁>自旋锁</a><ul><li><a href=#musl实现-2>musl实现</a></li><li><a href=#glibc实现-2>glibc实现</a></li></ul></li><li><a href=#内存屏障>内存屏障</a><ul><li><a href=#musl实现-3>musl实现</a></li><li><a href=#glibc实现-3>glibc实现</a></li></ul></li><li><a href=#互斥锁>互斥锁</a><ul><li><a href=#musl实现-4>musl实现</a></li><li><a href=#glibc实现-4>glibc实现</a></li></ul></li><li><a href=#条件变量>条件变量</a><ul><li><a href=#musl实现-5>musl实现</a></li><li><a href=#glibc实现-5>glibc实现</a></li></ul></li><li><a href=#读写锁>读写锁</a><ul><li><a href=#musl实现-6>musl实现</a></li><li><a href=#glibc实现-6>glibc实现</a></li></ul></li></ul></nav></div></div><div class=content id=content><h2 id=futex原理 class=headerLink><a href=#futex%e5%8e%9f%e7%90%86 class=header-mark></a>1 futex原理</h2><blockquote><p>高级锁的实现都是与futex实现相关</p></blockquote><p><strong>Futex</strong>是<strong>Fast Userspace muTexes</strong>的缩写</p><p>常用的锁都是通过futex实现的</p><ul><li>mutex (互斥锁)</li><li>rwlock (读写锁)</li><li>cond (条件变量)</li></ul><div class=mermaid id=id-1></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;linux/futex.h&gt;      /* Definition of FUTEX_* constants */</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;sys/syscall.h&gt;      /* Definition of SYS_* constants */</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;unistd.h&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=kt>long</span> <span class=nf>syscall</span><span class=p>(</span><span class=n>SYS_futex</span><span class=p>,</span> <span class=kt>uint32_t</span> <span class=o>*</span><span class=n>uaddr</span><span class=p>,</span> <span class=kt>int</span> <span class=n>futex_op</span><span class=p>,</span> <span class=kt>uint32_t</span> <span class=n>val</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>             <span class=k>const</span> <span class=k>struct</span> <span class=n>timespec</span> <span class=o>*</span><span class=n>timeout</span><span class=p>,</span>   <span class=cm>/* or: uint32_t val2 */</span>
+</span></span><span class=line><span class=cl>             <span class=kt>uint32_t</span> <span class=o>*</span><span class=n>uaddr2</span><span class=p>,</span> <span class=kt>uint32_t</span> <span class=n>val3</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><ul><li>uaddr</li><li>futex_op</li><li>val</li><li>timeout</li><li>uaddr2</li><li>val3</li></ul><p>但是我并没有搞明白futex实现的原理,造成难以继续分析,
 因此只能分析别人的文档(注:不分析原理,只进行使用)</p><p>主要存在文件<code>futex-internal.c/futex-internal.h,lowlevellock-futex.h,lowlevellock.c</code></p><p>另外<code>lll->lowlevellock</code>缩写形式</p><p>其中futex提供的最重要的两个操作<strong>wait</strong>和<strong>wake</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
@@ -59,7 +73,7 @@
 </span></span></span><span class=line><span class=cl><span class=cp></span>
 </span></span><span class=line><span class=cl><span class=cp>#define FUTEX_PRIVATE_FLAG		128
 </span></span></span><span class=line><span class=cl><span class=cp>#define FUTEX_CLOCK_REALTIME	256  
-</span></span></span></code></pre></td></tr></table></div></div><h3 id=musl实现 class=headerLink><a href=#musl%e5%ae%9e%e7%8e%b0 class=header-mark></a>1.2 musl实现</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span></span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback></code></pre></td></tr></table></div></div><h2 id=futex实现 class=headerLink><a href=#futex%e5%ae%9e%e7%8e%b0 class=header-mark></a>2 futex实现</h2><blockquote><p>futex接口的用户层界面封装</p></blockquote><ul><li><code>futex_wait</code></li><li><code>futex_wake</code></li></ul><h3 id=musl实现 class=headerLink><a href=#musl%e5%ae%9e%e7%8e%b0 class=header-mark></a>2.1 musl实现</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -115,9 +129,165 @@
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=c1>// 进入系统调用阶段
 </span></span></span><span class=line><span class=cl><span class=c1></span><span class=kt>int</span> <span class=nf>lll_futex_syscall</span><span class=p>(</span><span class=kt>int</span> <span class=n>nargs</span><span class=p>,</span> <span class=kt>int</span> <span class=o>*</span><span class=n>futexp</span><span class=p>,</span> <span class=kt>int</span> <span class=n>op</span><span class=p>,</span> <span class=p>...);</span>
-</span></span></code></pre></td></tr></table></div></div><p>那么进入到最后可以得知,一般会进行一些原子操作,启动的操作都是<code>INTERNAL_SYSCALL</code>进行实现的,然后就是<code>swi</code>指令实现的原理</p><h2 id=原子操作 class=headerLink><a href=#%e5%8e%9f%e5%ad%90%e6%93%8d%e4%bd%9c class=header-mark></a>2 原子操作</h2><h3 id=musl实现-1 class=headerLink><a href=#musl%e5%ae%9e%e7%8e%b0-1 class=header-mark></a>2.1 musl实现</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=c1>/// 原子操作由汇编实现
-</span></span></span></code></pre></td></tr></table></div></div><h3 id=glibc实现 class=headerLink><a href=#glibc%e5%ae%9e%e7%8e%b0 class=header-mark></a>2.2 glibc实现</h3><h2 id=自旋锁 class=headerLink><a href=#%e8%87%aa%e6%97%8b%e9%94%81 class=header-mark></a>3 自旋锁</h2><h3 id=musl实现-2 class=headerLink><a href=#musl%e5%ae%9e%e7%8e%b0-2 class=header-mark></a>3.1 musl实现</h3><p>spinlock句柄就是一个32位的数;</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></span></code></pre></td></tr></table></div></div><p>那么进入到最后可以得知,一般会进行一些原子操作,启动的操作都是<code>INTERNAL_SYSCALL</code>进行实现的,然后就是<code>swi</code>指令实现的原理</p><h3 id=glibc实现 class=headerLink><a href=#glibc%e5%ae%9e%e7%8e%b0 class=header-mark></a>2.2 glibc实现</h3><div class=mermaid id=id-2></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cp># define lll_futex_wake(futexp, nr, private)                             	\
+</span></span></span><span class=line><span class=cl><span class=cp>  lll_futex_syscall (4, futexp,                                         	\
+</span></span></span><span class=line><span class=cl><span class=cp>		     __lll_private_flag (FUTEX_WAKE, private), nr, 0)
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=cp># define lll_futex_timed_wait(futexp, val, timeout, private)     			\
+</span></span></span><span class=line><span class=cl><span class=cp>  lll_futex_syscall (4, futexp,                                 			\
+</span></span></span><span class=line><span class=cl><span class=cp>		     __lll_private_flag (FUTEX_WAIT, private),  					\
+</span></span></span><span class=line><span class=cl><span class=cp>		     val, timeout)
+</span></span></span></code></pre></td></tr></table></div></div><p><strong>进入到INTERNAL_SYSCALL</strong>,详情可以查看[Linux系统调用]</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cp># define lll_futex_syscall(nargs, futexp, op, ...)                      	\
+</span></span></span><span class=line><span class=cl><span class=cp>  ({                                                                    	\
+</span></span></span><span class=line><span class=cl><span class=cp>    long int __ret = INTERNAL_SYSCALL (futex, nargs, futexp, op, 			\
+</span></span></span><span class=line><span class=cl><span class=cp>				       __VA_ARGS__);                    					\
+</span></span></span><span class=line><span class=cl><span class=cp>    (__glibc_unlikely (INTERNAL_SYSCALL_ERROR_P (__ret))         			\
+</span></span></span><span class=line><span class=cl><span class=cp>     ? -INTERNAL_SYSCALL_ERRNO (__ret) : 0);                     			\
+</span></span></span><span class=line><span class=cl><span class=cp>  })
+</span></span></span></code></pre></td></tr></table></div></div><h2 id=原子操作 class=headerLink><a href=#%e5%8e%9f%e5%ad%90%e6%93%8d%e4%bd%9c class=header-mark></a>3 原子操作</h2><h3 id=musl实现-1 class=headerLink><a href=#musl%e5%ae%9e%e7%8e%b0-1 class=header-mark></a>3.1 musl实现</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>static</span> <span class=kr>inline</span> <span class=kt>int</span> <span class=nf>a_ll</span><span class=p>(</span><span class=k>volatile</span> <span class=kt>int</span> <span class=o>*</span><span class=n>p</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=n>v</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=n>__asm__</span> <span class=nf>__volatile__</span> <span class=p>(</span><span class=s>&#34;ldrex %0, %1&#34;</span> <span class=o>:</span> <span class=s>&#34;=r&#34;</span><span class=p>(</span><span class=n>v</span><span class=p>)</span> <span class=o>:</span> <span class=s>&#34;Q&#34;</span><span class=p>(</span><span class=o>*</span><span class=n>p</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=n>v</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>static</span> <span class=kr>inline</span> <span class=kt>int</span> <span class=nf>a_sc</span><span class=p>(</span><span class=k>volatile</span> <span class=kt>int</span> <span class=o>*</span><span class=n>p</span><span class=p>,</span> <span class=kt>int</span> <span class=n>v</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=n>r</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=n>__asm__</span> <span class=nf>__volatile__</span> <span class=p>(</span><span class=s>&#34;strex %0,%2,%1&#34;</span> <span class=o>:</span> <span class=s>&#34;=&amp;r&#34;</span><span class=p>(</span><span class=n>r</span><span class=p>),</span> <span class=s>&#34;=Q&#34;</span><span class=p>(</span><span class=o>*</span><span class=n>p</span><span class=p>)</span> <span class=o>:</span> <span class=s>&#34;r&#34;</span><span class=p>(</span><span class=n>v</span><span class=p>)</span> <span class=o>:</span> <span class=s>&#34;memory&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=o>!</span><span class=n>r</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>static</span> <span class=kr>inline</span> <span class=kt>void</span> <span class=nf>a_barrier</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=n>__asm__</span> <span class=nf>__volatile__</span> <span class=p>(</span><span class=s>&#34;dmb ish&#34;</span> <span class=o>:</span> <span class=o>:</span> <span class=o>:</span> <span class=s>&#34;memory&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>static</span> <span class=kr>inline</span> <span class=kt>int</span> <span class=nf>a_cas</span><span class=p>(</span><span class=k>volatile</span> <span class=kt>int</span> <span class=o>*</span><span class=n>p</span><span class=p>,</span> <span class=kt>int</span> <span class=n>t</span><span class=p>,</span> <span class=kt>int</span> <span class=n>s</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>for</span> <span class=p>(;;)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>register</span> <span class=kt>int</span> <span class=n>r0</span> <span class=nf>__asm__</span><span class=p>(</span><span class=s>&#34;r0&#34;</span><span class=p>)</span> <span class=o>=</span> <span class=n>t</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=k>register</span> <span class=kt>int</span> <span class=n>r1</span> <span class=nf>__asm__</span><span class=p>(</span><span class=s>&#34;r1&#34;</span><span class=p>)</span> <span class=o>=</span> <span class=n>s</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=k>register</span> <span class=k>volatile</span> <span class=kt>int</span> <span class=o>*</span><span class=n>r2</span> <span class=nf>__asm__</span><span class=p>(</span><span class=s>&#34;r2&#34;</span><span class=p>)</span> <span class=o>=</span> <span class=n>p</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=k>register</span> <span class=kt>uintptr_t</span> <span class=n>r3</span> <span class=nf>__asm__</span><span class=p>(</span><span class=s>&#34;r3&#34;</span><span class=p>)</span> <span class=o>=</span> <span class=n>__a_cas_ptr</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=kt>int</span> <span class=n>old</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=n>__asm__</span> <span class=nf>__volatile__</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>			<span class=n>BLX</span> <span class=s>&#34; r3&#34;</span>
+</span></span><span class=line><span class=cl>			<span class=o>:</span> <span class=s>&#34;+r&#34;</span><span class=p>(</span><span class=n>r0</span><span class=p>),</span> <span class=s>&#34;+r&#34;</span><span class=p>(</span><span class=n>r3</span><span class=p>)</span> <span class=o>:</span> <span class=s>&#34;r&#34;</span><span class=p>(</span><span class=n>r1</span><span class=p>),</span> <span class=s>&#34;r&#34;</span><span class=p>(</span><span class=n>r2</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>			<span class=o>:</span> <span class=s>&#34;memory&#34;</span><span class=p>,</span> <span class=s>&#34;lr&#34;</span><span class=p>,</span> <span class=s>&#34;ip&#34;</span><span class=p>,</span> <span class=s>&#34;cc&#34;</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>r0</span><span class=p>)</span> <span class=k>return</span> <span class=n>t</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=p>((</span><span class=n>old</span><span class=o>=*</span><span class=n>p</span><span class=p>)</span><span class=o>!=</span><span class=n>t</span><span class=p>)</span> <span class=k>return</span> <span class=n>old</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>static</span> <span class=kr>inline</span> <span class=kt>void</span> <span class=nf>a_barrier</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>register</span> <span class=kt>uintptr_t</span> <span class=n>ip</span> <span class=nf>__asm__</span><span class=p>(</span><span class=s>&#34;ip&#34;</span><span class=p>)</span> <span class=o>=</span> <span class=n>__a_barrier_ptr</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=n>__asm__</span> <span class=nf>__volatile__</span><span class=p>(</span> <span class=n>BLX</span> <span class=s>&#34; ip&#34;</span> <span class=o>:</span> <span class=s>&#34;+r&#34;</span><span class=p>(</span><span class=n>ip</span><span class=p>)</span> <span class=o>:</span> <span class=o>:</span> <span class=s>&#34;memory&#34;</span><span class=p>,</span> <span class=s>&#34;cc&#34;</span><span class=p>,</span> <span class=s>&#34;lr&#34;</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=glibc实现-1 class=headerLink><a href=#glibc%e5%ae%9e%e7%8e%b0-1 class=header-mark></a>3.2 glibc实现</h3><p>主要是gcc是实现的<code>__atomic</code>开头的函数,参考<a href=https://gcc.gnu.org/onlinedocs/gcc/_005f_005fatomic-Builtins.html#g_t_005f_005fatomic-Builtins target=_blank rel="noopener noreferrer">GCC编译器手册</a></p><ul><li><code>__atomic_load_n</code></li><li><code>__atomic_load</code></li><li><code>__atomic_store_n</code></li><li><code>__atomic_store</code></li><li><code>__atomic_exchange_n</code></li><li><code>__atomic_exchange</code></li><li><code>__atomic_compare_exchange_n</code></li><li><code>__atomic_compare_exchange</code></li><li><code>__atomic_add_fetch</code></li><li><code>__atomic_sub_fetch</code></li><li><code>__atomic_and_fetch</code></li><li><code>__atomic_xor_fetch</code></li><li><code>__atomic_or_fetch</code></li><li><code>__atomic_nand_fetch</code></li><li><code>__atomic_fetch_add</code></li><li><code>__atomic_fetch_sub</code></li><li><code>__atomic_fetch_and</code></li><li><code>__atomic_fetch_xor</code></li><li><code>__atomic_fetch_or</code></li><li><code>__atomic_fetch_nand</code></li><li><code>__atomic_test_and_set</code></li><li><code>__atomic_clear</code></li><li><code>__atomic_thread_fence</code></li><li><code>__atomic_signal_fence</code></li><li><code>__atomic_always_lock_free</code></li><li><code>__atomic_is_lock_free</code></li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cp>#define atomic_load_relaxed(mem) \
+</span></span></span><span class=line><span class=cl><span class=cp> ({ __atomic_check_size_ls((mem));                                           \
+</span></span></span><span class=line><span class=cl><span class=cp>    __atomic_load_n ((mem), __ATOMIC_RELAXED); })
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=cp>#define atomic_load_acquire(mem) \
+</span></span></span><span class=line><span class=cl><span class=cp> ({ __atomic_check_size_ls((mem));                                           \
+</span></span></span><span class=line><span class=cl><span class=cp>    __atomic_load_n ((mem), __ATOMIC_ACQUIRE); })
+</span></span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cp>#define atomic_store_relaxed(mem, val) \
+</span></span></span><span class=line><span class=cl><span class=cp> do {                                                                        \
+</span></span></span><span class=line><span class=cl><span class=cp>   __atomic_check_size_ls((mem));                                            \
+</span></span></span><span class=line><span class=cl><span class=cp>   __atomic_store_n ((mem), (val), __ATOMIC_RELAXED);                        \
+</span></span></span><span class=line><span class=cl><span class=cp> } while (0)
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=cp>#define atomic_store_release(mem, val) \
+</span></span></span><span class=line><span class=cl><span class=cp> do {                                                                        \
+</span></span></span><span class=line><span class=cl><span class=cp>   __atomic_check_size_ls((mem));                                            \
+</span></span></span><span class=line><span class=cl><span class=cp>   __atomic_store_n ((mem), (val), __ATOMIC_RELEASE);                        \
+</span></span></span><span class=line><span class=cl><span class=cp> } while (0)
+</span></span></span></code></pre></td></tr></table></div></div><h2 id=自旋锁 class=headerLink><a href=#%e8%87%aa%e6%97%8b%e9%94%81 class=header-mark></a>4 自旋锁</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_spin_init</span><span class=p>(</span><span class=kt>pthread_spinlock_t</span> <span class=o>*</span><span class=p>,</span> <span class=kt>int</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_spin_destroy</span><span class=p>(</span><span class=kt>pthread_spinlock_t</span> <span class=o>*</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_spin_lock</span><span class=p>(</span><span class=kt>pthread_spinlock_t</span> <span class=o>*</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_spin_trylock</span><span class=p>(</span><span class=kt>pthread_spinlock_t</span> <span class=o>*</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_spin_unlock</span><span class=p>(</span><span class=kt>pthread_spinlock_t</span> <span class=o>*</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=musl实现-2 class=headerLink><a href=#musl%e5%ae%9e%e7%8e%b0-2 class=header-mark></a>4.1 musl实现</h3><p>spinlock句柄就是一个32位的数;</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>typedef</span> <span class=kt>int</span> <span class=kt>pthread_spinlock_t</span><span class=p>;</span>
 </span></span></code></pre></td></tr></table></div></div><p>五种函数的实现</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
@@ -171,11 +341,11 @@
 </span></span><span class=line><span class=cl>	<span class=nf>a_store</span><span class=p>(</span><span class=n>s</span><span class=p>,</span> <span class=mi>0</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></td></tr></table></div></div><h3 id=glibc实现-1 class=headerLink><a href=#glibc%e5%ae%9e%e7%8e%b0-1 class=header-mark></a>3.2 glibc实现</h3><p>glibc的实现就较为复杂了点</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></span></code></pre></td></tr></table></div></div><h3 id=glibc实现-2 class=headerLink><a href=#glibc%e5%ae%9e%e7%8e%b0-2 class=header-mark></a>4.2 glibc实现</h3><p>glibc的实现就较为复杂了点</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>typedef</span> <span class=n>__pthread_spinlock_t</span> <span class=kt>pthread_spinlock_t</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=k>typedef</span> <span class=k>volatile</span> <span class=kt>int</span> <span class=n>__pthread_spinlock_t</span><span class=p>;</span>
-</span></span></code></pre></td></tr></table></div></div><ul><li>加上__作为内部使用的句柄</li><li>volatile使编译器强行读取</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span></span></code></pre></td></tr></table></div></div><ul><li>加上<code>__</code>作为内部使用的句柄</li><li>volatile使编译器强行读取</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -291,13 +461,733 @@
 </span></span><span class=line><span class=cl>	<span class=nf>atomic_store_release</span><span class=p>(</span><span class=n>lock</span><span class=p>,</span> <span class=mi>0</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></td></tr></table></div></div><h2 id=内存屏障 class=headerLink><a href=#%e5%86%85%e5%ad%98%e5%b1%8f%e9%9a%9c class=header-mark></a>4 内存屏障</h2><h3 id=musl实现-3 class=headerLink><a href=#musl%e5%ae%9e%e7%8e%b0-3 class=header-mark></a>4.1 musl实现</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></span></code></pre></td></tr></table></div></div><h2 id=内存屏障 class=headerLink><a href=#%e5%86%85%e5%ad%98%e5%b1%8f%e9%9a%9c class=header-mark></a>5 内存屏障</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_barrier_init</span><span class=p>(</span><span class=kt>pthread_barrier_t</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>,</span> <span class=k>const</span> <span class=kt>pthread_barrierattr_t</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>,</span> <span class=kt>unsigned</span><span class=p>);</span>
 </span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_barrier_destroy</span><span class=p>(</span><span class=kt>pthread_barrier_t</span> <span class=o>*</span><span class=p>);</span>
 </span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_barrier_wait</span><span class=p>(</span><span class=kt>pthread_barrier_t</span> <span class=o>*</span><span class=p>);</span>
-</span></span></code></pre></td></tr></table></div></div><h3 id=glibc实现-2 class=headerLink><a href=#glibc%e5%ae%9e%e7%8e%b0-2 class=header-mark></a>4.2 glibc实现</h3><h2 id=互斥锁 class=headerLink><a href=#%e4%ba%92%e6%96%a5%e9%94%81 class=header-mark></a>5 互斥锁</h2><h3 id=musl实现-4 class=headerLink><a href=#musl%e5%ae%9e%e7%8e%b0-4 class=header-mark></a>5.1 musl实现</h3><p>在musl库上的互斥锁,但是我感觉musl的设计存在一些瑕疵,还是在去分析一下glibc的设计思路吧.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_barrierattr_destroy</span><span class=p>(</span><span class=kt>pthread_barrierattr_t</span> <span class=o>*</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_barrierattr_getpshared</span><span class=p>(</span><span class=k>const</span> <span class=kt>pthread_barrierattr_t</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>,</span> <span class=kt>int</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_barrierattr_init</span><span class=p>(</span><span class=kt>pthread_barrierattr_t</span> <span class=o>*</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_barrierattr_setpshared</span><span class=p>(</span><span class=kt>pthread_barrierattr_t</span> <span class=o>*</span><span class=p>,</span> <span class=kt>int</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>pthread_t</span> <span class=n>p1</span><span class=p>,</span> <span class=n>p2</span><span class=p>,</span> <span class=n>p3</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kt>pthread_barrier_t</span> <span class=n>test_barrier</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=o>*</span><span class=nf>test_thread</span><span class=p>(</span><span class=kt>void</span> <span class=o>*</span><span class=n>arg</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// make gcc happy
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=kt>unsigned</span> <span class=kt>int</span> <span class=n>sleep_time</span> <span class=o>=</span> <span class=p>(</span><span class=kt>unsigned</span> <span class=kt>int</span><span class=p>)((</span><span class=kt>unsigned</span> <span class=kt>long</span><span class=p>)</span><span class=n>arg</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=nf>sleep</span><span class=p>(</span><span class=n>sleep_time</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=nf>printf</span><span class=p>(</span><span class=s>&#34;wait begin %d</span><span class=se>\r\n</span><span class=s>&#34;</span><span class=p>,</span> <span class=nf>gettid</span><span class=p>());</span>
+</span></span><span class=line><span class=cl>    <span class=nf>pthread_barrier_wait</span><span class=p>(</span><span class=o>&amp;</span><span class=n>test_barrier</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=nf>printf</span><span class=p>(</span><span class=s>&#34;wait finish</span><span class=se>\r\n</span><span class=s>&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nb>NULL</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>(</span><span class=kt>int</span> <span class=n>argc</span><span class=p>,</span> <span class=kt>char</span> <span class=o>*</span><span class=n>argv</span><span class=p>[])</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nf>pthread_barrier_init</span><span class=p>(</span><span class=o>&amp;</span><span class=n>test_barrier</span><span class=p>,</span> <span class=nb>NULL</span><span class=p>,</span> <span class=mi>4</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nf>pthread_create</span><span class=p>(</span><span class=o>&amp;</span><span class=n>p1</span><span class=p>,</span> <span class=nb>NULL</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>test_thread</span><span class=p>,</span> <span class=p>(</span><span class=kt>void</span> <span class=o>*</span><span class=p>)</span><span class=mi>1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=nf>pthread_create</span><span class=p>(</span><span class=o>&amp;</span><span class=n>p2</span><span class=p>,</span> <span class=nb>NULL</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>test_thread</span><span class=p>,</span> <span class=p>(</span><span class=kt>void</span> <span class=o>*</span><span class=p>)</span><span class=mi>2</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=nf>pthread_create</span><span class=p>(</span><span class=o>&amp;</span><span class=n>p3</span><span class=p>,</span> <span class=nb>NULL</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>test_thread</span><span class=p>,</span> <span class=p>(</span><span class=kt>void</span> <span class=o>*</span><span class=p>)</span><span class=mi>3</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=c1>// 设置线程分离
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nf>pthread_detach</span><span class=p>(</span><span class=n>p1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=nf>pthread_detach</span><span class=p>(</span><span class=n>p2</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=nf>pthread_detach</span><span class=p>(</span><span class=n>p3</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nf>printf</span><span class=p>(</span><span class=s>&#34;wait begin %d</span><span class=se>\r\n</span><span class=s>&#34;</span><span class=p>,</span> <span class=nf>gettid</span><span class=p>());</span>
+</span></span><span class=line><span class=cl>    <span class=nf>pthread_barrier_wait</span><span class=p>(</span><span class=o>&amp;</span><span class=n>test_barrier</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=nf>printf</span><span class=p>(</span><span class=s>&#34;wait finish</span><span class=se>\r\n</span><span class=s>&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=nf>pthread_barrier_destroy</span><span class=p>(</span><span class=o>&amp;</span><span class=n>test_barrier</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>打印日志</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-txt data-lang=txt><span class=line><span class=cl>wait begin 352789
+</span></span><span class=line><span class=cl>wait begin 352790
+</span></span><span class=line><span class=cl>wait begin 352791
+</span></span><span class=line><span class=cl>wait begin 352792
+</span></span><span class=line><span class=cl>wait finish 352792
+</span></span><span class=line><span class=cl>wait finish 352791
+</span></span><span class=line><span class=cl>wait finish 352790
+</span></span><span class=line><span class=cl>wait finish 352789
+</span></span></code></pre></td></tr></table></div></div><h3 id=musl实现-3 class=headerLink><a href=#musl%e5%ae%9e%e7%8e%b0-3 class=header-mark></a>5.1 musl实现</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=c1>// 初始化流程
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kt>int</span> <span class=nf>pthread_barrier_init</span><span class=p>(</span><span class=kt>pthread_barrier_t</span> <span class=o>*</span><span class=kr>restrict</span> <span class=n>b</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>                  <span class=k>const</span> <span class=kt>pthread_barrierattr_t</span> <span class=o>*</span><span class=kr>restrict</span> <span class=n>a</span><span class=p>,</span> <span class=kt>unsigned</span> <span class=n>count</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>count</span><span class=o>-</span><span class=mi>1</span> <span class=o>&gt;</span> <span class=n>INT_MAX</span><span class=o>-</span><span class=mi>1</span><span class=p>)</span> <span class=k>return</span> <span class=n>EINVAL</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=o>*</span><span class=n>b</span> <span class=o>=</span> <span class=p>(</span><span class=kt>pthread_barrier_t</span><span class=p>){</span> <span class=p>.</span><span class=n>_b_limit</span> <span class=o>=</span> <span class=n>count</span><span class=o>-</span><span class=mi>1</span> <span class=o>|</span> <span class=p>(</span><span class=n>a</span><span class=o>?</span><span class=n>a</span><span class=o>-&gt;</span><span class=nl>__attr</span><span class=p>:</span><span class=mi>0</span><span class=p>)</span> <span class=p>};</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_barrier_wait</span><span class=p>(</span><span class=kt>pthread_barrier_t</span> <span class=o>*</span><span class=n>b</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=n>limit</span> <span class=o>=</span> <span class=n>b</span><span class=o>-&gt;</span><span class=n>_b_limit</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>instance</span> <span class=o>*</span><span class=n>inst</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* Trivial case: count was set at 1 */</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>limit</span><span class=p>)</span> <span class=k>return</span> <span class=n>PTHREAD_BARRIER_SERIAL_THREAD</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* Process-shared barriers require a separate, inefficient wait */</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>limit</span> <span class=o>&lt;</span> <span class=mi>0</span><span class=p>)</span> <span class=k>return</span> <span class=nf>pshared_barrier_wait</span><span class=p>(</span><span class=n>b</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* Otherwise we need a lock on the barrier object */</span>
+</span></span><span class=line><span class=cl>	<span class=k>while</span> <span class=p>(</span><span class=nf>a_swap</span><span class=p>(</span><span class=o>&amp;</span><span class=n>b</span><span class=o>-&gt;</span><span class=n>_b_lock</span><span class=p>,</span> <span class=mi>1</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>		<span class=nf>__wait</span><span class=p>(</span><span class=o>&amp;</span><span class=n>b</span><span class=o>-&gt;</span><span class=n>_b_lock</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>b</span><span class=o>-&gt;</span><span class=n>_b_waiters</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=mi>1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=n>inst</span> <span class=o>=</span> <span class=n>b</span><span class=o>-&gt;</span><span class=n>_b_inst</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* First thread to enter the barrier becomes the &#34;instance owner&#34; */</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>inst</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>struct</span> <span class=n>instance</span> <span class=n>new_inst</span> <span class=o>=</span> <span class=p>{</span> <span class=mi>0</span> <span class=p>};</span>
+</span></span><span class=line><span class=cl>		<span class=kt>int</span> <span class=n>spins</span> <span class=o>=</span> <span class=mi>200</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=n>b</span><span class=o>-&gt;</span><span class=n>_b_inst</span> <span class=o>=</span> <span class=n>inst</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>new_inst</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=nf>a_store</span><span class=p>(</span><span class=o>&amp;</span><span class=n>b</span><span class=o>-&gt;</span><span class=n>_b_lock</span><span class=p>,</span> <span class=mi>0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=n>b</span><span class=o>-&gt;</span><span class=n>_b_waiters</span><span class=p>)</span> <span class=nf>__wake</span><span class=p>(</span><span class=o>&amp;</span><span class=n>b</span><span class=o>-&gt;</span><span class=n>_b_lock</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=mi>1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=k>while</span> <span class=p>(</span><span class=n>spins</span><span class=o>--</span> <span class=o>&amp;&amp;</span> <span class=o>!</span><span class=n>inst</span><span class=o>-&gt;</span><span class=n>finished</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>			<span class=nf>a_spin</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>		<span class=nf>a_inc</span><span class=p>(</span><span class=o>&amp;</span><span class=n>inst</span><span class=o>-&gt;</span><span class=n>finished</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=k>while</span> <span class=p>(</span><span class=n>inst</span><span class=o>-&gt;</span><span class=n>finished</span> <span class=o>==</span> <span class=mi>1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>			<span class=nf>__syscall</span><span class=p>(</span><span class=n>SYS_futex</span><span class=p>,</span><span class=o>&amp;</span><span class=n>inst</span><span class=o>-&gt;</span><span class=n>finished</span><span class=p>,</span><span class=n>FUTEX_WAIT</span><span class=o>|</span><span class=n>FUTEX_PRIVATE</span><span class=p>,</span><span class=mi>1</span><span class=p>,</span><span class=mi>0</span><span class=p>)</span> <span class=o>!=</span> <span class=o>-</span><span class=n>ENOSYS</span>
+</span></span><span class=line><span class=cl>			<span class=o>||</span> <span class=nf>__syscall</span><span class=p>(</span><span class=n>SYS_futex</span><span class=p>,</span><span class=o>&amp;</span><span class=n>inst</span><span class=o>-&gt;</span><span class=n>finished</span><span class=p>,</span><span class=n>FUTEX_WAIT</span><span class=p>,</span><span class=mi>1</span><span class=p>,</span><span class=mi>0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span> <span class=n>PTHREAD_BARRIER_SERIAL_THREAD</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* Last thread to enter the barrier wakes all non-instance-owners */</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=o>++</span><span class=n>inst</span><span class=o>-&gt;</span><span class=n>count</span> <span class=o>==</span> <span class=n>limit</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=n>b</span><span class=o>-&gt;</span><span class=n>_b_inst</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=nf>a_store</span><span class=p>(</span><span class=o>&amp;</span><span class=n>b</span><span class=o>-&gt;</span><span class=n>_b_lock</span><span class=p>,</span> <span class=mi>0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=n>b</span><span class=o>-&gt;</span><span class=n>_b_waiters</span><span class=p>)</span> <span class=nf>__wake</span><span class=p>(</span><span class=o>&amp;</span><span class=n>b</span><span class=o>-&gt;</span><span class=n>_b_lock</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=mi>1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=nf>a_store</span><span class=p>(</span><span class=o>&amp;</span><span class=n>inst</span><span class=o>-&gt;</span><span class=n>last</span><span class=p>,</span> <span class=mi>1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=n>inst</span><span class=o>-&gt;</span><span class=n>waiters</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>			<span class=nf>__wake</span><span class=p>(</span><span class=o>&amp;</span><span class=n>inst</span><span class=o>-&gt;</span><span class=n>last</span><span class=p>,</span> <span class=o>-</span><span class=mi>1</span><span class=p>,</span> <span class=mi>1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nf>a_store</span><span class=p>(</span><span class=o>&amp;</span><span class=n>b</span><span class=o>-&gt;</span><span class=n>_b_lock</span><span class=p>,</span> <span class=mi>0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=n>b</span><span class=o>-&gt;</span><span class=n>_b_waiters</span><span class=p>)</span> <span class=nf>__wake</span><span class=p>(</span><span class=o>&amp;</span><span class=n>b</span><span class=o>-&gt;</span><span class=n>_b_lock</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=mi>1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=nf>__wait</span><span class=p>(</span><span class=o>&amp;</span><span class=n>inst</span><span class=o>-&gt;</span><span class=n>last</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>inst</span><span class=o>-&gt;</span><span class=n>waiters</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=mi>1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* Last thread to exit the barrier wakes the instance owner */</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=nf>a_fetch_add</span><span class=p>(</span><span class=o>&amp;</span><span class=n>inst</span><span class=o>-&gt;</span><span class=n>count</span><span class=p>,</span><span class=o>-</span><span class=mi>1</span><span class=p>)</span><span class=o>==</span><span class=mi>1</span> <span class=o>&amp;&amp;</span> <span class=nf>a_fetch_add</span><span class=p>(</span><span class=o>&amp;</span><span class=n>inst</span><span class=o>-&gt;</span><span class=n>finished</span><span class=p>,</span><span class=mi>1</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>		<span class=nf>__wake</span><span class=p>(</span><span class=o>&amp;</span><span class=n>inst</span><span class=o>-&gt;</span><span class=n>finished</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=mi>1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_barrier_destroy</span><span class=p>(</span><span class=kt>pthread_barrier_t</span> <span class=o>*</span><span class=n>b</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>b</span><span class=o>-&gt;</span><span class=n>_b_limit</span> <span class=o>&lt;</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=n>b</span><span class=o>-&gt;</span><span class=n>_b_lock</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=kt>int</span> <span class=n>v</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>			<span class=nf>a_or</span><span class=p>(</span><span class=o>&amp;</span><span class=n>b</span><span class=o>-&gt;</span><span class=n>_b_lock</span><span class=p>,</span> <span class=n>INT_MIN</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>			<span class=k>while</span> <span class=p>((</span><span class=n>v</span> <span class=o>=</span> <span class=n>b</span><span class=o>-&gt;</span><span class=n>_b_lock</span><span class=p>)</span> <span class=o>&amp;</span> <span class=n>INT_MAX</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>				<span class=nf>__wait</span><span class=p>(</span><span class=o>&amp;</span><span class=n>b</span><span class=o>-&gt;</span><span class=n>_b_lock</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>v</span><span class=p>,</span> <span class=mi>0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>		<span class=nf>__vm_wait</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>__wait</span><span class=p>(</span><span class=k>volatile</span> <span class=kt>int</span> <span class=o>*</span><span class=n>addr</span><span class=p>,</span> <span class=k>volatile</span> <span class=kt>int</span> <span class=o>*</span><span class=n>waiters</span><span class=p>,</span> <span class=kt>int</span> <span class=n>val</span><span class=p>,</span> <span class=kt>int</span> <span class=n>priv</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=n>spins</span><span class=o>=</span><span class=mi>100</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>priv</span><span class=p>)</span> <span class=n>priv</span> <span class=o>=</span> <span class=n>FUTEX_PRIVATE</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>while</span> <span class=p>(</span><span class=n>spins</span><span class=o>--</span> <span class=o>&amp;&amp;</span> <span class=p>(</span><span class=o>!</span><span class=n>waiters</span> <span class=o>||</span> <span class=o>!*</span><span class=n>waiters</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=o>*</span><span class=n>addr</span><span class=o>==</span><span class=n>val</span><span class=p>)</span> <span class=nf>a_spin</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>		<span class=k>else</span> <span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>waiters</span><span class=p>)</span> <span class=nf>a_inc</span><span class=p>(</span><span class=n>waiters</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=k>while</span> <span class=p>(</span><span class=o>*</span><span class=n>addr</span><span class=o>==</span><span class=n>val</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nf>__syscall</span><span class=p>(</span><span class=n>SYS_futex</span><span class=p>,</span> <span class=n>addr</span><span class=p>,</span> <span class=n>FUTEX_WAIT</span><span class=o>|</span><span class=n>priv</span><span class=p>,</span> <span class=n>val</span><span class=p>,</span> <span class=mi>0</span><span class=p>)</span> <span class=o>!=</span> <span class=o>-</span><span class=n>ENOSYS</span>
+</span></span><span class=line><span class=cl>		<span class=o>||</span> <span class=nf>__syscall</span><span class=p>(</span><span class=n>SYS_futex</span><span class=p>,</span> <span class=n>addr</span><span class=p>,</span> <span class=n>FUTEX_WAIT</span><span class=p>,</span> <span class=n>val</span><span class=p>,</span> <span class=mi>0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>waiters</span><span class=p>)</span> <span class=nf>a_dec</span><span class=p>(</span><span class=n>waiters</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=glibc实现-3 class=headerLink><a href=#glibc%e5%ae%9e%e7%8e%b0-3 class=header-mark></a>5.2 glibc实现</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>int</span>
+</span></span><span class=line><span class=cl><span class=nf>___pthread_barrier_init</span> <span class=p>(</span><span class=kt>pthread_barrier_t</span> <span class=o>*</span><span class=n>barrier</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>			<span class=k>const</span> <span class=kt>pthread_barrierattr_t</span> <span class=o>*</span><span class=n>attr</span><span class=p>,</span> <span class=kt>unsigned</span> <span class=kt>int</span> <span class=n>count</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nf>ASSERT_TYPE_SIZE</span> <span class=p>(</span><span class=kt>pthread_barrier_t</span><span class=p>,</span> <span class=n>__SIZEOF_PTHREAD_BARRIER_T</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=nf>ASSERT_PTHREAD_INTERNAL_SIZE</span> <span class=p>(</span><span class=kt>pthread_barrier_t</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>				<span class=k>struct</span> <span class=n>pthread_barrier</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=k>struct</span> <span class=n>pthread_barrier</span> <span class=o>*</span><span class=n>ibarrier</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=cm>/* XXX EINVAL is not specified by POSIX as a possible error code for COUNT
+</span></span></span><span class=line><span class=cl><span class=cm>     being too large.  See pthread_barrier_wait for the reason for the
+</span></span></span><span class=line><span class=cl><span class=cm>     comparison with BARRIER_IN_THRESHOLD.  */</span>
+</span></span><span class=line><span class=cl>  <span class=k>if</span> <span class=p>(</span><span class=nf>__glibc_unlikely</span> <span class=p>(</span><span class=n>count</span> <span class=o>==</span> <span class=mi>0</span> <span class=o>||</span> <span class=n>count</span> <span class=o>&gt;=</span> <span class=n>BARRIER_IN_THRESHOLD</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>EINVAL</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=k>const</span> <span class=k>struct</span> <span class=n>pthread_barrierattr</span> <span class=o>*</span><span class=n>iattr</span>
+</span></span><span class=line><span class=cl>    <span class=o>=</span> <span class=p>(</span><span class=n>attr</span> <span class=o>!=</span> <span class=nb>NULL</span>
+</span></span><span class=line><span class=cl>       <span class=o>?</span> <span class=p>(</span><span class=k>struct</span> <span class=n>pthread_barrierattr</span> <span class=o>*</span><span class=p>)</span> <span class=nl>attr</span>
+</span></span><span class=line><span class=cl>       <span class=p>:</span> <span class=o>&amp;</span><span class=n>default_barrierattr</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=n>ibarrier</span> <span class=o>=</span> <span class=p>(</span><span class=k>struct</span> <span class=n>pthread_barrier</span> <span class=o>*</span><span class=p>)</span> <span class=n>barrier</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=cm>/* Initialize the individual fields.  */</span>
+</span></span><span class=line><span class=cl>  <span class=n>ibarrier</span><span class=o>-&gt;</span><span class=n>in</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=n>ibarrier</span><span class=o>-&gt;</span><span class=n>out</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=n>ibarrier</span><span class=o>-&gt;</span><span class=n>count</span> <span class=o>=</span> <span class=n>count</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=n>ibarrier</span><span class=o>-&gt;</span><span class=n>current_round</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=n>ibarrier</span><span class=o>-&gt;</span><span class=n>shared</span> <span class=o>=</span> <span class=p>(</span><span class=n>iattr</span><span class=o>-&gt;</span><span class=n>pshared</span> <span class=o>==</span> <span class=n>PTHREAD_PROCESS_PRIVATE</span>
+</span></span><span class=line><span class=cl>		      <span class=o>?</span> <span class=nl>FUTEX_PRIVATE</span> <span class=p>:</span> <span class=n>FUTEX_SHARED</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span><span class=lnt>105
+</span><span class=lnt>106
+</span><span class=lnt>107
+</span><span class=lnt>108
+</span><span class=lnt>109
+</span><span class=lnt>110
+</span><span class=lnt>111
+</span><span class=lnt>112
+</span><span class=lnt>113
+</span><span class=lnt>114
+</span><span class=lnt>115
+</span><span class=lnt>116
+</span><span class=lnt>117
+</span><span class=lnt>118
+</span><span class=lnt>119
+</span><span class=lnt>120
+</span><span class=lnt>121
+</span><span class=lnt>122
+</span><span class=lnt>123
+</span><span class=lnt>124
+</span><span class=lnt>125
+</span><span class=lnt>126
+</span><span class=lnt>127
+</span><span class=lnt>128
+</span><span class=lnt>129
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>int</span>
+</span></span><span class=line><span class=cl><span class=nf>___pthread_barrier_wait</span> <span class=p>(</span><span class=kt>pthread_barrier_t</span> <span class=o>*</span><span class=n>barrier</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>struct</span> <span class=n>pthread_barrier</span> <span class=o>*</span><span class=n>bar</span> <span class=o>=</span> <span class=p>(</span><span class=k>struct</span> <span class=n>pthread_barrier</span> <span class=o>*</span><span class=p>)</span> <span class=n>barrier</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=cm>/* How many threads entered so far, including ourself.  */</span>
+</span></span><span class=line><span class=cl>  <span class=kt>unsigned</span> <span class=kt>int</span> <span class=n>i</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl> <span class=nl>reset_restart</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>  <span class=cm>/* Try to enter the barrier.  We need acquire MO to (1) ensure that if we
+</span></span></span><span class=line><span class=cl><span class=cm>     observe that our round can be completed (see below for our attempt to do
+</span></span></span><span class=line><span class=cl><span class=cm>     so), all pre-barrier-entry effects of all threads in our round happen
+</span></span></span><span class=line><span class=cl><span class=cm>     before us completing the round, and (2) to make our use of the barrier
+</span></span></span><span class=line><span class=cl><span class=cm>     happen after a potential reset.  We need release MO to make sure that our
+</span></span></span><span class=line><span class=cl><span class=cm>     pre-barrier-entry effects happen before threads in this round leaving the
+</span></span></span><span class=line><span class=cl><span class=cm>     barrier.  */</span>
+</span></span><span class=line><span class=cl>  <span class=n>i</span> <span class=o>=</span> <span class=nf>atomic_fetch_add_acq_rel</span> <span class=p>(</span><span class=o>&amp;</span><span class=n>bar</span><span class=o>-&gt;</span><span class=n>in</span><span class=p>,</span> <span class=mi>1</span><span class=p>)</span> <span class=o>+</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=cm>/* These loads are after the fetch_add so that we&#39;re less likely to first
+</span></span></span><span class=line><span class=cl><span class=cm>     pull in the cache line as shared.  */</span>
+</span></span><span class=line><span class=cl>  <span class=kt>unsigned</span> <span class=kt>int</span> <span class=n>count</span> <span class=o>=</span> <span class=n>bar</span><span class=o>-&gt;</span><span class=n>count</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=cm>/* This is the number of threads that can enter before we need to reset.
+</span></span></span><span class=line><span class=cl><span class=cm>     Always at the end of a round.  */</span>
+</span></span><span class=line><span class=cl>  <span class=kt>unsigned</span> <span class=kt>int</span> <span class=n>max_in_before_reset</span> <span class=o>=</span> <span class=n>BARRIER_IN_THRESHOLD</span>
+</span></span><span class=line><span class=cl>				   <span class=o>-</span> <span class=n>BARRIER_IN_THRESHOLD</span> <span class=o>%</span> <span class=n>count</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=k>if</span> <span class=p>(</span><span class=n>i</span> <span class=o>&gt;</span> <span class=n>max_in_before_reset</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=cm>/* We&#39;re in a reset round.  Just wait for a reset to finish; do not
+</span></span></span><span class=line><span class=cl><span class=cm>	 help finishing previous rounds because this could happen
+</span></span></span><span class=line><span class=cl><span class=cm>	 concurrently with a reset.  */</span>
+</span></span><span class=line><span class=cl>      <span class=k>while</span> <span class=p>(</span><span class=n>i</span> <span class=o>&gt;</span> <span class=n>max_in_before_reset</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>{</span>
+</span></span><span class=line><span class=cl>	  <span class=nf>futex_wait_simple</span> <span class=p>(</span><span class=o>&amp;</span><span class=n>bar</span><span class=o>-&gt;</span><span class=n>in</span><span class=p>,</span> <span class=n>i</span><span class=p>,</span> <span class=n>bar</span><span class=o>-&gt;</span><span class=n>shared</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	  <span class=cm>/* Relaxed MO is fine here because we just need an indication for
+</span></span></span><span class=line><span class=cl><span class=cm>	     when we should retry to enter (which will use acquire MO, see
+</span></span></span><span class=line><span class=cl><span class=cm>	     above).  */</span>
+</span></span><span class=line><span class=cl>	  <span class=n>i</span> <span class=o>=</span> <span class=nf>atomic_load_relaxed</span> <span class=p>(</span><span class=o>&amp;</span><span class=n>bar</span><span class=o>-&gt;</span><span class=n>in</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>      <span class=k>goto</span> <span class=n>reset_restart</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=cm>/* Look at the current round.  At this point, we are just interested in
+</span></span></span><span class=line><span class=cl><span class=cm>     whether we can complete rounds, based on the information we obtained
+</span></span></span><span class=line><span class=cl><span class=cm>     through our acquire-MO load of IN.  Nonetheless, if we notice that
+</span></span></span><span class=line><span class=cl><span class=cm>     our round has been completed using this load, we use the acquire-MO
+</span></span></span><span class=line><span class=cl><span class=cm>     fence below to make sure that all pre-barrier-entry effects of all
+</span></span></span><span class=line><span class=cl><span class=cm>     threads in our round happen before us leaving the barrier.  Therefore,
+</span></span></span><span class=line><span class=cl><span class=cm>     relaxed MO is sufficient.  */</span>
+</span></span><span class=line><span class=cl>  <span class=kt>unsigned</span> <span class=n>cr</span> <span class=o>=</span> <span class=nf>atomic_load_relaxed</span> <span class=p>(</span><span class=o>&amp;</span><span class=n>bar</span><span class=o>-&gt;</span><span class=n>current_round</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=cm>/* Try to finish previous rounds and/or the current round.  We simply
+</span></span></span><span class=line><span class=cl><span class=cm>     consider just our position here and do not try to do the work of threads
+</span></span></span><span class=line><span class=cl><span class=cm>     that entered more recently.  */</span>
+</span></span><span class=line><span class=cl>  <span class=k>while</span> <span class=p>(</span><span class=n>cr</span> <span class=o>+</span> <span class=n>count</span> <span class=o>&lt;=</span> <span class=n>i</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=cm>/* Calculate the new current round based on how many threads entered.
+</span></span></span><span class=line><span class=cl><span class=cm>	 NEWCR must be larger than CR because CR+COUNT ends a round.  */</span>
+</span></span><span class=line><span class=cl>      <span class=kt>unsigned</span> <span class=kt>int</span> <span class=n>newcr</span> <span class=o>=</span> <span class=n>i</span> <span class=o>-</span> <span class=n>i</span> <span class=o>%</span> <span class=n>count</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>      <span class=cm>/* Try to complete previous and/or the current round.  We need release
+</span></span></span><span class=line><span class=cl><span class=cm>	 MO to propagate the happens-before that we observed through reading
+</span></span></span><span class=line><span class=cl><span class=cm>	 with acquire MO from IN to other threads.  If the CAS fails, it
+</span></span></span><span class=line><span class=cl><span class=cm>	 is like the relaxed-MO load of CURRENT_ROUND above.  */</span>
+</span></span><span class=line><span class=cl>      <span class=k>if</span> <span class=p>(</span><span class=nf>atomic_compare_exchange_weak_release</span> <span class=p>(</span><span class=o>&amp;</span><span class=n>bar</span><span class=o>-&gt;</span><span class=n>current_round</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>cr</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>						<span class=n>newcr</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>	<span class=p>{</span>
+</span></span><span class=line><span class=cl>	  <span class=cm>/* Update CR with the modification we just did.  */</span>
+</span></span><span class=line><span class=cl>	  <span class=n>cr</span> <span class=o>=</span> <span class=n>newcr</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	  <span class=cm>/* Wake threads belonging to the rounds we just finished.  We may
+</span></span></span><span class=line><span class=cl><span class=cm>	     wake more threads than necessary if more than COUNT threads try
+</span></span></span><span class=line><span class=cl><span class=cm>	     to block concurrently on the barrier, but this is not a typical
+</span></span></span><span class=line><span class=cl><span class=cm>	     use of barriers.
+</span></span></span><span class=line><span class=cl><span class=cm>	     Note that we can still access SHARED because we haven&#39;t yet
+</span></span></span><span class=line><span class=cl><span class=cm>	     confirmed to have left the barrier.  */</span>
+</span></span><span class=line><span class=cl>	  <span class=nf>futex_wake</span> <span class=p>(</span><span class=o>&amp;</span><span class=n>bar</span><span class=o>-&gt;</span><span class=n>current_round</span><span class=p>,</span> <span class=n>INT_MAX</span><span class=p>,</span> <span class=n>bar</span><span class=o>-&gt;</span><span class=n>shared</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	  <span class=cm>/* We did as much as we could based on our position.  If we advanced
+</span></span></span><span class=line><span class=cl><span class=cm>	     the current round to a round sufficient for us, do not wait for
+</span></span></span><span class=line><span class=cl><span class=cm>	     that to happen and skip the acquire fence (we already
+</span></span></span><span class=line><span class=cl><span class=cm>	     synchronize-with all other threads in our round through the
+</span></span></span><span class=line><span class=cl><span class=cm>	     initial acquire MO fetch_add of IN.  */</span>
+</span></span><span class=line><span class=cl>	  <span class=k>if</span> <span class=p>(</span><span class=n>i</span> <span class=o>&lt;=</span> <span class=n>cr</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	    <span class=k>goto</span> <span class=n>ready_to_leave</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	  <span class=k>else</span>
+</span></span><span class=line><span class=cl>	    <span class=k>break</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=cm>/* Wait until the current round is more recent than the round we are in.  */</span>
+</span></span><span class=line><span class=cl>  <span class=k>while</span> <span class=p>(</span><span class=n>i</span> <span class=o>&gt;</span> <span class=n>cr</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=cm>/* Wait for the current round to finish.  */</span>
+</span></span><span class=line><span class=cl>      <span class=nf>futex_wait_simple</span> <span class=p>(</span><span class=o>&amp;</span><span class=n>bar</span><span class=o>-&gt;</span><span class=n>current_round</span><span class=p>,</span> <span class=n>cr</span><span class=p>,</span> <span class=n>bar</span><span class=o>-&gt;</span><span class=n>shared</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>      <span class=cm>/* See the fence below.  */</span>
+</span></span><span class=line><span class=cl>      <span class=n>cr</span> <span class=o>=</span> <span class=nf>atomic_load_relaxed</span> <span class=p>(</span><span class=o>&amp;</span><span class=n>bar</span><span class=o>-&gt;</span><span class=n>current_round</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=cm>/* Our round finished.  Use the acquire MO fence to synchronize-with the
+</span></span></span><span class=line><span class=cl><span class=cm>     thread that finished the round, either through the initial load of
+</span></span></span><span class=line><span class=cl><span class=cm>     CURRENT_ROUND above or a failed CAS in the loop above.  */</span>
+</span></span><span class=line><span class=cl>  <span class=nf>atomic_thread_fence_acquire</span> <span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=cm>/* Now signal that we left.  */</span>
+</span></span><span class=line><span class=cl>  <span class=kt>unsigned</span> <span class=kt>int</span> <span class=n>o</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> <span class=nl>ready_to_leave</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>  <span class=cm>/* We need release MO here so that our use of the barrier happens before
+</span></span></span><span class=line><span class=cl><span class=cm>     reset or memory reuse after pthread_barrier_destroy.  */</span>
+</span></span><span class=line><span class=cl>  <span class=n>o</span> <span class=o>=</span> <span class=nf>atomic_fetch_add_release</span> <span class=p>(</span><span class=o>&amp;</span><span class=n>bar</span><span class=o>-&gt;</span><span class=n>out</span><span class=p>,</span> <span class=mi>1</span><span class=p>)</span> <span class=o>+</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=k>if</span> <span class=p>(</span><span class=n>o</span> <span class=o>==</span> <span class=n>max_in_before_reset</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=cm>/* Perform a reset if we are the last pre-reset thread leaving.   All
+</span></span></span><span class=line><span class=cl><span class=cm>	 other threads accessing the barrier are post-reset threads and are
+</span></span></span><span class=line><span class=cl><span class=cm>	 incrementing or spinning on IN.  Thus, resetting IN as the last step
+</span></span></span><span class=line><span class=cl><span class=cm>	 of reset ensures that the reset is not concurrent with actual use of
+</span></span></span><span class=line><span class=cl><span class=cm>	 the barrier.  We need the acquire MO fence so that the reset happens
+</span></span></span><span class=line><span class=cl><span class=cm>	 after use of the barrier by all earlier pre-reset threads.  */</span>
+</span></span><span class=line><span class=cl>      <span class=nf>atomic_thread_fence_acquire</span> <span class=p>();</span>
+</span></span><span class=line><span class=cl>      <span class=nf>atomic_store_relaxed</span> <span class=p>(</span><span class=o>&amp;</span><span class=n>bar</span><span class=o>-&gt;</span><span class=n>current_round</span><span class=p>,</span> <span class=mi>0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>      <span class=nf>atomic_store_relaxed</span> <span class=p>(</span><span class=o>&amp;</span><span class=n>bar</span><span class=o>-&gt;</span><span class=n>out</span><span class=p>,</span> <span class=mi>0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>      <span class=cm>/* When destroying the barrier, we wait for a reset to happen.  Thus,
+</span></span></span><span class=line><span class=cl><span class=cm>	 we must load SHARED now so that this happens before the barrier is
+</span></span></span><span class=line><span class=cl><span class=cm>	 destroyed.  */</span>
+</span></span><span class=line><span class=cl>      <span class=kt>int</span> <span class=n>shared</span> <span class=o>=</span> <span class=n>bar</span><span class=o>-&gt;</span><span class=n>shared</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>      <span class=nf>atomic_store_release</span> <span class=p>(</span><span class=o>&amp;</span><span class=n>bar</span><span class=o>-&gt;</span><span class=n>in</span><span class=p>,</span> <span class=mi>0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>      <span class=nf>futex_wake</span> <span class=p>(</span><span class=o>&amp;</span><span class=n>bar</span><span class=o>-&gt;</span><span class=n>in</span><span class=p>,</span> <span class=n>INT_MAX</span><span class=p>,</span> <span class=n>shared</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=cm>/* Return a special value for exactly one thread per round.  */</span>
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=n>i</span> <span class=o>%</span> <span class=n>count</span> <span class=o>==</span> <span class=mi>0</span> <span class=o>?</span>  <span class=nl>PTHREAD_BARRIER_SERIAL_THREAD</span> <span class=p>:</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>int</span>
+</span></span><span class=line><span class=cl><span class=nf>__pthread_barrier_destroy</span> <span class=p>(</span><span class=kt>pthread_barrier_t</span> <span class=o>*</span><span class=n>barrier</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>struct</span> <span class=n>pthread_barrier</span> <span class=o>*</span><span class=n>bar</span> <span class=o>=</span> <span class=p>(</span><span class=k>struct</span> <span class=n>pthread_barrier</span> <span class=o>*</span><span class=p>)</span> <span class=n>barrier</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=cm>/* Destroying a barrier is only allowed if no thread is blocked on it.
+</span></span></span><span class=line><span class=cl><span class=cm>     Thus, there is no unfinished round, and all modifications to IN will
+</span></span></span><span class=line><span class=cl><span class=cm>     have happened before us (either because the calling thread took part
+</span></span></span><span class=line><span class=cl><span class=cm>     in the most recent round and thus synchronized-with all other threads
+</span></span></span><span class=line><span class=cl><span class=cm>     entering, or the program ensured this through other synchronization).
+</span></span></span><span class=line><span class=cl><span class=cm>     We must wait until all threads that entered so far have confirmed that
+</span></span></span><span class=line><span class=cl><span class=cm>     they have exited as well.  To get the notification, pretend that we have
+</span></span></span><span class=line><span class=cl><span class=cm>     reached the reset threshold.  */</span>
+</span></span><span class=line><span class=cl>  <span class=kt>unsigned</span> <span class=kt>int</span> <span class=n>count</span> <span class=o>=</span> <span class=n>bar</span><span class=o>-&gt;</span><span class=n>count</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=kt>unsigned</span> <span class=kt>int</span> <span class=n>max_in_before_reset</span> <span class=o>=</span> <span class=n>BARRIER_IN_THRESHOLD</span>
+</span></span><span class=line><span class=cl>				   <span class=o>-</span> <span class=n>BARRIER_IN_THRESHOLD</span> <span class=o>%</span> <span class=n>count</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=cm>/* Relaxed MO sufficient because the program must have ensured that all
+</span></span></span><span class=line><span class=cl><span class=cm>     modifications happen-before this load (see above).  */</span>
+</span></span><span class=line><span class=cl>  <span class=kt>unsigned</span> <span class=kt>int</span> <span class=n>in</span> <span class=o>=</span> <span class=nf>atomic_load_relaxed</span> <span class=p>(</span><span class=o>&amp;</span><span class=n>bar</span><span class=o>-&gt;</span><span class=n>in</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=cm>/* Trigger reset.  The required acquire MO is below.  */</span>
+</span></span><span class=line><span class=cl>  <span class=k>if</span> <span class=p>(</span><span class=nf>atomic_fetch_add_relaxed</span> <span class=p>(</span><span class=o>&amp;</span><span class=n>bar</span><span class=o>-&gt;</span><span class=n>out</span><span class=p>,</span> <span class=n>max_in_before_reset</span> <span class=o>-</span> <span class=n>in</span><span class=p>)</span> <span class=o>&lt;</span> <span class=n>in</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=cm>/* Not all threads confirmed yet that they have exited, so another
+</span></span></span><span class=line><span class=cl><span class=cm>	 thread will perform a reset.  Wait until that has happened.  */</span>
+</span></span><span class=line><span class=cl>      <span class=k>while</span> <span class=p>(</span><span class=n>in</span> <span class=o>!=</span> <span class=mi>0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>{</span>
+</span></span><span class=line><span class=cl>	  <span class=nf>futex_wait_simple</span> <span class=p>(</span><span class=o>&amp;</span><span class=n>bar</span><span class=o>-&gt;</span><span class=n>in</span><span class=p>,</span> <span class=n>in</span><span class=p>,</span> <span class=n>bar</span><span class=o>-&gt;</span><span class=n>shared</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	  <span class=n>in</span> <span class=o>=</span> <span class=nf>atomic_load_relaxed</span> <span class=p>(</span><span class=o>&amp;</span><span class=n>bar</span><span class=o>-&gt;</span><span class=n>in</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=cm>/* We must ensure that memory reuse happens after all prior use of the
+</span></span></span><span class=line><span class=cl><span class=cm>     barrier (specifically, synchronize-with the reset of the barrier or the
+</span></span></span><span class=line><span class=cl><span class=cm>     confirmation of threads leaving the barrier).  */</span>
+</span></span><span class=line><span class=cl>  <span class=nf>atomic_thread_fence_acquire</span> <span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=互斥锁 class=headerLink><a href=#%e4%ba%92%e6%96%a5%e9%94%81 class=header-mark></a>6 互斥锁</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_mutex_init</span><span class=p>(</span><span class=kt>pthread_mutex_t</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>,</span> <span class=k>const</span> <span class=kt>pthread_mutexattr_t</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_mutex_lock</span><span class=p>(</span><span class=kt>pthread_mutex_t</span> <span class=o>*</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_mutex_unlock</span><span class=p>(</span><span class=kt>pthread_mutex_t</span> <span class=o>*</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_mutex_trylock</span><span class=p>(</span><span class=kt>pthread_mutex_t</span> <span class=o>*</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_mutex_timedlock</span><span class=p>(</span><span class=kt>pthread_mutex_t</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>,</span> <span class=k>const</span> <span class=k>struct</span> <span class=n>timespec</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_mutex_destroy</span><span class=p>(</span><span class=kt>pthread_mutex_t</span> <span class=o>*</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_mutex_consistent</span><span class=p>(</span><span class=kt>pthread_mutex_t</span> <span class=o>*</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_mutex_getprioceiling</span><span class=p>(</span><span class=k>const</span> <span class=kt>pthread_mutex_t</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>,</span> <span class=kt>int</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_mutex_setprioceiling</span><span class=p>(</span><span class=kt>pthread_mutex_t</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>,</span> <span class=kt>int</span><span class=p>,</span> <span class=kt>int</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_mutexattr_destroy</span><span class=p>(</span><span class=kt>pthread_mutexattr_t</span> <span class=o>*</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_mutexattr_getprioceiling</span><span class=p>(</span><span class=k>const</span> <span class=kt>pthread_mutexattr_t</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>,</span> <span class=kt>int</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_mutexattr_getprotocol</span><span class=p>(</span><span class=k>const</span> <span class=kt>pthread_mutexattr_t</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>,</span> <span class=kt>int</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_mutexattr_getpshared</span><span class=p>(</span><span class=k>const</span> <span class=kt>pthread_mutexattr_t</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>,</span> <span class=kt>int</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_mutexattr_getrobust</span><span class=p>(</span><span class=k>const</span> <span class=kt>pthread_mutexattr_t</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>,</span> <span class=kt>int</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_mutexattr_gettype</span><span class=p>(</span><span class=k>const</span> <span class=kt>pthread_mutexattr_t</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>,</span> <span class=kt>int</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_mutexattr_init</span><span class=p>(</span><span class=kt>pthread_mutexattr_t</span> <span class=o>*</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_mutexattr_setprioceiling</span><span class=p>(</span><span class=kt>pthread_mutexattr_t</span> <span class=o>*</span><span class=p>,</span> <span class=kt>int</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_mutexattr_setprotocol</span><span class=p>(</span><span class=kt>pthread_mutexattr_t</span> <span class=o>*</span><span class=p>,</span> <span class=kt>int</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_mutexattr_setpshared</span><span class=p>(</span><span class=kt>pthread_mutexattr_t</span> <span class=o>*</span><span class=p>,</span> <span class=kt>int</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_mutexattr_setrobust</span><span class=p>(</span><span class=kt>pthread_mutexattr_t</span> <span class=o>*</span><span class=p>,</span> <span class=kt>int</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_mutexattr_settype</span><span class=p>(</span><span class=kt>pthread_mutexattr_t</span> <span class=o>*</span><span class=p>,</span> <span class=kt>int</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=musl实现-4 class=headerLink><a href=#musl%e5%ae%9e%e7%8e%b0-4 class=header-mark></a>6.1 musl实现</h3><p>在musl库上的互斥锁,但是我感觉musl的设计存在一些瑕疵,还是在去分析一下glibc的设计思路吧.</p><p>设计并不存在这什么问题,主要是</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -447,7 +1337,7 @@
 </span></span><span class=line><span class=cl>	<span class=p>}</span>
 </span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=n>r</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></td></tr></table></div></div><h3 id=glibc实现-3 class=headerLink><a href=#glibc%e5%ae%9e%e7%8e%b0-3 class=header-mark></a>5.2 glibc实现</h3><p>musl的互斥锁好像缺少了排队机制,造成可能抢占的问题(真正实现排队的是futex)</p><h4 id=互斥锁的定义 class=headerLink><a href=#%e4%ba%92%e6%96%a5%e9%94%81%e7%9a%84%e5%ae%9a%e4%b9%89 class=header-mark></a>5.2.1 互斥锁的定义</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span></span></code></pre></td></tr></table></div></div><h3 id=glibc实现-4 class=headerLink><a href=#glibc%e5%ae%9e%e7%8e%b0-4 class=header-mark></a>6.2 glibc实现</h3><p>musl的互斥锁好像缺少了排队机制,造成可能抢占的问题(真正实现排队的是futex)</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -599,13 +1489,200 @@
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=n>ret</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></td></tr></table></div></div><h2 id=条件变量 class=headerLink><a href=#%e6%9d%a1%e4%bb%b6%e5%8f%98%e9%87%8f class=header-mark></a>6 条件变量</h2><h3 id=musl实现-5 class=headerLink><a href=#musl%e5%ae%9e%e7%8e%b0-5 class=header-mark></a>6.1 musl实现</h3><h3 id=glibc实现-4 class=headerLink><a href=#glibc%e5%ae%9e%e7%8e%b0-4 class=header-mark></a>6.2 glibc实现</h3><h2 id=读写锁 class=headerLink><a href=#%e8%af%bb%e5%86%99%e9%94%81 class=header-mark></a>7 读写锁</h2><h3 id=musl实现-6 class=headerLink><a href=#musl%e5%ae%9e%e7%8e%b0-6 class=header-mark></a>7.1 musl实现</h3><h3 id=glibc实现-5 class=headerLink><a href=#glibc%e5%ae%9e%e7%8e%b0-5 class=header-mark></a>7.2 glibc实现</h3><h2 id=pthread杂项 class=headerLink><a href=#pthread%e6%9d%82%e9%a1%b9 class=header-mark></a>8 pthread杂项</h2></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2023-02-26&nbsp;<a class=git-hash href=https://github.com/mengdemao/github.io/commit/8490958a6b04ad7d5feceb68e34442af8347d190 target=_blank title="commit by Meng Demao(mengdemao19951021@163.com) 8490958a6b04ad7d5feceb68e34442af8347d190: *" rel="noopener noreferrer">
-<i class="fas fa-hashtag fa-fw"></i>8490958</a></span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-mardown href=/pthread_lock/index.md target=_blank rel="noopener noreferrer">阅读原始文档</a>
+</span></span></code></pre></td></tr></table></div></div><p>解锁实现</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>int</span> <span class=nf>___pthread_mutex_unlock</span> <span class=p>(</span><span class=kt>pthread_mutex_t</span> <span class=o>*</span><span class=n>mutex</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=nf>__pthread_mutex_unlock_usercnt</span> <span class=p>(</span><span class=n>mutex</span><span class=p>,</span> <span class=mi>1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>__pthread_mutex_unlock_usercnt</span> <span class=p>(</span><span class=kt>pthread_mutex_t</span> <span class=o>*</span><span class=n>mutex</span><span class=p>,</span> <span class=kt>int</span> <span class=n>decr</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=cm>/* See concurrency notes regarding mutex type which is loaded from __kind
+</span></span></span><span class=line><span class=cl><span class=cm>     in struct __pthread_mutex_s in sysdeps/nptl/bits/thread-shared-types.h.  */</span>
+</span></span><span class=line><span class=cl>  <span class=kt>int</span> <span class=n>type</span> <span class=o>=</span> <span class=nf>PTHREAD_MUTEX_TYPE_ELISION</span> <span class=p>(</span><span class=n>mutex</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=k>if</span> <span class=p>(</span><span class=nf>__builtin_expect</span> <span class=p>(</span><span class=n>type</span>
+</span></span><span class=line><span class=cl>			<span class=o>&amp;</span> <span class=o>~</span><span class=p>(</span><span class=n>PTHREAD_MUTEX_KIND_MASK_NP</span>
+</span></span><span class=line><span class=cl>			    <span class=o>|</span><span class=n>PTHREAD_MUTEX_ELISION_FLAGS_NP</span><span class=p>),</span> <span class=mi>0</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nf>__pthread_mutex_unlock_full</span> <span class=p>(</span><span class=n>mutex</span><span class=p>,</span> <span class=n>decr</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=k>if</span> <span class=p>(</span><span class=nf>__builtin_expect</span> <span class=p>(</span><span class=n>type</span><span class=p>,</span> <span class=n>PTHREAD_MUTEX_TIMED_NP</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>      <span class=o>==</span> <span class=n>PTHREAD_MUTEX_TIMED_NP</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=cm>/* Always reset the owner field.  */</span>
+</span></span><span class=line><span class=cl>    <span class=nl>normal</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>      <span class=n>mutex</span><span class=o>-&gt;</span><span class=n>__data</span><span class=p>.</span><span class=n>__owner</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>      <span class=k>if</span> <span class=p>(</span><span class=n>decr</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=cm>/* One less user.  */</span>
+</span></span><span class=line><span class=cl>	<span class=o>--</span><span class=n>mutex</span><span class=o>-&gt;</span><span class=n>__data</span><span class=p>.</span><span class=n>__nusers</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>      <span class=cm>/* Unlock.  */</span>
+</span></span><span class=line><span class=cl>      <span class=nf>lll_mutex_unlock_optimized</span> <span class=p>(</span><span class=n>mutex</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>      <span class=nf>LIBC_PROBE</span> <span class=p>(</span><span class=n>mutex_release</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=n>mutex</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>      <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=nf>__glibc_likely</span> <span class=p>(</span><span class=n>type</span> <span class=o>==</span> <span class=n>PTHREAD_MUTEX_TIMED_ELISION_NP</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=cm>/* Don&#39;t reset the owner/users fields for elision.  */</span>
+</span></span><span class=line><span class=cl>      <span class=k>return</span> <span class=nf>lll_unlock_elision</span> <span class=p>(</span><span class=n>mutex</span><span class=o>-&gt;</span><span class=n>__data</span><span class=p>.</span><span class=n>__lock</span><span class=p>,</span> <span class=n>mutex</span><span class=o>-&gt;</span><span class=n>__data</span><span class=p>.</span><span class=n>__elision</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>				      <span class=nf>PTHREAD_MUTEX_PSHARED</span> <span class=p>(</span><span class=n>mutex</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=nf>__builtin_expect</span> <span class=p>(</span><span class=nf>PTHREAD_MUTEX_TYPE</span> <span class=p>(</span><span class=n>mutex</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>			      <span class=o>==</span> <span class=n>PTHREAD_MUTEX_RECURSIVE_NP</span><span class=p>,</span> <span class=mi>1</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=cm>/* Recursive mutex.  */</span>
+</span></span><span class=line><span class=cl>      <span class=k>if</span> <span class=p>(</span><span class=n>mutex</span><span class=o>-&gt;</span><span class=n>__data</span><span class=p>.</span><span class=n>__owner</span> <span class=o>!=</span> <span class=nf>THREAD_GETMEM</span> <span class=p>(</span><span class=n>THREAD_SELF</span><span class=p>,</span> <span class=n>tid</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=n>EPERM</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>      <span class=k>if</span> <span class=p>(</span><span class=o>--</span><span class=n>mutex</span><span class=o>-&gt;</span><span class=n>__data</span><span class=p>.</span><span class=n>__count</span> <span class=o>!=</span> <span class=mi>0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=cm>/* We still hold the mutex.  */</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>      <span class=k>goto</span> <span class=n>normal</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=nf>__builtin_expect</span> <span class=p>(</span><span class=nf>PTHREAD_MUTEX_TYPE</span> <span class=p>(</span><span class=n>mutex</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>			      <span class=o>==</span> <span class=n>PTHREAD_MUTEX_ADAPTIVE_NP</span><span class=p>,</span> <span class=mi>1</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=k>goto</span> <span class=n>normal</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=k>else</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=cm>/* Error checking mutex.  */</span>
+</span></span><span class=line><span class=cl>      <span class=nf>assert</span> <span class=p>(</span><span class=n>type</span> <span class=o>==</span> <span class=n>PTHREAD_MUTEX_ERRORCHECK_NP</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>      <span class=k>if</span> <span class=p>(</span><span class=n>mutex</span><span class=o>-&gt;</span><span class=n>__data</span><span class=p>.</span><span class=n>__owner</span> <span class=o>!=</span> <span class=nf>THREAD_GETMEM</span> <span class=p>(</span><span class=n>THREAD_SELF</span><span class=p>,</span> <span class=n>tid</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	  <span class=o>||</span> <span class=o>!</span> <span class=nf>lll_islocked</span> <span class=p>(</span><span class=n>mutex</span><span class=o>-&gt;</span><span class=n>__data</span><span class=p>.</span><span class=n>__lock</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=n>EPERM</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>      <span class=k>goto</span> <span class=n>normal</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=条件变量 class=headerLink><a href=#%e6%9d%a1%e4%bb%b6%e5%8f%98%e9%87%8f class=header-mark></a>7 条件变量</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_cond_init</span><span class=p>(</span><span class=kt>pthread_cond_t</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>,</span> <span class=k>const</span> <span class=kt>pthread_condattr_t</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_cond_destroy</span><span class=p>(</span><span class=kt>pthread_cond_t</span> <span class=o>*</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_cond_wait</span><span class=p>(</span><span class=kt>pthread_cond_t</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>,</span> <span class=kt>pthread_mutex_t</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_cond_timedwait</span><span class=p>(</span><span class=kt>pthread_cond_t</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>,</span> <span class=kt>pthread_mutex_t</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>,</span> <span class=k>const</span> <span class=k>struct</span> <span class=n>timespec</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_cond_broadcast</span><span class=p>(</span><span class=kt>pthread_cond_t</span> <span class=o>*</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_cond_signal</span><span class=p>(</span><span class=kt>pthread_cond_t</span> <span class=o>*</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_condattr_init</span><span class=p>(</span><span class=kt>pthread_condattr_t</span> <span class=o>*</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_condattr_destroy</span><span class=p>(</span><span class=kt>pthread_condattr_t</span> <span class=o>*</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_condattr_setclock</span><span class=p>(</span><span class=kt>pthread_condattr_t</span> <span class=o>*</span><span class=p>,</span> <span class=kt>clockid_t</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_condattr_setpshared</span><span class=p>(</span><span class=kt>pthread_condattr_t</span> <span class=o>*</span><span class=p>,</span> <span class=kt>int</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_condattr_getclock</span><span class=p>(</span><span class=k>const</span> <span class=kt>pthread_condattr_t</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>,</span> <span class=kt>clockid_t</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_condattr_getpshared</span><span class=p>(</span><span class=k>const</span> <span class=kt>pthread_condattr_t</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>,</span> <span class=kt>int</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=musl实现-5 class=headerLink><a href=#musl%e5%ae%9e%e7%8e%b0-5 class=header-mark></a>7.1 musl实现</h3><h3 id=glibc实现-5 class=headerLink><a href=#glibc%e5%ae%9e%e7%8e%b0-5 class=header-mark></a>7.2 glibc实现</h3><h2 id=读写锁 class=headerLink><a href=#%e8%af%bb%e5%86%99%e9%94%81 class=header-mark></a>8 读写锁</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_rwlock_init</span><span class=p>(</span><span class=kt>pthread_rwlock_t</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>,</span> <span class=k>const</span> <span class=kt>pthread_rwlockattr_t</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_rwlock_destroy</span><span class=p>(</span><span class=kt>pthread_rwlock_t</span> <span class=o>*</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_rwlock_rdlock</span><span class=p>(</span><span class=kt>pthread_rwlock_t</span> <span class=o>*</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_rwlock_tryrdlock</span><span class=p>(</span><span class=kt>pthread_rwlock_t</span> <span class=o>*</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_rwlock_timedrdlock</span><span class=p>(</span><span class=kt>pthread_rwlock_t</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>,</span> <span class=k>const</span> <span class=k>struct</span> <span class=n>timespec</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_rwlock_wrlock</span><span class=p>(</span><span class=kt>pthread_rwlock_t</span> <span class=o>*</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_rwlock_trywrlock</span><span class=p>(</span><span class=kt>pthread_rwlock_t</span> <span class=o>*</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_rwlock_timedwrlock</span><span class=p>(</span><span class=kt>pthread_rwlock_t</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>,</span> <span class=k>const</span> <span class=k>struct</span> <span class=n>timespec</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_rwlock_unlock</span><span class=p>(</span><span class=kt>pthread_rwlock_t</span> <span class=o>*</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_rwlockattr_init</span><span class=p>(</span><span class=kt>pthread_rwlockattr_t</span> <span class=o>*</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_rwlockattr_destroy</span><span class=p>(</span><span class=kt>pthread_rwlockattr_t</span> <span class=o>*</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_rwlockattr_setpshared</span><span class=p>(</span><span class=kt>pthread_rwlockattr_t</span> <span class=o>*</span><span class=p>,</span> <span class=kt>int</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_rwlockattr_getpshared</span><span class=p>(</span><span class=k>const</span> <span class=kt>pthread_rwlockattr_t</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>,</span> <span class=kt>int</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=musl实现-6 class=headerLink><a href=#musl%e5%ae%9e%e7%8e%b0-6 class=header-mark></a>8.1 musl实现</h3><h3 id=glibc实现-6 class=headerLink><a href=#glibc%e5%ae%9e%e7%8e%b0-6 class=header-mark></a>8.2 glibc实现</h3></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2023-03-05&nbsp;<a class=git-hash href=https://github.com/mengdemao/github.io/commit/3b6739100fd06f2e84ee6820f5fa0576ed4f6f44 target=_blank title="commit by mengdemao(mengdemao19951021@163.com) 3b6739100fd06f2e84ee6820f5fa0576ed4f6f44: 修改pthread源码阅读" rel="noopener noreferrer">
+<i class="fas fa-hashtag fa-fw"></i>3b67391</a></span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-mardown href=/pthread_lock/index.md target=_blank rel="noopener noreferrer">阅读原始文档</a>
 </span><span>|&nbsp;<a class=link-to-source href=https://github.com/mengdemao/github.io/content/posts/pthread_lock.md target=_blank rel="noopener noreferrer">查看源代码</a>
 </span><span>|&nbsp;<a class=link-to-edit href=https://github.com/mengdemao/github.io/content/posts/pthread_lock.md target=_blank rel="noopener noreferrer">编辑此页</a></span></div><div class=post-info-share><span><a href=# title="分享到 Twitter" data-sharer=twitter data-url=https://mengdemao.github.io/pthread_lock/ data-title=pthread线程同步 data-hashtags=pthread><i class="fab fa-twitter fa-fw"></i></a><a href=# title="分享到 Facebook" data-sharer=facebook data-url=https://mengdemao.github.io/pthread_lock/ data-hashtag=pthread><i class="fab fa-facebook-square fa-fw"></i></a><a href=# title="分享到 Hacker News" data-sharer=hackernews data-url=https://mengdemao.github.io/pthread_lock/ data-title=pthread线程同步><i class="fab fa-hacker-news fa-fw"></i></a><a href=# title="分享到 Line" data-sharer=line data-url=https://mengdemao.github.io/pthread_lock/ data-title=pthread线程同步><i data-svg-src=/lib/simple-icons/icons/line.min.svg></i></a><a href=# title="分享到 微博" data-sharer=weibo data-url=https://mengdemao.github.io/pthread_lock/ data-title=pthread线程同步 data-image=featuredImage/02.jpg><i class="fab fa-weibo fa-fw"></i></a><a href=# title="分享到 Telegram" data-sharer=telegram data-url=https://mengdemao.github.io/pthread_lock/ data-title=pthread线程同步 data-web><i class="fab fa-telegram-plane fa-fw"></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw"></i>&nbsp;<a href=/tags/pthread/>pthread</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/pthread_thread/ class=prev rel=prev title=pthread线程源码分析><i class="fas fa-angle-left fa-fw"></i>pthread线程源码分析</a>
-<a href=/pthread_local_storage/ class=next rel=next title=线程局部存储分析>线程局部存储分析<i class="fas fa-angle-right fa-fw"></i></a></div></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.110.0">Hugo</a> 强力驱动&nbsp;|&nbsp;托管在 <a title="Github Pages" href=https://docs.github.com/en/pages/ target=_blank rel="noopener noreffer">GitHub Pages</a> 上&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a></div><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2020 - 2023</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://github.com/mengdemao/github.io target=_blank rel="noopener noreferrer">mengdemao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div><div class=footer-line></div><div class=footer-line></div></div><script>"serviceWorker"in navigator&&(navigator.serviceWorker.register("/sw.min.js",{scope:"/"}).then(function(){}),navigator.serviceWorker.ready.then(function(){}))</script></footer></div><div id=fixed-buttons><a href=#back-to-top id=back-to-top-button class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw"></i>
+<a href=/pthread_local_storage/ class=next rel=next title=线程局部存储分析>线程局部存储分析<i class="fas fa-angle-right fa-fw"></i></a></div></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.111.1">Hugo</a> 强力驱动&nbsp;|&nbsp;托管在 <a title="Github Pages" href=https://docs.github.com/en/pages/ target=_blank rel="noopener noreffer">GitHub Pages</a> 上&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a></div><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2020 - 2023</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://github.com/mengdemao/github.io target=_blank rel="noopener noreferrer">mengdemao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div><div class=footer-line></div><div class=footer-line></div></div><script>"serviceWorker"in navigator&&(navigator.serviceWorker.register("/sw.min.js",{scope:"/"}).then(function(){}),navigator.serviceWorker.ready.then(function(){}))</script></footer></div><div id=fixed-buttons><a href=#back-to-top id=back-to-top-button class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw"></i>
 </a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw"></i></a></div><div class=assets><link rel=stylesheet href=/lib/lightgallery/lightgallery.min.93025484925a4c3cc6a7a5533c16cc4160455287fafa9bf448cdecf1fa3e13a5e73e6566b5fc0434ad2f1d8ba9dedb189ea1e0443a010d3256a2aeeb9d0c36fa.css integrity="sha512-kwJUhJJaTDzGp6VTPBbMQWBFUof6+pv0SM3s8fo+E6XnPmVmtfwENK0vHYup3tsYnqHgRDoBDTJWoq7rnQw2+g=="><link rel=stylesheet href=/lib/katex/katex.min.990c289bc36ce28a7e1f6f680e40ff2d73bf3ac5cfbc215f92066414056b86178fcd12d4f0d508dcd926e373615944a68f7a7909c6b61d3124310997411c0341.css integrity="sha512-mQwom8Ns4op+H29oDkD/LXO/OsXPvCFfkgZkFAVrhhePzRLU8NUI3Nkm43NhWUSmj3p5Cca2HTEkMQmXQRwDQQ=="><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/katex/copy-tex.min.b0251fdfe529f8aa1c9a24473a32d4adf4d2e298acdba05fc37a93816e299615aa9026959eafcf37ae05beefc5345cf7039acd8238c9cfe76a00529b0eba5f57.css integrity="sha512-sCUf3+Up+KocmiRHOjLUrfTS4pis26Bfw3qTgW4plhWqkCaVnq/PN64Fvu/FNFz3A5rNgjjJz+dqAFKbDrpfVw=="><noscript><link rel=stylesheet href=/lib/katex/copy-tex.min.b0251fdfe529f8aa1c9a24473a32d4adf4d2e298acdba05fc37a93816e299615aa9026959eafcf37ae05beefc5345cf7039acd8238c9cfe76a00529b0eba5f57.css integrity="sha512-sCUf3+Up+KocmiRHOjLUrfTS4pis26Bfw3qTgW4plhWqkCaVnq/PN64Fvu/FNFz3A5rNgjjJz+dqAFKbDrpfVw=="></noscript><link rel=stylesheet href=/lib/mermaid/mermaid.min.8135ae40b81f211c8b9c10760d6a27449401953709c2ec4252f1540790ca68c6db6b8947357e8d5f75943c8d385006493229f17d7eee095ab4256b7ec4ac70e4.css integrity="sha512-gTWuQLgfIRyLnBB2DWonRJQBlTcJwuxCUvFUB5DKaMbba4lHNX6NX3WUPI04UAZJMinxfX7uCVq0JWt+xKxw5A=="><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:100},comment:{},data:{"desktop-header-typeit":"编程日志","id-1":`graph LR
     atom[原子操作] --\u003e spin[自旋锁]
 	futex --\u003e mutex[互斥锁]
 	futex --\u003e rwlock[读写锁]
-	futex --\u003e cond[条件变量]`,"mobile-header-typeit":"编程日志"},lightGallery:{actualSize:!1,exThumbImage:"data-thumbnail",hideBarsDelay:2e3,selector:".lightgallery",speed:400,thumbContHeight:80,thumbWidth:80,thumbnail:!0},math:{delimiters:[{display:!0,left:"$$",right:"$$"},{display:!0,left:"\\[",right:"\\]"},{display:!1,left:"$",right:"$"},{display:!1,left:"\\(",right:"\\)"}],strict:!1},mermaid:!0,search:{distance:100,findAllMatches:!1,fuseIndexURL:"/index.json",highlightTag:"em",ignoreFieldNorm:!1,ignoreLocation:!0,isCaseSensitive:!1,location:0,maxResultLength:10,minMatchCharLength:2,noResultsFound:"没有找到结果",snippetLength:50,threshold:.1,type:"fuse",useExtendedSearch:!1},sharerjs:!0,table:{sort:!0},twemoji:!0,typeit:{cursorChar:"|",cursorSpeed:1e3,data:{"desktop-header-typeit":["desktop-header-typeit"],"mobile-header-typeit":["mobile-header-typeit"]},duration:-1,speed:100}}</script><script type=text/javascript src=/lib/tablesort/tablesort.min.23640461c9e6941882f50f4208436e1932c806bcc32323a34ff378781204951e05534a0bbc3c1e401d111aa22a26ecc5d4f2cfb43af59d94da8a24f2b8ef8506.js integrity="sha512-I2QEYcnmlBiC9Q9CCENuGTLIBrzDIyOjT/N4eBIElR4FU0oLvDweQB0RGqIqJuzF1PLPtDr1nZTaiiTyuO+FBg=="></script><script type=text/javascript src=/lib/twemoji/twemoji.min.6c24276208463913359c7a512e70acd942789811a0c7557daacb6770d2d0e2f7a31f04c7461f9bf02e13eae0e3b77ee1c5be0bbdbabaefcc99ff324627fa43a9.js integrity="sha512-bCQnYghGORM1nHpRLnCs2UJ4mBGgx1V9qstncNLQ4vejHwTHRh+b8C4T6uDjt37hxb4Lvbq678yZ/zJGJ/pDqQ==" defer></script><script type=text/javascript src=/js/twemoji.min.js defer></script><script type=text/javascript src=/lib/lightgallery/lightgallery.min.8fd5f6e14a601e69308a4eff21d4aa21cc9ffcdf5dc0eb7fa1de387edf652539710e2d27577ba1820a74a48912c8ee0cc6a6c406ea22f6b5da49fedf04c9c509.js integrity="sha512-j9X24UpgHmkwik7/IdSqIcyf/N9dwOt/od44ft9lJTlxDi0nV3uhggp0pIkSyO4MxqbEBuoi9rXaSf7fBMnFCQ=="></script><script type=text/javascript src=/lib/lightgallery/lg-thumbnail.min.f6a93c2d6d1e1bea27fc3a077de18e64f4e5e36ae35edef047efb9e23a922cc5afeec7aa06baca0dd611ffe183ab59f4f9e3609b71de735932eb38bf4765b6ad.js integrity="sha512-9qk8LW0eG+on/DoHfeGOZPTl42rjXt7wR++54jqSLMWv7seqBrrKDdYR/+GDq1n0+eNgm3Hec1ky6zi/R2W2rQ=="></script><script type=text/javascript src=/lib/lightgallery/lg-zoom.min.4947f9add389ede26f0e96a5fb76d0b517e7515762a3b9ab7486468359c4d9e35863685b060bdeabb8f81cc4bf6f062a9934af9f45ffc61a3a716009fed20b82.js integrity="sha512-SUf5rdOJ7eJvDpal+3bQtRfnUVdio7mrdIZGg1nE2eNYY2hbBgveq7j4HMS/bwYqmTSvn0X/xho6cWAJ/tILgg=="></script><script type=text/javascript src=/lib/clipboard/clipboard.min.b08a94127467df50609e03e61edd897a7ce57830ec5f060efa2caf438e8cc3a44bfae7405198f69ffbbf3c663cd0dc51c729ceed1f71206c792c4cf0e0835625.js integrity="sha512-sIqUEnRn31BgngPmHt2JenzleDDsXwYO+iyvQ46Mw6RL+udAUZj2n/u/PGY80NxRxynO7R9xIGx5LEzw4INWJQ=="></script><script type=text/javascript src=/lib/sharer/sharer.min.cab91d53e60c836a90e16a5091059006925296eeed2c665fc744b7e7755ec3ab5c4e58e3c83899af70d8f690e004c2ca62062e11b0c7efdced87f80d074cfa3e.js integrity="sha512-yrkdU+YMg2qQ4WpQkQWQBpJSlu7tLGZfx0S353Vew6tcTljjyDiZr3DY9pDgBMLKYgYuEbDH79zth/gNB0z6Pg=="></script><script type=text/javascript src=/lib/typeit/typeit.min.f27efa857ac46448d67802135c65454dfc450176698f8fb06912d192dada782d98abfd8fbaf9ad33a15fb7971ed227e86d2082b88c2319260c237f147c9a624b.js integrity="sha512-8n76hXrEZEjWeAITXGVFTfxFAXZpj4+waRLRktraeC2Yq/2PuvmtM6Fft5ce0ifobSCCuIwjGSYMI38UfJpiSw=="></script><script type=text/javascript src=/lib/katex/katex.min.b0748d2c40912522be045b3b13c0e215cea97fa9fdd1b2c8f391268b0d6386b79db9984add55e0abd978900b7d79320760072e4012872f4d502ace3fdd7825f2.js integrity="sha512-sHSNLECRJSK+BFs7E8DiFc6pf6n90bLI85Emiw1jhreduZhK3VXgq9l4kAt9eTIHYAcuQBKHL01QKs4/3Xgl8g==" defer></script><script type=text/javascript src=/lib/katex/auto-render.min.8968ae052e67b7aafad1f0b3dba35dd19a9ed276e4d594c841b9772afee462c5fec8a314147ce3687dbe02733abe9d97b3e80d99a0405562634a6b8fc3be847e.js integrity="sha512-iWiuBS5nt6r60fCz26Nd0Zqe0nbk1ZTIQbl3Kv7kYsX+yKMUFHzjaH2+AnM6vp2Xs+gNmaBAVWJjSmuPw76Efg==" defer></script><script type=text/javascript src=/lib/katex/copy-tex.min.710c5291333846f1408dd05e04392b9658587c44706568ccfe88a329f3ec9a1474248d94ddf5d295b51a269e52960061fc5cd898cc96b9d4535cb9cd8f731b10.js integrity="sha512-cQxSkTM4RvFAjdBeBDkrllhYfERwZWjM/oijKfPsmhR0JI2U3fXSlbUaJp5SlgBh/FzYmMyWudRTXLnNj3MbEA==" defer></script><script type=text/javascript src=/lib/katex/mhchem.min.575865d1f9ce5d6e8276a7b9655aadc3c4c1a49569bb75d10d142d8bdea3ff4e3eb4c6ab3eb09d5c4504dd475fbdf2984e93a7f43578cc464156bd078438ae89.js integrity="sha512-V1hl0fnOXW6Cdqe5ZVqtw8TBpJVpu3XRDRQti96j/04+tMarPrCdXEUE3UdfvfKYTpOn9DV4zEZBVr0HhDiuiQ==" defer></script><script type=text/javascript src=/js/katex.min.js defer></script><script type=text/javascript src=/lib/mermaid/mermaid.min.90094f1f3dc3598f15532f063ca1149330d5fa9547fbfd8a9ad4a3f18482301ff9a2ba3161b0178a051b5e88551f7757bbfe58d2874b55d1c07f6c3dfc9d71d8.js integrity="sha512-kAlPHz3DWY8VUy8GPKEUkzDV+pVH+/2KmtSj8YSCMB/5oroxYbAXigUbXohVH3dXu/5Y0odLVdHAf2w9/J1x2A==" defer></script><script type=text/javascript src=/js/mermaid.min.js defer></script><script type=text/javascript src=/js/theme.min.js defer></script></div></body></html>
+	futex --\u003e cond[条件变量]`,"id-2":`graph TD
+
+futex_wake --\u003e lll_futex_wake
+
+futex_wait --\u003e lll_futex_timed_wait
+
+lll_futex_timed_wait --\u003e lll_futex_syscall
+lll_futex_wake --\u003e lll_futex_syscall`,"mobile-header-typeit":"编程日志"},lightGallery:{actualSize:!1,exThumbImage:"data-thumbnail",hideBarsDelay:2e3,selector:".lightgallery",speed:400,thumbContHeight:80,thumbWidth:80,thumbnail:!0},math:{delimiters:[{display:!0,left:"$$",right:"$$"},{display:!0,left:"\\[",right:"\\]"},{display:!1,left:"$",right:"$"},{display:!1,left:"\\(",right:"\\)"}],strict:!1},mermaid:!0,search:{distance:100,findAllMatches:!1,fuseIndexURL:"/index.json",highlightTag:"em",ignoreFieldNorm:!1,ignoreLocation:!0,isCaseSensitive:!1,location:0,maxResultLength:10,minMatchCharLength:2,noResultsFound:"没有找到结果",snippetLength:50,threshold:.1,type:"fuse",useExtendedSearch:!1},sharerjs:!0,table:{sort:!0},twemoji:!0,typeit:{cursorChar:"|",cursorSpeed:1e3,data:{"desktop-header-typeit":["desktop-header-typeit"],"mobile-header-typeit":["mobile-header-typeit"]},duration:-1,speed:100}}</script><script type=text/javascript src=/lib/tablesort/tablesort.min.23640461c9e6941882f50f4208436e1932c806bcc32323a34ff378781204951e05534a0bbc3c1e401d111aa22a26ecc5d4f2cfb43af59d94da8a24f2b8ef8506.js integrity="sha512-I2QEYcnmlBiC9Q9CCENuGTLIBrzDIyOjT/N4eBIElR4FU0oLvDweQB0RGqIqJuzF1PLPtDr1nZTaiiTyuO+FBg=="></script><script type=text/javascript src=/lib/twemoji/twemoji.min.6c24276208463913359c7a512e70acd942789811a0c7557daacb6770d2d0e2f7a31f04c7461f9bf02e13eae0e3b77ee1c5be0bbdbabaefcc99ff324627fa43a9.js integrity="sha512-bCQnYghGORM1nHpRLnCs2UJ4mBGgx1V9qstncNLQ4vejHwTHRh+b8C4T6uDjt37hxb4Lvbq678yZ/zJGJ/pDqQ==" defer></script><script type=text/javascript src=/js/twemoji.min.js defer></script><script type=text/javascript src=/lib/lightgallery/lightgallery.min.8fd5f6e14a601e69308a4eff21d4aa21cc9ffcdf5dc0eb7fa1de387edf652539710e2d27577ba1820a74a48912c8ee0cc6a6c406ea22f6b5da49fedf04c9c509.js integrity="sha512-j9X24UpgHmkwik7/IdSqIcyf/N9dwOt/od44ft9lJTlxDi0nV3uhggp0pIkSyO4MxqbEBuoi9rXaSf7fBMnFCQ=="></script><script type=text/javascript src=/lib/lightgallery/lg-thumbnail.min.f6a93c2d6d1e1bea27fc3a077de18e64f4e5e36ae35edef047efb9e23a922cc5afeec7aa06baca0dd611ffe183ab59f4f9e3609b71de735932eb38bf4765b6ad.js integrity="sha512-9qk8LW0eG+on/DoHfeGOZPTl42rjXt7wR++54jqSLMWv7seqBrrKDdYR/+GDq1n0+eNgm3Hec1ky6zi/R2W2rQ=="></script><script type=text/javascript src=/lib/lightgallery/lg-zoom.min.4947f9add389ede26f0e96a5fb76d0b517e7515762a3b9ab7486468359c4d9e35863685b060bdeabb8f81cc4bf6f062a9934af9f45ffc61a3a716009fed20b82.js integrity="sha512-SUf5rdOJ7eJvDpal+3bQtRfnUVdio7mrdIZGg1nE2eNYY2hbBgveq7j4HMS/bwYqmTSvn0X/xho6cWAJ/tILgg=="></script><script type=text/javascript src=/lib/clipboard/clipboard.min.b08a94127467df50609e03e61edd897a7ce57830ec5f060efa2caf438e8cc3a44bfae7405198f69ffbbf3c663cd0dc51c729ceed1f71206c792c4cf0e0835625.js integrity="sha512-sIqUEnRn31BgngPmHt2JenzleDDsXwYO+iyvQ46Mw6RL+udAUZj2n/u/PGY80NxRxynO7R9xIGx5LEzw4INWJQ=="></script><script type=text/javascript src=/lib/sharer/sharer.min.cab91d53e60c836a90e16a5091059006925296eeed2c665fc744b7e7755ec3ab5c4e58e3c83899af70d8f690e004c2ca62062e11b0c7efdced87f80d074cfa3e.js integrity="sha512-yrkdU+YMg2qQ4WpQkQWQBpJSlu7tLGZfx0S353Vew6tcTljjyDiZr3DY9pDgBMLKYgYuEbDH79zth/gNB0z6Pg=="></script><script type=text/javascript src=/lib/typeit/typeit.min.f27efa857ac46448d67802135c65454dfc450176698f8fb06912d192dada782d98abfd8fbaf9ad33a15fb7971ed227e86d2082b88c2319260c237f147c9a624b.js integrity="sha512-8n76hXrEZEjWeAITXGVFTfxFAXZpj4+waRLRktraeC2Yq/2PuvmtM6Fft5ce0ifobSCCuIwjGSYMI38UfJpiSw=="></script><script type=text/javascript src=/lib/katex/katex.min.b0748d2c40912522be045b3b13c0e215cea97fa9fdd1b2c8f391268b0d6386b79db9984add55e0abd978900b7d79320760072e4012872f4d502ace3fdd7825f2.js integrity="sha512-sHSNLECRJSK+BFs7E8DiFc6pf6n90bLI85Emiw1jhreduZhK3VXgq9l4kAt9eTIHYAcuQBKHL01QKs4/3Xgl8g==" defer></script><script type=text/javascript src=/lib/katex/auto-render.min.8968ae052e67b7aafad1f0b3dba35dd19a9ed276e4d594c841b9772afee462c5fec8a314147ce3687dbe02733abe9d97b3e80d99a0405562634a6b8fc3be847e.js integrity="sha512-iWiuBS5nt6r60fCz26Nd0Zqe0nbk1ZTIQbl3Kv7kYsX+yKMUFHzjaH2+AnM6vp2Xs+gNmaBAVWJjSmuPw76Efg==" defer></script><script type=text/javascript src=/lib/katex/copy-tex.min.710c5291333846f1408dd05e04392b9658587c44706568ccfe88a329f3ec9a1474248d94ddf5d295b51a269e52960061fc5cd898cc96b9d4535cb9cd8f731b10.js integrity="sha512-cQxSkTM4RvFAjdBeBDkrllhYfERwZWjM/oijKfPsmhR0JI2U3fXSlbUaJp5SlgBh/FzYmMyWudRTXLnNj3MbEA==" defer></script><script type=text/javascript src=/lib/katex/mhchem.min.575865d1f9ce5d6e8276a7b9655aadc3c4c1a49569bb75d10d142d8bdea3ff4e3eb4c6ab3eb09d5c4504dd475fbdf2984e93a7f43578cc464156bd078438ae89.js integrity="sha512-V1hl0fnOXW6Cdqe5ZVqtw8TBpJVpu3XRDRQti96j/04+tMarPrCdXEUE3UdfvfKYTpOn9DV4zEZBVr0HhDiuiQ==" defer></script><script type=text/javascript src=/js/katex.min.js defer></script><script type=text/javascript src=/lib/mermaid/mermaid.min.90094f1f3dc3598f15532f063ca1149330d5fa9547fbfd8a9ad4a3f18482301ff9a2ba3161b0178a051b5e88551f7757bbfe58d2874b55d1c07f6c3dfc9d71d8.js integrity="sha512-kAlPHz3DWY8VUy8GPKEUkzDV+pVH+/2KmtSj8YSCMB/5oroxYbAXigUbXohVH3dXu/5Y0odLVdHAf2w9/J1x2A==" defer></script><script type=text/javascript src=/js/mermaid.min.js defer></script><script type=text/javascript src=/js/theme.min.js defer></script></div></body></html>

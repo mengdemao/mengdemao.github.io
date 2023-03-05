@@ -47,6 +47,13 @@ popd >> /dev/null || exit
 popd >> /dev/null || exit
 ```
 
+如果跳转异常，则可以将指令修改，调整编译优化等级,使用`O0`编译;
+
+```shell
+CFLAGS="-g -g3 -ggdb -gdwarf-4 -O0 -Wno-error"
+CXXFLAGS="-g -g3 -ggdb -gdwarf-4 -O0 -Wno-error"
+```
+
 ### 测试代码
 
 ```
@@ -228,7 +235,6 @@ typedef unsigned long pthread_t;
 #else
 typedef struct __pthread* pthread_t;
 #endif
-
 ```
 而在glibc中,线程ID仅仅是线程结构体中的一个成员,因此,glibc的处理更加安全,
 下面分析一下id的实现,
@@ -274,7 +280,7 @@ if (GL(dl_pthread_num_threads) < __pthread_max_threads)
 
 ## 所有的函数
 
-### 线程基础
+### 线程创建
 
 ```c
 // 线程创建
@@ -284,8 +290,10 @@ int pthread_create(pthread_t *__restrict,
 
 // 线程退出
 void pthread_exit(void *);
+```
 
-// 线程属性
+###  线程属性
+```c
 int pthread_attr_init(pthread_attr_t *);
 int pthread_attr_destroy(pthread_attr_t *);
 
@@ -350,11 +358,15 @@ int pthread_setschedprio(pthread_t t, int prio);
 __syscall(SYS_sched_setparam, pthread_t->tid, &prio);
 ```
 
-## 补充知识
+## Linux线程实现
 
-### Linux线程实现
+```
 
-### 系统调用实现
+```
+
+## 系统调用
+
+### 系统调用实现(musl)
 
 ```c
 #define __asm_syscall(...) 
@@ -430,7 +442,8 @@ static inline long __syscall6(long n, long a, long b, long c, long d, long e, lo
 #define __NR_io_pgetevents (__NR_SYSCALL_BASE + 399)
 #endif /* _UAPI_ASM_ARM_UNISTD_COMMON_H */
 ```
-### glibc系统调用
+### 系统调用实现(glibc)
+
 同样的道理,可以分析一下glibc的系统调用时如何进行
 但是在一般的情况下此时就可以明白,与musl相同的调用方式时一样的
 
@@ -452,34 +465,6 @@ __INLINE_SYSCALL_DISP -->  __SYSCALL_CONCAT
 		     : "r" (_nr) ASM_ARGS_##nr			\
 		     : "memory");				\
        _a1; })
-```
-
-### clone系统调用
-```c
-int __clone(int (*func)(void *), void *stack, int flags, void *arg, ...);
-
-// 但是实现的地方却存在着异常
-
-__clone:
-	stmfd sp!,{r4,r5,r6,r7}
-
-	mov r7,#120
-        
-	mov r6,r3
-	mov r5,r0
-	mov r0,r2
-
-	and r1,r1,#-16
-	ldr r2,[sp,#16]
-	ldr r3,[sp,#20]
-	ldr r4,[sp,#24]
-	svc 0
-	
-    tst r0,r0
-	beq 1f
-
-	ldmfd sp!,{r4,r5,r6,r7}
-	bx lr
 ```
 
 ## 线程基础
