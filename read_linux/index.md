@@ -47,6 +47,46 @@ sudo ./run_debian_arm64.sh build_rootfs
 ./run_debian_arm64.sh build_run
 ```
 
++ 安装gdb-multiarch
+
+> 参考资料:[Archlinux gdb-multiarch构建](https://aur.archlinux.org/packages/gdb-multiarch)
+
+```shell
+# 下载代码
+git clone --branch gdb-13-branch https://sourceware.org/git/binutils-gdb.git
+
+# 执行构建
+mkdir build && cd build
+  ../configure \
+    --enable-targets=all \
+    --prefix=/build \
+    --enable-languages=all \
+    --enable-multilib \
+    --enable-interwork \
+    --with-system-readline \
+    --disable-nls \
+    --with-python=/usr/bin/python \
+    --with-system-gdbinit=/etc/gdb/gdbinit
+make -j`nproc`
+make install
+
+# 修改文件名
+mv /usr/bin/gdb /usr/bin/gdb-multiarch
+```
+
++ 运行gdb-multiarch
+
+```shell
+# 加载执行文件
+$ file vmlinux
+
+# 设置架构
+$ set architecture arm
+
+# 远程连接
+$ target remote localhost:1234
+```
+
 ### 调试环境(eclipse)
 
 1. 安装eclipse
@@ -98,13 +138,134 @@ yay -S gdb-multiarch
 
 + 启动调试器
 
-  ![image-20230305211803830](picture/image-20230305211803830.png)
+![image-20230305211803830](picture/image-20230305211803830.png)
 
 ![image-20230305211922693](picture/image-20230305211922693.png)
+
+### 调试环境(原始gdb)
+
++ 安装gdbgui
+
+```shell
+# 安装
+pip install gdbgui
+
+# 设计
+pip install --upgrade gdbgui
+
+# 卸载
+$ pip uninstall gdbgui
+```
++ 运行gdbgui
+
+```shell
+gdbgui -g arm-multiarch
+```
+
+![image-20230312105941779](picture/image-20230312105941779.png)
 
 ## 启动分析
 
 一般情况下，我们都会讲断点打在`start_kernel`上,
+
+**启动前夕(ARM32)**
+
+```assembly
+__mmap_switched:
+	adr	r3, __mmap_switched_data
+
+	ldmia	r3!, {r4, r5, r6, r7}
+	cmp	r4, r5				@ Copy data segment if needed
+1:	cmpne	r5, r6
+	ldrne	fp, [r4], #4
+	strne	fp, [r5], #4
+	bne	1b
+
+	mov	fp, #0				@ Clear BSS (and zero fp)
+1:	cmp	r6, r7
+	strcc	fp, [r6],#4
+	bcc	1b
+
+ ARM(	ldmia	r3, {r4, r5, r6, r7, sp})
+ THUMB(	ldmia	r3, {r4, r5, r6, r7}	)
+ THUMB(	ldr	sp, [r3, #16]		)
+	str	r9, [r4]			@ Save processor ID
+	str	r1, [r5]			@ Save machine type
+	str	r2, [r6]			@ Save atags pointer
+	cmp	r7, #0
+	strne	r0, [r7]			@ Save control register values
+	b	start_kernel
+ENDPROC(__mmap_switched)
+```
+
+**启动前夕(ARM64)**
+
+```assembly
+__mmap_switched:
+	adr	x3, __switch_data + 8
+
+	ldp	x6, x7, [x3], #16
+1:	cmp	x6, x7
+	b.hs	2f
+	str	xzr, [x6], #8			// Clear BSS
+	b	1b
+2:
+	ldp	x4, x5, [x3], #16
+	ldr	x6, [x3], #8
+	ldr	x16, [x3]
+	mov	sp, x16
+	str	x22, [x4]			// Save processor ID
+	str	x21, [x5]			// Save FDT pointer
+	str	x24, [x6]			// Save PHYS_OFFSET
+	mov	x29, #0
+	b	start_kernel
+ENDPROC(__mmap_switched)
+```
+
+上面的汇编函数都是由[head.s](https://elixir.bootlin.com/linux/v4.0/source/arch/arm/boot/compressed/head.S)跳入继续向下分析,谁开启了汇编,如何执行到这个函数**vmlinux.lds**决定，分析实现;
+
+```lds
+OUTPUT_ARCH(arm)
+ENTRY(_start)
+SECTIONS
+{
+  /DISCARD/ : {
+    *(.ARM.exidx*)
+    *(.ARM.extab*)
+    /*
+     * Discard any r/w data - this produces a link error if we have any,
+     * which is required for PIC decompression.  Local data generates
+     * GOTOFF relocations, which prevents it being relocated independently
+     * of the text/got segments.
+     */
+    *(.data)
+  }
+
+  . = TEXT_START;
+  _text = .;
+
+  .text : {
+    _start = .;
+    *(.start)
+    *(.text)
+    *(.text.*)
+    *(.fixup)
+    *(.gnu.warning)
+    *(.glue_7t)
+    *(.glue_7)
+  }
+  .rodata : {
+    *(.rodata)
+    *(.rodata.*)
+  }
+  .piggydata : {
+    *(.piggydata)
+  }
+```
+
+本来启动标签是从`_start`开始,但是
+
+需要分析bootloader的实现;
 
 下面我们开始分析
 
