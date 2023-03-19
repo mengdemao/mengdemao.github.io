@@ -1,0 +1,1101 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Uboot - 编程日志</title><meta name=Description content="Uboot"><meta property="og:title" content="Uboot"><meta property="og:description" content="Uboot"><meta property="og:type" content="article"><meta property="og:url" content="https://mengdemao.github.io/uboot/"><meta property="og:image" content="https://mengdemao.github.io/images/avatar.webp"><meta property="article:section" content="posts"><meta property="article:published_time" content="2023-03-12T15:31:42+08:00"><meta property="article:modified_time" content="2023-03-19T14:03:20+08:00"><meta property="og:site_name" content="编程日志"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://mengdemao.github.io/images/avatar.webp"><meta name=twitter:title content="Uboot"><meta name=twitter:description content="Uboot"><meta name=application-name content="面向玄学编程"><meta name=apple-mobile-web-app-title content="面向玄学编程"><meta name=theme-color content="#f8f8f8"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://mengdemao.github.io/uboot/><link rel=prev href=https://mengdemao.github.io/read_linux/><link rel=stylesheet href=/lib/normalize/normalize.min.8235a67a2521ef99fb1e455a5891b022af1653b4ede3cfffcac4e473beee88fbcc1a36bbb3cfdd75fd6df46732032f9d96e30adae9c88b769e1fbf7945cd27e0.css integrity="sha512-gjWmeiUh75n7HkVaWJGwIq8WU7Tt48//ysTkc77uiPvMGja7s8/ddf1t9GcyAy+dluMK2unIi3aeH795Rc0n4A=="><link rel=stylesheet href=/css/color.346090a8e4618da38ff45853421bbd1d5ffa3c25e678a3f0131c9f7d5300e15669f91c74f1ed5fab76e7424a2a6a5619a9dc45f99e04f246e37d8af51295b6ae.css integrity="sha512-NGCQqORhjaOP9FhTQhu9HV/6PCXmeKPwExyffVMA4VZp+Rx08e1fq3bnQkoqalYZqdxF+Z4E8kbjfYr1EpW2rg=="><link rel=stylesheet href=/css/style.min.3f2463a3abb5cc638522b4a28d5145540c4e35111e10fa27a388155d2489eacc103adfab2bcb506effbad33646120dff1f2a85bebda061b29055a37602fe1947.css integrity="sha512-PyRjo6u1zGOFIrSijVFFVAxONREeEPono4gVXSSJ6swQOt+rK8tQbv+60zZGEg3/HyqFvr2gYbKQVaN2Av4ZRw=="><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/fontawesome-free/all.min.eb8387c9eb0ab6d4fa4d7ad397d15df13b92c009a1eb221b757dd1ecfccabc78a4c5b681847a7f4198ff7cd60abed8300508c9dea138cd1f4a85f09f09b2092a.css integrity="sha512-64OHyesKttT6TXrTl9Fd8TuSwAmh6yIbdX3R7PzKvHikxbaBhHp/QZj/fNYKvtgwBQjJ3qE4zR9KhfCfCbIJKg=="><noscript><link rel=stylesheet href=/lib/fontawesome-free/all.min.eb8387c9eb0ab6d4fa4d7ad397d15df13b92c009a1eb221b757dd1ecfccabc78a4c5b681847a7f4198ff7cd60abed8300508c9dea138cd1f4a85f09f09b2092a.css integrity="sha512-64OHyesKttT6TXrTl9Fd8TuSwAmh6yIbdX3R7PzKvHikxbaBhHp/QZj/fNYKvtgwBQjJ3qE4zR9KhfCfCbIJKg=="></noscript><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/animate/animate.min.738daa4d2c3fc0f677ff92c1cc3f81c397fb6d2176a31a2eeb011bf88fe5a9e68a57914321f32fbd1a7bef6cb88dc24b2ae1943a96c931d83f053979d1f25803.css integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw=="><noscript><link rel=stylesheet href=/lib/animate/animate.min.738daa4d2c3fc0f677ff92c1cc3f81c397fb6d2176a31a2eeb011bf88fe5a9e68a57914321f32fbd1a7bef6cb88dc24b2ae1943a96c931d83f053979d1f25803.css integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw=="></noscript><meta name=google-site-verification content="MQ8DNu27ayX6B_4ObiEDK09vGr1fdy7kOAnbd09hJk4"><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Uboot","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/mengdemao.github.io\/uboot\/"},"image":["https:\/\/mengdemao.github.io\/images\/Apple-Devices-Preview.png"],"genre":"posts","keywords":"uboot","wordcount":2505,"url":"https:\/\/mengdemao.github.io\/uboot\/","datePublished":"2023-03-12T15:31:42+08:00","dateModified":"2023-03-19T14:03:20+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"mengdemao","logo":{"@type":"ImageObject","url":"https:\/\/mengdemao.github.io\/images\/avatar.webp","width":528,"height":560}},"author":{"@type":"Person","name":"mengdemao"},"description":"Uboot"}</script><script src=//instant.page/5.1.1 defer type=module integrity=sha384-MWfCL6g1OTGsbSwfuMHc8+8J2u71/LA8dzlIN3ycajckxuZZmF+DNjdm7O6H3PSq></script></head><body header-desktop=auto header-mobile=auto><script type=text/javascript>function setTheme(e){document.body.setAttribute("theme",e),document.documentElement.style.setProperty("color-scheme",e==="light"?"light":"dark")}function saveTheme(e){window.localStorage&&localStorage.setItem("theme",e)}function getMeta(e){const t=document.getElementsByTagName("meta");for(let n=0;n<t.length;n++)if(t[n].getAttribute("name")===e)return t[n];return""}if(window.localStorage&&localStorage.getItem("theme")){let e=localStorage.getItem("theme");e==="light"||e==="dark"||e==="black"?setTheme(e):setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}else"auto"==="light"||"auto"==="dark"||"auto"==="black"?(setTheme("auto"),saveTheme("auto")):(saveTheme("auto"),setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));let metaColors={light:"#f8f8f8",dark:"#252627",black:"#000000"};getMeta("theme-color").content=metaColors[document.body.getAttribute("theme")]</script><div id=back-to-top></div><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=header-title-pre><i class='far fa-edit fa-fw'></i></span><span id=desktop-header-typeit class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/ title=归档>归档 </a><a class=menu-item href=/tags/ title=标签>标签 </a><a class=menu-item href=/categories/ title=分类>分类 </a><a class=menu-item href=/series/ title=系列>系列 </a><a class=menu-item href=/about/ title=关于>关于 </a><a class=menu-item href=https://github.com/mengdemao/github.io title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github-alt fa-fw'></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=# class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw"></i></a>
+<a href=# class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw"></i></a>
+<span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin"></i></span>
+</span><a href=# class="menu-item theme-select" title=切换主题><i class="fas fa-adjust fa-fw"></i>
+<select class=color-theme-select id=theme-select-desktop title=切换主题><option value=light>浅色</option><option value=dark>深色</option><option value=black>黑色</option><option value=auto>跟随系统</option></select></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=header-title-pre><i class='far fa-edit fa-fw'></i></span><span id=mobile-header-typeit class=typeit></span></a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=# class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw"></i></a>
+<a href=# class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw"></i></a>
+<span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin"></i></span></div><a href=# class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts/ title=归档>归档</a><a class=menu-item href=/tags/ title=标签>标签</a><a class=menu-item href=/categories/ title=分类>分类</a><a class=menu-item href=/series/ title=系列>系列</a><a class=menu-item href=/about/ title=关于>关于</a><a class=menu-item href=https://github.com/mengdemao/github.io title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github-alt fa-fw'></i></a><a href=# class="menu-item theme-select" title=切换主题>
+<i class="fas fa-adjust fa-fw"></i>
+<select class=color-theme-select id=theme-select-mobile title=切换主题><option value=light>浅色</option><option value=dark>深色</option><option value=black>黑色</option><option value=auto>跟随系统</option></select></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto><nav id=TableOfContents><ul><li><a href=#构建源码>构建源码</a></li><li><a href=#启动前夕>启动前夕</a></li><li><a href=#启动实现>启动实现</a><ul><li><a href=#main_loop>main_loop</a></li><li><a href=#do_bootm>do_bootm</a></li><li><a href=#boot_jump_linux>boot_jump_linux</a></li></ul></li><li><a href=#加载内核>加载内核</a></li></ul></nav></div></div><script>document.getElementsByTagName("main")[0].setAttribute("pageStyle","normal")</script><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC","true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Uboot</h1><div class=post-meta><div class=post-meta-line><span class=post-author><i class="author fas fa-user-circle fa-fw"></i><a href=https://github.com/mengdemao/github.io title=Author target=_blank rel="noopener noreferrer author" class=author>mengdemao</a>
+</span>&nbsp;<span class=post-category>收录于 </span>&nbsp;<span class=post-category>类别 <a href=/categories/linux/><i class="far fa-folder fa-fw"></i>linux</a></span>&nbsp;<span class=post-category>和</span>&nbsp;<span class=post-series>系列 <a href=/series/boot/><i class="far fa-list-alt fa-fw"></i>boot</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2023-03-12>2023-03-12</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime=2023-03-19>2023-03-19</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2505 字&nbsp;
+<i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 5 分钟&nbsp;</div></div><div class="details series-nav open"><div class="details-summary series-title"><span>系列 - boot</span>
+<span><i class="details-icon fas fa-angle-right"></i></span></div><div class="details-content series-content"><nav><ul><li><span class=active>Uboot</span></li></ul></nav></div></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#构建源码>构建源码</a></li><li><a href=#启动前夕>启动前夕</a></li><li><a href=#启动实现>启动实现</a><ul><li><a href=#main_loop>main_loop</a></li><li><a href=#do_bootm>do_bootm</a></li><li><a href=#boot_jump_linux>boot_jump_linux</a></li></ul></li><li><a href=#加载内核>加载内核</a></li></ul></nav></div></div><div class=content id=content><h2 id=构建源码 class=headerLink><a href=#%e6%9e%84%e5%bb%ba%e6%ba%90%e7%a0%81 class=header-mark></a>1 构建源码</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=c1># 下载源码</span>
+</span></span><span class=line><span class=cl>$ git clone git@github.com:Embedfire/ebf_6ull_uboot.git
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 清理编译信息</span>
+</span></span><span class=line><span class=cl>$ make <span class=nv>ARCH</span><span class=o>=</span>arm clean
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 配置信息</span>
+</span></span><span class=line><span class=cl>make <span class=nv>ARCH</span><span class=o>=</span>arm mx6ull_14x14_evk_emmc_defconfig
+</span></span><span class=line><span class=cl>make <span class=nv>ARCH</span><span class=o>=</span>arm mx6ull_14x14_evk_nand_defconfig
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 执行编译</span>
+</span></span><span class=line><span class=cl>make -j4 <span class=nv>ARCH</span><span class=o>=</span>arm <span class=nv>CROSS_COMPILE</span><span class=o>=</span>arm-none-eabi-
+</span></span></code></pre></td></tr></table></div></div><h2 id=启动前夕 class=headerLink><a href=#%e5%90%af%e5%8a%a8%e5%89%8d%e5%a4%95 class=header-mark></a>2 启动前夕</h2><div class=mermaid id=id-1></div><p><strong>[arch/arm/cpu/armv7/start.S]</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>	.globl	reset
+</span></span><span class=line><span class=cl>	.globl	save_boot_params_ret
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>reset:
+</span></span><span class=line><span class=cl>	/* Allow the board to save important registers */
+</span></span><span class=line><span class=cl>	b	save_boot_params
+</span></span><span class=line><span class=cl>save_boot_params_ret:
+</span></span><span class=line><span class=cl>	/*
+</span></span><span class=line><span class=cl>	 * disable interrupts (FIQ and IRQ), also set the cpu to SVC32 mode,
+</span></span><span class=line><span class=cl>	 * except if in HYP mode already
+</span></span><span class=line><span class=cl>	 */
+</span></span><span class=line><span class=cl>	mrs	r0, cpsr
+</span></span><span class=line><span class=cl>	and	r1, r0, #0x1f		@ mask mode bits
+</span></span><span class=line><span class=cl>	teq	r1, #0x1a		@ test for HYP mode
+</span></span><span class=line><span class=cl>	bicne	r0, r0, #0x1f		@ clear all mode bits
+</span></span><span class=line><span class=cl>	orrne	r0, r0, #0x13		@ set SVC mode
+</span></span><span class=line><span class=cl>	orr	r0, r0, #0xc0		@ disable FIQ and IRQ
+</span></span><span class=line><span class=cl>	msr	cpsr,r0
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>/*
+</span></span><span class=line><span class=cl> * Setup vector:
+</span></span><span class=line><span class=cl> * (OMAP4 spl TEXT_BASE is not 32 byte aligned.
+</span></span><span class=line><span class=cl> * Continue to use ROM code vector only in OMAP4 spl)
+</span></span><span class=line><span class=cl> */
+</span></span><span class=line><span class=cl>#if !(defined(CONFIG_OMAP44XX) &amp;&amp; defined(CONFIG_SPL_BUILD))
+</span></span><span class=line><span class=cl>	/* Set V=0 in CP15 SCTLR register - for VBAR to point to vector */
+</span></span><span class=line><span class=cl>	mrc	p15, 0, r0, c1, c0, 0	@ Read CP15 SCTLR Register
+</span></span><span class=line><span class=cl>	bic	r0, #CR_V		@ V = 0
+</span></span><span class=line><span class=cl>	mcr	p15, 0, r0, c1, c0, 0	@ Write CP15 SCTLR Register
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	/* Set vector address in CP15 VBAR register */
+</span></span><span class=line><span class=cl>	ldr	r0, =_start
+</span></span><span class=line><span class=cl>	mcr	p15, 0, r0, c12, c0, 0	@Set VBAR
+</span></span><span class=line><span class=cl>#endif
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	/* the mask ROM code should have PLL and others stable */
+</span></span><span class=line><span class=cl>#ifndef CONFIG_SKIP_LOWLEVEL_INIT
+</span></span><span class=line><span class=cl>	bl	cpu_init_cp15
+</span></span><span class=line><span class=cl>	bl	cpu_init_crit
+</span></span><span class=line><span class=cl>#endif
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	bl	_main
+</span></span></code></pre></td></tr></table></div></div><p><strong>[arch/arm/lib/crt0_64.S]</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span><span class=lnt>105
+</span><span class=lnt>106
+</span><span class=lnt>107
+</span><span class=lnt>108
+</span><span class=lnt>109
+</span><span class=lnt>110
+</span><span class=lnt>111
+</span><span class=lnt>112
+</span><span class=lnt>113
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>ENTRY(_main)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>/*
+</span></span><span class=line><span class=cl> * Set up initial C runtime environment and call board_init_f(0).
+</span></span><span class=line><span class=cl> */
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>#if defined(CONFIG_SPL_BUILD) &amp;&amp; defined(CONFIG_SPL_STACK)
+</span></span><span class=line><span class=cl>	ldr	sp, =(CONFIG_SPL_STACK)
+</span></span><span class=line><span class=cl>#else
+</span></span><span class=line><span class=cl>	ldr	sp, =(CONFIG_SYS_INIT_SP_ADDR)
+</span></span><span class=line><span class=cl>#endif
+</span></span><span class=line><span class=cl>#if defined(CONFIG_CPU_V7M)	/* v7M forbids using SP as BIC destination */
+</span></span><span class=line><span class=cl>	mov	r3, sp
+</span></span><span class=line><span class=cl>	bic	r3, r3, #7
+</span></span><span class=line><span class=cl>	mov	sp, r3
+</span></span><span class=line><span class=cl>#else
+</span></span><span class=line><span class=cl>	bic	sp, sp, #7	/* 8-byte alignment for ABI compliance */
+</span></span><span class=line><span class=cl>#endif
+</span></span><span class=line><span class=cl>	mov	r0, sp
+</span></span><span class=line><span class=cl>	bl	board_init_f_alloc_reserve
+</span></span><span class=line><span class=cl>	mov	sp, r0
+</span></span><span class=line><span class=cl>	/* set up gd here, outside any C code */
+</span></span><span class=line><span class=cl>	mov	r9, r0
+</span></span><span class=line><span class=cl>	bl	board_init_f_init_reserve
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	mov	r0, #0
+</span></span><span class=line><span class=cl>	bl	board_init_f
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>#if ! defined(CONFIG_SPL_BUILD)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>/*
+</span></span><span class=line><span class=cl> * Set up intermediate environment (new sp and gd) and call
+</span></span><span class=line><span class=cl> * relocate_code(addr_moni). Trick here is that we&#39;ll return
+</span></span><span class=line><span class=cl> * &#39;here&#39; but relocated.
+</span></span><span class=line><span class=cl> */
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	ldr	sp, [r9, #GD_START_ADDR_SP]	/* sp = gd-&gt;start_addr_sp */
+</span></span><span class=line><span class=cl>#if defined(CONFIG_CPU_V7M)	/* v7M forbids using SP as BIC destination */
+</span></span><span class=line><span class=cl>	mov	r3, sp
+</span></span><span class=line><span class=cl>	bic	r3, r3, #7
+</span></span><span class=line><span class=cl>	mov	sp, r3
+</span></span><span class=line><span class=cl>#else
+</span></span><span class=line><span class=cl>	bic	sp, sp, #7	/* 8-byte alignment for ABI compliance */
+</span></span><span class=line><span class=cl>#endif
+</span></span><span class=line><span class=cl>	ldr	r9, [r9, #GD_BD]		/* r9 = gd-&gt;bd */
+</span></span><span class=line><span class=cl>	sub	r9, r9, #GD_SIZE		/* new GD is below bd */
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	adr	lr, here
+</span></span><span class=line><span class=cl>	ldr	r0, [r9, #GD_RELOC_OFF]		/* r0 = gd-&gt;reloc_off */
+</span></span><span class=line><span class=cl>	add	lr, lr, r0
+</span></span><span class=line><span class=cl>#if defined(CONFIG_CPU_V7M)
+</span></span><span class=line><span class=cl>	orr	lr, #1				/* As required by Thumb-only */
+</span></span><span class=line><span class=cl>#endif
+</span></span><span class=line><span class=cl>	ldr	r0, [r9, #GD_RELOCADDR]		/* r0 = gd-&gt;relocaddr */
+</span></span><span class=line><span class=cl>	b	relocate_code
+</span></span><span class=line><span class=cl>here:
+</span></span><span class=line><span class=cl>/*
+</span></span><span class=line><span class=cl> * now relocate vectors
+</span></span><span class=line><span class=cl> */
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	bl	relocate_vectors
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>/* Set up final (full) environment */
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	bl	c_runtime_cpu_setup	/* we still call old routine here */
+</span></span><span class=line><span class=cl>#endif
+</span></span><span class=line><span class=cl>#if !defined(CONFIG_SPL_BUILD) || defined(CONFIG_SPL_FRAMEWORK)
+</span></span><span class=line><span class=cl># ifdef CONFIG_SPL_BUILD
+</span></span><span class=line><span class=cl>	/* Use a DRAM stack for the rest of SPL, if requested */
+</span></span><span class=line><span class=cl>	bl	spl_relocate_stack_gd
+</span></span><span class=line><span class=cl>	cmp	r0, #0
+</span></span><span class=line><span class=cl>	movne	sp, r0
+</span></span><span class=line><span class=cl>	movne	r9, r0
+</span></span><span class=line><span class=cl># endif
+</span></span><span class=line><span class=cl>	ldr	r0, =__bss_start	/* this is auto-relocated! */
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>#ifdef CONFIG_USE_ARCH_MEMSET
+</span></span><span class=line><span class=cl>	ldr	r3, =__bss_end		/* this is auto-relocated! */
+</span></span><span class=line><span class=cl>	mov	r1, #0x00000000		/* prepare zero to clear BSS */
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	subs	r2, r3, r0		/* r2 = memset len */
+</span></span><span class=line><span class=cl>	bl	memset
+</span></span><span class=line><span class=cl>#else
+</span></span><span class=line><span class=cl>	ldr	r1, =__bss_end		/* this is auto-relocated! */
+</span></span><span class=line><span class=cl>	mov	r2, #0x00000000		/* prepare zero to clear BSS */
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>clbss_l:cmp	r0, r1			/* while not at end of BSS */
+</span></span><span class=line><span class=cl>#if defined(CONFIG_CPU_V7M)
+</span></span><span class=line><span class=cl>	itt	lo
+</span></span><span class=line><span class=cl>#endif
+</span></span><span class=line><span class=cl>	strlo	r2, [r0]		/* clear 32-bit BSS word */
+</span></span><span class=line><span class=cl>	addlo	r0, r0, #4		/* move to next */
+</span></span><span class=line><span class=cl>	blo	clbss_l
+</span></span><span class=line><span class=cl>#endif
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>#if ! defined(CONFIG_SPL_BUILD)
+</span></span><span class=line><span class=cl>	bl coloured_LED_init
+</span></span><span class=line><span class=cl>	bl red_led_on
+</span></span><span class=line><span class=cl>#endif
+</span></span><span class=line><span class=cl>	/* call board_init_r(gd_t *id, ulong dest_addr) */
+</span></span><span class=line><span class=cl>	mov     r0, r9                  /* gd_t */
+</span></span><span class=line><span class=cl>	ldr	r1, [r9, #GD_RELOCADDR]	/* dest_addr */
+</span></span><span class=line><span class=cl>	/* call board_init_r */
+</span></span><span class=line><span class=cl>#if defined(CONFIG_SYS_THUMB_BUILD)
+</span></span><span class=line><span class=cl>	ldr	lr, =board_init_r	/* this is auto-relocated! */
+</span></span><span class=line><span class=cl>	bx	lr
+</span></span><span class=line><span class=cl>#else
+</span></span><span class=line><span class=cl>	ldr	pc, =board_init_r	/* this is auto-relocated! */
+</span></span><span class=line><span class=cl>#endif
+</span></span><span class=line><span class=cl>	/* we should not return here. */
+</span></span><span class=line><span class=cl>#endif
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>ENDPROC(_main)
+</span></span></code></pre></td></tr></table></div></div><p><strong>[arch/arm/cpu/armv8/start.S]</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>.globl	_start
+</span></span><span class=line><span class=cl>_start:
+</span></span><span class=line><span class=cl>	b	reset
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>reset:
+</span></span><span class=line><span class=cl>#ifdef CONFIG_SYS_RESET_SCTRL
+</span></span><span class=line><span class=cl>	bl reset_sctrl
+</span></span><span class=line><span class=cl>#endif
+</span></span><span class=line><span class=cl>	/*
+</span></span><span class=line><span class=cl>	 * Could be EL3/EL2/EL1, Initial State:
+</span></span><span class=line><span class=cl>	 * Little Endian, MMU Disabled, i/dCache Disabled
+</span></span><span class=line><span class=cl>	 */
+</span></span><span class=line><span class=cl>	adr	x0, vectors
+</span></span><span class=line><span class=cl>	switch_el x1, 3f, 2f, 1f
+</span></span><span class=line><span class=cl>3:	msr	vbar_el3, x0
+</span></span><span class=line><span class=cl>	mrs	x0, scr_el3
+</span></span><span class=line><span class=cl>	orr	x0, x0, #0xf			/* SCR_EL3.NS|IRQ|FIQ|EA */
+</span></span><span class=line><span class=cl>	msr	scr_el3, x0
+</span></span><span class=line><span class=cl>	msr	cptr_el3, xzr			/* Enable FP/SIMD */
+</span></span><span class=line><span class=cl>#ifdef COUNTER_FREQUENCY
+</span></span><span class=line><span class=cl>	ldr	x0, =COUNTER_FREQUENCY
+</span></span><span class=line><span class=cl>	msr	cntfrq_el0, x0			/* Initialize CNTFRQ */
+</span></span><span class=line><span class=cl>#endif
+</span></span><span class=line><span class=cl>	b	0f
+</span></span><span class=line><span class=cl>2:	msr	vbar_el2, x0
+</span></span><span class=line><span class=cl>	mov	x0, #0x33ff
+</span></span><span class=line><span class=cl>	msr	cptr_el2, x0			/* Enable FP/SIMD */
+</span></span><span class=line><span class=cl>	b	0f
+</span></span><span class=line><span class=cl>1:	msr	vbar_el1, x0
+</span></span><span class=line><span class=cl>	mov	x0, #3 &lt;&lt; 20
+</span></span><span class=line><span class=cl>	msr	cpacr_el1, x0			/* Enable FP/SIMD */
+</span></span><span class=line><span class=cl>0:
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	/* Apply ARM core specific erratas */
+</span></span><span class=line><span class=cl>	bl	apply_core_errata
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	/*
+</span></span><span class=line><span class=cl>	 * Cache/BPB/TLB Invalidate
+</span></span><span class=line><span class=cl>	 * i-cache is invalidated before enabled in icache_enable()
+</span></span><span class=line><span class=cl>	 * tlb is invalidated before mmu is enabled in dcache_enable()
+</span></span><span class=line><span class=cl>	 * d-cache is invalidated before enabled in dcache_enable()
+</span></span><span class=line><span class=cl>	 */
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	/* Processor specific initialization */
+</span></span><span class=line><span class=cl>	bl	lowlevel_init
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>#ifdef CONFIG_ARMV8_MULTIENTRY
+</span></span><span class=line><span class=cl>	branch_if_master x0, x1, master_cpu
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	/*
+</span></span><span class=line><span class=cl>	 * Slave CPUs
+</span></span><span class=line><span class=cl>	 */
+</span></span><span class=line><span class=cl>slave_cpu:
+</span></span><span class=line><span class=cl>	wfe
+</span></span><span class=line><span class=cl>	ldr	x1, =CPU_RELEASE_ADDR
+</span></span><span class=line><span class=cl>	ldr	x0, [x1]
+</span></span><span class=line><span class=cl>	cbz	x0, slave_cpu
+</span></span><span class=line><span class=cl>	br	x0			/* branch to the given address */
+</span></span><span class=line><span class=cl>master_cpu:
+</span></span><span class=line><span class=cl>	/* On the master CPU */
+</span></span><span class=line><span class=cl>#endif /* CONFIG_ARMV8_MULTIENTRY */
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	bl	_main
+</span></span></code></pre></td></tr></table></div></div><p><strong>[arch/arm/lib/crt0_64.S]</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>ENTRY(_main)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>/*
+</span></span><span class=line><span class=cl> * Set up initial C runtime environment and call board_init_f(0).
+</span></span><span class=line><span class=cl> */
+</span></span><span class=line><span class=cl>#if defined(CONFIG_SPL_BUILD) &amp;&amp; defined(CONFIG_SPL_STACK)
+</span></span><span class=line><span class=cl>	ldr	x0, =(CONFIG_SPL_STACK)
+</span></span><span class=line><span class=cl>#else
+</span></span><span class=line><span class=cl>	ldr	x0, =(CONFIG_SYS_INIT_SP_ADDR)
+</span></span><span class=line><span class=cl>#endif
+</span></span><span class=line><span class=cl>	bic	sp, x0, #0xf	/* 16-byte alignment for ABI compliance */
+</span></span><span class=line><span class=cl>	mov	x0, sp
+</span></span><span class=line><span class=cl>	bl	board_init_f_alloc_reserve
+</span></span><span class=line><span class=cl>	mov	sp, x0
+</span></span><span class=line><span class=cl>	/* set up gd here, outside any C code */
+</span></span><span class=line><span class=cl>	mov	x18, x0
+</span></span><span class=line><span class=cl>	bl	board_init_f_init_reserve
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	mov	x0, #0
+</span></span><span class=line><span class=cl>	bl	board_init_f
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>#if !defined(CONFIG_SPL_BUILD)
+</span></span><span class=line><span class=cl>/*
+</span></span><span class=line><span class=cl> * Set up intermediate environment (new sp and gd) and call
+</span></span><span class=line><span class=cl> * relocate_code(addr_moni). Trick here is that we&#39;ll return
+</span></span><span class=line><span class=cl> * &#39;here&#39; but relocated.
+</span></span><span class=line><span class=cl> */
+</span></span><span class=line><span class=cl>	ldr	x0, [x18, #GD_START_ADDR_SP]	/* x0 &lt;- gd-&gt;start_addr_sp */
+</span></span><span class=line><span class=cl>	bic	sp, x0, #0xf	/* 16-byte alignment for ABI compliance */
+</span></span><span class=line><span class=cl>	ldr	x18, [x18, #GD_BD]		/* x18 &lt;- gd-&gt;bd */
+</span></span><span class=line><span class=cl>	sub	x18, x18, #GD_SIZE		/* new GD is below bd */
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	adr	lr, relocation_return
+</span></span><span class=line><span class=cl>	ldr	x9, [x18, #GD_RELOC_OFF]	/* x9 &lt;- gd-&gt;reloc_off */
+</span></span><span class=line><span class=cl>	add	lr, lr, x9	/* new return address after relocation */
+</span></span><span class=line><span class=cl>	ldr	x0, [x18, #GD_RELOCADDR]	/* x0 &lt;- gd-&gt;relocaddr */
+</span></span><span class=line><span class=cl>	b	relocate_code
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>relocation_return:
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>/*
+</span></span><span class=line><span class=cl> * Set up final (full) environment
+</span></span><span class=line><span class=cl> */
+</span></span><span class=line><span class=cl>	bl	c_runtime_cpu_setup		/* still call old routine */
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>/* TODO: For SPL, call spl_relocate_stack_gd() to alloc stack relocation */
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>/*
+</span></span><span class=line><span class=cl> * Clear BSS section
+</span></span><span class=line><span class=cl> */
+</span></span><span class=line><span class=cl>	ldr	x0, =__bss_start		/* this is auto-relocated! */
+</span></span><span class=line><span class=cl>	ldr	x1, =__bss_end			/* this is auto-relocated! */
+</span></span><span class=line><span class=cl>	mov	x2, #0
+</span></span><span class=line><span class=cl>clear_loop:
+</span></span><span class=line><span class=cl>	str	x2, [x0]
+</span></span><span class=line><span class=cl>	add	x0, x0, #8
+</span></span><span class=line><span class=cl>	cmp	x0, x1
+</span></span><span class=line><span class=cl>	b.lo	clear_loop
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	/* call board_init_r(gd_t *id, ulong dest_addr) */
+</span></span><span class=line><span class=cl>	mov	x0, x18				/* gd_t */
+</span></span><span class=line><span class=cl>	ldr	x1, [x18, #GD_RELOCADDR]	/* dest_addr */
+</span></span><span class=line><span class=cl>	b	board_init_r			/* PC relative jump */
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	/* NOTREACHED - board_init_r() does not return */
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>#endif /* !CONFIG_SPL_BUILD */
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>ENDPROC(_main)
+</span></span></code></pre></td></tr></table></div></div><p>无论32位还是64位最后进入<code>board_init_r</code>实现,分析实现;</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>void</span> <span class=nf>board_init_r</span><span class=p>(</span><span class=kt>gd_t</span> <span class=o>*</span><span class=n>new_gd</span><span class=p>,</span> <span class=n>ulong</span> <span class=n>dest_addr</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_NEEDS_MANUAL_RELOC
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=kt>int</span> <span class=n>i</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_AVR32
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=nf>mmu_init_r</span><span class=p>(</span><span class=n>dest_addr</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=cp>#if !defined(CONFIG_X86) &amp;&amp; !defined(CONFIG_ARM) &amp;&amp; !defined(CONFIG_ARM64)
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>gd</span> <span class=o>=</span> <span class=n>new_gd</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_NEEDS_MANUAL_RELOC
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=k>for</span> <span class=p>(</span><span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=nf>ARRAY_SIZE</span><span class=p>(</span><span class=n>init_sequence_r</span><span class=p>);</span> <span class=n>i</span><span class=o>++</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=n>init_sequence_r</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=o>+=</span> <span class=n>gd</span><span class=o>-&gt;</span><span class=n>reloc_off</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=nf>initcall_run_list</span><span class=p>(</span><span class=n>init_sequence_r</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>		<span class=nf>hang</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* NOTREACHED - run_main_loop() does not return */</span>
+</span></span><span class=line><span class=cl>	<span class=nf>hang</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>进入<code>initcall_run_list</code>实现，实现初始化函数</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>int</span> <span class=nf>initcall_run_list</span><span class=p>(</span><span class=k>const</span> <span class=kt>init_fnc_t</span> <span class=n>init_sequence</span><span class=p>[])</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=kt>init_fnc_t</span> <span class=o>*</span><span class=n>init_fnc_ptr</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>for</span> <span class=p>(</span><span class=n>init_fnc_ptr</span> <span class=o>=</span> <span class=n>init_sequence</span><span class=p>;</span> <span class=o>*</span><span class=n>init_fnc_ptr</span><span class=p>;</span> <span class=o>++</span><span class=n>init_fnc_ptr</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=kt>unsigned</span> <span class=kt>long</span> <span class=n>reloc_ofs</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=kt>int</span> <span class=n>ret</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=n>gd</span><span class=o>-&gt;</span><span class=n>flags</span> <span class=o>&amp;</span> <span class=n>GD_FLG_RELOC</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>			<span class=n>reloc_ofs</span> <span class=o>=</span> <span class=n>gd</span><span class=o>-&gt;</span><span class=n>reloc_off</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_EFI_APP
+</span></span></span><span class=line><span class=cl><span class=cp></span>		<span class=n>reloc_ofs</span> <span class=o>=</span> <span class=p>(</span><span class=kt>unsigned</span> <span class=kt>long</span><span class=p>)</span><span class=n>image_base</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>		<span class=nf>debug</span><span class=p>(</span><span class=s>&#34;initcall: %p&#34;</span><span class=p>,</span> <span class=p>(</span><span class=kt>char</span> <span class=o>*</span><span class=p>)</span><span class=o>*</span><span class=n>init_fnc_ptr</span> <span class=o>-</span> <span class=n>reloc_ofs</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=n>gd</span><span class=o>-&gt;</span><span class=n>flags</span> <span class=o>&amp;</span> <span class=n>GD_FLG_RELOC</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>			<span class=nf>debug</span><span class=p>(</span><span class=s>&#34; (relocated to %p)</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span> <span class=p>(</span><span class=kt>char</span> <span class=o>*</span><span class=p>)</span><span class=o>*</span><span class=n>init_fnc_ptr</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=k>else</span>
+</span></span><span class=line><span class=cl>			<span class=nf>debug</span><span class=p>(</span><span class=s>&#34;</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=n>ret</span> <span class=o>=</span> <span class=p>(</span><span class=o>*</span><span class=n>init_fnc_ptr</span><span class=p>)();</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=n>ret</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=nf>printf</span><span class=p>(</span><span class=s>&#34;initcall sequence %p failed at call %p (err=%d)</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>			       <span class=n>init_sequence</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>			       <span class=p>(</span><span class=kt>char</span> <span class=o>*</span><span class=p>)</span><span class=o>*</span><span class=n>init_fnc_ptr</span> <span class=o>-</span> <span class=n>reloc_ofs</span><span class=p>,</span> <span class=n>ret</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>			<span class=k>return</span> <span class=o>-</span><span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=启动实现 class=headerLink><a href=#%e5%90%af%e5%8a%a8%e5%ae%9e%e7%8e%b0 class=header-mark></a>3 启动实现</h2><h3 id=main_loop class=headerLink><a href=#main_loop class=header-mark></a>3.1 main_loop</h3><div class=mermaid id=id-2></div><h3 id=do_bootm class=headerLink><a href=#do_bootm class=header-mark></a>3.2 do_bootm</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>int</span> <span class=nf>do_bootm</span><span class=p>(</span><span class=kt>cmd_tbl_t</span> <span class=o>*</span><span class=n>cmdtp</span><span class=p>,</span> <span class=kt>int</span> <span class=n>flag</span><span class=p>,</span> <span class=kt>int</span> <span class=n>argc</span><span class=p>,</span> <span class=kt>char</span> <span class=o>*</span> <span class=k>const</span> <span class=n>argv</span><span class=p>[])</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_NEEDS_MANUAL_RELOC
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=k>static</span> <span class=kt>int</span> <span class=n>relocated</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>relocated</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=kt>int</span> <span class=n>i</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>		<span class=cm>/* relocate names of sub-command table */</span>
+</span></span><span class=line><span class=cl>		<span class=k>for</span> <span class=p>(</span><span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=nf>ARRAY_SIZE</span><span class=p>(</span><span class=n>cmd_bootm_sub</span><span class=p>);</span> <span class=n>i</span><span class=o>++</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>			<span class=n>cmd_bootm_sub</span><span class=p>[</span><span class=n>i</span><span class=p>].</span><span class=n>name</span> <span class=o>+=</span> <span class=n>gd</span><span class=o>-&gt;</span><span class=n>reloc_off</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>		<span class=n>relocated</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl>	<span class=cm>/* determine if we have a sub command */</span>
+</span></span><span class=line><span class=cl>	<span class=n>argc</span><span class=o>--</span><span class=p>;</span> <span class=n>argv</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>argc</span> <span class=o>&gt;</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=kt>char</span> <span class=o>*</span><span class=n>endp</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>		<span class=nf>simple_strtoul</span><span class=p>(</span><span class=n>argv</span><span class=p>[</span><span class=mi>0</span><span class=p>],</span> <span class=o>&amp;</span><span class=n>endp</span><span class=p>,</span> <span class=mi>16</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=cm>/* endp pointing to NULL means that argv[0] was just a
+</span></span></span><span class=line><span class=cl><span class=cm>		 * valid number, pass it along to the normal bootm processing
+</span></span></span><span class=line><span class=cl><span class=cm>		 *
+</span></span></span><span class=line><span class=cl><span class=cm>		 * If endp is &#39;:&#39; or &#39;#&#39; assume a FIT identifier so pass
+</span></span></span><span class=line><span class=cl><span class=cm>		 * along for normal processing.
+</span></span></span><span class=line><span class=cl><span class=cm>		 *
+</span></span></span><span class=line><span class=cl><span class=cm>		 * Right now we assume the first arg should never be &#39;-&#39;
+</span></span></span><span class=line><span class=cl><span class=cm>		 */</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=p>((</span><span class=o>*</span><span class=n>endp</span> <span class=o>!=</span> <span class=mi>0</span><span class=p>)</span> <span class=o>&amp;&amp;</span> <span class=p>(</span><span class=o>*</span><span class=n>endp</span> <span class=o>!=</span> <span class=sc>&#39;:&#39;</span><span class=p>)</span> <span class=o>&amp;&amp;</span> <span class=p>(</span><span class=o>*</span><span class=n>endp</span> <span class=o>!=</span> <span class=sc>&#39;#&#39;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>			<span class=k>return</span> <span class=nf>do_bootm_subcommand</span><span class=p>(</span><span class=n>cmdtp</span><span class=p>,</span> <span class=n>flag</span><span class=p>,</span> <span class=n>argc</span><span class=p>,</span> <span class=n>argv</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_SECURE_BOOT
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=k>extern</span> <span class=kt>uint32_t</span> <span class=nf>authenticate_image</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>			<span class=kt>uint32_t</span> <span class=n>ddr_start</span><span class=p>,</span> <span class=kt>uint32_t</span> <span class=n>image_size</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>switch</span> <span class=p>(</span><span class=nf>genimg_get_format</span><span class=p>((</span><span class=k>const</span> <span class=kt>void</span> <span class=o>*</span><span class=p>)</span><span class=n>load_addr</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=cp>#if defined(CONFIG_IMAGE_FORMAT_LEGACY)
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=k>case</span> <span class=nl>IMAGE_FORMAT_LEGACY</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=nf>authenticate_image</span><span class=p>(</span><span class=n>load_addr</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>			<span class=nf>image_get_image_size</span><span class=p>((</span><span class=kt>image_header_t</span> <span class=o>*</span><span class=p>)</span><span class=n>load_addr</span><span class=p>))</span> <span class=o>==</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=nf>printf</span><span class=p>(</span><span class=s>&#34;Authenticate uImage Fail, Please check</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>			<span class=k>return</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>		<span class=k>break</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_ANDROID_BOOT_IMAGE
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=k>case</span> <span class=nl>IMAGE_FORMAT_ANDROID</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>		<span class=cm>/* Do this authentication in boota command */</span>
+</span></span><span class=line><span class=cl>		<span class=k>break</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=k>default</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>		<span class=nf>printf</span><span class=p>(</span><span class=s>&#34;Not valid image format for Authentication, Please check</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=nf>do_bootm_states</span><span class=p>(</span><span class=n>cmdtp</span><span class=p>,</span> <span class=n>flag</span><span class=p>,</span> <span class=n>argc</span><span class=p>,</span> <span class=n>argv</span><span class=p>,</span> <span class=n>BOOTM_STATE_START</span> <span class=o>|</span>
+</span></span><span class=line><span class=cl>		<span class=n>BOOTM_STATE_FINDOS</span> <span class=o>|</span> <span class=n>BOOTM_STATE_FINDOTHER</span> <span class=o>|</span>
+</span></span><span class=line><span class=cl>		<span class=n>BOOTM_STATE_LOADOS</span> <span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=cp>#if defined(CONFIG_PPC) || defined(CONFIG_MIPS)
+</span></span></span><span class=line><span class=cl><span class=cp></span>		<span class=n>BOOTM_STATE_OS_CMDLINE</span> <span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>		<span class=n>BOOTM_STATE_OS_PREP</span> <span class=o>|</span> <span class=n>BOOTM_STATE_OS_FAKE_GO</span> <span class=o>|</span>
+</span></span><span class=line><span class=cl>		<span class=n>BOOTM_STATE_OS_GO</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>images</span><span class=p>,</span> <span class=mi>1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=boot_jump_linux class=headerLink><a href=#boot_jump_linux class=header-mark></a>3.3 boot_jump_linux</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>static</span> <span class=kt>void</span> <span class=nf>boot_jump_linux</span><span class=p>(</span><span class=kt>bootm_headers_t</span> <span class=o>*</span><span class=n>images</span><span class=p>,</span> <span class=kt>int</span> <span class=n>flag</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_ARM64
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=kt>void</span> <span class=p>(</span><span class=o>*</span><span class=n>kernel_entry</span><span class=p>)(</span><span class=kt>void</span> <span class=o>*</span><span class=n>fdt_addr</span><span class=p>,</span> <span class=kt>void</span> <span class=o>*</span><span class=n>res0</span><span class=p>,</span> <span class=kt>void</span> <span class=o>*</span><span class=n>res1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>			<span class=kt>void</span> <span class=o>*</span><span class=n>res2</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=n>fake</span> <span class=o>=</span> <span class=p>(</span><span class=n>flag</span> <span class=o>&amp;</span> <span class=n>BOOTM_STATE_OS_FAKE_GO</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=n>kernel_entry</span> <span class=o>=</span> <span class=p>(</span><span class=kt>void</span> <span class=p>(</span><span class=o>*</span><span class=p>)(</span><span class=kt>void</span> <span class=o>*</span><span class=n>fdt_addr</span><span class=p>,</span> <span class=kt>void</span> <span class=o>*</span><span class=n>res0</span><span class=p>,</span> <span class=kt>void</span> <span class=o>*</span><span class=n>res1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>				<span class=kt>void</span> <span class=o>*</span><span class=n>res2</span><span class=p>))</span><span class=n>images</span><span class=o>-&gt;</span><span class=n>ep</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nf>debug</span><span class=p>(</span><span class=s>&#34;## Transferring control to Linux (at address %lx)...</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		<span class=p>(</span><span class=n>ulong</span><span class=p>)</span> <span class=n>kernel_entry</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=nf>bootstage_mark</span><span class=p>(</span><span class=n>BOOTSTAGE_ID_RUN_OS</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nf>announce_and_cleanup</span><span class=p>(</span><span class=n>fake</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>fake</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nf>do_nonsec_virt_switch</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>		<span class=nf>kernel_entry</span><span class=p>(</span><span class=n>images</span><span class=o>-&gt;</span><span class=n>ft_addr</span><span class=p>,</span> <span class=nb>NULL</span><span class=p>,</span> <span class=nb>NULL</span><span class=p>,</span> <span class=nb>NULL</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=cp>#else
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=kt>unsigned</span> <span class=kt>long</span> <span class=n>machid</span> <span class=o>=</span> <span class=n>gd</span><span class=o>-&gt;</span><span class=n>bd</span><span class=o>-&gt;</span><span class=n>bi_arch_number</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=kt>char</span> <span class=o>*</span><span class=n>s</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=kt>void</span> <span class=p>(</span><span class=o>*</span><span class=n>kernel_entry</span><span class=p>)(</span><span class=kt>int</span> <span class=n>zero</span><span class=p>,</span> <span class=kt>int</span> <span class=n>arch</span><span class=p>,</span> <span class=n>uint</span> <span class=n>params</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>long</span> <span class=n>r2</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=n>fake</span> <span class=o>=</span> <span class=p>(</span><span class=n>flag</span> <span class=o>&amp;</span> <span class=n>BOOTM_STATE_OS_FAKE_GO</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=n>kernel_entry</span> <span class=o>=</span> <span class=p>(</span><span class=kt>void</span> <span class=p>(</span><span class=o>*</span><span class=p>)(</span><span class=kt>int</span><span class=p>,</span> <span class=kt>int</span><span class=p>,</span> <span class=n>uint</span><span class=p>))</span><span class=n>images</span><span class=o>-&gt;</span><span class=n>ep</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=n>s</span> <span class=o>=</span> <span class=nf>getenv</span><span class=p>(</span><span class=s>&#34;machid&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>s</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=nf>strict_strtoul</span><span class=p>(</span><span class=n>s</span><span class=p>,</span> <span class=mi>16</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>machid</span><span class=p>)</span> <span class=o>&lt;</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=nf>debug</span><span class=p>(</span><span class=s>&#34;strict_strtoul failed!</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>			<span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>		<span class=nf>printf</span><span class=p>(</span><span class=s>&#34;Using machid 0x%lx from environment</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span> <span class=n>machid</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nf>debug</span><span class=p>(</span><span class=s>&#34;## Transferring control to Linux (at address %08lx)&#34;</span> \
+</span></span><span class=line><span class=cl>		<span class=s>&#34;...</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span> <span class=p>(</span><span class=n>ulong</span><span class=p>)</span> <span class=n>kernel_entry</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=nf>bootstage_mark</span><span class=p>(</span><span class=n>BOOTSTAGE_ID_RUN_OS</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=nf>announce_and_cleanup</span><span class=p>(</span><span class=n>fake</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>IMAGE_ENABLE_OF_LIBFDT</span> <span class=o>&amp;&amp;</span> <span class=n>images</span><span class=o>-&gt;</span><span class=n>ft_len</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=n>r2</span> <span class=o>=</span> <span class=p>(</span><span class=kt>unsigned</span> <span class=kt>long</span><span class=p>)</span><span class=n>images</span><span class=o>-&gt;</span><span class=n>ft_addr</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>else</span>
+</span></span><span class=line><span class=cl>		<span class=n>r2</span> <span class=o>=</span> <span class=n>gd</span><span class=o>-&gt;</span><span class=n>bd</span><span class=o>-&gt;</span><span class=n>bi_boot_params</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>fake</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_ARMV7_NONSEC
+</span></span></span><span class=line><span class=cl><span class=cp></span>		<span class=k>if</span> <span class=p>(</span><span class=nf>armv7_boot_nonsec</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=nf>armv7_init_nonsec</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>			<span class=nf>secure_ram_addr</span><span class=p>(</span><span class=n>_do_nonsec_entry</span><span class=p>)(</span><span class=n>kernel_entry</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>							  <span class=mi>0</span><span class=p>,</span> <span class=n>machid</span><span class=p>,</span> <span class=n>r2</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span> <span class=k>else</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>			<span class=nf>kernel_entry</span><span class=p>(</span><span class=mi>0</span><span class=p>,</span> <span class=n>machid</span><span class=p>,</span> <span class=n>r2</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=加载内核 class=headerLink><a href=#%e5%8a%a0%e8%bd%bd%e5%86%85%e6%a0%b8 class=header-mark></a>4 加载内核</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>static</span> <span class=kt>void</span> <span class=nf>do_nonsec_virt_switch</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nf>smp_kick_all_cpus</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>	<span class=nf>dcache_disable</span><span class=p>();</span>	<span class=cm>/* flush cache before swtiching to EL2 */</span>
+</span></span><span class=line><span class=cl>	<span class=nf>armv8_switch_to_el2</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_ARMV8_SWITCH_TO_EL1
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=nf>armv8_switch_to_el1</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nf>ENTRY</span><span class=p>(</span><span class=n>armv8_switch_to_el2</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=n>switch_el</span> <span class=n>x0</span><span class=p>,</span> <span class=mf>1f</span><span class=p>,</span> <span class=mf>0f</span><span class=p>,</span> <span class=mf>0f</span>
+</span></span><span class=line><span class=cl><span class=mi>0</span><span class=o>:</span>	<span class=n>ret</span>
+</span></span><span class=line><span class=cl><span class=mi>1</span><span class=o>:</span>	<span class=n>armv8_switch_to_el2_m</span> <span class=n>x0</span>
+</span></span><span class=line><span class=cl><span class=nf>ENDPROC</span><span class=p>(</span><span class=n>armv8_switch_to_el2</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nf>ENTRY</span><span class=p>(</span><span class=n>armv8_switch_to_el1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=n>switch_el</span> <span class=n>x0</span><span class=p>,</span> <span class=mf>0f</span><span class=p>,</span> <span class=mf>1f</span><span class=p>,</span> <span class=mf>0f</span>
+</span></span><span class=line><span class=cl><span class=mi>0</span><span class=o>:</span>	<span class=n>ret</span>
+</span></span><span class=line><span class=cl><span class=mi>1</span><span class=o>:</span>	<span class=n>armv8_switch_to_el1_m</span> <span class=n>x0</span><span class=p>,</span> <span class=n>x1</span>
+</span></span><span class=line><span class=cl><span class=nf>ENDPROC</span><span class=p>(</span><span class=n>armv8_switch_to_el1</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>.macro armv8_switch_to_el2_m, xreg1
+</span></span><span class=line><span class=cl>	/* 64bit EL2 | HCE | SMD | RES1 (Bits[5:4]) | Non-secure EL0/EL1 */
+</span></span><span class=line><span class=cl>	mov	\xreg1, #0x5b1
+</span></span><span class=line><span class=cl>	msr	scr_el3, \xreg1
+</span></span><span class=line><span class=cl>	msr	cptr_el3, xzr		/* Disable coprocessor traps to EL3 */
+</span></span><span class=line><span class=cl>	mov	\xreg1, #0x33ff
+</span></span><span class=line><span class=cl>	msr	cptr_el2, \xreg1	/* Disable coprocessor traps to EL2 */
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	/* Initialize Generic Timers */
+</span></span><span class=line><span class=cl>	msr	cntvoff_el2, xzr
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	/* Initialize SCTLR_EL2
+</span></span><span class=line><span class=cl>	 *
+</span></span><span class=line><span class=cl>	 * setting RES1 bits (29,28,23,22,18,16,11,5,4) to 1
+</span></span><span class=line><span class=cl>	 * and RES0 bits (31,30,27,26,24,21,20,17,15-13,10-6) +
+</span></span><span class=line><span class=cl>	 * EE,WXN,I,SA,C,A,M to 0
+</span></span><span class=line><span class=cl>	 */
+</span></span><span class=line><span class=cl>	mov	\xreg1, #0x0830
+</span></span><span class=line><span class=cl>	movk	\xreg1, #0x30C5, lsl #16
+</span></span><span class=line><span class=cl>	msr	sctlr_el2, \xreg1
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	/* Return to the EL2_SP2 mode from EL3 */
+</span></span><span class=line><span class=cl>	mov	\xreg1, sp
+</span></span><span class=line><span class=cl>	msr	sp_el2, \xreg1		/* Migrate SP */
+</span></span><span class=line><span class=cl>	mrs	\xreg1, vbar_el3
+</span></span><span class=line><span class=cl>	msr	vbar_el2, \xreg1	/* Migrate VBAR */
+</span></span><span class=line><span class=cl>	mov	\xreg1, #0x3c9
+</span></span><span class=line><span class=cl>	msr	spsr_el3, \xreg1	/* EL2_SP2 | D | A | I | F */
+</span></span><span class=line><span class=cl>	msr	elr_el3, lr
+</span></span><span class=line><span class=cl>	eret
+</span></span><span class=line><span class=cl>.endm
+</span></span></code></pre></td></tr></table></div></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2023-03-19&nbsp;<a class=git-hash href=https://github.com/mengdemao/github.io/commit/d8b0583531c00e794aefa2b1ef9ec1ee067cd4ee target=_blank title="commit by Meng Demao(mengdemao19951021@163.com) d8b0583531c00e794aefa2b1ef9ec1ee067cd4ee: * uboot" rel="noopener noreferrer">
+<i class="fas fa-hashtag fa-fw"></i>d8b0583</a></span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-mardown href=/uboot/index.md target=_blank rel="noopener noreferrer">阅读原始文档</a>
+</span><span>|&nbsp;<a class=link-to-source href=https://github.com/mengdemao/github.io/content/posts/uboot/index.md target=_blank rel="noopener noreferrer">查看源代码</a>
+</span><span>|&nbsp;<a class=link-to-edit href=https://github.com/mengdemao/github.io/content/posts/uboot/index.md target=_blank rel="noopener noreferrer">编辑此页</a></span></div><div class=post-info-share><span><a href=# title="分享到 Twitter" data-sharer=twitter data-url=https://mengdemao.github.io/uboot/ data-title=Uboot data-hashtags=uboot><i class="fab fa-twitter fa-fw"></i></a><a href=# title="分享到 Facebook" data-sharer=facebook data-url=https://mengdemao.github.io/uboot/ data-hashtag=uboot><i class="fab fa-facebook-square fa-fw"></i></a><a href=# title="分享到 Hacker News" data-sharer=hackernews data-url=https://mengdemao.github.io/uboot/ data-title=Uboot><i class="fab fa-hacker-news fa-fw"></i></a><a href=# title="分享到 Line" data-sharer=line data-url=https://mengdemao.github.io/uboot/ data-title=Uboot><i data-svg-src=/lib/simple-icons/icons/line.min.svg></i></a><a href=# title="分享到 微博" data-sharer=weibo data-url=https://mengdemao.github.io/uboot/ data-title=Uboot><i class="fab fa-weibo fa-fw"></i></a><a href=# title="分享到 Telegram" data-sharer=telegram data-url=https://mengdemao.github.io/uboot/ data-title=Uboot data-web><i class="fab fa-telegram-plane fa-fw"></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw"></i>&nbsp;<a href=/tags/uboot/>uboot</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/read_linux/ class=prev rel=prev title=Linux内核源码阅读><i class="fas fa-angle-left fa-fw"></i>Linux内核源码阅读</a></div></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.111.3">Hugo</a> 强力驱动&nbsp;|&nbsp;托管在 <a title="Github Pages" href=https://docs.github.com/en/pages/ target=_blank rel="noopener noreffer">GitHub Pages</a> 上&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a></div><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2020 - 2023</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://github.com/mengdemao/github.io target=_blank rel="noopener noreferrer">mengdemao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div><div class=footer-line></div><div class=footer-line></div></div><script>"serviceWorker"in navigator&&(navigator.serviceWorker.register("/sw.min.js",{scope:"/"}).then(function(){}),navigator.serviceWorker.ready.then(function(){}))</script></footer></div><div id=fixed-buttons><a href=#back-to-top id=back-to-top-button class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw"></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw"></i></a></div><div class=assets><link rel=stylesheet href=/lib/lightgallery/lightgallery.min.93025484925a4c3cc6a7a5533c16cc4160455287fafa9bf448cdecf1fa3e13a5e73e6566b5fc0434ad2f1d8ba9dedb189ea1e0443a010d3256a2aeeb9d0c36fa.css integrity="sha512-kwJUhJJaTDzGp6VTPBbMQWBFUof6+pv0SM3s8fo+E6XnPmVmtfwENK0vHYup3tsYnqHgRDoBDTJWoq7rnQw2+g=="><link rel=stylesheet href=/lib/katex/katex.min.990c289bc36ce28a7e1f6f680e40ff2d73bf3ac5cfbc215f92066414056b86178fcd12d4f0d508dcd926e373615944a68f7a7909c6b61d3124310997411c0341.css integrity="sha512-mQwom8Ns4op+H29oDkD/LXO/OsXPvCFfkgZkFAVrhhePzRLU8NUI3Nkm43NhWUSmj3p5Cca2HTEkMQmXQRwDQQ=="><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/katex/copy-tex.min.b0251fdfe529f8aa1c9a24473a32d4adf4d2e298acdba05fc37a93816e299615aa9026959eafcf37ae05beefc5345cf7039acd8238c9cfe76a00529b0eba5f57.css integrity="sha512-sCUf3+Up+KocmiRHOjLUrfTS4pis26Bfw3qTgW4plhWqkCaVnq/PN64Fvu/FNFz3A5rNgjjJz+dqAFKbDrpfVw=="><noscript><link rel=stylesheet href=/lib/katex/copy-tex.min.b0251fdfe529f8aa1c9a24473a32d4adf4d2e298acdba05fc37a93816e299615aa9026959eafcf37ae05beefc5345cf7039acd8238c9cfe76a00529b0eba5f57.css integrity="sha512-sCUf3+Up+KocmiRHOjLUrfTS4pis26Bfw3qTgW4plhWqkCaVnq/PN64Fvu/FNFz3A5rNgjjJz+dqAFKbDrpfVw=="></noscript><link rel=stylesheet href=/lib/mermaid/mermaid.min.8135ae40b81f211c8b9c10760d6a27449401953709c2ec4252f1540790ca68c6db6b8947357e8d5f75943c8d385006493229f17d7eee095ab4256b7ec4ac70e4.css integrity="sha512-gTWuQLgfIRyLnBB2DWonRJQBlTcJwuxCUvFUB5DKaMbba4lHNX6NX3WUPI04UAZJMinxfX7uCVq0JWt+xKxw5A=="><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:100},comment:{},data:{"desktop-header-typeit":"编程日志","id-1":`graph TD
+
+reset --\u003e _main
+
+_main --\u003e board_init_r
+
+board_init_r --\u003e initcall_run_list
+
+initcall_run_list --\u003e run_main_loop
+
+run_main_loop --\u003e main_loop`,"id-2":`graph TD
+main_loop --\u003e bootstage_mark_name
+
+bootstage_mark_name --\u003e bootdelay_process
+
+bootdelay_process --\u003e autoboot_command
+
+autoboot_command --\u003e run_command_list`,"mobile-header-typeit":"编程日志"},lightGallery:{actualSize:!1,exThumbImage:"data-thumbnail",hideBarsDelay:2e3,selector:".lightgallery",speed:400,thumbContHeight:80,thumbWidth:80,thumbnail:!0},math:{delimiters:[{display:!0,left:"$$",right:"$$"},{display:!0,left:"\\[",right:"\\]"},{display:!1,left:"$",right:"$"},{display:!1,left:"\\(",right:"\\)"}],strict:!1},mermaid:!0,search:{distance:100,findAllMatches:!1,fuseIndexURL:"/index.json",highlightTag:"em",ignoreFieldNorm:!1,ignoreLocation:!0,isCaseSensitive:!1,location:0,maxResultLength:10,minMatchCharLength:2,noResultsFound:"没有找到结果",snippetLength:50,threshold:.1,type:"fuse",useExtendedSearch:!1},sharerjs:!0,table:{sort:!0},twemoji:!0,typeit:{cursorChar:"|",cursorSpeed:1e3,data:{"desktop-header-typeit":["desktop-header-typeit"],"mobile-header-typeit":["mobile-header-typeit"]},duration:-1,speed:100}}</script><script type=text/javascript src=/lib/tablesort/tablesort.min.23640461c9e6941882f50f4208436e1932c806bcc32323a34ff378781204951e05534a0bbc3c1e401d111aa22a26ecc5d4f2cfb43af59d94da8a24f2b8ef8506.js integrity="sha512-I2QEYcnmlBiC9Q9CCENuGTLIBrzDIyOjT/N4eBIElR4FU0oLvDweQB0RGqIqJuzF1PLPtDr1nZTaiiTyuO+FBg=="></script><script type=text/javascript src=/lib/twemoji/twemoji.min.6c24276208463913359c7a512e70acd942789811a0c7557daacb6770d2d0e2f7a31f04c7461f9bf02e13eae0e3b77ee1c5be0bbdbabaefcc99ff324627fa43a9.js integrity="sha512-bCQnYghGORM1nHpRLnCs2UJ4mBGgx1V9qstncNLQ4vejHwTHRh+b8C4T6uDjt37hxb4Lvbq678yZ/zJGJ/pDqQ==" defer></script><script type=text/javascript src=/js/twemoji.min.js defer></script><script type=text/javascript src=/lib/lightgallery/lightgallery.min.8fd5f6e14a601e69308a4eff21d4aa21cc9ffcdf5dc0eb7fa1de387edf652539710e2d27577ba1820a74a48912c8ee0cc6a6c406ea22f6b5da49fedf04c9c509.js integrity="sha512-j9X24UpgHmkwik7/IdSqIcyf/N9dwOt/od44ft9lJTlxDi0nV3uhggp0pIkSyO4MxqbEBuoi9rXaSf7fBMnFCQ=="></script><script type=text/javascript src=/lib/lightgallery/lg-thumbnail.min.f6a93c2d6d1e1bea27fc3a077de18e64f4e5e36ae35edef047efb9e23a922cc5afeec7aa06baca0dd611ffe183ab59f4f9e3609b71de735932eb38bf4765b6ad.js integrity="sha512-9qk8LW0eG+on/DoHfeGOZPTl42rjXt7wR++54jqSLMWv7seqBrrKDdYR/+GDq1n0+eNgm3Hec1ky6zi/R2W2rQ=="></script><script type=text/javascript src=/lib/lightgallery/lg-zoom.min.4947f9add389ede26f0e96a5fb76d0b517e7515762a3b9ab7486468359c4d9e35863685b060bdeabb8f81cc4bf6f062a9934af9f45ffc61a3a716009fed20b82.js integrity="sha512-SUf5rdOJ7eJvDpal+3bQtRfnUVdio7mrdIZGg1nE2eNYY2hbBgveq7j4HMS/bwYqmTSvn0X/xho6cWAJ/tILgg=="></script><script type=text/javascript src=/lib/clipboard/clipboard.min.b08a94127467df50609e03e61edd897a7ce57830ec5f060efa2caf438e8cc3a44bfae7405198f69ffbbf3c663cd0dc51c729ceed1f71206c792c4cf0e0835625.js integrity="sha512-sIqUEnRn31BgngPmHt2JenzleDDsXwYO+iyvQ46Mw6RL+udAUZj2n/u/PGY80NxRxynO7R9xIGx5LEzw4INWJQ=="></script><script type=text/javascript src=/lib/sharer/sharer.min.cab91d53e60c836a90e16a5091059006925296eeed2c665fc744b7e7755ec3ab5c4e58e3c83899af70d8f690e004c2ca62062e11b0c7efdced87f80d074cfa3e.js integrity="sha512-yrkdU+YMg2qQ4WpQkQWQBpJSlu7tLGZfx0S353Vew6tcTljjyDiZr3DY9pDgBMLKYgYuEbDH79zth/gNB0z6Pg=="></script><script type=text/javascript src=/lib/typeit/typeit.min.f27efa857ac46448d67802135c65454dfc450176698f8fb06912d192dada782d98abfd8fbaf9ad33a15fb7971ed227e86d2082b88c2319260c237f147c9a624b.js integrity="sha512-8n76hXrEZEjWeAITXGVFTfxFAXZpj4+waRLRktraeC2Yq/2PuvmtM6Fft5ce0ifobSCCuIwjGSYMI38UfJpiSw=="></script><script type=text/javascript src=/lib/katex/katex.min.b0748d2c40912522be045b3b13c0e215cea97fa9fdd1b2c8f391268b0d6386b79db9984add55e0abd978900b7d79320760072e4012872f4d502ace3fdd7825f2.js integrity="sha512-sHSNLECRJSK+BFs7E8DiFc6pf6n90bLI85Emiw1jhreduZhK3VXgq9l4kAt9eTIHYAcuQBKHL01QKs4/3Xgl8g==" defer></script><script type=text/javascript src=/lib/katex/auto-render.min.8968ae052e67b7aafad1f0b3dba35dd19a9ed276e4d594c841b9772afee462c5fec8a314147ce3687dbe02733abe9d97b3e80d99a0405562634a6b8fc3be847e.js integrity="sha512-iWiuBS5nt6r60fCz26Nd0Zqe0nbk1ZTIQbl3Kv7kYsX+yKMUFHzjaH2+AnM6vp2Xs+gNmaBAVWJjSmuPw76Efg==" defer></script><script type=text/javascript src=/lib/katex/copy-tex.min.710c5291333846f1408dd05e04392b9658587c44706568ccfe88a329f3ec9a1474248d94ddf5d295b51a269e52960061fc5cd898cc96b9d4535cb9cd8f731b10.js integrity="sha512-cQxSkTM4RvFAjdBeBDkrllhYfERwZWjM/oijKfPsmhR0JI2U3fXSlbUaJp5SlgBh/FzYmMyWudRTXLnNj3MbEA==" defer></script><script type=text/javascript src=/lib/katex/mhchem.min.575865d1f9ce5d6e8276a7b9655aadc3c4c1a49569bb75d10d142d8bdea3ff4e3eb4c6ab3eb09d5c4504dd475fbdf2984e93a7f43578cc464156bd078438ae89.js integrity="sha512-V1hl0fnOXW6Cdqe5ZVqtw8TBpJVpu3XRDRQti96j/04+tMarPrCdXEUE3UdfvfKYTpOn9DV4zEZBVr0HhDiuiQ==" defer></script><script type=text/javascript src=/js/katex.min.js defer></script><script type=text/javascript src=/lib/mermaid/mermaid.min.90094f1f3dc3598f15532f063ca1149330d5fa9547fbfd8a9ad4a3f18482301ff9a2ba3161b0178a051b5e88551f7757bbfe58d2874b55d1c07f6c3dfc9d71d8.js integrity="sha512-kAlPHz3DWY8VUy8GPKEUkzDV+pVH+/2KmtSj8YSCMB/5oroxYbAXigUbXohVH3dXu/5Y0odLVdHAf2w9/J1x2A==" defer></script><script type=text/javascript src=/js/mermaid.min.js defer></script><script type=text/javascript src=/js/theme.min.js defer></script></div></body></html>
