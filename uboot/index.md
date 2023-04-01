@@ -1,6 +1,12 @@
 # Uboot
 
 
+<!--more-->
+
+**u-boot源码阅读**
+
+<!--more-->
+
 ## 构建源码
 
 ```shell
@@ -16,6 +22,9 @@ make ARCH=arm mx6ull_14x14_evk_nand_defconfig
 
 # 执行编译
 make -j4 ARCH=arm CROSS_COMPILE=arm-none-eabi-
+
+# 进入调试
+qemu-system-arm -M vexpress-a9 -kernel u-boot --nographic -m 512M -S -s
 ```
 
 ## 启动前夕
@@ -33,8 +42,6 @@ initcall_run_list --> run_main_loop
 
 run_main_loop --> main_loop
 ```
-
-
 
 **[arch/arm/cpu/armv7/start.S]**
 
