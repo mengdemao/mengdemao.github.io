@@ -8,7 +8,9 @@
 <!--more-->
 
 + 源码版本: [Linux 4.0.0](https://github.com/figozhang/runninglinuxkernel_4.0.git)
-+ 参考书籍: <<奔跑吧Linux内核>>
++ 参考书籍: 
+	1.  << 奔跑吧Linux内核 >>  
+	2.  << 深度探索linux系统虚拟化:原理与实现 >>
 
 ## 建立环境
 
@@ -164,9 +166,137 @@ gdbgui -g arm-multiarch
 
 ![image-20230312105941779](picture/image-20230312105941779.png)
 
+## 系统构建
+
+镜像文件的整体过程
+
+![image-20230401145402912](picture/image-20230401145402912.png)
+
+![image-20230401153013219](picture/image-20230401153013219.png)
+
++ 构建**vmlinux**,objcopy生成vmlinux.bin,然后将其压缩为vmlinux.bin.gz
++ 添加操作,生成**vmlinux.bin**
++ 构造**setup.bin**
++ 将setup.bin与vmlinux.bin进行合成,生成bzImage
+
+### vmlinux生成过程
+
+```shell
+# x86_64架构链接过程
+ld -m elf_x86_64 --no-ld-generated-unwind-info  -pie  --no-dynamic-linker --orphan-handling=error -z noexecstack --no-warn-rwx-segments
+-T arch/x86/boot/compressed/vmlinux.lds 
+	arch/x86/boot/compressed/kernel_info.o arch/x86/boot/compressed/head_64.o 				arch/x86/boot/compressed/misc.o arch/x86/boot/compressed/string.o 						arch/x86/boot/compressed/cmdline.o arch/x86/boot/compressed/error.o           			arch/x86/boot/compressed/piggy.o arch/x86/boot/compressed/cpuflags.o    				arch/x86/boot/compressed/early_serial_console.o arch/x86/boot/compressed/kaslr.o arch/x86/boot/compressed/ident_map_64.o arch/x86/boot/compressed/idt_64.o arch/x86/boot/compressed/idt_handlers_64.o arch/x86/boot/compressed/pgtable_64.o arch/x86/boot/compressed/acpi.o arch/x86/boot/compressed/efi.o arch/x86/boot/compressed/efi_mixed.o drivers/firmware/efi/libstub/lib.a 
+	-o arch/x86/boot/compressed/vmlinux
+	
+# arm32链接过程
+```
+
+### vmlinux.bin生成过程
+
+```shell
+objcopy  -O binary -R .note -R .comment -S arch/x86/boot/compressed/vmlinux arch/x86/boot/vmlinux.bin
+```
+
+### header.o
+
+```shell
+gcc -Wp,-MMD,arch/x86/boot/.header.o.d -nostdinc -I./arch/x86/include -I./arch/x86/include/generated  -I./include -I./arch/x86/include/uapi -I./arch/x86/include/generated/uapi -I./include/uapi -I./include/generated/uapi -include ./include/linux/compiler-version.h -include ./include/linux/kconfig.h -D__KERNEL__ -Werror -fmacro-prefix-map=./= -m16 -g -Os -DDISABLE_BRANCH_PROFILING -D__DISABLE_EXPORTS -Wall -Wstrict-prototypes -march=i386 -mregparm=3 -fno-strict-aliasing -fomit-frame-pointer -fno-pic -mno-mmx -mno-sse -fcf-protection=none -ffreestanding -fno-stack-protector -Wno-address-of-packed-member -mpreferred-stack-boundary=2 -D_SETUP -D__ASSEMBLY__ -DSVGA_MODE=NORMAL_VGA -I./arch/x86/boot    -c -o arch/x86/boot/header.o arch/x86/boot/header.S
+```
+
+
+
+### setup.bin生成过程
+
+```shell
+ld -m elf_x86_64 -z noexecstack --no-warn-rwx-segments  -m elf_i386 -z noexecstack -T arch/x86/boot/setup.ld arch/x86/boot/a20.o arch/x86/boot/bioscall.o arch/x86/boot/cmdline.o arch/x86/boot/copy.o arch/x86/boot/cpu.o arch/x86/boot/cpuflags.o arch/x86/boot/cpucheck.o arch/x86/boot/early_serial_console.o arch/x86/boot/edd.o arch/x86/boot/header.o arch/x86/boot/main.o arch/x86/boot/memory.o arch/x86/boot/pm.o arch/x86/boot/pmjump.o arch/x86/boot/printf.o arch/x86/boot/regs.o arch/x86/boot/string.o arch/x86/boot/tty.o arch/x86/boot/video.o arch/x86/boot/video-mode.o arch/x86/boot/version.o arch/x86/boot/video-vga.o arch/x86/boot/video-vesa.o arch/x86/boot/video-bios.o -o arch/x86/boot/setup.elf
+objcopy  -O binary arch/x86/boot/setup.elf arch/x86/boot/setup.bin
+```
+
+
+
+### 最后生成
+
+```shell
+arch/x86/boot/tools/build arch/x86/boot/setup.bin arch/x86/boot/vmlinux.bin arch/x86/boot/zoffset.h arch/x86/boot/bzImag
+```
+
+
+
+## 根文件系统
+
+linux系统在启动之后需要加载根文件系统
+
+![image-20230401153524962](picture/image-20230401153524962.png)
+
+![image-20230401153542375](picture/image-20230401153542375.png)
+
+### 编译busybox
+
+
+
+### 安装C库
+
+从交叉编译器中拷贝即可
+
+
+
+## initramfs
+
+### Hello initramfs
+
+```c
+#include <stdio.h>
+
+void main(int argc, char *argv[])
+{
+    printf("Hello initramfs\n");
+    fflush(stdout);
+    while(1);
+}
+```
+
+执行构建
+
+```shell
+gcc -static -o init init.c
+echo init | cpio -o --format=newc > initramfs
+```
+
+启动测试
+
+```
+qemu-system-x86_64 -kernel linux/arch/x86_64/boot/bzImage -initrd initramfs -append "console=ttyS0 rdinit=init" -nographic
+```
+
+然后就可以发现打印的数据
+
+![image-20230401191307654](picture/image-20230401191307654.png)
+
 ## 启动分析
 
-一般情况下，我们都会讲断点打在`start_kernel`上,
+一般情况下，我们都会讲断点打在`start_kernel`上,但是在进入C语言之前会存在一段汇编代码;
+
+入口地址,我们可以通过链接脚本分析得到
+
+[链接头文件](https://elixir.bootlin.com/linux/v4.0/source/include/asm-generic/vmlinux.lds.h),那么真正的链接文件在**[arch/arm/kernel/vmlinux.lds]**,但是这个文件是生成的;
+
+这个链接脚本用来描述vmlinux的生成
+
+![image-20230401201824826](picture/image-20230401201824826.png)
+
+但是aarch64入口地址就是
+
+![image-20230401202647492](picture/image-20230401202647492.png)
+
+```mermaid
+graph LR
+
+stext --> __mmap_switched
+
+__mmap_switched --> start_kernel
+```
+
+### 启动前夕
 
 **启动前夕(ARM32)**
 
@@ -220,56 +350,64 @@ __mmap_switched:
 	mov	x29, #0
 	b	start_kernel
 ENDPROC(__mmap_switched)
+
+	.align	3
+	.type	__switch_data, %object
+__switch_data:
+	.quad	__mmap_switched
+	.quad	__bss_start			// x6
+	.quad	__bss_stop			// x7
+	.quad	processor_id			// x4
+	.quad	__fdt_pointer			// x5
+	.quad	memstart_addr			// x6
+	.quad	init_thread_union + THREAD_START_SP // sp
+
+ENTRY(stext)
+	mov	x21, x0				// x21=FDT
+	bl	el2_setup			// Drop to EL1, w20=cpu_boot_mode
+	bl	__calc_phys_offset		// x24=PHYS_OFFSET, x28=PHYS_OFFSET-PAGE_OFFSET
+	bl	set_cpu_boot_mode_flag
+	mrs	x22, midr_el1			// x22=cpuid
+	mov	x0, x22
+	bl	lookup_processor_type
+	mov	x23, x0				// x23=current cpu_table
+	/*
+	 * __error_p may end up out of range for cbz if text areas are
+	 * aligned up to section sizes.
+	 */
+	cbnz	x23, 1f				// invalid processor (x23=0)?
+	b	__error_p
+1:
+	bl	__vet_fdt
+	bl	__create_page_tables		// x25=TTBR0, x26=TTBR1
+	/*
+	 * The following calls CPU specific code in a position independent
+	 * manner. See arch/arm64/mm/proc.S for details. x23 = base of
+	 * cpu_info structure selected by lookup_processor_type above.
+	 * On return, the CPU will be ready for the MMU to be turned on and
+	 * the TCR will have been set.
+	 */
+	ldr	x27, __switch_data		// address to jump to after
+						// MMU has been enabled
+	adrp	lr, __enable_mmu		// return (PIC) address
+	add	lr, lr, #:lo12:__enable_mmu
+	ldr	x12, [x23, #CPU_INFO_SETUP]
+	add	x12, x12, x28			// __virt_to_phys
+	br	x12				// initialise processor
+ENDPROC(stext)
 ```
 
 上面的汇编函数都是由[head.s](https://elixir.bootlin.com/linux/v4.0/source/arch/arm/boot/compressed/head.S)跳入继续向下分析,谁开启了汇编,如何执行到这个函数**vmlinux.lds**决定，分析实现;
-
-```lds
-OUTPUT_ARCH(arm)
-ENTRY(_start)
-SECTIONS
-{
-  /DISCARD/ : {
-    *(.ARM.exidx*)
-    *(.ARM.extab*)
-    /*
-     * Discard any r/w data - this produces a link error if we have any,
-     * which is required for PIC decompression.  Local data generates
-     * GOTOFF relocations, which prevents it being relocated independently
-     * of the text/got segments.
-     */
-    *(.data)
-  }
-
-  . = TEXT_START;
-  _text = .;
-
-  .text : {
-    _start = .;
-    *(.start)
-    *(.text)
-    *(.text.*)
-    *(.fixup)
-    *(.gnu.warning)
-    *(.glue_7t)
-    *(.glue_7)
-  }
-  .rodata : {
-    *(.rodata)
-    *(.rodata.*)
-  }
-  .piggydata : {
-    *(.piggydata)
-  }
-```
-
-本来启动标签是从`_start`开始,但是
 
 需要分析bootloader的实现;
 
 下面我们开始分析
 
 ![image-20230212185559643](picture/image-20230212185559643.png)
+
+### start_kernel
+
+进入内核中第一个C语言启动函数;[源码位置](https://elixir.bootlin.com/linux/v4.0/source/init/main.c#L489)
 
 ```c
 asmlinkage __visible void __init start_kernel(void)
@@ -672,6 +810,175 @@ void __init setup_arch(char **cmdline_p)
 
 	if (mdesc->init_early)
 		mdesc->init_early();
+}
+```
+
+### mm_init_cpumask
+
+清理内存管理系统的`init_mm->cpu_vm_mask_var`
+
+```c
+static inline void mm_init_cpumask(struct mm_struct *mm)
+{
+#ifdef CONFIG_CPUMASK_OFFSTACK
+	mm->cpu_vm_mask_var = &mm->cpumask_allocation;
+#endif
+	cpumask_clear(mm->cpu_vm_mask_var);
+}
+```
+
+### 设置命令行`command_line`
+
+申请内存， 保存命令行参数
+
+```c
+/* Untouched saved command line (eg. for /proc) */
+char *saved_command_line;
+/* Command line for parameter parsing */
+static char *static_command_line;
+/* Command line for per-initcall parameter parsing */
+static char *initcall_command_line;
+
+static void __init setup_command_line(char *command_line)
+{
+	saved_command_line =
+		memblock_virt_alloc(strlen(boot_command_line) + 1, 0);
+	initcall_command_line =
+		memblock_virt_alloc(strlen(boot_command_line) + 1, 0);
+	static_command_line = memblock_virt_alloc(strlen(command_line) + 1, 0);
+	strcpy(saved_command_line, boot_command_line);
+	strcpy(static_command_line, command_line);
+}
+```
+
+### 设置CPU
+
+1. `setup_nr_cpu_ids`
+2. `setup_per_cpu_areas`
+
+```c
+/* Setup number of possible processor ids */
+int nr_cpu_ids __read_mostly = NR_CPUS;
+EXPORT_SYMBOL(nr_cpu_ids);
+
+/* An arch may set nr_cpu_ids earlier if needed, so this would be redundant */
+void __init setup_nr_cpu_ids(void)
+{
+	nr_cpu_ids = find_last_bit(cpumask_bits(cpu_possible_mask),NR_CPUS) + 1;
+}
+```
+
+### smp_prepare_boot_cpu
+
+```c
+static inline void set_my_cpu_offset(unsigned long off)
+{
+	/* Set TPIDRPRW */
+	asm volatile("mcr p15, 0, %0, c13, c0, 4" : : "r" (off) : "memory");
+}
+
+void __init smp_prepare_boot_cpu(void)
+{
+	set_my_cpu_offset(per_cpu_offset(smp_processor_id()));
+}
+```
+
+### build_all_zonelists
+
+启动期间构建zone, 
+
+**[build_all_zonelists --> build_all_zonelists_init]**
+
+```c
+/*
+ *  zonelist_order:
+ *  0 = automatic detection of better ordering.
+ *  1 = order by ([node] distance, -zonetype)
+ *  2 = order by (-zonetype, [node] distance)
+ *
+ *  If not NUMA, ZONELIST_ORDER_ZONE and ZONELIST_ORDER_NODE will create
+ *  the same zonelist. So only NUMA can configure this param.
+ */
+#define ZONELIST_ORDER_DEFAULT  0
+#define ZONELIST_ORDER_NODE     1
+#define ZONELIST_ORDER_ZONE     2
+
+/* zonelist order in the kernel.
+ * set_zonelist_order() will set this to NODE or ZONE.
+ */
+static int current_zonelist_order = ZONELIST_ORDER_DEFAULT;
+static char zonelist_order_name[3][8] = {"Default", "Node", "Zone"};
+
+static void set_zonelist_order(void)
+{
+	current_zonelist_order = ZONELIST_ORDER_ZONE;
+}
+```
+
+最终调用到`build_all_zonelists_init`
+
+```c
+static noinline void __init build_all_zonelists_init(void)
+{
+	__build_all_zonelists(NULL);
+	mminit_verify_zonelist();
+	cpuset_init_current_mems_allowed();
+}
+```
+
+### page_alloc_init
+
+```c
+void __init page_alloc_init(void)
+{
+	hotcpu_notifier(page_alloc_cpu_notify, 0);
+}
+```
+
+### jump_label_init
+
+```c
+/*
+ * Used to generate warnings if static_key manipulation functions are used
+ * before jump_label_init is called.
+ */
+bool static_key_initialized __read_mostly;
+EXPORT_SYMBOL_GPL(static_key_initialized);
+
+static __always_inline void jump_label_init(void)
+{
+	static_key_initialized = true;
+}
+```
+
+### setup_log_buf
+
+设置日志buf
+
+### pidhash_init
+
+```c
+struct hlist_head {
+	struct hlist_node *first;
+};
+struct hlist_node {
+	struct hlist_node *next, **pprev;
+};
+static struct hlist_head *pid_hash;
+static unsigned int pidhash_shift = 4;
+
+void __init pidhash_init(void)
+{
+	unsigned int i, pidhash_size;
+
+	pid_hash = alloc_large_system_hash("PID", sizeof(*pid_hash), 0, 18,
+					   HASH_EARLY | HASH_SMALL,
+					   &pidhash_shift, NULL,
+					   0, 4096);
+	pidhash_size = 1U << pidhash_shift;
+
+	for (i = 0; i < pidhash_size; i++)
+		INIT_HLIST_HEAD(&pid_hash[i]);
 }
 ```
 
