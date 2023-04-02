@@ -1,6 +1,12 @@
 # Buildroot
 
 
+<!--more-->
+
+Buildroot构建文件系统
+
+<!--more-->
+
 ## 下载buildroot
 
 ```shell
