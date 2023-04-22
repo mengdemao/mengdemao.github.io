@@ -34,19 +34,31 @@ $ git clone https://github.com/figozhang/runninglinuxkernel_4.0.git
 + 编译32位arm
 
 ```shell
-cd runninglinuxkernel_4.0
-./run_debian_arm32.sh build_kernel
-sudo ./run_debian_arm32.sh build_rootfs
-./run_debian_arm32.sh build_run
+qemu-system-arm -m 1024 -M virt\
+    -nographic -smp 4 -kernel arch/arm/boot/zImage \
+    -append "crashkernel=128M root=/dev/vda rootfstype=ext4 rw"\
+    -drive if=none,file=rootfs_debian_arm32.ext4,id=hd0 \
+    -device virtio-blk-device,drive=hd0 \
+    -netdev user,id=mynet\
+    -device virtio-net-device,netdev=mynet\
+    --fsdev local,id=kmod_dev,path=./kmodules,security_model=none\
+    -device virtio-9p-device,fsdev=kmod_dev,mount_tag=kmod_mount\
+    -S -s
 ```
 
 + 编译64位arm
 
 ```shell
-cd runninglinuxkernel_4.0
-./run_debian_arm64.sh build_kernel
-sudo ./run_debian_arm64.sh build_rootfs
-./run_debian_arm64.sh build_run
+qemu-system-aarch64 -m 1024 -cpu cortex-a57 -M virt\
+    -nographic -smp 4 -kernel arch/arm64/boot/Image \
+    -append "noinintrd root=/dev/vda rootfstype=ext4 rw loglevel=8" \
+    -drive if=none,file=rootfs_debian_arm64.ext4,id=hd0 \
+    -device virtio-blk-device,drive=hd0 \
+    --fsdev local,id=kmod_dev,path=./kmodules,security_model=none \
+    -device virtio-9p-device,fsdev=kmod_dev,mount_tag=kmod_mount\
+    -netdev user,id=mynet\
+    -device virtio-net-device,netdev=mynet\
+    -S -s
 ```
 
 + 安装gdb-multiarch
@@ -981,5 +993,182 @@ void __init pidhash_init(void)
 		INIT_HLIST_HEAD(&pid_hash[i]);
 }
 ```
+
+### vfs_caches_init_early
+
+```c
+void __init vfs_caches_init_early(void)
+{
+	dcache_init_early();
+	inode_init_early();
+}
+```
+
+### sort_main_extable
+
+**异常修复表**
+
+```c
+struct exception_table_entry
+{
+	unsigned long insn, fixup;
+};
+
+extern struct exception_table_entry __start___ex_table[];
+extern struct exception_table_entry __stop___ex_table[];
+
+void __init sort_main_extable(void)
+{
+	if (main_extable_sort_needed && __stop___ex_table > __start___ex_table) {
+		pr_notice("Sorting __ex_table...\n");
+		sort_extable(__start___ex_table, __stop___ex_table);
+	}
+}
+
+static int cmp_ex(const void *a, const void *b)
+{
+	const struct exception_table_entry *x = a, *y = b;
+
+	/* avoid overflow */
+	if (x->insn > y->insn)
+		return 1;
+	if (x->insn < y->insn)
+		return -1;
+	return 0;
+}
+
+void sort_extable(struct exception_table_entry *start,
+		  struct exception_table_entry *finish)
+{
+	sort(start, finish - start, sizeof(struct exception_table_entry),
+	     cmp_ex, NULL);
+}
+```
+
+但是这个表定义在什么位置内?
+
+```lds
+	. = ALIGN(4);
+	__ex_table : AT(ADDR(__ex_table) - LOAD_OFFSET) {
+		__start___ex_table = .;
+#ifdef CONFIG_MMU
+		*(__ex_table)
+#endif
+		__stop___ex_table = .;
+	}
+```
+
+在链接脚本中定义,代表着什么呢？如何定义这个表呢？
+
+大部分都是汇编实现的，当前不进行分析了
+
+```assembly
+# define _ASM_EXTABLE_TYPE(from, to, type)			\
+	.pushsection "__ex_table","a" ;					\
+	.balign 4 ;										\
+	.long (from) - . ;								\
+	.long (to) - . ;								\
+	.long type ;									\
+	.popsection
+```
+
+如何调用这个**异常修复表**呢?
+
+```c
+int fixup_exception(struct pt_regs *regs)
+{
+	const struct exception_table_entry *fixup;
+
+	fixup = search_exception_tables(instruction_pointer(regs));
+	if (fixup) {
+		regs->ARM_pc = fixup->fixup;
+#ifdef CONFIG_THUMB2_KERNEL
+		/* Clear the IT state to avoid nasty surprises in the fixup */
+		regs->ARM_cpsr &= ~PSR_IT_MASK;
+#endif
+	}
+
+	return fixup != NULL;
+}
+```
+
+调用线路
+
+```mermaid
+graph LR
+fixup_exception --> search_exception_tables --> search_extable --> search_module_extables
+```
+
+### trap_init
+
+中断描述符初始化，但是在arm上初始化好像不是这样进行的
+
+arm上此选项无效
+
+### mm_init
+
+内存分配器初始化(单独分析)
+
+```c
+static void __init mm_init(void)
+{
+	/*
+	 * page_ext requires contiguous pages,
+	 * bigger than MAX_ORDER unless SPARSEMEM.
+	 */
+	page_ext_init_flatmem();
+	mem_init();
+	kmem_cache_init();
+	percpu_init_late();
+	pgtable_init();
+	vmalloc_init();
+}
+```
+
+### sched_init
+
+调度器初始化(单独分析)
+
+### idr_init_cache
+
+整数ID管理机制
+
+```c
+void __init idr_init_cache(void)
+{
+	idr_layer_cache = kmem_cache_create("idr_layer_cache",
+				sizeof(struct idr_layer), 0, SLAB_PANIC, NULL);
+}
+```
+
+### rcu_init
+
+```c
+void __init rcu_init(void)
+{
+	int cpu;
+
+	rcu_bootup_announce();
+	rcu_init_geometry();
+	rcu_init_one(&rcu_bh_state, &rcu_bh_data);
+	rcu_init_one(&rcu_sched_state, &rcu_sched_data);
+	__rcu_init_preempt();
+	open_softirq(RCU_SOFTIRQ, rcu_process_callbacks);
+
+	/*
+	 * We don't need protection against CPU-hotplug here because
+	 * this is called early in boot, before either interrupts
+	 * or the scheduler are operational.
+	 */
+	cpu_notifier(rcu_cpu_notify, 0);
+	pm_notifier(rcu_pm_notify, 0);
+	for_each_online_cpu(cpu)
+		rcu_cpu_notify(NULL, CPU_UP_PREPARE, (void *)(long)cpu);
+
+	rcu_early_boot_tests();
+}
+```
+
+
 
 
