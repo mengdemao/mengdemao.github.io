@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
 
 编译指令
 
-![Hello world编译指令](HelloWorld.gif)
+![Hello world编译指令](picture/HelloWorld.gif)
 
 从生成的汇编指令来看,复杂不少
 
