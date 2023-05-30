@@ -104,7 +104,7 @@ sds sdsnewlen(const void *init, size_t initlen);
 
 ## 扩张字符串缓存区
 ```c
-sds sdsMakeRoomFor(sds s, size_t addlen) 
+sds sdsMakeRoomFor(sds s, size_t addlen)
 {
     void *sh;
     void *newsh;
@@ -119,7 +119,7 @@ sds sdsMakeRoomFor(sds s, size_t addlen)
     }
     len = sdslen(s);	  /* 计算字符串大小 */
     sh = (char*)s - sdsHdrSize(oldtype); /* 缓冲区地址 */
-    
+
     /* 计算得到新的长度 */
     newlen = (len+addlen);
     if (newlen < SDS_MAX_PREALLOC)
@@ -132,10 +132,10 @@ sds sdsMakeRoomFor(sds s, size_t addlen)
     /* Don't use type 5: the user is appending to the string and type 5 is
      * not able to remember empty space, so sdsMakeRoomFor() must be called
      * at every appending operation. */
-    if (type == SDS_TYPE_5) { 
+    if (type == SDS_TYPE_5) {
         type = SDS_TYPE_8;
 	}
-	
+
     /* 计算头部大小 */
     hdrlen = sdsHdrSize(type);
 
@@ -150,17 +150,17 @@ sds sdsMakeRoomFor(sds s, size_t addlen)
          * and can't use realloc */
         newsh = s_malloc(hdrlen+newlen+1);
         if (newsh == NULL) {
-        	return NULL;  
-        } 
+        	return NULL;
+        }
         memcpy((char*)newsh+hdrlen, s, len+1);
         s_free(sh);
-        
+
         s = (char*)newsh + hdrlen;
         s[-1] = type;
-        
+
         sdssetlen(s, len);
     }
-    
+
     sdssetalloc(s, newlen);
     return s;
 }
@@ -168,7 +168,7 @@ sds sdsMakeRoomFor(sds s, size_t addlen)
 
 ## 追加字符串
 ```c
-sds sdscatlen(sds s, const void *t, size_t len) 
+sds sdscatlen(sds s, const void *t, size_t len)
 {
     size_t curlen = sdslen(s);		/* 计算字符串的长度 */
 
