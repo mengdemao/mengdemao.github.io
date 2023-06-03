@@ -1,4 +1,4 @@
-<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>C++增强笔记 - 编程日志</title><meta name=Description content="C++增强笔记"><meta property="og:title" content="C++增强笔记"><meta property="og:description" content="C++增强笔记"><meta property="og:type" content="article"><meta property="og:url" content="https://mengdemao.github.io/cxx_advance/"><meta property="og:image" content="https://mengdemao.github.io/images/avatar.webp"><meta property="article:section" content="posts"><meta property="article:published_time" content="2022-07-28T22:37:49+08:00"><meta property="article:modified_time" content="2023-05-30T22:08:19+08:00"><meta property="og:site_name" content="编程日志"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://mengdemao.github.io/images/avatar.webp"><meta name=twitter:title content="C++增强笔记"><meta name=twitter:description content="C++增强笔记"><meta name=application-name content="DoIt"><meta name=apple-mobile-web-app-title content="DoIt"><meta name=theme-color content="#f8f8f8"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://mengdemao.github.io/cxx_advance/><link rel=prev href=https://mengdemao.github.io/pthread_local_storage/><link rel=next href=https://mengdemao.github.io/cxx_enhance/><link rel=stylesheet href=/css/main.40a82f90b86e2a2d0de8dc5537accbdec2b3d8d88a1314300bde9ae62a626856.css integrity="sha256-QKgvkLhuKi0N6NxVN6zL3sKz2NiKExQwC96a5ipiaFY="><link rel=stylesheet href=/lib/normalize/normalize.min.055364f5be272caa092b0e6654c165828707f8ab971e2656383a6d6392bc345e.css integrity="sha256-BVNk9b4nLKoJKw5mVMFlgocH+KuXHiZWODptY5K8NF4="><link rel=stylesheet href=/css/color.b0a0f8c429ce52dfa2805b5f9e99ccdae1e8fbfd9adf4f3ddb409d8201fc0c5a.css integrity="sha256-sKD4xCnOUt+igFtfnpnM2uHo+/2a308920CdggH8DFo="><link rel=stylesheet href=/css/style.min.f7f261d37e3c53be955d995fbb7a7e64c08b884b20bec797ad2a50e42a009b6b.css integrity="sha256-9/Jh0348U76VXZlfu3p+ZMCLiEsgvseXrSpQ5CoAm2s="><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/fontawesome-free/all.min.43202d5486e011f9684a17bd6846b5c16a2619002bfc783f7e32e20dfb6bf857.css integrity="sha256-QyAtVIbgEfloShe9aEa1wWomGQAr/Hg/fjLiDftr+Fc="><noscript><link rel=stylesheet href=/lib/fontawesome-free/all.min.43202d5486e011f9684a17bd6846b5c16a2619002bfc783f7e32e20dfb6bf857.css integrity="sha256-QyAtVIbgEfloShe9aEa1wWomGQAr/Hg/fjLiDftr+Fc="></noscript><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="><noscript><link rel=stylesheet href=/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="></noscript><meta name=google-site-verification content="MQ8DNu27ayX6B_4ObiEDK09vGr1fdy7kOAnbd09hJk4"><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"C++增强笔记","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/mengdemao.github.io\/cxx_advance\/"},"image":["https:\/\/mengdemao.github.io\/images\/Apple-Devices-Preview.png"],"genre":"posts","keywords":"C\u002b\u002b","wordcount":229,"url":"https:\/\/mengdemao.github.io\/cxx_advance\/","datePublished":"2022-07-28T22:37:49+08:00","dateModified":"2023-05-30T22:08:19+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"xxxx","logo":{"@type":"ImageObject","url":"https:\/\/mengdemao.github.io\/images\/avatar.webp","width":528,"height":560}},"author":{"@type":"Person","name":"mengdemao"},"description":"C++增强笔记"}</script><script src=//instant.page/5.2.0 defer type=module integrity=sha384-jnZyxPjiipYXnSU0ygqeac2q7CVYMbh84q0uHVRRxEtvFPiQYbXWUorga2aqZJ0z></script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>function setTheme(e){document.body.setAttribute("theme",e),document.documentElement.style.setProperty("color-scheme",e==="light"?"light":"dark"),window.theme=e,window.isDark=window.theme!=="light"}function saveTheme(e){window.localStorage&&localStorage.setItem("theme",e)}function getMeta(e){const t=document.getElementsByTagName("meta");for(let n=0;n<t.length;n++)if(t[n].getAttribute("name")===e)return t[n];return""}if(window.localStorage&&localStorage.getItem("theme")){let e=localStorage.getItem("theme");e==="light"||e==="dark"||e==="black"?setTheme(e):setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}else"auto"==="light"||"auto"==="dark"||"auto"==="black"?(setTheme("auto"),saveTheme("auto")):(saveTheme("auto"),setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));let metaColors={light:"#f8f8f8",dark:"#252627",black:"#000000"};getMeta("theme-color").content=metaColors[document.body.getAttribute("theme")],window.switchThemeEventSet=new Set</script><div id=back-to-top></div><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=header-title-pre><i class='far fa-edit fa-fw'></i></span><span id=desktop-header-typeit class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/series/>系列 </a><a class=menu-item href=/authors/>作者 </a><a class=menu-item href=/showcase/>作品 </a><a class=menu-item href=/categories/documentation/>文档 </a><a class=menu-item href=/about/>关于 </a><a class=menu-item href=https://github.com/mengdemao/github.io title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw'></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<!doctype html><html lang=zh-CN><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>C++增强笔记 - 编程日志</title><meta name=Description content="C++增强笔记"><meta property="og:title" content="C++增强笔记"><meta property="og:description" content="C++增强笔记"><meta property="og:type" content="article"><meta property="og:url" content="https://mengdemao.github.io/cxx_advance/"><meta property="og:image" content="https://mengdemao.github.io/images/avatar.webp"><meta property="article:section" content="posts"><meta property="article:published_time" content="2022-07-28T22:37:49+08:00"><meta property="article:modified_time" content="2023-06-04T01:18:56+08:00"><meta property="og:site_name" content="编程日志"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://mengdemao.github.io/images/avatar.webp"><meta name=twitter:title content="C++增强笔记"><meta name=twitter:description content="C++增强笔记"><meta name=application-name content="DoIt"><meta name=apple-mobile-web-app-title content="DoIt"><meta name=theme-color content="#f8f8f8"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://mengdemao.github.io/cxx_advance/><link rel=prev href=https://mengdemao.github.io/pthread_local_storage/><link rel=next href=https://mengdemao.github.io/cxx_enhance/><link rel=stylesheet href=/css/main.40a82f90b86e2a2d0de8dc5537accbdec2b3d8d88a1314300bde9ae62a626856.css integrity="sha256-QKgvkLhuKi0N6NxVN6zL3sKz2NiKExQwC96a5ipiaFY="><link rel=stylesheet href=/lib/normalize/normalize.min.055364f5be272caa092b0e6654c165828707f8ab971e2656383a6d6392bc345e.css integrity="sha256-BVNk9b4nLKoJKw5mVMFlgocH+KuXHiZWODptY5K8NF4="><link rel=stylesheet href=/css/color.b0a0f8c429ce52dfa2805b5f9e99ccdae1e8fbfd9adf4f3ddb409d8201fc0c5a.css integrity="sha256-sKD4xCnOUt+igFtfnpnM2uHo+/2a308920CdggH8DFo="><link rel=stylesheet href=/css/style.min.f7f261d37e3c53be955d995fbb7a7e64c08b884b20bec797ad2a50e42a009b6b.css integrity="sha256-9/Jh0348U76VXZlfu3p+ZMCLiEsgvseXrSpQ5CoAm2s="><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/fontawesome-free/all.min.43202d5486e011f9684a17bd6846b5c16a2619002bfc783f7e32e20dfb6bf857.css integrity="sha256-QyAtVIbgEfloShe9aEa1wWomGQAr/Hg/fjLiDftr+Fc="><noscript><link rel=stylesheet href=/lib/fontawesome-free/all.min.43202d5486e011f9684a17bd6846b5c16a2619002bfc783f7e32e20dfb6bf857.css integrity="sha256-QyAtVIbgEfloShe9aEa1wWomGQAr/Hg/fjLiDftr+Fc="></noscript><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="><noscript><link rel=stylesheet href=/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="></noscript><meta name=google-site-verification content="MQ8DNu27ayX6B_4ObiEDK09vGr1fdy7kOAnbd09hJk4"><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"C++增强笔记","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/mengdemao.github.io\/cxx_advance\/"},"image":["https:\/\/mengdemao.github.io\/images\/Apple-Devices-Preview.png"],"genre":"posts","keywords":"C\u002b\u002b","wordcount":7346,"url":"https:\/\/mengdemao.github.io\/cxx_advance\/","datePublished":"2022-07-28T22:37:49+08:00","dateModified":"2023-06-04T01:18:56+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"xxxx","logo":{"@type":"ImageObject","url":"https:\/\/mengdemao.github.io\/images\/avatar.webp","width":528,"height":560}},"author":{"@type":"Person","name":"mengdemao"},"description":"C++增强笔记"}</script><script src=//instant.page/5.2.0 defer type=module integrity=sha384-jnZyxPjiipYXnSU0ygqeac2q7CVYMbh84q0uHVRRxEtvFPiQYbXWUorga2aqZJ0z></script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>function setTheme(e){document.body.setAttribute("theme",e),document.documentElement.style.setProperty("color-scheme",e==="light"?"light":"dark"),window.theme=e,window.isDark=window.theme!=="light"}function saveTheme(e){window.localStorage&&localStorage.setItem("theme",e)}function getMeta(e){const t=document.getElementsByTagName("meta");for(let n=0;n<t.length;n++)if(t[n].getAttribute("name")===e)return t[n];return""}if(window.localStorage&&localStorage.getItem("theme")){let e=localStorage.getItem("theme");e==="light"||e==="dark"||e==="black"?setTheme(e):setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}else"auto"==="light"||"auto"==="dark"||"auto"==="black"?(setTheme("auto"),saveTheme("auto")):(saveTheme("auto"),setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));let metaColors={light:"#f8f8f8",dark:"#252627",black:"#000000"};getMeta("theme-color").content=metaColors[document.body.getAttribute("theme")],window.switchThemeEventSet=new Set</script><div id=back-to-top></div><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=header-title-pre><i class='far fa-edit fa-fw'></i></span><span id=desktop-header-typeit class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/series/>系列 </a><a class=menu-item href=/authors/>作者 </a><a class=menu-item href=/showcase/>作品 </a><a class=menu-item href=/categories/documentation/>文档 </a><a class=menu-item href=/about/>关于 </a><a class=menu-item href=https://github.com/mengdemao/github.io title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw'></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
 <input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
 <a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw"></i></a>
 <a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw"></i></a>
@@ -9,16 +9,672 @@
 <a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw"></i></a>
 <span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin"></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts/ title>所有文章</a><a class=menu-item href=/tags/ title>标签</a><a class=menu-item href=/categories/ title>分类</a><a class=menu-item href=/series/ title>系列</a><a class=menu-item href=/authors/ title>作者</a><a class=menu-item href=/showcase/ title>作品</a><a class=menu-item href=/categories/documentation/ title>文档</a><a class=menu-item href=/about/ title>关于</a><a class=menu-item href=https://github.com/mengdemao/github.io title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw'></i></a><a href=javascript:void(0); class="menu-item theme-select" title=切换主题>
 <i class="fas fa-adjust fa-fw"></i>
-<select class=color-theme-select id=theme-select-mobile title=切换主题><option value=light>浅色</option><option value=dark>深色</option><option value=black>黑色</option><option value=auto>跟随系统</option></select></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto><nav id=TableOfContents><ul><li><a href=#对象模型>对象模型</a></li><li><a href=#运行期间>运行期间</a><ul><li><a href=#函数对象>函数对象</a></li><li><a href=#右值引用>右值引用</a></li></ul></li><li><a href=#构造函数>构造函数</a></li><li><a href=#智能指针>智能指针</a><ul><li><a href=#raii-与引用计数>RAII 与引用计数</a></li><li><a href=#stdshared_ptr>std::shared_ptr</a></li><li><a href=#stdunique_ptr>std::unique_ptr</a></li><li><a href=#stdweak_ptr>std::weak_ptr</a></li></ul></li><li><a href=#强制类型转换>强制类型转换</a><ul><li><a href=#c风格的强制转换>C风格的强制转换</a></li><li><a href=#const_cast>const_cast</a></li><li><a href=#static_cast>static_cast</a></li><li><a href=#dynamic_cast>dynamic_cast</a></li><li><a href=#reinterpret_cast>reinterpret_cast</a></li></ul></li><li><a href=#模板类型>模板类型</a><ul><li><a href=#class-templates>class templates,</a></li><li><a href=#function-templates>function templates</a></li><li><a href=#variable-templates>variable templates.</a></li><li><a href=#alias-templates>alias templates</a></li></ul></li></ul></nav></div></div><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC","true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">C++增强笔记</h1><div class=post-meta><div class=post-meta-line><span class=post-author><span class="author fas fa-user-circle fa-fw"></span><a href=https://github.com/mengdemao title=Author target=_blank rel="noopener noreferrer author" class=author>mengdemao</a>
-</span>&nbsp;<span class=post-category>收录于 </span>&nbsp;<span class=post-category>类别 <a href=/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/><i class="far fa-folder fa-fw"></i>编程语言</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2022-07-28>2022-07-28</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime=2023-05-30>2023-05-30</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 229 字&nbsp;
-<i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 1 分钟&nbsp;</div></div><div class=featured-image><img loading=eager src=/featuredImage/13.jpg srcset="/featuredImage/13.jpg, /featuredImage/13.jpg 1.5x, /featuredImage/13.jpg 2x" sizes=auto alt=/featuredImage/13.jpg title=C++增强笔记 height=auto width=auto></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>目录</span>
-<span><i class="details-icon fas fa-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#对象模型>对象模型</a></li><li><a href=#运行期间>运行期间</a><ul><li><a href=#函数对象>函数对象</a></li><li><a href=#右值引用>右值引用</a></li></ul></li><li><a href=#构造函数>构造函数</a></li><li><a href=#智能指针>智能指针</a><ul><li><a href=#raii-与引用计数>RAII 与引用计数</a></li><li><a href=#stdshared_ptr>std::shared_ptr</a></li><li><a href=#stdunique_ptr>std::unique_ptr</a></li><li><a href=#stdweak_ptr>std::weak_ptr</a></li></ul></li><li><a href=#强制类型转换>强制类型转换</a><ul><li><a href=#c风格的强制转换>C风格的强制转换</a></li><li><a href=#const_cast>const_cast</a></li><li><a href=#static_cast>static_cast</a></li><li><a href=#dynamic_cast>dynamic_cast</a></li><li><a href=#reinterpret_cast>reinterpret_cast</a></li></ul></li><li><a href=#模板类型>模板类型</a><ul><li><a href=#class-templates>class templates,</a></li><li><a href=#function-templates>function templates</a></li><li><a href=#variable-templates>variable templates.</a></li><li><a href=#alias-templates>alias templates</a></li></ul></li></ul></nav></div></div><div class=content id=content><blockquote><p>这个是我在学习<code>C++</code>语言中所记录的笔记,有可能会存在错误和遗漏,并且我有一点点C语言基础,
+<select class=color-theme-select id=theme-select-mobile title=切换主题><option value=light>浅色</option><option value=dark>深色</option><option value=black>黑色</option><option value=auto>跟随系统</option></select></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto><nav id=TableOfContents><ul><li><a href=#对象模型>对象模型</a><ul><li><a href=#关于对象object-lessons>关于对象(Object Lessons)</a><ul><li><a href=#c对象模型>C++对象模型</a></li></ul></li><li><a href=#构造函数语意学>构造函数语意学</a></li><li><a href=#data语意学>Data语意学</a></li><li><a href=#function语意学>Function语意学</a></li><li><a href=#构造析构拷贝语意学>构造、析构、拷贝语意学</a></li><li><a href=#执行期语意学>执行期语意学</a></li><li><a href=#站在对象模型的类端>站在对象模型的类端</a></li></ul></li><li><a href=#构造函数>构造函数</a><ul><li><a href=#普通构造默认构造函数>普通构造(默认构造函数)</a></li><li><a href=#拷贝构造>拷贝构造</a></li><li><a href=#移动构造>移动构造</a></li><li><a href=#委托构造>委托构造</a></li></ul></li><li><a href=#移动语意>移动语意</a></li><li><a href=#智能指针>智能指针</a><ul><li><a href=#stdunique_ptr><code>std::unique_ptr</code></a></li><li><a href=#stdshared_ptr><code>std::shared_ptr</code></a></li><li><a href=#stdweak_ptr><code>std::weak_ptr</code></a></li></ul></li><li><a href=#强制类型转换>强制类型转换</a><ul><li><a href=#c风格的强制转换>C风格的强制转换</a></li><li><a href=#const_cast><code>const_cast</code></a></li><li><a href=#static_cast><code>static_cast</code></a></li><li><a href=#dynamic_cast><code>dynamic_cast</code></a></li><li><a href=#reinterpret_cast><code>reinterpret_cast</code></a></li></ul></li></ul></nav></div></div><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC","true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">C++增强笔记</h1><div class=post-meta><div class=post-meta-line><span class=post-author><span class="author fas fa-user-circle fa-fw"></span><a href=https://github.com/mengdemao title=Author target=_blank rel="noopener noreferrer author" class=author>mengdemao</a>
+</span>&nbsp;<span class=post-category>收录于 </span>&nbsp;<span class=post-category>类别 <a href=/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/><i class="far fa-folder fa-fw"></i>编程语言</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2022-07-28>2022-07-28</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime=2023-06-04>2023-06-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 7346 字&nbsp;
+<i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 15 分钟&nbsp;</div></div><div class=featured-image><img loading=eager src=/featuredImage/13.jpg srcset="/featuredImage/13.jpg, /featuredImage/13.jpg 1.5x, /featuredImage/13.jpg 2x" sizes=auto alt=/featuredImage/13.jpg title=C++增强笔记 height=auto width=auto></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#对象模型>对象模型</a><ul><li><a href=#关于对象object-lessons>关于对象(Object Lessons)</a><ul><li><a href=#c对象模型>C++对象模型</a></li></ul></li><li><a href=#构造函数语意学>构造函数语意学</a></li><li><a href=#data语意学>Data语意学</a></li><li><a href=#function语意学>Function语意学</a></li><li><a href=#构造析构拷贝语意学>构造、析构、拷贝语意学</a></li><li><a href=#执行期语意学>执行期语意学</a></li><li><a href=#站在对象模型的类端>站在对象模型的类端</a></li></ul></li><li><a href=#构造函数>构造函数</a><ul><li><a href=#普通构造默认构造函数>普通构造(默认构造函数)</a></li><li><a href=#拷贝构造>拷贝构造</a></li><li><a href=#移动构造>移动构造</a></li><li><a href=#委托构造>委托构造</a></li></ul></li><li><a href=#移动语意>移动语意</a></li><li><a href=#智能指针>智能指针</a><ul><li><a href=#stdunique_ptr><code>std::unique_ptr</code></a></li><li><a href=#stdshared_ptr><code>std::shared_ptr</code></a></li><li><a href=#stdweak_ptr><code>std::weak_ptr</code></a></li></ul></li><li><a href=#强制类型转换>强制类型转换</a><ul><li><a href=#c风格的强制转换>C风格的强制转换</a></li><li><a href=#const_cast><code>const_cast</code></a></li><li><a href=#static_cast><code>static_cast</code></a></li><li><a href=#dynamic_cast><code>dynamic_cast</code></a></li><li><a href=#reinterpret_cast><code>reinterpret_cast</code></a></li></ul></li></ul></nav></div></div><div class=content id=content><blockquote><p>这个是我在学习<code>C++</code>语言中所记录的笔记,有可能会存在错误和遗漏,并且我有一点点C语言基础,
 会大量的提及C语言与C++的不同,从而造成笔记晦涩;
-另外C++的学习是一个长期且艰难的过程,因此本文进行了切分;</p></blockquote><p><a href=https://mengdemao.github.io/cxx_basic/ rel>C++基础笔记</a></br><a href=https://mengdemao.github.io/cxx_enhance/ rel>C++提高笔记</a></br><a href=https://mengdemao.github.io/cxx_advance/ rel>C++增强笔记</a></br><a href=https://mengdemao.github.io/cxx_template/ rel>C++模板笔记</a></br></p><h2 id=对象模型 class=headerLink><a href=#%e5%af%b9%e8%b1%a1%e6%a8%a1%e5%9e%8b class=header-mark></a>1 对象模型</h2><h2 id=运行期间 class=headerLink><a href=#%e8%bf%90%e8%a1%8c%e6%9c%9f%e9%97%b4 class=header-mark></a>2 运行期间</h2><h3 id=函数对象 class=headerLink><a href=#%e5%87%bd%e6%95%b0%e5%af%b9%e8%b1%a1 class=header-mark></a>2.1 函数对象</h3><h3 id=右值引用 class=headerLink><a href=#%e5%8f%b3%e5%80%bc%e5%bc%95%e7%94%a8 class=header-mark></a>2.2 右值引用</h3><h2 id=构造函数 class=headerLink><a href=#%e6%9e%84%e9%80%a0%e5%87%bd%e6%95%b0 class=header-mark></a>3 构造函数</h2><ul><li>普通构造</li><li>拷贝构造</li><li>移动构造</li><li>委托构造</li></ul><h2 id=智能指针 class=headerLink><a href=#%e6%99%ba%e8%83%bd%e6%8c%87%e9%92%88 class=header-mark></a>4 智能指针</h2><h3 id=raii-与引用计数 class=headerLink><a href=#raii-%e4%b8%8e%e5%bc%95%e7%94%a8%e8%ae%a1%e6%95%b0 class=header-mark></a>4.1 RAII 与引用计数</h3><h3 id=stdshared_ptr class=headerLink><a href=#stdshared_ptr class=header-mark></a>4.2 std::shared_ptr</h3><h3 id=stdunique_ptr class=headerLink><a href=#stdunique_ptr class=header-mark></a>4.3 std::unique_ptr</h3><h3 id=stdweak_ptr class=headerLink><a href=#stdweak_ptr class=header-mark></a>4.4 std::weak_ptr</h3><h2 id=强制类型转换 class=headerLink><a href=#%e5%bc%ba%e5%88%b6%e7%b1%bb%e5%9e%8b%e8%bd%ac%e6%8d%a2 class=header-mark></a>5 强制类型转换</h2><h3 id=c风格的强制转换 class=headerLink><a href=#c%e9%a3%8e%e6%a0%bc%e7%9a%84%e5%bc%ba%e5%88%b6%e8%bd%ac%e6%8d%a2 class=header-mark></a>5.1 C风格的强制转换</h3><h3 id=const_cast class=headerLink><a href=#const_cast class=header-mark></a>5.2 const_cast</h3><h3 id=static_cast class=headerLink><a href=#static_cast class=header-mark></a>5.3 static_cast</h3><h3 id=dynamic_cast class=headerLink><a href=#dynamic_cast class=header-mark></a>5.4 dynamic_cast</h3><h3 id=reinterpret_cast class=headerLink><a href=#reinterpret_cast class=header-mark></a>5.5 reinterpret_cast</h3><h2 id=模板类型 class=headerLink><a href=#%e6%a8%a1%e6%9d%bf%e7%b1%bb%e5%9e%8b class=header-mark></a>6 模板类型</h2><h3 id=class-templates class=headerLink><a href=#class-templates class=header-mark></a>6.1 class templates,</h3><h3 id=function-templates class=headerLink><a href=#function-templates class=header-mark></a>6.2 function templates</h3><h3 id=variable-templates class=headerLink><a href=#variable-templates class=header-mark></a>6.3 variable templates.</h3><h3 id=alias-templates class=headerLink><a href=#alias-templates class=header-mark></a>6.4 alias templates</h3></div><h2>相关内容</h2><div class=related-container><div class=related-item-container><div class=related-image><a href=/cxx_basic/><img loading=lazy src=/featuredImage/13.jpg srcset="/featuredImage/13.jpg, /featuredImage/13.jpg 1.5x, /featuredImage/13.jpg 2x" sizes=auto alt=/featuredImage/13.jpg title=C++增强笔记 height=200 width=400></a></div><h2 class=related-title><a href=/cxx_basic/>C++基础笔记</a></h2></div><div class=related-item-container><div class=related-image><a href=/cxx_enhance/><img loading=lazy src=/featuredImage/13.jpg srcset="/featuredImage/13.jpg, /featuredImage/13.jpg 1.5x, /featuredImage/13.jpg 2x" sizes=auto alt=/featuredImage/13.jpg title=C++增强笔记 height=200 width=400></a></div><h2 class=related-title><a href=/cxx_enhance/>C++提高笔记</a></h2></div><div class=related-item-container><div class=related-image><a href=/cxx_template/><img loading=lazy src=/featuredImage/01.png srcset="/featuredImage/01.png, /featuredImage/01.png 1.5x, /featuredImage/01.png 2x" sizes=auto alt=/featuredImage/01.png title=C++增强笔记 height=200 width=400></a></div><h2 class=related-title><a href=/cxx_template/>C++模板</a></h2></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2023-05-30&nbsp;<a class=git-hash href=https://github.com/mengdemao/github.io.git/commit/96d53b957adde9d41a787a18574915a55df91069 target=_blank title="commit by Meng Demao(mengdemao19951021@163.com) 96d53b957adde9d41a787a18574915a55df91069: update configure files" rel="noopener noreferrer">
-<i class="fas fa-hashtag fa-fw"></i>96d53b9</a></span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-mardown href=/cxx_advance/index.md target=_blank rel="noopener noreferrer">阅读原始文档</a>
+另外C++的学习是一个长期且艰难的过程,因此本文进行了切分;</p></blockquote><p><a href=https://mengdemao.github.io/cxx_basic/ rel>C++基础笔记</a></br><a href=https://mengdemao.github.io/cxx_enhance/ rel>C++提高笔记</a></br><a href=https://mengdemao.github.io/cxx_advance/ rel>C++增强笔记</a></br><a href=https://mengdemao.github.io/cxx_template/ rel>C++模板笔记</a></br></p><h2 id=对象模型 class=headerLink><a href=#%e5%af%b9%e8%b1%a1%e6%a8%a1%e5%9e%8b class=header-mark></a>1 对象模型</h2><blockquote><ul><li>对象模型是一种描述计算机程序中的对象及其相互关系的方式。在面向对象编程中，每个对象都有一个类型、属性和方法。对象之间可以相互通信，从而实现特定的任务。</li><li>在对象模型中，对象类是描述对象的通用模板。每个类都有一组属性和方法，它们定义了该类的行为。当我们创建一个对象时，我们使用该类来生成该对象，并且该对象将具备该类所定义的属性和方法。</li><li>对象之间可以通过消息传递进行通信。消息包含了一个方法调用请求，接收者也就是被调用的对象会执行该方法，并将结果返回给发送者。这种方式实现了数据和操作的封装，使得程序的实现更加模块化和灵活。</li><li>总之，对象模型是一种以对象为基本单位的编程范式，通过对对象的抽象，实现了高度复用性、可扩展性和可维护性的程序设计。</li></ul></blockquote><h3 id=关于对象object-lessons class=headerLink><a href=#%e5%85%b3%e4%ba%8e%e5%af%b9%e8%b1%a1object-lessons class=header-mark></a>1.1 关于对象(Object Lessons)</h3><p>在C++中农, Point3d可以 使用独立的抽象数据类型(abstract data types ADT)</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c++ data-lang=c++><span class=line><span class=cl><span class=k>class</span> <span class=nc>Point3d</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>Point3d</span><span class=p>(</span><span class=kt>float</span> <span class=n>x</span> <span class=o>=</span> <span class=mf>0.0</span><span class=p>,</span> <span class=kt>float</span> <span class=n>y</span> <span class=o>=</span> <span class=mf>0.0</span><span class=p>,</span> <span class=kt>float</span> <span class=n>z</span> <span class=o>=</span> <span class=mf>0.0</span><span class=p>)</span> <span class=o>:</span> <span class=n>_x</span><span class=p>(</span><span class=n>x</span><span class=p>),</span> <span class=n>_y</span><span class=p>(</span><span class=n>y</span><span class=p>),</span> <span class=n>_z</span><span class=p>(</span><span class=n>z</span><span class=p>)</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>    <span class=kt>float</span> <span class=nf>x</span><span class=p>()</span> <span class=k>const</span> <span class=p>{</span> <span class=k>return</span> <span class=n>_x</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=kt>float</span> <span class=nf>y</span><span class=p>()</span> <span class=k>const</span> <span class=p>{</span> <span class=k>return</span> <span class=n>_y</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=kt>float</span> <span class=nf>z</span><span class=p>()</span> <span class=k>const</span> <span class=p>{</span> <span class=k>return</span> <span class=n>_z</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>private</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=kt>float</span> <span class=n>_x</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>float</span> <span class=n>_y</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>float</span> <span class=n>_z</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>inline</span> <span class=n>std</span><span class=o>::</span><span class=n>ostream</span><span class=o>&amp;</span> <span class=k>operator</span> <span class=o>&lt;&lt;</span> <span class=p>(</span><span class=n>std</span><span class=o>::</span><span class=n>ostream</span> <span class=o>&amp;</span><span class=n>os</span><span class=p>,</span> <span class=k>const</span> <span class=n>Point3d</span> <span class=o>&amp;</span><span class=n>pt</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>os</span> <span class=o>&lt;&lt;</span> <span class=sc>&#39;{&#39;</span> <span class=o>&lt;&lt;</span> <span class=n>pt</span><span class=p>.</span><span class=n>x</span><span class=p>()</span> <span class=o>&lt;&lt;</span> <span class=n>pt</span><span class=p>.</span><span class=n>y</span><span class=p>()</span> <span class=o>&lt;&lt;</span> <span class=n>pt</span><span class=p>.</span><span class=n>z</span><span class=p>()</span> <span class=o>&lt;&lt;</span> <span class=sc>&#39;}&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>os</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>双层或者三层class体系</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c++ data-lang=c++><span class=line><span class=cl><span class=k>class</span> <span class=nc>Point</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>Point</span><span class=p>(</span><span class=kt>float</span> <span class=n>x</span> <span class=o>=</span> <span class=mf>0.0</span><span class=p>)</span> <span class=o>:</span> <span class=n>_x</span><span class=p>(</span><span class=n>x</span><span class=p>)</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>    <span class=kt>float</span> <span class=nf>x</span><span class=p>()</span> <span class=k>const</span> <span class=p>{</span> <span class=k>return</span> <span class=n>_x</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=nf>x</span><span class=p>(</span><span class=kt>float</span> <span class=n>val</span> <span class=o>=</span> <span class=mf>0.0</span><span class=p>)</span> <span class=p>{</span> <span class=n>_x</span> <span class=o>=</span> <span class=n>val</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>protected</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=kt>float</span> <span class=n>_x</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>Point2d</span> <span class=o>:</span> <span class=k>public</span> <span class=n>Point</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>Point2d</span><span class=p>(</span><span class=kt>float</span> <span class=n>x</span> <span class=o>=</span> <span class=mf>0.0</span><span class=p>,</span> <span class=kt>float</span> <span class=n>y</span> <span class=o>=</span> <span class=mf>0.0</span><span class=p>)</span> <span class=o>:</span> <span class=n>Point</span><span class=p>(</span><span class=n>x</span><span class=p>),</span> <span class=n>_y</span><span class=p>(</span><span class=n>y</span><span class=p>)</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>    <span class=kt>float</span> <span class=nf>y</span><span class=p>()</span> <span class=k>const</span> <span class=p>{</span> <span class=k>return</span> <span class=n>_y</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=nf>y</span><span class=p>(</span><span class=kt>float</span> <span class=n>val</span> <span class=o>=</span> <span class=mf>0.0</span><span class=p>)</span> <span class=p>{</span> <span class=n>_y</span> <span class=o>=</span> <span class=n>val</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>protected</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=kt>float</span> <span class=n>_y</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>Point3d</span> <span class=o>:</span> <span class=k>public</span> <span class=n>Point2d</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>Point3d</span><span class=p>(</span><span class=kt>float</span> <span class=n>x</span> <span class=o>=</span> <span class=mf>0.0</span><span class=p>,</span> <span class=kt>float</span> <span class=n>y</span> <span class=o>=</span> <span class=mf>0.0</span><span class=p>,</span> <span class=kt>float</span> <span class=n>z</span> <span class=o>=</span> <span class=mf>0.0</span><span class=p>)</span> <span class=o>:</span> <span class=n>Point2d</span><span class=p>(</span><span class=n>x</span><span class=p>,</span> <span class=n>y</span><span class=p>),</span> <span class=n>_z</span><span class=p>(</span><span class=n>z</span><span class=p>)</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>    <span class=kt>float</span> <span class=nf>z</span><span class=p>()</span> <span class=k>const</span> <span class=p>{</span> <span class=k>return</span> <span class=n>_z</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=nf>z</span><span class=p>(</span><span class=kt>float</span> <span class=n>val</span> <span class=o>=</span> <span class=mf>0.0</span><span class=p>)</span> <span class=p>{</span> <span class=n>_z</span> <span class=o>=</span> <span class=n>val</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>protected</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=kt>float</span> <span class=n>_z</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>inline</span> <span class=n>std</span><span class=o>::</span><span class=n>ostream</span><span class=o>&amp;</span> <span class=k>operator</span> <span class=o>&lt;&lt;</span> <span class=p>(</span><span class=n>std</span><span class=o>::</span><span class=n>ostream</span> <span class=o>&amp;</span><span class=n>os</span><span class=p>,</span> <span class=k>const</span> <span class=n>Point3d</span> <span class=o>&amp;</span><span class=n>pt</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>os</span> <span class=o>&lt;&lt;</span> <span class=sc>&#39;{&#39;</span> <span class=o>&lt;&lt;</span> <span class=n>pt</span><span class=p>.</span><span class=n>x</span><span class=p>()</span> <span class=o>&lt;&lt;</span> <span class=n>pt</span><span class=p>.</span><span class=n>y</span><span class=p>()</span> <span class=o>&lt;&lt;</span> <span class=n>pt</span><span class=p>.</span><span class=n>z</span><span class=p>()</span> <span class=o>&lt;&lt;</span> <span class=sc>&#39;}&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>os</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>更近一步，不管哪一种形式，他们都可以被参数化,也可以坐标参数化</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c++ data-lang=c++><span class=line><span class=cl><span class=k>template</span><span class=o>&lt;</span><span class=k>class</span> <span class=nc>T</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>Point3d</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>Point3d</span><span class=p>(</span><span class=n>T</span> <span class=n>x</span> <span class=o>=</span> <span class=mf>0.0</span><span class=p>,</span> <span class=n>T</span> <span class=n>y</span> <span class=o>=</span> <span class=mf>0.0</span><span class=p>,</span> <span class=n>T</span> <span class=n>z</span> <span class=o>=</span> <span class=mf>0.0</span><span class=p>)</span> <span class=o>:</span> <span class=n>_x</span><span class=p>(</span><span class=n>x</span><span class=p>),</span> <span class=n>_y</span><span class=p>(</span><span class=n>y</span><span class=p>),</span> <span class=n>_z</span><span class=p>(</span><span class=n>z</span><span class=p>)</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>    <span class=n>T</span> <span class=nf>x</span><span class=p>()</span> <span class=k>const</span> <span class=p>{</span> <span class=k>return</span> <span class=n>_x</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=n>T</span> <span class=nf>y</span><span class=p>()</span> <span class=k>const</span> <span class=p>{</span> <span class=k>return</span> <span class=n>_y</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=n>T</span> <span class=nf>z</span><span class=p>()</span> <span class=k>const</span> <span class=p>{</span> <span class=k>return</span> <span class=n>_z</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>private</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>T</span> <span class=n>_x</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>T</span> <span class=n>_y</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>T</span> <span class=n>_z</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>template</span><span class=o>&lt;</span><span class=k>class</span> <span class=nc>T</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=kr>inline</span> <span class=n>std</span><span class=o>::</span><span class=n>ostream</span><span class=o>&amp;</span> <span class=k>operator</span> <span class=o>&lt;&lt;</span> <span class=p>(</span><span class=n>std</span><span class=o>::</span><span class=n>ostream</span> <span class=o>&amp;</span><span class=n>os</span><span class=p>,</span> <span class=k>const</span> <span class=n>Point3d</span><span class=o>&lt;</span><span class=n>T</span><span class=o>&gt;</span> <span class=o>&amp;</span><span class=n>pt</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>os</span> <span class=o>&lt;&lt;</span> <span class=sc>&#39;{&#39;</span> <span class=o>&lt;&lt;</span> <span class=n>pt</span><span class=p>.</span><span class=n>x</span><span class=p>()</span> <span class=o>&lt;&lt;</span> <span class=n>pt</span><span class=p>.</span><span class=n>y</span><span class=p>()</span> <span class=o>&lt;&lt;</span> <span class=n>pt</span><span class=p>.</span><span class=n>z</span><span class=p>()</span> <span class=o>&lt;&lt;</span> <span class=sc>&#39;}&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>os</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>也可以是坐标类型和坐标数目都参数化</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c++ data-lang=c++><span class=line><span class=cl><span class=k>template</span><span class=o>&lt;</span><span class=k>class</span> <span class=nc>T</span><span class=p>,</span> <span class=kt>int</span> <span class=n>dim</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>Point</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>Point</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=n>Point</span><span class=p>(</span><span class=n>T</span> <span class=n>coords</span><span class=p>[</span><span class=n>dim</span><span class=p>])</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>index</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>index</span> <span class=o>&lt;</span> <span class=n>dim</span><span class=p>;</span> <span class=n>index</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>_coords</span><span class=p>[</span><span class=n>index</span><span class=p>]</span> <span class=o>=</span> <span class=n>coords</span><span class=p>[</span><span class=n>index</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>T</span><span class=o>&amp;</span> <span class=k>operator</span><span class=p>[](</span><span class=kt>int</span> <span class=n>index</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>assert</span><span class=p>(</span><span class=n>index</span> <span class=o>&lt;</span> <span class=n>dim</span> <span class=o>&amp;&amp;</span> <span class=n>index</span> <span class=o>&gt;=</span> <span class=mi>0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>_coords</span><span class=p>[</span><span class=n>index</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>T</span> <span class=k>operator</span><span class=p>[](</span><span class=kt>int</span> <span class=n>index</span><span class=p>)</span> <span class=k>const</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>assert</span><span class=p>(</span><span class=n>index</span> <span class=o>&lt;</span> <span class=n>dim</span> <span class=o>&amp;&amp;</span> <span class=n>index</span> <span class=o>&gt;=</span> <span class=mi>0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>_coords</span><span class=p>[</span><span class=n>index</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>private</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>T</span> <span class=n>_coords</span><span class=p>[</span><span class=n>dim</span><span class=p>];</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>template</span><span class=o>&lt;</span><span class=k>class</span> <span class=nc>T</span><span class=p>,</span> <span class=kt>int</span> <span class=n>dim</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=kr>inline</span> <span class=n>std</span><span class=o>::</span><span class=n>ostream</span><span class=o>&amp;</span> <span class=k>operator</span> <span class=o>&lt;&lt;</span> <span class=p>(</span><span class=n>std</span><span class=o>::</span><span class=n>ostream</span> <span class=o>&amp;</span><span class=n>os</span><span class=p>,</span> <span class=k>const</span> <span class=n>Point</span><span class=o>&lt;</span><span class=n>T</span><span class=p>,</span> <span class=n>dim</span><span class=o>&gt;</span> <span class=o>&amp;</span><span class=n>pt</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>os</span> <span class=o>&lt;&lt;</span> <span class=sc>&#39;{&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;=</span> <span class=n>dim</span> <span class=o>-</span> <span class=mi>1</span><span class=p>;</span> <span class=n>i</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>os</span> <span class=o>&lt;&lt;</span> <span class=n>pt</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;;&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=n>os</span> <span class=o>&lt;&lt;</span> <span class=sc>&#39;}&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>os</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><strong>加上封装后的布局成本</strong></p><ul><li><strong>virtual function机制</strong></li><li><strong>virtual base class机制</strong></li></ul><h4 id=c对象模型 class=headerLink><a href=#c%e5%af%b9%e8%b1%a1%e6%a8%a1%e5%9e%8b class=header-mark></a>1.1.1 C++对象模型</h4><p>在C++中,有两种class data member: <code>static</code>和<code>nonstatic</code>
+有三种class function member: <code>static</code>,<code>nonstatic</code>与<code>virtual</code></p><p>已知下面的class point的声明:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c++ data-lang=c++><span class=line><span class=cl><span class=k>class</span> <span class=nc>Point</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>	<span class=n>Point</span><span class=p>(</span><span class=kt>float</span> <span class=n>val</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=k>virtual</span> <span class=o>~</span><span class=n>Point</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>	<span class=kt>float</span> <span class=nf>x</span><span class=p>()</span> <span class=k>const</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>static</span> <span class=kt>int</span> <span class=nf>PointCount</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl><span class=k>protected</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>	<span class=k>virtual</span> <span class=n>ostream</span><span class=o>&amp;</span> <span class=n>print</span><span class=p>(</span><span class=n>ostream</span> <span class=o>&amp;</span><span class=n>os</span><span class=p>)</span> <span class=k>const</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>	<span class=kt>float</span> <span class=n>_x</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>static</span> <span class=kt>int</span> <span class=n>_point_count</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>那么这个class point在机器中将会怎么样表现呢?也就是说我们如何模型(modeling)出各种data member与function member呢?</p><p>**C++ 对象模型(The C++ Object Model )**的实现,即C++之父的最终设想</p><h3 id=构造函数语意学 class=headerLink><a href=#%e6%9e%84%e9%80%a0%e5%87%bd%e6%95%b0%e8%af%ad%e6%84%8f%e5%ad%a6 class=header-mark></a>1.2 构造函数语意学</h3><h3 id=data语意学 class=headerLink><a href=#data%e8%af%ad%e6%84%8f%e5%ad%a6 class=header-mark></a>1.3 Data语意学</h3><h3 id=function语意学 class=headerLink><a href=#function%e8%af%ad%e6%84%8f%e5%ad%a6 class=header-mark></a>1.4 Function语意学</h3><h3 id=构造析构拷贝语意学 class=headerLink><a href=#%e6%9e%84%e9%80%a0%e6%9e%90%e6%9e%84%e6%8b%b7%e8%b4%9d%e8%af%ad%e6%84%8f%e5%ad%a6 class=header-mark></a>1.5 构造、析构、拷贝语意学</h3><h3 id=执行期语意学 class=headerLink><a href=#%e6%89%a7%e8%a1%8c%e6%9c%9f%e8%af%ad%e6%84%8f%e5%ad%a6 class=header-mark></a>1.6 执行期语意学</h3><h3 id=站在对象模型的类端 class=headerLink><a href=#%e7%ab%99%e5%9c%a8%e5%af%b9%e8%b1%a1%e6%a8%a1%e5%9e%8b%e7%9a%84%e7%b1%bb%e7%ab%af class=header-mark></a>1.7 站在对象模型的类端</h3><h2 id=构造函数 class=headerLink><a href=#%e6%9e%84%e9%80%a0%e5%87%bd%e6%95%b0 class=header-mark></a>2 构造函数</h2><h3 id=普通构造默认构造函数 class=headerLink><a href=#%e6%99%ae%e9%80%9a%e6%9e%84%e9%80%a0%e9%bb%98%e8%ae%a4%e6%9e%84%e9%80%a0%e5%87%bd%e6%95%b0 class=header-mark></a>2.1 普通构造(默认构造函数)</h3><p>在C++中，构造函数是一种特殊的成员函数，其名称与类名称相同，用于初始化实例化的对象的成员变量。构造函数没有返回类型声明，并且通常被声明为公共成员函数。当创建一个对象时，构造函数被自动调用。</p><p>普通构造函数（也称为默认构造函数）是不带参数的构造函数。它可以通过一个空的参数列表来定义，如下所示：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c++ data-lang=c++><span class=line><span class=cl><span class=n>cpp</span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>MyClass</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>MyClass</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 构造函数代码
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><p>这个类的构造函数不需要任何参数，并且在创建对象时会自动调用。我们可以在构造函数中添加代码来初始化类的各种成员变量，例如：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c++ data-lang=c++><span class=line><span class=cl><span class=k>class</span> <span class=nc>MyClass</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>MyClass</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>num</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>str</span> <span class=o>=</span> <span class=s>&#34;&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>private</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>num</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>string</span> <span class=n>str</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><p>在上面的例子中，我们设置了两个私有成员变量num和str的初始值。</p><p>此外，如果您想初始化一个常量成员变量，您需要使用构造函数的成员初始化列表，如下所示：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c++ data-lang=c++><span class=line><span class=cl><span class=k>class</span> <span class=nc>MyClass</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>MyClass</span><span class=p>()</span> <span class=o>:</span> <span class=n>constVar</span><span class=p>(</span><span class=mi>10</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 构造函数代码
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=k>private</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>const</span> <span class=kt>int</span> <span class=n>constVar</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><p>在上面的例子中，我们使用构造函数的成员初始化列表来初始化constVar常量成员变量。</p><p>总之，构造函数是用于初始化对象的重要部分。在设计类时，需要考虑到对象的初始化方式，以确保所有成员变量都被正确地初始化。</p><h3 id=拷贝构造 class=headerLink><a href=#%e6%8b%b7%e8%b4%9d%e6%9e%84%e9%80%a0 class=header-mark></a>2.2 拷贝构造</h3><p>在C++中，拷贝构造函数是一种特殊的构造函数，用于将一个对象复制到另一个对象。它通常用于按值传递参数或以值返回对象的情况下，从而创建一个新的独立对象。拷贝构造函数也可以用于初始化一个对象数组或在创建对象时调用默认构造函数。</p><p>拷贝构造函数有以下格式：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>class</span> <span class=nc>MyClass</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>MyClass</span><span class=p>(</span><span class=k>const</span> <span class=n>MyClass</span><span class=o>&amp;</span> <span class=n>other</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 拷贝构造函数代码
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><p>在上面的代码中，参数other是对同类对象的引用。我们可以使用other来访问它的成员变量，并将其复制到当前对象中。</p><p>以下是一个简单的拷贝构造函数示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>class</span> <span class=nc>MyClass</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>num</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 普通构造函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>MyClass</span><span class=p>(</span><span class=kt>int</span> <span class=n>n</span><span class=p>)</span> <span class=o>:</span> <span class=n>num</span><span class=p>(</span><span class=n>n</span><span class=p>)</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 拷贝构造函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>MyClass</span><span class=p>(</span><span class=k>const</span> <span class=n>MyClass</span><span class=o>&amp;</span> <span class=n>other</span><span class=p>)</span> <span class=o>:</span> <span class=n>num</span><span class=p>(</span><span class=n>other</span><span class=p>.</span><span class=n>num</span><span class=p>)</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>MyClass</span> <span class=n>obj1</span><span class=p>(</span><span class=mi>10</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>MyClass</span> <span class=n>obj2</span> <span class=o>=</span> <span class=n>obj1</span><span class=p>;</span>  <span class=c1>// 调用拷贝构造函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>obj1</span><span class=p>.</span><span class=n>num</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span>  <span class=c1>// 输出 10
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>obj2</span><span class=p>.</span><span class=n>num</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span>  <span class=c1>// 输出 10
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>在上面的代码中，我们定义了一个MyClass类，它具有一个整数类型的成员变量num。我们定义了一个普通构造函数和一个拷贝构造函数来初始化num成员变量。在主函数中，我们创建了一个名为obj1的MyClass对象，并将其值设置为10。然后，我们使用obj1初始化了另一个MyClass对象obj2，这将调用拷贝构造函数。最后，我们输出obj1和obj2的num成员变量，结果均为10。</p><p>需要注意的是，默认情况下，C++会提供一个默认的拷贝构造函数，该函数执行浅拷贝。如果要实现深拷贝，则需要自定义拷贝构造函数来复制指向动态分配内存的指针或其他资源。</p><h3 id=移动构造 class=headerLink><a href=#%e7%a7%bb%e5%8a%a8%e6%9e%84%e9%80%a0 class=header-mark></a>2.3 移动构造</h3><p>在C++11之后，引入了移动语义的概念，也就是通过将资源所有权从一个对象转移到另一个对象，从而提高程序性能。移动构造函数是一种特殊的构造函数，用于实现移动语义。它通常用于将临时对象的值移动到新对象中。</p><p>移动构造函数有以下格式：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c++ data-lang=c++><span class=line><span class=cl><span class=k>class</span> <span class=nc>MyClass</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>MyClass</span><span class=p>(</span><span class=n>MyClass</span><span class=o>&amp;&amp;</span> <span class=n>other</span><span class=p>)</span> <span class=k>noexcept</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 移动构造函数代码
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><p>在上面的代码中，参数other是对同类对象的右值引用。我们可以使用std::move(other)来访问其成员变量，并将其移动到当前对象中。需要注意的是，在移动构造函数中必须使用noexcept关键字进行标记，以确保不会抛出异常。</p><p>以下是一个简单的移动构造函数示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c++ data-lang=c++><span class=line><span class=cl><span class=k>class</span> <span class=nc>MyClass</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span><span class=o>*</span> <span class=n>data</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>size_t</span> <span class=n>size</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 普通构造函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>MyClass</span><span class=p>(</span><span class=n>size_t</span> <span class=n>s</span><span class=p>)</span> <span class=o>:</span> <span class=n>data</span><span class=p>(</span><span class=k>new</span> <span class=kt>int</span><span class=p>[</span><span class=n>s</span><span class=p>]),</span> <span class=n>size</span><span class=p>(</span><span class=n>s</span><span class=p>)</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 移动构造函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>MyClass</span><span class=p>(</span><span class=n>MyClass</span><span class=o>&amp;&amp;</span> <span class=n>other</span><span class=p>)</span> <span class=k>noexcept</span> <span class=o>:</span> <span class=n>data</span><span class=p>(</span><span class=n>other</span><span class=p>.</span><span class=n>data</span><span class=p>),</span> <span class=n>size</span><span class=p>(</span><span class=n>other</span><span class=p>.</span><span class=n>size</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>other</span><span class=p>.</span><span class=n>data</span> <span class=o>=</span> <span class=k>nullptr</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>other</span><span class=p>.</span><span class=n>size</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 析构函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=o>~</span><span class=n>MyClass</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>delete</span><span class=p>[]</span> <span class=n>data</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>MyClass</span> <span class=n>obj1</span><span class=p>(</span><span class=mi>10</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>MyClass</span> <span class=n>obj2</span><span class=p>(</span><span class=n>std</span><span class=o>::</span><span class=n>move</span><span class=p>(</span><span class=n>obj1</span><span class=p>));</span>  <span class=c1>// 调用移动构造函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>obj2</span><span class=p>.</span><span class=n>size</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span>  <span class=c1>// 输出 10
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>obj1</span><span class=p>.</span><span class=n>size</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span>  <span class=c1>// 输出 0
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>在上面的代码中，我们定义了一个MyClass类，它具有一个指向int类型的动态数组data和一个size_t类型的size成员变量。我们定义了一个普通构造函数来初始化data和size成员变量，并使用delete[]释放data内存。</p><p>然后，我们定义了一个移动构造函数，它将data和size成员变量从临时对象other中移动到当前对象中。在移动完之后，我们将临时对象other的data指针设置为nullptr，以确保不会删除已经释放的内存。</p><p>在主函数中，我们创建了一个名为obj1的MyClass对象，并将其大小设置为10。然后，我们使用std::move(obj1)将值移动到新的MyClass对象obj2中，这将调用移动构造函数。最后，我们输出obj1和obj2的size成员变量，结果分别为0和10。</p><p>需要注意的是，移动构造函数只能用于右值引用参数，不能用于左值引用或常量引用参数。</p><h3 id=委托构造 class=headerLink><a href=#%e5%a7%94%e6%89%98%e6%9e%84%e9%80%a0 class=header-mark></a>2.4 委托构造</h3><p>在C++11之后，引入了委托构造函数的概念。委托构造函数是一种特殊的构造函数，可以在一个构造函数中调用另一个构造函数来完成对象的初始化。这使得代码更加简洁，减少了冗余代码的编写。</p><p>委托构造函数有以下格式：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c++ data-lang=c++><span class=line><span class=cl><span class=k>class</span> <span class=nc>MyClass</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>MyClass</span><span class=p>(</span><span class=kt>int</span> <span class=n>num</span><span class=p>,</span> <span class=n>string</span> <span class=n>str</span><span class=p>)</span> <span class=o>:</span> <span class=n>num</span><span class=p>(</span><span class=n>num</span><span class=p>),</span> <span class=n>str</span><span class=p>(</span><span class=n>str</span><span class=p>)</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>MyClass</span><span class=p>()</span> <span class=o>:</span> <span class=n>MyClass</span><span class=p>(</span><span class=mi>0</span><span class=p>,</span> <span class=s>&#34;&#34;</span><span class=p>)</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><p>在上面的代码中，我们定义了一个MyClass类，具有两个私有成员变量num和str。我们定义了一个带参数的构造函数，以及一个不带参数的构造函数。在不带参数的构造函数中，我们通过调用带参数的构造函数并传递默认值来实现对象的初始化。这就是委托构造函数的应用。</p><p>需要注意的是，如果要在委托构造函数中使用成员初始化列表，则必须在委托构造函数调用前执行。例如：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c++ data-lang=c++><span class=line><span class=cl><span class=k>class</span> <span class=nc>MyClass</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>MyClass</span><span class=p>(</span><span class=kt>int</span> <span class=n>num</span><span class=p>,</span> <span class=n>string</span> <span class=n>str</span><span class=p>)</span> <span class=o>:</span> <span class=n>num</span><span class=p>(</span><span class=n>num</span><span class=p>),</span> <span class=n>str</span><span class=p>(</span><span class=n>str</span><span class=p>)</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>MyClass</span><span class=p>()</span> <span class=o>:</span> <span class=n>MyClass</span><span class=p>(</span><span class=mi>0</span><span class=p>,</span> <span class=s>&#34;&#34;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 委托构造函数调用后，还可以添加其他构造函数代码
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><p>在上面的代码中，我们先调用委托构造函数，然后可以在构造函数中添加其他代码。</p><p>总之，委托构造函数是一种非常有用的C++11语言特性，可以使代码更加简洁和可读。</p><h2 id=移动语意 class=headerLink><a href=#%e7%a7%bb%e5%8a%a8%e8%af%ad%e6%84%8f class=header-mark></a>3 移动语意</h2><blockquote><p>移动语义是C++11中引入的一种新特性，通过将资源的所有权从一个对象转移到另一个对象来提高程序的性能</p></blockquote><h2 id=智能指针 class=headerLink><a href=#%e6%99%ba%e8%83%bd%e6%8c%87%e9%92%88 class=header-mark></a>4 智能指针</h2><blockquote><p>智能指针是一种 C++ 的语言特性，用于管理动态分配内存的生命周期。它可以自动跟踪一个对象被多少个指针引用，并在不需要时释放对象占用的内存。
+C++ 智能指针的实现一般采用 RAII（Resource Acquisition Is Initialization）技术，即资源获取即初始化。当一个智能指针对象被创建时，它会自动申请分配所需的内存空间，并将所指对象的指针保存在自己的成员变量中。当这个智能指针对象被销毁时，它会自动释放其所占用的内存空间。</p></blockquote><h3 id=stdunique_ptr class=headerLink><a href=#stdunique_ptr class=header-mark></a>4.1 <code>std::unique_ptr</code></h3><blockquote><p>std::unique_ptr 是 C++ 11 标准中提供的一种智能指针，用于管理独占式所有权的资源。
+它采用了 RAII 技术，可以自动管理资源的生命周期。</p></blockquote><p><a href=https://en.cppreference.com/w/cpp/memory/unique_ptr target=_blank rel="noopener noreferrer">unique_ptr参考实现</a></p><p>std::unique_ptr 的最大特点是“独占性”，即同一时间内只能有一个 std::unique_ptr 指向一个资源（内存块、文件句柄等）。当 std::unique_ptr 对象被销毁时，它所管理的资源也会被自动释放，从而避免了内存泄漏和资源泄露等问题。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c++ data-lang=c++><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=c1>// 创建一个指向 int 类型的 unique_ptr
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=n>std</span><span class=o>::</span><span class=n>unique_ptr</span><span class=o>&lt;</span><span class=kt>int</span><span class=o>&gt;</span> <span class=n>p1</span><span class=p>(</span><span class=k>new</span> <span class=kt>int</span><span class=p>(</span><span class=mi>10</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=o>*</span><span class=n>p1</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>  <span class=c1>// 输出 10
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>  <span class=c1>// 将 p1 转移给 p2，并释放 p1 原本所管理的内存
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=n>std</span><span class=o>::</span><span class=n>unique_ptr</span><span class=o>&lt;</span><span class=kt>int</span><span class=o>&gt;</span> <span class=n>p2</span> <span class=o>=</span> <span class=n>std</span><span class=o>::</span><span class=n>move</span><span class=p>(</span><span class=n>p1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=o>*</span><span class=n>p2</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>  <span class=c1>// 输出 10
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=o>*</span><span class=n>p1</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>  <span class=c1>// 错误，p1 已不再指向有效内存,此时直接就会崩溃
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>  <span class=c1>// 使用 make_unique 创建一个指向数组的 unique_ptr
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=n>std</span><span class=o>::</span><span class=n>unique_ptr</span><span class=o>&lt;</span><span class=kt>int</span><span class=p>[]</span><span class=o>&gt;</span> <span class=n>p3</span> <span class=o>=</span> <span class=n>std</span><span class=o>::</span><span class=n>make_unique</span><span class=o>&lt;</span><span class=kt>int</span><span class=p>[]</span><span class=o>&gt;</span><span class=p>(</span><span class=mi>5</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=mi>5</span><span class=p>;</span> <span class=o>++</span><span class=n>i</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>p3</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=o>=</span> <span class=n>i</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=mi>5</span><span class=p>;</span> <span class=o>++</span><span class=n>i</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>p3</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=o>&lt;&lt;</span> <span class=s>&#34; &#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>  <span class=c1>// 输出 0 1 2 3 4
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=stdshared_ptr class=headerLink><a href=#stdshared_ptr class=header-mark></a>4.2 <code>std::shared_ptr</code></h3><p><code>shared_ptr</code>是C++11中的一种智能指针类型，可以用于管理动态分配的对象，以防止内存泄漏。</p><p>使用<code>shared_ptr</code>时需要注意以下几点：</p><ol><li><code>shared_ptr</code>管理的对象必须是通过<code>new</code>关键字动态分配出来的。</li><li>如果多个<code>shared_ptr</code>指向同一个对象，那么该对象的引用计数会增加，当所有<code>shared_ptr</code>都销毁时，对象的引用计数会减少。当引用计数为0时，对象会被自动删除。这样保证了动态分配的对象不会发生内存泄漏。</li></ol><p><a href=https://en.cppreference.com/w/cpp/memory/shared_ptr target=_blank rel="noopener noreferrer">shared_ptr参考实现</a></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c++ data-lang=c++><span class=line><span class=cl><span class=k>class</span> <span class=nc>MyClass</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>  <span class=n>MyClass</span><span class=p>()</span> <span class=p>{</span> <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;MyClass constructor&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=o>~</span><span class=n>MyClass</span><span class=p>()</span> <span class=p>{</span> <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;MyClass destructor&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=kt>void</span> <span class=nf>sayHello</span><span class=p>()</span> <span class=p>{</span> <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Hello, world!&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=n>std</span><span class=o>::</span><span class=n>shared_ptr</span><span class=o>&lt;</span><span class=n>MyClass</span><span class=o>&gt;</span> <span class=n>ptr1</span><span class=p>(</span><span class=k>new</span> <span class=n>MyClass</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>shared_ptr</span><span class=o>&lt;</span><span class=n>MyClass</span><span class=o>&gt;</span> <span class=n>ptr2</span> <span class=o>=</span> <span class=n>ptr1</span><span class=p>;</span> <span class=c1>// 引用计数+1
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>std</span><span class=o>::</span><span class=n>shared_ptr</span><span class=o>&lt;</span><span class=n>MyClass</span><span class=o>&gt;</span> <span class=n>ptr3</span><span class=p>(</span><span class=n>ptr1</span><span class=p>);</span> <span class=c1>// 引用计数+1
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>ptr2</span><span class=o>-&gt;</span><span class=n>sayHello</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span> <span class=c1>// 引用计数-2
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=n>ptr1</span><span class=o>-&gt;</span><span class=n>sayHello</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=stdweak_ptr class=headerLink><a href=#stdweak_ptr class=header-mark></a>4.3 <code>std::weak_ptr</code></h3><p><code>weak_ptr</code>也是C++11中的一个智能指针类型，它可以被用来协助<code>shared_ptr</code>进行管理动态分配的对象。与<code>shared_ptr</code>不同的是，<code>weak_ptr</code>不会增加对象的引用计数，因此不会对对象的生命周期产生影响。</p><p><a href=https://en.cppreference.com/w/cpp/memory/weak_ptr target=_blank rel="noopener noreferrer">weak_ptr参考实现</a></p><p><code>weak_ptr</code>通常用于需要访问<code>shared_ptr</code>所管理的对象，但又不希望影响该对象生命周期的情况，例如：</p><ol><li>避免循环引用：当存在多个对象相互引用时，使用<code>weak_ptr</code>可以避免出现循环引用导致对象无法正确释放的问题。</li><li>延迟初始化：当对象的创建成本较高时，可以使用<code>weak_ptr</code>延迟初始化对象，只有在需要访问对象时才创建对象。这样可以提高程序的性能。</li></ol><p>下面是一个使用<code>weak_ptr</code>的例子：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c++ data-lang=c++><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;memory&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>MyClass</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>  <span class=n>MyClass</span><span class=p>()</span> <span class=p>{</span> <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;MyClass constructor&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=o>~</span><span class=n>MyClass</span><span class=p>()</span> <span class=p>{</span> <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;MyClass destructor&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=kt>void</span> <span class=nf>sayHello</span><span class=p>()</span> <span class=p>{</span> <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Hello, world!&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=n>std</span><span class=o>::</span><span class=n>weak_ptr</span><span class=o>&lt;</span><span class=n>MyClass</span><span class=o>&gt;</span> <span class=n>ptr1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>shared_ptr</span><span class=o>&lt;</span><span class=n>MyClass</span><span class=o>&gt;</span> <span class=n>ptr2</span><span class=p>(</span><span class=k>new</span> <span class=n>MyClass</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>ptr1</span> <span class=o>=</span> <span class=n>ptr2</span><span class=p>;</span> <span class=c1>// 使用weak_ptr保存shared_ptr
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;ptr2.use_count(): &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>ptr2</span><span class=p>.</span><span class=n>use_count</span><span class=p>()</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span> <span class=c1>// 输出1
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>ptr1</span><span class=p>.</span><span class=n>expired</span><span class=p>())</span> <span class=p>{</span> <span class=c1>// 判断是否已经被释放
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>std</span><span class=o>::</span><span class=n>shared_ptr</span><span class=o>&lt;</span><span class=n>MyClass</span><span class=o>&gt;</span> <span class=n>ptr3</span> <span class=o>=</span> <span class=n>ptr1</span><span class=p>.</span><span class=n>lock</span><span class=p>();</span> <span class=c1>// 获取shared_ptr
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>ptr3</span><span class=o>-&gt;</span><span class=n>sayHello</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;ptr3.use_count(): &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>ptr3</span><span class=p>.</span><span class=n>use_count</span><span class=p>()</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span> <span class=c1>// 输出1
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;shared_ptr has been released.&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>在上面的代码中，首先定义了一个名为<code>MyClass</code>的类，在<code>main()</code>函数中，使用<code>weak_ptr</code>对象<code>ptr1</code>保存了一个尚未创建的<code>shared_ptr</code>。接着，定义了一个名为<code>ptr2</code>的<code>shared_ptr</code>，并将其作为参数传递给了<code>ptr1</code>，此时该对象的引用计数为1。</p><p>在<code>ptr2</code>生命周期结束后，判断<code>ptr1</code>所指向的对象是否已经被释放，如果没有被释放，则使用<code>lock()</code>函数获取<code>ptr1</code>所指向的<code>shared_ptr</code>，然后调用<code>sayHello()</code>方法输出一条信息。</p><p>需要注意的是，由于这里是通过<code>lock()</code>函数获取<code>shared_ptr</code>，因此要确保在使用<code>shared_ptr</code>对象之前，要对<code>expired()</code>进行检查，以防止在<code>lock()</code>函数执行期间，<code>shared_ptr</code>对象已经被释放导致问题发生。</p><p>总之，<code>weak_ptr</code>可以有效地解决循环引用和延迟初始化等问题，同时还可以提供更为灵活的内存管理方式。</p><h2 id=强制类型转换 class=headerLink><a href=#%e5%bc%ba%e5%88%b6%e7%b1%bb%e5%9e%8b%e8%bd%ac%e6%8d%a2 class=header-mark></a>5 强制类型转换</h2><h3 id=c风格的强制转换 class=headerLink><a href=#c%e9%a3%8e%e6%a0%bc%e7%9a%84%e5%bc%ba%e5%88%b6%e8%bd%ac%e6%8d%a2 class=header-mark></a>5.1 C风格的强制转换</h3><blockquote><p>顾名思义，就是C强制类型转换</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c++ data-lang=c++><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>10</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=kt>float</span> <span class=n>j</span> <span class=o>=</span> <span class=p>(</span><span class=kt>float</span><span class=p>)</span><span class=n>i</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=const_cast class=headerLink><a href=#const_cast class=header-mark></a>5.2 <code>const_cast</code></h3><p>在 C++ 中，const_cast 是一种用于去除类型的 const 属性的强制类型转换。它可以用来将 const 变量转换为非 const 变量，或者将指向 const 对象的指针转换为指向非 const 对象的指针。</p><p><code>const_cast&lt;type>(expression)</code></p><p>其中，type 表示欲转换的目标类型，expression 表示要进行转换的表达式。需要注意的是，const_cast 只能用于去除 const 属性，如果尝试使用它来添加 const 属性或者将一种类型转换成另一种类型，则会导致未定义的行为。</p><p>一个常见的用途是通过 const_cast 去除 const 属性，以便修改对象的值。例如：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c++ data-lang=c++><span class=line><span class=cl><span class=k>const</span> <span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>10</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span><span class=o>&amp;</span> <span class=n>r</span> <span class=o>=</span> <span class=k>const_cast</span><span class=o>&lt;</span><span class=kt>int</span><span class=o>&amp;&gt;</span><span class=p>(</span><span class=n>i</span><span class=p>);</span> <span class=c1>// 去除 i 的 const 属性
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>r</span> <span class=o>=</span> <span class=mi>20</span><span class=p>;</span> <span class=c1>// 修改 r 的值
+</span></span></span></code></pre></td></tr></table></div></div><p>需要注意的是，虽然 const_cast 可以让你去除 const 属性，但这并不意味着你可以随意修改原始对象的值。如果原始对象是 const 类型，则其值仍然不能被修改。</p><h3 id=static_cast class=headerLink><a href=#static_cast class=header-mark></a>5.3 <code>static_cast</code></h3><p><a href=https://en.cppreference.com/w/cpp/language/static_cast target=_blank rel="noopener noreferrer">static_cast参考实现</a></p><p>在 C++ 中，static_cast 是一种用于进行静态类型转换的强制类型转换。它可以将一种类型转换为另一种类型，但是只能进行安全的转换，即编译器能够在编译时确定类型转换是有效的。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c++ data-lang=c++><span class=line><span class=cl><span class=k>static_cast</span><span class=o>&lt;</span><span class=n>type</span><span class=o>&gt;</span><span class=p>(</span><span class=n>expression</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>其中，type 表示欲转换的目标类型，expression 表示要进行转换的表达式。</p><p>下面是 static_cast 常见的几种用法：</p><p>将一种算术类型转换为另一种算术类型。
+例如，将一个 int 类型的变量转换成一个 float 类型的变量：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c++ data-lang=c++><span class=line><span class=cl><span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>10</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kt>float</span> <span class=n>f</span> <span class=o>=</span> <span class=k>static_cast</span><span class=o>&lt;</span><span class=kt>float</span><span class=o>&gt;</span><span class=p>(</span><span class=n>i</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>将一个指针类型转换为另一个指针类型。
+例如，将一个基类指针转换为派生类指针：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c++ data-lang=c++><span class=line><span class=cl><span class=k>class</span> <span class=nc>Base</span> <span class=p>{};</span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>Derived</span> <span class=o>:</span> <span class=k>public</span> <span class=n>Base</span> <span class=p>{};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>Base</span><span class=o>*</span> <span class=n>b</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Derived</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>Derived</span><span class=o>*</span> <span class=n>d</span> <span class=o>=</span> <span class=k>static_cast</span><span class=o>&lt;</span><span class=n>Derived</span><span class=o>*&gt;</span><span class=p>(</span><span class=n>b</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>需要注意的是，在进行指针类型转换时，static_cast 并不能保证其结果是有效的。因此，在进行指针类型转换时应该格外谨慎，并尽可能避免使用 static_cast 进行指针类型的转换。</p><p>将一个对象转换成一个与之相关的类型。
+例如，将一个结构体转换成一个 union：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c++ data-lang=c++><span class=line><span class=cl><span class=k>struct</span> <span class=nc>S</span> <span class=p>{</span> <span class=kt>int</span> <span class=n>i</span><span class=p>;</span> <span class=p>};</span>
+</span></span><span class=line><span class=cl><span class=k>union</span> <span class=nc>U</span> <span class=p>{</span> <span class=kt>int</span> <span class=n>i</span><span class=p>;</span> <span class=kt>float</span> <span class=n>f</span><span class=p>;</span> <span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>S</span> <span class=n>s</span> <span class=o>=</span> <span class=p>{</span><span class=mi>10</span><span class=p>};</span>
+</span></span><span class=line><span class=cl><span class=n>U</span> <span class=n>u</span> <span class=o>=</span> <span class=k>static_cast</span><span class=o>&lt;</span><span class=n>U</span><span class=o>&gt;</span><span class=p>(</span><span class=n>s</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>需要注意的是，static_cast 并不能用于执行动态类型转换。如果要进行动态类型转换，则应该使用 dynamic_cast。</p><h3 id=dynamic_cast class=headerLink><a href=#dynamic_cast class=header-mark></a>5.4 <code>dynamic_cast</code></h3><p>在 C++ 中，dynamic_cast 是一种用于进行动态类型转换的强制类型转换。它可以将一个指向基类的指针或引用转换为指向派生类的指针或引用，同时还提供了类型安全检查，避免了类型转换时出现错误。</p><p>dynamic_cast<type>(expression)</p><p>其中，type 表示欲转换的目标类型，expression 表示要进行转换的表达式。需要注意的是，dynamic_cast 只能用于含有虚函数的类层次结构中，否则编译时会出错。</p><p>下面是 dynamic_cast 常见的几种用法：</p><p>将指向基类的指针或引用转换为指向派生类的指针或引用。
+例如，将一个基类指针转换为派生类指针：</p><p>class Base {
+public:
+virtual ~Base() {}
+};</p><p>class Derived : public Base {};</p><p>Base* b = new Derived;
+Derived* d = dynamic_cast&lt;Derived*>(b);
+需要注意的是，如果将一个指向基类的指针或引用转换为指向派生类的指针或引用失败，则 dynamic_cast 返回 nullptr（对于指针）或抛出 std::bad_cast 异常（对于引用）。</p><p>在类之间进行安全的向下转型。
+例如，将一个基类指针或引用转换为指向某个派生类的指针或引用，以便访问派生类的成员函数或成员变量。</p><p>class Base {
+public:
+virtual ~Base() {}
+};</p><p>class Derived : public Base {
+public:
+void derivedFunc() {}
+};</p><p>Base* b = new Derived;
+Derived* d = dynamic_cast&lt;Derived*>(b);
+if (d != nullptr) {
+d->derivedFunc();
+}
+需要注意的是，dynamic_cast 的使用应该尽可能地避免。它通常表明了不良的设计，因为它破坏了抽象基类的概念，并且会导致代码的可维护性下降。</p><h3 id=reinterpret_cast class=headerLink><a href=#reinterpret_cast class=header-mark></a>5.5 <code>reinterpret_cast</code></h3><p>在 C++ 中，reinterpret_cast 是一种用于进行底层类型转换的强制类型转换。它可以将一个指针或引用类型的值转换为另一种不同类型的指针或引用类型的值，而且转换是不安全的，因为它会取消类型之间的任何类型检查。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c++ data-lang=c++><span class=line><span class=cl><span class=k>reinterpret_cast</span><span class=o>&lt;</span><span class=n>type</span><span class=o>&gt;</span><span class=p>(</span><span class=n>expression</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>其中，type 表示欲转换的目标类型，expression 表示要进行转换的表达式。需要注意的是，reinterpret_cast 可以在指针、引用、整数与指针之间进行转换，但是如果对不存在的类型使用 reinterpret_cast，则可能导致未定义的行为。</p><p>下面是 reinterpret_cast 常见的几种用法：</p><p>将一个指向某个类型的指针转换为指向另一种类型的指针。
+例如，将一个 int 类型的指针转换成 char 类型的指针：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c++ data-lang=c++><span class=line><span class=cl><span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>10</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kt>char</span><span class=o>*</span> <span class=n>p</span> <span class=o>=</span> <span class=k>reinterpret_cast</span><span class=o>&lt;</span><span class=kt>char</span><span class=o>*&gt;</span><span class=p>(</span><span class=o>&amp;</span><span class=n>i</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>需要注意的是，由于 reinterpret_cast 取消了类型之间的任何类型检查，因此在进行指针类型转换时应该格外谨慎，并尽可能避免使用 reinterpret_cast 进行指针类型的转换。</p><p>将一个指针转换成一个整数类型。
+例如，将一个指向 int 类型的指针转换为一个 unsigned long 类型的整数：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c++ data-lang=c++><span class=line><span class=cl><span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>10</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kt>unsigned</span> <span class=kt>long</span> <span class=n>n</span> <span class=o>=</span> <span class=k>reinterpret_cast</span><span class=o>&lt;</span><span class=kt>unsigned</span> <span class=kt>long</span><span class=o>&gt;</span><span class=p>(</span><span class=o>&amp;</span><span class=n>i</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>需要注意的是，由于指针的大小和整数的大小可能不同，因此在进行指针与整数之间的转换时应该格外谨慎。</p></div><h2>相关内容</h2><div class=related-container><div class=related-item-container><div class=related-image><a href=/cxx_basic/><img loading=lazy src=/featuredImage/13.jpg srcset="/featuredImage/13.jpg, /featuredImage/13.jpg 1.5x, /featuredImage/13.jpg 2x" sizes=auto alt=/featuredImage/13.jpg title=C++增强笔记 height=200 width=400></a></div><h2 class=related-title><a href=/cxx_basic/>C++基础笔记</a></h2></div><div class=related-item-container><div class=related-image><a href=/cxx_enhance/><img loading=lazy src=/featuredImage/13.jpg srcset="/featuredImage/13.jpg, /featuredImage/13.jpg 1.5x, /featuredImage/13.jpg 2x" sizes=auto alt=/featuredImage/13.jpg title=C++增强笔记 height=200 width=400></a></div><h2 class=related-title><a href=/cxx_enhance/>C++提高笔记</a></h2></div><div class=related-item-container><div class=related-image><a href=/cxx_template/><img loading=lazy src=/featuredImage/01.png srcset="/featuredImage/01.png, /featuredImage/01.png 1.5x, /featuredImage/01.png 2x" sizes=auto alt=/featuredImage/01.png title=C++增强笔记 height=200 width=400></a></div><h2 class=related-title><a href=/cxx_template/>C++模板</a></h2></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2023-06-04&nbsp;<a class=git-hash href=https://github.com/mengdemao/github.io.git/commit/58583feea7cf9577e508bbd60c1d64a9e742f9fd target=_blank title="commit by 孟德茂(mengdemao19951021@163.com) 58583feea7cf9577e508bbd60c1d64a9e742f9fd: 更新C++文档" rel="noopener noreferrer">
+<i class="fas fa-hashtag fa-fw"></i>58583fe</a></span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-mardown href=/cxx_advance/index.md target=_blank rel="noopener noreferrer">阅读原始文档</a>
 </span><span>|&nbsp;<a class=link-to-source href=https://github.com/mengdemao/github.io/blob/master/content/posts/cxx_advance/index.md target=_blank rel="noopener noreferrer">查看源代码</a>
 </span><span>|&nbsp;<a class=link-to-edit href=https://github.com/mengdemao/github.io/edit/master/content/posts/cxx_advance/index.md target=_blank rel="noopener noreferrer">编辑此页</a>
 </span><span>|&nbsp;<a class=link-to-report href="https://github.com/mengdemao/github.io/issues/new?title=[bug]%20C%2B%2B%E5%A2%9E%E5%BC%BA%E7%AC%94%E8%AE%B0&body=|Field|Value|%0A|-|-|%0A|Title|C%2B%2B%E5%A2%9E%E5%BC%BA%E7%AC%94%E8%AE%B0|%0A|Url|https://mengdemao.github.io/cxx_advance/|%0A|Filename|https://github.com/mengdemao/github.io/blob/main/exampleSite/content/posts/cxx_advance/index.md|" target=_blank rel="noopener noreferrer">报告问题</a></span></div><div class=post-info-share><button title="分享到 Twitter" data-sharer=twitter data-url=https://mengdemao.github.io/cxx_advance/ data-title=C++增强笔记 data-hashtags=C++><span class="fab fa-twitter fa-fw"></span></button><button title="分享到 Facebook" data-sharer=facebook data-url=https://mengdemao.github.io/cxx_advance/ data-hashtag=C++><span class="fab fa-facebook-square fa-fw"></span></button><button title="分享到 Hacker News" data-sharer=hackernews data-url=https://mengdemao.github.io/cxx_advance/ data-title=C++增强笔记><span class="fab fa-hacker-news fa-fw"></span></button><button title="分享到 Line" data-sharer=line data-url=https://mengdemao.github.io/cxx_advance/ data-title=C++增强笔记><span data-svg-src=/lib/simple-icons/icons/line.min.svg></span></button><button title="分享到 微博" data-sharer=weibo data-url=https://mengdemao.github.io/cxx_advance/ data-title=C++增强笔记 data-image=featuredImage/13.jpg data-ralateuid=xxxx><span class="fab fa-weibo fa-fw"></span></button><button title="分享到 Telegram" data-sharer=telegram data-url=https://mengdemao.github.io/cxx_advance/ data-title=C++增强笔记 data-web><span class="fab fa-telegram-plane fa-fw"></span></button></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw"></i>&nbsp;<a href=/tags/c++/>C++</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/pthread_local_storage/ class=prev rel=prev title=线程局部存储分析><i class="fas fa-angle-left fa-fw"></i>线程局部存储分析</a>
-<a href=/cxx_enhance/ class=next rel=next title=C++提高笔记>C++提高笔记<i class="fas fa-angle-right fa-fw"></i></a></div></div><div id=comments><div id=utterances></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://utteranc.es/>Utterances</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.112.5">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a></div><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2020 - 2023</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://github.com/mengdemao target=_blank rel="noopener noreferrer">mengdemao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div><div class=footer-line></div><div class=footer-line></div></div><script>"serviceWorker"in navigator&&(navigator.serviceWorker.register("/sw.min.js",{scope:"/"}).then(function(){}),navigator.serviceWorker.ready.then(function(){}))</script></footer></div><div id=fixed-buttons><a href=#back-to-top id=back-to-top-button class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw"></i>
+<a href=/cxx_enhance/ class=next rel=next title=C++提高笔记>C++提高笔记<i class="fas fa-angle-right fa-fw"></i></a></div></div><div id=comments><div id=utterances></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://utteranc.es/>Utterances</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.112.7">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.3.0"><i class="far fa-edit fa-fw"></i> DoIt</a></div><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2020 - 2023</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://github.com/mengdemao target=_blank rel="noopener noreferrer">mengdemao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div><div class=footer-line></div><div class=footer-line></div></div><script>"serviceWorker"in navigator&&(navigator.serviceWorker.register("/sw.min.js",{scope:"/"}).then(function(){}),navigator.serviceWorker.ready.then(function(){}))</script></footer></div><div id=fixed-buttons><a href=#back-to-top id=back-to-top-button class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw"></i>
 </a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw"></i></a></div><div class=assets><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:300},comment:{utterances:{darkTheme:"github-dark",issueTerm:"pathname",label:"",lightTheme:"github-light",repo:"Hugo-DoIt/utterances-comments"}},data:{"desktop-header-typeit":"编程日志","mobile-header-typeit":"编程日志"},search:{algoliaAppID:"5YGRNRQK1G",algoliaIndex:"zh_cn_index",algoliaSearchKey:"0ff6874805de24b84aa1d5ebccad56cd",highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:50,type:"algolia"},sharerjs:!0,table:{sort:!0},typeit:{cursorChar:"|",cursorSpeed:1e3,data:{"desktop-header-typeit":["desktop-header-typeit"],"mobile-header-typeit":["mobile-header-typeit"]},duration:-1,speed:100}}</script><script type=text/javascript src=/lib/tablesort/tablesort.min.92de6dec051677787aed63503575b2f9be73f21f2745574e59647bc139a92d40.js integrity="sha256-kt5t7AUWd3h67WNQNXWy+b5z8h8nRVdOWWR7wTmpLUA="></script><script type=text/javascript src=/lib/clipboard/clipboard.min.11be927cda59c8b6019ebbea838285c5beaf21183ea4b83dbd4e4fbf9413ce4a.js integrity="sha256-Eb6SfNpZyLYBnrvqg4KFxb6vIRg+pLg9vU5Pv5QTzko="></script><script type=text/javascript src=/lib/sharer/sharer.min.8fe10eb615eb163a20f795484430a012805ec7c8c11df52df54ddb7a46084254.js integrity="sha256-j+EOthXrFjog95VIRDCgEoBex8jBHfUt9U3bekYIQlQ="></script><script type=text/javascript src=/lib/typeit/typeit.min.491c13689db70b6adb3176a9a792644be7578a2f931521f5cb199d313a21c359.js integrity="sha256-SRwTaJ23C2rbMXapp5JkS+dXii+TFSH1yxmdMTohw1k="></script><script type=text/javascript src=/js/theme.min.js defer></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.js></script>
 <script type=text/javascript src=https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js></script><script type=text/javascript src=/custom/javascript/custom.js></script></div></body></html>

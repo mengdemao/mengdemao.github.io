@@ -16,48 +16,640 @@
 
 ## 对象模型
 
+> + 对象模型是一种描述计算机程序中的对象及其相互关系的方式。在面向对象编程中，每个对象都有一个类型、属性和方法。对象之间可以相互通信，从而实现特定的任务。
+> + 在对象模型中，对象类是描述对象的通用模板。每个类都有一组属性和方法，它们定义了该类的行为。当我们创建一个对象时，我们使用该类来生成该对象，并且该对象将具备该类所定义的属性和方法。
+> + 对象之间可以通过消息传递进行通信。消息包含了一个方法调用请求，接收者也就是被调用的对象会执行该方法，并将结果返回给发送者。这种方式实现了数据和操作的封装，使得程序的实现更加模块化和灵活。
+> + 总之，对象模型是一种以对象为基本单位的编程范式，通过对对象的抽象，实现了高度复用性、可扩展性和可维护性的程序设计。
+
+### 关于对象(Object Lessons)
+
+在C++中农, Point3d可以 使用独立的抽象数据类型(abstract data types ADT)
+
+```c++
+class Point3d {
+public:
+    Point3d(float x = 0.0, float y = 0.0, float z = 0.0) : _x(x), _y(y), _z(z) {}
+    float x() const { return _x; }
+    float y() const { return _y; }
+    float z() const { return _z; }
+
+private:
+    float _x;
+    float _y;
+    float _z;
+};
+
+inline std::ostream& operator << (std::ostream &os, const Point3d &pt)
+{
+    os << '{' << pt.x() << pt.y() << pt.z() << '}';
+    return os;
+}
+```
+
+双层或者三层class体系
+
+```c++
+class Point {
+public:
+    Point(float x = 0.0) : _x(x) {}
+    float x() const { return _x; }
+    void x(float val = 0.0) { _x = val; }
+
+protected:
+    float _x;
+};
+
+class Point2d : public Point {
+public:
+    Point2d(float x = 0.0, float y = 0.0) : Point(x), _y(y) {}
+    float y() const { return _y; }
+    void y(float val = 0.0) { _y = val; }
+
+protected:
+    float _y;
+};
+
+class Point3d : public Point2d {
+public:
+    Point3d(float x = 0.0, float y = 0.0, float z = 0.0) : Point2d(x, y), _z(z) {}
+    float z() const { return _z; }
+    void z(float val = 0.0) { _z = val; }
+
+protected:
+    float _z;
+};
+
+inline std::ostream& operator << (std::ostream &os, const Point3d &pt)
+{
+    os << '{' << pt.x() << pt.y() << pt.z() << '}';
+    return os;
+}
+```
+
+更近一步，不管哪一种形式，他们都可以被参数化,也可以坐标参数化
 
 
-## 运行期间
+```c++
+template<class T>
+class Point3d {
+public:
+    Point3d(T x = 0.0, T y = 0.0, T z = 0.0) : _x(x), _y(y), _z(z) {}
+    T x() const { return _x; }
+    T y() const { return _y; }
+    T z() const { return _z; }
 
-### 函数对象
+private:
+    T _x;
+    T _y;
+    T _z;
+};
 
-### 右值引用
+template<class T>
+inline std::ostream& operator << (std::ostream &os, const Point3d<T> &pt)
+{
+    os << '{' << pt.x() << pt.y() << pt.z() << '}';
+    return os;
+}
+```
+
+也可以是坐标类型和坐标数目都参数化
+
+```c++
+template<class T, int dim>
+class Point {
+public:
+    Point();
+    Point(T coords[dim]) {
+        for (int index = 0; index < dim; index++) {
+            _coords[index] = coords[index];
+        }
+    }
+
+    T& operator[](int index) {
+        assert(index < dim && index >= 0);
+        return _coords[index];
+    }
+
+    T operator[](int index) const {
+        assert(index < dim && index >= 0);
+        return _coords[index];
+    }
+
+private:
+    T _coords[dim];
+};
+
+template<class T, int dim>
+inline std::ostream& operator << (std::ostream &os, const Point<T, dim> &pt)
+{
+    os << '{';
+    for (int i = 0; i <= dim - 1; i++) {
+        os << pt[i] << ";";
+    }
+    os << '}';
+    return os;
+}
+```
+
+**加上封装后的布局成本**
+
++ **virtual function机制**
++ **virtual base class机制**
+
+#### C++对象模型
+在C++中,有两种class data member: `static`和`nonstatic`
+有三种class function member: `static`,`nonstatic`与`virtual`
+
+已知下面的class point的声明:
+
+```c++
+class Point {
+public:
+	Point(float val);
+	virtual ~Point();
+	float x() const;
+	static int PointCount();
+	
+protected:
+	virtual ostream& print(ostream &os) const;
+	
+	float _x;
+	static int _point_count;
+}
+```
+那么这个class point在机器中将会怎么样表现呢?也就是说我们如何模型(modeling)出各种data member与function member呢?
+
+**C++ 对象模型(The C++ Object Model )**的实现,即C++之父的最终设想
+
+
+### 构造函数语意学
+
+### Data语意学
+
+### Function语意学
+
+### 构造、析构、拷贝语意学
+
+### 执行期语意学
+
+### 站在对象模型的类端
 
 ## 构造函数
 
-+ 普通构造
-+ 拷贝构造
-+ 移动构造
-+ 委托构造
+### 普通构造(默认构造函数)
+
+在C++中，构造函数是一种特殊的成员函数，其名称与类名称相同，用于初始化实例化的对象的成员变量。构造函数没有返回类型声明，并且通常被声明为公共成员函数。当创建一个对象时，构造函数被自动调用。
+
+普通构造函数（也称为默认构造函数）是不带参数的构造函数。它可以通过一个空的参数列表来定义，如下所示：
+
+```c++
+cpp
+class MyClass {
+public:
+    MyClass() {
+        // 构造函数代码
+    }
+};
+```
+这个类的构造函数不需要任何参数，并且在创建对象时会自动调用。我们可以在构造函数中添加代码来初始化类的各种成员变量，例如：
+
+```c++
+class MyClass {
+public:
+    MyClass() {
+        num = 0;
+        str = "";
+    }
+
+private:
+    int num;
+    string str;
+};
+```
+在上面的例子中，我们设置了两个私有成员变量num和str的初始值。
+
+此外，如果您想初始化一个常量成员变量，您需要使用构造函数的成员初始化列表，如下所示：
+
+```c++
+class MyClass {
+public:
+    MyClass() : constVar(10) {
+        // 构造函数代码
+    }
+private:
+    const int constVar;
+};
+```
+
+在上面的例子中，我们使用构造函数的成员初始化列表来初始化constVar常量成员变量。
+
+总之，构造函数是用于初始化对象的重要部分。在设计类时，需要考虑到对象的初始化方式，以确保所有成员变量都被正确地初始化。
+
+### 拷贝构造
+
+在C++中，拷贝构造函数是一种特殊的构造函数，用于将一个对象复制到另一个对象。它通常用于按值传递参数或以值返回对象的情况下，从而创建一个新的独立对象。拷贝构造函数也可以用于初始化一个对象数组或在创建对象时调用默认构造函数。
+
+拷贝构造函数有以下格式：
+
+```cpp
+class MyClass {
+public:
+    MyClass(const MyClass& other) {
+        // 拷贝构造函数代码
+    }
+};
+```
+
+在上面的代码中，参数other是对同类对象的引用。我们可以使用other来访问它的成员变量，并将其复制到当前对象中。
+
+以下是一个简单的拷贝构造函数示例：
+
+```cpp
+class MyClass {
+public:
+    int num;
+
+    // 普通构造函数
+    MyClass(int n) : num(n) {}
+
+    // 拷贝构造函数
+    MyClass(const MyClass& other) : num(other.num) {}
+};
+
+int main() {
+    MyClass obj1(10);
+    MyClass obj2 = obj1;  // 调用拷贝构造函数
+
+    cout << obj1.num << endl;  // 输出 10
+    cout << obj2.num << endl;  // 输出 10
+
+    return 0;
+}
+```
+在上面的代码中，我们定义了一个MyClass类，它具有一个整数类型的成员变量num。我们定义了一个普通构造函数和一个拷贝构造函数来初始化num成员变量。在主函数中，我们创建了一个名为obj1的MyClass对象，并将其值设置为10。然后，我们使用obj1初始化了另一个MyClass对象obj2，这将调用拷贝构造函数。最后，我们输出obj1和obj2的num成员变量，结果均为10。
+
+需要注意的是，默认情况下，C++会提供一个默认的拷贝构造函数，该函数执行浅拷贝。如果要实现深拷贝，则需要自定义拷贝构造函数来复制指向动态分配内存的指针或其他资源。
+
+### 移动构造
+
+在C++11之后，引入了移动语义的概念，也就是通过将资源所有权从一个对象转移到另一个对象，从而提高程序性能。移动构造函数是一种特殊的构造函数，用于实现移动语义。它通常用于将临时对象的值移动到新对象中。
+
+移动构造函数有以下格式：
+
+```c++
+class MyClass {
+public:
+    MyClass(MyClass&& other) noexcept {
+        // 移动构造函数代码
+    }
+};
+```
+
+在上面的代码中，参数other是对同类对象的右值引用。我们可以使用std::move(other)来访问其成员变量，并将其移动到当前对象中。需要注意的是，在移动构造函数中必须使用noexcept关键字进行标记，以确保不会抛出异常。
+
+以下是一个简单的移动构造函数示例：
+
+```c++
+class MyClass {
+public:
+    int* data;
+    size_t size;
+
+    // 普通构造函数
+    MyClass(size_t s) : data(new int[s]), size(s) {}
+
+    // 移动构造函数
+    MyClass(MyClass&& other) noexcept : data(other.data), size(other.size) {
+        other.data = nullptr;
+        other.size = 0;
+    }
+
+    // 析构函数
+    ~MyClass() {
+        delete[] data;
+    }
+};
+
+int main() {
+    MyClass obj1(10);
+    MyClass obj2(std::move(obj1));  // 调用移动构造函数
+
+    cout << obj2.size << endl;  // 输出 10
+    cout << obj1.size << endl;  // 输出 0
+
+    return 0;
+}
+```
+在上面的代码中，我们定义了一个MyClass类，它具有一个指向int类型的动态数组data和一个size_t类型的size成员变量。我们定义了一个普通构造函数来初始化data和size成员变量，并使用delete[]释放data内存。
+
+然后，我们定义了一个移动构造函数，它将data和size成员变量从临时对象other中移动到当前对象中。在移动完之后，我们将临时对象other的data指针设置为nullptr，以确保不会删除已经释放的内存。
+
+在主函数中，我们创建了一个名为obj1的MyClass对象，并将其大小设置为10。然后，我们使用std::move(obj1)将值移动到新的MyClass对象obj2中，这将调用移动构造函数。最后，我们输出obj1和obj2的size成员变量，结果分别为0和10。
+
+需要注意的是，移动构造函数只能用于右值引用参数，不能用于左值引用或常量引用参数。
+
+### 委托构造
+
+在C++11之后，引入了委托构造函数的概念。委托构造函数是一种特殊的构造函数，可以在一个构造函数中调用另一个构造函数来完成对象的初始化。这使得代码更加简洁，减少了冗余代码的编写。
+
+委托构造函数有以下格式：
+
+```c++
+class MyClass {
+public:
+    MyClass(int num, string str) : num(num), str(str) {}
+
+    MyClass() : MyClass(0, "") {}
+};
+```
+在上面的代码中，我们定义了一个MyClass类，具有两个私有成员变量num和str。我们定义了一个带参数的构造函数，以及一个不带参数的构造函数。在不带参数的构造函数中，我们通过调用带参数的构造函数并传递默认值来实现对象的初始化。这就是委托构造函数的应用。
+
+需要注意的是，如果要在委托构造函数中使用成员初始化列表，则必须在委托构造函数调用前执行。例如：
+
+```c++
+class MyClass {
+public:
+    MyClass(int num, string str) : num(num), str(str) {}
+
+    MyClass() : MyClass(0, "") {
+        // 委托构造函数调用后，还可以添加其他构造函数代码
+    }
+};
+```
+在上面的代码中，我们先调用委托构造函数，然后可以在构造函数中添加其他代码。
+
+总之，委托构造函数是一种非常有用的C++11语言特性，可以使代码更加简洁和可读。
+
+## 移动语意
+
+> 移动语义是C++11中引入的一种新特性，通过将资源的所有权从一个对象转移到另一个对象来提高程序的性能
 
 ## 智能指针
 
-### RAII 与引用计数
+> 智能指针是一种 C++ 的语言特性，用于管理动态分配内存的生命周期。它可以自动跟踪一个对象被多少个指针引用，并在不需要时释放对象占用的内存。
+>  C++ 智能指针的实现一般采用 RAII（Resource Acquisition Is Initialization）技术，即资源获取即初始化。当一个智能指针对象被创建时，它会自动申请分配所需的内存空间，并将所指对象的指针保存在自己的成员变量中。当这个智能指针对象被销毁时，它会自动释放其所占用的内存空间。
 
-### std::shared_ptr
+### `std::unique_ptr`
 
-### std::unique_ptr
+> std::unique_ptr 是 C++ 11 标准中提供的一种智能指针，用于管理独占式所有权的资源。
+> 它采用了 RAII 技术，可以自动管理资源的生命周期。
 
-### std::weak_ptr
+[unique_ptr参考实现](https://en.cppreference.com/w/cpp/memory/unique_ptr)
+
+std::unique_ptr 的最大特点是“独占性”，即同一时间内只能有一个 std::unique_ptr 指向一个资源（内存块、文件句柄等）。当 std::unique_ptr 对象被销毁时，它所管理的资源也会被自动释放，从而避免了内存泄漏和资源泄露等问题。
+
+```c++
+int main() {
+  // 创建一个指向 int 类型的 unique_ptr
+  std::unique_ptr<int> p1(new int(10));
+
+  std::cout << *p1 << std::endl;  // 输出 10
+
+  // 将 p1 转移给 p2，并释放 p1 原本所管理的内存
+  std::unique_ptr<int> p2 = std::move(p1);
+
+  std::cout << *p2 << std::endl;  // 输出 10
+  std::cout << *p1 << std::endl;  // 错误，p1 已不再指向有效内存,此时直接就会崩溃
+
+  // 使用 make_unique 创建一个指向数组的 unique_ptr
+  std::unique_ptr<int[]> p3 = std::make_unique<int[]>(5);
+  for (int i = 0; i < 5; ++i) {
+    p3[i] = i;
+  }
+
+  for (int i = 0; i < 5; ++i) {
+    std::cout << p3[i] << " ";
+  }
+  std::cout << std::endl;  // 输出 0 1 2 3 4
+
+  return 0;
+}
+```
+
+### `std::shared_ptr`
+
+`shared_ptr`是C++11中的一种智能指针类型，可以用于管理动态分配的对象，以防止内存泄漏。
+
+使用`shared_ptr`时需要注意以下几点：
+
+1. `shared_ptr`管理的对象必须是通过`new`关键字动态分配出来的。
+2. 如果多个`shared_ptr`指向同一个对象，那么该对象的引用计数会增加，当所有`shared_ptr`都销毁时，对象的引用计数会减少。当引用计数为0时，对象会被自动删除。这样保证了动态分配的对象不会发生内存泄漏。
+
+[shared_ptr参考实现](https://en.cppreference.com/w/cpp/memory/shared_ptr)
+
+```c++
+class MyClass {
+public:
+  MyClass() { std::cout << "MyClass constructor" << std::endl; }
+  ~MyClass() { std::cout << "MyClass destructor" << std::endl; }
+  void sayHello() { std::cout << "Hello, world!" << std::endl; }
+};
+
+int main() {
+  std::shared_ptr<MyClass> ptr1(new MyClass);
+  {
+    std::shared_ptr<MyClass> ptr2 = ptr1; // 引用计数+1
+    std::shared_ptr<MyClass> ptr3(ptr1); // 引用计数+1
+    ptr2->sayHello();
+  } // 引用计数-2
+  ptr1->sayHello();
+  return 0;
+}
+```
+
+### `std::weak_ptr`
+
+`weak_ptr`也是C++11中的一个智能指针类型，它可以被用来协助`shared_ptr`进行管理动态分配的对象。与`shared_ptr`不同的是，`weak_ptr`不会增加对象的引用计数，因此不会对对象的生命周期产生影响。
+
+[weak_ptr参考实现](https://en.cppreference.com/w/cpp/memory/weak_ptr)
+
+`weak_ptr`通常用于需要访问`shared_ptr`所管理的对象，但又不希望影响该对象生命周期的情况，例如：
+
+1. 避免循环引用：当存在多个对象相互引用时，使用`weak_ptr`可以避免出现循环引用导致对象无法正确释放的问题。
+2. 延迟初始化：当对象的创建成本较高时，可以使用`weak_ptr`延迟初始化对象，只有在需要访问对象时才创建对象。这样可以提高程序的性能。
+
+下面是一个使用`weak_ptr`的例子：
+
+```c++
+#include <iostream>
+#include <memory>
+
+class MyClass {
+public:
+  MyClass() { std::cout << "MyClass constructor" << std::endl; }
+  ~MyClass() { std::cout << "MyClass destructor" << std::endl; }
+  void sayHello() { std::cout << "Hello, world!" << std::endl; }
+};
+
+int main() {
+  std::weak_ptr<MyClass> ptr1;
+  {
+    std::shared_ptr<MyClass> ptr2(new MyClass);
+    ptr1 = ptr2; // 使用weak_ptr保存shared_ptr
+    std::cout << "ptr2.use_count(): " << ptr2.use_count() << std::endl; // 输出1
+  }
+  if (!ptr1.expired()) { // 判断是否已经被释放
+    std::shared_ptr<MyClass> ptr3 = ptr1.lock(); // 获取shared_ptr
+    ptr3->sayHello();
+    std::cout << "ptr3.use_count(): " << ptr3.use_count() << std::endl; // 输出1
+  } else {
+    std::cout << "shared_ptr has been released." << std::endl;
+  }
+  return 0;
+}
+```
+
+在上面的代码中，首先定义了一个名为`MyClass`的类，在`main()`函数中，使用`weak_ptr`对象`ptr1`保存了一个尚未创建的`shared_ptr`。接着，定义了一个名为`ptr2`的`shared_ptr`，并将其作为参数传递给了`ptr1`，此时该对象的引用计数为1。
+
+在`ptr2`生命周期结束后，判断`ptr1`所指向的对象是否已经被释放，如果没有被释放，则使用`lock()`函数获取`ptr1`所指向的`shared_ptr`，然后调用`sayHello()`方法输出一条信息。
+
+需要注意的是，由于这里是通过`lock()`函数获取`shared_ptr`，因此要确保在使用`shared_ptr`对象之前，要对`expired()`进行检查，以防止在`lock()`函数执行期间，`shared_ptr`对象已经被释放导致问题发生。
+
+总之，`weak_ptr`可以有效地解决循环引用和延迟初始化等问题，同时还可以提供更为灵活的内存管理方式。
 
 ## 强制类型转换
 
 ### C风格的强制转换
 
-### const_cast
+> 顾名思义，就是C强制类型转换
 
-### static_cast 
+```c++ 
+int main()
+{
+	int i = 10;
+	float j = (float)i;
+}
+```
 
-### dynamic_cast 
+### `const_cast`
 
-### reinterpret_cast
+在 C++ 中，const_cast 是一种用于去除类型的 const 属性的强制类型转换。它可以用来将 const 变量转换为非 const 变量，或者将指向 const 对象的指针转换为指向非 const 对象的指针。
 
-## 模板类型
+`const_cast<type>(expression)`
 
-### class templates,
+其中，type 表示欲转换的目标类型，expression 表示要进行转换的表达式。需要注意的是，const_cast 只能用于去除 const 属性，如果尝试使用它来添加 const 属性或者将一种类型转换成另一种类型，则会导致未定义的行为。
 
-### function templates
+一个常见的用途是通过 const_cast 去除 const 属性，以便修改对象的值。例如：
 
-### variable templates.
-### alias templates
+```c++
+const int i = 10;
+int& r = const_cast<int&>(i); // 去除 i 的 const 属性
+r = 20; // 修改 r 的值
+```
+需要注意的是，虽然 const_cast 可以让你去除 const 属性，但这并不意味着你可以随意修改原始对象的值。如果原始对象是 const 类型，则其值仍然不能被修改。
+
+### `static_cast`
+
+[static_cast参考实现](https://en.cppreference.com/w/cpp/language/static_cast)
+
+在 C++ 中，static_cast 是一种用于进行静态类型转换的强制类型转换。它可以将一种类型转换为另一种类型，但是只能进行安全的转换，即编译器能够在编译时确定类型转换是有效的。
+
+```c++
+static_cast<type>(expression)
+```
+
+其中，type 表示欲转换的目标类型，expression 表示要进行转换的表达式。
+
+下面是 static_cast 常见的几种用法：
+
+将一种算术类型转换为另一种算术类型。
+例如，将一个 int 类型的变量转换成一个 float 类型的变量：
+```c++
+int i = 10;
+float f = static_cast<float>(i);
+```
+将一个指针类型转换为另一个指针类型。
+例如，将一个基类指针转换为派生类指针：
+```c++
+class Base {};
+class Derived : public Base {};
+
+Base* b = new Derived;
+Derived* d = static_cast<Derived*>(b);
+```
+需要注意的是，在进行指针类型转换时，static_cast 并不能保证其结果是有效的。因此，在进行指针类型转换时应该格外谨慎，并尽可能避免使用 static_cast 进行指针类型的转换。
+
+将一个对象转换成一个与之相关的类型。
+例如，将一个结构体转换成一个 union：
+```c++
+struct S { int i; };
+union U { int i; float f; };
+
+S s = {10};
+U u = static_cast<U>(s);
+```
+需要注意的是，static_cast 并不能用于执行动态类型转换。如果要进行动态类型转换，则应该使用 dynamic_cast。
+
+### `dynamic_cast` 
+
+在 C++ 中，dynamic_cast 是一种用于进行动态类型转换的强制类型转换。它可以将一个指向基类的指针或引用转换为指向派生类的指针或引用，同时还提供了类型安全检查，避免了类型转换时出现错误。
+
+dynamic_cast<type>(expression)
+
+其中，type 表示欲转换的目标类型，expression 表示要进行转换的表达式。需要注意的是，dynamic_cast 只能用于含有虚函数的类层次结构中，否则编译时会出错。
+
+下面是 dynamic_cast 常见的几种用法：
+
+将指向基类的指针或引用转换为指向派生类的指针或引用。
+例如，将一个基类指针转换为派生类指针：
+
+class Base {
+public:
+    virtual ~Base() {}
+};
+
+class Derived : public Base {};
+
+Base* b = new Derived;
+Derived* d = dynamic_cast<Derived*>(b);
+需要注意的是，如果将一个指向基类的指针或引用转换为指向派生类的指针或引用失败，则 dynamic_cast 返回 nullptr（对于指针）或抛出 std::bad_cast 异常（对于引用）。
+
+在类之间进行安全的向下转型。
+例如，将一个基类指针或引用转换为指向某个派生类的指针或引用，以便访问派生类的成员函数或成员变量。
+
+class Base {
+public:
+    virtual ~Base() {}
+};
+
+class Derived : public Base {
+public:
+    void derivedFunc() {}
+};
+
+Base* b = new Derived;
+Derived* d = dynamic_cast<Derived*>(b);
+if (d != nullptr) {
+    d->derivedFunc();
+}
+需要注意的是，dynamic_cast 的使用应该尽可能地避免。它通常表明了不良的设计，因为它破坏了抽象基类的概念，并且会导致代码的可维护性下降。
+
+### `reinterpret_cast`
+
+在 C++ 中，reinterpret_cast 是一种用于进行底层类型转换的强制类型转换。它可以将一个指针或引用类型的值转换为另一种不同类型的指针或引用类型的值，而且转换是不安全的，因为它会取消类型之间的任何类型检查。
+```c++
+reinterpret_cast<type>(expression)
+```
+其中，type 表示欲转换的目标类型，expression 表示要进行转换的表达式。需要注意的是，reinterpret_cast 可以在指针、引用、整数与指针之间进行转换，但是如果对不存在的类型使用 reinterpret_cast，则可能导致未定义的行为。
+
+下面是 reinterpret_cast 常见的几种用法：
+
+将一个指向某个类型的指针转换为指向另一种类型的指针。
+例如，将一个 int 类型的指针转换成 char 类型的指针：
+
+```c++
+int i = 10;
+char* p = reinterpret_cast<char*>(&i);
+```
+
+需要注意的是，由于 reinterpret_cast 取消了类型之间的任何类型检查，因此在进行指针类型转换时应该格外谨慎，并尽可能避免使用 reinterpret_cast 进行指针类型的转换。
+
+将一个指针转换成一个整数类型。
+例如，将一个指向 int 类型的指针转换为一个 unsigned long 类型的整数：
+```c++
+int i = 10;
+unsigned long n = reinterpret_cast<unsigned long>(&i);
+```
+需要注意的是，由于指针的大小和整数的大小可能不同，因此在进行指针与整数之间的转换时应该格外谨慎。
+
+

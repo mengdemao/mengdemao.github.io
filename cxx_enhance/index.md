@@ -19,9 +19,171 @@
 + 类的访问属性
 + 类的继承属性
 
-1. public:
-2. protected:
-3. private:
+1. **public(公共)** 公共成员变量和方法可以被类的任何对象访问，也可以被其他类的对象访问。
+2. **protected(受保护的)** 受保护的成员变量和方法可以被同一个类内的其他成员访问，也可以被该类的子类访问，但不能被其他类的对象访问。受保护的成员变量和方法可以被同一个类内的其他成员访问，也可以被该类的子类访问，但不能被其他类的对象访问。
+3. **private (私有)** 私有成员变量和方法只能被同一个类内的其他成员（包括其他方法和构造函数）访问，而不能被类的对象或其他类的对象访问。
+
+<table>
+  <tbody>
+    <tr>
+      <td>继承属性\访问属性</td>
+      <td>public</td>
+      <td>protected</td>
+      <td>private</td>
+    </tr>
+    <tr>
+      <td>public</td>
+      <td>public</td>
+      <td>protected</td>
+      <td>private</td>
+    </tr>
+    <tr>
+      <td>protected</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>private</td>
+      <td>private</td>
+      <td>private</td>
+      <td>private</td>
+    </tr>
+  </tbody>
+  <colgroup>
+    <col style="width: 25%;">
+    <col style="width: 25%;">
+    <col style="width: 25%;">
+    <col style="width: 25%;">
+  </colgroup>
+</table>
+
+```cpp
+#include <iostream>
+
+class BaseClass {
+private:
+
+	int BaseClassPrivate;
+
+public:
+
+	int BaseClassPublic;
+
+	void read()
+	{
+		BaseClassPrivate = 1;
+		BaseClassPublic  = 1;
+		BaseClassProtected = 1;
+	}
+
+protected:
+
+	int BaseClassProtected;
+};
+
+class DerivedClassPublic : public BaseClass {
+	void read()
+	{
+		BaseClassPrivate = 1;
+		BaseClassPublic  = 1;
+		BaseClassProtected = 1;
+	}
+};
+
+class DerivedClassPrivate : private BaseClass {
+
+	void read()
+	{
+		BaseClassPrivate = 1;
+		BaseClassPublic  = 1;
+		BaseClassProtected = 1;
+	}
+
+};
+
+class DerivedClassProtected: protected BaseClass {
+	void read()
+	{
+		BaseClassPrivate = 1;
+		BaseClassPublic  = 1;
+		BaseClassProtected = 1;
+	}
+};
+
+class DerivedClassPublicPublic : public DerivedClassPublic{
+	void read()
+	{
+		BaseClassPrivate = 1;
+		BaseClassPublic  = 1;
+		BaseClassProtected = 1;
+	}
+};
+
+class DerivedClassPrivatePublic : public DerivedClassPrivate{
+	void read()
+	{
+		BaseClassPrivate = 1;
+		BaseClassPublic  = 1;
+		BaseClassProtected = 1;
+	}
+};
+
+class DerivedClassProtectedPublic : public DerivedClassProtected {
+	void read()
+	{
+		BaseClassPrivate = 1;
+		BaseClassPublic  = 1;
+		BaseClassProtected = 1;
+	}
+};
+
+int main(int argc, char* argv[])
+{
+	BaseClass O0;
+	DerivedClassPublic O1;
+	DerivedClassPrivate O2;
+	DerivedClassProtected O3;
+
+	DerivedClassPublicPublic O4;
+	DerivedClassPrivatePublic O5;
+	DerivedClassProtectedPublic O6;
+
+	O0.BaseClassPrivate = 1; 	// 错误: 'int BaseClass::BaseClassPrivate' is private within this context
+	O0.BaseClassPublic = 1;  	// 正确:
+	O0.BaseClassProtected = 1;	// 错误: 'int BaseClass::BaseClassProtected' is protected within this context
+
+	O1.BaseClassPrivate = 1; 	// 错误: 'int BaseClass::BaseClassPrivate' is private within this context
+	O1.BaseClassPublic = 1;  	// 正确:
+	O1.BaseClassProtected = 1;	// 错误: 'int BaseClass::BaseClassProtected' is protected within this context
+
+	O2.BaseClassPrivate = 1; 	// 错误: 'int BaseClass::BaseClassPrivate' is private within this context
+	O2.BaseClassPublic = 1;  	// 正确:
+	O2.BaseClassProtected = 1;	// 错误: 'int BaseClass::BaseClassProtected' is protected within this context
+
+	O3.BaseClassPrivate = 1; 	// 错误: 'int BaseClass::BaseClassPrivate' is private within this context
+	O3.BaseClassPublic = 1;  	// 正确:
+	O3.BaseClassProtected = 1;	// 错误: 'int BaseClass::BaseClassProtected' is protected within this context
+
+	O4.BaseClassPrivate = 1; 	// 错误: 'int BaseClass::BaseClassPrivate' is private within this context
+	O4.BaseClassPublic = 1;  	// 正确:
+	O4.BaseClassProtected = 1;	// 错误: 'int BaseClass::BaseClassProtected' is protected within this context
+
+	O5.BaseClassPrivate = 1; 	// 错误: 'int BaseClass::BaseClassPrivate' is private within this context
+	O5.BaseClassPublic = 1;  	// 正确:
+	O5.BaseClassProtected = 1;	// 错误: 'int BaseClass::BaseClassProtected' is protected within this context
+
+	O6.BaseClassPrivate = 1; 	// 错误: 'int BaseClass::BaseClassPrivate' is private within this context
+	O6.BaseClassPublic = 1;  	// 正确:
+	O6.BaseClassProtected = 1;	// 错误: 'int BaseClass::BaseClassProtected' is protected within this context
+
+	return 0;
+}
+```
+
+
+
+
 
 ### 成员函数
 
@@ -36,17 +198,109 @@
   - 第一个用在类，用于说明该类是继承体系下最后的一个类，不要其他类继承我，当继承时就会报错。
   - 第二个用在虚函数，表示这个虚函数不能再被override了，再override就会报错
 
-### 虚函数
+### 虚函数与虚函数表
+
+虚函数是一种特殊的成员函数，它允许派生类覆盖基类中的同名函数，并通过基类指针或引用调用派生类中的实现。具体来说，当通过基类指针或引用调用一个虚函数时，编译器会根据对象的实际类型（即运行时类型）来确定要调用哪个版本的函数。
+
+在类定义中，可以将成员函数声明为虚函数，如下所示：
+
+```c++
+class Base {
+public:
+    virtual void foo() { std::cout << "Base::foo()" << std::endl; }
+};
+
+class Derived : public Base {
+public:
+    void foo() override { std::cout << "Derived::foo()" << std::endl; }
+};
+```
+
+这里，`Base` 类定义了一个名为 `foo()` 的虚函数，在 `Derived` 中进行了重写。注意到在 `Derived` 中，我们使用了 `override` 关键字，这是 C++11 中的新特性，用于明确表示我们正在重写一个虚函数。如果基类中并没有该函数，则编译器会给出错误提示。
+
+对于一个虚函数，有以下几个注意点：
+
+1. 虚函数必须通过指针或引用调用才能实现动态多态。
+2. 构造函数不能是虚函数，因为在对象构造期间虚表还未建立。
+3. 静态函数和成员函数不能是虚函数，因为它们不属于对象，不存在多态。
+
+虚函数是实现 C++ 运行时多态的关键机制之一，它使得基类指针或引用在运行时能够调用派生类中的函数，从而实现基于实际对象类型的动态绑定。
+
+总结:
 
 + override用于虚函数,上面的`virtual void func(int)`实际上不是重写父类的虚函数,而是定义一个新的虚函数;
 + 我们的本意是重写虚函数,当不加overrride的时候,这样写编译器不会报错
 + 那如果像下面加上override的话，则会报错，表示告诉了编译器，我确实要重写，但写错了，没有重写，于是就报错了
 + 这样就能给我们对虚函数的重写做检查!
 
+虚函数表（Virtual Table），也称为 V-Table，是实现 C++ 运行时多态的关键机制之一。每个包含虚函数的类都有一个与之对应的虚函数表。
+
+虚函数表是一个指向虚函数地址的指针数组，其中存储了该类及其所有派生类中的所有虚函数的地址。通常情况下，虚函数表位于类对象实例的内存布局末尾，因此可以通过类对象的地址来访问。
+
+```c++
+class Base {
+public:
+    virtual void func1() { std::cout << "Base::func1()" << std::endl; }
+    virtual void func2() { std::cout << "Base::func2()" << std::endl; }
+};
+
+class Derived : public Base {
+public:
+    void func1() override { std::cout << "Derived::func1()" << std::endl; }
+    void func3() { std::cout << "Derived::func3()" << std::endl; }
+};
+```
+
+在上述代码中，虚函数表会包含两个指针，分别指向 `Base::func1()` 和 `Base::func2()` 的实现。由于 `Derived` 重写了 `Base::func1()`，因此它需要自己的虚函数表，并在第一个指针中存储 `Derived::func1()` 的地址。另外，由于 `Derived` 中定义了一个非虚函数 `func3()`，因此它不会出现在虚函数表中。
+
+当我们使用基类指针或引用调用虚函数时，编译器会在运行时根据对象的实际类型（即运行时类型）查找正确的虚函数地址，并进行动态绑定。
+
+```
+g++ -fdump-lang-class test.cpp
+cl /d1 reportSingleClassLayoutDerived "test.cpp"
+```
+
+下面是msvc表现
+
+```cmd
+cl /d1 reportSingleClassLayoutDerived "test.cpp"
+用于 x86 的 Microsoft (R) C/C++ 优化编译器 19.30.30709 版
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+test.cpp
+
+class Derived   size(4):
+        +---
+ 0      | +--- (base class Base)
+ 0      | | {vfptr}
+        | +---
+        +---
+
+Derived::$vftable@:
+        | &Derived_meta
+        |  0
+ 0      | &Derived::func1
+ 1      | &Base::func2
+
+Derived::func1 this adjustor: 0
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\ostream(743): warning C4530: 使用了 C++ 异常处理程序，但未启用展开语义。请指定 /EHsc
+test.cpp(4): note: 查看对正在编译的函数 模板 实例化“std::basic_ostream<char,std::char_traits<char>> &std::operator <<<std::char_traits<char>>(std::basic_ostream<char,std::char_traits<char>> &,const char *)”的引用
+Microsoft (R) Incremental Linker Version 14.30.30709.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+/out:test.exe
+test.obj
+```
+
+
+
 ### class与struct的区别
 
-class默认权限是private
-struct默认权限是public
+1. 默认访问控制：对于类(class)来说，默认情况下成员是私有(private)的，而结构体(struct)的成员默认是公有(public)的。
+2. 成员函数：类(class)允许在内部声明成员函数，而结构体(struct)不允许。但是，在C++11标准后，结构体也可以定义成员函数了。
+3. 继承：类(class)和结构体(struct)都支持继承，但是类(class)默认是私有继承(private inheritance)，而结构体(struct)默认是公有继承(public inheritance)。
+4. 类型转换：类(class)可以定义类型转换操作符，而结构体(struct)不行。
+5. 使用习惯：通常情况下，当我们需要描述一个“轻量级”的数据类型时，用结构体(struct)更合适；而当我们需要描述一个“重量级”的数据类型时，用类(class)更为恰当。
 
 ### 构造函数和析构函数
 
@@ -464,5 +718,50 @@ vbptr --> vbtable
 
 ### 虚析构和纯虚析构
 
+虚析构函数是一个带有virtual关键字的类析构函数。它允许子类对象在被删除时调用它们自己的析构函数。这样可以确保在父类指针指向子类对象并且父类指针被delete时能正确地调用子类析构函数。
+
+纯虚析构函数是一个虚析构函数，在其函数声明后面加上"= 0"来表示它是一个纯虚析构函数。它没有函数体，所有的派生类都必须实现自己的析构函数。纯虚析构函数使得基类成为了抽象类，不能直接被实例化。纯虚析构函数的作用是强制派生类实现自己的析构函数，以确保在对象被销毁时能正确地释放资源。
+
+```c++
+#include <iostream>
+
+class Base {
+public:
+    virtual ~Base() {
+        std::cout << "Base destructor called" << std::endl;
+    }
+};
+
+class Derived : public Base {
+public:
+    ~Derived() {
+        std::cout << "Derived destructor called" << std::endl;
+    }
+};
+
+class Abstract {
+public:
+    virtual ~Abstract() = 0;
+};
+
+Abstract::~Abstract() {}
+
+class Concrete : public Abstract {
+public:
+    ~Concrete() {
+        std::cout << "Concrete destructor called" << std::endl;
+    }
+};
+
+int main() {
+    Base* b = new Derived();
+    delete b;
+
+    Abstract* a = new Concrete();
+    delete a;
+
+    return 0;
+}
+```
 
 
