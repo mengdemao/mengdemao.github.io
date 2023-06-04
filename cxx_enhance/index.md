@@ -189,14 +189,39 @@ int main(int argc, char* argv[])
 
 + 成员函数 + delete表示删除此函数
 + 成员函数 + default表示默认函数
-
 + explicit: 关闭隐式类型转换
   - 关键字只能作用域类构造函数
   - 只作用单个参数的构造函数
-
 + final:
   - 第一个用在类，用于说明该类是继承体系下最后的一个类，不要其他类继承我，当继承时就会报错。
   - 第二个用在虚函数，表示这个虚函数不能再被override了，再override就会报错
+
+**数据成员强化**
+
+在 C++ 中，`mutable` 是一个关键字，它用于修饰某些类成员变量。`mutable` 的作用是允许在 const 成员函数中修改被 `mutable` 修饰的成员变量。
+
+如果一个成员变量被声明为 `mutable`，那么即使在一个const成员函数中，也可以修改该成员变量的值。这个特性在一些特殊情况下非常有用，例如在维护缓存、统计调用次数或者记录日志时。
+
+例如：
+
+```c++
+class MyClass {
+public:
+    int get_value() const {
+        ++call_count; // 可以修改 call_count 值
+        return value;
+    }
+private:
+    int value;
+    mutable int call_count = 0; // 被 mutable 修饰的成员变量
+};
+```
+
+在上面的例子中，`call_count` 成员变量被声明为 `mutable`，因此即使在 `get_value()` 函数中，也可以对它进行修改。
+
+需要注意的是，只有被声明为 `mutable` 的成员变量才能在 const 成员函数中修改，其他成员变量则不能被修改。这也符合 const 成员函数的语义，即不能修改对象状态。
+
+
 
 ### 虚函数与虚函数表
 
@@ -292,8 +317,6 @@ Copyright (C) Microsoft Corporation.  All rights reserved.
 test.obj
 ```
 
-
-
 ### class与struct的区别
 
 1. 默认访问控制：对于类(class)来说，默认情况下成员是私有(private)的，而结构体(struct)的成员默认是公有(public)的。
@@ -323,7 +346,7 @@ public:
     ~Person() {
         std::cout << "析构函数" << std::endl;
     }
-    
+
     /* 拷贝构造函数 */
     Person(const Person &p) {
         std::cout << "拷贝构造函数" << std::endl;
@@ -338,7 +361,35 @@ Person testPerson();	// 表面上是执行构造函数
 int func();				// 类似函数声明
 ```
 
+**构造函数强化**
+
+在 C++ 中，explicit 是一个关键字，它用于修饰构造函数，它的主要作用是防止编译器进行隐式转换。
+
+具体来说，如果一个构造函数被声明为 explicit，那么它就只能用于显式地创建一个新对象，而不能被用于隐式地转换一个类型到另一个类型。这样可以避免一些不必要的类型转换导致的错误，同时也使代码更加易于理解和维护。
+
+例如：
+
+```c++
+class A {
+public:
+    explicit A(int n) { /*...*/ }
+};
+
+void func(A a) { /*...*/ }
+
+int main() {
+    A a(10); // OK
+    A b = 20; // 编译错误，禁止隐式转换
+    func(A(30)); // OK，显式创建一个 A 类型的对象
+}
+```
+
+在上面的例子中，因为 A 的构造函数被声明为 explicit，所以只能通过显式地调用构造函数来创建一个 A 对象，而不能通过将一个 int 类型的值隐式地转换为 A 类型。
+
+
+
 ### 拷贝构造函数的调用时机
+
 * 使用一个已经创建完毕的对象初始化一个新对象
 * 值传递的方式给函数进行参数传递
 * 以值的方式返回局部对象
@@ -487,9 +538,9 @@ int main(int argc, char *argv[])
     Person p2;
 
     Person p3 = p1.PersonAddPerson(p2);
-    
+
     Person p4 = p1.operator+(p2);
-    
+
     Person p5 = p1 + p2;
 
     return 0;
@@ -500,7 +551,7 @@ int main(int argc, char *argv[])
 ### 通过全局函数重载
 
 ```c++
-Person operator+(Person &p1, Person &p2) 
+Person operator+(Person &p1, Person &p2)
 {
     Person t;
     t.m_A = p1.m_A + p2.m_A;
@@ -515,7 +566,7 @@ std::ostream &operator<<(std::ostream &cout, Person &p)
 {
     cout << p.m_A << p.m_B;
     return cout;
-} 
+}
 ```
 
 ### 递增重载++
@@ -534,11 +585,11 @@ class Complex {
 
 public:
     Complex(int i, int j);
-    
+
     Complex();
 
     /* 重载+ */
-    Complex operator+(Complex &p) 
+    Complex operator+(Complex &p)
     {
         Complex t;
         t.i = this->i + p.i;
@@ -550,14 +601,14 @@ public:
     {
         this->i++;
         this->j++;
-        return *this; 
+        return *this;
     }
-    
+
     /* 重载后置++ */
     Complex operator++(int)
     {
         Complex t;
-        
+
         /* 记录 */
         t.i = this->i;
         t.j = this->j;
@@ -566,7 +617,7 @@ public:
         this->i++;
         this->j++;
 
-        return t; 
+        return t;
     }
 
     /* 重载= */
@@ -597,9 +648,9 @@ Complex::Complex()
 
 std::ostream &operator<<(std::ostream &cout, Complex p)
 {
-    cout << p.i << "+" << p.j << "i"; 
+    cout << p.i << "+" << p.j << "i";
     return cout;
-} 
+}
 
 int main(int argc, char *argv[])
 {
@@ -660,12 +711,91 @@ class 子类 : 继承方式 父类1, 继承方式 父类2...
 
 ### 菱形继承
 
-![菱形继承.drawio](https://raw.githubusercontent.com/mengdemao/picture/master/%E8%8F%B1%E5%BD%A2%E7%BB%A7%E6%89%BF.drawio.svg)
+菱形继承是指一个派生类同时继承自两个直接或间接基类，而这两个基类又共同继承自同一个虚基类的情况。这样就会出现一个“菱形”继承结构，其中最顶层的虚基类在派生类中只存在一份实例，而不会被重复继承。
 
 孙子类继承了子类1和子类2,但是继承了两次父类。
 
-+ 多重继承数据会产生二义性
-+ 数据只需要一份即可
+```asciiarmor
+   +---------+
+   |  Shape  |
+   +---------+
+        |
+   +---------+
+   |  Point  |
+   +---------+
+    /       \
++------+  +------+
+| Line |  | Circle |
++------+  +------+
+        |
+   +---------+
+   |  Draw   |
+   +---------+
+```
+
+1. 内存浪费：由于派生类继承了多个基类，如果这些基类中有相同的成员变量，则在最终的派生类中会存在多份相同的成员变量，从而导致内存浪费。
+
+2. 成员访问二义性：由于派生类同时继承了多个基类，因此可能会出现成员函数重名的情况，从而导致成员访问二义性。
+
+为了解决这些问题，C++11 标准引入了关键字 final 和 override，可以在派生类中使用这两个关键字对继承关系进行限定和覆盖。此外，C++11 标准还引入了虚继承（virtual inheritance）的概念，可以避免多次继承同一个虚基类所带来的问题。
+
+**那么final与override是如何保证继承的**
+
+在C++中，final和override是两个关键字，用于控制虚函数的行为。
+
+1. final:
+
+final可以修饰类、函数和变量。当final修饰一个类时，该类不能被继承；当final修饰一个虚函数时，该虚函数不能被派生类重写（即不能被覆盖）。
+
+例如，下面的代码定义了一个基类Animal和一个派生类Cat。Cat中的meow()方法被声明成final，因此任何尝试对该方法进行覆盖的操作都会导致编译错误。
+
+```c++
+class Animal {
+public:
+    virtual void make_sound() const = 0;
+};
+
+class Cat : public Animal {
+public:
+    void make_sound() const override {
+        std::cout << "Meow\n";
+    }
+
+    virtual void meow() const final {
+        std::cout << "Meow Meow\n";
+    }
+};
+
+class Garfield : public Cat {
+public:
+    void make_sound() const override {
+        std::cout << "Purr\n";
+    }
+
+    // 下面这行会导致编译错误
+    // void meow() const override {}
+};
+```
+
+1. override:
+
+override也是一个关键字，用于指示当前的函数是一个重写父类中同名虚函数的函数，从而提高代码可读性和健壮性。
+
+例如，上面的代码中，派生类Garfield重写了虚函数make_sound()，我们可以使用override关键字来明确表示这一点。
+
+```c++
+class Garfield : public Cat {
+public:
+    void make_sound() const override {
+        std::cout << "Purr\n";
+    }
+
+    // 明确指示当前函数是重写父类中的虚函数
+    void meow() const override {}
+};
+```
+
+总之，C++中的final和override关键字用于控制虚函数的行为，final表示一个虚函数不能再被重写，而override则用于明确表示一个函数是重写了父类中同名虚函数的函数。
 
 ```c++
 /* 动物类 */
@@ -692,7 +822,10 @@ class Camel : virtual public Animal {}; /* 驼类 */
 ```
 ### 虚基类指针(vbptr)
 
+```mermaid
+graph LR
 vbptr --> vbtable
+```
 
 ## 多态
 

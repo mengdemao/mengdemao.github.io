@@ -157,6 +157,7 @@ inline std::ostream& operator << (std::ostream &os, const Point<T, dim> &pt)
 + **virtual base class机制**
 
 #### C++对象模型
+
 在C++中,有两种class data member: `static`和`nonstatic`
 有三种class function member: `static`,`nonstatic`与`virtual`
 
@@ -169,18 +170,315 @@ public:
 	virtual ~Point();
 	float x() const;
 	static int PointCount();
-	
+
 protected:
 	virtual ostream& print(ostream &os) const;
-	
+
 	float _x;
 	static int _point_count;
 }
 ```
 那么这个class point在机器中将会怎么样表现呢?也就是说我们如何模型(modeling)出各种data member与function member呢?
 
-**C++ 对象模型(The C++ Object Model )**的实现,即C++之父的最终设想
+**C++ 对象模型(The C++ Object Model )**
 
+>  C++之父的最终设想
+
+Stroustrup 当初设计 （ 当前亦仍占有优势） 的 C＋＋ 对象模型是从简单对象 模 型派生而来的 ，并对内存空间和存取时间做了优化 ．在此模型中，Nonstatic data members 被配置于每一 个 class object 之内 ，static data members 则被存放在所有 的 class object 之外. Static 和 nonstatic function members 也被放在所有的 class object 之外. Virtual functions 则以两个步骤支持之 ：
+
+1. 每一 个  class   产 生 出一 堆 始 向 virtual   functions   的指 针 ，放 在 表 格 之 中．这 个表格被称为 virtuaI  table  (**vtbl**）
+2.   每 一 个 class object   被添加一 个指针，指向相关 的 virtual table . 通 常 这个指针被 称为 **vptr**。
+**vptr**的设定 （ setting ） 和重 置  （ resetting ） 都 由 每 一 个 `class`的 `constructor`, `destructor`和 `copy assignment  `运算符自动完成，每一个`class `所关联 的 `type_info object`（ 用以支持 runtime type identification, **RTTI**) 经由virtualtable被指出来，通 常是放在表格的第一个`slot `处 ．
+![image-20230604103651532](picture/image-20230604103651532.png)
+
+图 1.3  说明 C＋＋ 对象模型如何应用于前面所说的 Point class 身上。这个模型的主要优点在于它的空间和存取时间的效率 ；主要缺点则是 ，如果应用程序代码本身未曾改变，但所用到的 class objects 的 nonstatic data members 有所修改（ 可能是增加、移除或更改 ）， 那么那些应用程序代码 同样得重新编译 ．关于这 点，前述的双表格模型就提供了较大的 弹性 ，因为它多提供了一 层间接性 。不过，它也因此付出空间和执行效率两方面的代价就是了。
+
+**加上继承（Adding Inheritance)**
+
+C++支持的单一继承
+
+```c++
+class Libray_materials {...};
+class Book : public Libray_materials {...};
+class Rental_book : public Book {...};
+```
+
+C++也支持多重继承
+
+```c++
+// 原本iostream的实现方式
+class iostream:
+  public istream,
+  public ostream {...};
+```
+甚至，继承关系也可以指定为虚拟(virtaul,也就是共享的意思)
+
+```c++
+class istream : virtual public ios {...};
+class ostream : virtual public ios {...};
+```
+
+```mermaid
+graph TD
+
+ios --> ostream
+ios --> istream
+
+ostream --> iostream
+istream --> iostream
+```
+
+在虚拟继承的情况下, base class 不管在继承串链中被派生 （ derived ） 多少次 ， 永远只会存在一个实体 （ 称为 subobject ） 。例如 iostream 之中就只有 virtual ios base  class    的一个实体。
+
+自C++ 2.0  起才新导入的 virtual base class，需要一些间接的 base class  表现 方法 。Virtual  base  class  的原始模型是在 class  object 中为每一个有关联的 `virtaul base  class`加上一个指针 ．其它演化出来的模型则若不是 导入 一个 virtual   base，class table ，就是扩充原已存在的 virtual table ，以便维护每 一个 virtual base class 的位置。
+
+
+
+**对象模型如何影响程序(How to Object Model Effects Programs)**
+
+不同的对象模型 ，会导致 “现有的程序代码必须修改” 以及 “ 必须加入新 的程序代码” 两个结果 。
+
+例如下面这个 函数 ，其中 class X 定义了一个 copy constructor ，一个 virtual destructor ，和一个 virtual  function *foo*
+
+```c++
+X foorbar()
+{
+	X xx;
+	x *px = new X;
+
+	// foo是一个virtaul function
+	xx.foo();
+	px->foo();
+
+	delete px;
+	delete xx;
+}
+```
+
+这个函数有可能在内部转换为
+
+```c++
+void foobar(X &_result)
+{
+    // 构造_result
+	// 用result用来取代 local xx
+    _result.X::X();
+
+	// 扩展 X *px = new  X;
+	px  =  _new(sizeof(x));
+	if (px != 0)
+        px->X::X();
+
+    // 扩展xx.foo(),但不使用virtual机制
+    // 以result取代xx.foo(&result);
+    // 使用virtual机制扩展px->foo( )
+
+    (*px->vtbl[2])(px)
+
+	// 扩展 delet e px ;
+	if (px != 0) {
+		( *px->vtbl [1])(px); // destructor
+		_delete (px) ;
+    }
+
+// 不需使用 named return statement
+// 不需要摧毁 local object xx
+    return ;
+}
+```
+
+![image-20230604111458655](picture/image-20230604111458655.png)
+
+#### 对象的差异(An Object Distinction)
+
+> C++程序设计模型直接支持三种programming paradiagms(程序设计典范);
+
+![image-20230604152953662](picture/image-20230604152953662.png)
+
+1.  **程序模型(prcedural model)**,就像C一样, `C++`当然也支持它,字符串的处理就是一个例子,我们可以使用字符数组以及`str*`函数集(定义在标准的C函数库中)
+
+```c++
+    char boy [ ]   ＝”Da nny” ；
+    char *p_son;
+    ...
+    p_son = new char[strlen(boy) + 1];
+    strcpy(p_son, boy) ;
+    ...
+    if (!strcmp(p_son, boy))
+        take_to_disneyland(boy);
+```
+
+2.  **抽象数据类型模型(abstract data type model, ADT)**. 该模型所谓的“抽象”是和一组表达式(public接口)一起提供, 而其运算定义
+仍然隐而未明. 例如下面的`String class`:
+
+```c++
+String girl == "Anna";
+String daughter;
+...
+// String::operator=();
+daughter  =  girl;
+...
+// St ring ::ope rator== ( ) ;
+if (girl == daughter)
+    take_t o_disneyland (girl);
+```
+
+3.  **面向对象模型(object-oriented  model)**。在此模型中有一些彼此相关的类型，通过一个抽象的base class(用以提供共通接口)被封装起来。
+Library_ materials class  就是一个例子，真正的 subtypes  例如 Book、Video、Compac仁Disc 、Puppet、Laptop等等都可以从那里派生而来：
+```c++
+void
+check_in(Libr ar y_ma te主主als   *pmat)
+{
+    if (pmat->late())
+        pmat->fine() ; pma t ->check  in ( ) ;
+
+    if ( Lend er *plend = pma t -> reser ved ( ) ) pma t->notif y (  plend ) ;
+}
+```
+
+纯粹以一种 paradigm 写程序 ，有助于整体行为的 良好稳固．然而如果混 合 了不同的 paradigms，就可能会带来让人惊 吓的后果 ，特别是在没有谨慎处理的情 况下
+。最常见的疏忽发生在当你以一 个 base class 的具体实体如：
+
+    Library_materails thinql;
+
+来完成某种多态(polymorphism)局面时:
+
+```mermaid
+graph TD
+Library_materails --> Book
+```
+
+```c++
+class Book : public Library_materials { . . . } ; Book book ;
+
+// 喔欧：thingl不是一个Book !
+// book被裁切（sliced ）了．
+// 不过 thingl仍保有一个 Library_materials
+thingl = book ;
+
+// 喔欧：调用的是Library_rnaterials::check in ( ) 
+thingl.check_in ( ) ;
+```
+
+而不是通过 base class 的 pointer 或 reference 来完成多态局面：
+
+```c++
+// OK ：现在 thing2 参考到 book
+Library_materials & thing2 = boo k ;
+
+// OK ：现在引发的是 Book : :check in ( ) 
+thing2 .check_in (  )  ;
+```
+
+虽然你可以直接或间接处理继承体系中的一个 base class object ，但只有通过 pointer 或 reference 的间接处理 ，才支持OO程序设计所需的多态性质．上个例子中的 thing2 的定义和运用，是OO paradigm 中一个良好的例证 thingl 的定 义和运用则逸出了OO的习惯 ：它反映 的是一个 ADT paradigm 的良好行为,thingl的行为是好是坏 ，视程序员 的意图而定 ．在此范例 中，它的行为非常有可 能不是你要的！
+
+在OO paradigm 之中 ，程序员需要处理 一个未知实体 ，它的类型虽然有所界 定，却有无穷可能．这组类型受限于其继承体系 ，然而该体系理论上没有深度和 广度的限制．原则上 ，被指定 的
+obje ct 的真实类型在每一个特定 执行点之前 ，是 无法解析的．在 C＋＋ 中，只有通过  pointers  和 references  的操作才能够完成 4  相反地 ，在 ADT
+paradigm 中程序员处理的是一 个拥有固定而单一类型的实体 ， 它在编译时期就已经完全定义好了   ．举个例子  ，下面这组声明：
+
+
+／／描述 obj ect s ：不确定类型
+Libra r_materials   *px   =   retrieve_ some_ma ter主al {} ; Libr ar_ma ter ials   & rx   =   *px ;
+
+／／描述已知物： 不可能有令 人惊讶的结果产生
+Libra r_ma teria l s dx    步 px ;
+
+
+你绝对没有办法确定地说出 px 或 rx 到底指向何种类型的 objects ，你只能 够说它要不就是 Library_materials object ，要不就是后者的一个子类型 （
+subtype ） 。 不过 ，我们倒是可以确定 ，dx 只能是 Libraη materials class 的一个 object o 本 节稍后 ，我会讨论为什么这样的行为虽然或许未如你所预
+期，却是良好的行为 e
+
+虽然 “对于 object  的多态操作” 要求此 object  必须可以经由一个 pointer  或 reference  来存取 ，然而 C＋＋ 中的 pointer  或
+reference  的处理却不是多态的必要 结果．想想下面的情况 ：
+
+／／没有多态 （ 译注z 因为操作对象不是 class obj ect ) int   *pi;
+
+／／没有语言所支持的多态 （ 译注：因为操作对象不是 class obj ect ) void    *pvi;
+
+II ok  : class x 视为一 个 ba se class （ 译注：可以有多态的效果）
+x  *px;
+
+
+在 C忡，多态只存在于一个个的 public class 体系中．举个例子 ，px 可能指 向自我类型的一个 object ，或指向以 public 派生而来的一个类型 （ 请不要把不良
+的转型操作考虑在内） o Nonpublic 的派生行为以及类型为 void ＊ 的指针可以说 是多态 ，但它们并没有被语言明白地支持，也就是说它们必须由程序员通过明白 的转型操作来管理    （
+你或许可以说它们并不是多态对象的一线选手 ）．
+
+C＋＋ 以下列方法支持多态 ：
+
+？．经由一组隐 含 的转化 操作 ．例如把 一 个 derived class  指针转化 为  个指
+向其 public base type 的指针 ：
+
+shape  *ps ==  new  cir cle ( ) ;
+
+
+2.  经由 virtual function  机制 ：
+
+ps ->rotate ( ) ;
+
+
+3. 经由 dynamic_cast   和 type id  运算符 ：
+
+if    (   circle   女pc   =   dynamic_ca st<   circle*   > (   ps   )    )
+
+
+多态的主要用途是经 由一个共 同的接口来影响类型的封装 ，这个接口通常被 定义在 一 个抽象 的 base class 中．例如Library_materials class 就为 Book 、
+阿deo 、Puppet 等 subtype 定义了一个接口．这个共享接口 是以 virtual function 机 制引发的 ，它可以在执行期根据 obje ct
+的真正类型解析出到底是哪一个函数实体 被调用 。经由这样的操作 ：
+
+Librar y_ma ter ial->check ou t ( ) ;
+
+
+我们的代民可以避免由于 “借助某 一特定 library   的 materials，而导致变动无常 。 这表只使得  当类型有所增加 、修改 、或删减时，我们的程序代码不 需改变’＼ 而且也使
+个新灼 L.；易r＿ary_materials subtype  的供应者不需要重新写出 “对继承体 系中的所有类型都共渍 ” 白行为和操作 ．
+
+考虑一下这样的码，
+
+v 0j_ d   rotate (
+)(  d2.tum,
+con  ，ζ   X   *pointer ,
+t ’    1st  X  & r ef erence )
+
+／／在执行期之前 ，无法决定到底词用哪一个  rotate （ ）     实体
+( *pointer ) .r otate ( ) ; r ef erence . rotate ( ) ;
+
+／／下面这个操作总是调用 X : :rotate ( ) datum .rotate ( ) ;
+
+
+ma in ( )   {
+
+
+
+
+
+Z   z ; / /  Z  是 x 的一个子类型
+
+rotate ( z , & z , z ) ; return O ; ....-.    .11
+
+
+经由 pointer   和 reference  完成的两个 “ 函数调用操作” 会被动态完 成 ！此例 中它们都调用 Z::rotateO o        经由 datum  完成的 “
+函数调用操作” 则可能 （ 或可能 不） 经由 virtual   机制 ．不过 ，它反正总是调用 X·:rotateO   就是了．（ 这就是所 谓的 “ 编译素养” 问题 ：不管经由 datum
+  所调用的 virtual  function   采不采 用 virtual  机制 ，从语意来说 ，结果都是相同的D          4.2  节对此有更详细的讨论 ）
+
+需要多少内存才能够表现 一个 class obje ct？一般而言要有：
+
+·其 non static data members   的总和大 小：
+
+·加 上 任 何 由于 alignment   （ 译注） 的需求而填补 （ padding  ） 上去的空 间
+（ 可 能存在 于 members   之 间 ，也可 能存在于集合体边界 ）  ．
+
+
+译注：al ignment 就是将数值调整到某数的倍数．在 32 位计算机上 ，通
+常 alignment   为 4 bytes  ( 32  位 ） ，以使 bus  的 “运输量” 达到最高效率 。
+
+
+·加上 为 了支持 virtual   而由内部产 生 的任何额外负担 （ overhead )    •
+
+
+一个指针2 ，不管它指向哪一种数据类型 ，指针本身所需的内存大小是固定 的．举个例子 ，下面有一 个 ZooAnimal 声明z
+
+class  ZooAnimal   { publ ic :
+ZooAnimal ( ) ;
+virtual   句 Z ooAnima l ( ) ;
 
 ### 构造函数语意学
 
@@ -513,7 +811,7 @@ int main() {
 
 > 顾名思义，就是C强制类型转换
 
-```c++ 
+```c++
 int main()
 {
 	int i = 10;
@@ -580,7 +878,7 @@ U u = static_cast<U>(s);
 ```
 需要注意的是，static_cast 并不能用于执行动态类型转换。如果要进行动态类型转换，则应该使用 dynamic_cast。
 
-### `dynamic_cast` 
+### `dynamic_cast`
 
 在 C++ 中，dynamic_cast 是一种用于进行动态类型转换的强制类型转换。它可以将一个指向基类的指针或引用转换为指向派生类的指针或引用，同时还提供了类型安全检查，避免了类型转换时出现错误。
 
