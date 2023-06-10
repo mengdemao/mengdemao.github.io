@@ -14,7 +14,7 @@
 
 <!--more-->
 
-## 对象模型
+## C++对象模型(深入版)
 
 > + 对象模型是一种描述计算机程序中的对象及其相互关系的方式。在面向对象编程中，每个对象都有一个类型、属性和方法。对象之间可以相互通信，从而实现特定的任务。
 > + 在对象模型中，对象类是描述对象的通用模板。每个类都有一组属性和方法，它们定义了该类的行为。当我们创建一个对象时，我们使用该类来生成该对象，并且该对象将具备该类所定义的属性和方法。
@@ -349,15 +349,16 @@ Library_materails --> Book
 ```
 
 ```c++
-class Book : public Library_materials { . . . } ; Book book ;
+class Book : public Library_materials { ... };
+Book book ;
 
 // 喔欧：thingl不是一个Book !
 // book被裁切（sliced ）了．
 // 不过 thingl仍保有一个 Library_materials
 thingl = book ;
 
-// 喔欧：调用的是Library_rnaterials::check in ( ) 
-thingl.check_in ( ) ;
+// 喔欧：调用的是Library_rnaterials::check_in()
+thingl.check_in();
 ```
 
 而不是通过 base class 的 pointer 或 reference 来完成多态局面：
@@ -366,7 +367,7 @@ thingl.check_in ( ) ;
 // OK ：现在 thing2 参考到 book
 Library_materials & thing2 = boo k ;
 
-// OK ：现在引发的是 Book : :check in ( ) 
+// OK ：现在引发的是 Book : :check in ( )
 thing2 .check_in (  )  ;
 ```
 
@@ -408,8 +409,9 @@ C＋＋ 以下列方法支持多态 ：
 ？．经由一组隐 含 的转化 操作 ．例如把 一 个 derived class  指针转化 为  个指
 向其 public base type 的指针 ：
 
-shape  *ps ==  new  cir cle ( ) ;
-
+```c++
+shape *ps =  new  circle() ;
+```
 
 2.  经由 virtual function  机制 ：
 
@@ -480,11 +482,41 @@ class  ZooAnimal   { publ ic :
 ZooAnimal ( ) ;
 virtual   句 Z ooAnima l ( ) ;
 
-### 构造函数语意学
+### 构造函数语意学(The Semantics of constructors)
 
-### Data语意学
+#### Default Constructor的建构操作
 
-### Function语意学
+#### Copy Constructor的建构操作
+
+#### 程序转换语意学(Program  Transformation Semantics)
+
+#### 成员们的初始化队伍(Member Initialization List)
+
+
+
+### Data语意学(The Semantics of Data)
+
+#### Data Member的绑定
+
+#### Data Member的布局
+
+#### Data Member的存取
+
+#### "继承"与Data Member
+
+#### 对象的效率
+
+#### 指向Data Member的指针
+
+### Function语意学(The Semantics of Function)
+
+#### 纯虚函数的存在（Presence of a  Pu re Virtual Function)
+
+#### 虚拟规格的存在 （Presence  of  a  Virtual  Specification )
+
+#### 虚拟规格中const 的存在
+
+#### 重新考虑class的声明
 
 ### 构造、析构、拷贝语意学
 
@@ -681,6 +713,8 @@ public:
 ## 移动语意
 
 > 移动语义是C++11中引入的一种新特性，通过将资源的所有权从一个对象转移到另一个对象来提高程序的性能
+
+
 
 ## 智能指针
 
@@ -900,11 +934,16 @@ class Derived : public Base {};
 
 Base* b = new Derived;
 Derived* d = dynamic_cast<Derived*>(b);
+
+```
+```
+
 需要注意的是，如果将一个指向基类的指针或引用转换为指向派生类的指针或引用失败，则 dynamic_cast 返回 nullptr（对于指针）或抛出 std::bad_cast 异常（对于引用）。
 
 在类之间进行安全的向下转型。
 例如，将一个基类指针或引用转换为指向某个派生类的指针或引用，以便访问派生类的成员函数或成员变量。
 
+```c++
 class Base {
 public:
     virtual ~Base() {}
@@ -920,6 +959,8 @@ Derived* d = dynamic_cast<Derived*>(b);
 if (d != nullptr) {
     d->derivedFunc();
 }
+```
+
 需要注意的是，dynamic_cast 的使用应该尽可能地避免。它通常表明了不良的设计，因为它破坏了抽象基类的概念，并且会导致代码的可维护性下降。
 
 ### `reinterpret_cast`
