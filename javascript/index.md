@@ -252,7 +252,7 @@ console.log(d);
 
     var c = a + ',' + b;
     var d = `${a}, ${b}`;
-    
+
     console.log(c);
     console.log(d);
 {{< /script >}}
@@ -1409,13 +1409,6 @@ $ node Math.js
 + location
 + document
 + history
-+ Dom
-+ Bom
-+ 表单
-+ 文件
-+ AJAX
-+ Promise
-+ Canvas
 
 ### window
 
@@ -1555,8 +1548,8 @@ JavaScript 可以操作文件，但是在浏览器端的 JavaScript 有一些限
 
 以下是一个使用 File API 读取本地文件的例子：
 
-```
-html复制代码<!DOCTYPE html>
+```html
+<!DOCTYPE html>
 <html>
 <head>
   <title>File Reader Example</title>
@@ -1586,8 +1579,8 @@ html复制代码<!DOCTYPE html>
 
 在 Node.js 服务器环境中，可以使用 fs 模块来进行文件操作。以下是一个使用 fs 模块读取文件的例子：
 
-```
-javascript复制代码const fs = require('fs');
+```javascript
+const fs = require('fs');
 fs.readFile('/path/to/file', 'utf8', (err, data) => {
   if (err) throw err;
   console.log(data);
@@ -1610,8 +1603,8 @@ javascript复制代码const xhr = new XMLHttpRequest();
 
 1. 指定请求处理函数
 
-```
-javascript复制代码xhr.onreadystatechange = function() {
+```javascript
+xhr.onreadystatechange = function() {
   if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
     console.log(xhr.responseText);
   }
