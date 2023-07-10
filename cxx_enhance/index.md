@@ -902,3 +902,166 @@ int main() {
 > **C++对象模型研究什么?** </br>
 > 研究系统内部底层的各种实现,"继承性, 多态性",更多的是围绕类和对象来讨论
 
+### 类对象所占的空间
+
+#### 最少也需要一个大小去保存地址
+
+在C++中，空类（即没有成员变量和成员函数的类）的大小不为零。这是因为C++要确保每个对象都有一个唯一的地址，即使是空类也不例外。
+
+根据C++标准的规定，一个空类的大小至少为1字节。这是因为对于任何对象，它占用的内存空间至少应该是1字节，以便能够获得一个唯一的地址。
+
+虽然空类本身不包含任何数据成员，但是编译器通常会为空类添加一个字节的额外内存来确保其大小不为零。这样做是为了满足对空类对象的唯一性要求。
+
+需要注意的是，空类的大小可能会受到编译器的优化影响。某些编译器可能会使用更小的大小来表示空类对象，但至少会满足标准规定的最小大小为1字节。
+
+```c++
+#include <iostream>
+using namespace std;
+
+class A {
+public:
+};
+
+int main()
+{
+    A obj_a;
+
+    cout << "sizeof(A) = " << sizeof(A) << endl;
+    cout << "sizeof(obj_a) = " << sizeof(obj_a) << endl;
+}
+```
+
+![image-20230710232053405](picture/image-20230710232053405.png)
+
+#### 类的成员函数不占用类对象空间
+
+
+
+```c++
+#include <iostream>
+using namespace std;
+
+class A {
+public:
+    void func1() {}
+    void func2() {}
+    void func3() {}
+};
+
+int main()
+{
+    A obj_a;
+
+    cout << "sizeof(A) = " << sizeof(A) << endl;    
+    cout << "sizeof(obj_a) = " << sizeof(obj_a) << endl;
+}
+```
+
+![image-20230710232426875](picture/image-20230710232426875.png)
+
+#### 成员变量是占用内存空间的
+
+此时，如果新增一个变量
+
+```c++
+#include <iostream>
+using namespace std;
+
+class A {
+public:
+    char a;
+    void func1() {}
+    void func2() {}
+    void func3() {}
+};
+
+int main()
+{
+    A obj_a;
+
+    cout << "sizeof(A) = " << sizeof(A) << endl;    
+    cout << "sizeof(obj_a) = " << sizeof(obj_a) << endl;
+}
+
+```
+
+此时的结果还是1,那么，大小是谁呢?
+
+类中的一个char成员
+
+### 对象结构的发展和演化
+
+#### 非静态成员变量跟着对象走
+
+```c++
+#include <iostream>
+using namespace std;
+
+class A {
+public:
+    int a;
+};
+
+int main()
+{
+    A obj_a;
+
+    cout << "sizeof(A) = " << sizeof(A) << endl;    
+    cout << "sizeof(obj_a) = " << sizeof(obj_a) << endl;
+}
+```
+
+#### 静态成员变量跟着类走
+
+> 保存在类中， 对象外面
+
+```c++
+#include <iostream>
+using namespace std;
+
+class A {
+public:
+    int a;
+    static int b;
+};
+
+int main()
+{
+    A obj_a;
+
+    cout << "sizeof(A) = " << sizeof(A) << endl;    
+    cout << "sizeof(obj_a) = " << sizeof(obj_a) << endl;
+}
+```
+
+![image-20230710233400060](picture/image-20230710233400060.png)
+
+#### 成员函数
+
+成员函数: 无论是静态还是非静态都是保存在类上
+
+#### 虚函数
+
+```c++
+#include <iostream>
+using namespace std;
+
+class A {
+public:
+    virtual void func1() {}
+};
+
+int main()
+{
+    A obj_a;
+
+    cout << "sizeof(A) = " << sizeof(A) << endl;    
+    cout << "sizeof(obj_a) = " << sizeof(obj_a) << endl;
+}
+```
+
+![image-20230710233725470](picture/image-20230710233725470.png)
+
+只要存在一个虚函数，大小就会多8个字节；
+
+**类** --> 虚函数表的指针 --> 指向虚函数
