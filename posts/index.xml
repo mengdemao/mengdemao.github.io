@@ -8,10 +8,4 @@
 &lt;img src="featuredImage/13.jpg" referrerpolicy="no-referrer">
 &lt;/div>C++增强笔记</description></item><item><title>C++提高笔记</title><link>https://mengdemao.github.io/cxx_enhance/</link><pubDate>Thu, 28 Jul 2022 22:37:49 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.github.io/cxx_enhance/</guid><description>&lt;div class="featured-image">
 &lt;img src="featuredImage/13.jpg" referrerpolicy="no-referrer">
-&lt;/div>C++提高笔记</description></item><item><title>STL基础笔记</title><link>https://mengdemao.github.io/stl/</link><pubDate>Wed, 06 Oct 2021 11:24:07 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.github.io/stl/</guid><description>&lt;div class="featured-image">
-&lt;img src="featuredImage/11.jpg" referrerpolicy="no-referrer">
-&lt;/div>STL称为标准模板库(Standard Template Library) 广义上可以分为容器,算法,迭代器 容器和算法通过迭代器进行无缝连接 STL几乎所有的代码都采用了函数模</description></item><item><title>C++基础笔记</title><link>https://mengdemao.github.io/cxx_basic/</link><pubDate>Thu, 28 Jul 2022 22:37:59 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.github.io/cxx_basic/</guid><description>&lt;div class="featured-image">
-&lt;img src="featuredImage/13.jpg" referrerpolicy="no-referrer">
-&lt;/div>C++基础笔记</description></item><item><title>Sds</title><link>https://mengdemao.github.io/sds/</link><pubDate>Wed, 06 Oct 2021 12:56:03 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.github.io/sds/</guid><description>&lt;div class="featured-image">
-&lt;img src="featuredImage/14.jpg" referrerpolicy="no-referrer">
-&lt;/div>A C dynamic strings library C语言版本动态字符串库 1 SDSSDS的类型就是 1 typedef char *sds; 可以明显的看到,sds就是普通的char类型 1.1 下面是sds的数据类型 1 2 3 4</description></item></channel></rss>
+&lt;/div>C++提高笔记</description></item></channel></rss>
