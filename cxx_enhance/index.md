@@ -1065,3 +1065,93 @@ int main()
 只要存在一个虚函数，大小就会多8个字节；
 
 **类** --> 虚函数表的指针 --> 指向虚函数
+
+### `this`指针调整
+
+```C++
+#include <iostream>
+using namespace std;
+
+class A {
+public:
+    int a;
+    A() 
+    {
+        printf("A:[%s]的this指针是: %p\r\n", __func__, this);
+    }
+    void funcA()
+    {
+        printf("A:[%s]的this指针是: %p\r\n", __func__, this);
+    }
+};
+
+class B {
+public:
+    int b;
+    B()
+    {
+        printf("A:[%s]的this指针是: %p\r\n", __func__, this);
+    }
+    void funcB()
+    {
+        printf("A:[%s]的this指针是: %p\r\n", __func__, this);
+    }
+};
+
+class C : public A, public B {
+public:
+    int c;
+    C()
+    {
+        printf("A:[%s]的this指针是: %p\r\n", __func__, this);
+    }
+    void funcC()
+    {
+        printf("A:[%s]的this指针是: %p\r\n", __func__, this);
+    }
+};
+
+int main()
+{
+    cout << "sizeof(A) " << sizeof(A) << endl;
+    cout << "sizeof(B) " << sizeof(B) << endl;
+    cout << "sizeof(C) " << sizeof(C) << endl;
+
+    // this指针,多重继承
+    C myc;
+    myc.funcA();
+    myc.funcB();
+    myc.funcC();
+
+    return EXIT_SUCCESS;
+}
+```
+
+当前执行的结果
+
+```console
+sizeof(A) 4		# 一个成员变量
+sizeof(B) 4     # 一个成员变量
+sizeof(C) 12    # 一个成员变量 + 继承的两个成员变量
+
+A:[A]的this指针是: 00000077968FF798
+A:[B]的this指针是: 00000077968FF79C
+A:[C]的this指针是: 00000077968FF798
+A:[funcA]的this指针是: 00000077968FF798
+A:[funcB]的this指针是: 00000077968FF79C
+A:[funcC]的this指针是: 00000077968FF798
+
+D:\work\test\obj\x64\Debug\obj.exe (进程 19444)已退出，代码为 0。
+按任意键关闭此窗口. . .
+```
+
+
+
+![C++对象模型(基础版).this指针调整](picture/C++%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B(%E5%9F%BA%E7%A1%80%E7%89%88).this%E6%8C%87%E9%92%88%E8%B0%83%E6%95%B4.svg)
+
+可以看出类A和类C的起始地址相同,但是怎么理解呢?
+
++ 派生类对象包含基类子对象的
++ 如果派生类只有一个父对象，那么派生类和基类子对象地址相同
++ 如果继承多个父对象，那么开始地址和第一个基类子对象相同
+
