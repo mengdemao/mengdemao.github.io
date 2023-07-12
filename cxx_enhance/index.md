@@ -952,7 +952,7 @@ int main()
 {
     A obj_a;
 
-    cout << "sizeof(A) = " << sizeof(A) << endl;    
+    cout << "sizeof(A) = " << sizeof(A) << endl;
     cout << "sizeof(obj_a) = " << sizeof(obj_a) << endl;
 }
 ```
@@ -979,7 +979,7 @@ int main()
 {
     A obj_a;
 
-    cout << "sizeof(A) = " << sizeof(A) << endl;    
+    cout << "sizeof(A) = " << sizeof(A) << endl;
     cout << "sizeof(obj_a) = " << sizeof(obj_a) << endl;
 }
 
@@ -1006,7 +1006,7 @@ int main()
 {
     A obj_a;
 
-    cout << "sizeof(A) = " << sizeof(A) << endl;    
+    cout << "sizeof(A) = " << sizeof(A) << endl;
     cout << "sizeof(obj_a) = " << sizeof(obj_a) << endl;
 }
 ```
@@ -1029,7 +1029,7 @@ int main()
 {
     A obj_a;
 
-    cout << "sizeof(A) = " << sizeof(A) << endl;    
+    cout << "sizeof(A) = " << sizeof(A) << endl;
     cout << "sizeof(obj_a) = " << sizeof(obj_a) << endl;
 }
 ```
@@ -1055,7 +1055,7 @@ int main()
 {
     A obj_a;
 
-    cout << "sizeof(A) = " << sizeof(A) << endl;    
+    cout << "sizeof(A) = " << sizeof(A) << endl;
     cout << "sizeof(obj_a) = " << sizeof(obj_a) << endl;
 }
 ```
@@ -1075,7 +1075,7 @@ using namespace std;
 class A {
 public:
     int a;
-    A() 
+    A()
     {
         printf("A:[%s]的this指针是: %p\r\n", __func__, this);
     }
@@ -1144,8 +1144,6 @@ A:[funcC]的this指针是: 00000077968FF798
 D:\work\test\obj\x64\Debug\obj.exe (进程 19444)已退出，代码为 0。
 按任意键关闭此窗口. . .
 ```
-
-
 
 ![C++对象模型(基础版).this指针调整](picture/C++%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B(%E5%9F%BA%E7%A1%80%E7%89%88).this%E6%8C%87%E9%92%88%E8%B0%83%E6%95%B4.svg)
 
