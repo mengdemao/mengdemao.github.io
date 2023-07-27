@@ -1,3 +1,5 @@
+extern { fn hello(); }
+
 fn main() {
-    println!("Hello, world!");
+    unsafe { hello(); }
 }
