@@ -34,6 +34,24 @@ impl Message {
     }
 }
 
+// 8.match 控制流结构
+#[derive(Debug)]
+enum Coin {
+    Penny,
+    Nickel,
+    Dime,
+    Quarter,
+}
+
+fn value_in_cents(coin: Coin) -> u8 {
+    match coin {
+        Coin::Penny => 1,
+        Coin::Nickel => 5,
+        Coin::Dime => 10,
+        Coin::Quarter => 25,
+    }
+}
+
 fn main() {
     // 2. 实例化枚举
     let addr1 = IpAddrKind::V4;
@@ -83,6 +101,12 @@ fn main() {
     m.call();
     w.call();
     c.call();
+
+    // 8.match 控制流结构
+    println!("Coin::Penny {}", value_in_cents(Coin::Penny));
+    println!("Coin::Nickel {}", value_in_cents(Coin::Nickel));
+    println!("Coin::Dime {}", value_in_cents(Coin::Dime));
+    println!("Coin::Quarter {}", value_in_cents(Coin::Quarter));
 
     println!("枚举学习结束");
 }
