@@ -1,0 +1,1179 @@
+<!doctype html><html lang=zh-CN><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>rust基础笔记 - 编程日志</title><meta name=Description content="rust基础笔记"><meta property="og:title" content="rust基础笔记"><meta property="og:description" content="rust基础笔记"><meta property="og:type" content="article"><meta property="og:url" content="https://mengdemao.github.io/rust_basic/"><meta property="og:image" content="https://mengdemao.github.io/images/avatar.webp"><meta property="article:section" content="posts"><meta property="article:published_time" content="2023-07-26T09:29:36+08:00"><meta property="article:modified_time" content="2023-07-30T10:11:10+08:00"><meta property="og:site_name" content="编程日志"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://mengdemao.github.io/images/avatar.webp"><meta name=twitter:title content="rust基础笔记"><meta name=twitter:description content="rust基础笔记"><meta name=application-name content="DoIt"><meta name=apple-mobile-web-app-title content="DoIt"><meta name=theme-color content="#f8f8f8"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://mengdemao.github.io/rust_basic/><link rel=prev href=https://mengdemao.github.io/uboot/><link rel=stylesheet href=/css/main.40a82f90b86e2a2d0de8dc5537accbdec2b3d8d88a1314300bde9ae62a626856.css integrity="sha256-QKgvkLhuKi0N6NxVN6zL3sKz2NiKExQwC96a5ipiaFY="><link rel=stylesheet href=/lib/normalize/normalize.min.055364f5be272caa092b0e6654c165828707f8ab971e2656383a6d6392bc345e.css integrity="sha256-BVNk9b4nLKoJKw5mVMFlgocH+KuXHiZWODptY5K8NF4="><link rel=stylesheet href=/css/color.b0a0f8c429ce52dfa2805b5f9e99ccdae1e8fbfd9adf4f3ddb409d8201fc0c5a.css integrity="sha256-sKD4xCnOUt+igFtfnpnM2uHo+/2a308920CdggH8DFo="><link rel=stylesheet href=/css/style.min.6b5844a20592b7199d260e114204594c0d83eef9095058c6cfd42f5b0dedf8e1.css integrity="sha256-a1hEogWStxmdJg4RQgRZTA2D7vkJUFjGz9QvWw3t+OE="><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/fontawesome-free/all.min.43202d5486e011f9684a17bd6846b5c16a2619002bfc783f7e32e20dfb6bf857.css integrity="sha256-QyAtVIbgEfloShe9aEa1wWomGQAr/Hg/fjLiDftr+Fc="><noscript><link rel=stylesheet href=/lib/fontawesome-free/all.min.43202d5486e011f9684a17bd6846b5c16a2619002bfc783f7e32e20dfb6bf857.css integrity="sha256-QyAtVIbgEfloShe9aEa1wWomGQAr/Hg/fjLiDftr+Fc="></noscript><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="><noscript><link rel=stylesheet href=/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="></noscript><meta name=google-site-verification content="MQ8DNu27ayX6B_4ObiEDK09vGr1fdy7kOAnbd09hJk4"><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"rust基础笔记","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/mengdemao.github.io\/rust_basic\/"},"image":["https:\/\/mengdemao.github.io\/images\/Apple-Devices-Preview.png"],"genre":"posts","keywords":"rust","wordcount":6315,"url":"https:\/\/mengdemao.github.io\/rust_basic\/","datePublished":"2023-07-26T09:29:36+08:00","dateModified":"2023-07-30T10:11:10+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"xxxx","logo":{"@type":"ImageObject","url":"https:\/\/mengdemao.github.io\/images\/avatar.webp","width":528,"height":560}},"author":{"@type":"Person","name":"mengdemao"},"description":"rust基础笔记"}</script><script src=//instant.page/5.2.0 defer type=module integrity=sha384-jnZyxPjiipYXnSU0ygqeac2q7CVYMbh84q0uHVRRxEtvFPiQYbXWUorga2aqZJ0z></script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>function setTheme(e){document.body.setAttribute("theme",e),document.documentElement.style.setProperty("color-scheme",e==="light"?"light":"dark"),window.theme=e,window.isDark=window.theme!=="light"}function saveTheme(e){window.localStorage&&localStorage.setItem("theme",e)}function getMeta(e){const t=document.getElementsByTagName("meta");for(let n=0;n<t.length;n++)if(t[n].getAttribute("name")===e)return t[n];return""}if(window.localStorage&&localStorage.getItem("theme")){let e=localStorage.getItem("theme");e==="light"||e==="dark"||e==="black"?setTheme(e):setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}else"auto"==="light"||"auto"==="dark"||"auto"==="black"?(setTheme("auto"),saveTheme("auto")):(saveTheme("auto"),setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));let metaColors={light:"#f8f8f8",dark:"#252627",black:"#000000"};getMeta("theme-color").content=metaColors[document.body.getAttribute("theme")],window.switchThemeEventSet=new Set</script><div id=back-to-top></div><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=header-title-pre><i class='far fa-edit fa-fw'></i></span><span id=desktop-header-typeit class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/series/>系列 </a><a class=menu-item href=/authors/>作者 </a><a class=menu-item href=/showcase/>作品 </a><a class=menu-item href=/categories/documentation/>文档 </a><a class=menu-item href=/about/>关于 </a><a class=menu-item href=https://github.com/mengdemao/github.io title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw'></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw"></i></a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw"></i></a>
+<span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin"></i></span>
+</span><a href=javascript:void(0); class="menu-item theme-select" title=切换主题><i class="fas fa-adjust fa-fw"></i>
+<select class=color-theme-select id=theme-select-desktop title=切换主题><option value=light>浅色</option><option value=dark>深色</option><option value=black>黑色</option><option value=auto>跟随系统</option></select></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=header-title-pre><i class='far fa-edit fa-fw'></i></span><span id=mobile-header-typeit class=typeit></span></a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw"></i></a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw"></i></a>
+<span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin"></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts/ title>所有文章</a><a class=menu-item href=/tags/ title>标签</a><a class=menu-item href=/categories/ title>分类</a><a class=menu-item href=/series/ title>系列</a><a class=menu-item href=/authors/ title>作者</a><a class=menu-item href=/showcase/ title>作品</a><a class=menu-item href=/categories/documentation/ title>文档</a><a class=menu-item href=/about/ title>关于</a><a class=menu-item href=https://github.com/mengdemao/github.io title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw'></i></a><a href=javascript:void(0); class="menu-item theme-select" title=切换主题>
+<i class="fas fa-adjust fa-fw"></i>
+<select class=color-theme-select id=theme-select-mobile title=切换主题><option value=light>浅色</option><option value=dark>深色</option><option value=black>黑色</option><option value=auto>跟随系统</option></select></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto><nav id=TableOfContents><ul><li><a href=#环境搭建>环境搭建</a><ul><li><a href=#安装rust软件>安装rust软件</a></li><li><a href=#hello-world程序>hello world程序</a></li></ul></li><li><a href=#数据类型>数据类型</a><ul><li><a href=#变量>变量</a></li><li><a href=#常量>常量</a></li><li><a href=#标量类型>标量类型</a><ul><li><a href=#整数类型>整数类型</a></li><li><a href=#浮点类型>浮点类型</a></li><li><a href=#布尔类型>布尔类型</a></li><li><a href=#字符类型>字符类型</a></li></ul></li><li><a href=#复合类型>复合类型</a><ul><li><a href=#元组tuple>元组(tuple)</a></li><li><a href=#数组array>数组(array)</a></li></ul></li></ul></li><li><a href=#控制流>控制流</a><ul><li><a href=#条件语句>条件语句</a></li></ul></li><li><a href=#函数>函数</a></li><li><a href=#所有权>所有权</a></li><li><a href=#枚举>枚举</a><ul><li><a href=#定义枚举>定义枚举</a></li><li><a href=#枚举值作为函数参数>枚举值作为函数参数</a></li><li><a href=#枚举值作为结构体成员>枚举值作为结构体成员</a></li><li><a href=#match控制流结构><code>match</code>控制流结构</a></li><li><a href=#option匹配><code>option</code>匹配</a></li><li><a href=#if-let语法糖><code>if let</code>语法糖</a></li></ul></li><li><a href=#工程管理>工程管理</a><ul><li><a href=#packagecrate>Package&amp;Crate</a></li></ul></li><li><a href=#集合>集合</a><ul><li><a href=#vector>Vector</a><ul><li><a href=#新建-vector>新建 vector</a></li><li><a href=#更新-vector>更新 vector</a></li><li><a href=#读取vector的元素>读取<code>vector</code>的元素</a></li></ul></li><li><a href=#string>String</a><ul><li><a href=#创建字符串>创建字符串</a></li><li><a href=#更新字符串>更新字符串</a></li><li><a href=#索引字符串>索引字符串</a></li><li><a href=#slice>slice</a></li></ul></li><li><a href=#hashmap>Hashmap</a><ul><li><a href=#创建hanshmap>创建hanshmap</a></li><li><a href=#访问hashmap的值>访问hashmap的值</a></li><li><a href=#更新hashmap>更新hashmap</a></li></ul></li></ul></li><li><a href=#错误处理>错误处理</a><ul><li><ul><li><a href=#panic>panic!</a></li><li><a href=#result枚举>Result枚举</a></li><li><a href=#match处理>match处理</a></li></ul></li></ul></li></ul></nav></div></div><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC","true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">rust基础笔记</h1><div class=post-meta><div class=post-meta-line><span class=post-author><span class="author fas fa-user-circle fa-fw"></span><a href=https://github.com/mengdemao title=Author target=_blank rel="noopener noreferrer author" class=author>mengdemao</a>
+</span>&nbsp;<span class=post-category>收录于 </span>&nbsp;<span class=post-category>类别 <a href=/categories/rust/><i class="far fa-folder fa-fw"></i>rust</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2023-07-26>2023-07-26</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime=2023-07-30>2023-07-30</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 6315 字&nbsp;<i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 13 分钟&nbsp;</div></div><div class=featured-image><img loading=eager src=/featuredImage/07.jpg srcset="/featuredImage/07.jpg, /featuredImage/07.jpg 1.5x, /featuredImage/07.jpg 2x" sizes=auto alt=rust基础笔记 title=rust基础笔记 height=auto width=auto></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#环境搭建>环境搭建</a><ul><li><a href=#安装rust软件>安装rust软件</a></li><li><a href=#hello-world程序>hello world程序</a></li></ul></li><li><a href=#数据类型>数据类型</a><ul><li><a href=#变量>变量</a></li><li><a href=#常量>常量</a></li><li><a href=#标量类型>标量类型</a><ul><li><a href=#整数类型>整数类型</a></li><li><a href=#浮点类型>浮点类型</a></li><li><a href=#布尔类型>布尔类型</a></li><li><a href=#字符类型>字符类型</a></li></ul></li><li><a href=#复合类型>复合类型</a><ul><li><a href=#元组tuple>元组(tuple)</a></li><li><a href=#数组array>数组(array)</a></li></ul></li></ul></li><li><a href=#控制流>控制流</a><ul><li><a href=#条件语句>条件语句</a></li></ul></li><li><a href=#函数>函数</a></li><li><a href=#所有权>所有权</a></li><li><a href=#枚举>枚举</a><ul><li><a href=#定义枚举>定义枚举</a></li><li><a href=#枚举值作为函数参数>枚举值作为函数参数</a></li><li><a href=#枚举值作为结构体成员>枚举值作为结构体成员</a></li><li><a href=#match控制流结构><code>match</code>控制流结构</a></li><li><a href=#option匹配><code>option</code>匹配</a></li><li><a href=#if-let语法糖><code>if let</code>语法糖</a></li></ul></li><li><a href=#工程管理>工程管理</a><ul><li><a href=#packagecrate>Package&amp;Crate</a></li></ul></li><li><a href=#集合>集合</a><ul><li><a href=#vector>Vector</a><ul><li><a href=#新建-vector>新建 vector</a></li><li><a href=#更新-vector>更新 vector</a></li><li><a href=#读取vector的元素>读取<code>vector</code>的元素</a></li></ul></li><li><a href=#string>String</a><ul><li><a href=#创建字符串>创建字符串</a></li><li><a href=#更新字符串>更新字符串</a></li><li><a href=#索引字符串>索引字符串</a></li><li><a href=#slice>slice</a></li></ul></li><li><a href=#hashmap>Hashmap</a><ul><li><a href=#创建hanshmap>创建hanshmap</a></li><li><a href=#访问hashmap的值>访问hashmap的值</a></li><li><a href=#更新hashmap>更新hashmap</a></li></ul></li></ul></li><li><a href=#错误处理>错误处理</a><ul><li><ul><li><a href=#panic>panic!</a></li><li><a href=#result枚举>Result枚举</a></li><li><a href=#match处理>match处理</a></li></ul></li></ul></li></ul></nav></div></div><div class=content id=content><h2 id=环境搭建 class=headerLink><a href=#%e7%8e%af%e5%a2%83%e6%90%ad%e5%bb%ba class=header-mark></a>1 环境搭建</h2><h3 id=安装rust软件 class=headerLink><a href=#%e5%ae%89%e8%a3%85rust%e8%bd%af%e4%bb%b6 class=header-mark></a>1.1 安装rust软件</h3><p><a href=https://www.rust-lang.org/ target=_blank rel="noopener noreferrer">rust官方网站</a></br><a href=https://kaisery.github.io/trpl-zh-cn/ target=_blank rel="noopener noreferrer">rust官方教程</a></br></p><h3 id=hello-world程序 class=headerLink><a href=#hello-world%e7%a8%8b%e5%ba%8f class=header-mark></a>1.2 hello world程序</h3><ol><li>创建hello_world程序</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ cargo new hello_world
+</span></span><span class=line><span class=cl>     Created binary <span class=o>(</span>application<span class=o>)</span> <span class=sb>`</span>hello_world<span class=sb>`</span> package
+</span></span></code></pre></td></tr></table></div></div><ul><li>Cargo.toml: 配置文件</li><li>src文件夹: 存放rust源文件</li></ul><ol start=2><li>构建</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ cargo build
+</span></span><span class=line><span class=cl>   Compiling hello_world v0.1.0 <span class=o>(</span>D:<span class=se>\l</span>earn_rust<span class=se>\h</span>ello_world<span class=o>)</span>
+</span></span><span class=line><span class=cl>    Finished dev <span class=o>[</span>unoptimized + debuginfo<span class=o>]</span> target<span class=o>(</span>s<span class=o>)</span> in 1.25s
+</span></span></code></pre></td></tr></table></div></div><ol start=3><li>运行</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ cargo run
+</span></span><span class=line><span class=cl>    Finished dev <span class=o>[</span>unoptimized + debuginfo<span class=o>]</span> target<span class=o>(</span>s<span class=o>)</span> in 0.01s
+</span></span><span class=line><span class=cl>     Running <span class=sb>`</span>target<span class=se>\d</span>ebug<span class=se>\h</span>ello_world.exe<span class=sb>`</span>
+</span></span><span class=line><span class=cl>Hello, world!
+</span></span></code></pre></td></tr></table></div></div><p>至此,我们就可以运行进行rust程序的学习了;</p><h2 id=数据类型 class=headerLink><a href=#%e6%95%b0%e6%8d%ae%e7%b1%bb%e5%9e%8b class=header-mark></a>2 数据类型</h2><h3 id=变量 class=headerLink><a href=#%e5%8f%98%e9%87%8f class=header-mark></a>2.1 变量</h3><ol><li>默认let定义的是不可变变量</li><li>使用<code>mut</code>创建可变变量</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=kd>let</span><span class=w> </span><span class=n>_a</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=mi>12</span><span class=p>;</span><span class=w>        </span><span class=c1>//  不可变变量
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>let</span><span class=w> </span><span class=k>mut</span><span class=w>  </span><span class=n>_b</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=mi>12</span><span class=p>;</span><span class=w>   </span><span class=c1>// 可变变量
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=n>_a</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=mi>13</span><span class=p>;</span><span class=w>    </span><span class=c1>// 编译报错: cannot assign twice to immutable variable
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>_b</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=mi>13</span><span class=p>;</span><span class=w>    </span><span class=c1>// 编译成功
+</span></span></span></code></pre></td></tr></table></div></div><p>那为什么可以称之为不可变变量,为什么不可以称之为常量;
+因为,虽然不可以修改,但是可以重新绑定</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=kd>let</span><span class=w> </span><span class=n>_a</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=mi>13</span><span class=p>;</span><span class=w>        </span><span class=c1>//  不可变变量重新绑定13
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>let</span><span class=w> </span><span class=n>_a</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=mi>14</span><span class=p>;</span><span class=w>        </span><span class=c1>//  不可变变量重新绑定14
+</span></span></span></code></pre></td></tr></table></div></div><p>是否可以这样理解,let翻译为绑定,</p><ol><li>一般let绑定到常量上</li><li>mut绑定到内存上</li></ol><p>那么进行一下测试</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=kd>let</span><span class=w> </span><span class=n>_c</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=mi>12</span><span class=p>;</span><span class=w>        </span><span class=c1>// 1. 首先绑定到12这个常量上
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>let</span><span class=w> </span><span class=k>mut</span><span class=w> </span><span class=n>_c</span><span class=w>  </span><span class=o>=</span><span class=w> </span><span class=mi>14</span><span class=p>;</span><span class=w>   </span><span class=c1>// 2. 绑定到变量上
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>_c</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=mi>15</span><span class=p>;</span><span class=w>            </span><span class=c1>// 3. 可以修改
+</span></span></span></code></pre></td></tr></table></div></div><p>在进行分析,但是下面的这种绑定的概念出现了问题</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=k>fn</span> <span class=nf>main</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=k>mut</span><span class=w> </span><span class=n>_c</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=mi>12</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>_d</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>_c</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>_d</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=mi>12</span><span class=p>;</span><span class=w> </span><span class=c1>// 编译报错
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;The value of x is: </span><span class=si>{_c}</span><span class=s>&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;The value of x is: </span><span class=si>{_d}</span><span class=s>&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ cargo build
+</span></span><span class=line><span class=cl>   Compiling variables_mutability v0.1.0 <span class=o>(</span>D:<span class=se>\g</span>ithub.io<span class=se>\s</span>tatic<span class=se>\d</span>emo<span class=se>\r</span>ust<span class=se>\v</span>ariable
+</span></span><span class=line><span class=cl>s_mutability<span class=o>)</span>
+</span></span><span class=line><span class=cl>error<span class=o>[</span>E0384<span class=o>]</span>: cannot assign twice to immutable variable <span class=sb>`</span>_d<span class=sb>`</span>
+</span></span><span class=line><span class=cl> --&gt; src<span class=se>\m</span>ain.rs:4:5
+</span></span><span class=line><span class=cl>  <span class=p>|</span>
+</span></span><span class=line><span class=cl><span class=m>3</span> <span class=p>|</span>     <span class=nb>let</span> <span class=nv>_d</span> <span class=o>=</span> _c<span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=p>|</span>         --
+</span></span><span class=line><span class=cl>  <span class=p>|</span>         <span class=p>|</span>
+</span></span><span class=line><span class=cl>  <span class=p>|</span>         first assignment to <span class=sb>`</span>_d<span class=sb>`</span>
+</span></span><span class=line><span class=cl>  <span class=p>|</span>         help: consider making this binding mutable: <span class=sb>`</span>mut _d<span class=sb>`</span>
+</span></span><span class=line><span class=cl><span class=m>4</span> <span class=p>|</span>     <span class=nv>_d</span> <span class=o>=</span> 12<span class=p>;</span> // 编译报错
+</span></span><span class=line><span class=cl>  <span class=p>|</span>     ^^^^^^^ cannot assign twice to immutable variable
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>For more information about this error, try <span class=sb>`</span>rustc --explain E0384<span class=sb>`</span>.
+</span></span><span class=line><span class=cl>error: could not compile <span class=sb>`</span>variables_mutability<span class=sb>`</span> due to previous error
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>当然,此时我还不了解什么概念,因此作出猜测
+编译期间通过符号表的属性判断变量是否进行修改</p></blockquote><p>但是可以重新绑定</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=k>fn</span> <span class=nf>main</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=k>mut</span><span class=w> </span><span class=n>_c</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=mi>12</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>_d</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>_c</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>_d</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=mi>12</span><span class=p>;</span><span class=w> </span><span class=c1>// 编译报错
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;The value of x is: </span><span class=si>{_c}</span><span class=s>&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;The value of x is: </span><span class=si>{_d}</span><span class=s>&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=常量 class=headerLink><a href=#%e5%b8%b8%e9%87%8f class=header-mark></a>2.2 常量</h3><p>类似于不可变变量, 常量 (constants) 是绑定到一个名称的不允许改变的值，不过常量与变量还是有一些区别。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=k>const</span><span class=w> </span><span class=no>HOURS_IN_SECONDS</span>: <span class=kt>u32</span> <span class=o>=</span><span class=w> </span><span class=mi>60</span><span class=w> </span><span class=o>*</span><span class=w> </span><span class=mi>60</span><span class=p>;</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=标量类型 class=headerLink><a href=#%e6%a0%87%e9%87%8f%e7%b1%bb%e5%9e%8b class=header-mark></a>2.3 标量类型</h3><h4 id=整数类型 class=headerLink><a href=#%e6%95%b4%e6%95%b0%e7%b1%bb%e5%9e%8b class=header-mark></a>2.3.1 整数类型</h4><ul><li><p>整数没有小数部分</p></li><li><p>无符号以u开头</p></li><li><p>有符号以i开头</p><table><thead><tr><th>Length</th><th>Signed</th><th>Unsigned</th></tr></thead><tbody><tr><td>8-Bit</td><td><code>i8</code></td><td><code>u8</code></td></tr><tr><td>16-Bit</td><td><code>i16</code></td><td><code>u16</code></td></tr><tr><td>32-Bit</td><td><code>i32</code></td><td><code>u32</code></td></tr><tr><td>64-Bit</td><td><code>i64</code></td><td><code>u64</code></td></tr><tr><td>128-Bit</td><td><code>i128</code></td><td><code>u128</code></td></tr><tr><td>arch</td><td><code>iszie</code></td><td><code>usize</code></td></tr></tbody></table></li></ul><h4 id=浮点类型 class=headerLink><a href=#%e6%b5%ae%e7%82%b9%e7%b1%bb%e5%9e%8b class=header-mark></a>2.3.2 浮点类型</h4><p>默认浮点为64</p><ul><li><code>f32</code> &ndash;> 32浮点</li><li><code>f64</code> &ndash;> 64浮点</li></ul><h4 id=布尔类型 class=headerLink><a href=#%e5%b8%83%e5%b0%94%e7%b1%bb%e5%9e%8b class=header-mark></a>2.3.3 布尔类型</h4><ul><li>一个字节的大小</li><li>符号是<code>bool</code></li><li>两个值<code>true/false</code></li></ul><h4 id=字符类型 class=headerLink><a href=#%e5%ad%97%e7%ac%a6%e7%b1%bb%e5%9e%8b class=header-mark></a>2.3.4 字符类型</h4><ul><li>rust使用<code>char</code>描述</li><li>使用4个字节存储</li></ul><h3 id=复合类型 class=headerLink><a href=#%e5%a4%8d%e5%90%88%e7%b1%bb%e5%9e%8b class=header-mark></a>2.4 复合类型</h3><h4 id=元组tuple class=headerLink><a href=#%e5%85%83%e7%bb%84tuple class=header-mark></a>2.4.1 元组(tuple)</h4><ul><li>Tuple可以将多个值放在一个数据类型里</li><li>Tuple长度是固定的</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=kd>let</span><span class=w> </span><span class=n>tup</span>:<span class=p>(</span><span class=kt>i32</span><span class=p>,</span><span class=w> </span><span class=kt>i64</span><span class=p>,</span><span class=w> </span><span class=kt>i128</span><span class=p>)</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=p>(</span><span class=mi>500</span><span class=p>,</span><span class=w> </span><span class=mi>1000</span><span class=p>,</span><span class=w> </span><span class=mi>1500</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kd>let</span><span class=w> </span><span class=p>(</span><span class=n>x</span><span class=p>,</span><span class=w> </span><span class=n>y</span><span class=p>,</span><span class=w> </span><span class=n>z</span><span class=p>)</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>tup</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;</span><span class=si>{}</span><span class=s> </span><span class=si>{}</span><span class=s> </span><span class=si>{}</span><span class=s>&#34;</span><span class=p>,</span><span class=w> </span><span class=n>x</span><span class=p>,</span><span class=w> </span><span class=n>y</span><span class=p>,</span><span class=w> </span><span class=n>z</span><span class=p>);</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><h4 id=数组array class=headerLink><a href=#%e6%95%b0%e7%bb%84array class=header-mark></a>2.4.2 数组(array)</h4><ul><li>数组也可以将多个值放在一个类型里</li><li>数组的元素必须相同</li><li>数组的长度是固定的</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=kd>let</span><span class=w> </span><span class=n>months</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=p>[</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>     </span><span class=s>&#34;Jan&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>     </span><span class=s>&#34;Feb&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>     </span><span class=s>&#34;Mar&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>     </span><span class=s>&#34;Apr&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>     </span><span class=s>&#34;Jun&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>     </span><span class=s>&#34;Jly&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>     </span><span class=s>&#34;Aug&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>     </span><span class=s>&#34;Sep&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>     </span><span class=s>&#34;Oct&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>     </span><span class=s>&#34;Nov&#34;</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>     </span><span class=s>&#34;Dec&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>];</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kd>let</span><span class=w> </span><span class=n>mount_1st</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>months</span><span class=p>[</span><span class=mi>0</span><span class=p>];</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kd>let</span><span class=w> </span><span class=n>mount_2nd</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>months</span><span class=p>[</span><span class=mi>2</span><span class=p>];</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;mount_1st:</span><span class=si>{mount_1st}</span><span class=s> mount_2nd:</span><span class=si>{mount_2nd}</span><span class=s>&#34;</span><span class=p>);</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><h2 id=控制流 class=headerLink><a href=#%e6%8e%a7%e5%88%b6%e6%b5%81 class=header-mark></a>3 控制流</h2><h3 id=条件语句 class=headerLink><a href=#%e6%9d%a1%e4%bb%b6%e8%af%ad%e5%8f%a5 class=header-mark></a>3.1 条件语句</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=kd>let</span><span class=w> </span><span class=n>number</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=mi>3</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>if</span><span class=w> </span><span class=n>number</span><span class=w> </span><span class=o>&lt;</span><span class=w> </span><span class=mi>5</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>     </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;condition was true&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w> </span><span class=k>else</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>     </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;condition was false&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c1>// condition was true
+</span></span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=kd>let</span><span class=w> </span><span class=n>number</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=mi>5</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>if</span><span class=w> </span><span class=n>number</span><span class=w> </span><span class=o>&lt;</span><span class=w> </span><span class=mi>5</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>     </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;condition was true&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w> </span><span class=k>else</span><span class=w> </span><span class=k>if</span><span class=w> </span><span class=n>number</span><span class=w> </span><span class=o>&gt;</span><span class=w> </span><span class=mi>5</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>     </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;condition was false&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w> </span><span class=k>else</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>     </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;condition was five&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c1>// condition was five
+</span></span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span><span class=lnt>74
+</span><span class=lnt>75
+</span><span class=lnt>76
+</span><span class=lnt>77
+</span><span class=lnt>78
+</span><span class=lnt>79
+</span><span class=lnt>80
+</span><span class=lnt>81
+</span><span class=lnt>82
+</span><span class=lnt>83
+</span><span class=lnt>84
+</span><span class=lnt>85
+</span><span class=lnt>86
+</span><span class=lnt>87
+</span><span class=lnt>88
+</span><span class=lnt>89
+</span><span class=lnt>90
+</span><span class=lnt>91
+</span><span class=lnt>92
+</span><span class=lnt>93
+</span><span class=lnt>94
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=k>fn</span> <span class=nf>main</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c1>// 1. if条件语句
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>number</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=mi>3</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=k>if</span><span class=w> </span><span class=n>number</span><span class=w> </span><span class=o>&lt;</span><span class=w> </span><span class=mi>5</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;condition was true&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w> </span><span class=k>else</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;condition was false&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c1>// 2. 使用 else if 处理多重条件
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    </span><span class=k>if</span><span class=w> </span><span class=n>number</span><span class=w> </span><span class=o>%</span><span class=w> </span><span class=mi>4</span><span class=w> </span><span class=o>==</span><span class=w> </span><span class=mi>0</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;number is divisible by 4&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w> </span><span class=k>else</span><span class=w> </span><span class=k>if</span><span class=w> </span><span class=n>number</span><span class=w> </span><span class=o>%</span><span class=w> </span><span class=mi>3</span><span class=w> </span><span class=o>==</span><span class=w> </span><span class=mi>0</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;number is divisible by 3&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w> </span><span class=k>else</span><span class=w> </span><span class=k>if</span><span class=w> </span><span class=n>number</span><span class=w> </span><span class=o>%</span><span class=w> </span><span class=mi>2</span><span class=w> </span><span class=o>==</span><span class=w> </span><span class=mi>0</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;number is divisible by 2&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w> </span><span class=k>else</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;number is not divisible by 4, 3, or 2&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c1>// 3.在 let 语句中使用 if
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>condition</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=kc>true</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>number</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=k>if</span><span class=w> </span><span class=n>condition</span><span class=w> </span><span class=p>{</span><span class=w> </span><span class=mi>5</span><span class=w> </span><span class=p>}</span><span class=w> </span><span class=k>else</span><span class=w> </span><span class=p>{</span><span class=w> </span><span class=mi>6</span><span class=w> </span><span class=p>};</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;The value of number is: </span><span class=si>{number}</span><span class=s>&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c1>// 4. 使用 loop 重复执行代码
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=k>mut</span><span class=w> </span><span class=n>x</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=mi>0</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=k>loop</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;again! </span><span class=si>{}</span><span class=s>&#34;</span><span class=p>,</span><span class=w> </span><span class=n>x</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>x</span><span class=w> </span><span class=o>+=</span><span class=w> </span><span class=mi>1</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=k>if</span><span class=w> </span><span class=n>x</span><span class=w> </span><span class=o>&gt;</span><span class=w> </span><span class=mi>12</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=k>break</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c1>// 5. 从循环返回值
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=k>mut</span><span class=w> </span><span class=n>counter</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=mi>0</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>result</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=k>loop</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>counter</span><span class=w> </span><span class=o>+=</span><span class=w> </span><span class=mi>1</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=k>if</span><span class=w> </span><span class=n>counter</span><span class=w> </span><span class=o>==</span><span class=w> </span><span class=mi>10</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=k>break</span><span class=w> </span><span class=n>counter</span><span class=w> </span><span class=o>*</span><span class=w> </span><span class=mi>2</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>};</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;The result is </span><span class=si>{result}</span><span class=s>&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c1>// 如果存在嵌套循环，break 和 continue 应用于此时最内层的循环。
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    </span><span class=c1>// 你可以选择在一个循环上指定一个 循环标签（loop label），
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    </span><span class=c1>// 然后将标签与 break 或 continue 一起使用，
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    </span><span class=c1>// 使这些关键字应用于已标记的循环而不是最内层的循环
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c1>// 6. 循环标签：在多个循环之间消除歧义
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=k>mut</span><span class=w> </span><span class=n>count</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=mi>0</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=na>&#39;counting_up</span>: <span class=nc>loop</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;count = </span><span class=si>{count}</span><span class=s>&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=kd>let</span><span class=w> </span><span class=k>mut</span><span class=w> </span><span class=n>remaining</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=mi>10</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=k>loop</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;remaining = </span><span class=si>{remaining}</span><span class=s>&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=k>if</span><span class=w> </span><span class=n>remaining</span><span class=w> </span><span class=o>==</span><span class=w> </span><span class=mi>9</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                </span><span class=k>break</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=k>if</span><span class=w> </span><span class=n>count</span><span class=w> </span><span class=o>==</span><span class=w> </span><span class=mi>2</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                </span><span class=k>break</span><span class=w> </span><span class=nl>&#39;counting_up</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=n>remaining</span><span class=w> </span><span class=o>-=</span><span class=w> </span><span class=mi>1</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>count</span><span class=w> </span><span class=o>+=</span><span class=w> </span><span class=mi>1</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;End count = </span><span class=si>{count}</span><span class=s>&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c1>// 7. while 条件循环
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=k>mut</span><span class=w> </span><span class=n>number</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=mi>3</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=k>while</span><span class=w> </span><span class=n>number</span><span class=w> </span><span class=o>!=</span><span class=w> </span><span class=mi>0</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;</span><span class=si>{number}</span><span class=s>!&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>number</span><span class=w> </span><span class=o>-=</span><span class=w> </span><span class=mi>1</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;LIFTOFF!!!&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c1>// 8. 使用 for 遍历集合
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>a</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=p>[</span><span class=mi>10</span><span class=p>,</span><span class=w> </span><span class=mi>20</span><span class=p>,</span><span class=w> </span><span class=mi>30</span><span class=p>,</span><span class=w> </span><span class=mi>40</span><span class=p>,</span><span class=w> </span><span class=mi>50</span><span class=p>];</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=k>for</span><span class=w> </span><span class=n>element</span><span class=w> </span><span class=k>in</span><span class=w> </span><span class=n>a</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;the value is: </span><span class=si>{element}</span><span class=s>&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><h2 id=函数 class=headerLink><a href=#%e5%87%bd%e6%95%b0 class=header-mark></a>4 函数</h2><p>定义普通函数</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=k>fn</span> <span class=o>&lt;</span><span class=err>函数名</span><span class=o>&gt;</span><span class=w> </span><span class=p>(</span><span class=o>&lt;</span><span class=err>参数</span><span class=o>&gt;</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>     </span><span class=o>&lt;</span><span class=err>函数体</span><span class=o>&gt;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=k>fn</span> <span class=nf>another_function</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;Another function.&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p>定义输入参数</p><blockquote><p>参数必须指定类型</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=sd>/// rust函数带参数
+</span></span></span><span class=line><span class=cl><span class=sd></span><span class=k>fn</span> <span class=nf>another_function_with_args</span><span class=p>(</span><span class=n>x</span>: <span class=kt>i32</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;The value of x is: </span><span class=si>{x}</span><span class=s>&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=sd>/// rust函数带两个参数
+</span></span></span><span class=line><span class=cl><span class=sd></span><span class=k>fn</span> <span class=nf>print_labeled_measurement</span><span class=p>(</span><span class=n>value</span>: <span class=kt>i32</span><span class=p>,</span><span class=w> </span><span class=n>unit_label</span>: <span class=kt>char</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;The measurement is: </span><span class=si>{value}{unit_label}</span><span class=s>&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p>定义返回值</p><blockquote><p>必须指定返回值</p></blockquote><p>函数可以向调用它的代码返回值。我们并不对返回值命名，但要在箭头（->）后声明它的类型。
+在<code>Rust</code>中，函数的返回值等同于函数体最后一个表达式的值。
+使用<code>return</code>关键字和指定值，可从函数中提前返回；但大部分函数隐式的返回最后的表达式.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=sd>/// 带返回值的函数
+</span></span></span><span class=line><span class=cl><span class=sd></span><span class=k>fn</span> <span class=nf>function_with_return_value1</span><span class=p>()</span><span class=w> </span>-&gt; <span class=kt>i32</span> <span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;带返回值的函数&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=mi>5</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=sd>/// 带返回值的函数
+</span></span></span><span class=line><span class=cl><span class=sd></span><span class=k>fn</span> <span class=nf>function_with_return_value2</span><span class=p>()</span><span class=w> </span>-&gt; <span class=kt>i32</span> <span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;带返回值的函数在return之前&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=k>return</span><span class=w> </span><span class=mi>5</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;带返回值的函数在return之后&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><h2 id=所有权 class=headerLink><a href=#%e6%89%80%e6%9c%89%e6%9d%83 class=header-mark></a>5 所有权</h2><blockquote><p>所有程序都必须管理其运行时使用计算机内存的方式。一些语言中具有垃圾回收机制，
+在程序运行时有规律地寻找> 不再使用的内存；在另一些语言中，程序员必须亲自分配和释放内存。
+Rust 则选择了第三种方式：通过所有权系统管理内存，编译器在编译时会根据一系列的规则进行检查。
+如果违反了任何这些规则，程序都不能编译。在运行时，所有权系统的任何功能都不会减慢程序</p></blockquote><p>所有权规则</p><ol><li>Rust 中的每一个值都有一个 所有者（owner）。</li><li>值在任一时刻有且只有一个所有者。</li><li>当所有者（变量）离开作用域，这个值将被丢弃。</li></ol><p>首先， 我们需要看一个代码,并且执行编译;</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=k>fn</span> <span class=nf>main</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>s1</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=nb>String</span>::<span class=n>from</span><span class=p>(</span><span class=s>&#34;hello&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>s2</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>s1</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;</span><span class=si>{}</span><span class=s> </span><span class=si>{}</span><span class=s>&#34;</span><span class=p>,</span><span class=w> </span><span class=n>s1</span><span class=p>,</span><span class=w> </span><span class=n>s2</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-txt data-lang=txt><span class=line><span class=cl>error[E0382]: borrow of moved value: `s1`
+</span></span><span class=line><span class=cl> --&gt; src\main.rs:5:23
+</span></span><span class=line><span class=cl>  |
+</span></span><span class=line><span class=cl>2 |     let s1 = String::from(&#34;hello&#34;);
+</span></span><span class=line><span class=cl>  |         -- move occurs because `s1` has type `String`, which does not implement the `Copy` trait
+</span></span><span class=line><span class=cl>3 |     let s2 = s1;
+</span></span><span class=line><span class=cl>  |              -- value moved here
+</span></span><span class=line><span class=cl>4 |
+</span></span><span class=line><span class=cl>5 |     println!(&#34;{} {}&#34;, s1, s2);
+</span></span><span class=line><span class=cl>  |                       ^^ value borrowed here after move
+</span></span><span class=line><span class=cl>  |
+</span></span><span class=line><span class=cl>  = note: this error originates in the macro `$crate::format_args_nl` which comes from the expansion of the macro `println` (in Nightly builds, run with -Z macro-backtrace for more info)
+</span></span><span class=line><span class=cl>help: consider cloning the value if the performance cost is acceptable
+</span></span><span class=line><span class=cl>  |
+</span></span><span class=line><span class=cl>3 |     let s2 = s1.clone();
+</span></span><span class=line><span class=cl>  |                ++++++++
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>For more information about this error, try `rustc --explain E0382`.
+</span></span><span class=line><span class=cl>error: could not compile `ownship` due to previous error
+</span></span></code></pre></td></tr></table></div></div><p>在我们看来， 这个程序为啥编译失败了呢？</p><p>不应该s2保留了s1的备份么？</p><p><figure><a class=lightgallery href=/rust_basic/picture/image-20230723232001078.png title=image-20230723232001078 data-thumbnail=/rust_basic/picture/image-20230723232001078.png><img loading=lazy src=/rust_basic/picture/image-20230723232001078.png srcset="/rust_basic/picture/image-20230723232001078.png, /rust_basic/picture/image-20230723232001078.png 1.5x, /rust_basic/picture/image-20230723232001078.png 2x" sizes=auto alt=image-20230723232001078 height=405 width=760></a></figure></p><p><figure><a class=lightgallery href=/rust_basic/picture/image-20230723232104349.png title=image-20230723232104349 data-thumbnail=/rust_basic/picture/image-20230723232104349.png><img loading=lazy src=/rust_basic/picture/image-20230723232104349.png srcset="/rust_basic/picture/image-20230723232104349.png, /rust_basic/picture/image-20230723232104349.png 1.5x, /rust_basic/picture/image-20230723232104349.png 2x" sizes=auto alt=image-20230723232104349 height=558 width=753></a></figure></p><p>之前我们提到过当变量离开作用域后，Rust 自动调用 <code>drop</code> 函数并清理变量的堆内存。不过图 4-2 展示了两个数据指针指向了同一位置。这就有了一个问题：当 <code>s2</code> 和 <code>s1</code> 离开作用域，他们都会尝试释放相同的内存。这是一个叫做 <strong>二次释放</strong>（<em>double free</em>）的错误，也是之前提到过的内存安全性 bug 之一。两次释放（相同）内存会导致内存污染，它可能会导致潜在的安全漏洞。</p><p>为了确保内存安全，在 <code>let s2 = s1;</code> 之后，Rust 认为 <code>s1</code> 不再有效，因此 Rust 不需要在 <code>s1</code> 离开作用域后清理任何东西。看看在 <code>s2</code> 被创建之后尝试使用 <code>s1</code> 会发生什么；这段代码不能运行：</p><p>那么就可以知道，此时s1移动了s2上面，s1不在合法的运行.</p><p><figure><a class=lightgallery href=/rust_basic/picture/image-20230723232320106.png title=image-20230723232320106 data-thumbnail=/rust_basic/picture/image-20230723232320106.png><img loading=lazy src=/rust_basic/picture/image-20230723232320106.png srcset="/rust_basic/picture/image-20230723232320106.png, /rust_basic/picture/image-20230723232320106.png 1.5x, /rust_basic/picture/image-20230723232320106.png 2x" sizes=auto alt=image-20230723232320106 height=541 width=773></a></figure></p><p>但是， 我们确实需要一个保证两个变量都是有效的,那么</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=k>fn</span> <span class=nf>main</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>s1</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=nb>String</span>::<span class=n>from</span><span class=p>(</span><span class=s>&#34;hello&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>s2</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>s1</span><span class=p>.</span><span class=n>clone</span><span class=p>();</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;s1 = </span><span class=si>{}</span><span class=s>, s2 = </span><span class=si>{}</span><span class=s>&#34;</span><span class=p>,</span><span class=w> </span><span class=n>s1</span><span class=p>,</span><span class=w> </span><span class=n>s2</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p>此时编译的结果就可以通过了.</p><p>但是呢？</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>x</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=mi>5</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>y</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>x</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;x = </span><span class=si>{}</span><span class=s>, y = </span><span class=si>{}</span><span class=s>&#34;</span><span class=p>,</span><span class=w> </span><span class=n>x</span><span class=p>,</span><span class=w> </span><span class=n>y</span><span class=p>);</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p>我们可以知道，上面的确实可以编译通过， 这个又是什么原因呢？</p><p>从根本上来说， 我们可以这样理解，rust保护内存，防止泄露</p><p>x,y保存在栈上，不会泄露，因此可以直接拷贝</p><p>原因是像整型这样的在编译时已知大小的类型被整个存储在栈上，所以拷贝其实际的值是快速的。这意味着没有理由在创建变量 <code>y</code> 后使 <code>x</code> 无效。换句话说，这里没有深浅拷贝的区别，所以这里调用 <code>clone</code> 并不会与通常的浅拷贝有什么不同，我们可以不用管它。</p><p>那么哪些类型实现了 <code>Copy</code> trait 呢？你可以查看给定类型的文档来确认，不过作为一个通用的规则，任何一组简单标量值的组合都可以实现 <code>Copy</code>，任何不需要分配内存或某种形式资源的类型都可以实现 <code>Copy</code> 。如下是一些 <code>Copy</code> 的类型：</p><ul><li>所有整数类型，比如 <code>u32</code>。</li><li>布尔类型，<code>bool</code>，它的值是 <code>true</code> 和 <code>false</code>。</li><li>所有浮点数类型，比如 <code>f64</code>。</li><li>字符类型，<code>char</code>。</li><li>元组，当且仅当其包含的类型也都实现 <code>Copy</code> 的时候。比如，<code>(i32, i32)</code> 实现了 <code>Copy</code>，但 <code>(i32, String)</code> 就没有。</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=k>fn</span> <span class=nf>main</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>	</span><span class=kd>let</span><span class=w> </span><span class=n>s</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=nb>String</span>::<span class=n>from</span><span class=p>(</span><span class=s>&#34;Test&#34;</span><span class=p>);</span><span class=w>  </span><span class=c1>// s 进入作用域
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>	</span><span class=n>takes_ownership</span><span class=p>(</span><span class=n>s</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>	</span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;</span><span class=si>{}</span><span class=s>&#34;</span><span class=p>,</span><span class=w> </span><span class=n>s</span><span class=p>);</span><span class=w>  </span><span class=c1>// value borrowed here after move
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>fn</span> <span class=nf>takes_ownership</span><span class=p>(</span><span class=n>some_string</span>: <span class=nb>String</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w> </span><span class=c1>// some_string 进入作用域
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>	</span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;</span><span class=si>{}</span><span class=s>&#34;</span><span class=p>,</span><span class=w> </span><span class=n>some_string</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w> </span><span class=c1>// 这里，some_string 移出作用域并调用 `drop` 方法。
+</span></span></span><span class=line><span class=cl><span class=c1>// 占用的内存被释放
+</span></span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-txt data-lang=txt><span class=line><span class=cl>$ cargo build
+</span></span><span class=line><span class=cl>   Compiling ownship v0.1.0 (D:\github.io\static\demo\rust\ownship)
+</span></span><span class=line><span class=cl>error[E0382]: borrow of moved value: `s`
+</span></span><span class=line><span class=cl>  --&gt; src\main.rs:14:20
+</span></span><span class=line><span class=cl>   |
+</span></span><span class=line><span class=cl>12 |     let s = String::from(&#34;Test&#34;);  // s 进入作用域
+</span></span><span class=line><span class=cl>   |         - move occurs because `s` has type `String`, which does not implement the `Copy` trait
+</span></span><span class=line><span class=cl>13 |     takes_ownership(s);
+</span></span><span class=line><span class=cl>   |                     - value moved here
+</span></span><span class=line><span class=cl>14 |     println!(&#34;{}&#34;, s);
+</span></span><span class=line><span class=cl>   |                    ^ value borrowed here after move
+</span></span><span class=line><span class=cl>   |
+</span></span><span class=line><span class=cl>note: consider changing this parameter type in function `takes_ownership` to borrow instead if owning the value isn&#39;t necessary
+</span></span><span class=line><span class=cl>  --&gt; src\main.rs:20:33
+</span></span><span class=line><span class=cl>   |
+</span></span><span class=line><span class=cl>20 | fn takes_ownership(some_string: String) { // some_string 进入作用域
+</span></span><span class=line><span class=cl>   |    ---------------              ^^^^^^ this parameter takes ownership of the value
+</span></span><span class=line><span class=cl>   |    |
+</span></span><span class=line><span class=cl>   |    in this function
+</span></span><span class=line><span class=cl>   = note: this error originates in the macro `$crate::format_args_nl` which comes from the expansion of the macro `println` (in Nightly builds, run with -Z macro-backtrace for more info)
+</span></span><span class=line><span class=cl>help: consider cloning the value if the performance cost is acceptable
+</span></span><span class=line><span class=cl>   |
+</span></span><span class=line><span class=cl>13 |     takes_ownership(s.clone());
+</span></span><span class=line><span class=cl>   |                      ++++++++
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>For more information about this error, try `rustc --explain E0382`.
+</span></span><span class=line><span class=cl>error: could not compile `ownship` due to previous error
+</span></span></code></pre></td></tr></table></div></div><p>但是如果可以使用copy的话会造成大量的拷贝,因此需要使用<strong>引用与借用</strong>，</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=k>fn</span> <span class=nf>main</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>s1</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=nb>String</span>::<span class=n>from</span><span class=p>(</span><span class=s>&#34;hello&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>len</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>calculate_length</span><span class=p>(</span><span class=o>&amp;</span><span class=n>s1</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;The length of &#39;</span><span class=si>{}</span><span class=s>&#39; is </span><span class=si>{}</span><span class=s>.&#34;</span><span class=p>,</span><span class=w> </span><span class=n>s1</span><span class=p>,</span><span class=w> </span><span class=n>len</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>fn</span> <span class=nf>calculate_length</span><span class=p>(</span><span class=n>s</span>: <span class=kp>&amp;</span><span class=nb>String</span><span class=p>)</span><span class=w> </span>-&gt; <span class=kt>usize</span> <span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>s</span><span class=p>.</span><span class=n>len</span><span class=p>()</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p>首先，注意变量声明和函数返回值中的所有元组代码都消失了。其次，注意我们传递 <code>&amp;s1</code> 给 <code>calculate_length</code>，同时在函数定义中，我们获取 <code>&amp;String</code> 而不是 <code>String</code>。这些 & 符号就是 <strong>引用</strong>，它们允许你使用值但不获取其所有权。图 4-5 展示了一张示意图。</p><p><figure><a class=lightgallery href=/rust_basic/picture/image-20230724003122062.png title=image-20230724003122062 data-thumbnail=/rust_basic/picture/image-20230724003122062.png><img loading=lazy src=/rust_basic/picture/image-20230724003122062.png srcset="/rust_basic/picture/image-20230724003122062.png, /rust_basic/picture/image-20230724003122062.png 1.5x, /rust_basic/picture/image-20230724003122062.png 2x" sizes=auto alt=image-20230724003122062 height=487 width=790></a></figure></p><p>我们将创建一个引用的行为称为 借用（borrowing）</p><p>如果我们尝试修改借用的变量呢？</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=k>fn</span> <span class=nf>main</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>s</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=nb>String</span>::<span class=n>from</span><span class=p>(</span><span class=s>&#34;hello&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>change</span><span class=p>(</span><span class=o>&amp;</span><span class=n>s</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>fn</span> <span class=nf>change</span><span class=p>(</span><span class=n>some_string</span>: <span class=kp>&amp;</span><span class=nb>String</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>some_string</span><span class=p>.</span><span class=n>push_str</span><span class=p>(</span><span class=s>&#34;, world&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-tcl data-lang=tcl><span class=line><span class=cl><span class=err>$</span> <span class=nv>cargo</span> run
+</span></span><span class=line><span class=cl>   <span class=nv>Compiling</span> ownership v0.1.0 <span class=k>(</span><span class=nb>file</span><span class=o>:///</span>projects<span class=o>/</span>ownership<span class=k>)</span>
+</span></span><span class=line><span class=cl><span class=k>error[</span><span class=nv>E0596</span><span class=k>]</span><span class=o>:</span> cannot borrow <span class=err>`</span><span class=o>*</span>some_string<span class=err>`</span> as mutable<span class=err>,</span> as it is behind a <span class=err>`</span><span class=o>&amp;</span><span class=err>`</span> reference
+</span></span><span class=line><span class=cl> <span class=nv>--</span><span class=o>&gt;</span> src<span class=o>/</span>main.rs:8:5
+</span></span><span class=line><span class=cl>  <span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=nv>7</span> <span class=o>|</span> fn change<span class=k>(</span><span class=nv>some_string</span><span class=o>:</span> <span class=o>&amp;</span>String<span class=k>)</span> <span class=k>{</span>
+</span></span><span class=line><span class=cl>  <span class=o>|</span>                        <span class=nv>-------</span> help: consider changing this to be a mutable reference: <span class=err>`</span><span class=o>&amp;</span>mut String<span class=err>`</span>
+</span></span><span class=line><span class=cl><span class=nv>8</span> <span class=o>|</span>     some_string.push_str<span class=k>(</span><span class=s2>&#34;, world&#34;</span><span class=k>);</span>
+</span></span><span class=line><span class=cl>  <span class=o>|</span>     <span class=o>^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span> <span class=err>`</span><span class=nv>some_string</span><span class=err>`</span> is a <span class=err>`</span><span class=o>&amp;</span><span class=err>`</span> reference<span class=err>,</span> so the data it refers to cannot be borrowed as mutable
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>For</span> more information about this error<span class=err>,</span> try <span class=err>`</span>rustc <span class=o>--</span>explain E0596<span class=err>`</span>.
+</span></span><span class=line><span class=cl><span class=k>error</span><span class=o>:</span> could not compile <span class=err>`</span>ownership<span class=err>`</span> due to previous error
+</span></span></code></pre></td></tr></table></div></div><p>那么如何变动呢？</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=k>fn</span> <span class=nf>main</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=k>mut</span><span class=w> </span><span class=n>s</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=nb>String</span>::<span class=n>from</span><span class=p>(</span><span class=s>&#34;hello&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>change</span><span class=p>(</span><span class=o>&amp;</span><span class=k>mut</span><span class=w> </span><span class=n>s</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>fn</span> <span class=nf>change</span><span class=p>(</span><span class=n>some_string</span>: <span class=kp>&amp;</span><span class=nc>mut</span><span class=w> </span><span class=nb>String</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>some_string</span><span class=p>.</span><span class=n>push_str</span><span class=p>(</span><span class=s>&#34;, world&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p><strong>数据竞争</strong>（<em>data race</em>）类似于竞态条件，它可由这三个行为造成</p><ul><li><p>两个或更多指针同时访问同一数据。</p></li><li><p>至少有一个指针被用来写入数据。</p></li><li><p>没有同步数据访问的机制。</p></li></ul><p>数据竞争会导致未定义行为，难以在运行时追踪，并且难以诊断和修复；Rust 避免了这种情况的发生，因为它甚至不会编译存在数据竞争的代码！</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=kd>let</span><span class=w> </span><span class=k>mut</span><span class=w> </span><span class=n>s</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=nb>String</span>::<span class=n>from</span><span class=p>(</span><span class=s>&#34;hello&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kd>let</span><span class=w> </span><span class=n>r1</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=o>&amp;</span><span class=k>mut</span><span class=w> </span><span class=n>s</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kd>let</span><span class=w> </span><span class=n>r2</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=o>&amp;</span><span class=k>mut</span><span class=w> </span><span class=n>s</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;</span><span class=si>{}</span><span class=s>, </span><span class=si>{}</span><span class=s>&#34;</span><span class=p>,</span><span class=w> </span><span class=n>r1</span><span class=p>,</span><span class=w> </span><span class=n>r2</span><span class=p>);</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-tex data-lang=tex><span class=line><span class=cl>error[E0499]: cannot borrow `s` as mutable more than once at a time
+</span></span><span class=line><span class=cl>  --&gt; src<span class=k>\main</span>.rs:28:14
+</span></span><span class=line><span class=cl>   |
+</span></span><span class=line><span class=cl>27 |     let r1 = <span class=nb>&amp;</span>mut s;
+</span></span><span class=line><span class=cl>   |              ------ first mutable borrow occurs here
+</span></span><span class=line><span class=cl>28 |     let r2 = <span class=nb>&amp;</span>mut s;
+</span></span><span class=line><span class=cl>   |              <span class=nb>^^^^^^</span> second mutable borrow occurs here
+</span></span><span class=line><span class=cl>29 |
+</span></span><span class=line><span class=cl>30 |     println!(&#34;<span class=nb>{}</span>, <span class=nb>{}</span>&#34;, r1, r2);
+</span></span><span class=line><span class=cl>   |                        -- first borrow later used here
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>For more information about this error, try `rustc --explain E0499`.
+</span></span><span class=line><span class=cl>error: could not compile `ownship` due to previous error
+</span></span></code></pre></td></tr></table></div></div><p><strong>悬垂引用（Dangling References)</strong></p><p>在具有指针的语言中，很容易通过释放内存时保留指向它的指针而错误地生成一个 <strong>悬垂指针</strong>（<em>dangling pointer</em>），所谓悬垂指针是其指向的内存可能已经被分配给其它持有者。相比之下，在 Rust 中编译器确保引用永远也不会变成悬垂状态：当你拥有一些数据的引用，编译器确保数据不会在其引用之前离开作用域。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=k>fn</span> <span class=nf>main</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>reference_to_nothing</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>dangle</span><span class=p>();</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>fn</span> <span class=nf>dangle</span><span class=p>()</span><span class=w> </span>-&gt; <span class=kp>&amp;</span><span class=nb>String</span> <span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>s</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=nb>String</span>::<span class=n>from</span><span class=p>(</span><span class=s>&#34;hello&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=o>&amp;</span><span class=n>s</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-tex data-lang=tex><span class=line><span class=cl><span class=s>$</span><span class=nb> cargo run
+</span></span></span><span class=line><span class=cl><span class=nb>   Compiling ownership v</span><span class=m>0</span><span class=nb>.</span><span class=m>1</span><span class=nb>.</span><span class=m>0</span><span class=nb> </span><span class=o>(</span><span class=nb>file:</span><span class=o>///</span><span class=nb>projects</span><span class=o>/</span><span class=nb>ownership</span><span class=o>)</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>error</span><span class=o>[</span><span class=nb>E</span><span class=m>0106</span><span class=o>]</span><span class=nb>: missing lifetime specifier
+</span></span></span><span class=line><span class=cl><span class=nb> </span><span class=o>--</span><span class=nb>&gt; src</span><span class=o>/</span><span class=nb>main.rs:</span><span class=m>5</span><span class=nb>:</span><span class=m>16</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>  |
+</span></span></span><span class=line><span class=cl><span class=nb></span><span class=m>5</span><span class=nb> | fn dangle</span><span class=o>()</span><span class=nb> </span><span class=o>-</span><span class=nb>&gt; &amp;String {
+</span></span></span><span class=line><span class=cl><span class=nb>  |                ^ expected named lifetime parameter
+</span></span></span><span class=line><span class=cl><span class=nb>  |
+</span></span></span><span class=line><span class=cl><span class=nb>  </span><span class=o>=</span><span class=nb> help: this function&#39;s return type contains a borrowed value, but there is no value for it to be borrowed from
+</span></span></span><span class=line><span class=cl><span class=nb>help: consider using the `&#39;static` lifetime
+</span></span></span><span class=line><span class=cl><span class=nb>  |
+</span></span></span><span class=line><span class=cl><span class=nb></span><span class=m>5</span><span class=nb> | fn dangle</span><span class=o>()</span><span class=nb> </span><span class=o>-</span><span class=nb>&gt; &amp;&#39;static String {
+</span></span></span><span class=line><span class=cl><span class=nb>  |                 </span><span class=o>+++++++</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>For more information about this error, try `rustc </span><span class=o>--</span><span class=nb>explain E</span><span class=m>0106</span><span class=nb>`.
+</span></span></span><span class=line><span class=cl><span class=nb>error: could not compile `ownership` due to previous error
+</span></span></span></code></pre></td></tr></table></div></div><p>因为 <code>s</code> 是在 <code>dangle</code> 函数内创建的，当 <code>dangle</code> 的代码执行完毕后，<code>s</code> 将被释放。不过我们尝试返回它的引用。这意味着这个引用会指向一个无效的 <code>String</code>，这可不对！Rust 不会允许我们这么做。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=k>fn</span> <span class=nf>no_dangle</span><span class=p>()</span><span class=w> </span>-&gt; <span class=nb>String</span> <span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>s</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=nb>String</span>::<span class=n>from</span><span class=p>(</span><span class=s>&#34;hello&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>s</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p>这样就没有任何错误了。所有权被移动出去，所以没有值被释放。</p><p><strong>引用的规则</strong></p><p>让我们概括一下之前对引用的讨论：</p><ul><li>在任意给定时间，<strong>要么</strong> 只能有一个可变引用，<strong>要么</strong> 只能有多个不可变引用。</li><li>引用必须总是有效的。</li></ul><h2 id=枚举 class=headerLink><a href=#%e6%9e%9a%e4%b8%be class=header-mark></a>6 枚举</h2><h3 id=定义枚举 class=headerLink><a href=#%e5%ae%9a%e4%b9%89%e6%9e%9a%e4%b8%be class=header-mark></a>6.1 定义枚举</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=err>定义枚举</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=cp>#[derive(Debug)]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>enum</span> <span class=nc>IpAddrKind</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>V4</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>V6</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c1>// 实例化枚举
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>let</span><span class=w> </span><span class=n>addr1</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>IpAddrKind</span>::<span class=n>V4</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=kd>let</span><span class=w> </span><span class=n>addr2</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>IpAddrKind</span>::<span class=n>V6</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c1>// 打印枚举值
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;</span><span class=si>{:#?}</span><span class=s>&#34;</span><span class=p>,</span><span class=w> </span><span class=n>addr1</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;</span><span class=si>{:#?}</span><span class=s>&#34;</span><span class=p>,</span><span class=w> </span><span class=n>addr2</span><span class=p>);</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=枚举值作为函数参数 class=headerLink><a href=#%e6%9e%9a%e4%b8%be%e5%80%bc%e4%bd%9c%e4%b8%ba%e5%87%bd%e6%95%b0%e5%8f%82%e6%95%b0 class=header-mark></a>6.2 枚举值作为函数参数</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=k>fn</span> <span class=nf>route</span><span class=p>(</span><span class=n>ip_kind</span><span class=w> </span>: <span class=nc>IpAddrKind</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;</span><span class=si>{:#?}</span><span class=s>&#34;</span><span class=p>,</span><span class=w> </span><span class=n>ip_kind</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=n>route</span><span class=p>(</span><span class=n>addr1</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=n>route</span><span class=p>(</span><span class=n>addr2</span><span class=p>);</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=枚举值作为结构体成员 class=headerLink><a href=#%e6%9e%9a%e4%b8%be%e5%80%bc%e4%bd%9c%e4%b8%ba%e7%bb%93%e6%9e%84%e4%bd%93%e6%88%90%e5%91%98 class=header-mark></a>6.3 枚举值作为结构体成员</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=cp>#[derive(Debug)]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>struct</span>  <span class=nc>IpAddr</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>kind</span><span class=w> </span>: <span class=nc>IpAddrKind</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>addr</span><span class=w> </span>: <span class=nb>String</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=match控制流结构 class=headerLink><a href=#match%e6%8e%a7%e5%88%b6%e6%b5%81%e7%bb%93%e6%9e%84 class=header-mark></a>6.4 <code>match</code>控制流结构</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=k>enum</span> <span class=nc>Coin</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>Penny</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>Nickel</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>Dime</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>Quarter</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>fn</span> <span class=nf>value_in_cents</span><span class=p>(</span><span class=n>coin</span>: <span class=nc>Coin</span><span class=p>)</span><span class=w> </span>-&gt; <span class=kt>u8</span> <span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=k>match</span><span class=w> </span><span class=n>coin</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>Coin</span>::<span class=n>Penny</span><span class=w> </span><span class=o>=&gt;</span><span class=w> </span><span class=mi>1</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>Coin</span>::<span class=n>Nickel</span><span class=w> </span><span class=o>=&gt;</span><span class=w> </span><span class=mi>5</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>Coin</span>::<span class=n>Dime</span><span class=w> </span><span class=o>=&gt;</span><span class=w> </span><span class=mi>10</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>Coin</span>::<span class=n>Quarter</span><span class=w> </span><span class=o>=&gt;</span><span class=w> </span><span class=mi>25</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=option匹配 class=headerLink><a href=#option%e5%8c%b9%e9%85%8d class=header-mark></a>6.5 <code>option</code>匹配</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=k>fn</span> <span class=nf>main</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>x</span>: <span class=kt>i32</span> <span class=o>=</span><span class=w> </span><span class=mi>5</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>y</span>: <span class=nb>Option</span><span class=o>&lt;</span><span class=kt>i32</span><span class=o>&gt;</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=nb>Some</span><span class=p>(</span><span class=mi>5</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>_z</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>x</span><span class=w> </span><span class=o>+</span><span class=w> </span><span class=n>y</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p>但是此时会编译报错</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-txt data-lang=txt><span class=line><span class=cl>error[E0277]: cannot add `Option&lt;i32&gt;` to `i32`
+</span></span><span class=line><span class=cl> --&gt; src\main.rs:4:16
+</span></span><span class=line><span class=cl>  |
+</span></span><span class=line><span class=cl>4 |     let _z = x + y;
+</span></span><span class=line><span class=cl>  |                ^ no implementation for `i32 + Option&lt;i32&gt;`
+</span></span><span class=line><span class=cl>  |
+</span></span><span class=line><span class=cl>  = help: the trait `Add&lt;Option&lt;i32&gt;&gt;` is not implemented for `i32`
+</span></span><span class=line><span class=cl>  = help: the following other types implement trait `Add&lt;Rhs&gt;`:
+</span></span><span class=line><span class=cl>            &lt;&amp;&#39;a i32 as Add&lt;i32&gt;&gt;
+</span></span><span class=line><span class=cl>            &lt;&amp;i32 as Add&lt;&amp;i32&gt;&gt;
+</span></span><span class=line><span class=cl>            &lt;i32 as Add&lt;&amp;i32&gt;&gt;
+</span></span><span class=line><span class=cl>            &lt;i32 as Add&gt;
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=k>fn</span> <span class=nf>main</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>x</span>: <span class=kt>i32</span> <span class=o>=</span><span class=w> </span><span class=mi>5</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>y</span>: <span class=nb>Option</span><span class=o>&lt;</span><span class=kt>i32</span><span class=o>&gt;</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=nb>Some</span><span class=p>(</span><span class=mi>5</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>_z</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>x</span><span class=w> </span><span class=o>+</span><span class=w> </span><span class=n>y</span><span class=p>.</span><span class=n>unwrap</span><span class=p>();</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=if-let语法糖 class=headerLink><a href=#if-let%e8%af%ad%e6%b3%95%e7%b3%96 class=header-mark></a>6.6 <code>if let</code>语法糖</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=k>fn</span> <span class=nf>main</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>v</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=nb>Some</span><span class=p>(</span><span class=mi>8</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c1>// grammar sugar
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    </span><span class=k>if</span><span class=w> </span><span class=kd>let</span><span class=w> </span><span class=nb>Some</span><span class=p>(</span><span class=mi>3</span><span class=p>)</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>v</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;Succ&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w> </span><span class=k>else</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;Fail&#34;</span><span class=p>)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><h2 id=工程管理 class=headerLink><a href=#%e5%b7%a5%e7%a8%8b%e7%ae%a1%e7%90%86 class=header-mark></a>7 工程管理</h2><ul><li>Package(包)</li><li>Crate(单元包)</li><li>Moule(模块)</li><li>Path(路径)</li></ul><h3 id=packagecrate class=headerLink><a href=#packagecrate class=header-mark></a>7.1 Package&amp;Crate</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=c1># 创建package</span>
+</span></span><span class=line><span class=cl>cargo new package_name
+</span></span></code></pre></td></tr></table></div></div><h2 id=集合 class=headerLink><a href=#%e9%9b%86%e5%90%88 class=header-mark></a>8 集合</h2><ul><li>vector 允许我们一个挨着一个地储存一系列数量可变的值</li><li>string 是字符的集合。我们之前见过 String 类型，不过在本章我们将深入了解。</li><li>Hashmap 允许我们将值与一个特定的键（key）相关联。这是一个叫做 map 的更通用的数据结构的特定实现。</li></ul><h3 id=vector class=headerLink><a href=#vector class=header-mark></a>8.1 Vector</h3><h4 id=新建-vector class=headerLink><a href=#%e6%96%b0%e5%bb%ba-vector class=header-mark></a>8.1.1 新建 vector</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=k>fn</span> <span class=nf>main</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c1>// 1. 新建vector
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>_v</span>: <span class=nb>Vec</span><span class=o>&lt;</span><span class=kt>i32</span><span class=o>&gt;</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=nb>Vec</span>::<span class=n>new</span><span class=p>();</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c1>// 2. 使用宏来初始化vector
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>_v</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=fm>vec!</span><span class=p>[</span><span class=mi>1</span><span class=p>,</span><span class=w> </span><span class=mi>2</span><span class=p>,</span><span class=w> </span><span class=mi>3</span><span class=p>];</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><h4 id=更新-vector class=headerLink><a href=#%e6%9b%b4%e6%96%b0-vector class=header-mark></a>8.1.2 更新 vector</h4><blockquote><p>对于新建一个 vector 并向其增加元素，可以使用 push 方法，如示例 8-3 所示：</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=k>fn</span> <span class=nf>main</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=k>mut</span><span class=w> </span><span class=n>v</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=nb>Vec</span>::<span class=n>new</span><span class=p>();</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>v</span><span class=p>.</span><span class=n>push</span><span class=p>(</span><span class=mi>5</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>v</span><span class=p>.</span><span class=n>push</span><span class=p>(</span><span class=mi>6</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>v</span><span class=p>.</span><span class=n>push</span><span class=p>(</span><span class=mi>7</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>v</span><span class=p>.</span><span class=n>push</span><span class=p>(</span><span class=mi>8</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><h4 id=读取vector的元素 class=headerLink><a href=#%e8%af%bb%e5%8f%96vector%e7%9a%84%e5%85%83%e7%b4%a0 class=header-mark></a>8.1.3 读取<code>vector</code>的元素</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=w>    </span><span class=c1>// 直接读取
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;v[0] </span><span class=si>{}</span><span class=s>&#34;</span><span class=p>,</span><span class=w> </span><span class=n>v</span><span class=p>[</span><span class=mi>0</span><span class=p>]);</span><span class=w> </span><span class=c1>// 5
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;v[1] </span><span class=si>{}</span><span class=s>&#34;</span><span class=p>,</span><span class=w> </span><span class=n>v</span><span class=p>[</span><span class=mi>1</span><span class=p>]);</span><span class=w> </span><span class=c1>// 5
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c1>// 引用数据
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;v[0] </span><span class=si>{}</span><span class=s>&#34;</span><span class=p>,</span><span class=w> </span><span class=o>&amp;</span><span class=n>v</span><span class=p>[</span><span class=mi>0</span><span class=p>]);</span><span class=w> </span><span class=c1>// 5
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;v[1] </span><span class=si>{}</span><span class=s>&#34;</span><span class=p>,</span><span class=w> </span><span class=o>&amp;</span><span class=n>v</span><span class=p>[</span><span class=mi>1</span><span class=p>]);</span><span class=w> </span><span class=c1>// 5
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c1>// get方法
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;v[0] </span><span class=si>{:?}</span><span class=s>&#34;</span><span class=p>,</span><span class=w> </span><span class=n>v</span><span class=p>.</span><span class=n>get</span><span class=p>(</span><span class=mi>0</span><span class=p>));</span><span class=w> </span><span class=c1>// Some(5)
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;v[1] </span><span class=si>{:?}</span><span class=s>&#34;</span><span class=p>,</span><span class=w> </span><span class=n>v</span><span class=p>.</span><span class=n>get</span><span class=p>(</span><span class=mi>1</span><span class=p>));</span><span class=w> </span><span class=c1>// Some(6)
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c1>// 遍历方法
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    </span><span class=k>for</span><span class=w> </span><span class=n>i</span><span class=w> </span><span class=k>in</span><span class=w> </span><span class=o>&amp;</span><span class=n>v</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;</span><span class=si>{}</span><span class=s>&#34;</span><span class=p>,</span><span class=w> </span><span class=n>i</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=string class=headerLink><a href=#string class=header-mark></a>8.2 String</h3><h4 id=创建字符串 class=headerLink><a href=#%e5%88%9b%e5%bb%ba%e5%ad%97%e7%ac%a6%e4%b8%b2 class=header-mark></a>8.2.1 创建字符串</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=k>fn</span> <span class=nf>main</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c1>// 1.创建字符串
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=k>mut</span><span class=w> </span><span class=n>_s</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=nb>String</span>::<span class=n>new</span><span class=p>();</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c1>// 2.创建空字符串
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>data</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=s>&#34;initial contents&#34;</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>_s</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>data</span><span class=p>.</span><span class=n>to_string</span><span class=p>();</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c1>// 该方法也可直接用于字符串字面值：
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>_s</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=s>&#34;initial contents&#34;</span><span class=p>.</span><span class=n>to_string</span><span class=p>();</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c1>// 直接对字符串进行转化
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>_s</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=nb>String</span>::<span class=n>from</span><span class=p>(</span><span class=s>&#34;initial contents&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><h4 id=更新字符串 class=headerLink><a href=#%e6%9b%b4%e6%96%b0%e5%ad%97%e7%ac%a6%e4%b8%b2 class=header-mark></a>8.2.2 更新字符串</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=w>    </span><span class=c1>// 1. 使用 push_str 和 push 附加字符串
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=k>mut</span><span class=w> </span><span class=n>s</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=nb>String</span>::<span class=n>from</span><span class=p>(</span><span class=s>&#34;Hello&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>s</span><span class=p>.</span><span class=n>push_str</span><span class=p>(</span><span class=s>&#34;World&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;</span><span class=si>{}</span><span class=s>&#34;</span><span class=p>,</span><span class=w> </span><span class=n>s</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>s</span><span class=p>.</span><span class=n>push</span><span class=p>(</span><span class=sc>&#39;!&#39;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;</span><span class=si>{}</span><span class=s>&#34;</span><span class=p>,</span><span class=w> </span><span class=n>s</span><span class=p>);</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><h4 id=索引字符串 class=headerLink><a href=#%e7%b4%a2%e5%bc%95%e5%ad%97%e7%ac%a6%e4%b8%b2 class=header-mark></a>8.2.3 索引字符串</h4><p>编译报错</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>_s1</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=nb>String</span>::<span class=n>from</span><span class=p>(</span><span class=s>&#34;hello&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>h</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>s1</span><span class=p>[</span><span class=mi>0</span><span class=p>];</span><span class=w> </span><span class=c1>// error[E0277]: the type `String` cannot be indexed by `{integer}
+</span></span></span></code></pre></td></tr></table></div></div><p>但是可以直接进行遍历</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=w>    </span><span class=k>for</span><span class=w> </span><span class=n>c</span><span class=w> </span><span class=k>in</span><span class=w> </span><span class=s>&#34;Зд&#34;</span><span class=p>.</span><span class=n>chars</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;</span><span class=si>{c}</span><span class=s>&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><h4 id=slice class=headerLink><a href=#slice class=header-mark></a>8.2.4 slice</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>hello</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=s>&#34;Здравствуйте&#34;</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>s</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=o>&amp;</span><span class=n>hello</span><span class=p>[</span><span class=mi>0</span><span class=o>..</span><span class=mi>4</span><span class=p>];</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;</span><span class=si>{}</span><span class=s>&#34;</span><span class=p>,</span><span class=w> </span><span class=n>s</span><span class=p>);</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=hashmap class=headerLink><a href=#hashmap class=header-mark></a>8.3 Hashmap</h3><blockquote><p>最后介绍的常用集合类型是 哈希 map（hash map）。HashMap&lt;K, V> 类型储存了一个键类型 K 对应一个值类型 V 的映射。它通过一个 哈希函数（hashing function）来实现映射，决定如何将键和值放入内存中</p></blockquote><h4 id=创建hanshmap class=headerLink><a href=#%e5%88%9b%e5%bb%bahanshmap class=header-mark></a>8.3.1 创建hanshmap</h4><p>Hashmap不是一个preload的包，需要手动导入</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=k>use</span><span class=w> </span><span class=n>std</span>::<span class=n>collections</span>::<span class=n>HashMap</span><span class=p>;</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=k>mut</span><span class=w> </span><span class=n>scores</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>HashMap</span>::<span class=n>new</span><span class=p>();</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><h4 id=访问hashmap的值 class=headerLink><a href=#%e8%ae%bf%e9%97%aehashmap%e7%9a%84%e5%80%bc class=header-mark></a>8.3.2 访问hashmap的值</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>team_name</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=nb>String</span>::<span class=n>from</span><span class=p>(</span><span class=s>&#34;Blue&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>score</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>scores</span><span class=p>.</span><span class=n>get</span><span class=p>(</span><span class=o>&amp;</span><span class=n>team_name</span><span class=p>).</span><span class=n>copied</span><span class=p>().</span><span class=n>unwrap_or</span><span class=p>(</span><span class=mi>0</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;</span><span class=si>{}</span><span class=s>&#34;</span><span class=p>,</span><span class=w> </span><span class=n>score</span><span class=p>);</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=w>    </span><span class=k>for</span><span class=w> </span><span class=p>(</span><span class=n>key</span><span class=p>,</span><span class=w> </span><span class=n>value</span><span class=p>)</span><span class=w> </span><span class=k>in</span><span class=w> </span><span class=o>&amp;</span><span class=n>scores</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;</span><span class=si>{key}</span><span class=s>: </span><span class=si>{value}</span><span class=s>&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><h4 id=更新hashmap class=headerLink><a href=#%e6%9b%b4%e6%96%b0hashmap class=header-mark></a>8.3.3 更新hashmap</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=w>    </span><span class=n>scores</span><span class=p>.</span><span class=n>insert</span><span class=p>(</span><span class=nb>String</span>::<span class=n>from</span><span class=p>(</span><span class=s>&#34;Blue&#34;</span><span class=p>),</span><span class=w> </span><span class=mi>10</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>scores</span><span class=p>.</span><span class=n>insert</span><span class=p>(</span><span class=nb>String</span>::<span class=n>from</span><span class=p>(</span><span class=s>&#34;Blue&#34;</span><span class=p>),</span><span class=w> </span><span class=mi>25</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;</span><span class=si>{:?}</span><span class=s>&#34;</span><span class=p>,</span><span class=w> </span><span class=n>scores</span><span class=p>);</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=w>    </span><span class=n>scores</span><span class=p>.</span><span class=n>entry</span><span class=p>(</span><span class=nb>String</span>::<span class=n>from</span><span class=p>(</span><span class=s>&#34;Yellow&#34;</span><span class=p>)).</span><span class=n>or_insert</span><span class=p>(</span><span class=mi>50</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>scores</span><span class=p>.</span><span class=n>entry</span><span class=p>(</span><span class=nb>String</span>::<span class=n>from</span><span class=p>(</span><span class=s>&#34;Blue&#34;</span><span class=p>)).</span><span class=n>or_insert</span><span class=p>(</span><span class=mi>50</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>scores</span><span class=p>.</span><span class=n>entry</span><span class=p>(</span><span class=nb>String</span>::<span class=n>from</span><span class=p>(</span><span class=s>&#34;Green&#34;</span><span class=p>)).</span><span class=n>or_insert</span><span class=p>(</span><span class=mi>30</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;</span><span class=si>{:?}</span><span class=s>&#34;</span><span class=p>,</span><span class=w> </span><span class=n>scores</span><span class=p>);</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><h2 id=错误处理 class=headerLink><a href=#%e9%94%99%e8%af%af%e5%a4%84%e7%90%86 class=header-mark></a>9 错误处理</h2><h4 id=panic class=headerLink><a href=#panic class=header-mark></a>9.0.4 panic!</h4><blockquote><p>用 panic! 处理不可恢复的错误</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=k>fn</span> <span class=nf>main</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=fm>panic!</span><span class=p>(</span><span class=s>&#34;crash and burn&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p>执行运行</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>   Compiling error_handle v0.1.0 <span class=o>(</span>D:<span class=se>\g</span>ithub.io<span class=se>\s</span>tatic<span class=se>\d</span>emo<span class=se>\r</span>ust<span class=se>\e</span>rror_handle<span class=o>)</span>
+</span></span><span class=line><span class=cl>    Finished dev <span class=o>[</span>unoptimized + debuginfo<span class=o>]</span> target<span class=o>(</span>s<span class=o>)</span> in 0.86s
+</span></span><span class=line><span class=cl>     Running <span class=sb>`</span>target<span class=se>\d</span>ebug<span class=se>\e</span>rror_handle.exe<span class=sb>`</span>
+</span></span><span class=line><span class=cl>thread <span class=s1>&#39;main&#39;</span> panicked at <span class=s1>&#39;Hello, world!&#39;</span>, src<span class=se>\m</span>ain.rs:2:5
+</span></span><span class=line><span class=cl>note: run with <span class=sb>`</span><span class=nv>RUST_BACKTRACE</span><span class=o>=</span>1<span class=sb>`</span> environment variable to display a backtrace
+</span></span><span class=line><span class=cl>error: process didn<span class=err>&#39;</span>t <span class=nb>exit</span> successfully: <span class=sb>`</span>target<span class=se>\d</span>ebug<span class=se>\e</span>rror_handle.exe<span class=sb>`</span> <span class=o>(</span><span class=nb>exit</span> code: 101<span class=o>)</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=result枚举 class=headerLink><a href=#result%e6%9e%9a%e4%b8%be class=header-mark></a>9.0.5 Result枚举</h4><blockquote><p>用<code>Result枚举</code>处理可恢复的错误</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=k>enum</span> <span class=nb>Result</span><span class=o>&lt;</span><span class=n>T</span><span class=p>,</span><span class=w> </span><span class=n>E</span><span class=o>&gt;</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=no>OK</span><span class=p>(</span><span class=n>T</span><span class=p>),</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nb>Err</span><span class=p>(</span><span class=n>E</span><span class=p>),</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p><code>T</code>和<code>E</code>是泛型类型参数:</p><ul><li><code>T</code>代表成功时返回的<code>Ok</code>成员中的数据的类型,</li><li><code>E</code>代表失败时返回的<code>Err</code>成员中的错误的类型</li></ul><h4 id=match处理 class=headerLink><a href=#match%e5%a4%84%e7%90%86 class=header-mark></a>9.0.6 match处理</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=k>use</span><span class=w> </span><span class=n>std</span>::<span class=n>fs</span>::<span class=n>File</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>fn</span> <span class=nf>main</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c1>// 1. panic! 处理不可以恢复的错误
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    </span><span class=c1>// 比较类似C/C++的assert语法
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    </span><span class=c1>// panic!(&#34;Hello, world!&#34;);
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c1>// 2. Result!可以恢复的错误
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>f</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>File</span>::<span class=n>open</span><span class=p>(</span><span class=s>&#34;Heelo.txt&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=k>match</span><span class=w> </span><span class=n>f</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nb>Ok</span><span class=p>(</span><span class=n>file</span><span class=p>)</span><span class=w> </span><span class=o>=&gt;</span><span class=w> </span><span class=n>file</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nb>Err</span><span class=p>(</span><span class=n>error</span><span class=p>)</span><span class=w> </span><span class=o>=&gt;</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=fm>panic!</span><span class=p>(</span><span class=s>&#34;Error opening file </span><span class=si>{:?}</span><span class=s>&#34;</span><span class=p>,</span><span class=w> </span><span class=n>error</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>};</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p>尝试恢复某一错误</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=k>use</span><span class=w> </span><span class=n>std</span>::<span class=n>fs</span>::<span class=n>File</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>fn</span> <span class=nf>main</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>f</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>File</span>::<span class=n>open</span><span class=p>(</span><span class=s>&#34;Hello.txt&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=k>match</span><span class=w> </span><span class=n>f</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nb>Ok</span><span class=p>(</span><span class=n>file</span><span class=p>)</span><span class=w> </span><span class=o>=&gt;</span><span class=w> </span><span class=n>file</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nb>Err</span><span class=p>(</span><span class=n>error</span><span class=p>)</span><span class=w> </span><span class=o>=&gt;</span><span class=w> </span><span class=k>match</span><span class=w> </span><span class=n>error</span><span class=p>.</span><span class=n>kind</span><span class=p>()</span><span class=w>  </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=n>ErrorKind</span>::<span class=n>NotFound</span><span class=w> </span><span class=o>=&gt;</span><span class=w> </span><span class=k>match</span><span class=w> </span><span class=n>File</span>::<span class=n>create</span><span class=p>(</span><span class=s>&#34;Hello.txt&#34;</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                </span><span class=nb>Ok</span><span class=p>(</span><span class=n>fc</span><span class=p>)</span><span class=w> </span><span class=o>=&gt;</span><span class=w> </span><span class=n>fc</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                </span><span class=nb>Err</span><span class=p>(</span><span class=n>e</span><span class=p>)</span><span class=w> </span><span class=o>=&gt;</span><span class=w> </span><span class=fm>panic!</span><span class=p>(</span><span class=s>&#34;Error creating file </span><span class=si>{:?}</span><span class=s>&#34;</span><span class=p>,</span><span class=w> </span><span class=n>e</span><span class=p>),</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=p>},</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=n>oe</span><span class=w> </span><span class=o>=&gt;</span><span class=w> </span><span class=fm>panic!</span><span class=p>(</span><span class=s>&#34;Error opening file </span><span class=si>{:?}</span><span class=s>&#34;</span><span class=p>,</span><span class=w> </span><span class=n>oe</span><span class=p>),</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=p>},</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>};</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p>此时如果运行此程序就不会显示报错了，并且会创建一个新的文件</p><p>使用unwarp执行快捷操作</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=k>use</span><span class=w> </span><span class=n>std</span>::<span class=n>fs</span>::<span class=n>File</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>fn</span> <span class=nf>main</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>f</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>File</span>::<span class=n>open</span><span class=p>(</span><span class=s>&#34;Hello.txt&#34;</span><span class=p>).</span><span class=n>unwrap</span><span class=p>();</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><ul><li>Result 值是成员 Ok，unwrap 会返回 Ok 中的值。</li><li>Result 是成员 Err，unwrap 会为我们调用 panic!</li></ul><p>使用<code>expect</code>执行快捷操作</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=k>use</span><span class=w> </span><span class=n>std</span>::<span class=n>fs</span>::<span class=n>File</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>fn</span> <span class=nf>main</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>f</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>File</span>::<span class=n>open</span><span class=p>(</span><span class=s>&#34;Hello.txt&#34;</span><span class=p>).</span><span class=n>expect</span><span class=p>(</span><span class=s>&#34;无法打开文件&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2023-07-30&nbsp;<a class=git-hash href=https://github.com/mengdemao/github.io.git/commit/082839544f564d29a5a3af30d70b4e69b8ab9b81 target=_blank title="commit by 孟德茂(mengdemao19951021@163.com) 082839544f564d29a5a3af30d70b4e69b8ab9b81: [update]: 更新rust笔记" rel="noopener noreferrer">
+<i class="fas fa-hashtag fa-fw"></i>0828395</a></span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-mardown href=/rust_basic/index.md target=_blank rel="noopener noreferrer">阅读原始文档</a>
+</span><span>|&nbsp;<a class=link-to-source href=https://github.com/mengdemao/github.io/blob/master/content/posts/rust_basic/index.md target=_blank rel="noopener noreferrer">查看源代码</a>
+</span><span>|&nbsp;<a class=link-to-edit href=https://github.com/mengdemao/github.io/edit/master/content/posts/rust_basic/index.md target=_blank rel="noopener noreferrer">编辑此页</a>
+</span><span>|&nbsp;<a class=link-to-report href="https://github.com/mengdemao/github.io/issues/new?title=[bug]%20rust%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0&body=|Field|Value|%0A|-|-|%0A|Title|rust%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0|%0A|Url|https://mengdemao.github.io/rust_basic/|%0A|Filename|https://github.com/mengdemao/github.io/blob/main/exampleSite/content/posts/rust_basic/index.md|" target=_blank rel="noopener noreferrer">报告问题</a></span></div><div class=post-info-share><button title="分享到 Twitter" data-sharer=twitter data-url=https://mengdemao.github.io/rust_basic/ data-title=rust基础笔记 data-hashtags=rust><span class="fab fa-twitter fa-fw"></span></button><button title="分享到 Facebook" data-sharer=facebook data-url=https://mengdemao.github.io/rust_basic/ data-hashtag=rust><span class="fab fa-facebook-square fa-fw"></span></button><button title="分享到 Hacker News" data-sharer=hackernews data-url=https://mengdemao.github.io/rust_basic/ data-title=rust基础笔记><span class="fab fa-hacker-news fa-fw"></span></button><button title="分享到 Line" data-sharer=line data-url=https://mengdemao.github.io/rust_basic/ data-title=rust基础笔记><span data-svg-src=/lib/simple-icons/icons/line.min.svg></span></button><button title="分享到 微博" data-sharer=weibo data-url=https://mengdemao.github.io/rust_basic/ data-title=rust基础笔记 data-image=featuredImage/07.jpg data-ralateuid=xxxx><span class="fab fa-weibo fa-fw"></span></button><button title="分享到 Telegram" data-sharer=telegram data-url=https://mengdemao.github.io/rust_basic/ data-title=rust基础笔记 data-web><span class="fab fa-telegram-plane fa-fw"></span></button></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw"></i>&nbsp;<a href=/tags/rust/>rust</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/uboot/ class=prev rel=prev title=Uboot><i class="fas fa-angle-left fa-fw"></i>Uboot</a></div></div><div id=comments><div id=utterances></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://utteranc.es/>Utterances</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.115.4">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.4.0"><i class="far fa-edit fa-fw"></i> DoIt</a></div><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2020 - 2023</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://github.com/mengdemao target=_blank rel="noopener noreferrer">mengdemao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div><div class=footer-line></div><div class=footer-line></div></div><script>"serviceWorker"in navigator&&(navigator.serviceWorker.register("/sw.min.js",{scope:"/"}).then(function(){}),navigator.serviceWorker.ready.then(function(){}))</script></footer></div><div id=fixed-buttons><a href=#back-to-top id=back-to-top-button class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw"></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw"></i></a></div><div class=assets><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:300},comment:{utterances:{darkTheme:"github-dark",issueTerm:"pathname",label:"",lightTheme:"github-light",repo:"Hugo-DoIt/utterances-comments"}},data:{"desktop-header-typeit":"编程日志","mobile-header-typeit":"编程日志"},search:{distance:100,findAllMatches:!1,fuseIndexURL:"/index.json",highlightTag:"em",ignoreFieldNorm:!1,ignoreLocation:!0,isCaseSensitive:!1,location:0,maxResultLength:10,minMatchCharLength:2,noResultsFound:"没有找到结果",snippetLength:50,threshold:.1,type:"fuse",useExtendedSearch:!1},sharerjs:!0,table:{sort:!0},typeit:{cursorChar:"|",cursorSpeed:1e3,data:{"desktop-header-typeit":["desktop-header-typeit"],"mobile-header-typeit":["mobile-header-typeit"]},duration:-1,speed:100}}</script><script type=text/javascript src=/lib/tablesort/tablesort.min.92de6dec051677787aed63503575b2f9be73f21f2745574e59647bc139a92d40.js integrity="sha256-kt5t7AUWd3h67WNQNXWy+b5z8h8nRVdOWWR7wTmpLUA="></script><script type=text/javascript src=/lib/clipboard/clipboard.min.11be927cda59c8b6019ebbea838285c5beaf21183ea4b83dbd4e4fbf9413ce4a.js integrity="sha256-Eb6SfNpZyLYBnrvqg4KFxb6vIRg+pLg9vU5Pv5QTzko="></script><script type=text/javascript src=/lib/sharer/sharer.min.8fe10eb615eb163a20f795484430a012805ec7c8c11df52df54ddb7a46084254.js integrity="sha256-j+EOthXrFjog95VIRDCgEoBex8jBHfUt9U3bekYIQlQ="></script><script type=text/javascript src=/lib/typeit/typeit.min.491c13689db70b6adb3176a9a792644be7578a2f931521f5cb199d313a21c359.js integrity="sha256-SRwTaJ23C2rbMXapp5JkS+dXii+TFSH1yxmdMTohw1k="></script><script type=text/javascript src=/js/theme.min.js defer></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.js></script>
+<script type=text/javascript src=https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js></script><script type=text/javascript src=/custom/javascript/custom.js></script></div></body></html>
