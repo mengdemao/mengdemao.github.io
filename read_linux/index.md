@@ -8,11 +8,69 @@
 <!--more-->
 
 + 源码版本: [Linux 4.0.0](https://github.com/figozhang/runninglinuxkernel_4.0.git)
-+ 参考书籍: 
-	1.  << 奔跑吧Linux内核 >>  
++ 参考书籍:
+	1.  << 奔跑吧Linux内核 >>
 	2.  << 深度探索linux系统虚拟化:原理与实现 >>
 
 ## 建立环境
+
+### 崩溃内核
+
+[参考文档](https://wiki.archlinux.org/title/Kdump)
+
+#### 安装拯救内核
+
+下载内核[稳定版](https://gitlab.archlinux.org/archlinux/packaging/packages/linux-lts.git),修改构建脚本为了和主线内核区分即可
+
+![image-20230806233120552](picture/image-20230806233120552.png)
+
+修改配置脚本**config**
+
+```ini
+CONFIG_DEBUG_INFO=y
+CONFIG_CRASH_DUMP=y
+CONFIG_PROC_VMCORE=y
+```
+
+构建此内核
+
+```shell
+# 更新校验值
+updpkgsums
+
+# 构建内核
+makepkg -s --skippgpcheck
+
+# 安装程序
+
+```
+
+修改`/etc/default/grub`,为**crash kernel**配置空间
+
+```diff
+- GRUB_CMDLINE_LINUX_DEFAULT="loglevel=7"
++ GRUB_CMDLINE_LINUX_DEFAULT="loglevel=7 crashkernel=256M@16M"
+```
+
+更新grub配置`grub-mkconfig`
+
+#### 启动kdump服务
+
+```shell
+/etc/systemd/system/kdump.service
+[Unit]
+Description=Load dump capture kernel
+After=local-fs.target
+
+[Service]
+ExecStart=/usr/bin/kexec -p [/boot/vmlinuz-linux-kdump] --initrd=[/boot/initramfs-linux-kdump.img] --append="root=[root-device] single irqpoll maxcpus=1 reset_devices"
+Type=oneshot
+
+[Install]
+WantedBy=multi-user.target
+```
+
+
 
 ### 基础环境
 
@@ -196,10 +254,10 @@ gdbgui -g arm-multiarch
 ```shell
 # x86_64架构链接过程
 ld -m elf_x86_64 --no-ld-generated-unwind-info  -pie  --no-dynamic-linker --orphan-handling=error -z noexecstack --no-warn-rwx-segments
--T arch/x86/boot/compressed/vmlinux.lds 
-	arch/x86/boot/compressed/kernel_info.o arch/x86/boot/compressed/head_64.o 				arch/x86/boot/compressed/misc.o arch/x86/boot/compressed/string.o 						arch/x86/boot/compressed/cmdline.o arch/x86/boot/compressed/error.o           			arch/x86/boot/compressed/piggy.o arch/x86/boot/compressed/cpuflags.o    				arch/x86/boot/compressed/early_serial_console.o arch/x86/boot/compressed/kaslr.o arch/x86/boot/compressed/ident_map_64.o arch/x86/boot/compressed/idt_64.o arch/x86/boot/compressed/idt_handlers_64.o arch/x86/boot/compressed/pgtable_64.o arch/x86/boot/compressed/acpi.o arch/x86/boot/compressed/efi.o arch/x86/boot/compressed/efi_mixed.o drivers/firmware/efi/libstub/lib.a 
+-T arch/x86/boot/compressed/vmlinux.lds
+	arch/x86/boot/compressed/kernel_info.o arch/x86/boot/compressed/head_64.o 				arch/x86/boot/compressed/misc.o arch/x86/boot/compressed/string.o 						arch/x86/boot/compressed/cmdline.o arch/x86/boot/compressed/error.o           			arch/x86/boot/compressed/piggy.o arch/x86/boot/compressed/cpuflags.o    				arch/x86/boot/compressed/early_serial_console.o arch/x86/boot/compressed/kaslr.o arch/x86/boot/compressed/ident_map_64.o arch/x86/boot/compressed/idt_64.o arch/x86/boot/compressed/idt_handlers_64.o arch/x86/boot/compressed/pgtable_64.o arch/x86/boot/compressed/acpi.o arch/x86/boot/compressed/efi.o arch/x86/boot/compressed/efi_mixed.o drivers/firmware/efi/libstub/lib.a
 	-o arch/x86/boot/compressed/vmlinux
-	
+
 # arm32链接过程
 ```
 
@@ -897,7 +955,7 @@ void __init smp_prepare_boot_cpu(void)
 
 ### build_all_zonelists
 
-启动期间构建zone, 
+启动期间构建zone,
 
 **[build_all_zonelists --> build_all_zonelists_init]**
 

@@ -21,16 +21,577 @@ make ARCH=arm mx6ull_14x14_evk_emmc_defconfig
 make ARCH=arm mx6ull_14x14_evk_nand_defconfig
 
 # 执行编译
-make -j4 ARCH=arm CROSS_COMPILE=arm-none-eabi-
+make -j$(nproc) ARCH=arm CROSS_COMPILE=arm-none-eabi-
+```
 
-# 进入调试
+## 功能仿真
+
+如果没有开发板的情况下,我们执行执行仿真的时候
+
+```shell
+# 编译vexpress_ca9 u-boot
+make ARCH=arm vexpress_ca9x4_defconfig
+make ARCH=arm CROSS_COMPILE=arm-none-eabi-
 qemu-system-arm -M vexpress-a9 -kernel u-boot --nographic -m 512M -S -s
+
+# 编译内核
+make ARCH=arm vexpress_defconfig
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi-
+make 
+```
+
+```shell
+make qemu_arm_defconfig
+make ARCH=arm CROSS_COMPILE=arm-none-eabi-
+qemu-system-arm -machine virt -nographic -bios u-boot.bin
+
+make qemu_arm64_defconfig
+make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu-
+qemu-system-aarch64 -machine virt -nographic -cpu cortex-a57 -bios u-boot.bin
+```
+
+## 全局参数
+
+**DECLARE_GLOBAL_DATA_PTR**
+
+```c
+// 声明全局数据
+DECLARE_GLOBAL_DATA_PTR;
+
+#ifdef CONFIG_ARM64
+#define DECLARE_GLOBAL_DATA_PTR		register volatile gd_t *gd asm ("x18")
+#else
+#define DECLARE_GLOBAL_DATA_PTR		register volatile gd_t *gd asm ("r9")
+#endif
+#endif
+
+typedef struct global_data gd_t;
+
+```
+
+我们可以看出下面的数据基本上每一个架构各有一个
+
+![image-20230806030922941](picture/image-20230806030922941.png)
+
+这个数据结构真是不小
+
+```c
+struct global_data {
+	/**
+	 * @bd: board information
+	 */
+	struct bd_info *bd;
+	/**
+	 * @flags: global data flags
+	 *
+	 * See &enum gd_flags
+	 */
+	unsigned long flags;
+	/**
+	 * @baudrate: baud rate of the serial interface
+	 */
+	unsigned int baudrate;
+	/**
+	 * @cpu_clk: CPU clock rate in Hz
+	 */
+	unsigned long cpu_clk;
+	/**
+	 * @bus_clk: platform clock rate in Hz
+	 */
+	unsigned long bus_clk;
+	/**
+	 * @pci_clk: PCI clock rate in Hz
+	 */
+	/* We cannot bracket this with CONFIG_PCI due to mpc5xxx */
+	unsigned long pci_clk;
+	/**
+	 * @mem_clk: memory clock rate in Hz
+	 */
+	unsigned long mem_clk;
+#if CONFIG_IS_ENABLED(VIDEO)
+	/**
+	 * @fb_base: base address of frame buffer memory
+	 */
+	unsigned long fb_base;
+#endif
+#if defined(CONFIG_POST)
+	/**
+	 * @post_log_word: active POST tests
+	 *
+	 * @post_log_word is a bit mask defining which POST tests are recorded
+	 * (see constants POST_*).
+	 */
+	unsigned long post_log_word;
+	/**
+	 * @post_log_res: POST results
+	 *
+	 * @post_log_res is a bit mask with the POST results. A bit with value 1
+	 * indicates successful execution.
+	 */
+	unsigned long post_log_res;
+	/**
+	 * @post_init_f_time: time in ms when post_init_f() started
+	 */
+	unsigned long post_init_f_time;
+#endif
+#ifdef CONFIG_BOARD_TYPES
+	/**
+	 * @board_type: board type
+	 *
+	 * If a U-Boot configuration supports multiple board types, the actual
+	 * board type may be stored in this field.
+	 */
+	unsigned long board_type;
+#endif
+	/**
+	 * @have_console: console is available
+	 *
+	 * A value of 1 indicates that serial_init() was called and a console
+	 * is available.
+	 * A value of 0 indicates that console input and output drivers shall
+	 * not be called.
+	 */
+	unsigned long have_console;
+#if CONFIG_IS_ENABLED(PRE_CONSOLE_BUFFER)
+	/**
+	 * @precon_buf_idx: pre-console buffer index
+	 *
+	 * @precon_buf_idx indicates the current position of the
+	 * buffer used to collect output before the console becomes
+	 * available. When negative, the pre-console buffer is
+	 * temporarily disabled (used when the pre-console buffer is
+	 * being written out, to prevent adding its contents to
+	 * itself).
+	 */
+	long precon_buf_idx;
+#endif
+	/**
+	 * @env_addr: address of environment structure
+	 *
+	 * @env_addr contains the address of the structure holding the
+	 * environment variables.
+	 */
+	unsigned long env_addr;
+	/**
+	 * @env_valid: environment is valid
+	 *
+	 * See &enum env_valid
+	 */
+	unsigned long env_valid;
+	/**
+	 * @env_has_init: bit mask indicating environment locations
+	 *
+	 * &enum env_location defines which bit relates to which location
+	 */
+	unsigned long env_has_init;
+	/**
+	 * @env_load_prio: priority of the loaded environment
+	 */
+	int env_load_prio;
+	/**
+	 * @ram_base: base address of RAM used by U-Boot
+	 */
+	unsigned long ram_base;
+	/**
+	 * @ram_top: top address of RAM used by U-Boot
+	 */
+	phys_addr_t ram_top;
+	/**
+	 * @relocaddr: start address of U-Boot in RAM
+	 *
+	 * After relocation this field indicates the address to which U-Boot
+	 * has been relocated. It can be displayed using the bdinfo command.
+	 * Its value is needed to display the source code when debugging with
+	 * GDB using the 'add-symbol-file u-boot <relocaddr>' command.
+	 */
+	unsigned long relocaddr;
+	/**
+	 * @ram_size: RAM size in bytes
+	 */
+	phys_size_t ram_size;
+	/**
+	 * @mon_len: monitor length in bytes
+	 */
+	unsigned long mon_len;
+	/**
+	 * @irq_sp: IRQ stack pointer
+	 */
+	unsigned long irq_sp;
+	/**
+	 * @start_addr_sp: initial stack pointer address
+	 */
+	unsigned long start_addr_sp;
+	/**
+	 * @reloc_off: relocation offset
+	 */
+	unsigned long reloc_off;
+	/**
+	 * @new_gd: pointer to relocated global data
+	 */
+	struct global_data *new_gd;
+
+#ifdef CONFIG_DM
+	/**
+	 * @dm_root: root instance for Driver Model
+	 */
+	struct udevice *dm_root;
+	/**
+	 * @dm_root_f: pre-relocation root instance
+	 */
+	struct udevice *dm_root_f;
+	/**
+	 * @uclass_root_s:
+	 * head of core tree when uclasses are not in read-only memory.
+	 *
+	 * When uclasses are in read-only memory, @uclass_root_s is not used and
+	 * @uclass_root points to the root node generated by dtoc.
+	 */
+	struct list_head uclass_root_s;
+	/**
+	 * @uclass_root:
+	 * pointer to head of core tree, if uclasses are in read-only memory and
+	 * cannot be adjusted to use @uclass_root as a list head.
+	 *
+	 * When not in read-only memory, @uclass_root_s is used to hold the
+	 * uclass root, and @uclass_root points to the address of
+	 * @uclass_root_s.
+	 */
+	struct list_head *uclass_root;
+# if CONFIG_IS_ENABLED(OF_PLATDATA_DRIVER_RT)
+	/** @dm_driver_rt: Dynamic info about the driver */
+	struct driver_rt *dm_driver_rt;
+# endif
+#if CONFIG_IS_ENABLED(OF_PLATDATA_RT)
+	/** @dm_udevice_rt: Dynamic info about the udevice */
+	struct udevice_rt *dm_udevice_rt;
+	/**
+	 * @dm_priv_base: Base address of the priv/plat region used when
+	 * udevices and uclasses are in read-only memory. This is NULL if not
+	 * used
+	 */
+	void *dm_priv_base;
+# endif
+#endif
+#ifdef CONFIG_TIMER
+	/**
+	 * @timer: timer instance for Driver Model
+	 */
+	struct udevice *timer;
+#endif
+	/**
+	 * @fdt_blob: U-Boot's own device tree, NULL if none
+	 */
+	const void *fdt_blob;
+	/**
+	 * @new_fdt: relocated device tree
+	 */
+	void *new_fdt;
+	/**
+	 * @fdt_size: space reserved for relocated device space
+	 */
+	unsigned long fdt_size;
+	/**
+	 * @fdt_src: Source of FDT
+	 */
+	enum fdt_source_t fdt_src;
+#if CONFIG_IS_ENABLED(OF_LIVE)
+	/**
+	 * @of_root: root node of the live tree
+	 */
+	struct device_node *of_root;
+#endif
+
+#if CONFIG_IS_ENABLED(MULTI_DTB_FIT)
+	/**
+	 * @multi_dtb_fit: pointer to uncompressed multi-dtb FIT image
+	 */
+	const void *multi_dtb_fit;
+#endif
+	/**
+	 * @jt: jump table
+	 *
+	 * The jump table contains pointers to exported functions. A pointer to
+	 * the jump table is passed to standalone applications.
+	 */
+	struct jt_funcs *jt;
+	/**
+	 * @env_buf: buffer for env_get() before reloc
+	 */
+	char env_buf[32];
+#ifdef CONFIG_TRACE
+	/**
+	 * @trace_buff: trace buffer
+	 *
+	 * When tracing function in U-Boot this field points to the buffer
+	 * recording the function calls.
+	 */
+	void *trace_buff;
+#endif
+#if CONFIG_IS_ENABLED(SYS_I2C_LEGACY)
+	/**
+	 * @cur_i2c_bus: currently used I2C bus
+	 */
+	int cur_i2c_bus;
+#endif
+	/**
+	 * @timebase_h: high 32 bits of timer
+	 */
+	unsigned int timebase_h;
+	/**
+	 * @timebase_l: low 32 bits of timer
+	 */
+	unsigned int timebase_l;
+	/**
+	 * @malloc_start: start of malloc() region
+	 */
+#if CONFIG_IS_ENABLED(CMD_BDINFO_EXTRA)
+	unsigned long malloc_start;
+#endif
+#if CONFIG_VAL(SYS_MALLOC_F_LEN)
+	/**
+	 * @malloc_base: base address of early malloc()
+	 */
+	unsigned long malloc_base;
+	/**
+	 * @malloc_limit: limit address of early malloc()
+	 */
+	unsigned long malloc_limit;
+	/**
+	 * @malloc_ptr: current address of early malloc()
+	 */
+	unsigned long malloc_ptr;
+#endif
+#ifdef CONFIG_PCI
+	/**
+	 * @hose: PCI hose for early use
+	 */
+	struct pci_controller *hose;
+	/**
+	 * @pci_ram_top: top of region accessible to PCI
+	 */
+	phys_addr_t pci_ram_top;
+#endif
+#ifdef CONFIG_PCI_BOOTDELAY
+	/**
+	 * @pcidelay_done: delay time before scanning of PIC hose expired
+	 *
+	 * If CONFIG_PCI_BOOTDELAY=y, pci_hose_scan() waits for the number of
+	 * milliseconds defined by environment variable pcidelay before
+	 * scanning. Once this delay has expired the flag @pcidelay_done
+	 * is set to 1.
+	 */
+	int pcidelay_done;
+#endif
+	/**
+	 * @cur_serial_dev: current serial device
+	 */
+	struct udevice *cur_serial_dev;
+	/**
+	 * @arch: architecture-specific data
+	 */
+	struct arch_global_data arch;
+#ifdef CONFIG_CONSOLE_RECORD
+	/**
+	 * @console_out: output buffer for console recording
+	 *
+	 * This buffer is used to collect output during console recording.
+	 */
+	struct membuff console_out;
+	/**
+	 * @console_in: input buffer for console recording
+	 *
+	 * If console recording is activated, this buffer can be used to
+	 * emulate input.
+	 */
+	struct membuff console_in;
+#endif
+#if CONFIG_IS_ENABLED(VIDEO)
+	/**
+	 * @video_top: top of video frame buffer area
+	 */
+	ulong video_top;
+	/**
+	 * @video_bottom: bottom of video frame buffer area
+	 */
+	ulong video_bottom;
+#endif
+#ifdef CONFIG_BOOTSTAGE
+	/**
+	 * @bootstage: boot stage information
+	 */
+	struct bootstage_data *bootstage;
+	/**
+	 * @new_bootstage: relocated boot stage information
+	 */
+	struct bootstage_data *new_bootstage;
+#endif
+#ifdef CONFIG_LOG
+	/**
+	 * @log_drop_count: number of dropped log messages
+	 *
+	 * This counter is incremented for each log message which can not
+	 * be processed because logging is not yet available as signaled by
+	 * flag %GD_FLG_LOG_READY in @flags.
+	 */
+	int log_drop_count;
+	/**
+	 * @default_log_level: default logging level
+	 *
+	 * For logging devices without filters @default_log_level defines the
+	 * logging level, cf. &enum log_level_t.
+	 */
+	int default_log_level;
+	/**
+	 * @log_head: list of logging devices
+	 */
+	struct list_head log_head;
+	/**
+	 * @log_fmt: bit mask for logging format
+	 *
+	 * The @log_fmt bit mask selects the fields to be shown in log messages.
+	 * &enum log_fmt defines the bits of the bit mask.
+	 */
+	int log_fmt;
+
+	/**
+	 * @processing_msg: a log message is being processed
+	 *
+	 * This flag is used to suppress the creation of additional messages
+	 * while another message is being processed.
+	 */
+	bool processing_msg;
+	/**
+	 * @logc_prev: logging category of previous message
+	 *
+	 * This value is used as logging category for continuation messages.
+	 */
+	int logc_prev;
+	/**
+	 * @logl_prev: logging level of the previous message
+	 *
+	 * This value is used as logging level for continuation messages.
+	 */
+	int logl_prev;
+	/**
+	 * @log_cont: Previous log line did not finished wtih \n
+	 *
+	 * This allows for chained log messages on the same line
+	 */
+	bool log_cont;
+#endif
+#if CONFIG_IS_ENABLED(BLOBLIST)
+	/**
+	 * @bloblist: blob list information
+	 */
+	struct bloblist_hdr *bloblist;
+	/**
+	 * @new_bloblist: relocated blob list information
+	 */
+	struct bloblist_hdr *new_bloblist;
+#endif
+#if CONFIG_IS_ENABLED(HANDOFF)
+	/**
+	 * @spl_handoff: SPL hand-off information
+	 */
+	struct spl_handoff *spl_handoff;
+#endif
+#if defined(CONFIG_TRANSLATION_OFFSET)
+	/**
+	 * @translation_offset: optional translation offset
+	 *
+	 * See CONFIG_TRANSLATION_OFFSET.
+	 */
+	fdt_addr_t translation_offset;
+#endif
+#ifdef CONFIG_ACPI
+	/**
+	 * @acpi_ctx: ACPI context pointer
+	 */
+	struct acpi_ctx *acpi_ctx;
+	/**
+	 * @acpi_start: Start address of ACPI tables
+	 */
+	ulong acpi_start;
+#endif
+#if CONFIG_IS_ENABLED(GENERATE_SMBIOS_TABLE)
+	/**
+	 * @smbios_version: Points to SMBIOS type 0 version
+	 */
+	char *smbios_version;
+#endif
+#if CONFIG_IS_ENABLED(EVENT)
+	/**
+	 * @event_state: Points to the current state of events
+	 */
+	struct event_state event_state;
+#endif
+#ifdef CONFIG_CYCLIC
+	/**
+	 * @cyclic_list: list of registered cyclic functions
+	 */
+	struct hlist_head cyclic_list;
+#endif
+	/**
+	 * @dmtag_list: List of DM tags
+	 */
+	struct list_head dmtag_list;
+};
+```
+
+## 辅助程序
+
+```assembly
+#define SYMBOL_NAME(X)		X
+
+#define ENTRY(name) \
+	.globl SYMBOL_NAME(name) ASM_NL \
+	LENTRY(name)
+
+#ifndef END
+#define END(name) \
+	.size name, .-name
+#endif
+
+#ifndef ENDPROC
+#define ENDPROC(name) \
+	.type name STT_FUNC ASM_NL \
+	END(name)
+#endif
 ```
 
 ## 启动前夕
 
+### 分析头实现
+
+```shell
+$ arm-non-eabi-objdump -S u-boot > u-boot.S
+```
+
+### 中断向量表
+
+```assembly
+	.macro ARM_VECTORS
+#ifdef CONFIG_ARCH_K3
+	ldr     pc, _reset
+#else
+	b	reset
+#endif
+#if !CONFIG_IS_ENABLED(SYS_NO_VECTOR_TABLE)
+	ldr	pc, _undefined_instruction
+	ldr	pc, _software_interrupt
+	ldr	pc, _prefetch_abort
+	ldr	pc, _data_abort
+	ldr	pc, _not_used
+	ldr	pc, _irq
+	ldr	pc, _fiq
+#endif
+	.endm
+```
+
+
+
 ```mermaid
-graph TD
+graph LR
 
 reset --> _main
 
@@ -89,6 +650,276 @@ save_boot_params_ret:
 
 	bl	_main
 ```
+
+### `save_boot_params`函数实现
+
+>  此函数什么也没有做
+
+```
+WEAK(save_boot_params)
+	b	save_boot_params_ret		@ back to my caller
+ENDPROC(save_boot_params)
+```
+
+### 进入svc32模式
+
+> 下面进入设置SVC32模式,并且关闭FIQ and IRQ
+
+```assembly
+/*
+* disable interrupts (FIQ and IRQ), also set the cpu to SVC32 mode,
+* except if in HYP mode already
+*/
+mrs	r0, cpsr
+and	r1, r0, #0x1f		@ mask mode bits
+teq	r1, #0x1a		@ test for HYP mode
+bicne	r0, r0, #0x1f		@ clear all mode bits
+orrne	r0, r0, #0x13		@ set SVC mode
+orr	r0, r0, #0xc0		@ disable FIQ and IRQ
+msr	cpsr,r0
+```
+
+### 设置中断向量表
+
+`_start`标号指向 [中断向量表](#中断向量表)
+
+![image-20230807005016228](picture/image-20230807005016228.png)
+
+```assembly
+/* Set V=0 in CP15 SCTLR register - for VBAR to point to vector */
+mrc	p15, 0, r0, c1, c0, 0	@ Read CP15 SCTLR Register
+bic	r0, #CR_V				@ V = 0
+mcr	p15, 0, r0, c1, c0, 0	@ Write CP15 SCTLR Register
+ldr	r0, =_start
+mcr	p15, 0, r0, c12, c0, 0	@Set VBAR
+```
+
+### `cpu_init_cp15`函数
+
+```assembly
+ENTRY(cpu_init_cp15)
+
+#if CONFIG_IS_ENABLED(ARMV7_SET_CORTEX_SMPEN)
+	/*
+	 * The Arm Cortex-A7 TRM says this bit must be enabled before
+	 * "any cache or TLB maintenance operations are performed".
+	 */
+	mrc	p15, 0, r0, c1, c0, 1	@ read auxilary control register
+	orr	r0, r0, #1 << 6		@ set SMP bit to enable coherency
+	mcr	p15, 0, r0, c1, c0, 1	@ write auxilary control register
+#endif
+
+	/*
+	 * Invalidate L1 I/D
+	 */
+	mov	r0, #0			@ set up for MCR
+	mcr	p15, 0, r0, c8, c7, 0	@ invalidate TLBs
+	mcr	p15, 0, r0, c7, c5, 0	@ invalidate icache
+	mcr	p15, 0, r0, c7, c5, 6	@ invalidate BP array
+	dsb
+	isb
+
+	/*
+	 * disable MMU stuff and caches
+	 */
+	mrc	p15, 0, r0, c1, c0, 0
+	bic	r0, r0, #0x00002000	@ clear bits 13 (--V-)
+	bic	r0, r0, #0x00000007	@ clear bits 2:0 (-CAM)
+	orr	r0, r0, #0x00000002	@ set bit 1 (--A-) Align
+	orr	r0, r0, #0x00000800	@ set bit 11 (Z---) BTB
+#if CONFIG_IS_ENABLED(SYS_ICACHE_OFF)
+	bic	r0, r0, #0x00001000	@ clear bit 12 (I) I-cache
+#else
+	orr	r0, r0, #0x00001000	@ set bit 12 (I) I-cache
+#endif
+	mcr	p15, 0, r0, c1, c0, 0
+
+#ifdef CONFIG_ARM_ERRATA_716044
+	mrc	p15, 0, r0, c1, c0, 0	@ read system control register
+	orr	r0, r0, #1 << 11	@ set bit #11
+	mcr	p15, 0, r0, c1, c0, 0	@ write system control register
+#endif
+
+#if (defined(CONFIG_ARM_ERRATA_742230) || defined(CONFIG_ARM_ERRATA_794072))
+	mrc	p15, 0, r0, c15, c0, 1	@ read diagnostic register
+	orr	r0, r0, #1 << 4		@ set bit #4
+	mcr	p15, 0, r0, c15, c0, 1	@ write diagnostic register
+#endif
+
+#ifdef CONFIG_ARM_ERRATA_743622
+	mrc	p15, 0, r0, c15, c0, 1	@ read diagnostic register
+	orr	r0, r0, #1 << 6		@ set bit #6
+	mcr	p15, 0, r0, c15, c0, 1	@ write diagnostic register
+#endif
+
+#ifdef CONFIG_ARM_ERRATA_751472
+	mrc	p15, 0, r0, c15, c0, 1	@ read diagnostic register
+	orr	r0, r0, #1 << 11	@ set bit #11
+	mcr	p15, 0, r0, c15, c0, 1	@ write diagnostic register
+#endif
+#ifdef CONFIG_ARM_ERRATA_761320
+	mrc	p15, 0, r0, c15, c0, 1	@ read diagnostic register
+	orr	r0, r0, #1 << 21	@ set bit #21
+	mcr	p15, 0, r0, c15, c0, 1	@ write diagnostic register
+#endif
+
+#ifdef CONFIG_ARM_ERRATA_845369
+	mrc     p15, 0, r0, c15, c0, 1	@ read diagnostic register
+	orr     r0, r0, #1 << 22	@ set bit #22
+	mcr     p15, 0, r0, c15, c0, 1	@ write diagnostic register
+#endif
+
+	mov	r5, lr			@ Store my Caller
+	mrc	p15, 0, r1, c0, c0, 0	@ r1 has Read Main ID Register (MIDR)
+	mov	r3, r1, lsr #20		@ get variant field
+	and	r3, r3, #0xf		@ r3 has CPU variant
+	and	r4, r1, #0xf		@ r4 has CPU revision
+	mov	r2, r3, lsl #4		@ shift variant field for combined value
+	orr	r2, r4, r2		@ r2 has combined CPU variant + revision
+
+/* Early stack for ERRATA that needs into call C code */
+#if defined(CONFIG_SPL_BUILD) && defined(CONFIG_SPL_STACK)
+	ldr	r0, =(CONFIG_SPL_STACK)
+#else
+	ldr	r0, =(SYS_INIT_SP_ADDR)
+#endif
+	bic	r0, r0, #7	/* 8-byte alignment for ABI compliance */
+	mov	sp, r0
+
+#ifdef CONFIG_ARM_ERRATA_798870
+	cmp	r2, #0x30		@ Applies to lower than R3p0
+	bge	skip_errata_798870      @ skip if not affected rev
+	cmp	r2, #0x20		@ Applies to including and above R2p0
+	blt	skip_errata_798870      @ skip if not affected rev
+
+	mrc	p15, 1, r0, c15, c0, 0  @ read l2 aux ctrl reg
+	orr	r0, r0, #1 << 7         @ Enable hazard-detect timeout
+	push	{r1-r5}			@ Save the cpu info registers
+	bl	v7_arch_cp15_set_l2aux_ctrl
+	isb				@ Recommended ISB after l2actlr update
+	pop	{r1-r5}			@ Restore the cpu info - fall through
+skip_errata_798870:
+#endif
+
+#ifdef CONFIG_ARM_ERRATA_801819
+	cmp	r2, #0x24		@ Applies to lt including R2p4
+	bgt	skip_errata_801819      @ skip if not affected rev
+	cmp	r2, #0x20		@ Applies to including and above R2p0
+	blt	skip_errata_801819      @ skip if not affected rev
+	mrc	p15, 0, r0, c0, c0, 6	@ pick up REVIDR reg
+	and	r0, r0, #1 << 3		@ check REVIDR[3]
+	cmp	r0, #1 << 3
+	beq	skip_errata_801819	@ skip erratum if REVIDR[3] is set
+
+	mrc	p15, 0, r0, c1, c0, 1	@ read auxilary control register
+	orr	r0, r0, #3 << 27	@ Disables streaming. All write-allocate
+					@ lines allocate in the L1 or L2 cache.
+	orr	r0, r0, #3 << 25	@ Disables streaming. All write-allocate
+					@ lines allocate in the L1 cache.
+	push	{r1-r5}			@ Save the cpu info registers
+	bl	v7_arch_cp15_set_acr
+	pop	{r1-r5}			@ Restore the cpu info - fall through
+skip_errata_801819:
+#endif
+
+#ifdef CONFIG_ARM_CORTEX_A15_CVE_2017_5715
+	mrc	p15, 0, r0, c1, c0, 1	@ read auxilary control register
+	orr	r0, r0, #1 << 0		@ Enable invalidates of BTB
+	push	{r1-r5}			@ Save the cpu info registers
+	bl	v7_arch_cp15_set_acr
+	pop	{r1-r5}			@ Restore the cpu info - fall through
+#endif
+
+#ifdef CONFIG_ARM_ERRATA_454179
+	mrc	p15, 0, r0, c1, c0, 1	@ Read ACR
+
+	cmp	r2, #0x21		@ Only on < r2p1
+	orrlt	r0, r0, #(0x3 << 6)	@ Set DBSM(BIT7) and IBE(BIT6) bits
+
+	push	{r1-r5}			@ Save the cpu info registers
+	bl	v7_arch_cp15_set_acr
+	pop	{r1-r5}			@ Restore the cpu info - fall through
+#endif
+
+#if defined(CONFIG_ARM_ERRATA_430973) || defined (CONFIG_ARM_CORTEX_A8_CVE_2017_5715)
+	mrc	p15, 0, r0, c1, c0, 1	@ Read ACR
+
+#ifdef CONFIG_ARM_CORTEX_A8_CVE_2017_5715
+	orr	r0, r0, #(0x1 << 6)	@ Set IBE bit always to enable OS WA
+#else
+	cmp	r2, #0x21		@ Only on < r2p1
+	orrlt	r0, r0, #(0x1 << 6)	@ Set IBE bit
+#endif
+	push	{r1-r5}			@ Save the cpu info registers
+	bl	v7_arch_cp15_set_acr
+	pop	{r1-r5}			@ Restore the cpu info - fall through
+#endif
+
+#ifdef CONFIG_ARM_ERRATA_621766
+	mrc	p15, 0, r0, c1, c0, 1	@ Read ACR
+
+	cmp	r2, #0x21		@ Only on < r2p1
+	orrlt	r0, r0, #(0x1 << 5)	@ Set L1NEON bit
+
+	push	{r1-r5}			@ Save the cpu info registers
+	bl	v7_arch_cp15_set_acr
+	pop	{r1-r5}			@ Restore the cpu info - fall through
+#endif
+
+#ifdef CONFIG_ARM_ERRATA_725233
+	mrc	p15, 1, r0, c9, c0, 2	@ Read L2ACR
+
+	cmp	r2, #0x21		@ Only on < r2p1 (Cortex A8)
+	orrlt	r0, r0, #(0x1 << 27)	@ L2 PLD data forwarding disable
+
+	push	{r1-r5}			@ Save the cpu info registers
+	bl	v7_arch_cp15_set_l2aux_ctrl
+	pop	{r1-r5}			@ Restore the cpu info - fall through
+#endif
+
+#ifdef CONFIG_ARM_ERRATA_852421
+	mrc	p15, 0, r0, c15, c0, 1	@ read diagnostic register
+	orr	r0, r0, #1 << 24	@ set bit #24
+	mcr	p15, 0, r0, c15, c0, 1	@ write diagnostic register
+#endif
+
+#ifdef CONFIG_ARM_ERRATA_852423
+	mrc	p15, 0, r0, c15, c0, 1	@ read diagnostic register
+	orr	r0, r0, #1 << 12	@ set bit #12
+	mcr	p15, 0, r0, c15, c0, 1	@ write diagnostic register
+#endif
+
+	mov	pc, r5			@ back to my caller
+ENDPROC(cpu_init_cp15)
+```
+
+### `cpu_init_crit`函数
+
+```assembly
+ENTRY(cpu_init_crit)
+	/*
+	 * Jump to board specific initialization...
+	 * The Mask ROM will have already initialized
+	 * basic memory. Go here to bump up clock rate and handle
+	 * wake up conditions.
+	 */
+	b	lowlevel_init		@ go setup pll,mux,memory
+ENDPROC(cpu_init_crit)
+```
+
+### `lowlevel_init`功能初始化
+
+进入了**board/armltd/vexpress/vexpress_common.c**
+
+函数为空
+
+```c
+void lowlevel_init(void)
+{
+}
+```
+
+### C语言初始化
 
 **[arch/arm/lib/crt0_64.S]**
 
@@ -208,7 +1039,72 @@ clbss_l:cmp	r0, r1			/* while not at end of BSS */
 ENDPROC(_main)
 ```
 
+### `board_init_f`
 
+> 进入此文件**common/board_f.c**
+
+```c
+void board_init_f(ulong boot_flags)
+{
+	gd->flags = boot_flags;
+	gd->have_console = 0;
+
+	if (initcall_run_list(init_sequence_f))
+		hang();
+
+#if !defined(CONFIG_ARM) && !defined(CONFIG_SANDBOX) && \
+		!defined(CONFIG_EFI_APP) && !CONFIG_IS_ENABLED(X86_64) && \
+		!defined(CONFIG_ARC)
+	/* NOTREACHED - jump_to_copy() does not return */
+	hang();
+#endif
+}
+```
+
+### `initcall_run_list`
+
+>  进入初始化列表
+
+```c
+typedef int (*init_fnc_t)(void);
+
+static inline int initcall_run_list(const init_fnc_t init_sequence[])
+{
+	const init_fnc_t *init_fnc_ptr;
+
+	for (init_fnc_ptr = init_sequence; *init_fnc_ptr; ++init_fnc_ptr) {
+		unsigned long reloc_ofs = 0;
+		int ret;
+
+		/*
+		 * Sandbox is relocated by the OS, so symbols always appear at
+		 * the relocated address.
+		 */
+		if (IS_ENABLED(CONFIG_SANDBOX) || (gd->flags & GD_FLG_RELOC))
+			reloc_ofs = gd->reloc_off;
+#ifdef CONFIG_EFI_APP
+		reloc_ofs = (unsigned long)image_base;
+#endif
+		if (reloc_ofs)
+			debug("initcall: %p (relocated to %p)\n",
+					(char *)*init_fnc_ptr - reloc_ofs,
+					(char *)*init_fnc_ptr);
+		else
+			debug("initcall: %p\n", (char *)*init_fnc_ptr - reloc_ofs);
+
+		ret = (*init_fnc_ptr)();
+		if (ret) {
+			printf("initcall sequence %p failed at call %p (err=%d)\n",
+			       init_sequence,
+			       (char *)*init_fnc_ptr - reloc_ofs, ret);
+			return -1;
+		}
+	}
+	return 0;
+}
+```
+
+![image-20230807010446639](picture/image-20230807010446639.png)
 
 **[arch/arm/cpu/armv8/start.S]**
 
@@ -414,6 +1310,76 @@ int initcall_run_list(const init_fnc_t init_sequence[])
 	return 0;
 }
 ```
+
+### DDR初始化
+
+### UART初始化
+
+### `relocate_code`函数
+
+> 进入**arch/arm/lib/relocate.S**
+>
+> 这个函数执行结束之后，后面的代码没法正常的跟踪gdb运行了
+>
+> 是否存在特殊的手段实现呢？
+
+```assembly
+ENTRY(relocate_code)
+relocate_base:
+	adr	r3, relocate_base
+	ldr	r1, _image_copy_start_ofs
+	add	r1, r3			/* r1 <- Run &__image_copy_start */
+	subs	r4, r0, r1		/* r4 <- Run to copy offset      */
+	beq	relocate_done		/* skip relocation               */
+	ldr	r1, _image_copy_start_ofs
+	add	r1, r3			/* r1 <- Run &__image_copy_start */
+	ldr	r2, _image_copy_end_ofs
+	add	r2, r3			/* r2 <- Run &__image_copy_end   */
+copy_loop:
+	ldmia	r1!, {r10-r11}		/* copy from source address [r1] */
+	stmia	r0!, {r10-r11}		/* copy to   target address [r0] */
+	cmp	r1, r2			/* until source end address [r2] */
+	blo	copy_loop
+
+	/*
+	 * fix .rel.dyn relocations
+	 */
+	ldr	r1, _rel_dyn_start_ofs
+	add	r2, r1, r3		/* r2 <- Run &__rel_dyn_start */
+	ldr	r1, _rel_dyn_end_ofs
+	add	r3, r1, r3		/* r3 <- Run &__rel_dyn_end */
+fixloop:
+	ldmia	r2!, {r0-r1}		/* (r0,r1) <- (SRC location,fixup) */
+	and	r1, r1, #0xff
+	cmp	r1, #R_ARM_RELATIVE
+	bne	fixnext
+
+	/* relative fix: increase location by offset */
+	add	r0, r0, r4
+	ldr	r1, [r0]
+	add	r1, r1, r4
+	str	r1, [r0]
+fixnext:
+	cmp	r2, r3
+	blo	fixloop
+
+relocate_done:
+
+#ifdef __XSCALE__
+	/*
+	 * On xscale, icache must be invalidated and write buffers drained,
+	 * even with cache disabled - 4.2.7 of xscale core developer's manual
+	 */
+	mcr	p15, 0, r0, c7, c7, 0	/* invalidate icache */
+	mcr	p15, 0, r0, c7, c10, 4	/* drain write buffer */
+#endif
+
+	ret	lr
+
+ENDPROC(relocate_code)
+```
+
+
 
 ## 启动实现
 
