@@ -37,7 +37,59 @@ qemu-system-arm -M vexpress-a9 -kernel u-boot --nographic -m 512M -S -s
 # 编译内核
 make ARCH=arm vexpress_defconfig
 make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi-
-make 
+
+# 创建sdcard.img
+dd if=/dev/zero of=sdcard.img bs=1024 count=102400
+mkfs.fat sdcard.img
+mount -o loop sdcard.img /mnt
+cp zImage vexpress-v2p-ca9.dtb /mnt
+umount /mnt
+
+# 设置tftp启动
+$ qemu-system-arm -M vexpress-a9 -m 256M -kernel u-boot -sd sdcard.img -nographic
+=> mmcinfo
+=> load mmc 0:0 0x60008000 zImage
+=> load mmc 0:0 0x61000000 vexpress-v2p-ca9.dtb
+=> setenv bootargs "root=/dev/mmcblk0 rw console=ttyAMA0"
+=> bootz 0x60008000 - 0x61000000
+
+# 启动程序
+$ qemu-system-arm -M vexpress-a9 -m 256M -kernel u-boot -sd sdcard.img -nographic
+=> mmcinfo
+=> load mmc 0:0 0x60008000 zImage
+=> load mmc 0:0 0x61000000 vexpress-v2p-ca9.dtb
+=> setenv bootargs "root=/dev/mmcblk0 rw console=ttyAMA0"
+=> bootz 0x60008000 - 0x61000000
+
+# u-boot脚本
+mkimage -C none -A arm -T script -d boot.cmd boot.scr
+$ qemu-system-arm -M vexpress-a9 -m 256M -kernel u-boot -sd sdcard.img -nographic
+=> load mmc 0:0 0x62000000 boot.scr
+=> source 0x62000000
+
+# 多分区1
+dd if=/dev/zero of=sdcard.img bs=1024 count=102400
+fdisk sdcard.img                                        # 简单起见这里只分一个区
+losetup -f                                              # 查询可用的块设备地址, 记下来如 /dev/loop16
+losetup -P /dev/loop16 sdcard.img                       # 关联块设备
+lsblk                                                   # 可以看到块设备已经关联, 并且看到分区信息
+mkfs.fat  /dev/loop16p1                                 # 格式化第一分区
+mount /dev/loop16p1 /mnt                                # 挂载块设备的第一分区
+cp boot.scr zImage vexpress-v2p-ca9.dtb /mnt            # 复制到 第一分区
+umount /mnt                                             # 卸载设备
+
+# 多分区的实现2
+parted sdcard.img
+
+# u-boot打包
+mkimage -A arm -C none -O linux -T kernel -d zImage -a 0x00010000 -e 0x00010000 zImage.uimg
+mkimage -A arm -C none -O linux -T ramdisk -d rootfs.img.gz -a 0x00800000 -e 0x00800000 rootfs.uimg
+dd if=/dev/zero of=flash.bin bs=1 count=6M
+dd if=u-boot.bin of=flash.bin conv=notrunc bs=1
+dd if=zImage.uimg of=flash.bin conv=notrunc bs=1 seek=2M
+dd if=rootfs.uimg of=flash.bin conv=notrunc bs=1 seek=4M
+
+qemu-system-arm -M vexpress-a9 -device loader,file=flash.bin,addr=0x60800000,cpu-num=0,force-raw=on -nographic
 ```
 
 ```shell
@@ -1039,7 +1091,7 @@ clbss_l:cmp	r0, r1			/* while not at end of BSS */
 ENDPROC(_main)
 ```
 
-### `board_init_f`
+### `board_init_f`函数
 
 > 进入此文件**common/board_f.c**
 
@@ -1060,6 +1112,49 @@ void board_init_f(ulong boot_flags)
 #endif
 }
 ```
+
+### `board_init_r`函数
+
+```c
+void board_init_r(gd_t *new_gd, ulong dest_addr)
+{
+	/*
+	 * The pre-relocation drivers may be using memory that has now gone
+	 * away. Mark serial as unavailable - this will fall back to the debug
+	 * UART if available.
+	 *
+	 * Do the same with log drivers since the memory may not be available.
+	 */
+	gd->flags &= ~(GD_FLG_SERIAL_READY | GD_FLG_LOG_READY);
+
+	/*
+	 * Set up the new global data pointer. So far only x86 does this
+	 * here.
+	 * TODO(sjg@chromium.org): Consider doing this for all archs, or
+	 * dropping the new_gd parameter.
+	 */
+	if (CONFIG_IS_ENABLED(X86_64) && !IS_ENABLED(CONFIG_EFI_APP))
+		arch_setup_gd(new_gd);
+
+#if !defined(CONFIG_X86) && !defined(CONFIG_ARM) && !defined(CONFIG_ARM64)
+	gd = new_gd;
+#endif
+	gd->flags &= ~GD_FLG_LOG_READY;
+
+	if (IS_ENABLED(CONFIG_NEEDS_MANUAL_RELOC)) {
+		for (int i = 0; i < ARRAY_SIZE(init_sequence_r); i++)
+			MANUAL_RELOC(init_sequence_r[i]);
+	}
+
+	if (initcall_run_list(init_sequence_r))
+		hang();
+
+	/* NOTREACHED - run_main_loop() does not return */
+	hang();
+}
+```
+
+
 
 ### `initcall_run_list`
 
@@ -1315,7 +1410,31 @@ int initcall_run_list(const init_fnc_t init_sequence[])
 
 ### UART初始化
 
-### `relocate_code`函数
+### 代码重定位
+
+1. 编译时添加-fpie选项
+2. 链接添加pie选项
+3. 生成段名，用来修正代码位置
+
+```c
+char __bss_start[0] __section(".__bss_start");
+char __bss_end[0] __section(".__bss_end");
+char __image_copy_start[0] __section(".__image_copy_start");
+char __image_copy_end[0] __section(".__image_copy_end");
+char __rel_dyn_start[0] __section(".__rel_dyn_start");
+char __rel_dyn_end[0] __section(".__rel_dyn_end");
+char __secure_start[0] __section(".__secure_start");
+char __secure_end[0] __section(".__secure_end");
+char __secure_stack_start[0] __section(".__secure_stack_start");
+char __secure_stack_end[0] __section(".__secure_stack_end");
+char __efi_runtime_start[0] __section(".__efi_runtime_start");
+char __efi_runtime_stop[0] __section(".__efi_runtime_stop");
+char __efi_runtime_rel_start[0] __section(".__efi_runtime_rel_start");
+char __efi_runtime_rel_stop[0] __section(".__efi_runtime_rel_stop");
+char _end[0] __section(".__end");
+```
+
+#### `relocate_code`函数
 
 > 进入**arch/arm/lib/relocate.S**
 >
@@ -1323,18 +1442,23 @@ int initcall_run_list(const init_fnc_t init_sequence[])
 >
 > 是否存在特殊的手段实现呢？
 
+https://elixir.bootlin.com/u-boot/latest/source/arch/arm/lib/relocate.S#L79
+
+指定-pie后编译生成的uboot中就会有一个rel.dyn段，uboot就是靠rel.dyn段实现了完美的relocation！
+
 ```assembly
 ENTRY(relocate_code)
 relocate_base:
-	adr	r3, relocate_base
+	adr	r3, relocate_base        		/* R3 = relocate_base - pc */
+	ldr	r1, _image_copy_start_ofs		/* R1 = _image_copy_start_ofs */
+	add	r1, r3							/* r1 <- Run &__image_copy_start */
+	subs	r4, r0, r1					/* r4 <- Run to copy offset      */
+	beq	relocate_done					/* skip relocation               */
 	ldr	r1, _image_copy_start_ofs
-	add	r1, r3			/* r1 <- Run &__image_copy_start */
-	subs	r4, r0, r1		/* r4 <- Run to copy offset      */
-	beq	relocate_done		/* skip relocation               */
-	ldr	r1, _image_copy_start_ofs
-	add	r1, r3			/* r1 <- Run &__image_copy_start */
+	add	r1, r3							/* r1 <- Run &__image_copy_start */
 	ldr	r2, _image_copy_end_ofs
-	add	r2, r3			/* r2 <- Run &__image_copy_end   */
+	add	r2, r3							/* r2 <- Run &__image_copy_end   */
+
 copy_loop:
 	ldmia	r1!, {r10-r11}		/* copy from source address [r1] */
 	stmia	r0!, {r10-r11}		/* copy to   target address [r0] */
@@ -1348,6 +1472,7 @@ copy_loop:
 	add	r2, r1, r3		/* r2 <- Run &__rel_dyn_start */
 	ldr	r1, _rel_dyn_end_ofs
 	add	r3, r1, r3		/* r3 <- Run &__rel_dyn_end */
+
 fixloop:
 	ldmia	r2!, {r0-r1}		/* (r0,r1) <- (SRC location,fixup) */
 	and	r1, r1, #0xff
@@ -1363,21 +1488,137 @@ fixnext:
 	cmp	r2, r3
 	blo	fixloop
 
+
 relocate_done:
-
-#ifdef __XSCALE__
-	/*
-	 * On xscale, icache must be invalidated and write buffers drained,
-	 * even with cache disabled - 4.2.7 of xscale core developer's manual
-	 */
-	mcr	p15, 0, r0, c7, c7, 0	/* invalidate icache */
-	mcr	p15, 0, r0, c7, c10, 4	/* drain write buffer */
-#endif
-
-	ret	lr
+	ret	lr			/* set pc */
 
 ENDPROC(relocate_code)
+
+_image_copy_start_ofs:
+	.word	__image_copy_start - relocate_code
+_image_copy_end_ofs:
+	.word	__image_copy_end - relocate_code
+_rel_dyn_start_ofs:
+	.word	__rel_dyn_start - relocate_code
+_rel_dyn_end_ofs:
+	.word	__rel_dyn_end - relocate_code
 ```
+
+代码解析:
+
+(TODO)
+
+那么代码现在运行到何处了呢？
+
+在进入代码搬移之前
+
+```assembly
+ldr	r0, [r9, #GD_RELOCADDR]		/* r0 = gd->relocaddr */
+b	relocate_code
+```
+
+#### relocate_vectors函数
+
+> 迁移向量表
+
+```assembly
+	.section	.text.relocate_vectors,"ax",%progbits
+
+WEAK(relocate_vectors)
+
+#ifdef CONFIG_CPU_V7M
+	/*
+	 * On ARMv7-M we only have to write the new vector address
+	 * to VTOR register.
+	 */
+	ldr	r0, [r9, #GD_RELOCADDR]	/* r0 = gd->relocaddr */
+	ldr	r1, =V7M_SCB_BASE
+	str	r0, [r1, V7M_SCB_VTOR]
+#else
+#ifdef CONFIG_HAS_VBAR
+	/*
+	 * If the ARM processor has the security extensions,
+	 * use VBAR to relocate the exception vectors.
+	 */
+	ldr	r0, [r9, #GD_RELOCADDR]	/* r0 = gd->relocaddr */
+	mcr     p15, 0, r0, c12, c0, 0  /* Set VBAR */
+#else
+	/*
+	 * Copy the relocated exception vectors to the
+	 * correct address
+	 * CP15 c1 V bit gives us the location of the vectors:
+	 * 0x00000000 or 0xFFFF0000.
+	 */
+	ldr	r0, [r9, #GD_RELOCADDR]	/* r0 = gd->relocaddr */
+	mrc	p15, 0, r2, c1, c0, 0	/* V bit (bit[13]) in CP15 c1 */
+	ands	r2, r2, #(1 << 13)
+	ldreq	r1, =0x00000000		/* If V=0 */
+	ldrne	r1, =0xFFFF0000		/* If V=1 */
+	ldmia	r0!, {r2-r8,r10}
+	stmia	r1!, {r2-r8,r10}
+	ldmia	r0!, {r2-r8,r10}
+	stmia	r1!, {r2-r8,r10}
+#endif
+#endif
+	ret	lr
+
+ENDPROC(relocate_vectors)
+```
+
+### c_runtime_cpu_setup
+
+## 命令实现
+
+以`version`命令作为例子
+
+```c
+#define U_BOOT_VERSION_STRING U_BOOT_VERSION " (" U_BOOT_DATE " - " \
+	U_BOOT_TIME " " U_BOOT_TZ ")" CONFIG_IDENT_STRING
+
+const char version_string[] = U_BOOT_VERSION_STRING;
+const unsigned short version_num = U_BOOT_VERSION_NUM;
+const unsigned char version_num_patch = U_BOOT_VERSION_NUM_PATCH;
+
+static int do_version(struct cmd_tbl *cmdtp, int flag, int argc,
+		      char *const argv[])
+{
+	char buf[DISPLAY_OPTIONS_BANNER_LENGTH];
+
+	printf(display_options_get_banner(false, buf, sizeof(buf)));
+#ifdef CC_VERSION_STRING
+	puts(CC_VERSION_STRING "\n");
+#endif
+#ifdef LD_VERSION_STRING
+	puts(LD_VERSION_STRING "\n");
+#endif
+#ifdef CONFIG_SYS_COREBOOT
+	printf("coreboot-%s (%s)\n", lib_sysinfo.version, lib_sysinfo.build);
+#endif
+	return 0;
+}
+
+U_BOOT_CMD(
+	version,	1,		1,	do_version,
+	"print monitor, compiler and linker version",
+	""
+);
+```
+
+展开`U_BOOT_CMD`
+
+```c
+#define U_BOOT_CMD(_name, _maxargs, _rep, _cmd, _usage, _help)		\
+	U_BOOT_CMD_COMPLETE(_name, _maxargs, _rep, _cmd, _usage, _help, NULL)
+
+#define U_BOOT_CMD_COMPLETE(_name, _maxargs, _rep, _cmd, _usage, _help, _comp) \
+	ll_entry_declare(struct cmd_tbl, _name, cmd) =			\
+		U_BOOT_CMD_MKENT_COMPLETE(_name, _maxargs, _rep, _cmd,	\
+						_usage, _help, _comp);
+```
+
+
+
+`cli_loop` --> `parse_file_outer` -->
 
 
 
@@ -1534,6 +1775,53 @@ static void boot_jump_linux(bootm_headers_t *images, int flag)
 }
 ```
 
+## 环境变量
+
+> 1. 初始化功能
+> 2. 获取变量`env_get`
+> 3. 设置变量`env_set`
+
+```c
+char *env_get(const char *name)
+{
+	if (gd->flags & GD_FLG_ENV_READY) { /* after import into hashtable */
+		struct env_entry e, *ep;
+
+		schedule();
+
+		e.key	= name;
+		e.data	= NULL;
+		hsearch_r(e, ENV_FIND, &ep, &env_htab, 0);
+
+		return ep ? ep->data : NULL;
+	}
+
+	/* restricted capabilities before import */
+	if (env_get_f(name, (char *)(gd->env_buf), sizeof(gd->env_buf)) >= 0)
+		return (char *)(gd->env_buf);
+
+	return NULL;
+}
+```
+
+```c
+int env_set(const char *varname, const char *varvalue)
+{
+	const char * const argv[4] = { "setenv", varname, varvalue, NULL };
+
+	/* before import into hashtable */
+	if (!(gd->flags & GD_FLG_ENV_READY))
+		return 1;
+
+	if (varvalue == NULL || varvalue[0] == '\0')
+		return _do_env_set(0, 2, (char * const *)argv, H_PROGRAMMATIC);
+	else
+		return _do_env_set(0, 3, (char * const *)argv, H_PROGRAMMATIC);
+}
+```
+
+
+
 ## 加载内核
 
 ```c
@@ -1594,6 +1882,115 @@ ENDPROC(armv8_switch_to_el1)
 .endm
 ```
 
+## 设备树解析
 
+### 加载设备树
+
+设备树地址会设置到`gd->fdt_blob`变量中，设置方法如下
+
+```mermaid
+graph LR
+fdtdec_setup --> fdtdec_prepare_fdt
+fdtdec_prepare_fdt --> fdtdec_board_setup
+fdtdec_board_setup --> reserve_fdt
+reserve_fdt --> reloc_fdt
+```
+
+```c
+int fdtdec_setup(void)
+{
+	int ret;
+
+	/* The devicetree is typically appended to U-Boot */
+	if (IS_ENABLED(CONFIG_OF_SEPARATE)) {
+		gd->fdt_blob = fdt_find_separate();
+		gd->fdt_src = FDTSRC_SEPARATE;
+	} else { /* embed dtb in ELF file for testing / development */
+		gd->fdt_blob = dtb_dt_embedded();
+		gd->fdt_src = FDTSRC_EMBED;
+	}
+
+	/* Allow the board to override the fdt address. */
+	if (IS_ENABLED(CONFIG_OF_BOARD)) {
+		gd->fdt_blob = board_fdt_blob_setup(&ret);
+		if (ret)
+			return ret;
+		gd->fdt_src = FDTSRC_BOARD;
+	}
+
+	/* Allow the early environment to override the fdt address */
+	if (!IS_ENABLED(CONFIG_SPL_BUILD)) {
+		ulong addr;
+
+		addr = env_get_hex("fdtcontroladdr", 0);
+		if (addr) {
+			gd->fdt_blob = map_sysmem(addr, 0);
+			gd->fdt_src = FDTSRC_ENV;
+		}
+	}
+
+	if (CONFIG_IS_ENABLED(MULTI_DTB_FIT))
+		setup_multi_dtb_fit();
+
+	ret = fdtdec_prepare_fdt(gd->fdt_blob);
+	if (!ret)
+		ret = fdtdec_board_setup(gd->fdt_blob);
+	oftree_reset();
+
+	return ret;
+}
+```
+
+预留地址空间
+
+```c
+static int reserve_fdt(void)
+{
+	if (!IS_ENABLED(CONFIG_OF_EMBED)) {
+		/*
+		 * If the device tree is sitting immediately above our image
+		 * then we must relocate it. If it is embedded in the data
+		 * section, then it will be relocated with other data.
+		 */
+		if (gd->fdt_blob) {
+			gd->fdt_size = ALIGN(fdt_totalsize(gd->fdt_blob), 32);
+
+			gd->start_addr_sp = reserve_stack_aligned(gd->fdt_size);
+			gd->new_fdt = map_sysmem(gd->start_addr_sp, gd->fdt_size);
+			debug("Reserving %lu Bytes for FDT at: %08lx\n",
+			      gd->fdt_size, gd->start_addr_sp);
+		}
+	}
+
+	return 0;
+}
+```
+
+重新设置fdt
+
+```c
+static int reloc_fdt(void)
+{
+	if (!IS_ENABLED(CONFIG_OF_EMBED)) {
+		if (gd->new_fdt) {
+			memcpy(gd->new_fdt, gd->fdt_blob,
+			       fdt_totalsize(gd->fdt_blob));
+			gd->fdt_blob = gd->new_fdt;
+		}
+	}
+
+	return 0;
+}
+```
+
+### 设备树解析
+
+> 解析接口定义在libfdt文件夹下面
+
+```c
+int fdt_path_offset(const void *fdt, const char *path);
+
+const char *fdt_get_name(const void *fdt, int nodeoffset, int *lenp);
+```
 
 

@@ -714,6 +714,139 @@ public:
 
 > 移动语义是C++11中引入的一种新特性，通过将资源的所有权从一个对象转移到另一个对象来提高程序的性能
 
+### 左值与右值
+> 移动语意的前提: **右值引用**
+
+[微软笔记](https://learn.microsoft.com/zh-cn/cpp/c-language/l-value-and-r-value-expressions?view=msvc-170)
+
+定义可以认为是赋值表达式的左右边;
+
++ 左值 (lvalue): 处于赋值表达式左边
++ 右值 (rvalue):处于赋值表达式右边
+
+但是上面的定义也太粗糙了吧!
+
+```c++
+int a = 0;			// a 是左值
+int b = 0;			// b 是左值
+int c = a + b;		// c 是左值,但是a与b发生了一次右值转换
+```
+
+那么我们写一个例子,强行右值作为左值
+
+```c++
+int foo()
+{
+    return 0;
+}
+
+int main()
+{
+    foo() = 2;
+    return 0;
+}
+```
+
+```txt
+已启动生成…
+1>------ 已启动生成: 项目: obj, 配置: Debug x64 ------
+1>obj.cpp
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(693,5): error MSB6006: “CL.exe”已退出，代码为 2。
+1>D:\work\test\obj\obj.cpp(8,14): error C2106: “=”: 左操作数必须为左值
+1>已完成生成项目“obj.vcxproj”的操作 - 失败。
+========== 生成: 成功 0 个，失败 1 个，最新 0 个，跳过 0 个 ==========
+```
+
+我们可以清楚的明白,函数不可以赋值，但是下面的例子呢？
+
+```c++
+int& foo()
+{
+    static int a = 10;
+    return a;
+}
+
+int main()
+{
+    foo() = 2;
+    return 0;
+}
+```
+
+但是此时我们编译成功了？
+
+我们稍微读一下代码就可以明白,
+
+我们并不是对函数进行赋值，而是对函数的返回值进行赋值
+
+### 可修改的左值
+
+下面看一个例子
+
+```c++
+const int a = 1;
+a = 2;
+```
+
+那`a`是左值还是右值,很明显,左值;
+
+为什么呢？
+
+于是定义需要继续精化。不是所有的左值都可以被赋值。可赋值的左值被称为 *可修改左值 (modifiable lvalues)* 。C99标准定义可修改左值为：
+
+> […] 可修改左值是特殊的左值，不含有数组类型、不完整类型、const 修饰的类型。如果它是 `struct` 或 `union`，它的成员都（递归地）不应含有 const 修饰的类型。
+
+(未完待续。。。)
+
+### 完美转发
+
+提到完美转发，就有必要先说一下，什么是转发，什么样的转发才称得上是完美转发。
+
+在 C++ 中，转发指的就是函数之间的参数传递（例如函数 `f1` 接收了一个参数 `a`，而后又将此参数 `a` 传递给了其函数体内调用的另一个函数 `f2`）。
+
+而完美转发指的就是在函数之间传递参数的过程中，参数在传递后的属性保持不变（如左值仍是左值，右值仍是右值，`const` 修饰也会保留）。
+
+### 移动语意
+
+```c++
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+template <class T>
+void print_vector(vector<T> &vec)
+{
+    for (auto v : vec) {
+        cout << "data: " << v << endl;
+    }
+}
+
+int main()
+{
+    vector<int> A = {1, 2, 3, 4};
+    vector<int> B;
+
+    cout << "A size: " << A.size() << "addr :" << &A << endl;
+    print_vector(A);
+
+    cout << "B size: " << B.size() << "addr :" << &B << endl;
+    print_vector(B);
+
+    B = move(A);
+    cout << "移动之后" << endl;
+
+    cout << "A size: " << A.size() << "addr :" << &A << endl;
+    print_vector(A);
+
+    cout << "B size: " << B.size() << "addr :" << &B << endl;
+    print_vector(B);
+
+    return 0;
+}
+```
+
+![image-20230801075105713](picture/image-20230801075105713.png)
 
 
 ## 智能指针

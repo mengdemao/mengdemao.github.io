@@ -1,4 +1,4 @@
-<!doctype html><html lang=zh-CN><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Uboot - 编程日志</title><meta name=Description content="Uboot"><meta property="og:title" content="Uboot"><meta property="og:description" content="Uboot"><meta property="og:type" content="article"><meta property="og:url" content="https://mengdemao.github.io/uboot/"><meta property="og:image" content="https://mengdemao.github.io/images/avatar.webp"><meta property="article:section" content="posts"><meta property="article:published_time" content="2023-03-12T15:31:42+08:00"><meta property="article:modified_time" content="2023-08-07T01:27:25+08:00"><meta property="og:site_name" content="编程日志"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://mengdemao.github.io/images/avatar.webp"><meta name=twitter:title content="Uboot"><meta name=twitter:description content="Uboot"><meta name=application-name content="DoIt"><meta name=apple-mobile-web-app-title content="DoIt"><meta name=theme-color content="#f8f8f8"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://mengdemao.github.io/uboot/><link rel=prev href=https://mengdemao.github.io/read_linux/><link rel=next href=https://mengdemao.github.io/rust_basic/><link rel=stylesheet href=/css/main.40a82f90b86e2a2d0de8dc5537accbdec2b3d8d88a1314300bde9ae62a626856.css integrity="sha256-QKgvkLhuKi0N6NxVN6zL3sKz2NiKExQwC96a5ipiaFY="><link rel=stylesheet href=/lib/normalize/normalize.min.055364f5be272caa092b0e6654c165828707f8ab971e2656383a6d6392bc345e.css integrity="sha256-BVNk9b4nLKoJKw5mVMFlgocH+KuXHiZWODptY5K8NF4="><link rel=stylesheet href=/css/color.b0a0f8c429ce52dfa2805b5f9e99ccdae1e8fbfd9adf4f3ddb409d8201fc0c5a.css integrity="sha256-sKD4xCnOUt+igFtfnpnM2uHo+/2a308920CdggH8DFo="><link rel=stylesheet href=/css/style.min.6b5844a20592b7199d260e114204594c0d83eef9095058c6cfd42f5b0dedf8e1.css integrity="sha256-a1hEogWStxmdJg4RQgRZTA2D7vkJUFjGz9QvWw3t+OE="><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/fontawesome-free/all.min.43202d5486e011f9684a17bd6846b5c16a2619002bfc783f7e32e20dfb6bf857.css integrity="sha256-QyAtVIbgEfloShe9aEa1wWomGQAr/Hg/fjLiDftr+Fc="><noscript><link rel=stylesheet href=/lib/fontawesome-free/all.min.43202d5486e011f9684a17bd6846b5c16a2619002bfc783f7e32e20dfb6bf857.css integrity="sha256-QyAtVIbgEfloShe9aEa1wWomGQAr/Hg/fjLiDftr+Fc="></noscript><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="><noscript><link rel=stylesheet href=/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="></noscript><meta name=google-site-verification content="MQ8DNu27ayX6B_4ObiEDK09vGr1fdy7kOAnbd09hJk4"><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Uboot","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/mengdemao.github.io\/uboot\/"},"image":["https:\/\/mengdemao.github.io\/images\/Apple-Devices-Preview.png"],"genre":"posts","keywords":"uboot","wordcount":7195,"url":"https:\/\/mengdemao.github.io\/uboot\/","datePublished":"2023-03-12T15:31:42+08:00","dateModified":"2023-08-07T01:27:25+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"xxxx","logo":{"@type":"ImageObject","url":"https:\/\/mengdemao.github.io\/images\/avatar.webp","width":528,"height":560}},"author":{"@type":"Person","name":"mengdemao"},"description":"Uboot"}</script><script src=//instant.page/5.2.0 defer type=module integrity=sha384-jnZyxPjiipYXnSU0ygqeac2q7CVYMbh84q0uHVRRxEtvFPiQYbXWUorga2aqZJ0z></script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>function setTheme(e){document.body.setAttribute("theme",e),document.documentElement.style.setProperty("color-scheme",e==="light"?"light":"dark"),window.theme=e,window.isDark=window.theme!=="light"}function saveTheme(e){window.localStorage&&localStorage.setItem("theme",e)}function getMeta(e){const t=document.getElementsByTagName("meta");for(let n=0;n<t.length;n++)if(t[n].getAttribute("name")===e)return t[n];return""}if(window.localStorage&&localStorage.getItem("theme")){let e=localStorage.getItem("theme");e==="light"||e==="dark"||e==="black"?setTheme(e):setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}else"auto"==="light"||"auto"==="dark"||"auto"==="black"?(setTheme("auto"),saveTheme("auto")):(saveTheme("auto"),setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));let metaColors={light:"#f8f8f8",dark:"#252627",black:"#000000"};getMeta("theme-color").content=metaColors[document.body.getAttribute("theme")],window.switchThemeEventSet=new Set</script><div id=back-to-top></div><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=header-title-pre><i class='far fa-edit fa-fw'></i></span><span id=desktop-header-typeit class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/series/>系列 </a><a class=menu-item href=/authors/>作者 </a><a class=menu-item href=/showcase/>作品 </a><a class=menu-item href=/categories/documentation/>文档 </a><a class=menu-item href=/about/>关于 </a><a class=menu-item href=https://github.com/mengdemao/github.io title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw'></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<!doctype html><html lang=zh-CN><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Uboot - 编程日志</title><meta name=Description content="Uboot"><meta property="og:title" content="Uboot"><meta property="og:description" content="Uboot"><meta property="og:type" content="article"><meta property="og:url" content="https://mengdemao.github.io/uboot/"><meta property="og:image" content="https://mengdemao.github.io/images/avatar.webp"><meta property="article:section" content="posts"><meta property="article:published_time" content="2023-03-12T15:31:42+08:00"><meta property="article:modified_time" content="2023-09-05T08:21:16+08:00"><meta property="og:site_name" content="编程日志"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://mengdemao.github.io/images/avatar.webp"><meta name=twitter:title content="Uboot"><meta name=twitter:description content="Uboot"><meta name=application-name content="DoIt"><meta name=apple-mobile-web-app-title content="DoIt"><meta name=theme-color content="#f8f8f8"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://mengdemao.github.io/uboot/><link rel=prev href=https://mengdemao.github.io/read_linux/><link rel=next href=https://mengdemao.github.io/rust_basic/><link rel=stylesheet href=/css/main.40a82f90b86e2a2d0de8dc5537accbdec2b3d8d88a1314300bde9ae62a626856.css integrity="sha256-QKgvkLhuKi0N6NxVN6zL3sKz2NiKExQwC96a5ipiaFY="><link rel=stylesheet href=/lib/normalize/normalize.min.055364f5be272caa092b0e6654c165828707f8ab971e2656383a6d6392bc345e.css integrity="sha256-BVNk9b4nLKoJKw5mVMFlgocH+KuXHiZWODptY5K8NF4="><link rel=stylesheet href=/css/color.b0a0f8c429ce52dfa2805b5f9e99ccdae1e8fbfd9adf4f3ddb409d8201fc0c5a.css integrity="sha256-sKD4xCnOUt+igFtfnpnM2uHo+/2a308920CdggH8DFo="><link rel=stylesheet href=/css/style.min.6b5844a20592b7199d260e114204594c0d83eef9095058c6cfd42f5b0dedf8e1.css integrity="sha256-a1hEogWStxmdJg4RQgRZTA2D7vkJUFjGz9QvWw3t+OE="><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/fontawesome-free/all.min.43202d5486e011f9684a17bd6846b5c16a2619002bfc783f7e32e20dfb6bf857.css integrity="sha256-QyAtVIbgEfloShe9aEa1wWomGQAr/Hg/fjLiDftr+Fc="><noscript><link rel=stylesheet href=/lib/fontawesome-free/all.min.43202d5486e011f9684a17bd6846b5c16a2619002bfc783f7e32e20dfb6bf857.css integrity="sha256-QyAtVIbgEfloShe9aEa1wWomGQAr/Hg/fjLiDftr+Fc="></noscript><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="><noscript><link rel=stylesheet href=/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="></noscript><meta name=google-site-verification content="MQ8DNu27ayX6B_4ObiEDK09vGr1fdy7kOAnbd09hJk4"><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Uboot","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/mengdemao.github.io\/uboot\/"},"image":["https:\/\/mengdemao.github.io\/images\/Apple-Devices-Preview.png"],"genre":"posts","keywords":"uboot","wordcount":9005,"url":"https:\/\/mengdemao.github.io\/uboot\/","datePublished":"2023-03-12T15:31:42+08:00","dateModified":"2023-09-05T08:21:16+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"xxxx","logo":{"@type":"ImageObject","url":"https:\/\/mengdemao.github.io\/images\/avatar.webp","width":528,"height":560}},"author":{"@type":"Person","name":"mengdemao"},"description":"Uboot"}</script><script src=//instant.page/5.2.0 defer type=module integrity=sha384-jnZyxPjiipYXnSU0ygqeac2q7CVYMbh84q0uHVRRxEtvFPiQYbXWUorga2aqZJ0z></script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>function setTheme(e){document.body.setAttribute("theme",e),document.documentElement.style.setProperty("color-scheme",e==="light"?"light":"dark"),window.theme=e,window.isDark=window.theme!=="light"}function saveTheme(e){window.localStorage&&localStorage.setItem("theme",e)}function getMeta(e){const t=document.getElementsByTagName("meta");for(let n=0;n<t.length;n++)if(t[n].getAttribute("name")===e)return t[n];return""}if(window.localStorage&&localStorage.getItem("theme")){let e=localStorage.getItem("theme");e==="light"||e==="dark"||e==="black"?setTheme(e):setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}else"auto"==="light"||"auto"==="dark"||"auto"==="black"?(setTheme("auto"),saveTheme("auto")):(saveTheme("auto"),setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));let metaColors={light:"#f8f8f8",dark:"#252627",black:"#000000"};getMeta("theme-color").content=metaColors[document.body.getAttribute("theme")],window.switchThemeEventSet=new Set</script><div id=back-to-top></div><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=header-title-pre><i class='far fa-edit fa-fw'></i></span><span id=desktop-header-typeit class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/series/>系列 </a><a class=menu-item href=/authors/>作者 </a><a class=menu-item href=/showcase/>作品 </a><a class=menu-item href=/categories/documentation/>文档 </a><a class=menu-item href=/about/>关于 </a><a class=menu-item href=https://github.com/mengdemao/github.io title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw'></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
 <input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
 <a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw"></i></a>
 <a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw"></i></a>
@@ -9,10 +9,10 @@
 <a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw"></i></a>
 <span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin"></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts/ title>所有文章</a><a class=menu-item href=/tags/ title>标签</a><a class=menu-item href=/categories/ title>分类</a><a class=menu-item href=/series/ title>系列</a><a class=menu-item href=/authors/ title>作者</a><a class=menu-item href=/showcase/ title>作品</a><a class=menu-item href=/categories/documentation/ title>文档</a><a class=menu-item href=/about/ title>关于</a><a class=menu-item href=https://github.com/mengdemao/github.io title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw'></i></a><a href=javascript:void(0); class="menu-item theme-select" title=切换主题>
 <i class="fas fa-adjust fa-fw"></i>
-<select class=color-theme-select id=theme-select-mobile title=切换主题><option value=light>浅色</option><option value=dark>深色</option><option value=black>黑色</option><option value=auto>跟随系统</option></select></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto><nav id=TableOfContents><ul><li><a href=#构建源码>构建源码</a></li><li><a href=#功能仿真>功能仿真</a></li><li><a href=#全局参数>全局参数</a></li><li><a href=#辅助程序>辅助程序</a></li><li><a href=#启动前夕>启动前夕</a><ul><li><a href=#分析头实现>分析头实现</a></li><li><a href=#中断向量表>中断向量表</a></li><li><a href=#save_boot_params函数实现><code>save_boot_params</code>函数实现</a></li><li><a href=#进入svc32模式>进入svc32模式</a></li><li><a href=#设置中断向量表>设置中断向量表</a></li><li><a href=#cpu_init_cp15函数><code>cpu_init_cp15</code>函数</a></li><li><a href=#cpu_init_crit函数><code>cpu_init_crit</code>函数</a></li><li><a href=#lowlevel_init功能初始化><code>lowlevel_init</code>功能初始化</a></li><li><a href=#c语言初始化>C语言初始化</a></li><li><a href=#board_init_f><code>board_init_f</code></a></li><li><a href=#initcall_run_list><code>initcall_run_list</code></a></li><li><a href=#ddr初始化>DDR初始化</a></li><li><a href=#uart初始化>UART初始化</a></li><li><a href=#relocate_code函数><code>relocate_code</code>函数</a></li></ul></li><li><a href=#启动实现>启动实现</a><ul><li><a href=#main_loop>main_loop</a></li><li><a href=#do_bootm>do_bootm</a></li><li><a href=#boot_jump_linux>boot_jump_linux</a></li></ul></li><li><a href=#加载内核>加载内核</a></li></ul></nav></div></div><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC","true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Uboot</h1><div class=post-meta><div class=post-meta-line><span class=post-author><span class="author fas fa-user-circle fa-fw"></span><a href=https://github.com/mengdemao title=Author target=_blank rel="noopener noreferrer author" class=author>mengdemao</a>
-</span>&nbsp;<span class=post-category>收录于 </span>&nbsp;<span class=post-category>类别 <a href=/categories/linux/><i class="far fa-folder fa-fw"></i>linux</a></span>&nbsp;<span class=post-category>和</span>&nbsp;<span class=post-series>系列 <a href=/series/boot/><i class="far fa-list-alt fa-fw"></i>boot</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2023-03-12>2023-03-12</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime=2023-08-07>2023-08-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 7195 字&nbsp;<i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 15 分钟&nbsp;</div></div><div class=featured-image><img loading=eager src=/featuredImage/03.jpg srcset="/featuredImage/03.jpg, /featuredImage/03.jpg 1.5x, /featuredImage/03.jpg 2x" sizes=auto alt=Uboot title=Uboot height=auto width=auto></div><div class="details series-nav open"><div class="details-summary series-title"><span>系列 - boot</span>
+<select class=color-theme-select id=theme-select-mobile title=切换主题><option value=light>浅色</option><option value=dark>深色</option><option value=black>黑色</option><option value=auto>跟随系统</option></select></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto><nav id=TableOfContents><ul><li><a href=#构建源码>构建源码</a></li><li><a href=#功能仿真>功能仿真</a></li><li><a href=#全局参数>全局参数</a></li><li><a href=#辅助程序>辅助程序</a></li><li><a href=#启动前夕>启动前夕</a><ul><li><a href=#分析头实现>分析头实现</a></li><li><a href=#中断向量表>中断向量表</a></li><li><a href=#save_boot_params函数实现><code>save_boot_params</code>函数实现</a></li><li><a href=#进入svc32模式>进入svc32模式</a></li><li><a href=#设置中断向量表>设置中断向量表</a></li><li><a href=#cpu_init_cp15函数><code>cpu_init_cp15</code>函数</a></li><li><a href=#cpu_init_crit函数><code>cpu_init_crit</code>函数</a></li><li><a href=#lowlevel_init功能初始化><code>lowlevel_init</code>功能初始化</a></li><li><a href=#c语言初始化>C语言初始化</a></li><li><a href=#board_init_f函数><code>board_init_f</code>函数</a></li><li><a href=#board_init_r函数><code>board_init_r</code>函数</a></li><li><a href=#initcall_run_list><code>initcall_run_list</code></a></li><li><a href=#ddr初始化>DDR初始化</a></li><li><a href=#uart初始化>UART初始化</a></li><li><a href=#代码重定位>代码重定位</a><ul><li><a href=#relocate_code函数><code>relocate_code</code>函数</a></li><li><a href=#relocate_vectors函数>relocate_vectors函数</a></li></ul></li><li><a href=#c_runtime_cpu_setup>c_runtime_cpu_setup</a></li></ul></li><li><a href=#命令实现>命令实现</a></li><li><a href=#启动实现>启动实现</a><ul><li><a href=#main_loop>main_loop</a></li><li><a href=#do_bootm>do_bootm</a></li><li><a href=#boot_jump_linux>boot_jump_linux</a></li></ul></li><li><a href=#环境变量>环境变量</a></li><li><a href=#加载内核>加载内核</a></li><li><a href=#设备树解析>设备树解析</a><ul><li><a href=#加载设备树>加载设备树</a></li><li><a href=#设备树解析-1>设备树解析</a></li></ul></li></ul></nav></div></div><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC","true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Uboot</h1><div class=post-meta><div class=post-meta-line><span class=post-author><span class="author fas fa-user-circle fa-fw"></span><a href=https://github.com/mengdemao title=Author target=_blank rel="noopener noreferrer author" class=author>mengdemao</a>
+</span>&nbsp;<span class=post-category>收录于 </span>&nbsp;<span class=post-category>类别 <a href=/categories/linux/><i class="far fa-folder fa-fw"></i>linux</a></span>&nbsp;<span class=post-category>和</span>&nbsp;<span class=post-series>系列 <a href=/series/boot/><i class="far fa-list-alt fa-fw"></i>boot</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2023-03-12>2023-03-12</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime=2023-09-05>2023-09-05</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 9005 字&nbsp;<i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 18 分钟&nbsp;</div></div><div class=featured-image><img loading=eager src=/featuredImage/03.jpg srcset="/featuredImage/03.jpg, /featuredImage/03.jpg 1.5x, /featuredImage/03.jpg 2x" sizes=auto alt=Uboot title=Uboot height=auto width=auto></div><div class="details series-nav open"><div class="details-summary series-title"><span>系列 - boot</span>
 <span><i class="details-icon fas fa-angle-right"></i></span></div><div class="details-content series-content"><nav><ul><li><span class=active>Uboot</span></li></ul></nav></div></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>目录</span>
-<span><i class="details-icon fas fa-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#构建源码>构建源码</a></li><li><a href=#功能仿真>功能仿真</a></li><li><a href=#全局参数>全局参数</a></li><li><a href=#辅助程序>辅助程序</a></li><li><a href=#启动前夕>启动前夕</a><ul><li><a href=#分析头实现>分析头实现</a></li><li><a href=#中断向量表>中断向量表</a></li><li><a href=#save_boot_params函数实现><code>save_boot_params</code>函数实现</a></li><li><a href=#进入svc32模式>进入svc32模式</a></li><li><a href=#设置中断向量表>设置中断向量表</a></li><li><a href=#cpu_init_cp15函数><code>cpu_init_cp15</code>函数</a></li><li><a href=#cpu_init_crit函数><code>cpu_init_crit</code>函数</a></li><li><a href=#lowlevel_init功能初始化><code>lowlevel_init</code>功能初始化</a></li><li><a href=#c语言初始化>C语言初始化</a></li><li><a href=#board_init_f><code>board_init_f</code></a></li><li><a href=#initcall_run_list><code>initcall_run_list</code></a></li><li><a href=#ddr初始化>DDR初始化</a></li><li><a href=#uart初始化>UART初始化</a></li><li><a href=#relocate_code函数><code>relocate_code</code>函数</a></li></ul></li><li><a href=#启动实现>启动实现</a><ul><li><a href=#main_loop>main_loop</a></li><li><a href=#do_bootm>do_bootm</a></li><li><a href=#boot_jump_linux>boot_jump_linux</a></li></ul></li><li><a href=#加载内核>加载内核</a></li></ul></nav></div></div><div class=content id=content><p><strong>u-boot源码阅读</strong></p><h2 id=构建源码 class=headerLink><a href=#%e6%9e%84%e5%bb%ba%e6%ba%90%e7%a0%81 class=header-mark></a>1 构建源码</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+<span><i class="details-icon fas fa-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#构建源码>构建源码</a></li><li><a href=#功能仿真>功能仿真</a></li><li><a href=#全局参数>全局参数</a></li><li><a href=#辅助程序>辅助程序</a></li><li><a href=#启动前夕>启动前夕</a><ul><li><a href=#分析头实现>分析头实现</a></li><li><a href=#中断向量表>中断向量表</a></li><li><a href=#save_boot_params函数实现><code>save_boot_params</code>函数实现</a></li><li><a href=#进入svc32模式>进入svc32模式</a></li><li><a href=#设置中断向量表>设置中断向量表</a></li><li><a href=#cpu_init_cp15函数><code>cpu_init_cp15</code>函数</a></li><li><a href=#cpu_init_crit函数><code>cpu_init_crit</code>函数</a></li><li><a href=#lowlevel_init功能初始化><code>lowlevel_init</code>功能初始化</a></li><li><a href=#c语言初始化>C语言初始化</a></li><li><a href=#board_init_f函数><code>board_init_f</code>函数</a></li><li><a href=#board_init_r函数><code>board_init_r</code>函数</a></li><li><a href=#initcall_run_list><code>initcall_run_list</code></a></li><li><a href=#ddr初始化>DDR初始化</a></li><li><a href=#uart初始化>UART初始化</a></li><li><a href=#代码重定位>代码重定位</a><ul><li><a href=#relocate_code函数><code>relocate_code</code>函数</a></li><li><a href=#relocate_vectors函数>relocate_vectors函数</a></li></ul></li><li><a href=#c_runtime_cpu_setup>c_runtime_cpu_setup</a></li></ul></li><li><a href=#命令实现>命令实现</a></li><li><a href=#启动实现>启动实现</a><ul><li><a href=#main_loop>main_loop</a></li><li><a href=#do_bootm>do_bootm</a></li><li><a href=#boot_jump_linux>boot_jump_linux</a></li></ul></li><li><a href=#环境变量>环境变量</a></li><li><a href=#加载内核>加载内核</a></li><li><a href=#设备树解析>设备树解析</a><ul><li><a href=#加载设备树>加载设备树</a></li><li><a href=#设备树解析-1>设备树解析</a></li></ul></li></ul></nav></div></div><div class=content id=content><p><strong>u-boot源码阅读</strong></p><h2 id=构建源码 class=headerLink><a href=#%e6%9e%84%e5%bb%ba%e6%ba%90%e7%a0%81 class=header-mark></a>1 构建源码</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -36,15 +36,67 @@
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=c1># 执行编译</span>
 </span></span><span class=line><span class=cl>make -j<span class=k>$(</span>nproc<span class=k>)</span> <span class=nv>ARCH</span><span class=o>=</span>arm <span class=nv>CROSS_COMPILE</span><span class=o>=</span>arm-none-eabi-
-</span></span></code></pre></td></tr></table></div></div><h2 id=功能仿真 class=headerLink><a href=#%e5%8a%9f%e8%83%bd%e4%bb%bf%e7%9c%9f class=header-mark></a>2 功能仿真</h2><p>如果没有开发板的情况下,我们执行执行仿真的时候</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span><span class=lnt>6
-</span><span class=lnt>7
-</span><span class=lnt>8
-</span><span class=lnt>9
+</span></span></code></pre></td></tr></table></div></div><h2 id=功能仿真 class=headerLink><a href=#%e5%8a%9f%e8%83%bd%e4%bb%bf%e7%9c%9f class=header-mark></a>2 功能仿真</h2><p>如果没有开发板的情况下,我们执行执行仿真的时候</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=c1># 编译vexpress_ca9 u-boot</span>
 </span></span><span class=line><span class=cl>make <span class=nv>ARCH</span><span class=o>=</span>arm vexpress_ca9x4_defconfig
 </span></span><span class=line><span class=cl>make <span class=nv>ARCH</span><span class=o>=</span>arm <span class=nv>CROSS_COMPILE</span><span class=o>=</span>arm-none-eabi-
@@ -53,7 +105,59 @@
 </span></span><span class=line><span class=cl><span class=c1># 编译内核</span>
 </span></span><span class=line><span class=cl>make <span class=nv>ARCH</span><span class=o>=</span>arm vexpress_defconfig
 </span></span><span class=line><span class=cl>make <span class=nv>ARCH</span><span class=o>=</span>arm <span class=nv>CROSS_COMPILE</span><span class=o>=</span>arm-linux-gnueabi-
-</span></span><span class=line><span class=cl>make 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 创建sdcard.img</span>
+</span></span><span class=line><span class=cl>dd <span class=k>if</span><span class=o>=</span>/dev/zero <span class=nv>of</span><span class=o>=</span>sdcard.img <span class=nv>bs</span><span class=o>=</span><span class=m>1024</span> <span class=nv>count</span><span class=o>=</span><span class=m>102400</span>
+</span></span><span class=line><span class=cl>mkfs.fat sdcard.img
+</span></span><span class=line><span class=cl>mount -o loop sdcard.img /mnt
+</span></span><span class=line><span class=cl>cp zImage vexpress-v2p-ca9.dtb /mnt
+</span></span><span class=line><span class=cl>umount /mnt
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 设置tftp启动</span>
+</span></span><span class=line><span class=cl>$ qemu-system-arm -M vexpress-a9 -m 256M -kernel u-boot -sd sdcard.img -nographic
+</span></span><span class=line><span class=cl><span class=o>=</span>&gt; <span class=nv>mmcinfo</span>
+</span></span><span class=line><span class=cl><span class=o>=</span>&gt; load mmc 0:0 0x60008000 <span class=nv>zImage</span>
+</span></span><span class=line><span class=cl><span class=o>=</span>&gt; load mmc 0:0 0x61000000 vexpress-v2p-ca9.dtb
+</span></span><span class=line><span class=cl><span class=o>=</span>&gt; setenv bootargs <span class=s2>&#34;root=/dev/mmcblk0 rw console=ttyAMA0&#34;</span>
+</span></span><span class=line><span class=cl><span class=o>=</span>&gt; bootz 0x60008000 - 0x61000000
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 启动程序</span>
+</span></span><span class=line><span class=cl>$ qemu-system-arm -M vexpress-a9 -m 256M -kernel u-boot -sd sdcard.img -nographic
+</span></span><span class=line><span class=cl><span class=o>=</span>&gt; <span class=nv>mmcinfo</span>
+</span></span><span class=line><span class=cl><span class=o>=</span>&gt; load mmc 0:0 0x60008000 <span class=nv>zImage</span>
+</span></span><span class=line><span class=cl><span class=o>=</span>&gt; load mmc 0:0 0x61000000 vexpress-v2p-ca9.dtb
+</span></span><span class=line><span class=cl><span class=o>=</span>&gt; setenv bootargs <span class=s2>&#34;root=/dev/mmcblk0 rw console=ttyAMA0&#34;</span>
+</span></span><span class=line><span class=cl><span class=o>=</span>&gt; bootz 0x60008000 - 0x61000000
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># u-boot脚本</span>
+</span></span><span class=line><span class=cl>mkimage -C none -A arm -T script -d boot.cmd boot.scr
+</span></span><span class=line><span class=cl>$ qemu-system-arm -M vexpress-a9 -m 256M -kernel u-boot -sd sdcard.img -nographic
+</span></span><span class=line><span class=cl><span class=o>=</span>&gt; load mmc 0:0 0x62000000 boot.scr
+</span></span><span class=line><span class=cl><span class=o>=</span>&gt; <span class=nb>source</span> 0x62000000
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 多分区1</span>
+</span></span><span class=line><span class=cl>dd <span class=k>if</span><span class=o>=</span>/dev/zero <span class=nv>of</span><span class=o>=</span>sdcard.img <span class=nv>bs</span><span class=o>=</span><span class=m>1024</span> <span class=nv>count</span><span class=o>=</span><span class=m>102400</span>
+</span></span><span class=line><span class=cl>fdisk sdcard.img                                        <span class=c1># 简单起见这里只分一个区</span>
+</span></span><span class=line><span class=cl>losetup -f                                              <span class=c1># 查询可用的块设备地址, 记下来如 /dev/loop16</span>
+</span></span><span class=line><span class=cl>losetup -P /dev/loop16 sdcard.img                       <span class=c1># 关联块设备</span>
+</span></span><span class=line><span class=cl>lsblk                                                   <span class=c1># 可以看到块设备已经关联, 并且看到分区信息</span>
+</span></span><span class=line><span class=cl>mkfs.fat  /dev/loop16p1                                 <span class=c1># 格式化第一分区</span>
+</span></span><span class=line><span class=cl>mount /dev/loop16p1 /mnt                                <span class=c1># 挂载块设备的第一分区</span>
+</span></span><span class=line><span class=cl>cp boot.scr zImage vexpress-v2p-ca9.dtb /mnt            <span class=c1># 复制到 第一分区</span>
+</span></span><span class=line><span class=cl>umount /mnt                                             <span class=c1># 卸载设备</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 多分区的实现2</span>
+</span></span><span class=line><span class=cl>parted sdcard.img
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># u-boot打包</span>
+</span></span><span class=line><span class=cl>mkimage -A arm -C none -O linux -T kernel -d zImage -a 0x00010000 -e 0x00010000 zImage.uimg
+</span></span><span class=line><span class=cl>mkimage -A arm -C none -O linux -T ramdisk -d rootfs.img.gz -a 0x00800000 -e 0x00800000 rootfs.uimg
+</span></span><span class=line><span class=cl>dd <span class=k>if</span><span class=o>=</span>/dev/zero <span class=nv>of</span><span class=o>=</span>flash.bin <span class=nv>bs</span><span class=o>=</span><span class=m>1</span> <span class=nv>count</span><span class=o>=</span>6M
+</span></span><span class=line><span class=cl>dd <span class=k>if</span><span class=o>=</span>u-boot.bin <span class=nv>of</span><span class=o>=</span>flash.bin <span class=nv>conv</span><span class=o>=</span>notrunc <span class=nv>bs</span><span class=o>=</span><span class=m>1</span>
+</span></span><span class=line><span class=cl>dd <span class=k>if</span><span class=o>=</span>zImage.uimg <span class=nv>of</span><span class=o>=</span>flash.bin <span class=nv>conv</span><span class=o>=</span>notrunc <span class=nv>bs</span><span class=o>=</span><span class=m>1</span> <span class=nv>seek</span><span class=o>=</span>2M
+</span></span><span class=line><span class=cl>dd <span class=k>if</span><span class=o>=</span>rootfs.uimg <span class=nv>of</span><span class=o>=</span>flash.bin <span class=nv>conv</span><span class=o>=</span>notrunc <span class=nv>bs</span><span class=o>=</span><span class=m>1</span> <span class=nv>seek</span><span class=o>=</span>4M
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>qemu-system-arm -M vexpress-a9 -device loader,file<span class=o>=</span>flash.bin,addr<span class=o>=</span>0x60800000,cpu-num<span class=o>=</span>0,force-raw<span class=o>=</span>on -nographic
 </span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
@@ -1849,7 +1953,7 @@ run_main_loop --> main_loop
 </span></span><span class=line><span class=cl>#endif
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>ENDPROC(_main)
-</span></span></code></pre></td></tr></table></div></div><h3 id=board_init_f class=headerLink><a href=#board_init_f class=header-mark></a>5.10 <code>board_init_f</code></h3><blockquote><p>进入此文件<strong>common/board_f.c</strong></p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span></span></code></pre></td></tr></table></div></div><h3 id=board_init_f函数 class=headerLink><a href=#board_init_f%e5%87%bd%e6%95%b0 class=header-mark></a>5.10 <code>board_init_f</code>函数</h3><blockquote><p>进入此文件<strong>common/board_f.c</strong></p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -1879,7 +1983,79 @@ run_main_loop --> main_loop
 </span></span><span class=line><span class=cl>	<span class=nf>hang</span><span class=p>();</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp></span><span class=p>}</span>
-</span></span></code></pre></td></tr></table></div></div><h3 id=initcall_run_list class=headerLink><a href=#initcall_run_list class=header-mark></a>5.11 <code>initcall_run_list</code></h3><blockquote><p>进入初始化列表</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span></span></code></pre></td></tr></table></div></div><h3 id=board_init_r函数 class=headerLink><a href=#board_init_r%e5%87%bd%e6%95%b0 class=header-mark></a>5.11 <code>board_init_r</code>函数</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>void</span> <span class=nf>board_init_r</span><span class=p>(</span><span class=kt>gd_t</span> <span class=o>*</span><span class=n>new_gd</span><span class=p>,</span> <span class=n>ulong</span> <span class=n>dest_addr</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm>	 * The pre-relocation drivers may be using memory that has now gone
+</span></span></span><span class=line><span class=cl><span class=cm>	 * away. Mark serial as unavailable - this will fall back to the debug
+</span></span></span><span class=line><span class=cl><span class=cm>	 * UART if available.
+</span></span></span><span class=line><span class=cl><span class=cm>	 *
+</span></span></span><span class=line><span class=cl><span class=cm>	 * Do the same with log drivers since the memory may not be available.
+</span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
+</span></span><span class=line><span class=cl>	<span class=n>gd</span><span class=o>-&gt;</span><span class=n>flags</span> <span class=o>&amp;=</span> <span class=o>~</span><span class=p>(</span><span class=n>GD_FLG_SERIAL_READY</span> <span class=o>|</span> <span class=n>GD_FLG_LOG_READY</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm>	 * Set up the new global data pointer. So far only x86 does this
+</span></span></span><span class=line><span class=cl><span class=cm>	 * here.
+</span></span></span><span class=line><span class=cl><span class=cm>	 * TODO(sjg@chromium.org): Consider doing this for all archs, or
+</span></span></span><span class=line><span class=cl><span class=cm>	 * dropping the new_gd parameter.
+</span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=nf>CONFIG_IS_ENABLED</span><span class=p>(</span><span class=n>X86_64</span><span class=p>)</span> <span class=o>&amp;&amp;</span> <span class=o>!</span><span class=nf>IS_ENABLED</span><span class=p>(</span><span class=n>CONFIG_EFI_APP</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>		<span class=nf>arch_setup_gd</span><span class=p>(</span><span class=n>new_gd</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=cp>#if !defined(CONFIG_X86) &amp;&amp; !defined(CONFIG_ARM) &amp;&amp; !defined(CONFIG_ARM64)
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>gd</span> <span class=o>=</span> <span class=n>new_gd</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>gd</span><span class=o>-&gt;</span><span class=n>flags</span> <span class=o>&amp;=</span> <span class=o>~</span><span class=n>GD_FLG_LOG_READY</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=nf>IS_ENABLED</span><span class=p>(</span><span class=n>CONFIG_NEEDS_MANUAL_RELOC</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=nf>ARRAY_SIZE</span><span class=p>(</span><span class=n>init_sequence_r</span><span class=p>);</span> <span class=n>i</span><span class=o>++</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>			<span class=nf>MANUAL_RELOC</span><span class=p>(</span><span class=n>init_sequence_r</span><span class=p>[</span><span class=n>i</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=nf>initcall_run_list</span><span class=p>(</span><span class=n>init_sequence_r</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>		<span class=nf>hang</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* NOTREACHED - run_main_loop() does not return */</span>
+</span></span><span class=line><span class=cl>	<span class=nf>hang</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=initcall_run_list class=headerLink><a href=#initcall_run_list class=header-mark></a>5.12 <code>initcall_run_list</code></h3><blockquote><p>进入初始化列表</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -2321,7 +2497,37 @@ run_main_loop --> main_loop
 </span></span><span class=line><span class=cl>	<span class=p>}</span>
 </span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></td></tr></table></div></div><h3 id=ddr初始化 class=headerLink><a href=#ddr%e5%88%9d%e5%a7%8b%e5%8c%96 class=header-mark></a>5.12 DDR初始化</h3><h3 id=uart初始化 class=headerLink><a href=#uart%e5%88%9d%e5%a7%8b%e5%8c%96 class=header-mark></a>5.13 UART初始化</h3><h3 id=relocate_code函数 class=headerLink><a href=#relocate_code%e5%87%bd%e6%95%b0 class=header-mark></a>5.14 <code>relocate_code</code>函数</h3><blockquote><p>进入<strong>arch/arm/lib/relocate.S</strong></p><p>这个函数执行结束之后，后面的代码没法正常的跟踪gdb运行了</p><p>是否存在特殊的手段实现呢？</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span></span></code></pre></td></tr></table></div></div><h3 id=ddr初始化 class=headerLink><a href=#ddr%e5%88%9d%e5%a7%8b%e5%8c%96 class=header-mark></a>5.13 DDR初始化</h3><h3 id=uart初始化 class=headerLink><a href=#uart%e5%88%9d%e5%a7%8b%e5%8c%96 class=header-mark></a>5.14 UART初始化</h3><h3 id=代码重定位 class=headerLink><a href=#%e4%bb%a3%e7%a0%81%e9%87%8d%e5%ae%9a%e4%bd%8d class=header-mark></a>5.15 代码重定位</h3><ol><li>编译时添加-fpie选项</li><li>链接添加pie选项</li><li>生成段名，用来修正代码位置</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>char</span> <span class=n>__bss_start</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=nf>__section</span><span class=p>(</span><span class=s>&#34;.__bss_start&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>char</span> <span class=n>__bss_end</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=nf>__section</span><span class=p>(</span><span class=s>&#34;.__bss_end&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>char</span> <span class=n>__image_copy_start</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=nf>__section</span><span class=p>(</span><span class=s>&#34;.__image_copy_start&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>char</span> <span class=n>__image_copy_end</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=nf>__section</span><span class=p>(</span><span class=s>&#34;.__image_copy_end&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>char</span> <span class=n>__rel_dyn_start</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=nf>__section</span><span class=p>(</span><span class=s>&#34;.__rel_dyn_start&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>char</span> <span class=n>__rel_dyn_end</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=nf>__section</span><span class=p>(</span><span class=s>&#34;.__rel_dyn_end&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>char</span> <span class=n>__secure_start</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=nf>__section</span><span class=p>(</span><span class=s>&#34;.__secure_start&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>char</span> <span class=n>__secure_end</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=nf>__section</span><span class=p>(</span><span class=s>&#34;.__secure_end&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>char</span> <span class=n>__secure_stack_start</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=nf>__section</span><span class=p>(</span><span class=s>&#34;.__secure_stack_start&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>char</span> <span class=n>__secure_stack_end</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=nf>__section</span><span class=p>(</span><span class=s>&#34;.__secure_stack_end&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>char</span> <span class=n>__efi_runtime_start</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=nf>__section</span><span class=p>(</span><span class=s>&#34;.__efi_runtime_start&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>char</span> <span class=n>__efi_runtime_stop</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=nf>__section</span><span class=p>(</span><span class=s>&#34;.__efi_runtime_stop&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>char</span> <span class=n>__efi_runtime_rel_start</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=nf>__section</span><span class=p>(</span><span class=s>&#34;.__efi_runtime_rel_start&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>char</span> <span class=n>__efi_runtime_rel_stop</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=nf>__section</span><span class=p>(</span><span class=s>&#34;.__efi_runtime_rel_stop&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>char</span> <span class=n>_end</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=nf>__section</span><span class=p>(</span><span class=s>&#34;.__end&#34;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=relocate_code函数 class=headerLink><a href=#relocate_code%e5%87%bd%e6%95%b0 class=header-mark></a>5.15.1 <code>relocate_code</code>函数</h4><blockquote><p>进入<strong>arch/arm/lib/relocate.S</strong></p><p>这个函数执行结束之后，后面的代码没法正常的跟踪gdb运行了</p><p>是否存在特殊的手段实现呢？</p></blockquote><p><a href=https://elixir.bootlin.com/u-boot/latest/source/arch/arm/lib/relocate.S#L79 target=_blank rel="noopener noreferrer">https://elixir.bootlin.com/u-boot/latest/source/arch/arm/lib/relocate.S#L79</a></p><p>指定-pie后编译生成的uboot中就会有一个rel.dyn段，uboot就是靠rel.dyn段实现了完美的relocation！</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -2374,17 +2580,20 @@ run_main_loop --> main_loop
 </span><span class=lnt>51
 </span><span class=lnt>52
 </span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>ENTRY(relocate_code)
 </span></span><span class=line><span class=cl>relocate_base:
-</span></span><span class=line><span class=cl>	adr	r3, relocate_base
+</span></span><span class=line><span class=cl>	adr	r3, relocate_base        		/* R3 = relocate_base - pc */
+</span></span><span class=line><span class=cl>	ldr	r1, _image_copy_start_ofs		/* R1 = _image_copy_start_ofs */
+</span></span><span class=line><span class=cl>	add	r1, r3							/* r1 &lt;- Run &amp;__image_copy_start */
+</span></span><span class=line><span class=cl>	subs	r4, r0, r1					/* r4 &lt;- Run to copy offset      */
+</span></span><span class=line><span class=cl>	beq	relocate_done					/* skip relocation               */
 </span></span><span class=line><span class=cl>	ldr	r1, _image_copy_start_ofs
-</span></span><span class=line><span class=cl>	add	r1, r3			/* r1 &lt;- Run &amp;__image_copy_start */
-</span></span><span class=line><span class=cl>	subs	r4, r0, r1		/* r4 &lt;- Run to copy offset      */
-</span></span><span class=line><span class=cl>	beq	relocate_done		/* skip relocation               */
-</span></span><span class=line><span class=cl>	ldr	r1, _image_copy_start_ofs
-</span></span><span class=line><span class=cl>	add	r1, r3			/* r1 &lt;- Run &amp;__image_copy_start */
+</span></span><span class=line><span class=cl>	add	r1, r3							/* r1 &lt;- Run &amp;__image_copy_start */
 </span></span><span class=line><span class=cl>	ldr	r2, _image_copy_end_ofs
-</span></span><span class=line><span class=cl>	add	r2, r3			/* r2 &lt;- Run &amp;__image_copy_end   */
+</span></span><span class=line><span class=cl>	add	r2, r3							/* r2 &lt;- Run &amp;__image_copy_end   */
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>copy_loop:
 </span></span><span class=line><span class=cl>	ldmia	r1!, {r10-r11}		/* copy from source address [r1] */
 </span></span><span class=line><span class=cl>	stmia	r0!, {r10-r11}		/* copy to   target address [r0] */
@@ -2398,6 +2607,7 @@ run_main_loop --> main_loop
 </span></span><span class=line><span class=cl>	add	r2, r1, r3		/* r2 &lt;- Run &amp;__rel_dyn_start */
 </span></span><span class=line><span class=cl>	ldr	r1, _rel_dyn_end_ofs
 </span></span><span class=line><span class=cl>	add	r3, r1, r3		/* r3 &lt;- Run &amp;__rel_dyn_end */
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>fixloop:
 </span></span><span class=line><span class=cl>	ldmia	r2!, {r0-r1}		/* (r0,r1) &lt;- (SRC location,fixup) */
 </span></span><span class=line><span class=cl>	and	r1, r1, #0xff
@@ -2413,21 +2623,181 @@ run_main_loop --> main_loop
 </span></span><span class=line><span class=cl>	cmp	r2, r3
 </span></span><span class=line><span class=cl>	blo	fixloop
 </span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>relocate_done:
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>#ifdef __XSCALE__
-</span></span><span class=line><span class=cl>	/*
-</span></span><span class=line><span class=cl>	 * On xscale, icache must be invalidated and write buffers drained,
-</span></span><span class=line><span class=cl>	 * even with cache disabled - 4.2.7 of xscale core developer&#39;s manual
-</span></span><span class=line><span class=cl>	 */
-</span></span><span class=line><span class=cl>	mcr	p15, 0, r0, c7, c7, 0	/* invalidate icache */
-</span></span><span class=line><span class=cl>	mcr	p15, 0, r0, c7, c10, 4	/* drain write buffer */
-</span></span><span class=line><span class=cl>#endif
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>	ret	lr
+</span></span><span class=line><span class=cl>	ret	lr			/* set pc */
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>ENDPROC(relocate_code)
-</span></span></code></pre></td></tr></table></div></div><h2 id=启动实现 class=headerLink><a href=#%e5%90%af%e5%8a%a8%e5%ae%9e%e7%8e%b0 class=header-mark></a>6 启动实现</h2><h3 id=main_loop class=headerLink><a href=#main_loop class=header-mark></a>6.1 main_loop</h3><pre class=mermaid>graph TD
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>_image_copy_start_ofs:
+</span></span><span class=line><span class=cl>	.word	__image_copy_start - relocate_code
+</span></span><span class=line><span class=cl>_image_copy_end_ofs:
+</span></span><span class=line><span class=cl>	.word	__image_copy_end - relocate_code
+</span></span><span class=line><span class=cl>_rel_dyn_start_ofs:
+</span></span><span class=line><span class=cl>	.word	__rel_dyn_start - relocate_code
+</span></span><span class=line><span class=cl>_rel_dyn_end_ofs:
+</span></span><span class=line><span class=cl>	.word	__rel_dyn_end - relocate_code
+</span></span></code></pre></td></tr></table></div></div><p>代码解析:</p><p>(TODO)</p><p>那么代码现在运行到何处了呢？</p><p>在进入代码搬移之前</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>ldr	r0, [r9, #GD_RELOCADDR]		/* r0 = gd-&gt;relocaddr */
+</span></span><span class=line><span class=cl>b	relocate_code
+</span></span></code></pre></td></tr></table></div></div><h4 id=relocate_vectors函数 class=headerLink><a href=#relocate_vectors%e5%87%bd%e6%95%b0 class=header-mark></a>5.15.2 relocate_vectors函数</h4><blockquote><p>迁移向量表</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>	.section	.text.relocate_vectors,&#34;ax&#34;,%progbits
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>WEAK(relocate_vectors)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>#ifdef CONFIG_CPU_V7M
+</span></span><span class=line><span class=cl>	/*
+</span></span><span class=line><span class=cl>	 * On ARMv7-M we only have to write the new vector address
+</span></span><span class=line><span class=cl>	 * to VTOR register.
+</span></span><span class=line><span class=cl>	 */
+</span></span><span class=line><span class=cl>	ldr	r0, [r9, #GD_RELOCADDR]	/* r0 = gd-&gt;relocaddr */
+</span></span><span class=line><span class=cl>	ldr	r1, =V7M_SCB_BASE
+</span></span><span class=line><span class=cl>	str	r0, [r1, V7M_SCB_VTOR]
+</span></span><span class=line><span class=cl>#else
+</span></span><span class=line><span class=cl>#ifdef CONFIG_HAS_VBAR
+</span></span><span class=line><span class=cl>	/*
+</span></span><span class=line><span class=cl>	 * If the ARM processor has the security extensions,
+</span></span><span class=line><span class=cl>	 * use VBAR to relocate the exception vectors.
+</span></span><span class=line><span class=cl>	 */
+</span></span><span class=line><span class=cl>	ldr	r0, [r9, #GD_RELOCADDR]	/* r0 = gd-&gt;relocaddr */
+</span></span><span class=line><span class=cl>	mcr     p15, 0, r0, c12, c0, 0  /* Set VBAR */
+</span></span><span class=line><span class=cl>#else
+</span></span><span class=line><span class=cl>	/*
+</span></span><span class=line><span class=cl>	 * Copy the relocated exception vectors to the
+</span></span><span class=line><span class=cl>	 * correct address
+</span></span><span class=line><span class=cl>	 * CP15 c1 V bit gives us the location of the vectors:
+</span></span><span class=line><span class=cl>	 * 0x00000000 or 0xFFFF0000.
+</span></span><span class=line><span class=cl>	 */
+</span></span><span class=line><span class=cl>	ldr	r0, [r9, #GD_RELOCADDR]	/* r0 = gd-&gt;relocaddr */
+</span></span><span class=line><span class=cl>	mrc	p15, 0, r2, c1, c0, 0	/* V bit (bit[13]) in CP15 c1 */
+</span></span><span class=line><span class=cl>	ands	r2, r2, #(1 &lt;&lt; 13)
+</span></span><span class=line><span class=cl>	ldreq	r1, =0x00000000		/* If V=0 */
+</span></span><span class=line><span class=cl>	ldrne	r1, =0xFFFF0000		/* If V=1 */
+</span></span><span class=line><span class=cl>	ldmia	r0!, {r2-r8,r10}
+</span></span><span class=line><span class=cl>	stmia	r1!, {r2-r8,r10}
+</span></span><span class=line><span class=cl>	ldmia	r0!, {r2-r8,r10}
+</span></span><span class=line><span class=cl>	stmia	r1!, {r2-r8,r10}
+</span></span><span class=line><span class=cl>#endif
+</span></span><span class=line><span class=cl>#endif
+</span></span><span class=line><span class=cl>	ret	lr
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>ENDPROC(relocate_vectors)
+</span></span></code></pre></td></tr></table></div></div><h3 id=c_runtime_cpu_setup class=headerLink><a href=#c_runtime_cpu_setup class=header-mark></a>5.16 c_runtime_cpu_setup</h3><h2 id=命令实现 class=headerLink><a href=#%e5%91%bd%e4%bb%a4%e5%ae%9e%e7%8e%b0 class=header-mark></a>6 命令实现</h2><p>以<code>version</code>命令作为例子</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cp>#define U_BOOT_VERSION_STRING U_BOOT_VERSION &#34; (&#34; U_BOOT_DATE &#34; - &#34; \
+</span></span></span><span class=line><span class=cl><span class=cp>	U_BOOT_TIME &#34; &#34; U_BOOT_TZ &#34;)&#34; CONFIG_IDENT_STRING
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=k>const</span> <span class=kt>char</span> <span class=n>version_string</span><span class=p>[]</span> <span class=o>=</span> <span class=n>U_BOOT_VERSION_STRING</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>const</span> <span class=kt>unsigned</span> <span class=kt>short</span> <span class=n>version_num</span> <span class=o>=</span> <span class=n>U_BOOT_VERSION_NUM</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>const</span> <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>version_num_patch</span> <span class=o>=</span> <span class=n>U_BOOT_VERSION_NUM_PATCH</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>static</span> <span class=kt>int</span> <span class=nf>do_version</span><span class=p>(</span><span class=k>struct</span> <span class=n>cmd_tbl</span> <span class=o>*</span><span class=n>cmdtp</span><span class=p>,</span> <span class=kt>int</span> <span class=n>flag</span><span class=p>,</span> <span class=kt>int</span> <span class=n>argc</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		      <span class=kt>char</span> <span class=o>*</span><span class=k>const</span> <span class=n>argv</span><span class=p>[])</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kt>char</span> <span class=n>buf</span><span class=p>[</span><span class=n>DISPLAY_OPTIONS_BANNER_LENGTH</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nf>printf</span><span class=p>(</span><span class=nf>display_options_get_banner</span><span class=p>(</span><span class=nb>false</span><span class=p>,</span> <span class=n>buf</span><span class=p>,</span> <span class=k>sizeof</span><span class=p>(</span><span class=n>buf</span><span class=p>)));</span>
+</span></span><span class=line><span class=cl><span class=cp>#ifdef CC_VERSION_STRING
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=nf>puts</span><span class=p>(</span><span class=n>CC_VERSION_STRING</span> <span class=s>&#34;</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp>#ifdef LD_VERSION_STRING
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=nf>puts</span><span class=p>(</span><span class=n>LD_VERSION_STRING</span> <span class=s>&#34;</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_SYS_COREBOOT
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=nf>printf</span><span class=p>(</span><span class=s>&#34;coreboot-%s (%s)</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span> <span class=n>lib_sysinfo</span><span class=p>.</span><span class=n>version</span><span class=p>,</span> <span class=n>lib_sysinfo</span><span class=p>.</span><span class=n>build</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nf>U_BOOT_CMD</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=n>version</span><span class=p>,</span>	<span class=mi>1</span><span class=p>,</span>		<span class=mi>1</span><span class=p>,</span>	<span class=n>do_version</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;print monitor, compiler and linker version&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>展开<code>U_BOOT_CMD</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cp>#define U_BOOT_CMD(_name, _maxargs, _rep, _cmd, _usage, _help)		\
+</span></span></span><span class=line><span class=cl><span class=cp>	U_BOOT_CMD_COMPLETE(_name, _maxargs, _rep, _cmd, _usage, _help, NULL)
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=cp>#define U_BOOT_CMD_COMPLETE(_name, _maxargs, _rep, _cmd, _usage, _help, _comp) \
+</span></span></span><span class=line><span class=cl><span class=cp>	ll_entry_declare(struct cmd_tbl, _name, cmd) =			\
+</span></span></span><span class=line><span class=cl><span class=cp>		U_BOOT_CMD_MKENT_COMPLETE(_name, _maxargs, _rep, _cmd,	\
+</span></span></span><span class=line><span class=cl><span class=cp>						_usage, _help, _comp);
+</span></span></span></code></pre></td></tr></table></div></div><p><code>cli_loop</code> &ndash;> <code>parse_file_outer</code> &ndash;></p><h2 id=启动实现 class=headerLink><a href=#%e5%90%af%e5%8a%a8%e5%ae%9e%e7%8e%b0 class=header-mark></a>7 启动实现</h2><h3 id=main_loop class=headerLink><a href=#main_loop class=header-mark></a>7.1 main_loop</h3><pre class=mermaid>graph TD
 main_loop --> bootstage_mark_name
 
 bootstage_mark_name --> bootdelay_process
@@ -2435,7 +2805,7 @@ bootstage_mark_name --> bootdelay_process
 bootdelay_process --> autoboot_command
 
 autoboot_command --> run_command_list
-</pre><h3 id=do_bootm class=headerLink><a href=#do_bootm class=header-mark></a>6.2 do_bootm</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</pre><h3 id=do_bootm class=headerLink><a href=#do_bootm class=header-mark></a>7.2 do_bootm</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -2571,7 +2941,7 @@ autoboot_command --> run_command_list
 </span></span></span><span class=line><span class=cl><span class=cp></span>		<span class=n>BOOTM_STATE_OS_PREP</span> <span class=o>|</span> <span class=n>BOOTM_STATE_OS_FAKE_GO</span> <span class=o>|</span>
 </span></span><span class=line><span class=cl>		<span class=n>BOOTM_STATE_OS_GO</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>images</span><span class=p>,</span> <span class=mi>1</span><span class=p>);</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></td></tr></table></div></div><h3 id=boot_jump_linux class=headerLink><a href=#boot_jump_linux class=header-mark></a>6.3 boot_jump_linux</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span></span></code></pre></td></tr></table></div></div><h3 id=boot_jump_linux class=headerLink><a href=#boot_jump_linux class=header-mark></a>7.3 boot_jump_linux</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -2691,7 +3061,73 @@ autoboot_command --> run_command_list
 </span></span><span class=line><span class=cl>	<span class=p>}</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp></span><span class=p>}</span>
-</span></span></code></pre></td></tr></table></div></div><h2 id=加载内核 class=headerLink><a href=#%e5%8a%a0%e8%bd%bd%e5%86%85%e6%a0%b8 class=header-mark></a>7 加载内核</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span></span></code></pre></td></tr></table></div></div><h2 id=环境变量 class=headerLink><a href=#%e7%8e%af%e5%a2%83%e5%8f%98%e9%87%8f class=header-mark></a>8 环境变量</h2><blockquote><ol><li>初始化功能</li><li>获取变量<code>env_get</code></li><li>设置变量<code>env_set</code></li></ol></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>char</span> <span class=o>*</span><span class=nf>env_get</span><span class=p>(</span><span class=k>const</span> <span class=kt>char</span> <span class=o>*</span><span class=n>name</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>gd</span><span class=o>-&gt;</span><span class=n>flags</span> <span class=o>&amp;</span> <span class=n>GD_FLG_ENV_READY</span><span class=p>)</span> <span class=p>{</span> <span class=cm>/* after import into hashtable */</span>
+</span></span><span class=line><span class=cl>		<span class=k>struct</span> <span class=n>env_entry</span> <span class=n>e</span><span class=p>,</span> <span class=o>*</span><span class=n>ep</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>		<span class=nf>schedule</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>		<span class=n>e</span><span class=p>.</span><span class=n>key</span>	<span class=o>=</span> <span class=n>name</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=n>e</span><span class=p>.</span><span class=n>data</span>	<span class=o>=</span> <span class=nb>NULL</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=nf>hsearch_r</span><span class=p>(</span><span class=n>e</span><span class=p>,</span> <span class=n>ENV_FIND</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>ep</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>env_htab</span><span class=p>,</span> <span class=mi>0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>		<span class=k>return</span> <span class=n>ep</span> <span class=o>?</span> <span class=n>ep</span><span class=o>-&gt;</span><span class=nl>data</span> <span class=p>:</span> <span class=nb>NULL</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* restricted capabilities before import */</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=nf>env_get_f</span><span class=p>(</span><span class=n>name</span><span class=p>,</span> <span class=p>(</span><span class=kt>char</span> <span class=o>*</span><span class=p>)(</span><span class=n>gd</span><span class=o>-&gt;</span><span class=n>env_buf</span><span class=p>),</span> <span class=k>sizeof</span><span class=p>(</span><span class=n>gd</span><span class=o>-&gt;</span><span class=n>env_buf</span><span class=p>))</span> <span class=o>&gt;=</span> <span class=mi>0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span> <span class=p>(</span><span class=kt>char</span> <span class=o>*</span><span class=p>)(</span><span class=n>gd</span><span class=o>-&gt;</span><span class=n>env_buf</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=nb>NULL</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>int</span> <span class=nf>env_set</span><span class=p>(</span><span class=k>const</span> <span class=kt>char</span> <span class=o>*</span><span class=n>varname</span><span class=p>,</span> <span class=k>const</span> <span class=kt>char</span> <span class=o>*</span><span class=n>varvalue</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=kt>char</span> <span class=o>*</span> <span class=k>const</span> <span class=n>argv</span><span class=p>[</span><span class=mi>4</span><span class=p>]</span> <span class=o>=</span> <span class=p>{</span> <span class=s>&#34;setenv&#34;</span><span class=p>,</span> <span class=n>varname</span><span class=p>,</span> <span class=n>varvalue</span><span class=p>,</span> <span class=nb>NULL</span> <span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* before import into hashtable */</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=p>(</span><span class=n>gd</span><span class=o>-&gt;</span><span class=n>flags</span> <span class=o>&amp;</span> <span class=n>GD_FLG_ENV_READY</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>varvalue</span> <span class=o>==</span> <span class=nb>NULL</span> <span class=o>||</span> <span class=n>varvalue</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=o>==</span> <span class=sc>&#39;\0&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span> <span class=nf>_do_env_set</span><span class=p>(</span><span class=mi>0</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=p>(</span><span class=kt>char</span> <span class=o>*</span> <span class=k>const</span> <span class=o>*</span><span class=p>)</span><span class=n>argv</span><span class=p>,</span> <span class=n>H_PROGRAMMATIC</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=k>else</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span> <span class=nf>_do_env_set</span><span class=p>(</span><span class=mi>0</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=p>(</span><span class=kt>char</span> <span class=o>*</span> <span class=k>const</span> <span class=o>*</span><span class=p>)</span><span class=n>argv</span><span class=p>,</span> <span class=n>H_PROGRAMMATIC</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=加载内核 class=headerLink><a href=#%e5%8a%a0%e8%bd%bd%e5%86%85%e6%a0%b8 class=header-mark></a>9 加载内核</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -2795,12 +3231,171 @@ autoboot_command --> run_command_list
 </span></span><span class=line><span class=cl>	msr	elr_el3, lr
 </span></span><span class=line><span class=cl>	eret
 </span></span><span class=line><span class=cl>.endm
-</span></span></code></pre></td></tr></table></div></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2023-08-07&nbsp;<a class=git-hash href=https://github.com/mengdemao/github.io.git/commit/9f8dfc6f1bb2c5946dec70ee1b4190198ec98406 target=_blank title="commit by 孟德茂(mengdemao19951021@163.com) 9f8dfc6f1bb2c5946dec70ee1b4190198ec98406: [update] 更新Uboot/Linux源码阅读" rel="noopener noreferrer">
-<i class="fas fa-hashtag fa-fw"></i>9f8dfc6</a></span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-mardown href=/uboot/index.md target=_blank rel="noopener noreferrer">阅读原始文档</a>
+</span></span></code></pre></td></tr></table></div></div><h2 id=设备树解析 class=headerLink><a href=#%e8%ae%be%e5%a4%87%e6%a0%91%e8%a7%a3%e6%9e%90 class=header-mark></a>10 设备树解析</h2><h3 id=加载设备树 class=headerLink><a href=#%e5%8a%a0%e8%bd%bd%e8%ae%be%e5%a4%87%e6%a0%91 class=header-mark></a>10.1 加载设备树</h3><p>设备树地址会设置到<code>gd->fdt_blob</code>变量中，设置方法如下</p><pre class=mermaid>graph LR
+fdtdec_setup --> fdtdec_prepare_fdt
+fdtdec_prepare_fdt --> fdtdec_board_setup
+fdtdec_board_setup --> reserve_fdt
+reserve_fdt --> reloc_fdt
+</pre><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>int</span> <span class=nf>fdtdec_setup</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=n>ret</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* The devicetree is typically appended to U-Boot */</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=nf>IS_ENABLED</span><span class=p>(</span><span class=n>CONFIG_OF_SEPARATE</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=n>gd</span><span class=o>-&gt;</span><span class=n>fdt_blob</span> <span class=o>=</span> <span class=nf>fdt_find_separate</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>		<span class=n>gd</span><span class=o>-&gt;</span><span class=n>fdt_src</span> <span class=o>=</span> <span class=n>FDTSRC_SEPARATE</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span> <span class=k>else</span> <span class=p>{</span> <span class=cm>/* embed dtb in ELF file for testing / development */</span>
+</span></span><span class=line><span class=cl>		<span class=n>gd</span><span class=o>-&gt;</span><span class=n>fdt_blob</span> <span class=o>=</span> <span class=nf>dtb_dt_embedded</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>		<span class=n>gd</span><span class=o>-&gt;</span><span class=n>fdt_src</span> <span class=o>=</span> <span class=n>FDTSRC_EMBED</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* Allow the board to override the fdt address. */</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=nf>IS_ENABLED</span><span class=p>(</span><span class=n>CONFIG_OF_BOARD</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=n>gd</span><span class=o>-&gt;</span><span class=n>fdt_blob</span> <span class=o>=</span> <span class=nf>board_fdt_blob_setup</span><span class=p>(</span><span class=o>&amp;</span><span class=n>ret</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=n>ret</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>			<span class=k>return</span> <span class=n>ret</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=n>gd</span><span class=o>-&gt;</span><span class=n>fdt_src</span> <span class=o>=</span> <span class=n>FDTSRC_BOARD</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=cm>/* Allow the early environment to override the fdt address */</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nf>IS_ENABLED</span><span class=p>(</span><span class=n>CONFIG_SPL_BUILD</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=n>ulong</span> <span class=n>addr</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>		<span class=n>addr</span> <span class=o>=</span> <span class=nf>env_get_hex</span><span class=p>(</span><span class=s>&#34;fdtcontroladdr&#34;</span><span class=p>,</span> <span class=mi>0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=n>addr</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=n>gd</span><span class=o>-&gt;</span><span class=n>fdt_blob</span> <span class=o>=</span> <span class=nf>map_sysmem</span><span class=p>(</span><span class=n>addr</span><span class=p>,</span> <span class=mi>0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>			<span class=n>gd</span><span class=o>-&gt;</span><span class=n>fdt_src</span> <span class=o>=</span> <span class=n>FDTSRC_ENV</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=nf>CONFIG_IS_ENABLED</span><span class=p>(</span><span class=n>MULTI_DTB_FIT</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>		<span class=nf>setup_multi_dtb_fit</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=n>ret</span> <span class=o>=</span> <span class=nf>fdtdec_prepare_fdt</span><span class=p>(</span><span class=n>gd</span><span class=o>-&gt;</span><span class=n>fdt_blob</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>ret</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=n>ret</span> <span class=o>=</span> <span class=nf>fdtdec_board_setup</span><span class=p>(</span><span class=n>gd</span><span class=o>-&gt;</span><span class=n>fdt_blob</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=nf>oftree_reset</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=n>ret</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>预留地址空间</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>static</span> <span class=kt>int</span> <span class=nf>reserve_fdt</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nf>IS_ENABLED</span><span class=p>(</span><span class=n>CONFIG_OF_EMBED</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm>		 * If the device tree is sitting immediately above our image
+</span></span></span><span class=line><span class=cl><span class=cm>		 * then we must relocate it. If it is embedded in the data
+</span></span></span><span class=line><span class=cl><span class=cm>		 * section, then it will be relocated with other data.
+</span></span></span><span class=line><span class=cl><span class=cm>		 */</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=n>gd</span><span class=o>-&gt;</span><span class=n>fdt_blob</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=n>gd</span><span class=o>-&gt;</span><span class=n>fdt_size</span> <span class=o>=</span> <span class=nf>ALIGN</span><span class=p>(</span><span class=nf>fdt_totalsize</span><span class=p>(</span><span class=n>gd</span><span class=o>-&gt;</span><span class=n>fdt_blob</span><span class=p>),</span> <span class=mi>32</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>			<span class=n>gd</span><span class=o>-&gt;</span><span class=n>start_addr_sp</span> <span class=o>=</span> <span class=nf>reserve_stack_aligned</span><span class=p>(</span><span class=n>gd</span><span class=o>-&gt;</span><span class=n>fdt_size</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>			<span class=n>gd</span><span class=o>-&gt;</span><span class=n>new_fdt</span> <span class=o>=</span> <span class=nf>map_sysmem</span><span class=p>(</span><span class=n>gd</span><span class=o>-&gt;</span><span class=n>start_addr_sp</span><span class=p>,</span> <span class=n>gd</span><span class=o>-&gt;</span><span class=n>fdt_size</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>			<span class=nf>debug</span><span class=p>(</span><span class=s>&#34;Reserving %lu Bytes for FDT at: %08lx</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>			      <span class=n>gd</span><span class=o>-&gt;</span><span class=n>fdt_size</span><span class=p>,</span> <span class=n>gd</span><span class=o>-&gt;</span><span class=n>start_addr_sp</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>重新设置fdt</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>static</span> <span class=kt>int</span> <span class=nf>reloc_fdt</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nf>IS_ENABLED</span><span class=p>(</span><span class=n>CONFIG_OF_EMBED</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=n>gd</span><span class=o>-&gt;</span><span class=n>new_fdt</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=nf>memcpy</span><span class=p>(</span><span class=n>gd</span><span class=o>-&gt;</span><span class=n>new_fdt</span><span class=p>,</span> <span class=n>gd</span><span class=o>-&gt;</span><span class=n>fdt_blob</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>			       <span class=nf>fdt_totalsize</span><span class=p>(</span><span class=n>gd</span><span class=o>-&gt;</span><span class=n>fdt_blob</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>			<span class=n>gd</span><span class=o>-&gt;</span><span class=n>fdt_blob</span> <span class=o>=</span> <span class=n>gd</span><span class=o>-&gt;</span><span class=n>new_fdt</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=设备树解析-1 class=headerLink><a href=#%e8%ae%be%e5%a4%87%e6%a0%91%e8%a7%a3%e6%9e%90-1 class=header-mark></a>10.2 设备树解析</h3><blockquote><p>解析接口定义在libfdt文件夹下面</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>int</span> <span class=nf>fdt_path_offset</span><span class=p>(</span><span class=k>const</span> <span class=kt>void</span> <span class=o>*</span><span class=n>fdt</span><span class=p>,</span> <span class=k>const</span> <span class=kt>char</span> <span class=o>*</span><span class=n>path</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>const</span> <span class=kt>char</span> <span class=o>*</span><span class=nf>fdt_get_name</span><span class=p>(</span><span class=k>const</span> <span class=kt>void</span> <span class=o>*</span><span class=n>fdt</span><span class=p>,</span> <span class=kt>int</span> <span class=n>nodeoffset</span><span class=p>,</span> <span class=kt>int</span> <span class=o>*</span><span class=n>lenp</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2023-09-05&nbsp;<a class=git-hash href=https://github.com/mengdemao/github.io.git/commit/1eb249f5de58c6c10265224f796b3ecabd6e1d35 target=_blank title="commit by 孟德茂(mengdemao19951021@163.com) 1eb249f5de58c6c10265224f796b3ecabd6e1d35: [update]: C++ uboot/index.md" rel="noopener noreferrer">
+<i class="fas fa-hashtag fa-fw"></i>1eb249f</a></span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-mardown href=/uboot/index.md target=_blank rel="noopener noreferrer">阅读原始文档</a>
 </span><span>|&nbsp;<a class=link-to-source href=https://github.com/mengdemao/github.io/blob/master/content/posts/uboot/index.md target=_blank rel="noopener noreferrer">查看源代码</a>
 </span><span>|&nbsp;<a class=link-to-edit href=https://github.com/mengdemao/github.io/edit/master/content/posts/uboot/index.md target=_blank rel="noopener noreferrer">编辑此页</a>
 </span><span>|&nbsp;<a class=link-to-report href="https://github.com/mengdemao/github.io/issues/new?title=[bug]%20Uboot&body=|Field|Value|%0A|-|-|%0A|Title|Uboot|%0A|Url|https://mengdemao.github.io/uboot/|%0A|Filename|https://github.com/mengdemao/github.io/blob/main/exampleSite/content/posts/uboot/index.md|" target=_blank rel="noopener noreferrer">报告问题</a></span></div><div class=post-info-share><button title="分享到 Twitter" data-sharer=twitter data-url=https://mengdemao.github.io/uboot/ data-title=Uboot data-hashtags=uboot><span class="fab fa-twitter fa-fw"></span></button><button title="分享到 Facebook" data-sharer=facebook data-url=https://mengdemao.github.io/uboot/ data-hashtag=uboot><span class="fab fa-facebook-square fa-fw"></span></button><button title="分享到 Hacker News" data-sharer=hackernews data-url=https://mengdemao.github.io/uboot/ data-title=Uboot><span class="fab fa-hacker-news fa-fw"></span></button><button title="分享到 Line" data-sharer=line data-url=https://mengdemao.github.io/uboot/ data-title=Uboot><span data-svg-src=/lib/simple-icons/icons/line.min.svg></span></button><button title="分享到 微博" data-sharer=weibo data-url=https://mengdemao.github.io/uboot/ data-title=Uboot data-image=featuredImage/03.jpg data-ralateuid=xxxx><span class="fab fa-weibo fa-fw"></span></button><button title="分享到 Telegram" data-sharer=telegram data-url=https://mengdemao.github.io/uboot/ data-title=Uboot data-web><span class="fab fa-telegram-plane fa-fw"></span></button></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw"></i>&nbsp;<a href=/tags/uboot/>uboot</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/read_linux/ class=prev rel=prev title=Linux内核源码阅读><i class="fas fa-angle-left fa-fw"></i>Linux内核源码阅读</a>
-<a href=/rust_basic/ class=next rel=next title=rust基础笔记>rust基础笔记<i class="fas fa-angle-right fa-fw"></i></a></div></div><div id=comments><div id=utterances></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://utteranc.es/>Utterances</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.116.1">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.4.0"><i class="far fa-edit fa-fw"></i> DoIt</a></div><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2020 - 2023</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://github.com/mengdemao target=_blank rel="noopener noreferrer">mengdemao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div><div class=footer-line></div><div class=footer-line></div></div><script>"serviceWorker"in navigator&&(navigator.serviceWorker.register("/sw.min.js",{scope:"/"}).then(function(){}),navigator.serviceWorker.ready.then(function(){}))</script></footer></div><div id=fixed-buttons><a href=#back-to-top id=back-to-top-button class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw"></i>
+<a href=/rust_basic/ class=next rel=next title=rust基础笔记>rust基础笔记<i class="fas fa-angle-right fa-fw"></i></a></div></div><div id=comments><div id=utterances></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://utteranc.es/>Utterances</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.118.2">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.4.0"><i class="far fa-edit fa-fw"></i> DoIt</a></div><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2020 - 2023</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://github.com/mengdemao target=_blank rel="noopener noreferrer">mengdemao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div><div class=footer-line></div><div class=footer-line></div></div><script>"serviceWorker"in navigator&&(navigator.serviceWorker.register("/sw.min.js",{scope:"/"}).then(function(){}),navigator.serviceWorker.ready.then(function(){}))</script></footer></div><div id=fixed-buttons><a href=#back-to-top id=back-to-top-button class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw"></i>
 </a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw"></i></a></div><script type=module>
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
     mermaid.initialize({ startOnLoad: true, theme: (window.theme === 'dark' ? 'dark' : 'default') });
