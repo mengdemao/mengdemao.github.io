@@ -1130,23 +1130,23 @@
 </span><span class=lnt>14
 </span><span class=lnt>15
 </span><span class=lnt>16
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>#define SYMBOL_NAME(X)		X
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>#define ENTRY(name) \
-</span></span><span class=line><span class=cl>	.globl SYMBOL_NAME(name) ASM_NL \
-</span></span><span class=line><span class=cl>	LENTRY(name)
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>#ifndef END
-</span></span><span class=line><span class=cl>#define END(name) \
-</span></span><span class=line><span class=cl>	.size name, .-name
-</span></span><span class=line><span class=cl>#endif
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>#ifndef ENDPROC
-</span></span><span class=line><span class=cl>#define ENDPROC(name) \
-</span></span><span class=line><span class=cl>	.type name STT_FUNC ASM_NL \
-</span></span><span class=line><span class=cl>	END(name)
-</span></span><span class=line><span class=cl>#endif
-</span></span></code></pre></td></tr></table></div></div><h2 id=启动前夕 class=headerLink><a href=#%e5%90%af%e5%8a%a8%e5%89%8d%e5%a4%95 class=header-mark></a>5 启动前夕</h2><h3 id=分析头实现 class=headerLink><a href=#%e5%88%86%e6%9e%90%e5%a4%b4%e5%ae%9e%e7%8e%b0 class=header-mark></a>5.1 分析头实现</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cp>#define SYMBOL_NAME(X)		X
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=cp>#define ENTRY(name) \
+</span></span></span><span class=line><span class=cl><span class=cp>	.globl SYMBOL_NAME(name) ASM_NL \
+</span></span></span><span class=line><span class=cl><span class=cp>	LENTRY(name)
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=cp>#ifndef END
+</span></span></span><span class=line><span class=cl><span class=cp>#define END(name) \
+</span></span></span><span class=line><span class=cl><span class=cp>	.size name, .-name
+</span></span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=cp>#ifndef ENDPROC
+</span></span></span><span class=line><span class=cl><span class=cp>#define ENDPROC(name) \
+</span></span></span><span class=line><span class=cl><span class=cp>	.type name STT_FUNC ASM_NL \
+</span></span></span><span class=line><span class=cl><span class=cp>	END(name)
+</span></span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span></code></pre></td></tr></table></div></div><h2 id=启动前夕 class=headerLink><a href=#%e5%90%af%e5%8a%a8%e5%89%8d%e5%a4%95 class=header-mark></a>5 启动前夕</h2><h3 id=分析头实现 class=headerLink><a href=#%e5%88%86%e6%9e%90%e5%a4%b4%e5%ae%9e%e7%8e%b0 class=header-mark></a>5.1 分析头实现</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ arm-non-eabi-objdump -S u-boot &gt; u-boot.S
 </span></span></code></pre></td></tr></table></div></div><h3 id=中断向量表 class=headerLink><a href=#%e4%b8%ad%e6%96%ad%e5%90%91%e9%87%8f%e8%a1%a8 class=header-mark></a>5.2 中断向量表</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
@@ -1164,22 +1164,22 @@
 </span><span class=lnt>14
 </span><span class=lnt>15
 </span><span class=lnt>16
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>	.macro ARM_VECTORS
-</span></span><span class=line><span class=cl>#ifdef CONFIG_ARCH_K3
-</span></span><span class=line><span class=cl>	ldr     pc, _reset
-</span></span><span class=line><span class=cl>#else
-</span></span><span class=line><span class=cl>	b	reset
-</span></span><span class=line><span class=cl>#endif
-</span></span><span class=line><span class=cl>#if !CONFIG_IS_ENABLED(SYS_NO_VECTOR_TABLE)
-</span></span><span class=line><span class=cl>	ldr	pc, _undefined_instruction
-</span></span><span class=line><span class=cl>	ldr	pc, _software_interrupt
-</span></span><span class=line><span class=cl>	ldr	pc, _prefetch_abort
-</span></span><span class=line><span class=cl>	ldr	pc, _data_abort
-</span></span><span class=line><span class=cl>	ldr	pc, _not_used
-</span></span><span class=line><span class=cl>	ldr	pc, _irq
-</span></span><span class=line><span class=cl>	ldr	pc, _fiq
-</span></span><span class=line><span class=cl>#endif
-</span></span><span class=line><span class=cl>	.endm
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl>	<span class=p>.</span><span class=n>macro</span> <span class=n>ARM_VECTORS</span>
+</span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_ARCH_K3
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>ldr</span>     <span class=n>pc</span><span class=p>,</span> <span class=n>_reset</span>
+</span></span><span class=line><span class=cl><span class=cp>#else
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>b</span>	<span class=n>reset</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp>#if !CONFIG_IS_ENABLED(SYS_NO_VECTOR_TABLE)
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>ldr</span>	<span class=n>pc</span><span class=p>,</span> <span class=n>_undefined_instruction</span>
+</span></span><span class=line><span class=cl>	<span class=n>ldr</span>	<span class=n>pc</span><span class=p>,</span> <span class=n>_software_interrupt</span>
+</span></span><span class=line><span class=cl>	<span class=n>ldr</span>	<span class=n>pc</span><span class=p>,</span> <span class=n>_prefetch_abort</span>
+</span></span><span class=line><span class=cl>	<span class=n>ldr</span>	<span class=n>pc</span><span class=p>,</span> <span class=n>_data_abort</span>
+</span></span><span class=line><span class=cl>	<span class=n>ldr</span>	<span class=n>pc</span><span class=p>,</span> <span class=n>_not_used</span>
+</span></span><span class=line><span class=cl>	<span class=n>ldr</span>	<span class=n>pc</span><span class=p>,</span> <span class=n>_irq</span>
+</span></span><span class=line><span class=cl>	<span class=n>ldr</span>	<span class=n>pc</span><span class=p>,</span> <span class=n>_fiq</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=p>.</span><span class=n>endm</span>
 </span></span></code></pre></td></tr></table></div></div><pre class=mermaid>graph LR
 
 reset --> _main
@@ -1233,48 +1233,48 @@ run_main_loop --> main_loop
 </span><span class=lnt>40
 </span><span class=lnt>41
 </span><span class=lnt>42
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>	.globl	reset
-</span></span><span class=line><span class=cl>	.globl	save_boot_params_ret
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl>	<span class=p>.</span><span class=n>globl</span>	<span class=n>reset</span>
+</span></span><span class=line><span class=cl>	<span class=p>.</span><span class=n>globl</span>	<span class=n>save_boot_params_ret</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>reset:
-</span></span><span class=line><span class=cl>	/* Allow the board to save important registers */
-</span></span><span class=line><span class=cl>	b	save_boot_params
-</span></span><span class=line><span class=cl>save_boot_params_ret:
-</span></span><span class=line><span class=cl>	/*
-</span></span><span class=line><span class=cl>	 * disable interrupts (FIQ and IRQ), also set the cpu to SVC32 mode,
-</span></span><span class=line><span class=cl>	 * except if in HYP mode already
-</span></span><span class=line><span class=cl>	 */
-</span></span><span class=line><span class=cl>	mrs	r0, cpsr
-</span></span><span class=line><span class=cl>	and	r1, r0, #0x1f		@ mask mode bits
-</span></span><span class=line><span class=cl>	teq	r1, #0x1a		@ test for HYP mode
-</span></span><span class=line><span class=cl>	bicne	r0, r0, #0x1f		@ clear all mode bits
-</span></span><span class=line><span class=cl>	orrne	r0, r0, #0x13		@ set SVC mode
-</span></span><span class=line><span class=cl>	orr	r0, r0, #0xc0		@ disable FIQ and IRQ
-</span></span><span class=line><span class=cl>	msr	cpsr,r0
+</span></span><span class=line><span class=cl><span class=nl>reset</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>	<span class=cm>/* Allow the board to save important registers */</span>
+</span></span><span class=line><span class=cl>	<span class=n>b</span>	<span class=n>save_boot_params</span>
+</span></span><span class=line><span class=cl><span class=nl>save_boot_params_ret</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>	<span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm>	 * disable interrupts (FIQ and IRQ), also set the cpu to SVC32 mode,
+</span></span></span><span class=line><span class=cl><span class=cm>	 * except if in HYP mode already
+</span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
+</span></span><span class=line><span class=cl>	<span class=n>mrs</span>	<span class=n>r0</span><span class=p>,</span> <span class=n>cpsr</span>
+</span></span><span class=line><span class=cl>	<span class=n>and</span>	<span class=n>r1</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=err>#</span><span class=mh>0x1f</span>		<span class=err>@</span> <span class=n>mask</span> <span class=n>mode</span> <span class=n>bits</span>
+</span></span><span class=line><span class=cl>	<span class=n>teq</span>	<span class=n>r1</span><span class=p>,</span> <span class=err>#</span><span class=mh>0x1a</span>		<span class=err>@</span> <span class=n>test</span> <span class=k>for</span> <span class=n>HYP</span> <span class=n>mode</span>
+</span></span><span class=line><span class=cl>	<span class=n>bicne</span>	<span class=n>r0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=err>#</span><span class=mh>0x1f</span>		<span class=err>@</span> <span class=n>clear</span> <span class=n>all</span> <span class=n>mode</span> <span class=n>bits</span>
+</span></span><span class=line><span class=cl>	<span class=n>orrne</span>	<span class=n>r0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=err>#</span><span class=mh>0x13</span>		<span class=err>@</span> <span class=n>set</span> <span class=n>SVC</span> <span class=n>mode</span>
+</span></span><span class=line><span class=cl>	<span class=n>orr</span>	<span class=n>r0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=err>#</span><span class=mh>0xc0</span>		<span class=err>@</span> <span class=n>disable</span> <span class=n>FIQ</span> <span class=n>and</span> <span class=n>IRQ</span>
+</span></span><span class=line><span class=cl>	<span class=n>msr</span>	<span class=n>cpsr</span><span class=p>,</span><span class=n>r0</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>/*
-</span></span><span class=line><span class=cl> * Setup vector:
-</span></span><span class=line><span class=cl> * (OMAP4 spl TEXT_BASE is not 32 byte aligned.
-</span></span><span class=line><span class=cl> * Continue to use ROM code vector only in OMAP4 spl)
-</span></span><span class=line><span class=cl> */
-</span></span><span class=line><span class=cl>#if !(defined(CONFIG_OMAP44XX) &amp;&amp; defined(CONFIG_SPL_BUILD))
-</span></span><span class=line><span class=cl>	/* Set V=0 in CP15 SCTLR register - for VBAR to point to vector */
-</span></span><span class=line><span class=cl>	mrc	p15, 0, r0, c1, c0, 0	@ Read CP15 SCTLR Register
-</span></span><span class=line><span class=cl>	bic	r0, #CR_V		@ V = 0
-</span></span><span class=line><span class=cl>	mcr	p15, 0, r0, c1, c0, 0	@ Write CP15 SCTLR Register
+</span></span><span class=line><span class=cl><span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm> * Setup vector:
+</span></span></span><span class=line><span class=cl><span class=cm> * (OMAP4 spl TEXT_BASE is not 32 byte aligned.
+</span></span></span><span class=line><span class=cl><span class=cm> * Continue to use ROM code vector only in OMAP4 spl)
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=cl><span class=cp>#if !(defined(CONFIG_OMAP44XX) &amp;&amp; defined(CONFIG_SPL_BUILD))
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/* Set V=0 in CP15 SCTLR register - for VBAR to point to vector */</span>
+</span></span><span class=line><span class=cl>	<span class=n>mrc</span>	<span class=n>p15</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=n>c1</span><span class=p>,</span> <span class=n>c0</span><span class=p>,</span> <span class=mi>0</span>	<span class=err>@</span> <span class=n>Read</span> <span class=n>CP15</span> <span class=n>SCTLR</span> <span class=n>Register</span>
+</span></span><span class=line><span class=cl>	<span class=n>bic</span>	<span class=n>r0</span><span class=p>,</span> <span class=err>#</span><span class=n>CR_V</span>		<span class=err>@</span> <span class=n>V</span> <span class=o>=</span> <span class=mi>0</span>
+</span></span><span class=line><span class=cl>	<span class=n>mcr</span>	<span class=n>p15</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=n>c1</span><span class=p>,</span> <span class=n>c0</span><span class=p>,</span> <span class=mi>0</span>	<span class=err>@</span> <span class=n>Write</span> <span class=n>CP15</span> <span class=n>SCTLR</span> <span class=n>Register</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>	/* Set vector address in CP15 VBAR register */
-</span></span><span class=line><span class=cl>	ldr	r0, =_start
-</span></span><span class=line><span class=cl>	mcr	p15, 0, r0, c12, c0, 0	@Set VBAR
-</span></span><span class=line><span class=cl>#endif
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>	/* the mask ROM code should have PLL and others stable */
-</span></span><span class=line><span class=cl>#ifndef CONFIG_SKIP_LOWLEVEL_INIT
-</span></span><span class=line><span class=cl>	bl	cpu_init_cp15
-</span></span><span class=line><span class=cl>	bl	cpu_init_crit
-</span></span><span class=line><span class=cl>#endif
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>	bl	_main
+</span></span><span class=line><span class=cl>	<span class=cm>/* Set vector address in CP15 VBAR register */</span>
+</span></span><span class=line><span class=cl>	<span class=n>ldr</span>	<span class=n>r0</span><span class=p>,</span> <span class=o>=</span><span class=n>_start</span>
+</span></span><span class=line><span class=cl>	<span class=n>mcr</span>	<span class=n>p15</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=n>c12</span><span class=p>,</span> <span class=n>c0</span><span class=p>,</span> <span class=mi>0</span>	<span class=err>@</span><span class=n>Set</span> <span class=n>VBAR</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl>	<span class=cm>/* the mask ROM code should have PLL and others stable */</span>
+</span></span><span class=line><span class=cl><span class=cp>#ifndef CONFIG_SKIP_LOWLEVEL_INIT
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>bl</span>	<span class=n>cpu_init_cp15</span>
+</span></span><span class=line><span class=cl>	<span class=n>bl</span>	<span class=n>cpu_init_crit</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl>	<span class=n>bl</span>	<span class=n>_main</span>
 </span></span></code></pre></td></tr></table></div></div><h3 id=save_boot_params函数实现 class=headerLink><a href=#save_boot_params%e5%87%bd%e6%95%b0%e5%ae%9e%e7%8e%b0 class=header-mark></a>5.3 <code>save_boot_params</code>函数实现</h3><blockquote><p>此函数什么也没有做</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
@@ -1509,200 +1509,200 @@ run_main_loop --> main_loop
 </span><span class=lnt>192
 </span><span class=lnt>193
 </span><span class=lnt>194
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>ENTRY(cpu_init_cp15)
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=nf>ENTRY</span><span class=p>(</span><span class=n>cpu_init_cp15</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>#if CONFIG_IS_ENABLED(ARMV7_SET_CORTEX_SMPEN)
-</span></span><span class=line><span class=cl>	/*
-</span></span><span class=line><span class=cl>	 * The Arm Cortex-A7 TRM says this bit must be enabled before
-</span></span><span class=line><span class=cl>	 * &#34;any cache or TLB maintenance operations are performed&#34;.
-</span></span><span class=line><span class=cl>	 */
-</span></span><span class=line><span class=cl>	mrc	p15, 0, r0, c1, c0, 1	@ read auxilary control register
-</span></span><span class=line><span class=cl>	orr	r0, r0, #1 &lt;&lt; 6		@ set SMP bit to enable coherency
-</span></span><span class=line><span class=cl>	mcr	p15, 0, r0, c1, c0, 1	@ write auxilary control register
-</span></span><span class=line><span class=cl>#endif
+</span></span><span class=line><span class=cl><span class=cp>#if CONFIG_IS_ENABLED(ARMV7_SET_CORTEX_SMPEN)
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm>	 * The Arm Cortex-A7 TRM says this bit must be enabled before
+</span></span></span><span class=line><span class=cl><span class=cm>	 * &#34;any cache or TLB maintenance operations are performed&#34;.
+</span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
+</span></span><span class=line><span class=cl>	<span class=n>mrc</span>	<span class=n>p15</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=n>c1</span><span class=p>,</span> <span class=n>c0</span><span class=p>,</span> <span class=mi>1</span>	<span class=err>@</span> <span class=n>read</span> <span class=n>auxilary</span> <span class=n>control</span> <span class=k>register</span>
+</span></span><span class=line><span class=cl>	<span class=n>orr</span>	<span class=n>r0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=err>#</span><span class=mi>1</span> <span class=o>&lt;&lt;</span> <span class=mi>6</span>		<span class=err>@</span> <span class=n>set</span> <span class=n>SMP</span> <span class=n>bit</span> <span class=n>to</span> <span class=n>enable</span> <span class=n>coherency</span>
+</span></span><span class=line><span class=cl>	<span class=n>mcr</span>	<span class=n>p15</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=n>c1</span><span class=p>,</span> <span class=n>c0</span><span class=p>,</span> <span class=mi>1</span>	<span class=err>@</span> <span class=n>write</span> <span class=n>auxilary</span> <span class=n>control</span> <span class=k>register</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl>	<span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm>	 * Invalidate L1 I/D
+</span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
+</span></span><span class=line><span class=cl>	<span class=n>mov</span>	<span class=n>r0</span><span class=p>,</span> <span class=err>#</span><span class=mi>0</span>			<span class=err>@</span> <span class=n>set</span> <span class=n>up</span> <span class=k>for</span> <span class=n>MCR</span>
+</span></span><span class=line><span class=cl>	<span class=n>mcr</span>	<span class=n>p15</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=n>c8</span><span class=p>,</span> <span class=n>c7</span><span class=p>,</span> <span class=mi>0</span>	<span class=err>@</span> <span class=n>invalidate</span> <span class=n>TLBs</span>
+</span></span><span class=line><span class=cl>	<span class=n>mcr</span>	<span class=n>p15</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=n>c7</span><span class=p>,</span> <span class=n>c5</span><span class=p>,</span> <span class=mi>0</span>	<span class=err>@</span> <span class=n>invalidate</span> <span class=n>icache</span>
+</span></span><span class=line><span class=cl>	<span class=n>mcr</span>	<span class=n>p15</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=n>c7</span><span class=p>,</span> <span class=n>c5</span><span class=p>,</span> <span class=mi>6</span>	<span class=err>@</span> <span class=n>invalidate</span> <span class=n>BP</span> <span class=n>array</span>
+</span></span><span class=line><span class=cl>	<span class=n>dsb</span>
+</span></span><span class=line><span class=cl>	<span class=n>isb</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>	/*
-</span></span><span class=line><span class=cl>	 * Invalidate L1 I/D
-</span></span><span class=line><span class=cl>	 */
-</span></span><span class=line><span class=cl>	mov	r0, #0			@ set up for MCR
-</span></span><span class=line><span class=cl>	mcr	p15, 0, r0, c8, c7, 0	@ invalidate TLBs
-</span></span><span class=line><span class=cl>	mcr	p15, 0, r0, c7, c5, 0	@ invalidate icache
-</span></span><span class=line><span class=cl>	mcr	p15, 0, r0, c7, c5, 6	@ invalidate BP array
-</span></span><span class=line><span class=cl>	dsb
-</span></span><span class=line><span class=cl>	isb
+</span></span><span class=line><span class=cl>	<span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm>	 * disable MMU stuff and caches
+</span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
+</span></span><span class=line><span class=cl>	<span class=n>mrc</span>	<span class=n>p15</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=n>c1</span><span class=p>,</span> <span class=n>c0</span><span class=p>,</span> <span class=mi>0</span>
+</span></span><span class=line><span class=cl>	<span class=n>bic</span>	<span class=n>r0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=err>#</span><span class=mh>0x00002000</span>	<span class=err>@</span> <span class=n>clear</span> <span class=n>bits</span> <span class=mi>13</span> <span class=p>(</span><span class=o>--</span><span class=n>V</span><span class=o>-</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=n>bic</span>	<span class=n>r0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=err>#</span><span class=mh>0x00000007</span>	<span class=err>@</span> <span class=n>clear</span> <span class=n>bits</span> <span class=mi>2</span><span class=o>:</span><span class=mi>0</span> <span class=p>(</span><span class=o>-</span><span class=n>CAM</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=n>orr</span>	<span class=n>r0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=err>#</span><span class=mh>0x00000002</span>	<span class=err>@</span> <span class=n>set</span> <span class=n>bit</span> <span class=mi>1</span> <span class=p>(</span><span class=o>--</span><span class=n>A</span><span class=o>-</span><span class=p>)</span> <span class=n>Align</span>
+</span></span><span class=line><span class=cl>	<span class=n>orr</span>	<span class=n>r0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=err>#</span><span class=mh>0x00000800</span>	<span class=err>@</span> <span class=n>set</span> <span class=n>bit</span> <span class=mi>11</span> <span class=p>(</span><span class=n>Z</span><span class=o>---</span><span class=p>)</span> <span class=n>BTB</span>
+</span></span><span class=line><span class=cl><span class=cp>#if CONFIG_IS_ENABLED(SYS_ICACHE_OFF)
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>bic</span>	<span class=n>r0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=err>#</span><span class=mh>0x00001000</span>	<span class=err>@</span> <span class=n>clear</span> <span class=n>bit</span> <span class=mi>12</span> <span class=p>(</span><span class=n>I</span><span class=p>)</span> <span class=n>I</span><span class=o>-</span><span class=n>cache</span>
+</span></span><span class=line><span class=cl><span class=cp>#else
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>orr</span>	<span class=n>r0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=err>#</span><span class=mh>0x00001000</span>	<span class=err>@</span> <span class=n>set</span> <span class=n>bit</span> <span class=mi>12</span> <span class=p>(</span><span class=n>I</span><span class=p>)</span> <span class=n>I</span><span class=o>-</span><span class=n>cache</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>mcr</span>	<span class=n>p15</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=n>c1</span><span class=p>,</span> <span class=n>c0</span><span class=p>,</span> <span class=mi>0</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>	/*
-</span></span><span class=line><span class=cl>	 * disable MMU stuff and caches
-</span></span><span class=line><span class=cl>	 */
-</span></span><span class=line><span class=cl>	mrc	p15, 0, r0, c1, c0, 0
-</span></span><span class=line><span class=cl>	bic	r0, r0, #0x00002000	@ clear bits 13 (--V-)
-</span></span><span class=line><span class=cl>	bic	r0, r0, #0x00000007	@ clear bits 2:0 (-CAM)
-</span></span><span class=line><span class=cl>	orr	r0, r0, #0x00000002	@ set bit 1 (--A-) Align
-</span></span><span class=line><span class=cl>	orr	r0, r0, #0x00000800	@ set bit 11 (Z---) BTB
-</span></span><span class=line><span class=cl>#if CONFIG_IS_ENABLED(SYS_ICACHE_OFF)
-</span></span><span class=line><span class=cl>	bic	r0, r0, #0x00001000	@ clear bit 12 (I) I-cache
-</span></span><span class=line><span class=cl>#else
-</span></span><span class=line><span class=cl>	orr	r0, r0, #0x00001000	@ set bit 12 (I) I-cache
-</span></span><span class=line><span class=cl>#endif
-</span></span><span class=line><span class=cl>	mcr	p15, 0, r0, c1, c0, 0
+</span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_ARM_ERRATA_716044
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>mrc</span>	<span class=n>p15</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=n>c1</span><span class=p>,</span> <span class=n>c0</span><span class=p>,</span> <span class=mi>0</span>	<span class=err>@</span> <span class=n>read</span> <span class=n>system</span> <span class=n>control</span> <span class=k>register</span>
+</span></span><span class=line><span class=cl>	<span class=n>orr</span>	<span class=n>r0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=err>#</span><span class=mi>1</span> <span class=o>&lt;&lt;</span> <span class=mi>11</span>	<span class=err>@</span> <span class=n>set</span> <span class=n>bit</span> <span class=err>#</span><span class=mi>11</span>
+</span></span><span class=line><span class=cl>	<span class=n>mcr</span>	<span class=n>p15</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=n>c1</span><span class=p>,</span> <span class=n>c0</span><span class=p>,</span> <span class=mi>0</span>	<span class=err>@</span> <span class=n>write</span> <span class=n>system</span> <span class=n>control</span> <span class=k>register</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=cp>#if (defined(CONFIG_ARM_ERRATA_742230) || defined(CONFIG_ARM_ERRATA_794072))
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>mrc</span>	<span class=n>p15</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=n>c15</span><span class=p>,</span> <span class=n>c0</span><span class=p>,</span> <span class=mi>1</span>	<span class=err>@</span> <span class=n>read</span> <span class=n>diagnostic</span> <span class=k>register</span>
+</span></span><span class=line><span class=cl>	<span class=n>orr</span>	<span class=n>r0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=err>#</span><span class=mi>1</span> <span class=o>&lt;&lt;</span> <span class=mi>4</span>		<span class=err>@</span> <span class=n>set</span> <span class=n>bit</span> <span class=err>#</span><span class=mi>4</span>
+</span></span><span class=line><span class=cl>	<span class=n>mcr</span>	<span class=n>p15</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=n>c15</span><span class=p>,</span> <span class=n>c0</span><span class=p>,</span> <span class=mi>1</span>	<span class=err>@</span> <span class=n>write</span> <span class=n>diagnostic</span> <span class=k>register</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_ARM_ERRATA_743622
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>mrc</span>	<span class=n>p15</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=n>c15</span><span class=p>,</span> <span class=n>c0</span><span class=p>,</span> <span class=mi>1</span>	<span class=err>@</span> <span class=n>read</span> <span class=n>diagnostic</span> <span class=k>register</span>
+</span></span><span class=line><span class=cl>	<span class=n>orr</span>	<span class=n>r0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=err>#</span><span class=mi>1</span> <span class=o>&lt;&lt;</span> <span class=mi>6</span>		<span class=err>@</span> <span class=n>set</span> <span class=n>bit</span> <span class=err>#</span><span class=mi>6</span>
+</span></span><span class=line><span class=cl>	<span class=n>mcr</span>	<span class=n>p15</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=n>c15</span><span class=p>,</span> <span class=n>c0</span><span class=p>,</span> <span class=mi>1</span>	<span class=err>@</span> <span class=n>write</span> <span class=n>diagnostic</span> <span class=k>register</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_ARM_ERRATA_751472
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>mrc</span>	<span class=n>p15</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=n>c15</span><span class=p>,</span> <span class=n>c0</span><span class=p>,</span> <span class=mi>1</span>	<span class=err>@</span> <span class=n>read</span> <span class=n>diagnostic</span> <span class=k>register</span>
+</span></span><span class=line><span class=cl>	<span class=n>orr</span>	<span class=n>r0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=err>#</span><span class=mi>1</span> <span class=o>&lt;&lt;</span> <span class=mi>11</span>	<span class=err>@</span> <span class=n>set</span> <span class=n>bit</span> <span class=err>#</span><span class=mi>11</span>
+</span></span><span class=line><span class=cl>	<span class=n>mcr</span>	<span class=n>p15</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=n>c15</span><span class=p>,</span> <span class=n>c0</span><span class=p>,</span> <span class=mi>1</span>	<span class=err>@</span> <span class=n>write</span> <span class=n>diagnostic</span> <span class=k>register</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_ARM_ERRATA_761320
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>mrc</span>	<span class=n>p15</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=n>c15</span><span class=p>,</span> <span class=n>c0</span><span class=p>,</span> <span class=mi>1</span>	<span class=err>@</span> <span class=n>read</span> <span class=n>diagnostic</span> <span class=k>register</span>
+</span></span><span class=line><span class=cl>	<span class=n>orr</span>	<span class=n>r0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=err>#</span><span class=mi>1</span> <span class=o>&lt;&lt;</span> <span class=mi>21</span>	<span class=err>@</span> <span class=n>set</span> <span class=n>bit</span> <span class=err>#</span><span class=mi>21</span>
+</span></span><span class=line><span class=cl>	<span class=n>mcr</span>	<span class=n>p15</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=n>c15</span><span class=p>,</span> <span class=n>c0</span><span class=p>,</span> <span class=mi>1</span>	<span class=err>@</span> <span class=n>write</span> <span class=n>diagnostic</span> <span class=k>register</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_ARM_ERRATA_845369
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>mrc</span>     <span class=n>p15</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=n>c15</span><span class=p>,</span> <span class=n>c0</span><span class=p>,</span> <span class=mi>1</span>	<span class=err>@</span> <span class=n>read</span> <span class=n>diagnostic</span> <span class=k>register</span>
+</span></span><span class=line><span class=cl>	<span class=n>orr</span>     <span class=n>r0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=err>#</span><span class=mi>1</span> <span class=o>&lt;&lt;</span> <span class=mi>22</span>	<span class=err>@</span> <span class=n>set</span> <span class=n>bit</span> <span class=err>#</span><span class=mi>22</span>
+</span></span><span class=line><span class=cl>	<span class=n>mcr</span>     <span class=n>p15</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=n>c15</span><span class=p>,</span> <span class=n>c0</span><span class=p>,</span> <span class=mi>1</span>	<span class=err>@</span> <span class=n>write</span> <span class=n>diagnostic</span> <span class=k>register</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl>	<span class=n>mov</span>	<span class=n>r5</span><span class=p>,</span> <span class=n>lr</span>			<span class=err>@</span> <span class=n>Store</span> <span class=n>my</span> <span class=n>Caller</span>
+</span></span><span class=line><span class=cl>	<span class=n>mrc</span>	<span class=n>p15</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>r1</span><span class=p>,</span> <span class=n>c0</span><span class=p>,</span> <span class=n>c0</span><span class=p>,</span> <span class=mi>0</span>	<span class=err>@</span> <span class=n>r1</span> <span class=n>has</span> <span class=n>Read</span> <span class=n>Main</span> <span class=n>ID</span> <span class=nf>Register</span> <span class=p>(</span><span class=n>MIDR</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=n>mov</span>	<span class=n>r3</span><span class=p>,</span> <span class=n>r1</span><span class=p>,</span> <span class=n>lsr</span> <span class=err>#</span><span class=mi>20</span>		<span class=err>@</span> <span class=n>get</span> <span class=n>variant</span> <span class=n>field</span>
+</span></span><span class=line><span class=cl>	<span class=n>and</span>	<span class=n>r3</span><span class=p>,</span> <span class=n>r3</span><span class=p>,</span> <span class=err>#</span><span class=mh>0xf</span>		<span class=err>@</span> <span class=n>r3</span> <span class=n>has</span> <span class=n>CPU</span> <span class=n>variant</span>
+</span></span><span class=line><span class=cl>	<span class=n>and</span>	<span class=n>r4</span><span class=p>,</span> <span class=n>r1</span><span class=p>,</span> <span class=err>#</span><span class=mh>0xf</span>		<span class=err>@</span> <span class=n>r4</span> <span class=n>has</span> <span class=n>CPU</span> <span class=n>revision</span>
+</span></span><span class=line><span class=cl>	<span class=n>mov</span>	<span class=n>r2</span><span class=p>,</span> <span class=n>r3</span><span class=p>,</span> <span class=n>lsl</span> <span class=err>#</span><span class=mi>4</span>		<span class=err>@</span> <span class=n>shift</span> <span class=n>variant</span> <span class=n>field</span> <span class=k>for</span> <span class=n>combined</span> <span class=n>value</span>
+</span></span><span class=line><span class=cl>	<span class=n>orr</span>	<span class=n>r2</span><span class=p>,</span> <span class=n>r4</span><span class=p>,</span> <span class=n>r2</span>		<span class=err>@</span> <span class=n>r2</span> <span class=n>has</span> <span class=n>combined</span> <span class=n>CPU</span> <span class=n>variant</span> <span class=o>+</span> <span class=n>revision</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>#ifdef CONFIG_ARM_ERRATA_716044
-</span></span><span class=line><span class=cl>	mrc	p15, 0, r0, c1, c0, 0	@ read system control register
-</span></span><span class=line><span class=cl>	orr	r0, r0, #1 &lt;&lt; 11	@ set bit #11
-</span></span><span class=line><span class=cl>	mcr	p15, 0, r0, c1, c0, 0	@ write system control register
-</span></span><span class=line><span class=cl>#endif
+</span></span><span class=line><span class=cl><span class=cm>/* Early stack for ERRATA that needs into call C code */</span>
+</span></span><span class=line><span class=cl><span class=cp>#if defined(CONFIG_SPL_BUILD) &amp;&amp; defined(CONFIG_SPL_STACK)
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>ldr</span>	<span class=n>r0</span><span class=p>,</span> <span class=o>=</span><span class=p>(</span><span class=n>CONFIG_SPL_STACK</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=cp>#else
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>ldr</span>	<span class=n>r0</span><span class=p>,</span> <span class=o>=</span><span class=p>(</span><span class=n>SYS_INIT_SP_ADDR</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>bic</span>	<span class=n>r0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=err>#</span><span class=mi>7</span>	<span class=cm>/* 8-byte alignment for ABI compliance */</span>
+</span></span><span class=line><span class=cl>	<span class=n>mov</span>	<span class=n>sp</span><span class=p>,</span> <span class=n>r0</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>#if (defined(CONFIG_ARM_ERRATA_742230) || defined(CONFIG_ARM_ERRATA_794072))
-</span></span><span class=line><span class=cl>	mrc	p15, 0, r0, c15, c0, 1	@ read diagnostic register
-</span></span><span class=line><span class=cl>	orr	r0, r0, #1 &lt;&lt; 4		@ set bit #4
-</span></span><span class=line><span class=cl>	mcr	p15, 0, r0, c15, c0, 1	@ write diagnostic register
-</span></span><span class=line><span class=cl>#endif
+</span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_ARM_ERRATA_798870
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>cmp</span>	<span class=n>r2</span><span class=p>,</span> <span class=err>#</span><span class=mh>0x30</span>		<span class=err>@</span> <span class=n>Applies</span> <span class=n>to</span> <span class=n>lower</span> <span class=n>than</span> <span class=n>R3p0</span>
+</span></span><span class=line><span class=cl>	<span class=n>bge</span>	<span class=n>skip_errata_798870</span>      <span class=err>@</span> <span class=n>skip</span> <span class=k>if</span> <span class=n>not</span> <span class=n>affected</span> <span class=n>rev</span>
+</span></span><span class=line><span class=cl>	<span class=n>cmp</span>	<span class=n>r2</span><span class=p>,</span> <span class=err>#</span><span class=mh>0x20</span>		<span class=err>@</span> <span class=n>Applies</span> <span class=n>to</span> <span class=n>including</span> <span class=n>and</span> <span class=n>above</span> <span class=n>R2p0</span>
+</span></span><span class=line><span class=cl>	<span class=n>blt</span>	<span class=n>skip_errata_798870</span>      <span class=err>@</span> <span class=n>skip</span> <span class=k>if</span> <span class=n>not</span> <span class=n>affected</span> <span class=n>rev</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>#ifdef CONFIG_ARM_ERRATA_743622
-</span></span><span class=line><span class=cl>	mrc	p15, 0, r0, c15, c0, 1	@ read diagnostic register
-</span></span><span class=line><span class=cl>	orr	r0, r0, #1 &lt;&lt; 6		@ set bit #6
-</span></span><span class=line><span class=cl>	mcr	p15, 0, r0, c15, c0, 1	@ write diagnostic register
-</span></span><span class=line><span class=cl>#endif
+</span></span><span class=line><span class=cl>	<span class=n>mrc</span>	<span class=n>p15</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=n>c15</span><span class=p>,</span> <span class=n>c0</span><span class=p>,</span> <span class=mi>0</span>  <span class=err>@</span> <span class=n>read</span> <span class=n>l2</span> <span class=n>aux</span> <span class=n>ctrl</span> <span class=n>reg</span>
+</span></span><span class=line><span class=cl>	<span class=n>orr</span>	<span class=n>r0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=err>#</span><span class=mi>1</span> <span class=o>&lt;&lt;</span> <span class=mi>7</span>         <span class=err>@</span> <span class=n>Enable</span> <span class=n>hazard</span><span class=o>-</span><span class=n>detect</span> <span class=n>timeout</span>
+</span></span><span class=line><span class=cl>	<span class=n>push</span>	<span class=p>{</span><span class=n>r1</span><span class=o>-</span><span class=n>r5</span><span class=p>}</span>			<span class=err>@</span> <span class=n>Save</span> <span class=n>the</span> <span class=n>cpu</span> <span class=n>info</span> <span class=n>registers</span>
+</span></span><span class=line><span class=cl>	<span class=n>bl</span>	<span class=n>v7_arch_cp15_set_l2aux_ctrl</span>
+</span></span><span class=line><span class=cl>	<span class=n>isb</span>				<span class=err>@</span> <span class=n>Recommended</span> <span class=n>ISB</span> <span class=n>after</span> <span class=n>l2actlr</span> <span class=n>update</span>
+</span></span><span class=line><span class=cl>	<span class=n>pop</span>	<span class=p>{</span><span class=n>r1</span><span class=o>-</span><span class=n>r5</span><span class=p>}</span>			<span class=err>@</span> <span class=n>Restore</span> <span class=n>the</span> <span class=n>cpu</span> <span class=n>info</span> <span class=o>-</span> <span class=n>fall</span> <span class=n>through</span>
+</span></span><span class=line><span class=cl><span class=nl>skip_errata_798870</span><span class=p>:</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_ARM_ERRATA_801819
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>cmp</span>	<span class=n>r2</span><span class=p>,</span> <span class=err>#</span><span class=mh>0x24</span>		<span class=err>@</span> <span class=n>Applies</span> <span class=n>to</span> <span class=n>lt</span> <span class=n>including</span> <span class=n>R2p4</span>
+</span></span><span class=line><span class=cl>	<span class=n>bgt</span>	<span class=n>skip_errata_801819</span>      <span class=err>@</span> <span class=n>skip</span> <span class=k>if</span> <span class=n>not</span> <span class=n>affected</span> <span class=n>rev</span>
+</span></span><span class=line><span class=cl>	<span class=n>cmp</span>	<span class=n>r2</span><span class=p>,</span> <span class=err>#</span><span class=mh>0x20</span>		<span class=err>@</span> <span class=n>Applies</span> <span class=n>to</span> <span class=n>including</span> <span class=n>and</span> <span class=n>above</span> <span class=n>R2p0</span>
+</span></span><span class=line><span class=cl>	<span class=n>blt</span>	<span class=n>skip_errata_801819</span>      <span class=err>@</span> <span class=n>skip</span> <span class=k>if</span> <span class=n>not</span> <span class=n>affected</span> <span class=n>rev</span>
+</span></span><span class=line><span class=cl>	<span class=n>mrc</span>	<span class=n>p15</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=n>c0</span><span class=p>,</span> <span class=n>c0</span><span class=p>,</span> <span class=mi>6</span>	<span class=err>@</span> <span class=n>pick</span> <span class=n>up</span> <span class=n>REVIDR</span> <span class=n>reg</span>
+</span></span><span class=line><span class=cl>	<span class=n>and</span>	<span class=n>r0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=err>#</span><span class=mi>1</span> <span class=o>&lt;&lt;</span> <span class=mi>3</span>		<span class=err>@</span> <span class=n>check</span> <span class=n>REVIDR</span><span class=p>[</span><span class=mi>3</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>	<span class=n>cmp</span>	<span class=n>r0</span><span class=p>,</span> <span class=err>#</span><span class=mi>1</span> <span class=o>&lt;&lt;</span> <span class=mi>3</span>
+</span></span><span class=line><span class=cl>	<span class=n>beq</span>	<span class=n>skip_errata_801819</span>	<span class=err>@</span> <span class=n>skip</span> <span class=n>erratum</span> <span class=k>if</span> <span class=n>REVIDR</span><span class=p>[</span><span class=mi>3</span><span class=p>]</span> <span class=n>is</span> <span class=n>set</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>#ifdef CONFIG_ARM_ERRATA_751472
-</span></span><span class=line><span class=cl>	mrc	p15, 0, r0, c15, c0, 1	@ read diagnostic register
-</span></span><span class=line><span class=cl>	orr	r0, r0, #1 &lt;&lt; 11	@ set bit #11
-</span></span><span class=line><span class=cl>	mcr	p15, 0, r0, c15, c0, 1	@ write diagnostic register
-</span></span><span class=line><span class=cl>#endif
-</span></span><span class=line><span class=cl>#ifdef CONFIG_ARM_ERRATA_761320
-</span></span><span class=line><span class=cl>	mrc	p15, 0, r0, c15, c0, 1	@ read diagnostic register
-</span></span><span class=line><span class=cl>	orr	r0, r0, #1 &lt;&lt; 21	@ set bit #21
-</span></span><span class=line><span class=cl>	mcr	p15, 0, r0, c15, c0, 1	@ write diagnostic register
-</span></span><span class=line><span class=cl>#endif
+</span></span><span class=line><span class=cl>	<span class=n>mrc</span>	<span class=n>p15</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=n>c1</span><span class=p>,</span> <span class=n>c0</span><span class=p>,</span> <span class=mi>1</span>	<span class=err>@</span> <span class=n>read</span> <span class=n>auxilary</span> <span class=n>control</span> <span class=k>register</span>
+</span></span><span class=line><span class=cl>	<span class=n>orr</span>	<span class=n>r0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=err>#</span><span class=mi>3</span> <span class=o>&lt;&lt;</span> <span class=mi>27</span>	<span class=err>@</span> <span class=n>Disables</span> <span class=n>streaming</span><span class=p>.</span> <span class=n>All</span> <span class=n>write</span><span class=o>-</span><span class=n>allocate</span>
+</span></span><span class=line><span class=cl>					<span class=err>@</span> <span class=n>lines</span> <span class=n>allocate</span> <span class=n>in</span> <span class=n>the</span> <span class=n>L1</span> <span class=n>or</span> <span class=n>L2</span> <span class=n>cache</span><span class=p>.</span>
+</span></span><span class=line><span class=cl>	<span class=n>orr</span>	<span class=n>r0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=err>#</span><span class=mi>3</span> <span class=o>&lt;&lt;</span> <span class=mi>25</span>	<span class=err>@</span> <span class=n>Disables</span> <span class=n>streaming</span><span class=p>.</span> <span class=n>All</span> <span class=n>write</span><span class=o>-</span><span class=n>allocate</span>
+</span></span><span class=line><span class=cl>					<span class=err>@</span> <span class=n>lines</span> <span class=n>allocate</span> <span class=n>in</span> <span class=n>the</span> <span class=n>L1</span> <span class=n>cache</span><span class=p>.</span>
+</span></span><span class=line><span class=cl>	<span class=n>push</span>	<span class=p>{</span><span class=n>r1</span><span class=o>-</span><span class=n>r5</span><span class=p>}</span>			<span class=err>@</span> <span class=n>Save</span> <span class=n>the</span> <span class=n>cpu</span> <span class=n>info</span> <span class=n>registers</span>
+</span></span><span class=line><span class=cl>	<span class=n>bl</span>	<span class=n>v7_arch_cp15_set_acr</span>
+</span></span><span class=line><span class=cl>	<span class=n>pop</span>	<span class=p>{</span><span class=n>r1</span><span class=o>-</span><span class=n>r5</span><span class=p>}</span>			<span class=err>@</span> <span class=n>Restore</span> <span class=n>the</span> <span class=n>cpu</span> <span class=n>info</span> <span class=o>-</span> <span class=n>fall</span> <span class=n>through</span>
+</span></span><span class=line><span class=cl><span class=nl>skip_errata_801819</span><span class=p>:</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_ARM_CORTEX_A15_CVE_2017_5715
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>mrc</span>	<span class=n>p15</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=n>c1</span><span class=p>,</span> <span class=n>c0</span><span class=p>,</span> <span class=mi>1</span>	<span class=err>@</span> <span class=n>read</span> <span class=n>auxilary</span> <span class=n>control</span> <span class=k>register</span>
+</span></span><span class=line><span class=cl>	<span class=n>orr</span>	<span class=n>r0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=err>#</span><span class=mi>1</span> <span class=o>&lt;&lt;</span> <span class=mi>0</span>		<span class=err>@</span> <span class=n>Enable</span> <span class=n>invalidates</span> <span class=n>of</span> <span class=n>BTB</span>
+</span></span><span class=line><span class=cl>	<span class=n>push</span>	<span class=p>{</span><span class=n>r1</span><span class=o>-</span><span class=n>r5</span><span class=p>}</span>			<span class=err>@</span> <span class=n>Save</span> <span class=n>the</span> <span class=n>cpu</span> <span class=n>info</span> <span class=n>registers</span>
+</span></span><span class=line><span class=cl>	<span class=n>bl</span>	<span class=n>v7_arch_cp15_set_acr</span>
+</span></span><span class=line><span class=cl>	<span class=n>pop</span>	<span class=p>{</span><span class=n>r1</span><span class=o>-</span><span class=n>r5</span><span class=p>}</span>			<span class=err>@</span> <span class=n>Restore</span> <span class=n>the</span> <span class=n>cpu</span> <span class=n>info</span> <span class=o>-</span> <span class=n>fall</span> <span class=n>through</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_ARM_ERRATA_454179
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>mrc</span>	<span class=n>p15</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=n>c1</span><span class=p>,</span> <span class=n>c0</span><span class=p>,</span> <span class=mi>1</span>	<span class=err>@</span> <span class=n>Read</span> <span class=n>ACR</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>#ifdef CONFIG_ARM_ERRATA_845369
-</span></span><span class=line><span class=cl>	mrc     p15, 0, r0, c15, c0, 1	@ read diagnostic register
-</span></span><span class=line><span class=cl>	orr     r0, r0, #1 &lt;&lt; 22	@ set bit #22
-</span></span><span class=line><span class=cl>	mcr     p15, 0, r0, c15, c0, 1	@ write diagnostic register
-</span></span><span class=line><span class=cl>#endif
+</span></span><span class=line><span class=cl>	<span class=n>cmp</span>	<span class=n>r2</span><span class=p>,</span> <span class=err>#</span><span class=mh>0x21</span>		<span class=err>@</span> <span class=n>Only</span> <span class=n>on</span> <span class=o>&lt;</span> <span class=n>r2p1</span>
+</span></span><span class=line><span class=cl>	<span class=n>orrlt</span>	<span class=n>r0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=err>#</span><span class=p>(</span><span class=mh>0x3</span> <span class=o>&lt;&lt;</span> <span class=mi>6</span><span class=p>)</span>	<span class=err>@</span> <span class=n>Set</span> <span class=nf>DBSM</span><span class=p>(</span><span class=n>BIT7</span><span class=p>)</span> <span class=n>and</span> <span class=nf>IBE</span><span class=p>(</span><span class=n>BIT6</span><span class=p>)</span> <span class=n>bits</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>	mov	r5, lr			@ Store my Caller
-</span></span><span class=line><span class=cl>	mrc	p15, 0, r1, c0, c0, 0	@ r1 has Read Main ID Register (MIDR)
-</span></span><span class=line><span class=cl>	mov	r3, r1, lsr #20		@ get variant field
-</span></span><span class=line><span class=cl>	and	r3, r3, #0xf		@ r3 has CPU variant
-</span></span><span class=line><span class=cl>	and	r4, r1, #0xf		@ r4 has CPU revision
-</span></span><span class=line><span class=cl>	mov	r2, r3, lsl #4		@ shift variant field for combined value
-</span></span><span class=line><span class=cl>	orr	r2, r4, r2		@ r2 has combined CPU variant + revision
+</span></span><span class=line><span class=cl>	<span class=n>push</span>	<span class=p>{</span><span class=n>r1</span><span class=o>-</span><span class=n>r5</span><span class=p>}</span>			<span class=err>@</span> <span class=n>Save</span> <span class=n>the</span> <span class=n>cpu</span> <span class=n>info</span> <span class=n>registers</span>
+</span></span><span class=line><span class=cl>	<span class=n>bl</span>	<span class=n>v7_arch_cp15_set_acr</span>
+</span></span><span class=line><span class=cl>	<span class=n>pop</span>	<span class=p>{</span><span class=n>r1</span><span class=o>-</span><span class=n>r5</span><span class=p>}</span>			<span class=err>@</span> <span class=n>Restore</span> <span class=n>the</span> <span class=n>cpu</span> <span class=n>info</span> <span class=o>-</span> <span class=n>fall</span> <span class=n>through</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=cp>#if defined(CONFIG_ARM_ERRATA_430973) || defined (CONFIG_ARM_CORTEX_A8_CVE_2017_5715)
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>mrc</span>	<span class=n>p15</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=n>c1</span><span class=p>,</span> <span class=n>c0</span><span class=p>,</span> <span class=mi>1</span>	<span class=err>@</span> <span class=n>Read</span> <span class=n>ACR</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>/* Early stack for ERRATA that needs into call C code */
-</span></span><span class=line><span class=cl>#if defined(CONFIG_SPL_BUILD) &amp;&amp; defined(CONFIG_SPL_STACK)
-</span></span><span class=line><span class=cl>	ldr	r0, =(CONFIG_SPL_STACK)
-</span></span><span class=line><span class=cl>#else
-</span></span><span class=line><span class=cl>	ldr	r0, =(SYS_INIT_SP_ADDR)
-</span></span><span class=line><span class=cl>#endif
-</span></span><span class=line><span class=cl>	bic	r0, r0, #7	/* 8-byte alignment for ABI compliance */
-</span></span><span class=line><span class=cl>	mov	sp, r0
+</span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_ARM_CORTEX_A8_CVE_2017_5715
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>orr</span>	<span class=n>r0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=err>#</span><span class=p>(</span><span class=mh>0x1</span> <span class=o>&lt;&lt;</span> <span class=mi>6</span><span class=p>)</span>	<span class=err>@</span> <span class=n>Set</span> <span class=n>IBE</span> <span class=n>bit</span> <span class=n>always</span> <span class=n>to</span> <span class=n>enable</span> <span class=n>OS</span> <span class=n>WA</span>
+</span></span><span class=line><span class=cl><span class=cp>#else
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>cmp</span>	<span class=n>r2</span><span class=p>,</span> <span class=err>#</span><span class=mh>0x21</span>		<span class=err>@</span> <span class=n>Only</span> <span class=n>on</span> <span class=o>&lt;</span> <span class=n>r2p1</span>
+</span></span><span class=line><span class=cl>	<span class=n>orrlt</span>	<span class=n>r0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=err>#</span><span class=p>(</span><span class=mh>0x1</span> <span class=o>&lt;&lt;</span> <span class=mi>6</span><span class=p>)</span>	<span class=err>@</span> <span class=n>Set</span> <span class=n>IBE</span> <span class=n>bit</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>push</span>	<span class=p>{</span><span class=n>r1</span><span class=o>-</span><span class=n>r5</span><span class=p>}</span>			<span class=err>@</span> <span class=n>Save</span> <span class=n>the</span> <span class=n>cpu</span> <span class=n>info</span> <span class=n>registers</span>
+</span></span><span class=line><span class=cl>	<span class=n>bl</span>	<span class=n>v7_arch_cp15_set_acr</span>
+</span></span><span class=line><span class=cl>	<span class=n>pop</span>	<span class=p>{</span><span class=n>r1</span><span class=o>-</span><span class=n>r5</span><span class=p>}</span>			<span class=err>@</span> <span class=n>Restore</span> <span class=n>the</span> <span class=n>cpu</span> <span class=n>info</span> <span class=o>-</span> <span class=n>fall</span> <span class=n>through</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_ARM_ERRATA_621766
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>mrc</span>	<span class=n>p15</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=n>c1</span><span class=p>,</span> <span class=n>c0</span><span class=p>,</span> <span class=mi>1</span>	<span class=err>@</span> <span class=n>Read</span> <span class=n>ACR</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>#ifdef CONFIG_ARM_ERRATA_798870
-</span></span><span class=line><span class=cl>	cmp	r2, #0x30		@ Applies to lower than R3p0
-</span></span><span class=line><span class=cl>	bge	skip_errata_798870      @ skip if not affected rev
-</span></span><span class=line><span class=cl>	cmp	r2, #0x20		@ Applies to including and above R2p0
-</span></span><span class=line><span class=cl>	blt	skip_errata_798870      @ skip if not affected rev
+</span></span><span class=line><span class=cl>	<span class=n>cmp</span>	<span class=n>r2</span><span class=p>,</span> <span class=err>#</span><span class=mh>0x21</span>		<span class=err>@</span> <span class=n>Only</span> <span class=n>on</span> <span class=o>&lt;</span> <span class=n>r2p1</span>
+</span></span><span class=line><span class=cl>	<span class=n>orrlt</span>	<span class=n>r0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=err>#</span><span class=p>(</span><span class=mh>0x1</span> <span class=o>&lt;&lt;</span> <span class=mi>5</span><span class=p>)</span>	<span class=err>@</span> <span class=n>Set</span> <span class=n>L1NEON</span> <span class=n>bit</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>	mrc	p15, 1, r0, c15, c0, 0  @ read l2 aux ctrl reg
-</span></span><span class=line><span class=cl>	orr	r0, r0, #1 &lt;&lt; 7         @ Enable hazard-detect timeout
-</span></span><span class=line><span class=cl>	push	{r1-r5}			@ Save the cpu info registers
-</span></span><span class=line><span class=cl>	bl	v7_arch_cp15_set_l2aux_ctrl
-</span></span><span class=line><span class=cl>	isb				@ Recommended ISB after l2actlr update
-</span></span><span class=line><span class=cl>	pop	{r1-r5}			@ Restore the cpu info - fall through
-</span></span><span class=line><span class=cl>skip_errata_798870:
-</span></span><span class=line><span class=cl>#endif
+</span></span><span class=line><span class=cl>	<span class=n>push</span>	<span class=p>{</span><span class=n>r1</span><span class=o>-</span><span class=n>r5</span><span class=p>}</span>			<span class=err>@</span> <span class=n>Save</span> <span class=n>the</span> <span class=n>cpu</span> <span class=n>info</span> <span class=n>registers</span>
+</span></span><span class=line><span class=cl>	<span class=n>bl</span>	<span class=n>v7_arch_cp15_set_acr</span>
+</span></span><span class=line><span class=cl>	<span class=n>pop</span>	<span class=p>{</span><span class=n>r1</span><span class=o>-</span><span class=n>r5</span><span class=p>}</span>			<span class=err>@</span> <span class=n>Restore</span> <span class=n>the</span> <span class=n>cpu</span> <span class=n>info</span> <span class=o>-</span> <span class=n>fall</span> <span class=n>through</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_ARM_ERRATA_725233
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>mrc</span>	<span class=n>p15</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=n>c9</span><span class=p>,</span> <span class=n>c0</span><span class=p>,</span> <span class=mi>2</span>	<span class=err>@</span> <span class=n>Read</span> <span class=n>L2ACR</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>#ifdef CONFIG_ARM_ERRATA_801819
-</span></span><span class=line><span class=cl>	cmp	r2, #0x24		@ Applies to lt including R2p4
-</span></span><span class=line><span class=cl>	bgt	skip_errata_801819      @ skip if not affected rev
-</span></span><span class=line><span class=cl>	cmp	r2, #0x20		@ Applies to including and above R2p0
-</span></span><span class=line><span class=cl>	blt	skip_errata_801819      @ skip if not affected rev
-</span></span><span class=line><span class=cl>	mrc	p15, 0, r0, c0, c0, 6	@ pick up REVIDR reg
-</span></span><span class=line><span class=cl>	and	r0, r0, #1 &lt;&lt; 3		@ check REVIDR[3]
-</span></span><span class=line><span class=cl>	cmp	r0, #1 &lt;&lt; 3
-</span></span><span class=line><span class=cl>	beq	skip_errata_801819	@ skip erratum if REVIDR[3] is set
+</span></span><span class=line><span class=cl>	<span class=n>cmp</span>	<span class=n>r2</span><span class=p>,</span> <span class=err>#</span><span class=mh>0x21</span>		<span class=err>@</span> <span class=n>Only</span> <span class=n>on</span> <span class=o>&lt;</span> <span class=nf>r2p1</span> <span class=p>(</span><span class=n>Cortex</span> <span class=n>A8</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=n>orrlt</span>	<span class=n>r0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=err>#</span><span class=p>(</span><span class=mh>0x1</span> <span class=o>&lt;&lt;</span> <span class=mi>27</span><span class=p>)</span>	<span class=err>@</span> <span class=n>L2</span> <span class=n>PLD</span> <span class=n>data</span> <span class=n>forwarding</span> <span class=n>disable</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>	mrc	p15, 0, r0, c1, c0, 1	@ read auxilary control register
-</span></span><span class=line><span class=cl>	orr	r0, r0, #3 &lt;&lt; 27	@ Disables streaming. All write-allocate
-</span></span><span class=line><span class=cl>					@ lines allocate in the L1 or L2 cache.
-</span></span><span class=line><span class=cl>	orr	r0, r0, #3 &lt;&lt; 25	@ Disables streaming. All write-allocate
-</span></span><span class=line><span class=cl>					@ lines allocate in the L1 cache.
-</span></span><span class=line><span class=cl>	push	{r1-r5}			@ Save the cpu info registers
-</span></span><span class=line><span class=cl>	bl	v7_arch_cp15_set_acr
-</span></span><span class=line><span class=cl>	pop	{r1-r5}			@ Restore the cpu info - fall through
-</span></span><span class=line><span class=cl>skip_errata_801819:
-</span></span><span class=line><span class=cl>#endif
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>#ifdef CONFIG_ARM_CORTEX_A15_CVE_2017_5715
-</span></span><span class=line><span class=cl>	mrc	p15, 0, r0, c1, c0, 1	@ read auxilary control register
-</span></span><span class=line><span class=cl>	orr	r0, r0, #1 &lt;&lt; 0		@ Enable invalidates of BTB
-</span></span><span class=line><span class=cl>	push	{r1-r5}			@ Save the cpu info registers
-</span></span><span class=line><span class=cl>	bl	v7_arch_cp15_set_acr
-</span></span><span class=line><span class=cl>	pop	{r1-r5}			@ Restore the cpu info - fall through
-</span></span><span class=line><span class=cl>#endif
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>#ifdef CONFIG_ARM_ERRATA_454179
-</span></span><span class=line><span class=cl>	mrc	p15, 0, r0, c1, c0, 1	@ Read ACR
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>	cmp	r2, #0x21		@ Only on &lt; r2p1
-</span></span><span class=line><span class=cl>	orrlt	r0, r0, #(0x3 &lt;&lt; 6)	@ Set DBSM(BIT7) and IBE(BIT6) bits
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>	push	{r1-r5}			@ Save the cpu info registers
-</span></span><span class=line><span class=cl>	bl	v7_arch_cp15_set_acr
-</span></span><span class=line><span class=cl>	pop	{r1-r5}			@ Restore the cpu info - fall through
-</span></span><span class=line><span class=cl>#endif
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>#if defined(CONFIG_ARM_ERRATA_430973) || defined (CONFIG_ARM_CORTEX_A8_CVE_2017_5715)
-</span></span><span class=line><span class=cl>	mrc	p15, 0, r0, c1, c0, 1	@ Read ACR
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>#ifdef CONFIG_ARM_CORTEX_A8_CVE_2017_5715
-</span></span><span class=line><span class=cl>	orr	r0, r0, #(0x1 &lt;&lt; 6)	@ Set IBE bit always to enable OS WA
-</span></span><span class=line><span class=cl>#else
-</span></span><span class=line><span class=cl>	cmp	r2, #0x21		@ Only on &lt; r2p1
-</span></span><span class=line><span class=cl>	orrlt	r0, r0, #(0x1 &lt;&lt; 6)	@ Set IBE bit
-</span></span><span class=line><span class=cl>#endif
-</span></span><span class=line><span class=cl>	push	{r1-r5}			@ Save the cpu info registers
-</span></span><span class=line><span class=cl>	bl	v7_arch_cp15_set_acr
-</span></span><span class=line><span class=cl>	pop	{r1-r5}			@ Restore the cpu info - fall through
-</span></span><span class=line><span class=cl>#endif
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>#ifdef CONFIG_ARM_ERRATA_621766
-</span></span><span class=line><span class=cl>	mrc	p15, 0, r0, c1, c0, 1	@ Read ACR
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>	cmp	r2, #0x21		@ Only on &lt; r2p1
-</span></span><span class=line><span class=cl>	orrlt	r0, r0, #(0x1 &lt;&lt; 5)	@ Set L1NEON bit
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>	push	{r1-r5}			@ Save the cpu info registers
-</span></span><span class=line><span class=cl>	bl	v7_arch_cp15_set_acr
-</span></span><span class=line><span class=cl>	pop	{r1-r5}			@ Restore the cpu info - fall through
-</span></span><span class=line><span class=cl>#endif
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>#ifdef CONFIG_ARM_ERRATA_725233
-</span></span><span class=line><span class=cl>	mrc	p15, 1, r0, c9, c0, 2	@ Read L2ACR
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>	cmp	r2, #0x21		@ Only on &lt; r2p1 (Cortex A8)
-</span></span><span class=line><span class=cl>	orrlt	r0, r0, #(0x1 &lt;&lt; 27)	@ L2 PLD data forwarding disable
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>	push	{r1-r5}			@ Save the cpu info registers
-</span></span><span class=line><span class=cl>	bl	v7_arch_cp15_set_l2aux_ctrl
-</span></span><span class=line><span class=cl>	pop	{r1-r5}			@ Restore the cpu info - fall through
-</span></span><span class=line><span class=cl>#endif
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>#ifdef CONFIG_ARM_ERRATA_852421
-</span></span><span class=line><span class=cl>	mrc	p15, 0, r0, c15, c0, 1	@ read diagnostic register
-</span></span><span class=line><span class=cl>	orr	r0, r0, #1 &lt;&lt; 24	@ set bit #24
-</span></span><span class=line><span class=cl>	mcr	p15, 0, r0, c15, c0, 1	@ write diagnostic register
-</span></span><span class=line><span class=cl>#endif
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>#ifdef CONFIG_ARM_ERRATA_852423
-</span></span><span class=line><span class=cl>	mrc	p15, 0, r0, c15, c0, 1	@ read diagnostic register
-</span></span><span class=line><span class=cl>	orr	r0, r0, #1 &lt;&lt; 12	@ set bit #12
-</span></span><span class=line><span class=cl>	mcr	p15, 0, r0, c15, c0, 1	@ write diagnostic register
-</span></span><span class=line><span class=cl>#endif
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>	mov	pc, r5			@ back to my caller
-</span></span><span class=line><span class=cl>ENDPROC(cpu_init_cp15)
+</span></span><span class=line><span class=cl>	<span class=n>push</span>	<span class=p>{</span><span class=n>r1</span><span class=o>-</span><span class=n>r5</span><span class=p>}</span>			<span class=err>@</span> <span class=n>Save</span> <span class=n>the</span> <span class=n>cpu</span> <span class=n>info</span> <span class=n>registers</span>
+</span></span><span class=line><span class=cl>	<span class=n>bl</span>	<span class=n>v7_arch_cp15_set_l2aux_ctrl</span>
+</span></span><span class=line><span class=cl>	<span class=n>pop</span>	<span class=p>{</span><span class=n>r1</span><span class=o>-</span><span class=n>r5</span><span class=p>}</span>			<span class=err>@</span> <span class=n>Restore</span> <span class=n>the</span> <span class=n>cpu</span> <span class=n>info</span> <span class=o>-</span> <span class=n>fall</span> <span class=n>through</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_ARM_ERRATA_852421
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>mrc</span>	<span class=n>p15</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=n>c15</span><span class=p>,</span> <span class=n>c0</span><span class=p>,</span> <span class=mi>1</span>	<span class=err>@</span> <span class=n>read</span> <span class=n>diagnostic</span> <span class=k>register</span>
+</span></span><span class=line><span class=cl>	<span class=n>orr</span>	<span class=n>r0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=err>#</span><span class=mi>1</span> <span class=o>&lt;&lt;</span> <span class=mi>24</span>	<span class=err>@</span> <span class=n>set</span> <span class=n>bit</span> <span class=err>#</span><span class=mi>24</span>
+</span></span><span class=line><span class=cl>	<span class=n>mcr</span>	<span class=n>p15</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=n>c15</span><span class=p>,</span> <span class=n>c0</span><span class=p>,</span> <span class=mi>1</span>	<span class=err>@</span> <span class=n>write</span> <span class=n>diagnostic</span> <span class=k>register</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_ARM_ERRATA_852423
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>mrc</span>	<span class=n>p15</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=n>c15</span><span class=p>,</span> <span class=n>c0</span><span class=p>,</span> <span class=mi>1</span>	<span class=err>@</span> <span class=n>read</span> <span class=n>diagnostic</span> <span class=k>register</span>
+</span></span><span class=line><span class=cl>	<span class=n>orr</span>	<span class=n>r0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=err>#</span><span class=mi>1</span> <span class=o>&lt;&lt;</span> <span class=mi>12</span>	<span class=err>@</span> <span class=n>set</span> <span class=n>bit</span> <span class=err>#</span><span class=mi>12</span>
+</span></span><span class=line><span class=cl>	<span class=n>mcr</span>	<span class=n>p15</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=n>c15</span><span class=p>,</span> <span class=n>c0</span><span class=p>,</span> <span class=mi>1</span>	<span class=err>@</span> <span class=n>write</span> <span class=n>diagnostic</span> <span class=k>register</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl>	<span class=n>mov</span>	<span class=n>pc</span><span class=p>,</span> <span class=n>r5</span>			<span class=err>@</span> <span class=n>back</span> <span class=n>to</span> <span class=n>my</span> <span class=n>caller</span>
+</span></span><span class=line><span class=cl><span class=nf>ENDPROC</span><span class=p>(</span><span class=n>cpu_init_cp15</span><span class=p>)</span>
 </span></span></code></pre></td></tr></table></div></div><h3 id=cpu_init_crit函数 class=headerLink><a href=#cpu_init_crit%e5%87%bd%e6%95%b0 class=header-mark></a>5.7 <code>cpu_init_crit</code>函数</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
@@ -1840,119 +1840,119 @@ run_main_loop --> main_loop
 </span><span class=lnt>111
 </span><span class=lnt>112
 </span><span class=lnt>113
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>ENTRY(_main)
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=nf>ENTRY</span><span class=p>(</span><span class=n>_main</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>/*
-</span></span><span class=line><span class=cl> * Set up initial C runtime environment and call board_init_f(0).
-</span></span><span class=line><span class=cl> */
+</span></span><span class=line><span class=cl><span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm> * Set up initial C runtime environment and call board_init_f(0).
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>#if defined(CONFIG_SPL_BUILD) &amp;&amp; defined(CONFIG_SPL_STACK)
-</span></span><span class=line><span class=cl>	ldr	sp, =(CONFIG_SPL_STACK)
-</span></span><span class=line><span class=cl>#else
-</span></span><span class=line><span class=cl>	ldr	sp, =(CONFIG_SYS_INIT_SP_ADDR)
-</span></span><span class=line><span class=cl>#endif
-</span></span><span class=line><span class=cl>#if defined(CONFIG_CPU_V7M)	/* v7M forbids using SP as BIC destination */
-</span></span><span class=line><span class=cl>	mov	r3, sp
-</span></span><span class=line><span class=cl>	bic	r3, r3, #7
-</span></span><span class=line><span class=cl>	mov	sp, r3
-</span></span><span class=line><span class=cl>#else
-</span></span><span class=line><span class=cl>	bic	sp, sp, #7	/* 8-byte alignment for ABI compliance */
-</span></span><span class=line><span class=cl>#endif
-</span></span><span class=line><span class=cl>	mov	r0, sp
-</span></span><span class=line><span class=cl>	bl	board_init_f_alloc_reserve
-</span></span><span class=line><span class=cl>	mov	sp, r0
-</span></span><span class=line><span class=cl>	/* set up gd here, outside any C code */
-</span></span><span class=line><span class=cl>	mov	r9, r0
-</span></span><span class=line><span class=cl>	bl	board_init_f_init_reserve
+</span></span><span class=line><span class=cl><span class=cp>#if defined(CONFIG_SPL_BUILD) &amp;&amp; defined(CONFIG_SPL_STACK)
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>ldr</span>	<span class=n>sp</span><span class=p>,</span> <span class=o>=</span><span class=p>(</span><span class=n>CONFIG_SPL_STACK</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=cp>#else
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>ldr</span>	<span class=n>sp</span><span class=p>,</span> <span class=o>=</span><span class=p>(</span><span class=n>CONFIG_SYS_INIT_SP_ADDR</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp>#if defined(CONFIG_CPU_V7M)	</span><span class=cm>/* v7M forbids using SP as BIC destination */</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>mov</span>	<span class=n>r3</span><span class=p>,</span> <span class=n>sp</span>
+</span></span><span class=line><span class=cl>	<span class=n>bic</span>	<span class=n>r3</span><span class=p>,</span> <span class=n>r3</span><span class=p>,</span> <span class=err>#</span><span class=mi>7</span>
+</span></span><span class=line><span class=cl>	<span class=n>mov</span>	<span class=n>sp</span><span class=p>,</span> <span class=n>r3</span>
+</span></span><span class=line><span class=cl><span class=cp>#else
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>bic</span>	<span class=n>sp</span><span class=p>,</span> <span class=n>sp</span><span class=p>,</span> <span class=err>#</span><span class=mi>7</span>	<span class=cm>/* 8-byte alignment for ABI compliance */</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>mov</span>	<span class=n>r0</span><span class=p>,</span> <span class=n>sp</span>
+</span></span><span class=line><span class=cl>	<span class=n>bl</span>	<span class=n>board_init_f_alloc_reserve</span>
+</span></span><span class=line><span class=cl>	<span class=n>mov</span>	<span class=n>sp</span><span class=p>,</span> <span class=n>r0</span>
+</span></span><span class=line><span class=cl>	<span class=cm>/* set up gd here, outside any C code */</span>
+</span></span><span class=line><span class=cl>	<span class=n>mov</span>	<span class=n>r9</span><span class=p>,</span> <span class=n>r0</span>
+</span></span><span class=line><span class=cl>	<span class=n>bl</span>	<span class=n>board_init_f_init_reserve</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>	mov	r0, #0
-</span></span><span class=line><span class=cl>	bl	board_init_f
+</span></span><span class=line><span class=cl>	<span class=n>mov</span>	<span class=n>r0</span><span class=p>,</span> <span class=err>#</span><span class=mi>0</span>
+</span></span><span class=line><span class=cl>	<span class=n>bl</span>	<span class=n>board_init_f</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>#if ! defined(CONFIG_SPL_BUILD)
+</span></span><span class=line><span class=cl><span class=cp>#if ! defined(CONFIG_SPL_BUILD)
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm> * Set up intermediate environment (new sp and gd) and call
+</span></span></span><span class=line><span class=cl><span class=cm> * relocate_code(addr_moni). Trick here is that we&#39;ll return
+</span></span></span><span class=line><span class=cl><span class=cm> * &#39;here&#39; but relocated.
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>/*
-</span></span><span class=line><span class=cl> * Set up intermediate environment (new sp and gd) and call
-</span></span><span class=line><span class=cl> * relocate_code(addr_moni). Trick here is that we&#39;ll return
-</span></span><span class=line><span class=cl> * &#39;here&#39; but relocated.
-</span></span><span class=line><span class=cl> */
+</span></span><span class=line><span class=cl>	<span class=n>ldr</span>	<span class=n>sp</span><span class=p>,</span> <span class=p>[</span><span class=n>r9</span><span class=p>,</span> <span class=err>#</span><span class=n>GD_START_ADDR_SP</span><span class=p>]</span>	<span class=cm>/* sp = gd-&gt;start_addr_sp */</span>
+</span></span><span class=line><span class=cl><span class=cp>#if defined(CONFIG_CPU_V7M)	</span><span class=cm>/* v7M forbids using SP as BIC destination */</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>mov</span>	<span class=n>r3</span><span class=p>,</span> <span class=n>sp</span>
+</span></span><span class=line><span class=cl>	<span class=n>bic</span>	<span class=n>r3</span><span class=p>,</span> <span class=n>r3</span><span class=p>,</span> <span class=err>#</span><span class=mi>7</span>
+</span></span><span class=line><span class=cl>	<span class=n>mov</span>	<span class=n>sp</span><span class=p>,</span> <span class=n>r3</span>
+</span></span><span class=line><span class=cl><span class=cp>#else
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>bic</span>	<span class=n>sp</span><span class=p>,</span> <span class=n>sp</span><span class=p>,</span> <span class=err>#</span><span class=mi>7</span>	<span class=cm>/* 8-byte alignment for ABI compliance */</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>ldr</span>	<span class=n>r9</span><span class=p>,</span> <span class=p>[</span><span class=n>r9</span><span class=p>,</span> <span class=err>#</span><span class=n>GD_BD</span><span class=p>]</span>		<span class=cm>/* r9 = gd-&gt;bd */</span>
+</span></span><span class=line><span class=cl>	<span class=n>sub</span>	<span class=n>r9</span><span class=p>,</span> <span class=n>r9</span><span class=p>,</span> <span class=err>#</span><span class=n>GD_SIZE</span>		<span class=cm>/* new GD is below bd */</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>	ldr	sp, [r9, #GD_START_ADDR_SP]	/* sp = gd-&gt;start_addr_sp */
-</span></span><span class=line><span class=cl>#if defined(CONFIG_CPU_V7M)	/* v7M forbids using SP as BIC destination */
-</span></span><span class=line><span class=cl>	mov	r3, sp
-</span></span><span class=line><span class=cl>	bic	r3, r3, #7
-</span></span><span class=line><span class=cl>	mov	sp, r3
-</span></span><span class=line><span class=cl>#else
-</span></span><span class=line><span class=cl>	bic	sp, sp, #7	/* 8-byte alignment for ABI compliance */
-</span></span><span class=line><span class=cl>#endif
-</span></span><span class=line><span class=cl>	ldr	r9, [r9, #GD_BD]		/* r9 = gd-&gt;bd */
-</span></span><span class=line><span class=cl>	sub	r9, r9, #GD_SIZE		/* new GD is below bd */
+</span></span><span class=line><span class=cl>	<span class=n>adr</span>	<span class=n>lr</span><span class=p>,</span> <span class=n>here</span>
+</span></span><span class=line><span class=cl>	<span class=n>ldr</span>	<span class=n>r0</span><span class=p>,</span> <span class=p>[</span><span class=n>r9</span><span class=p>,</span> <span class=err>#</span><span class=n>GD_RELOC_OFF</span><span class=p>]</span>		<span class=cm>/* r0 = gd-&gt;reloc_off */</span>
+</span></span><span class=line><span class=cl>	<span class=n>add</span>	<span class=n>lr</span><span class=p>,</span> <span class=n>lr</span><span class=p>,</span> <span class=n>r0</span>
+</span></span><span class=line><span class=cl><span class=cp>#if defined(CONFIG_CPU_V7M)
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>orr</span>	<span class=n>lr</span><span class=p>,</span> <span class=err>#</span><span class=mi>1</span>				<span class=cm>/* As required by Thumb-only */</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>ldr</span>	<span class=n>r0</span><span class=p>,</span> <span class=p>[</span><span class=n>r9</span><span class=p>,</span> <span class=err>#</span><span class=n>GD_RELOCADDR</span><span class=p>]</span>		<span class=cm>/* r0 = gd-&gt;relocaddr */</span>
+</span></span><span class=line><span class=cl>	<span class=n>b</span>	<span class=n>relocate_code</span>
+</span></span><span class=line><span class=cl><span class=nl>here</span><span class=p>:</span>
+</span></span><span class=line><span class=cl><span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm> * now relocate vectors
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>	adr	lr, here
-</span></span><span class=line><span class=cl>	ldr	r0, [r9, #GD_RELOC_OFF]		/* r0 = gd-&gt;reloc_off */
-</span></span><span class=line><span class=cl>	add	lr, lr, r0
-</span></span><span class=line><span class=cl>#if defined(CONFIG_CPU_V7M)
-</span></span><span class=line><span class=cl>	orr	lr, #1				/* As required by Thumb-only */
-</span></span><span class=line><span class=cl>#endif
-</span></span><span class=line><span class=cl>	ldr	r0, [r9, #GD_RELOCADDR]		/* r0 = gd-&gt;relocaddr */
-</span></span><span class=line><span class=cl>	b	relocate_code
-</span></span><span class=line><span class=cl>here:
-</span></span><span class=line><span class=cl>/*
-</span></span><span class=line><span class=cl> * now relocate vectors
-</span></span><span class=line><span class=cl> */
+</span></span><span class=line><span class=cl>	<span class=n>bl</span>	<span class=n>relocate_vectors</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>	bl	relocate_vectors
+</span></span><span class=line><span class=cl><span class=cm>/* Set up final (full) environment */</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>/* Set up final (full) environment */
+</span></span><span class=line><span class=cl>	<span class=n>bl</span>	<span class=n>c_runtime_cpu_setup</span>	<span class=cm>/* we still call old routine here */</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp>#if !defined(CONFIG_SPL_BUILD) || defined(CONFIG_SPL_FRAMEWORK)
+</span></span></span><span class=line><span class=cl><span class=cp># ifdef CONFIG_SPL_BUILD
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/* Use a DRAM stack for the rest of SPL, if requested */</span>
+</span></span><span class=line><span class=cl>	<span class=n>bl</span>	<span class=n>spl_relocate_stack_gd</span>
+</span></span><span class=line><span class=cl>	<span class=n>cmp</span>	<span class=n>r0</span><span class=p>,</span> <span class=err>#</span><span class=mi>0</span>
+</span></span><span class=line><span class=cl>	<span class=n>movne</span>	<span class=n>sp</span><span class=p>,</span> <span class=n>r0</span>
+</span></span><span class=line><span class=cl>	<span class=n>movne</span>	<span class=n>r9</span><span class=p>,</span> <span class=n>r0</span>
+</span></span><span class=line><span class=cl><span class=cp># endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>ldr</span>	<span class=n>r0</span><span class=p>,</span> <span class=o>=</span><span class=n>__bss_start</span>	<span class=cm>/* this is auto-relocated! */</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>	bl	c_runtime_cpu_setup	/* we still call old routine here */
-</span></span><span class=line><span class=cl>#endif
-</span></span><span class=line><span class=cl>#if !defined(CONFIG_SPL_BUILD) || defined(CONFIG_SPL_FRAMEWORK)
-</span></span><span class=line><span class=cl># ifdef CONFIG_SPL_BUILD
-</span></span><span class=line><span class=cl>	/* Use a DRAM stack for the rest of SPL, if requested */
-</span></span><span class=line><span class=cl>	bl	spl_relocate_stack_gd
-</span></span><span class=line><span class=cl>	cmp	r0, #0
-</span></span><span class=line><span class=cl>	movne	sp, r0
-</span></span><span class=line><span class=cl>	movne	r9, r0
-</span></span><span class=line><span class=cl># endif
-</span></span><span class=line><span class=cl>	ldr	r0, =__bss_start	/* this is auto-relocated! */
+</span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_USE_ARCH_MEMSET
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>ldr</span>	<span class=n>r3</span><span class=p>,</span> <span class=o>=</span><span class=n>__bss_end</span>		<span class=cm>/* this is auto-relocated! */</span>
+</span></span><span class=line><span class=cl>	<span class=n>mov</span>	<span class=n>r1</span><span class=p>,</span> <span class=err>#</span><span class=mh>0x00000000</span>		<span class=cm>/* prepare zero to clear BSS */</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>#ifdef CONFIG_USE_ARCH_MEMSET
-</span></span><span class=line><span class=cl>	ldr	r3, =__bss_end		/* this is auto-relocated! */
-</span></span><span class=line><span class=cl>	mov	r1, #0x00000000		/* prepare zero to clear BSS */
+</span></span><span class=line><span class=cl>	<span class=n>subs</span>	<span class=n>r2</span><span class=p>,</span> <span class=n>r3</span><span class=p>,</span> <span class=n>r0</span>		<span class=cm>/* r2 = memset len */</span>
+</span></span><span class=line><span class=cl>	<span class=n>bl</span>	<span class=n>memset</span>
+</span></span><span class=line><span class=cl><span class=cp>#else
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>ldr</span>	<span class=n>r1</span><span class=p>,</span> <span class=o>=</span><span class=n>__bss_end</span>		<span class=cm>/* this is auto-relocated! */</span>
+</span></span><span class=line><span class=cl>	<span class=n>mov</span>	<span class=n>r2</span><span class=p>,</span> <span class=err>#</span><span class=mh>0x00000000</span>		<span class=cm>/* prepare zero to clear BSS */</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>	subs	r2, r3, r0		/* r2 = memset len */
-</span></span><span class=line><span class=cl>	bl	memset
-</span></span><span class=line><span class=cl>#else
-</span></span><span class=line><span class=cl>	ldr	r1, =__bss_end		/* this is auto-relocated! */
-</span></span><span class=line><span class=cl>	mov	r2, #0x00000000		/* prepare zero to clear BSS */
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>clbss_l:cmp	r0, r1			/* while not at end of BSS */
-</span></span><span class=line><span class=cl>#if defined(CONFIG_CPU_V7M)
-</span></span><span class=line><span class=cl>	itt	lo
-</span></span><span class=line><span class=cl>#endif
-</span></span><span class=line><span class=cl>	strlo	r2, [r0]		/* clear 32-bit BSS word */
-</span></span><span class=line><span class=cl>	addlo	r0, r0, #4		/* move to next */
-</span></span><span class=line><span class=cl>	blo	clbss_l
-</span></span><span class=line><span class=cl>#endif
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>#if ! defined(CONFIG_SPL_BUILD)
-</span></span><span class=line><span class=cl>	bl coloured_LED_init
-</span></span><span class=line><span class=cl>	bl red_led_on
-</span></span><span class=line><span class=cl>#endif
-</span></span><span class=line><span class=cl>	/* call board_init_r(gd_t *id, ulong dest_addr) */
-</span></span><span class=line><span class=cl>	mov     r0, r9                  /* gd_t */
-</span></span><span class=line><span class=cl>	ldr	r1, [r9, #GD_RELOCADDR]	/* dest_addr */
-</span></span><span class=line><span class=cl>	/* call board_init_r */
-</span></span><span class=line><span class=cl>#if defined(CONFIG_SYS_THUMB_BUILD)
-</span></span><span class=line><span class=cl>	ldr	lr, =board_init_r	/* this is auto-relocated! */
-</span></span><span class=line><span class=cl>	bx	lr
-</span></span><span class=line><span class=cl>#else
-</span></span><span class=line><span class=cl>	ldr	pc, =board_init_r	/* this is auto-relocated! */
-</span></span><span class=line><span class=cl>#endif
-</span></span><span class=line><span class=cl>	/* we should not return here. */
-</span></span><span class=line><span class=cl>#endif
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>ENDPROC(_main)
+</span></span><span class=line><span class=cl><span class=nl>clbss_l</span><span class=p>:</span><span class=n>cmp</span>	<span class=n>r0</span><span class=p>,</span> <span class=n>r1</span>			<span class=cm>/* while not at end of BSS */</span>
+</span></span><span class=line><span class=cl><span class=cp>#if defined(CONFIG_CPU_V7M)
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>itt</span>	<span class=n>lo</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>strlo</span>	<span class=n>r2</span><span class=p>,</span> <span class=p>[</span><span class=n>r0</span><span class=p>]</span>		<span class=cm>/* clear 32-bit BSS word */</span>
+</span></span><span class=line><span class=cl>	<span class=n>addlo</span>	<span class=n>r0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=err>#</span><span class=mi>4</span>		<span class=cm>/* move to next */</span>
+</span></span><span class=line><span class=cl>	<span class=n>blo</span>	<span class=n>clbss_l</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=cp>#if ! defined(CONFIG_SPL_BUILD)
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>bl</span> <span class=n>coloured_LED_init</span>
+</span></span><span class=line><span class=cl>	<span class=n>bl</span> <span class=n>red_led_on</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/* call board_init_r(gd_t *id, ulong dest_addr) */</span>
+</span></span><span class=line><span class=cl>	<span class=n>mov</span>     <span class=n>r0</span><span class=p>,</span> <span class=n>r9</span>                  <span class=cm>/* gd_t */</span>
+</span></span><span class=line><span class=cl>	<span class=n>ldr</span>	<span class=n>r1</span><span class=p>,</span> <span class=p>[</span><span class=n>r9</span><span class=p>,</span> <span class=err>#</span><span class=n>GD_RELOCADDR</span><span class=p>]</span>	<span class=cm>/* dest_addr */</span>
+</span></span><span class=line><span class=cl>	<span class=cm>/* call board_init_r */</span>
+</span></span><span class=line><span class=cl><span class=cp>#if defined(CONFIG_SYS_THUMB_BUILD)
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>ldr</span>	<span class=n>lr</span><span class=p>,</span> <span class=o>=</span><span class=n>board_init_r</span>	<span class=cm>/* this is auto-relocated! */</span>
+</span></span><span class=line><span class=cl>	<span class=n>bx</span>	<span class=n>lr</span>
+</span></span><span class=line><span class=cl><span class=cp>#else
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>ldr</span>	<span class=n>pc</span><span class=p>,</span> <span class=o>=</span><span class=n>board_init_r</span>	<span class=cm>/* this is auto-relocated! */</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/* we should not return here. */</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=nf>ENDPROC</span><span class=p>(</span><span class=n>_main</span><span class=p>)</span>
 </span></span></code></pre></td></tr></table></div></div><h3 id=board_init_f函数 class=headerLink><a href=#board_init_f%e5%87%bd%e6%95%b0 class=header-mark></a>5.10 <code>board_init_f</code>函数</h3><blockquote><p>进入此文件<strong>common/board_f.c</strong></p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
@@ -2190,69 +2190,69 @@ run_main_loop --> main_loop
 </span><span class=lnt>61
 </span><span class=lnt>62
 </span><span class=lnt>63
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>.globl	_start
-</span></span><span class=line><span class=cl>_start:
-</span></span><span class=line><span class=cl>	b	reset
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=p>.</span><span class=n>globl</span>	<span class=n>_start</span>
+</span></span><span class=line><span class=cl><span class=nl>_start</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>	<span class=n>b</span>	<span class=n>reset</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>reset:
-</span></span><span class=line><span class=cl>#ifdef CONFIG_SYS_RESET_SCTRL
-</span></span><span class=line><span class=cl>	bl reset_sctrl
-</span></span><span class=line><span class=cl>#endif
-</span></span><span class=line><span class=cl>	/*
-</span></span><span class=line><span class=cl>	 * Could be EL3/EL2/EL1, Initial State:
-</span></span><span class=line><span class=cl>	 * Little Endian, MMU Disabled, i/dCache Disabled
-</span></span><span class=line><span class=cl>	 */
-</span></span><span class=line><span class=cl>	adr	x0, vectors
-</span></span><span class=line><span class=cl>	switch_el x1, 3f, 2f, 1f
-</span></span><span class=line><span class=cl>3:	msr	vbar_el3, x0
-</span></span><span class=line><span class=cl>	mrs	x0, scr_el3
-</span></span><span class=line><span class=cl>	orr	x0, x0, #0xf			/* SCR_EL3.NS|IRQ|FIQ|EA */
-</span></span><span class=line><span class=cl>	msr	scr_el3, x0
-</span></span><span class=line><span class=cl>	msr	cptr_el3, xzr			/* Enable FP/SIMD */
-</span></span><span class=line><span class=cl>#ifdef COUNTER_FREQUENCY
-</span></span><span class=line><span class=cl>	ldr	x0, =COUNTER_FREQUENCY
-</span></span><span class=line><span class=cl>	msr	cntfrq_el0, x0			/* Initialize CNTFRQ */
-</span></span><span class=line><span class=cl>#endif
-</span></span><span class=line><span class=cl>	b	0f
-</span></span><span class=line><span class=cl>2:	msr	vbar_el2, x0
-</span></span><span class=line><span class=cl>	mov	x0, #0x33ff
-</span></span><span class=line><span class=cl>	msr	cptr_el2, x0			/* Enable FP/SIMD */
-</span></span><span class=line><span class=cl>	b	0f
-</span></span><span class=line><span class=cl>1:	msr	vbar_el1, x0
-</span></span><span class=line><span class=cl>	mov	x0, #3 &lt;&lt; 20
-</span></span><span class=line><span class=cl>	msr	cpacr_el1, x0			/* Enable FP/SIMD */
-</span></span><span class=line><span class=cl>0:
+</span></span><span class=line><span class=cl><span class=nl>reset</span><span class=p>:</span>
+</span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_SYS_RESET_SCTRL
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>bl</span> <span class=n>reset_sctrl</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm>	 * Could be EL3/EL2/EL1, Initial State:
+</span></span></span><span class=line><span class=cl><span class=cm>	 * Little Endian, MMU Disabled, i/dCache Disabled
+</span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
+</span></span><span class=line><span class=cl>	<span class=n>adr</span>	<span class=n>x0</span><span class=p>,</span> <span class=n>vectors</span>
+</span></span><span class=line><span class=cl>	<span class=n>switch_el</span> <span class=n>x1</span><span class=p>,</span> <span class=mf>3f</span><span class=p>,</span> <span class=mf>2f</span><span class=p>,</span> <span class=mf>1f</span>
+</span></span><span class=line><span class=cl><span class=mi>3</span><span class=o>:</span>	<span class=n>msr</span>	<span class=n>vbar_el3</span><span class=p>,</span> <span class=n>x0</span>
+</span></span><span class=line><span class=cl>	<span class=n>mrs</span>	<span class=n>x0</span><span class=p>,</span> <span class=n>scr_el3</span>
+</span></span><span class=line><span class=cl>	<span class=n>orr</span>	<span class=n>x0</span><span class=p>,</span> <span class=n>x0</span><span class=p>,</span> <span class=err>#</span><span class=mh>0xf</span>			<span class=cm>/* SCR_EL3.NS|IRQ|FIQ|EA */</span>
+</span></span><span class=line><span class=cl>	<span class=n>msr</span>	<span class=n>scr_el3</span><span class=p>,</span> <span class=n>x0</span>
+</span></span><span class=line><span class=cl>	<span class=n>msr</span>	<span class=n>cptr_el3</span><span class=p>,</span> <span class=n>xzr</span>			<span class=cm>/* Enable FP/SIMD */</span>
+</span></span><span class=line><span class=cl><span class=cp>#ifdef COUNTER_FREQUENCY
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>ldr</span>	<span class=n>x0</span><span class=p>,</span> <span class=o>=</span><span class=n>COUNTER_FREQUENCY</span>
+</span></span><span class=line><span class=cl>	<span class=n>msr</span>	<span class=n>cntfrq_el0</span><span class=p>,</span> <span class=n>x0</span>			<span class=cm>/* Initialize CNTFRQ */</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>b</span>	<span class=mf>0f</span>
+</span></span><span class=line><span class=cl><span class=mi>2</span><span class=o>:</span>	<span class=n>msr</span>	<span class=n>vbar_el2</span><span class=p>,</span> <span class=n>x0</span>
+</span></span><span class=line><span class=cl>	<span class=n>mov</span>	<span class=n>x0</span><span class=p>,</span> <span class=err>#</span><span class=mh>0x33ff</span>
+</span></span><span class=line><span class=cl>	<span class=n>msr</span>	<span class=n>cptr_el2</span><span class=p>,</span> <span class=n>x0</span>			<span class=cm>/* Enable FP/SIMD */</span>
+</span></span><span class=line><span class=cl>	<span class=n>b</span>	<span class=mf>0f</span>
+</span></span><span class=line><span class=cl><span class=mi>1</span><span class=o>:</span>	<span class=n>msr</span>	<span class=n>vbar_el1</span><span class=p>,</span> <span class=n>x0</span>
+</span></span><span class=line><span class=cl>	<span class=n>mov</span>	<span class=n>x0</span><span class=p>,</span> <span class=err>#</span><span class=mi>3</span> <span class=o>&lt;&lt;</span> <span class=mi>20</span>
+</span></span><span class=line><span class=cl>	<span class=n>msr</span>	<span class=n>cpacr_el1</span><span class=p>,</span> <span class=n>x0</span>			<span class=cm>/* Enable FP/SIMD */</span>
+</span></span><span class=line><span class=cl><span class=mi>0</span><span class=o>:</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>	/* Apply ARM core specific erratas */
-</span></span><span class=line><span class=cl>	bl	apply_core_errata
+</span></span><span class=line><span class=cl>	<span class=cm>/* Apply ARM core specific erratas */</span>
+</span></span><span class=line><span class=cl>	<span class=n>bl</span>	<span class=n>apply_core_errata</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>	/*
-</span></span><span class=line><span class=cl>	 * Cache/BPB/TLB Invalidate
-</span></span><span class=line><span class=cl>	 * i-cache is invalidated before enabled in icache_enable()
-</span></span><span class=line><span class=cl>	 * tlb is invalidated before mmu is enabled in dcache_enable()
-</span></span><span class=line><span class=cl>	 * d-cache is invalidated before enabled in dcache_enable()
-</span></span><span class=line><span class=cl>	 */
+</span></span><span class=line><span class=cl>	<span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm>	 * Cache/BPB/TLB Invalidate
+</span></span></span><span class=line><span class=cl><span class=cm>	 * i-cache is invalidated before enabled in icache_enable()
+</span></span></span><span class=line><span class=cl><span class=cm>	 * tlb is invalidated before mmu is enabled in dcache_enable()
+</span></span></span><span class=line><span class=cl><span class=cm>	 * d-cache is invalidated before enabled in dcache_enable()
+</span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>	/* Processor specific initialization */
-</span></span><span class=line><span class=cl>	bl	lowlevel_init
+</span></span><span class=line><span class=cl>	<span class=cm>/* Processor specific initialization */</span>
+</span></span><span class=line><span class=cl>	<span class=n>bl</span>	<span class=n>lowlevel_init</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>#ifdef CONFIG_ARMV8_MULTIENTRY
-</span></span><span class=line><span class=cl>	branch_if_master x0, x1, master_cpu
+</span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_ARMV8_MULTIENTRY
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>branch_if_master</span> <span class=n>x0</span><span class=p>,</span> <span class=n>x1</span><span class=p>,</span> <span class=n>master_cpu</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>	/*
-</span></span><span class=line><span class=cl>	 * Slave CPUs
-</span></span><span class=line><span class=cl>	 */
-</span></span><span class=line><span class=cl>slave_cpu:
-</span></span><span class=line><span class=cl>	wfe
-</span></span><span class=line><span class=cl>	ldr	x1, =CPU_RELEASE_ADDR
-</span></span><span class=line><span class=cl>	ldr	x0, [x1]
-</span></span><span class=line><span class=cl>	cbz	x0, slave_cpu
-</span></span><span class=line><span class=cl>	br	x0			/* branch to the given address */
-</span></span><span class=line><span class=cl>master_cpu:
-</span></span><span class=line><span class=cl>	/* On the master CPU */
-</span></span><span class=line><span class=cl>#endif /* CONFIG_ARMV8_MULTIENTRY */
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>	bl	_main
+</span></span><span class=line><span class=cl>	<span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm>	 * Slave CPUs
+</span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
+</span></span><span class=line><span class=cl><span class=nl>slave_cpu</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>	<span class=n>wfe</span>
+</span></span><span class=line><span class=cl>	<span class=n>ldr</span>	<span class=n>x1</span><span class=p>,</span> <span class=o>=</span><span class=n>CPU_RELEASE_ADDR</span>
+</span></span><span class=line><span class=cl>	<span class=n>ldr</span>	<span class=n>x0</span><span class=p>,</span> <span class=p>[</span><span class=n>x1</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>	<span class=n>cbz</span>	<span class=n>x0</span><span class=p>,</span> <span class=n>slave_cpu</span>
+</span></span><span class=line><span class=cl>	<span class=n>br</span>	<span class=n>x0</span>			<span class=cm>/* branch to the given address */</span>
+</span></span><span class=line><span class=cl><span class=nl>master_cpu</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>	<span class=cm>/* On the master CPU */</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif </span><span class=cm>/* CONFIG_ARMV8_MULTIENTRY */</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl>	<span class=n>bl</span>	<span class=n>_main</span>
 </span></span></code></pre></td></tr></table></div></div><p><strong>[arch/arm/lib/crt0_64.S]</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
@@ -2682,47 +2682,47 @@ run_main_loop --> main_loop
 </span><span class=lnt>39
 </span><span class=lnt>40
 </span><span class=lnt>41
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>	.section	.text.relocate_vectors,&#34;ax&#34;,%progbits
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl>	<span class=p>.</span><span class=n>section</span>	<span class=p>.</span><span class=n>text</span><span class=p>.</span><span class=n>relocate_vectors</span><span class=p>,</span><span class=s>&#34;ax&#34;</span><span class=p>,</span><span class=o>%</span><span class=n>progbits</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>WEAK(relocate_vectors)
+</span></span><span class=line><span class=cl><span class=nf>WEAK</span><span class=p>(</span><span class=n>relocate_vectors</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>#ifdef CONFIG_CPU_V7M
-</span></span><span class=line><span class=cl>	/*
-</span></span><span class=line><span class=cl>	 * On ARMv7-M we only have to write the new vector address
-</span></span><span class=line><span class=cl>	 * to VTOR register.
-</span></span><span class=line><span class=cl>	 */
-</span></span><span class=line><span class=cl>	ldr	r0, [r9, #GD_RELOCADDR]	/* r0 = gd-&gt;relocaddr */
-</span></span><span class=line><span class=cl>	ldr	r1, =V7M_SCB_BASE
-</span></span><span class=line><span class=cl>	str	r0, [r1, V7M_SCB_VTOR]
-</span></span><span class=line><span class=cl>#else
-</span></span><span class=line><span class=cl>#ifdef CONFIG_HAS_VBAR
-</span></span><span class=line><span class=cl>	/*
-</span></span><span class=line><span class=cl>	 * If the ARM processor has the security extensions,
-</span></span><span class=line><span class=cl>	 * use VBAR to relocate the exception vectors.
-</span></span><span class=line><span class=cl>	 */
-</span></span><span class=line><span class=cl>	ldr	r0, [r9, #GD_RELOCADDR]	/* r0 = gd-&gt;relocaddr */
-</span></span><span class=line><span class=cl>	mcr     p15, 0, r0, c12, c0, 0  /* Set VBAR */
-</span></span><span class=line><span class=cl>#else
-</span></span><span class=line><span class=cl>	/*
-</span></span><span class=line><span class=cl>	 * Copy the relocated exception vectors to the
-</span></span><span class=line><span class=cl>	 * correct address
-</span></span><span class=line><span class=cl>	 * CP15 c1 V bit gives us the location of the vectors:
-</span></span><span class=line><span class=cl>	 * 0x00000000 or 0xFFFF0000.
-</span></span><span class=line><span class=cl>	 */
-</span></span><span class=line><span class=cl>	ldr	r0, [r9, #GD_RELOCADDR]	/* r0 = gd-&gt;relocaddr */
-</span></span><span class=line><span class=cl>	mrc	p15, 0, r2, c1, c0, 0	/* V bit (bit[13]) in CP15 c1 */
-</span></span><span class=line><span class=cl>	ands	r2, r2, #(1 &lt;&lt; 13)
-</span></span><span class=line><span class=cl>	ldreq	r1, =0x00000000		/* If V=0 */
-</span></span><span class=line><span class=cl>	ldrne	r1, =0xFFFF0000		/* If V=1 */
-</span></span><span class=line><span class=cl>	ldmia	r0!, {r2-r8,r10}
-</span></span><span class=line><span class=cl>	stmia	r1!, {r2-r8,r10}
-</span></span><span class=line><span class=cl>	ldmia	r0!, {r2-r8,r10}
-</span></span><span class=line><span class=cl>	stmia	r1!, {r2-r8,r10}
-</span></span><span class=line><span class=cl>#endif
-</span></span><span class=line><span class=cl>#endif
-</span></span><span class=line><span class=cl>	ret	lr
+</span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_CPU_V7M
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm>	 * On ARMv7-M we only have to write the new vector address
+</span></span></span><span class=line><span class=cl><span class=cm>	 * to VTOR register.
+</span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
+</span></span><span class=line><span class=cl>	<span class=n>ldr</span>	<span class=n>r0</span><span class=p>,</span> <span class=p>[</span><span class=n>r9</span><span class=p>,</span> <span class=err>#</span><span class=n>GD_RELOCADDR</span><span class=p>]</span>	<span class=cm>/* r0 = gd-&gt;relocaddr */</span>
+</span></span><span class=line><span class=cl>	<span class=n>ldr</span>	<span class=n>r1</span><span class=p>,</span> <span class=o>=</span><span class=n>V7M_SCB_BASE</span>
+</span></span><span class=line><span class=cl>	<span class=n>str</span>	<span class=n>r0</span><span class=p>,</span> <span class=p>[</span><span class=n>r1</span><span class=p>,</span> <span class=n>V7M_SCB_VTOR</span><span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=cp>#else
+</span></span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_HAS_VBAR
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm>	 * If the ARM processor has the security extensions,
+</span></span></span><span class=line><span class=cl><span class=cm>	 * use VBAR to relocate the exception vectors.
+</span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
+</span></span><span class=line><span class=cl>	<span class=n>ldr</span>	<span class=n>r0</span><span class=p>,</span> <span class=p>[</span><span class=n>r9</span><span class=p>,</span> <span class=err>#</span><span class=n>GD_RELOCADDR</span><span class=p>]</span>	<span class=cm>/* r0 = gd-&gt;relocaddr */</span>
+</span></span><span class=line><span class=cl>	<span class=n>mcr</span>     <span class=n>p15</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=n>c12</span><span class=p>,</span> <span class=n>c0</span><span class=p>,</span> <span class=mi>0</span>  <span class=cm>/* Set VBAR */</span>
+</span></span><span class=line><span class=cl><span class=cp>#else
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm>	 * Copy the relocated exception vectors to the
+</span></span></span><span class=line><span class=cl><span class=cm>	 * correct address
+</span></span></span><span class=line><span class=cl><span class=cm>	 * CP15 c1 V bit gives us the location of the vectors:
+</span></span></span><span class=line><span class=cl><span class=cm>	 * 0x00000000 or 0xFFFF0000.
+</span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
+</span></span><span class=line><span class=cl>	<span class=n>ldr</span>	<span class=n>r0</span><span class=p>,</span> <span class=p>[</span><span class=n>r9</span><span class=p>,</span> <span class=err>#</span><span class=n>GD_RELOCADDR</span><span class=p>]</span>	<span class=cm>/* r0 = gd-&gt;relocaddr */</span>
+</span></span><span class=line><span class=cl>	<span class=n>mrc</span>	<span class=n>p15</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>r2</span><span class=p>,</span> <span class=n>c1</span><span class=p>,</span> <span class=n>c0</span><span class=p>,</span> <span class=mi>0</span>	<span class=cm>/* V bit (bit[13]) in CP15 c1 */</span>
+</span></span><span class=line><span class=cl>	<span class=n>ands</span>	<span class=n>r2</span><span class=p>,</span> <span class=n>r2</span><span class=p>,</span> <span class=err>#</span><span class=p>(</span><span class=mi>1</span> <span class=o>&lt;&lt;</span> <span class=mi>13</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=n>ldreq</span>	<span class=n>r1</span><span class=p>,</span> <span class=o>=</span><span class=mh>0x00000000</span>		<span class=cm>/* If V=0 */</span>
+</span></span><span class=line><span class=cl>	<span class=n>ldrne</span>	<span class=n>r1</span><span class=p>,</span> <span class=o>=</span><span class=mh>0xFFFF0000</span>		<span class=cm>/* If V=1 */</span>
+</span></span><span class=line><span class=cl>	<span class=n>ldmia</span>	<span class=n>r0</span><span class=o>!</span><span class=p>,</span> <span class=p>{</span><span class=n>r2</span><span class=o>-</span><span class=n>r8</span><span class=p>,</span><span class=n>r10</span><span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=n>stmia</span>	<span class=n>r1</span><span class=o>!</span><span class=p>,</span> <span class=p>{</span><span class=n>r2</span><span class=o>-</span><span class=n>r8</span><span class=p>,</span><span class=n>r10</span><span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=n>ldmia</span>	<span class=n>r0</span><span class=o>!</span><span class=p>,</span> <span class=p>{</span><span class=n>r2</span><span class=o>-</span><span class=n>r8</span><span class=p>,</span><span class=n>r10</span><span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=n>stmia</span>	<span class=n>r1</span><span class=o>!</span><span class=p>,</span> <span class=p>{</span><span class=n>r2</span><span class=o>-</span><span class=n>r8</span><span class=p>,</span><span class=n>r10</span><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>ret</span>	<span class=n>lr</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>ENDPROC(relocate_vectors)
+</span></span><span class=line><span class=cl><span class=nf>ENDPROC</span><span class=p>(</span><span class=n>relocate_vectors</span><span class=p>)</span>
 </span></span></code></pre></td></tr></table></div></div><h3 id=c_runtime_cpu_setup class=headerLink><a href=#c_runtime_cpu_setup class=header-mark></a>5.16 c_runtime_cpu_setup</h3><h2 id=命令实现 class=headerLink><a href=#%e5%91%bd%e4%bb%a4%e5%ae%9e%e7%8e%b0 class=header-mark></a>6 命令实现</h2><p>以<code>version</code>命令作为例子</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
@@ -3395,7 +3395,7 @@ reserve_fdt --> reloc_fdt
 </span><span>|&nbsp;<a class=link-to-source href=https://github.com/mengdemao/github.io/blob/master/content/posts/uboot/index.md target=_blank rel="noopener noreferrer">查看源代码</a>
 </span><span>|&nbsp;<a class=link-to-edit href=https://github.com/mengdemao/github.io/edit/master/content/posts/uboot/index.md target=_blank rel="noopener noreferrer">编辑此页</a>
 </span><span>|&nbsp;<a class=link-to-report href="https://github.com/mengdemao/github.io/issues/new?title=[bug]%20Uboot&body=|Field|Value|%0A|-|-|%0A|Title|Uboot|%0A|Url|https://mengdemao.github.io/uboot/|%0A|Filename|https://github.com/mengdemao/github.io/blob/main/exampleSite/content/posts/uboot/index.md|" target=_blank rel="noopener noreferrer">报告问题</a></span></div><div class=post-info-share><button title="分享到 Twitter" data-sharer=twitter data-url=https://mengdemao.github.io/uboot/ data-title=Uboot data-hashtags=uboot><span class="fab fa-twitter fa-fw"></span></button><button title="分享到 Facebook" data-sharer=facebook data-url=https://mengdemao.github.io/uboot/ data-hashtag=uboot><span class="fab fa-facebook-square fa-fw"></span></button><button title="分享到 Hacker News" data-sharer=hackernews data-url=https://mengdemao.github.io/uboot/ data-title=Uboot><span class="fab fa-hacker-news fa-fw"></span></button><button title="分享到 Line" data-sharer=line data-url=https://mengdemao.github.io/uboot/ data-title=Uboot><span data-svg-src=/lib/simple-icons/icons/line.min.svg></span></button><button title="分享到 微博" data-sharer=weibo data-url=https://mengdemao.github.io/uboot/ data-title=Uboot data-image=featuredImage/03.jpg data-ralateuid=xxxx><span class="fab fa-weibo fa-fw"></span></button><button title="分享到 Telegram" data-sharer=telegram data-url=https://mengdemao.github.io/uboot/ data-title=Uboot data-web><span class="fab fa-telegram-plane fa-fw"></span></button></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw"></i>&nbsp;<a href=/tags/uboot/>uboot</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/read_linux/ class=prev rel=prev title=Linux内核源码阅读><i class="fas fa-angle-left fa-fw"></i>Linux内核源码阅读</a>
-<a href=/rust_basic/ class=next rel=next title=rust基础笔记>rust基础笔记<i class="fas fa-angle-right fa-fw"></i></a></div></div><div id=comments><div id=utterances></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://utteranc.es/>Utterances</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.118.2">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.4.0"><i class="far fa-edit fa-fw"></i> DoIt</a></div><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2020 - 2023</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://github.com/mengdemao target=_blank rel="noopener noreferrer">mengdemao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div><div class=footer-line></div><div class=footer-line></div></div><script>"serviceWorker"in navigator&&(navigator.serviceWorker.register("/sw.min.js",{scope:"/"}).then(function(){}),navigator.serviceWorker.ready.then(function(){}))</script></footer></div><div id=fixed-buttons><a href=#back-to-top id=back-to-top-button class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw"></i>
+<a href=/rust_basic/ class=next rel=next title=rust基础笔记>rust基础笔记<i class="fas fa-angle-right fa-fw"></i></a></div></div><div id=comments><div id=utterances></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://utteranc.es/>Utterances</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.119.0">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.4.0"><i class="far fa-edit fa-fw"></i> DoIt</a></div><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2020 - 2023</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://github.com/mengdemao target=_blank rel="noopener noreferrer">mengdemao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div><div class=footer-line></div><div class=footer-line></div></div><script>"serviceWorker"in navigator&&(navigator.serviceWorker.register("/sw.min.js",{scope:"/"}).then(function(){}),navigator.serviceWorker.ready.then(function(){}))</script></footer></div><div id=fixed-buttons><a href=#back-to-top id=back-to-top-button class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw"></i>
 </a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw"></i></a></div><script type=module>
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
     mermaid.initialize({ startOnLoad: true, theme: (window.theme === 'dark' ? 'dark' : 'default') });

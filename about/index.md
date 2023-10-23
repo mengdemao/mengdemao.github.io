@@ -5,12 +5,10 @@
 
 > 大部分都没有完成
 
-+ C
-
 + C++
-  - C++教程
-  - C++模板
-  - stl分析
+  - [ ] C++教程
+  - [ ] C++模板
+  - [ ] stl分析
 
 + 汇编语言
 
@@ -22,23 +20,27 @@
   - [x] 完全公平调度算法
 
 + 实时系统
-  - FreeRTOS
-  - RT-Thread
+  - [ ] FreeRTOS
+  - [ ] RT-Thread
 
 + 编译原理
-
-+ cmake
+  - [ ] 词法分析
+  - [ ] 语法分析
+  - [ ] 语义分析
+  - [ ] 中间代码
+  - [ ] 目标代码
 
 + 编程语言
-  - python
-  - rust
-  - go
-  - lua
+  - [ ] python
+  - [ ] rust
+  - [ ] go
+  - [ ] lua
 
 + 前端
-  - html5
-  - css3
-  - javascript
-  - typescript
-  - wasm
+  - [ ] html5
+  - [ ] css3
+  - [ ] javascript
+  - [ ] wasm
+  - [ ] tauri
+  
 
