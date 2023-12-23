@@ -1,0 +1,586 @@
+<!doctype html><html lang=zh-CN><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Python学习笔记 - 编程日志</title><meta name=Description content="Python学习笔记"><meta property="og:title" content="Python学习笔记">
+<meta property="og:description" content="Python学习笔记"><meta property="og:type" content="article"><meta property="og:url" content="https://mengdemao.github.io/python/"><meta property="og:image" content="https://mengdemao.github.io/images/avatar.webp"><meta property="article:section" content="posts"><meta property="article:published_time" content="2023-12-07T11:22:39+08:00"><meta property="article:modified_time" content="2023-12-23T15:36:08+08:00"><meta property="og:site_name" content="编程日志"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://mengdemao.github.io/images/avatar.webp"><meta name=twitter:title content="Python学习笔记"><meta name=twitter:description content="Python学习笔记"><meta name=application-name content="DoIt"><meta name=apple-mobile-web-app-title content="DoIt"><meta name=theme-color content="#f8f8f8"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://mengdemao.github.io/python/><link rel=prev href=https://mengdemao.github.io/rust_basic/><link rel=stylesheet href=/css/main.40a82f90b86e2a2d0de8dc5537accbdec2b3d8d88a1314300bde9ae62a626856.css integrity="sha256-QKgvkLhuKi0N6NxVN6zL3sKz2NiKExQwC96a5ipiaFY="><link rel=stylesheet href=/lib/normalize/normalize.min.055364f5be272caa092b0e6654c165828707f8ab971e2656383a6d6392bc345e.css integrity="sha256-BVNk9b4nLKoJKw5mVMFlgocH+KuXHiZWODptY5K8NF4="><link rel=stylesheet href=/css/color.b0a0f8c429ce52dfa2805b5f9e99ccdae1e8fbfd9adf4f3ddb409d8201fc0c5a.css integrity="sha256-sKD4xCnOUt+igFtfnpnM2uHo+/2a308920CdggH8DFo="><link rel=stylesheet href=/css/style.min.6b5844a20592b7199d260e114204594c0d83eef9095058c6cfd42f5b0dedf8e1.css integrity="sha256-a1hEogWStxmdJg4RQgRZTA2D7vkJUFjGz9QvWw3t+OE="><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/fontawesome-free/all.min.43202d5486e011f9684a17bd6846b5c16a2619002bfc783f7e32e20dfb6bf857.css integrity="sha256-QyAtVIbgEfloShe9aEa1wWomGQAr/Hg/fjLiDftr+Fc="><noscript><link rel=stylesheet href=/lib/fontawesome-free/all.min.43202d5486e011f9684a17bd6846b5c16a2619002bfc783f7e32e20dfb6bf857.css integrity="sha256-QyAtVIbgEfloShe9aEa1wWomGQAr/Hg/fjLiDftr+Fc="></noscript><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="><noscript><link rel=stylesheet href=/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="></noscript><meta name=google-site-verification content="MQ8DNu27ayX6B_4ObiEDK09vGr1fdy7kOAnbd09hJk4"><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Python学习笔记","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/mengdemao.github.io\/python\/"},"image":["https:\/\/mengdemao.github.io\/images\/Apple-Devices-Preview.png"],"genre":"posts","keywords":"Python学习笔记","wordcount":4022,"url":"https:\/\/mengdemao.github.io\/python\/","datePublished":"2023-12-07T11:22:39+08:00","dateModified":"2023-12-23T15:36:08+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"xxxx","logo":{"@type":"ImageObject","url":"https:\/\/mengdemao.github.io\/images\/avatar.webp","width":528,"height":560}},"author":{"@type":"Person","name":"mengdemao"},"description":"Python学习笔记"}</script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>function setTheme(e){document.body.setAttribute("theme",e),document.documentElement.style.setProperty("color-scheme",e==="light"?"light":"dark"),window.theme=e,window.isDark=window.theme!=="light"}function saveTheme(e){window.localStorage&&localStorage.setItem("theme",e)}function getMeta(e){const t=document.getElementsByTagName("meta");for(let n=0;n<t.length;n++)if(t[n].getAttribute("name")===e)return t[n];return""}if(window.localStorage&&localStorage.getItem("theme")){let e=localStorage.getItem("theme");e==="light"||e==="dark"||e==="black"?setTheme(e):setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}else"auto"==="light"||"auto"==="dark"||"auto"==="black"?(setTheme("auto"),saveTheme("auto")):(saveTheme("auto"),setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));let metaColors={light:"#f8f8f8",dark:"#252627",black:"#000000"};getMeta("theme-color").content=metaColors[document.body.getAttribute("theme")],window.switchThemeEventSet=new Set</script><div id=back-to-top></div><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=header-title-pre><i class='far fa-edit fa-fw'></i></span><span id=desktop-header-typeit class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/series/>系列 </a><a class=menu-item href=/authors/>作者 </a><a class=menu-item href=/showcase/>作品 </a><a class=menu-item href=/categories/documentation/>文档 </a><a class=menu-item href=/about/>关于 </a><a class=menu-item href=https://github.com/mengdemao/github.io title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw'></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw"></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw"></i>
+</a><span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin"></i>
+</span></span><a href=javascript:void(0); class="menu-item theme-select" title=切换主题><i class="fas fa-adjust fa-fw"></i>
+<select class=color-theme-select id=theme-select-desktop title=切换主题><option value=light>浅色</option><option value=dark>深色</option><option value=black>黑色</option><option value=auto>跟随系统</option></select></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=header-title-pre><i class='far fa-edit fa-fw'></i></span><span id=mobile-header-typeit class=typeit></span></a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw"></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw"></i>
+</a><span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin"></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts/ title>所有文章</a><a class=menu-item href=/tags/ title>标签</a><a class=menu-item href=/categories/ title>分类</a><a class=menu-item href=/series/ title>系列</a><a class=menu-item href=/authors/ title>作者</a><a class=menu-item href=/showcase/ title>作品</a><a class=menu-item href=/categories/documentation/ title>文档</a><a class=menu-item href=/about/ title>关于</a><a class=menu-item href=https://github.com/mengdemao/github.io title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw'></i></a><a href=javascript:void(0); class="menu-item theme-select" title=切换主题>
+<i class="fas fa-adjust fa-fw"></i>
+<select class=color-theme-select id=theme-select-mobile title=切换主题><option value=light>浅色</option><option value=dark>深色</option><option value=black>黑色</option><option value=auto>跟随系统</option></select></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto><nav id=TableOfContents><ul><li><a href=#开发环境安装>开发环境安装</a><ul><li><a href=#安装软件>安装软件</a></li><li><a href=#配置环境>配置环境</a></li><li><a href=#jupyter-notebooklab安装>jupyter notebook/lab安装</a><ul><li><a href=#1-安装>1. 安装</a></li><li><a href=#2-配置>2. 配置</a></li><li><a href=#安装扩展>安装扩展</a></li></ul></li><li><a href=#安装c-kernel>安装C++ Kernel</a></li></ul></li><li><a href=#python入门>python入门</a><ul><li><a href=#第一个程序>第一个程序</a></li><li><a href=#打印一个彩蛋>打印一个彩蛋</a></li><li><a href=#字符串格式化>字符串格式化</a></li><li><a href=#main函数><code>main</code>函数</a></li></ul></li><li><a href=#数据类型>数据类型</a><ul><li><a href=#numbers数字>Numbers(数字)</a></li><li><a href=#布尔类型>布尔类型</a></li><li><a href=#string字符串>String(字符串)</a></li><li><a href=#list列表>List(列表)</a></li><li><a href=#tuple元组>Tuple(元组)</a></li><li><a href=#dictionary字典>Dictionary(字典)</a></li><li><a href=#set集合>set(集合)</a></li></ul></li><li><a href=#运算符>运算符</a></li><li><a href=#控制结构>控制结构</a><ul><li><a href=#单执行语句>单执行语句</a></li><li><a href=#多条件语句>多条件语句</a></li><li><a href=#match语句>match语句</a></li><li><a href=#while循环>while循环</a></li><li><a href=#for语句>for语句</a></li><li><a href=#range函数>range函数</a></li><li><a href=#跳出语句>跳出语句</a></li><li><a href=#pass语句>pass语句</a></li></ul></li><li><a href=#函数>函数</a><ul><li><a href=#函数参数>函数参数</a></li><li><a href=#匿名函数>匿名函数</a></li><li><a href=#文档字符串>文档字符串</a></li><li><a href=#函数注解>函数注解</a></li></ul></li><li><a href=#模块>模块</a></li><li><a href=#异常处理>异常处理</a></li><li><a href=#文件操作>文件操作</a></li><li><a href=#正则表达式>正则表达式</a></li><li><a href=#进程线程>进程线程</a></li><li><a href=#面向对象>面向对象</a><ul><li><a href=#类和对象>类和对象</a></li><li><a href=#抽象封装继承多态>抽象/封装/继承/多态</a></li><li><a href=#属性>属性</a></li><li><a href=#方法>方法</a></li><li><a href=#运算符重载>运算符重载</a></li><li><a href=#类对象>类对象</a></li><li><a href=#继承和多态>继承和多态</a></li></ul></li><li><a href=#标准库>标准库</a></li><li><a href=#虚拟环境>虚拟环境</a></li><li><a href=#gui基础tkinter>GUI基础(tkinter)</a></li></ul></nav></div></div><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC","true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Python学习笔记</h1><div class=post-meta><div class=post-meta-line><span class=post-author><span class="author fas fa-user-circle fa-fw"></span><a href=https://github.com/mengdemao title=Author target=_blank rel="noopener noreferrer author" class=author>mengdemao</a>
+</span>&nbsp;<span class=post-category>收录于 </span>&nbsp;<span class=post-category>类别 <a href=/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/><i class="far fa-folder fa-fw"></i>编程语言</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2023-12-07>2023-12-07</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime=2023-12-23>2023-12-23</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 4022 字&nbsp;<i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 9 分钟&nbsp;</div></div><div class=featured-image><img loading=eager src=/featuredImage/14.jpg srcset="/featuredImage/14.jpg, /featuredImage/14.jpg 1.5x, /featuredImage/14.jpg 2x" sizes=auto alt=Python学习笔记 title=Python学习笔记 height=auto width=auto></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#开发环境安装>开发环境安装</a><ul><li><a href=#安装软件>安装软件</a></li><li><a href=#配置环境>配置环境</a></li><li><a href=#jupyter-notebooklab安装>jupyter notebook/lab安装</a><ul><li><a href=#1-安装>1. 安装</a></li><li><a href=#2-配置>2. 配置</a></li><li><a href=#安装扩展>安装扩展</a></li></ul></li><li><a href=#安装c-kernel>安装C++ Kernel</a></li></ul></li><li><a href=#python入门>python入门</a><ul><li><a href=#第一个程序>第一个程序</a></li><li><a href=#打印一个彩蛋>打印一个彩蛋</a></li><li><a href=#字符串格式化>字符串格式化</a></li><li><a href=#main函数><code>main</code>函数</a></li></ul></li><li><a href=#数据类型>数据类型</a><ul><li><a href=#numbers数字>Numbers(数字)</a></li><li><a href=#布尔类型>布尔类型</a></li><li><a href=#string字符串>String(字符串)</a></li><li><a href=#list列表>List(列表)</a></li><li><a href=#tuple元组>Tuple(元组)</a></li><li><a href=#dictionary字典>Dictionary(字典)</a></li><li><a href=#set集合>set(集合)</a></li></ul></li><li><a href=#运算符>运算符</a></li><li><a href=#控制结构>控制结构</a><ul><li><a href=#单执行语句>单执行语句</a></li><li><a href=#多条件语句>多条件语句</a></li><li><a href=#match语句>match语句</a></li><li><a href=#while循环>while循环</a></li><li><a href=#for语句>for语句</a></li><li><a href=#range函数>range函数</a></li><li><a href=#跳出语句>跳出语句</a></li><li><a href=#pass语句>pass语句</a></li></ul></li><li><a href=#函数>函数</a><ul><li><a href=#函数参数>函数参数</a></li><li><a href=#匿名函数>匿名函数</a></li><li><a href=#文档字符串>文档字符串</a></li><li><a href=#函数注解>函数注解</a></li></ul></li><li><a href=#模块>模块</a></li><li><a href=#异常处理>异常处理</a></li><li><a href=#文件操作>文件操作</a></li><li><a href=#正则表达式>正则表达式</a></li><li><a href=#进程线程>进程线程</a></li><li><a href=#面向对象>面向对象</a><ul><li><a href=#类和对象>类和对象</a></li><li><a href=#抽象封装继承多态>抽象/封装/继承/多态</a></li><li><a href=#属性>属性</a></li><li><a href=#方法>方法</a></li><li><a href=#运算符重载>运算符重载</a></li><li><a href=#类对象>类对象</a></li><li><a href=#继承和多态>继承和多态</a></li></ul></li><li><a href=#标准库>标准库</a></li><li><a href=#虚拟环境>虚拟环境</a></li><li><a href=#gui基础tkinter>GUI基础(tkinter)</a></li></ul></nav></div></div><div class=content id=content><p>python学习笔记</p><h2 id=开发环境安装 class=headerLink><a href=#%e5%bc%80%e5%8f%91%e7%8e%af%e5%a2%83%e5%ae%89%e8%a3%85 class=header-mark></a>1 开发环境安装</h2><blockquote><p>推荐Mambaforge,与anaconda相同功能,但是速度更加快;</p></blockquote><p>mamba是包管理器的重新实现,由C++重新实现,主页地址:<a href=https://github.com/conda-forge/miniforge target=_blank rel="noopener noreferrer">miniforge</a>,</p><h3 id=安装软件 class=headerLink><a href=#%e5%ae%89%e8%a3%85%e8%bd%af%e4%bb%b6 class=header-mark></a>1.1 安装软件</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ curl -L -O <span class=s2>&#34;https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-</span><span class=k>$(</span>uname<span class=k>)</span><span class=s2>-</span><span class=k>$(</span>uname -m<span class=k>)</span><span class=s2>.sh&#34;</span>
+</span></span><span class=line><span class=cl>$ bash Mambaforge-<span class=k>$(</span>uname<span class=k>)</span>-<span class=k>$(</span>uname -m<span class=k>)</span>.sh
+</span></span></code></pre></td></tr></table></div></div><h3 id=配置环境 class=headerLink><a href=#%e9%85%8d%e7%bd%ae%e7%8e%af%e5%a2%83 class=header-mark></a>1.2 配置环境</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-txt data-lang=txt><span class=line><span class=cl>CONDA_EXE=mamba
+</span></span></code></pre></td></tr></table></div></div><ul><li>配置虚拟环境</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>conda env list               <span class=c1>#查看虚拟环境</span>
+</span></span><span class=line><span class=cl>mamba create -n env_name -y  <span class=c1>#创建</span>
+</span></span><span class=line><span class=cl>conda activate env_name      <span class=c1>#激活</span>
+</span></span><span class=line><span class=cl>conda deactivate             <span class=c1>#退出</span>
+</span></span></code></pre></td></tr></table></div></div><ul><li>配置包下载镜像</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>mamba config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
+</span></span><span class=line><span class=cl>mamba config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+</span></span><span class=line><span class=cl>mamba config --set show_channel_urls yes
+</span></span></code></pre></td></tr></table></div></div><h3 id=jupyter-notebooklab安装 class=headerLink><a href=#jupyter-notebooklab%e5%ae%89%e8%a3%85 class=header-mark></a>1.3 jupyter notebook/lab安装</h3><h4 id=1-安装 class=headerLink><a href=#1-%e5%ae%89%e8%a3%85 class=header-mark></a>1.3.1 1. 安装</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ mamaba install jupyter
+</span></span></code></pre></td></tr></table></div></div><h4 id=2-配置 class=headerLink><a href=#2-%e9%85%8d%e7%bd%ae class=header-mark></a>1.3.2 2. 配置</h4><ul><li>ssh远程使用jupyter notebook</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=c1># 远程服务器开启</span>
+</span></span><span class=line><span class=cl>jupyter notebook --no-browser --port<span class=o>=</span><span class=m>8889</span>
+</span></span><span class=line><span class=cl><span class=c1># ssh forward端口</span>
+</span></span><span class=line><span class=cl>ssh -N -f -L localhost:8888:localhost:8889 username@serverIP
+</span></span></code></pre></td></tr></table></div></div><ul><li>利用jupyter notebook自带的远程访问功能</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=c1># 1. 生成默认配置文件</span>
+</span></span><span class=line><span class=cl>jupyter notebook --generate-config
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 2.1 自动生成访问密码(token)</span>
+</span></span><span class=line><span class=cl>jupyter notebook password
+</span></span><span class=line><span class=cl>Enter password:
+</span></span><span class=line><span class=cl>Verify password:
+</span></span><span class=line><span class=cl><span class=o>[</span>NotebookPasswordApp<span class=o>]</span> Wrote hashed password to <span class=si>${</span><span class=nv>HOME</span><span class=si>}</span>/.jupyter/jupyter_notebook_config.json
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 2.2 手动生成访问密码(token)</span>
+</span></span><span class=line><span class=cl>In <span class=o>[</span>1<span class=o>]</span>: from notebook.auth import passwd
+</span></span><span class=line><span class=cl><span class=c1># 2.2.1 官方教程默认情况下生成sha1,但实际情况生成了argon2</span>
+</span></span><span class=line><span class=cl>In <span class=o>[</span>2<span class=o>]</span>: passwd<span class=o>()</span>
+</span></span><span class=line><span class=cl>Enter password:
+</span></span><span class=line><span class=cl>Verify password:
+</span></span><span class=line><span class=cl>Out<span class=o>[</span>2<span class=o>]</span>: <span class=s1>&#39;argon2:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&#39;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 2.2.2 输入sha1的生成算法,即可得到</span>
+</span></span><span class=line><span class=cl>In <span class=o>[</span>3<span class=o>]</span>: passwd<span class=o>(</span><span class=nv>algorithm</span><span class=o>=</span><span class=s1>&#39;sha1&#39;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>Enter password:
+</span></span><span class=line><span class=cl>Verify password:
+</span></span><span class=line><span class=cl>Out<span class=o>[</span>3<span class=o>]</span>: <span class=s1>&#39;sha1:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&#39;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 3. 修改./jupyter/jupyter_notebook_config.py</span>
+</span></span><span class=line><span class=cl>c.NotebookApp.ip<span class=o>=</span><span class=s1>&#39;*&#39;</span>
+</span></span><span class=line><span class=cl>c.NotebookApp.password <span class=o>=</span> u<span class=s1>&#39;sha:ce...刚才复制的那个密文&#39;</span>
+</span></span><span class=line><span class=cl>c.NotebookApp.open_browser <span class=o>=</span> False
+</span></span><span class=line><span class=cl>c.NotebookApp.port <span class=o>=</span><span class=m>8888</span> <span class=c1>#可自行指定一个端口, 访问时使用该端口</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 如果是自动的形式此时就可以直接访问</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 4. 配置相关</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>c.ServerApp.allow_remote_access <span class=o>=</span> True
+</span></span><span class=line><span class=cl>c.LabApp.open_browser <span class=o>=</span> False
+</span></span></code></pre></td></tr></table></div></div><h4 id=安装扩展 class=headerLink><a href=#%e5%ae%89%e8%a3%85%e6%89%a9%e5%b1%95 class=header-mark></a>1.3.3 安装扩展</h4><ol><li>jupyter_contrib_nbextensions，</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl>pip install jupyter_contrib_nbextensions
+</span></span><span class=line><span class=cl>jupyter contrib nbextension install --user
+</span></span></code></pre></td></tr></table></div></div><ol start=2><li>Jupyter Nbextensions Configurator</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl>pip install jupyter_nbextensions_configurator
+</span></span><span class=line><span class=cl>jupyter nbextensions_configurator <span class=nb>enable</span> --user
+</span></span></code></pre></td></tr></table></div></div><h3 id=安装c-kernel class=headerLink><a href=#%e5%ae%89%e8%a3%85c-kernel class=header-mark></a>1.4 安装C++ Kernel</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl>conda install xeus-cling -c conda-forge
+</span></span></code></pre></td></tr></table></div></div><p>安装结束,进行测试</p><p><figure><a class=lightgallery href=/python/picture/image-20230115232639592.png title=image-20230115232639592 data-thumbnail=/python/picture/image-20230115232639592.png><img loading=lazy src=/python/picture/image-20230115232639592.png srcset="/python/picture/image-20230115232639592.png, /python/picture/image-20230115232639592.png 1.5x, /python/picture/image-20230115232639592.png 2x" sizes=auto alt=image-20230115232639592 height=283 width=193></a></figure></p><p>可以看到新的几个kernel</p><p><figure><a class=lightgallery href=/python/picture/image-20230115232947621.png title=image-20230115232947621 data-thumbnail=/python/picture/image-20230115232947621.png><img loading=lazy src=/python/picture/image-20230115232947621.png srcset="/python/picture/image-20230115232947621.png, /python/picture/image-20230115232947621.png 1.5x, /python/picture/image-20230115232947621.png 2x" sizes=auto alt=image-20230115232947621 height=355 width=1254></a></figure></p><h2 id=python入门 class=headerLink><a href=#python%e5%85%a5%e9%97%a8 class=header-mark></a>2 python入门</h2><h3 id=第一个程序 class=headerLink><a href=#%e7%ac%ac%e4%b8%80%e4%b8%aa%e7%a8%8b%e5%ba%8f class=header-mark></a>2.1 第一个程序</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=ch>#!/bin/python3</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>rich</span> <span class=kn>import</span> <span class=nb>print</span>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=vm>__name__</span> <span class=o>==</span> <span class=s1>&#39;__main__&#39;</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;Hello World&#39;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=打印一个彩蛋 class=headerLink><a href=#%e6%89%93%e5%8d%b0%e4%b8%80%e4%b8%aa%e5%bd%a9%e8%9b%8b class=header-mark></a>2.2 打印一个彩蛋</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>import</span> <span class=nn>this</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 打印结果</span>
+</span></span><span class=line><span class=cl><span class=c1># The Zen of Python, by Tim Peters</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Beautiful is better than ugly.</span>
+</span></span><span class=line><span class=cl><span class=c1># Explicit is better than implicit.</span>
+</span></span><span class=line><span class=cl><span class=c1># Simple is better than complex.</span>
+</span></span><span class=line><span class=cl><span class=c1># Complex is better than complicated.</span>
+</span></span><span class=line><span class=cl><span class=c1># Flat is better than nested.</span>
+</span></span><span class=line><span class=cl><span class=c1># Sparse is better than dense.</span>
+</span></span><span class=line><span class=cl><span class=c1># Readability counts.</span>
+</span></span><span class=line><span class=cl><span class=c1># Special cases aren&#39;t special enough to break the rules.</span>
+</span></span><span class=line><span class=cl><span class=c1># Although practicality beats purity.</span>
+</span></span><span class=line><span class=cl><span class=c1># Errors should never pass silently.</span>
+</span></span><span class=line><span class=cl><span class=c1># Unless explicitly silenced.</span>
+</span></span><span class=line><span class=cl><span class=c1># In the face of ambiguity, refuse the temptation to guess.</span>
+</span></span><span class=line><span class=cl><span class=c1># There should be one-- and preferably only one --obvious way to do it.</span>
+</span></span><span class=line><span class=cl><span class=c1># Although that way may not be obvious at first unless you&#39;re Dutch.</span>
+</span></span><span class=line><span class=cl><span class=c1># Now is better than never.</span>
+</span></span><span class=line><span class=cl><span class=c1># Although never is often better than *right* now.</span>
+</span></span><span class=line><span class=cl><span class=c1># If the implementation is hard to explain, it&#39;s a bad idea.</span>
+</span></span><span class=line><span class=cl><span class=c1># If the implementation is easy to explain, it may be a good idea.</span>
+</span></span><span class=line><span class=cl><span class=c1># Namespaces are one honking great idea -- let&#39;s do more of those!</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>添加一个打印函数</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=c1># 使用rich打印</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>rich</span> <span class=kn>import</span> <span class=nb>print</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;Rich Print&#34;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>Rich中的打印更加漂亮</p><h3 id=字符串格式化 class=headerLink><a href=#%e5%ad%97%e7%ac%a6%e4%b8%b2%e6%a0%bc%e5%bc%8f%e5%8c%96 class=header-mark></a>2.3 字符串格式化</h3><ol><li>使用 格式化字符串字面值 ，要在字符串开头的引号/三引号前添加 f 或 F 。在这种字符串中，可以在 { 和 } 字符之间输入引用的变量，或字面值的 Python 表达式。</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=o>&gt;&gt;&gt;</span> <span class=n>year</span> <span class=o>=</span> <span class=mi>2016</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;&gt;&gt;</span> <span class=n>event</span> <span class=o>=</span> <span class=s1>&#39;Referendum&#39;</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;&gt;&gt;</span> <span class=sa>f</span><span class=s1>&#39;Results of the </span><span class=si>{</span><span class=n>year</span><span class=si>}</span><span class=s1> </span><span class=si>{</span><span class=n>event</span><span class=si>}</span><span class=s1>&#39;</span>
+</span></span><span class=line><span class=cl><span class=s1>&#39;Results of the 2016 Referendum&#39;</span>
+</span></span></code></pre></td></tr></table></div></div><ol start=2><li>字符串的 str.format() 方法需要更多手动操作。该方法也用 { 和 } 标记替换变量的位置，虽然这种方法支持详细的格式化指令，但需要提供格式化信息。</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=o>&gt;&gt;&gt;</span> <span class=n>yes_votes</span> <span class=o>=</span> <span class=mi>42_572_654</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;&gt;&gt;</span> <span class=n>no_votes</span> <span class=o>=</span> <span class=mi>43_132_495</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;&gt;&gt;</span> <span class=n>percentage</span> <span class=o>=</span> <span class=n>yes_votes</span> <span class=o>/</span> <span class=p>(</span><span class=n>yes_votes</span> <span class=o>+</span> <span class=n>no_votes</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;&gt;&gt;</span> <span class=s1>&#39;</span><span class=si>{:-9}</span><span class=s1> YES votes  </span><span class=si>{:2.2%}</span><span class=s1>&#39;</span><span class=o>.</span><span class=n>format</span><span class=p>(</span><span class=n>yes_votes</span><span class=p>,</span> <span class=n>percentage</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=s1>&#39; 42572654 YES votes  49.67%&#39;</span>
+</span></span></code></pre></td></tr></table></div></div><ol start=3><li>旧式字符串格式化方法
+不在使用了,还是新的看着舒服</li></ol><h3 id=main函数 class=headerLink><a href=#main%e5%87%bd%e6%95%b0 class=header-mark></a>2.4 <code>main</code>函数</h3><p>python中并不会存在着main函数,当前只是模拟了一个入口函数</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>if</span> <span class=vm>__name__</span> <span class=o>==</span> <span class=s1>&#39;__main__&#39;</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>main</span><span class=p>()</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=数据类型 class=headerLink><a href=#%e6%95%b0%e6%8d%ae%e7%b1%bb%e5%9e%8b class=header-mark></a>3 数据类型</h2><h3 id=numbers数字 class=headerLink><a href=#numbers%e6%95%b0%e5%ad%97 class=header-mark></a>3.1 Numbers(数字)</h3><ul><li>int</li><li>long</li><li>float</li><li>double</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>intA</span> <span class=o>=</span> <span class=nb>int</span><span class=p>(</span><span class=mi>12</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=nb>type</span><span class=p>(</span><span class=n>intA</span><span class=p>))</span>
+</span></span></code></pre></td></tr></table></div></div><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,dejavu sans mono,consolas,courier new,monospace"><span style=font-weight:700>&lt;</span><span style=color:#f0f;text-decoration-color:#f0f;font-weight:700>class</span><span style=color:#000;text-decoration-color:#000> </span><span style=color:green;text-decoration-color:green>'int'</span><span style=font-weight:700>&gt;</span>
+</pre><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>longB</span> <span class=o>=</span> <span class=mh>0xDAEABEEF</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=nb>type</span><span class=p>(</span><span class=n>longB</span><span class=p>))</span>
+</span></span></code></pre></td></tr></table></div></div><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,dejavu sans mono,consolas,courier new,monospace"><span style=font-weight:700>&lt;</span><span style=color:#f0f;text-decoration-color:#f0f;font-weight:700>class</span><span style=color:#000;text-decoration-color:#000> </span><span style=color:green;text-decoration-color:green>'int'</span><span style=font-weight:700>&gt;</span>
+</pre><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>floatC</span> <span class=o>=</span> <span class=mf>1.2</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=nb>type</span><span class=p>(</span><span class=n>floatC</span><span class=p>))</span>
+</span></span></code></pre></td></tr></table></div></div><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,dejavu sans mono,consolas,courier new,monospace"><span style=font-weight:700>&lt;</span><span style=color:#f0f;text-decoration-color:#f0f;font-weight:700>class</span><span style=color:#000;text-decoration-color:#000> </span><span style=color:green;text-decoration-color:green>'float'</span><span style=font-weight:700>&gt;</span>
+</pre><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>doubleD</span> <span class=o>=</span> <span class=mf>1.2</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=nb>type</span><span class=p>(</span><span class=n>doubleD</span><span class=p>))</span>
+</span></span></code></pre></td></tr></table></div></div><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,dejavu sans mono,consolas,courier new,monospace"><span style=font-weight:700>&lt;</span><span style=color:#f0f;text-decoration-color:#f0f;font-weight:700>class</span><span style=color:#000;text-decoration-color:#000> </span><span style=color:green;text-decoration-color:green>'float'</span><span style=font-weight:700>&gt;</span>
+</pre><h3 id=布尔类型 class=headerLink><a href=#%e5%b8%83%e5%b0%94%e7%b1%bb%e5%9e%8b class=header-mark></a>3.2 布尔类型</h3><ul><li>True</li><li>False</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>boolA</span> <span class=o>=</span> <span class=kc>True</span>
+</span></span><span class=line><span class=cl><span class=n>boolB</span> <span class=o>=</span> <span class=kc>False</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>boolA</span><span class=p>,</span> <span class=nb>type</span><span class=p>(</span><span class=n>boolA</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>boolB</span><span class=p>,</span> <span class=nb>type</span><span class=p>(</span><span class=n>boolB</span><span class=p>))</span>
+</span></span></code></pre></td></tr></table></div></div><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,dejavu sans mono,consolas,courier new,monospace"><span style=color:#0f0;text-decoration-color:#0f0;font-style:italic>True</span> <span style=font-weight:700>&lt;</span><span style=color:#f0f;text-decoration-color:#f0f;font-weight:700>class</span><span style=color:#000;text-decoration-color:#000> </span><span style=color:green;text-decoration-color:green>'bool'</span><span style=font-weight:700>&gt;</span>
+</pre><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,dejavu sans mono,consolas,courier new,monospace"><span style=color:red;text-decoration-color:red;font-style:italic>False</span> <span style=font-weight:700>&lt;</span><span style=color:#f0f;text-decoration-color:#f0f;font-weight:700>class</span><span style=color:#000;text-decoration-color:#000> </span><span style=color:green;text-decoration-color:green>'bool'</span><span style=font-weight:700>&gt;</span>
+</pre><h3 id=string字符串 class=headerLink><a href=#string%e5%ad%97%e7%ac%a6%e4%b8%b2 class=header-mark></a>3.3 String(字符串)</h3><ul><li>使用"&ldquo;定义字符串</li><li>r在字符串表示禁止转义</li><li>使用&rdquo;&ldquo;&ldquo;作用长字符串</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=c1># 普通定义字符串</span>
+</span></span><span class=line><span class=cl><span class=n>strA</span> <span class=o>=</span> <span class=s2>&#34;Hello&#34;</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>strA</span><span class=p>,</span>  <span class=nb>type</span><span class=p>(</span><span class=n>strA</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># r禁止转义</span>
+</span></span><span class=line><span class=cl><span class=n>strB</span> <span class=o>=</span> <span class=sa>r</span><span class=s2>&#34;Hello\nWorld&#34;</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>strB</span><span class=p>,</span> <span class=nb>type</span><span class=p>(</span><span class=n>strB</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 长字符串</span>
+</span></span><span class=line><span class=cl><span class=n>strC</span> <span class=o>=</span> <span class=s2>&#34;&#34;&#34;
+</span></span></span><span class=line><span class=cl><span class=s2>The Zen of Python, by Tim Peters
+</span></span></span><span class=line><span class=cl><span class=s2>
+</span></span></span><span class=line><span class=cl><span class=s2>Beautiful is better than ugly.
+</span></span></span><span class=line><span class=cl><span class=s2>Explicit is better than implicit.
+</span></span></span><span class=line><span class=cl><span class=s2>Simple is better than complex.
+</span></span></span><span class=line><span class=cl><span class=s2>Complex is better than complicated.
+</span></span></span><span class=line><span class=cl><span class=s2>Flat is better than nested.
+</span></span></span><span class=line><span class=cl><span class=s2>Sparse is better than dense.
+</span></span></span><span class=line><span class=cl><span class=s2>Readability counts.
+</span></span></span><span class=line><span class=cl><span class=s2>Special cases aren&#39;t special enough to break the rules.
+</span></span></span><span class=line><span class=cl><span class=s2>Although practicality beats purity.
+</span></span></span><span class=line><span class=cl><span class=s2>Errors should never pass silently.
+</span></span></span><span class=line><span class=cl><span class=s2>Unless explicitly silenced.
+</span></span></span><span class=line><span class=cl><span class=s2>In the face of ambiguity, refuse the temptation to guess.
+</span></span></span><span class=line><span class=cl><span class=s2>There should be one-- and preferably only one --obvious way to do it.
+</span></span></span><span class=line><span class=cl><span class=s2>Although that way may not be obvious at first unless you&#39;re Dutch.
+</span></span></span><span class=line><span class=cl><span class=s2>Now is better than never.
+</span></span></span><span class=line><span class=cl><span class=s2>Although never is often better than *right* now.
+</span></span></span><span class=line><span class=cl><span class=s2>If the implementation is hard to explain, it&#39;s a bad idea.
+</span></span></span><span class=line><span class=cl><span class=s2>If the implementation is easy to explain, it may be a good idea.
+</span></span></span><span class=line><span class=cl><span class=s2>Namespaces are one honking great idea -- let&#39;s do more of those!
+</span></span></span><span class=line><span class=cl><span class=s2>&#34;&#34;&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>strC</span><span class=p>,</span> <span class=nb>str</span><span class=p>(</span><span class=n>strC</span><span class=p>))</span>
+</span></span></code></pre></td></tr></table></div></div><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,dejavu sans mono,consolas,courier new,monospace">Hello <span style=font-weight:700>&lt;</span><span style=color:#f0f;text-decoration-color:#f0f;font-weight:700>class</span><span style=color:#000;text-decoration-color:#000> </span><span style=color:green;text-decoration-color:green>'str'</span><span style=font-weight:700>&gt;</span>
+</pre><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,dejavu sans mono,consolas,courier new,monospace">Hello\nWorld <span style=font-weight:700>&lt;</span><span style=color:#f0f;text-decoration-color:#f0f;font-weight:700>class</span><span style=color:#000;text-decoration-color:#000> </span><span style=color:green;text-decoration-color:green>'str'</span><span style=font-weight:700>&gt;</span>
+</pre><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,dejavu sans mono,consolas,courier new,monospace">
+The Zen of Python, by Tim Peters
+
+Beautiful is better than ugly.
+Explicit is better than implicit.
+Simple is better than complex.
+Complex is better than complicated.
+Flat is better than nested.
+Sparse is better than dense.
+Readability counts.
+Special cases aren't special enough to break the rules.
+Although practicality beats purity.
+Errors should never pass silently.
+Unless explicitly silenced.
+In the face of ambiguity, refuse the temptation to guess.
+There should be one-- and preferably only one --obvious way to do it.
+Although that way may not be obvious at first unless you're Dutch.
+Now is better than never.
+Although never is often better than *right* now.
+If the implementation is hard to explain, it's a bad idea.
+If the implementation is easy to explain, it may be a good idea.
+Namespaces are one honking great idea -- let's do more of those!
+
+The Zen of Python, by Tim Peters
+
+Beautiful is better than ugly.
+Explicit is better than implicit.
+Simple is better than complex.
+Complex is better than complicated.
+Flat is better than nested.
+Sparse is better than dense.
+Readability counts.
+Special cases aren't special enough to break the rules.
+Although practicality beats purity.
+Errors should never pass silently.
+Unless explicitly silenced.
+In the face of ambiguity, refuse the temptation to guess.
+There should be one-- and preferably only one --obvious way to do it.
+Although that way may not be obvious at first unless you're Dutch.
+Now is better than never.
+Although never is often better than *right* now.
+If the implementation is hard to explain, it's a bad idea.
+If the implementation is easy to explain, it may be a good idea.
+Namespaces are one honking great idea -- let's do more of those!
+
+</pre><h3 id=list列表 class=headerLink><a href=#list%e5%88%97%e8%a1%a8 class=header-mark></a>3.4 List(列表)</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>listC</span> <span class=o>=</span> <span class=p>[</span><span class=s2>&#34;12&#34;</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=mi>4</span><span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>listC</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=tuple元组 class=headerLink><a href=#tuple%e5%85%83%e7%bb%84 class=header-mark></a>3.5 Tuple(元组)</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>tupleD</span> <span class=o>=</span> <span class=p>(</span><span class=s1>&#39;physics&#39;</span><span class=p>,</span> <span class=s1>&#39;chemistry&#39;</span><span class=p>,</span> <span class=mi>1997</span><span class=p>,</span> <span class=mi>2000</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>tupleD</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=dictionary字典 class=headerLink><a href=#dictionary%e5%ad%97%e5%85%b8 class=header-mark></a>3.6 Dictionary(字典)</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>DictE</span> <span class=o>=</span> <span class=p>{</span><span class=s1>&#39;a&#39;</span><span class=p>:</span> <span class=mi>1</span><span class=p>,</span> <span class=s1>&#39;b&#39;</span><span class=p>:</span> <span class=mi>2</span><span class=p>,</span> <span class=s1>&#39;b&#39;</span><span class=p>:</span> <span class=s1>&#39;3&#39;</span><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>DictE</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=set集合 class=headerLink><a href=#set%e9%9b%86%e5%90%88 class=header-mark></a>3.7 set(集合)</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>SetF</span> <span class=o>=</span> <span class=nb>set</span><span class=p>([</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=mi>3</span><span class=p>])</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>DictE</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=运算符 class=headerLink><a href=#%e8%bf%90%e7%ae%97%e7%ac%a6 class=header-mark></a>4 运算符</h2><h2 id=控制结构 class=headerLink><a href=#%e6%8e%a7%e5%88%b6%e7%bb%93%e6%9e%84 class=header-mark></a>5 控制结构</h2><h3 id=单执行语句 class=headerLink><a href=#%e5%8d%95%e6%89%a7%e8%a1%8c%e8%af%ad%e5%8f%a5 class=header-mark></a>5.1 单执行语句</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>if</span> <span class=n>判断条件</span><span class=err>：</span>
+</span></span><span class=line><span class=cl>	<span class=n>执行语句</span>
+</span></span><span class=line><span class=cl><span class=k>else</span><span class=err>：</span>
+</span></span><span class=line><span class=cl>	<span class=n>执行语句</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=多条件语句 class=headerLink><a href=#%e5%a4%9a%e6%9d%a1%e4%bb%b6%e8%af%ad%e5%8f%a5 class=header-mark></a>5.2 多条件语句</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>if</span> <span class=n>判断条件1</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>执行语句1</span><span class=err>……</span>
+</span></span><span class=line><span class=cl><span class=k>elif</span> <span class=n>判断条件2</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>执行语句2</span><span class=err>……</span>
+</span></span><span class=line><span class=cl><span class=k>elif</span> <span class=n>判断条件3</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>执行语句3</span><span class=err>……</span>
+</span></span><span class=line><span class=cl><span class=k>else</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>执行语句4</span><span class=err>……</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=match语句 class=headerLink><a href=#match%e8%af%ad%e5%8f%a5 class=header-mark></a>5.3 match语句</h3><blockquote><p>match语句类似于c的switch语句,</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>match</span> <span class=n>status</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>case</span> <span class=mi>400</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=s2>&#34;Bad request&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=k>case</span> <span class=mi>404</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=s2>&#34;Not found&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=k>case</span> <span class=mi>418</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=s2>&#34;I&#39;m a teapot&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=k>case</span> <span class=n>_</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=s2>&#34;Something&#39;s wrong with the internet&#34;</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=while循环 class=headerLink><a href=#while%e5%be%aa%e7%8e%af class=header-mark></a>5.4 while循环</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>c</span> <span class=o>=</span> <span class=mi>0</span>
+</span></span><span class=line><span class=cl><span class=k>while</span> <span class=p>(</span><span class=n>c</span> <span class=o>&lt;</span> <span class=mi>10</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=nb>print</span><span class=p>(</span><span class=n>c</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>c</span> <span class=o>+=</span> <span class=mi>1</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s2>&#34;while Loop finish&#34;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=for语句 class=headerLink><a href=#for%e8%af%ad%e5%8f%a5 class=header-mark></a>5.5 for语句</h3><blockquote><p><code>python</code>中的语句与C不同,<code>python</code>不进行数值的计算,而是
+迭代列表或字符串等任意序列,元素的迭代顺序与在序列中出现的顺序一致</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 定义一个列表</span>
+</span></span><span class=line><span class=cl><span class=n>words</span> <span class=o>=</span> <span class=p>[</span><span class=s2>&#34;linux&#34;</span><span class=p>,</span> <span class=s2>&#34;macos&#34;</span><span class=p>,</span> <span class=s2>&#34;windows&#34;</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 遍历列表</span>
+</span></span><span class=line><span class=cl><span class=k>for</span> <span class=n>word</span> <span class=ow>in</span> <span class=n>words</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=nb>print</span><span class=p>(</span><span class=n>word</span><span class=p>,</span> <span class=nb>len</span><span class=p>(</span><span class=n>word</span><span class=p>))</span>
+</span></span></code></pre></td></tr></table></div></div><p>源码文件:</p><p>执行结果:</p><h3 id=range函数 class=headerLink><a href=#range%e5%87%bd%e6%95%b0 class=header-mark></a>5.6 range函数</h3><blockquote><p>内置函数<code>range()</code>常用于遍历数字序列,该函数可以生成算术级数</p></blockquote><p>range的语法</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=c1># start: 开始</span>
+</span></span><span class=line><span class=cl><span class=c1># stop: 结束</span>
+</span></span><span class=line><span class=cl><span class=c1># step: 步长</span>
+</span></span><span class=line><span class=cl><span class=nb>range</span><span class=p>(</span><span class=n>start</span><span class=p>,</span> <span class=n>stop</span><span class=p>,</span> <span class=n>step</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>那么是如何排列的</p><ol><li>只有一个参数下只会只存在stop</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=mi>10</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=nb>print</span><span class=p>(</span><span class=n>i</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>源码文件:</p><p>执行结果:</p><ol start=2><li>两个参数下存在start和stop</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=mi>10</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=nb>print</span><span class=p>(</span><span class=n>i</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>源码文件:</p><p>执行结果:</p><ol start=3><li>三个参数全部填写</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=mi>10</span><span class=p>,</span> <span class=mi>2</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=nb>print</span><span class=p>(</span><span class=n>i</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>源码文件:</p><p>执行结果:</p><p>如果直接输出<code>range</code>会发生什么</p><blockquote><p><code>range()</code>返回对象的操作和列表很像,但其实这两种对象不是一回事.
+迭代时,该对象基于所需序列返回连续项，并没有生成真正的列表，从而节省了空间。
+这种对象称为可迭代对象 iterable，函数或程序结构可通过该对象获取连续项，直到所有元素全部迭代完毕</p></blockquote><p>将range对象强转为其他类型的数据结构</p><blockquote><p>字典是无法进行转换的</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>l</span> <span class=o>=</span> <span class=nb>list</span><span class=p>(</span><span class=nb>range</span><span class=p>(</span><span class=mi>10</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>t</span> <span class=o>=</span> <span class=nb>tuple</span><span class=p>(</span><span class=nb>range</span><span class=p>(</span><span class=mi>10</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>s</span> <span class=o>=</span> <span class=nb>set</span><span class=p>(</span><span class=nb>range</span><span class=p>(</span><span class=mi>10</span><span class=p>))</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=跳出语句 class=headerLink><a href=#%e8%b7%b3%e5%87%ba%e8%af%ad%e5%8f%a5 class=header-mark></a>5.7 跳出语句</h3><p><code>break</code>语句和<code>C</code>中的类似,用于跳出最近的<code>for</code>或<code>while</code>循环。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>for</span> <span class=n>n</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=mi>2</span><span class=p>,</span> <span class=mi>10</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=n>x</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=mi>2</span><span class=p>,</span> <span class=n>n</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=n>n</span> <span class=o>%</span> <span class=n>x</span> <span class=o>==</span> <span class=mi>0</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=nb>print</span><span class=p>(</span><span class=n>n</span><span class=p>,</span> <span class=s1>&#39;equals&#39;</span><span class=p>,</span> <span class=n>x</span><span class=p>,</span> <span class=s1>&#39;*&#39;</span><span class=p>,</span> <span class=n>n</span><span class=o>//</span><span class=n>x</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=k>break</span>
+</span></span><span class=line><span class=cl>    <span class=k>else</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>        <span class=nb>print</span><span class=p>(</span><span class=n>n</span><span class=p>,</span> <span class=s1>&#39;is a prime number&#39;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>但是与C不相同的是,else可以用于for语句,未执行break时执行</p><h3 id=pass语句 class=headerLink><a href=#pass%e8%af%ad%e5%8f%a5 class=header-mark></a>5.8 pass语句</h3><p><code>pass</code>语句不执行任何操作</p><h2 id=函数 class=headerLink><a href=#%e5%87%bd%e6%95%b0 class=header-mark></a>6 函数</h2><ol><li>定义函数使用关键字<code>def</code>, 后跟函数名与括号内的形参列表.函数语句从下一行开始,并且必须缩进.</li><li>函数内的第一条语句是字符串时,该字符串就是文档字符串,也称为<code>docstring</code>,详见<a href=#%e6%96%87%e6%a1%a3%e5%ad%97%e7%ac%a6%e4%b8%b2 rel>文档字符串</a>。利用<a href=#%e6%96%87%e6%a1%a3%e5%ad%97%e7%ac%a6%e4%b8%b2 rel>文档字符串</a>可以自动生成在线文档或打印版文档,还可以让开发者在浏览代码时直接查阅文档;<code>Python</code>开发者最好养成在代码中加入文档字符串的好习惯.</li><li>函数在执行时使用函数局部变量符号表，所有函数变量赋值都存在局部符号表中；引用变量时，首先，在局部符号表里查找变量，然后，是外层函数局部符号表，再是全局符号表，最后是内置名称符号表。因此，尽管可以引用全局变量和外层函数的变量，但最好不要在函数内直接赋值(除非是<code>global</code>语句定义的全局变量,<code>nonlocal</code>语句定义的外层函数变量)</li></ol><h3 id=函数参数 class=headerLink><a href=#%e5%87%bd%e6%95%b0%e5%8f%82%e6%95%b0 class=header-mark></a>6.1 函数参数</h3><p>从函数定义的角度来看，参数可以分为两种：</p><ol><li><code>必选参数</code>：调用函数时必须要指定的参数，在定义时没有等号</li><li><code>可选参数</code>：也叫<code>默认参数</code>，调用函数时可以指定也可以不指定，不指定就默认的参数值来。</li></ol><p>从函数调用的角度来看，参数可以分为两种：</p><ol><li><code>关键字参数</code>：调用时，使用 key=value 形式传参的，这样传递参数就可以不按定义顺序来。</li><li><code>位置参数</code>：调用时，不使用关键字参数的 key-value 形式传参，这样传参要注意按照函数定义时参数的顺序来。</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>def</span> <span class=nf>func</span><span class=p>(</span><span class=n>a</span><span class=p>,</span><span class=n>b</span><span class=p>,</span><span class=n>c</span><span class=o>=</span><span class=mi>0</span><span class=p>,</span> <span class=n>d</span><span class=o>=</span><span class=mi>1</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=k>pass</span>
+</span></span></code></pre></td></tr></table></div></div><ol><li>a,b称为必选参数</li><li>c,d称为可选参数</li></ol><p>可变参数,类似C语言的<code>...</code>参数
+加了星号*的变量名会存放所有未命名的变量参数</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=c1># 定义函数</span>
+</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>hello</span><span class=p>(</span><span class=n>head</span><span class=p>,</span> <span class=o>*</span><span class=n>args</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=n>arg</span> <span class=ow>in</span> <span class=n>args</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>        <span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;</span><span class=si>{</span><span class=n>head</span><span class=si>}</span><span class=s2>:</span><span class=si>{</span><span class=n>arg</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=kc>True</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 调用函数</span>
+</span></span><span class=line><span class=cl><span class=n>hello</span><span class=p>(</span><span class=s2>&#34;ERROR&#34;</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=err>$</span> <span class=n>ERROR</span><span class=p>:</span><span class=mi>1</span>
+</span></span><span class=line><span class=cl><span class=err>$</span> <span class=n>ERROR</span><span class=p>:</span><span class=mi>2</span>
+</span></span><span class=line><span class=cl><span class=err>$</span> <span class=n>ERROR</span><span class=p>:</span><span class=mi>3</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=匿名函数 class=headerLink><a href=#%e5%8c%bf%e5%90%8d%e5%87%bd%e6%95%b0 class=header-mark></a>6.2 匿名函数</h3><p><code>lambda</code>关键字用于创建小巧的匿名函数;
+lambda a, b: a+b 函数返回两个参数的和。Lambda 函数可用于任何需要函数对象的地方。在语法上，匿名函数只能是单个表达式。在语义上，它只是常规函数定义的语法糖。与嵌套函数定义一样，lambda 函数可以引用包含作用域中的变量：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=o>&gt;&gt;&gt;</span> <span class=n>pairs</span> <span class=o>=</span> <span class=p>[(</span><span class=mi>1</span><span class=p>,</span> <span class=s1>&#39;one&#39;</span><span class=p>),</span> <span class=p>(</span><span class=mi>2</span><span class=p>,</span> <span class=s1>&#39;two&#39;</span><span class=p>),</span> <span class=p>(</span><span class=mi>3</span><span class=p>,</span> <span class=s1>&#39;three&#39;</span><span class=p>),</span> <span class=p>(</span><span class=mi>4</span><span class=p>,</span> <span class=s1>&#39;four&#39;</span><span class=p>)]</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;&gt;&gt;</span> <span class=n>pairs</span><span class=o>.</span><span class=n>sort</span><span class=p>(</span><span class=n>key</span><span class=o>=</span><span class=k>lambda</span> <span class=n>pair</span><span class=p>:</span> <span class=n>pair</span><span class=p>[</span><span class=mi>1</span><span class=p>])</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;&gt;&gt;</span> <span class=n>pairs</span>
+</span></span><span class=line><span class=cl><span class=p>[(</span><span class=mi>4</span><span class=p>,</span> <span class=s1>&#39;four&#39;</span><span class=p>),</span> <span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=s1>&#39;one&#39;</span><span class=p>),</span> <span class=p>(</span><span class=mi>3</span><span class=p>,</span> <span class=s1>&#39;three&#39;</span><span class=p>),</span> <span class=p>(</span><span class=mi>2</span><span class=p>,</span> <span class=s1>&#39;two&#39;</span><span class=p>)]</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=文档字符串 class=headerLink><a href=#%e6%96%87%e6%a1%a3%e5%ad%97%e7%ac%a6%e4%b8%b2 class=header-mark></a>6.3 文档字符串</h3><p>对函数进行注释</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=o>&gt;&gt;&gt;</span> <span class=k>def</span> <span class=nf>func</span><span class=p>():</span>
+</span></span><span class=line><span class=cl><span class=o>...</span>     <span class=s2>&#34;&#34;&#34;
+</span></span></span><span class=line><span class=cl><span class=s2>...     Do Nothing
+</span></span></span><span class=line><span class=cl><span class=s2>...     仅仅作为演示
+</span></span></span><span class=line><span class=cl><span class=s2>...     &#34;&#34;&#34;</span>
+</span></span><span class=line><span class=cl><span class=o>...</span>     <span class=k>pass</span>
+</span></span><span class=line><span class=cl><span class=o>...</span> 
+</span></span><span class=line><span class=cl><span class=o>&gt;&gt;&gt;</span> <span class=nb>print</span><span class=p>(</span><span class=n>func</span><span class=o>.</span><span class=vm>__doc__</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>Do</span> <span class=n>Nothing</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=函数注解 class=headerLink><a href=#%e5%87%bd%e6%95%b0%e6%b3%a8%e8%a7%a3 class=header-mark></a>6.4 函数注解</h3><p><code>函数注解</code>是可选的用户自定义函数类型的元数据完整信息(详见PEP3107和PEP484)
+标注 以字典的形式存放在函数的 <strong>annotations</strong> 属性中而对函数的其他部分没有影响</p><ul><li>形参标注的定义方式是在形参名后加冒号，后面跟一个会被求值为标注的值的表达式。</li><li>返回值标注的定义方式是加组合符号 ->，后面跟一个表达式，这样的校注位于形参列表和表示 def 语句结束的冒号</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=o>&gt;&gt;&gt;</span> <span class=k>def</span> <span class=nf>f</span><span class=p>(</span><span class=n>ham</span><span class=p>:</span> <span class=nb>str</span><span class=p>,</span> <span class=n>eggs</span><span class=p>:</span> <span class=nb>str</span> <span class=o>=</span> <span class=s1>&#39;eggs&#39;</span><span class=p>)</span> <span class=o>-&gt;</span> <span class=nb>str</span><span class=p>:</span>
+</span></span><span class=line><span class=cl><span class=o>...</span>     <span class=k>return</span> <span class=n>ham</span> <span class=o>+</span> <span class=s1>&#39; and &#39;</span> <span class=o>+</span> <span class=n>eggs</span> 
+</span></span><span class=line><span class=cl><span class=o>&gt;&gt;&gt;</span> <span class=n>f</span><span class=p>(</span><span class=s1>&#39;spam&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=s1>&#39;spam and eggs&#39;</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;&gt;&gt;</span> <span class=n>f</span><span class=o>.</span><span class=vm>__annotations__</span>
+</span></span><span class=line><span class=cl><span class=p>{</span><span class=s1>&#39;ham&#39;</span><span class=p>:</span> <span class=o>&lt;</span><span class=k>class</span> <span class=err>&#39;</span><span class=nc>str</span><span class=s1>&#39;&gt;, &#39;</span><span class=n>eggs</span><span class=s1>&#39;: &lt;class &#39;</span><span class=nb>str</span><span class=s1>&#39;&gt;, &#39;</span><span class=k>return</span><span class=s1>&#39;: &lt;class &#39;</span><span class=nb>str</span><span class=s1>&#39;&gt;}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=模块 class=headerLink><a href=#%e6%a8%a1%e5%9d%97 class=header-mark></a>7 模块</h2><h2 id=异常处理 class=headerLink><a href=#%e5%bc%82%e5%b8%b8%e5%a4%84%e7%90%86 class=header-mark></a>8 异常处理</h2><blockquote><p>即使语句或表达式使用了正确的语法，执行时仍可能触发错误</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>while</span> <span class=kc>True</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>try</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>        <span class=n>x</span> <span class=o>=</span> <span class=nb>int</span><span class=p>(</span><span class=nb>input</span><span class=p>(</span><span class=s2>&#34;Please enter a number: &#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>        <span class=k>break</span>
+</span></span><span class=line><span class=cl>    <span class=k>except</span> <span class=ne>ValueError</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>        <span class=nb>print</span><span class=p>(</span><span class=s2>&#34;Oops!  That was no valid number.  Try again...&#34;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>执行结果:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-txt data-lang=txt><span class=line><span class=cl>D:\python\异常处理\.venv\Scripts\python.exe D:\python\异常处理\main.py 
+</span></span><span class=line><span class=cl>Please enter a number: a
+</span></span><span class=line><span class=cl>Oops!  That was no valid number.  Try again...
+</span></span><span class=line><span class=cl>Please enter a number: 12
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Process finished with exit code 0
+</span></span></code></pre></td></tr></table></div></div><h2 id=文件操作 class=headerLink><a href=#%e6%96%87%e4%bb%b6%e6%93%8d%e4%bd%9c class=header-mark></a>9 文件操作</h2><h2 id=正则表达式 class=headerLink><a href=#%e6%ad%a3%e5%88%99%e8%a1%a8%e8%be%be%e5%bc%8f class=header-mark></a>10 正则表达式</h2><h2 id=进程线程 class=headerLink><a href=#%e8%bf%9b%e7%a8%8b%e7%ba%bf%e7%a8%8b class=header-mark></a>11 进程线程</h2><h2 id=面向对象 class=headerLink><a href=#%e9%9d%a2%e5%90%91%e5%af%b9%e8%b1%a1 class=header-mark></a>12 面向对象</h2><h3 id=类和对象 class=headerLink><a href=#%e7%b1%bb%e5%92%8c%e5%af%b9%e8%b1%a1 class=header-mark></a>12.1 类和对象</h3><h3 id=抽象封装继承多态 class=headerLink><a href=#%e6%8a%bd%e8%b1%a1%e5%b0%81%e8%a3%85%e7%bb%a7%e6%89%bf%e5%a4%9a%e6%80%81 class=header-mark></a>12.2 抽象/封装/继承/多态</h3><h3 id=属性 class=headerLink><a href=#%e5%b1%9e%e6%80%a7 class=header-mark></a>12.3 属性</h3><h3 id=方法 class=headerLink><a href=#%e6%96%b9%e6%b3%95 class=header-mark></a>12.4 方法</h3><h3 id=运算符重载 class=headerLink><a href=#%e8%bf%90%e7%ae%97%e7%ac%a6%e9%87%8d%e8%bd%bd class=header-mark></a>12.5 运算符重载</h3><h3 id=类对象 class=headerLink><a href=#%e7%b1%bb%e5%af%b9%e8%b1%a1 class=header-mark></a>12.6 类对象</h3><h3 id=继承和多态 class=headerLink><a href=#%e7%bb%a7%e6%89%bf%e5%92%8c%e5%a4%9a%e6%80%81 class=header-mark></a>12.7 继承和多态</h3><h2 id=标准库 class=headerLink><a href=#%e6%a0%87%e5%87%86%e5%ba%93 class=header-mark></a>13 标准库</h2><h2 id=虚拟环境 class=headerLink><a href=#%e8%99%9a%e6%8b%9f%e7%8e%af%e5%a2%83 class=header-mark></a>14 虚拟环境</h2><h2 id=gui基础tkinter class=headerLink><a href=#gui%e5%9f%ba%e7%a1%80tkinter class=header-mark></a>15 GUI基础(tkinter)</h2></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2023-12-23&nbsp;<a class=git-hash href=https://github.com/mengdemao/github.io.git/commit/8771cebfecf08eacc69355c755591d5621197d8d target=_blank title="commit by Meng Demao(mengdemao19951021@163.com) 8771cebfecf08eacc69355c755591d5621197d8d: 删除web程序的demo" rel="noopener noreferrer">
+<i class="fas fa-hashtag fa-fw"></i>8771ceb</a></span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-mardown href=/python/index.md target=_blank rel="noopener noreferrer">阅读原始文档</a>
+</span><span>|&nbsp;<a class=link-to-source href=https://github.com/mengdemao/github.io/blob/master/content/posts/python/index.md target=_blank rel="noopener noreferrer">查看源代码</a>
+</span><span>|&nbsp;<a class=link-to-edit href=https://github.com/mengdemao/github.io/edit/master/content/posts/python/index.md target=_blank rel="noopener noreferrer">编辑此页</a>
+</span><span>|&nbsp;<a class=link-to-report href="https://github.com/mengdemao/github.io/issues/new?title=[bug]%20Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0&body=|Field|Value|%0A|-|-|%0A|Title|Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0|%0A|Url|https://mengdemao.github.io/python/|%0A|Filename|https://github.com/mengdemao/github.io/blob/main/exampleSite/content/posts/python/index.md|" target=_blank rel="noopener noreferrer">报告问题</a></span></div><div class=post-info-share><button title="分享到 Twitter" data-sharer=twitter data-url=https://mengdemao.github.io/python/ data-title=Python学习笔记 data-hashtags=Python学习笔记><span class="fab fa-twitter fa-fw"></span></button><button title="分享到 Facebook" data-sharer=facebook data-url=https://mengdemao.github.io/python/ data-hashtag=Python学习笔记><span class="fab fa-facebook-square fa-fw"></span></button><button title="分享到 Hacker News" data-sharer=hackernews data-url=https://mengdemao.github.io/python/ data-title=Python学习笔记><span class="fab fa-hacker-news fa-fw"></span></button><button title="分享到 Line" data-sharer=line data-url=https://mengdemao.github.io/python/ data-title=Python学习笔记><span data-svg-src=/lib/simple-icons/icons/line.min.svg></span></button><button title="分享到 微博" data-sharer=weibo data-url=https://mengdemao.github.io/python/ data-title=Python学习笔记 data-image=featuredImage/14.jpg data-ralateuid=xxxx><span class="fab fa-weibo fa-fw"></span></button><button title="分享到 Telegram" data-sharer=telegram data-url=https://mengdemao.github.io/python/ data-title=Python学习笔记 data-web><span class="fab fa-telegram-plane fa-fw"></span></button></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw"></i>&nbsp;<a href=/tags/python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/>Python学习笔记</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/rust_basic/ class=prev rel=prev title=rust基础笔记><i class="fas fa-angle-left fa-fw"></i>rust基础笔记</a></div></div><div id=comments><div id=utterances></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://utteranc.es/>Utterances</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.121.1">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.4.0"><i class="far fa-edit fa-fw"></i> DoIt</a></div><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2020 - 2023</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://github.com/mengdemao target=_blank rel="noopener noreferrer">mengdemao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div><div class=footer-line></div><div class=footer-line></div></div><script>"serviceWorker"in navigator&&(navigator.serviceWorker.register("/sw.min.js",{scope:"/"}).then(function(){}),navigator.serviceWorker.ready.then(function(){}))</script></footer></div><div id=fixed-buttons><a href=#back-to-top id=back-to-top-button class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw"></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw"></i></a></div><div class=assets><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:300},comment:{utterances:{darkTheme:"github-dark",issueTerm:"pathname",label:"",lightTheme:"github-light",repo:"Hugo-DoIt/utterances-comments"}},data:{"desktop-header-typeit":"编程日志","mobile-header-typeit":"编程日志"},search:{distance:100,findAllMatches:!1,fuseIndexURL:"/index.json",highlightTag:"em",ignoreFieldNorm:!1,ignoreLocation:!0,isCaseSensitive:!1,location:0,maxResultLength:10,minMatchCharLength:2,noResultsFound:"没有找到结果",snippetLength:50,threshold:.1,type:"fuse",useExtendedSearch:!1},sharerjs:!0,table:{sort:!0},typeit:{cursorChar:"|",cursorSpeed:1e3,data:{"desktop-header-typeit":["desktop-header-typeit"],"mobile-header-typeit":["mobile-header-typeit"]},duration:-1,speed:100}}</script><script type=text/javascript src=/lib/tablesort/tablesort.min.92de6dec051677787aed63503575b2f9be73f21f2745574e59647bc139a92d40.js integrity="sha256-kt5t7AUWd3h67WNQNXWy+b5z8h8nRVdOWWR7wTmpLUA="></script><script type=text/javascript src=/lib/clipboard/clipboard.min.11be927cda59c8b6019ebbea838285c5beaf21183ea4b83dbd4e4fbf9413ce4a.js integrity="sha256-Eb6SfNpZyLYBnrvqg4KFxb6vIRg+pLg9vU5Pv5QTzko="></script><script type=text/javascript src=/lib/sharer/sharer.min.8fe10eb615eb163a20f795484430a012805ec7c8c11df52df54ddb7a46084254.js integrity="sha256-j+EOthXrFjog95VIRDCgEoBex8jBHfUt9U3bekYIQlQ="></script><script type=text/javascript src=/lib/typeit/typeit.min.491c13689db70b6adb3176a9a792644be7578a2f931521f5cb199d313a21c359.js integrity="sha256-SRwTaJ23C2rbMXapp5JkS+dXii+TFSH1yxmdMTohw1k="></script><script type=text/javascript src=/js/theme.min.js defer></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js></script><script type=text/javascript src=/custom/javascript/custom.js></script></div></body></html>
