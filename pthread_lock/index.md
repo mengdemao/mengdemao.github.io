@@ -40,7 +40,7 @@ long syscall(SYS_futex, uint32_t *uaddr, int futex_op, uint32_t val,
 
 ```c
 // 进入解析
-long do_futex(u32 __user *uaddr, int op, u32 val, 
+long do_futex(u32 __user *uaddr, int op, u32 val,
               ktime_t *timeout,
 			  u32 __user *uaddr2, u32 val2, u32 val3)
 {
@@ -440,11 +440,11 @@ static inline void a_barrier()
 
 + `__atomic_load_n`
 + `__atomic_load`
-+ `__atomic_store_n` 
-+ `__atomic_store` 
++ `__atomic_store_n`
++ `__atomic_store`
 + `__atomic_exchange_n`
 + `__atomic_exchange`
-+ `__atomic_compare_exchange_n` 
++ `__atomic_compare_exchange_n`
 + `__atomic_compare_exchange `
 + `__atomic_add_fetch`
 + ` __atomic_sub_fetch`
@@ -634,7 +634,7 @@ void *test_thread(void *arg)
     // make gcc happy
     unsigned int sleep_time = (unsigned int)((unsigned long)arg);
     sleep(sleep_time);
-    
+
     printf("wait begin %d\r\n", gettid());
     pthread_barrier_wait(&test_barrier);
     printf("wait finish\r\n");
@@ -649,7 +649,7 @@ int main(int argc, char *argv[])
     pthread_create(&p1, NULL, &test_thread, (void *)1);
     pthread_create(&p2, NULL, &test_thread, (void *)2);
     pthread_create(&p3, NULL, &test_thread, (void *)3);
-    
+
     // 设置线程分离
     pthread_detach(p1);
     pthread_detach(p2);
@@ -682,7 +682,7 @@ wait finish 352789
 
 ```c
 // 初始化流程
-int pthread_barrier_init(pthread_barrier_t *restrict b, 
+int pthread_barrier_init(pthread_barrier_t *restrict b,
                   const pthread_barrierattr_t *restrict a, unsigned count)
 {
 	if (count-1 > INT_MAX-1) return EINVAL;
@@ -1051,7 +1051,7 @@ int main(int argc, char *argv[])
 {
     pthread_create(&p1, NULL, &test_thread, (void *)1);
     pthread_create(&p2, NULL, &test_thread, (void *)2);
-    
+
     // 设置线程分离
     pthread_detach(p1);
     pthread_detach(p2);
@@ -1310,7 +1310,7 @@ void __lll_lock_wait_private (int *futex)
     }
 }
 libc_hidden_def (__lll_lock_wait_private)
-    
+
 void __lll_lock_wait (int *futex, int private)
 {
   if (atomic_load_relaxed (futex) == 2)
@@ -1328,7 +1328,7 @@ libc_hidden_def (__lll_lock_wait)
 # define lll_futex_wake(futexp, nr, private)                             \
   lll_futex_syscall (4, futexp,                                          \
 		     __lll_private_flag (FUTEX_WAKE, private), nr, 0)
-    
+
 void __lll_lock_wake_private (int *futex)
 {
   lll_futex_wake (futex, 1, LLL_PRIVATE);
@@ -1437,7 +1437,7 @@ int ___pthread_mutex_lock(pthread_mutex_t *mutex)
       assert (mutex->__data.__owner == 0);
       mutex->__data.__count = 1;
     }
- 
+
   else if (__builtin_expect (PTHREAD_MUTEX_TYPE (mutex)
 			  == PTHREAD_MUTEX_ADAPTIVE_NP, 1))
     {
@@ -1687,12 +1687,12 @@ int __pthread_cond_timedwait(pthread_cond_t *restrict c, pthread_mutex_t *restri
 		 * via the futex notify below. */
 
 		lock(&c->_c_lock);
-		
+
 		if (c->_c_head == &node) c->_c_head = node.next;
 		else if (node.prev) node.prev->next = node.next;
 		if (c->_c_tail == &node) c->_c_tail = node.prev;
 		else if (node.next) node.next->prev = node.prev;
-		
+
 		unlock(&c->_c_lock);
 
 		if (node.notify) {
@@ -1722,7 +1722,7 @@ relock:
 		if (val>0) a_cas(&m->_m_lock, val, val|0x80000000);
 		unlock_requeue(&node.prev->barrier, &m->_m_lock, m->_m_type & (8|128));
 	} else if (!(m->_m_type & 8)) {
-		a_dec(&m->_m_waiters);		
+		a_dec(&m->_m_waiters);
 	}
 
 	/* Since a signal was consumed, cancellation is not permitted. */

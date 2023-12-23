@@ -115,7 +115,7 @@ _GLOBAL__sub_I_example.cpp:
 ### C注释
 
 ```c++
-/* 
+/*
 这个里面是一个注释
 */
 ```
@@ -144,7 +144,7 @@ _GLOBAL__sub_I_example.cpp:
 + 外部extern
 
 ```cxx
-/* auto */ int a = 0;       // C++不在添加自动变量标识符    
+/* auto */ int a = 0;       // C++不在添加自动变量标识符
 static int a = 0;           // 静态
 register int a = 0;         // 寄存器
 extern int a = 0;           // 外部
@@ -204,7 +204,7 @@ extern int a = 0;           // 外部
 
 1. 单精度`float`
 2. 双精度`double`
-   
+
 ### 字符型
 
 ### 转义字符
@@ -212,13 +212,13 @@ extern int a = 0;           // 外部
 ### 字符串
 
 1. C风格
-   
+
 ```c
 char 变量名[] = "字符串值";
 ```
 
 2. C++风格
-   
+
 ```cpp
 string 变量名 = "字符串值";
 ```
@@ -248,13 +248,13 @@ a2--;
 ### 赋值运算
 
 | 运算符 | 术语  | 示例  | 结果   |
-| :---: | :---: | :---: | :---: | 
-| =     |       |       |       | 
-| +=    |       |       |       | 
-| -=    |       |       |       | 
-| *=    |       |       |       | 
-| /=    |       |       |       | 
-| %=    |       |       |       | 
+| :---: | :---: | :---: | :---: |
+| =     |       |       |       |
+| +=    |       |       |       |
+| -=    |       |       |       |
+| *=    |       |       |       |
+| /=    |       |       |       |
+| %=    |       |       |       |
 
 ### 比较运算符
 
@@ -453,7 +453,7 @@ c++程序在运行时,将内存分为4个区域
 
 ```c++
 #include <iostream>
-void swap(int &a, int &b) 
+void swap(int &a, int &b)
 {
     int t; t = a;a = b;b = t;
 }
@@ -491,7 +491,7 @@ const int &ref = 10;
 ```c++
 void test_default_param(int a = 0, int b = 0, int c = 0)
 {
-    std::cout << a + b + c << std::endl; 
+    std::cout << a + b + c << std::endl;
 }
 ```
 

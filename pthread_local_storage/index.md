@@ -99,7 +99,7 @@ return self->tsd[k];
 ```c
 __thread int num;
 
-int test(void) 
+int test(void)
 {
     return num;
 }
@@ -116,11 +116,11 @@ test:
 	ldr     r2, .L3						@ R2 = &num
 	ldr     r3, [r3, r2]				@ R3 = *((int *)(R3 + R2))
 	mov     r0, r3						@ R0 = R3
-	
+
 	mov     sp, r7						@ 恢复SP
 	ldr     r7, [sp], #4				@ 恢复R7
-	
-	bx      lr							@ return 
+
+	bx      lr							@ return
 
 .L3:
         .word   num(tpoff)

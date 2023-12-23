@@ -78,71 +78,71 @@ struct pthread {
     #ifndef TLS_ABOVE_TP
 	uintptr_t *dtv;
 	#endif
-	
+
     /* 线程链表项 */
     struct pthread *prev, *next; /* non-ABI */
-    
+
     /* 系统信息 */
 	uintptr_t sysinfo;
-	
+
     #ifndef TLS_ABOVE_TP
 	#ifdef CANARY_PAD
 	uintptr_t canary_pad;
-	#endif 
+	#endif
 	uintptr_t canary;
 	#endif /* TLS_ABOVE_TP */
 
 	int tid; // 线程ID
-	
+
     int errno_val;
-	
+
     volatile int detach_state;  // 分离状态
-	
+
     volatile int cancel;					// cancle启动标志
     volatile unsigned char canceldisable; 	// cancle控制
     volatile unsigned char cancelasync;   	// cancle同步标志
-	
+
     unsigned char tsd_used:1;
 	unsigned char dlerror_flag:1;
-	
+
     unsigned char *map_base;	// mmap
 	size_t map_size;
-	
+
     void *stack;	// 堆栈
 	size_t stack_size;
-	
-    size_t guard_size; 
-	
+
+    size_t guard_size;
+
     void *result; // 返回结果,
-    
+
     /* 线程清理回调函数 pthread_cleanup_push、pthread_cleanup_pop */
-	struct __ptcb *cancelbuf; 
-	
+	struct __ptcb *cancelbuf;
+
     void **tsd;
-	
+
     struct {
 		volatile void *volatile head;
 		long off;
 		volatile void *volatile pending;
 	} robust_list;
-	
+
     int h_errno_val;
-    
+
 	volatile int timer_id;
-	
+
     locale_t locale;
-	
+
     volatile int killlock[1];		// 退出锁
-	
+
     char *dlerror_buf;
-	
+
     void *stdio_locks;
 
 	#ifdef TLS_ABOVE_TP
 	uintptr_t canary;
 	uintptr_t *dtv;
 	#endif
-    
+
 };
 ```
 
@@ -154,7 +154,7 @@ struct __pthread
   /* 线程ID: typedef unsigned long int pthread_t; */
   pthread_t thread;
 
-  unsigned int nr_refs;		
+  unsigned int nr_refs;
   /* Detached threads have a self reference only,
 	while joinable threads have two references.
 	These are used to keep the structure valid at
@@ -163,7 +163,7 @@ struct __pthread
 
   /* Cancellation.  */
   pthread_mutex_t cancel_lock;	/* Protect cancel_xxx members.  */
-  void (*cancel_hook) (void *);	
+  void (*cancel_hook) (void *);
   /* Called to unblock a thread blocking
 	in a cancellation point (namely,
 	__pthread_cond_timedwait_internal).  */
@@ -202,9 +202,9 @@ struct __pthread
 
 	PTHREAD_KEY_MEMBERS
 	/*
-	void **thread_specifics;		
+	void **thread_specifics;
   	// This is only resized by the thread, and always growing
-	unsigned thread_specifics_size;	
+	unsigned thread_specifics_size;
 	// Number of entries in thread_specifics
 	*/
 
@@ -213,12 +213,12 @@ struct __pthread
 	thread_t kernel_thread;
 	mach_msg_header_t wakeupmsg;
 	*/
-	
+
 	/* 线程控制块:与系统进行沟通 */
  	tcbhead_t *tcb;
 
-	/* Queue links.  Since PREVP is used to determine 
-	if a thread has been awaken, 
+	/* Queue links.  Since PREVP is used to determine
+	if a thread has been awaken,
 	it must be protected by the queue lock.  */
 	struct __pthread *next, **prevp;
 };
@@ -284,8 +284,8 @@ if (GL(dl_pthread_num_threads) < __pthread_max_threads)
 
 ```c
 // 线程创建
-int pthread_create(pthread_t *__restrict, 
-                   const pthread_attr_t *__restrict, 
+int pthread_create(pthread_t *__restrict,
+                   const pthread_attr_t *__restrict,
                    void *(*)(void *), void *__restrict);
 
 // 线程退出
@@ -342,14 +342,14 @@ int pthread_cancel(pthread_t);
 
 ### 调度相关
 ```c
-int pthread_getschedparam(pthread_t t, 
-                          int *restrict policy, 
+int pthread_getschedparam(pthread_t t,
+                          int *restrict policy,
                           struct sched_param *restrict param);
 __syscall(SYS_sched_getparam, pthread_t->tid, sched_param);
 __syscall(SYS_sched_getscheduler, pthread_t->tid);
 
-int pthread_setschedparam(pthread_t t, 
-                          int policy, 
+int pthread_setschedparam(pthread_t t,
+                          int policy,
                           const struct sched_param *param);
 __syscall(SYS_sched_setscheduler, pthread_t->tid, policy, sched_param);
 // sched_param保存着优先级参数
@@ -369,7 +369,7 @@ __syscall(SYS_sched_setparam, pthread_t->tid, &prio);
 ### 系统调用实现(musl)
 
 ```c
-#define __asm_syscall(...) 
+#define __asm_syscall(...)
 do {
 	__asm__ __volatile__ ( "svc 0" : "=r"(r0) : __VA_ARGS__ : "memory");
 	return r0;
@@ -472,12 +472,12 @@ __INLINE_SYSCALL_DISP -->  __SYSCALL_CONCAT
 ### 线程创建
 
 ```c
-typedef struct { 
-    union { 
-        int __i[sizeof(long)==8?14:9]; 
-        volatile int __vi[sizeof(long)==8?14:9]; 
-        unsigned long __s[sizeof(long)==8?7:9]; 
-    } __u; 
+typedef struct {
+    union {
+        int __i[sizeof(long)==8?14:9];
+        volatile int __vi[sizeof(long)==8?14:9];
+        unsigned long __s[sizeof(long)==8?7:9];
+    } __u;
 } pthread_attr_t;
 
 #define __SU (sizeof(size_t)/sizeof(int))
@@ -524,7 +524,7 @@ typedef struct {
  */
 int pthread_create(pthread_t *restrict res,
 				   const pthread_attr_t *restrict attrp,
-				   void *(*entry)(void *), 
+				   void *(*entry)(void *),
                    void *restrict arg)
 {
     int ret, c11 = (attrp == __ATTRP_C11_THREAD);
@@ -536,15 +536,15 @@ int pthread_create(pthread_t *restrict res,
 	unsigned flags = CLONE_VM | CLONE_FS | CLONE_FILES | CLONE_SIGHAND
 		| CLONE_THREAD | CLONE_SYSVSEM | CLONE_SETTLS
 		| CLONE_PARENT_SETTID | CLONE_CHILD_CLEARTID | CLONE_DETACHED;
-	
+
     // 通过一定的规则将attrp-->attr
     pthread_attr_t attr = { 0 };
 	sigset_t set;
-    
+
     /* 如果没有设置堆栈大小,先设置默认的堆栈大小 */
     attr._a_stacksize = __default_stacksize;
 	attr._a_guardsize = __default_guardsize;
-    
+
     /* 填充pthread成员 */
     new = __copy_tls(tsd - libc.tls_size);
 	new->map_base = map;
@@ -563,33 +563,33 @@ int pthread_create(pthread_t *restrict res,
 	new->robust_list.head = &new->robust_list.head;
 	new->canary = self->canary;
 	new->sysinfo = self->sysinfo;
-    
+
     /* 移动stack指针,保存启动参数 */
     stack -= (uintptr_t)stack % sizeof(uintptr_t);
 	stack -= sizeof(struct start_args);
-	
+
     /* 设置启动参数 */
     struct start_args *args = (void *)stack;
 	args->start_func = entry;
 	args->start_arg = arg;
 	args->control = attr._a_sched ? 1 : 0;
-    
+
     /* 调用clone创建线程  */
     clone(start, stack, flags, args, &new->tid, TP_ADJ(new), &__thread_list_lock);
-	
+
     /* 设置调度器 */
     ret = __syscall(SYS_sched_setscheduler, new->tid, attr._a_policy, &attr._a_prio);
 	if (a_swap(&args->control, ret ? 3 : 0)==2)
 		__wake(&args->control, 1, 1);
 	if (ret)
 		__wait(&args->control, 0, 3, 0);
-    
+
     /* 初始化链表 */
     new->next = self->next;
 	new->prev = self;
 	new->next->prev = new;
 	new->prev->next = new;
-    
+
     /* 返回new作为线程ID */
 }
 
@@ -597,12 +597,12 @@ void __pthread_exit(void *result)
 {
 	pthread_t self = __pthread_self();
 	sigset_t set;
-    
+
     /*  设置退出标志 */
     self->canceldisable = 1;
 	self->cancelasync = 0;
 	self->result = result;
-	
+
     /* 执行线程清理函数 */
 	while (self->cancelbuf) {
 		void (*f)(void *) = self->cancelbuf->__f;
@@ -612,12 +612,12 @@ void __pthread_exit(void *result)
 	}
 
     int state = a_cas(&self->detach_state, DT_JOINABLE, DT_EXITING);
-	
+
     /* 如果线程分离状态,则代表需要自己手动释放内存 */
 	if (state==DT_DETACHED && self->map_base) {
         __vm_wait();
 	}
-    
+
     volatile void *volatile *rp;
 	while ((rp=self->robust_list.head) && rp != &self->robust_list.head) {
 		pthread_mutex_t *m = (void *)((char *)rp
@@ -640,13 +640,13 @@ void __pthread_exit(void *result)
 		if (self->robust_list.off) {
 			__syscall(SYS_set_robust_list, 0, 3*sizeof(long));
         }
-        
+
 		__unmapself(self->map_base, self->map_size);
 	}
-    
+
     /* 设置线程为退出 */
     a_store(&self->detach_state, DT_EXITED);
-	
+
     /* 唤醒 */
     __wake(&self->detach_state, 1, 1);
 
@@ -669,29 +669,29 @@ int pthread_create (pthread_t * thread, const pthread_attr_t * attr,
 	const struct __pthread_attr *setup;
 	sigset_t sigset;
 	size_t stacksize;
-	int err;	
-	
+	int err;
+
 	err = __pthread_alloc (&pthread); // 申请pthread
-	
+
 	/* 填充堆栈大小,优先级从上到下 */
-	
+
 	/* 1. 用户设定 */
 	stacksize = setup->__stacksize;
-	
+
 	/* 2. 系统限制 */
     __getrlimit (RLIMIT_STACK, &rlim);
 	stacksize = rlim.rlim_cur;
-	
+
 	/* 3. 默认大小8M */
 	stacksize = PTHREAD_STACK_DEFAULT;
-	
+
 	/* 最后将结果回填 */
 	pthread->stacksize = stacksize;
-	
+
 	/* 确定PTHREAD_DETACHED/PTHREAD_JOINABLE */
 	pthread->state = (setup->__detachstate == PTHREAD_CREATE_DETACHED
 					  ? PTHREAD_DETACHED : PTHREAD_JOINABLE);
-	
+
 	/* 1. 填充堆栈:用户提供堆栈 */
 	pthread->stackaddr = setup->__stackaddr;
 	pthread->guardsize = 0;
@@ -704,30 +704,30 @@ int pthread_create (pthread_t * thread, const pthread_attr_t * attr,
 				   + stacksize);
 	pthread->guardsize = setup->__guardsize;
 	pthread->stack = 1;
-    
+
     /* 申请内核线程 */
     __pthread_thread_alloc (pthread);
-    
+
     /* 申请线程控制块 */
     pthread->tcb = _dl_allocate_tls (NULL);
     pthread->tcb->tcb = pthread->tcb;
-    
+
     /* 设置入口地址等相关参数 */
 	__pthread_setup (pthread, entry_point, start_routine, arg);
-    
+
     /* 初始化信号 */
     __pthread_sigstate_init (pthread);
     __pthread_sigstate (_pthread_self(), 0, 0, &pthread->init_sigset, 0);
-    
+
     /* 增加计数 */
     atomic_increment (&__pthread_total);
     __libc_rwlock_rdlock (GL (dl_pthread_threads_lock));
   	GL (dl_pthread_threads)[pthread->thread - 1] = pthread;
   	__libc_rwlock_unlock (GL (dl_pthread_threads_lock));
-    
+
     /* 创建结束,返回线程ID  */
 	*thread = pthread->thread;
-    
+
     /* 启动调度 */
     __pthread_thread_start(pthread);
 }
@@ -776,7 +776,7 @@ int __pthread_thread_alloc (struct __pthread *thread)
 {
     /// 创建唤醒消息
 	create_wakeupmsg(thread);
-    
+
     /// 创建内核线程
     __thread_create(__mach_task_self(), &thread->kernel_thread);
 }
@@ -788,7 +788,7 @@ int __pthread_thread_alloc (struct __pthread *thread)
 void *_dl_allocate_tls (void *mem)
 {
     void *result = NULLL;
-    
+
     if (NULL == mem)
     {
         result = _dl_allocate_tls_storage();
@@ -797,7 +797,7 @@ void *_dl_allocate_tls (void *mem)
     {
         result = allocate_dtv(mem);
     }
-    
+
     return _dl_allocate_tls_init(result);
 }
 ```
@@ -806,13 +806,13 @@ void *_dl_allocate_tls (void *mem)
 
 ```c
 // 1. 线程实体
-// 2. 入口函数 entry_point --> start_routine(arg); 
+// 2. 入口函数 entry_point --> start_routine(arg);
 // 3. 用户线程
 // 4. 用户参数
 int __pthread_setup (struct __pthread *thread,
-	void (*entry_point) (struct __pthread *, void *(*)(void *), void *), 
+	void (*entry_point) (struct __pthread *, void *(*)(void *), void *),
 	void *(*start_routine) (void *), void *arg)
-{	
+{
     /* 设置线程上下文:此时应该思考一个问题，什么叫做上下文 */
     thread->mcontext.pc = entry_point;
   	thread->mcontext.sp = stack_setup (thread, start_routine, arg);
@@ -836,7 +836,7 @@ pthread_attr_t->_a_guardsize = size;
 int pthread_attr_setinheritsched(pthread_attr_t *a, int inherit);
 pthread_attr_t->_a_sched = inherit;
 
-int pthread_attr_setschedparam(pthread_attr_t *restrict a, 
+int pthread_attr_setschedparam(pthread_attr_t *restrict a,
 const struct sched_param *restrict param);
 pthread_attr_t->_a_prio = param->sched_priority;
 
@@ -925,12 +925,12 @@ int pthread_setcanceltype(int new, int *old);
 self->cancelasync --> old;
 self->cancelasync <-- new;
 // 同时还会执行__pthread_testcancel
-	
+
 int pthread_cancel(pthread_t t)
 {
 	// 自己的线程,直接退出
 	pthread_exit(PTHREAD_CANCELED);
-	
+
 	// 不是自己,发送退出信息
 	pthread_kill(t, SIGCANCEL)
 }
@@ -971,10 +971,10 @@ int pthread_kill(pthread_t t, int sig)
 {
 	__block_all_sigs(&set);
 	LOCK(t->killlock);
-    
+
     // 仅仅对线程发送了一个信号
 	__syscall(SYS_tkill, t->tid, sig);
-	
+
     UNLOCK(t->killlock);
 	__restore_sigs(&set);
 }

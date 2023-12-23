@@ -51,22 +51,22 @@ Flex由三部分组成
 ```c
 %%
 [+-]?[0-9]+ { /* Print integers */
-  printf("%s\n", yytext); 
-} 
+  printf("%s\n", yytext);
+}
 
 \n { /* newline */
-} 
+}
 
-. { /* For others, do nothing */  
-} 
-%%  
+. { /* For others, do nothing */
+}
+%%
 
-void main(){  
-    yylex();  
-}  
-  
-int yywrap(){  
-    return 1;  
+void main(){
+    yylex();
+}
+
+int yywrap(){
+    return 1;
 }
 ```
 
@@ -137,7 +137,7 @@ RE--Thompson-->NFA--子集构造-->DFA--Hopcroft-->mDFA
 ##### 解释
 + 基于RE的结构进行归纳
   + 对基本的RE进行直接构造
-  + 对于复合的RE进行递归构造 
+  + 对于复合的RE进行递归构造
 + 递归,容易实现
   + 代码实现较少
 
@@ -185,14 +185,14 @@ $a(b|c)*$
 tokens[];  // all tokens
 i = 0;
 stack = [S]  // S 是开始符号
-while(stack[] != [])  
-    if(stack[top] is a terminal t)   
-        if(t == tokens[i++])     
+while(stack[] != [])
+    if(stack[top] is a terminal t)
+        if(t == tokens[i++])
             pop();
-        else 
-            error(...);  
+        else
+            error(...);
     else if(stack[top] is a nonterminal T)
-             pop();   
+             pop();
              push(table[T, tokens[i]])
 ```
 
@@ -246,7 +246,7 @@ S1-->S2-->S3-->S4-->S5-->S6-->SS
   - `规约`栈顶上的n个符号到左部的非终结符
     + 对于产生式 $A$ -> $\beta$1 ... $\beta$n,如果可以推导,那么弹出$\beta$1 ... $\beta$n,
     + 压入非终结符
-+ 如何确定移进-规约的时机 
++ 如何确定移进-规约的时机
 
 ##### 构造分析表
 

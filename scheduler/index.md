@@ -21,7 +21,7 @@
 // 1. 当前优先级normal_prio
 p->prio = current->normal_prio;
 
-// 2. 静态优先级 
+// 2. 静态优先级
 p->static_prio = NICE_TO_PRIO(0)
 
 // 3. 继续计算优先级
@@ -85,7 +85,7 @@ static const u32 prio_to_wmult[40] = {
 };
 ```
 
-优先级与负载计算关系 
+优先级与负载计算关系
 			$weight = \frac{1024}{1.25^{nice}}$
 			${inv\_weight} = \frac{2^{32}}{weight}$
 
@@ -179,14 +179,14 @@ struct sched_class {
 + dequeue_task
 
 ```c
-static void enqueue_task(struct rq *rq, 
+static void enqueue_task(struct rq *rq,
 						 struct task_struct *p, int flags)
 {
 	update_rq_clock(rq);
 	sched_info_queued(rq, p);
 	p->sched_class->enqueue_task(rq, p, flags);
 }
-static void dequeue_task(struct rq *rq, 
+static void dequeue_task(struct rq *rq,
 				         struct task_struct *p, int flags)
 {
 	update_rq_clock(rq);
@@ -444,11 +444,11 @@ unsigned long long task_sched_runtime(struct task_struct *p)
 int sched_fork(unsigned long clone_flags, struct task_struct *p)
 {
 	unsigned long flags;
-	
+
 	// #define get_cpu()		({ preempt_disable(); smp_processor_id(); })
 	// #define put_cpu()		preempt_enable()
 	int cpu = get_cpu();		// 获取CPUID
-	
+
     // 进入内部实现
 	__sched_fork(clone_flags, p);
 	/*
@@ -527,7 +527,7 @@ int sched_fork(unsigned long clone_flags, struct task_struct *p)
 static void __sched_fork(unsigned long clone_flags, struct task_struct *p)
 {
 	p->on_rq			= 0;	// 当前不在队列中
-	
+
     // 设置sched_entity
 	p->se.on_rq			= 0;	// 当前不在队列中
 	p->se.exec_start		= 0;
@@ -611,7 +611,7 @@ void wake_up_new_task(struct task_struct *p)
 
 	/* Initialize new task's runnable average */
 	init_task_runnable_average(p);
-	rq = __task_rq_lock(p);		
+	rq = __task_rq_lock(p);
 	activate_task(rq, p, 0);				// 激活任务
 	p->on_rq = TASK_ON_RQ_QUEUED;   		// 进入队列
 	trace_sched_wakeup_new(p, true);
@@ -717,20 +717,20 @@ schedule --> __schedule --> context_switch
 进入任务切换的核心函数`context_switch`,这个函数真够复杂的;
 
 ```c
-static inline struct rq *context_switch(struct rq *rq, 
+static inline struct rq *context_switch(struct rq *rq,
                                         struct task_struct *prev,
 	       								struct task_struct *next)
 {
 	struct mm_struct *mm, *oldmm;
-	
+
     // 执行切换前准备
 	prepare_task_switch(rq, prev, next);
-	
+
     // 普通进程mm和active_mm相等
 	// 但是内核线程没有mm,只有active_mm
     mm = next->mm;
 	oldmm = prev->active_mm;
-    
+
 	arch_start_context_switch(prev);
 
 	if (!mm) {	// 这个是内核线程
@@ -741,7 +741,7 @@ static inline struct rq *context_switch(struct rq *rq,
 		switch_mm(oldmm, mm, next);
 
 	if (!prev->mm) {					// 代表prev是一个内核线程
-		prev->active_mm = NULL;	
+		prev->active_mm = NULL;
 		rq->prev_mm = oldmm;			// 内核线程共享内存
 	}
 	/*
@@ -753,17 +753,17 @@ static inline struct rq *context_switch(struct rq *rq,
 	spin_release(&rq->lock.dep_map, 1, _THIS_IP_);
 
 	context_tracking_task_switch(prev, next);		// 调试使用
-	
+
     /* Here we just switch the register state and the stack. */
 	switch_to(prev, next, prev); // 这个函数和体系相关
-	
+
     barrier();
 
 	return finish_task_switch(prev);
 }
 
-extern struct task_struct *__switch_to(struct task_struct *, 
-                                       struct thread_info *, 
+extern struct task_struct *__switch_to(struct task_struct *,
+                                       struct thread_info *,
                                        struct thread_info *);
 
 #define switch_to(prev,next,last)					\

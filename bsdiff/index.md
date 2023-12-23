@@ -3,9 +3,9 @@
 
 ## 引言
 
-> bsdiff and bspatch are tools for building and applying patches to binary files. By using suffix >  sorting (specifically, Larsson and Sadakane's qsufsort) and taking advantage of how 
-> executable files change, bsdiff routinely produces binary patches 50-80% smaller than 
-> those produced by Xdelta, and 15% smaller than those produced by .RTPatch (a $2750/seat 
+> bsdiff and bspatch are tools for building and applying patches to binary files. By using suffix >  sorting (specifically, Larsson and Sadakane's qsufsort) and taking advantage of how
+> executable files change, bsdiff routinely produces binary patches 50-80% smaller than
+> those produced by Xdelta, and 15% smaller than those produced by .RTPatch (a $2750/seat
 > commercial patch tool) -- 直接摘抄自官网
 
 详情可以查看[bsdiff官网](http://www.daemonology.net/bsdiff/),存在这个详细描述.
@@ -51,7 +51,7 @@ md5sum old
 md5sum new
 # b0b4be993de61064a118d32a692bf795  new
 
-md5sum mid 
+md5sum mid
 # b0b4be993de61064a118d32a692bf795  mid
 ```
 
@@ -115,7 +115,7 @@ struct bsdiff_stream
 	void* opaque;								/* bzip文件 */
 	void* (*malloc)(size_t size);				/* 内存申请接口 */
 	void (*free)(void* ptr);					/* 内存释放接口 */
-	int (*write)(struct bsdiff_stream* stream,  /* 写文件接口 */ 
+	int (*write)(struct bsdiff_stream* stream,  /* 写文件接口 */
                  const void* buffer, int size);
 };
 
@@ -231,7 +231,7 @@ static int bsdiff_internal(const struct bsdiff_request req)
 				(req.old[scsc+lastoffset] == req.new[scsc]))
 				oldscore++;
 
-			if(((len==oldscore) && (len!=0)) || 
+			if(((len==oldscore) && (len!=0)) ||
 				(len>oldscore+8)) break;
 
 			if((scan+lastoffset<req.oldsize) &&
@@ -459,7 +459,7 @@ static void qsufsort(int64_t *I, const uint8_t *old, int64_t oldsize)
 	int64_t *V;
 
 	if ((V = req.stream->malloc((req.oldsize+1) * sizeof(int64_t))) == NULL) {
-		return -1;	
+		return -1;
 	}
 
 	for (i=0; i<256; i++) {
@@ -557,7 +557,7 @@ static int64_t offtin(uint8_t *buf)
 	int64_t y;
 
 	y=buf[7]&0x7F; 		/* 提取绝对值 */
-    
+
 	y=y*256;y+=buf[6];
 	y=y*256;y+=buf[5];
 	y=y*256;y+=buf[4];
@@ -583,8 +583,8 @@ static int64_t offtin(uint8_t *buf)
 #### 代码分析
 
 ```c
-int bspatch(const uint8_t* old, int64_t oldsize, 
-            uint8_t* new, int64_t newsize, 
+int bspatch(const uint8_t* old, int64_t oldsize,
+            uint8_t* new, int64_t newsize,
             struct bspatch_stream* stream)
 {
 	uint8_t buf[8];

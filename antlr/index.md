@@ -54,7 +54,7 @@ $ grun Expr prog -tree
 ```
 
 ```shell
-grun Expr prog -gui			
+grun Expr prog -gui
 ```
 
 ```sh
@@ -88,7 +88,7 @@ WS : [ \t\r\n]+ -> skip ;   // 控制符清除
 // javac *.java
 // grun ArrayInit init -gui
 grammar ArrayInit;						// 定义一个ArrayInit的grammer
-init    : '{' value (',' value)* '}' ; 	// 
+init    : '{' value (',' value)* '}' ; 	//
 value   : init							// 嵌套定义
         | INT							// 定义整数
         ;

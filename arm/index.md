@@ -42,22 +42,22 @@
 交叉工具链测试
 
 ```shell
-arm-none-eabi-addr2line      arm-none-eabi-gdb          
+arm-none-eabi-addr2line      arm-none-eabi-gdb
 arm-none-eabi-ar             arm-none-eabi-gdb-add-index
-arm-none-eabi-as             arm-none-eabi-gfortran     
-arm-none-eabi-c++            arm-none-eabi-gprof        
-arm-none-eabi-c++filt        arm-none-eabi-ld           
-arm-none-eabi-cpp            arm-none-eabi-ld.bfd       
-arm-none-eabi-dwp            arm-none-eabi-ld.gold      
-arm-none-eabi-elfedit        arm-none-eabi-lto-dump     
-arm-none-eabi-g++            arm-none-eabi-nm           
-arm-none-eabi-gcc            arm-none-eabi-objcopy      
-arm-none-eabi-gcc-10.2.1     arm-none-eabi-objdump      
-arm-none-eabi-gcc-ar         arm-none-eabi-ranlib       
-arm-none-eabi-gcc-nm         arm-none-eabi-readelf      
-arm-none-eabi-gcc-ranlib     arm-none-eabi-size         
-arm-none-eabi-gcov           arm-none-eabi-strings      
-arm-none-eabi-gcov-dump      arm-none-eabi-strip        
+arm-none-eabi-as             arm-none-eabi-gfortran
+arm-none-eabi-c++            arm-none-eabi-gprof
+arm-none-eabi-c++filt        arm-none-eabi-ld
+arm-none-eabi-cpp            arm-none-eabi-ld.bfd
+arm-none-eabi-dwp            arm-none-eabi-ld.gold
+arm-none-eabi-elfedit        arm-none-eabi-lto-dump
+arm-none-eabi-g++            arm-none-eabi-nm
+arm-none-eabi-gcc            arm-none-eabi-objcopy
+arm-none-eabi-gcc-10.2.1     arm-none-eabi-objdump
+arm-none-eabi-gcc-ar         arm-none-eabi-ranlib
+arm-none-eabi-gcc-nm         arm-none-eabi-readelf
+arm-none-eabi-gcc-ranlib     arm-none-eabi-size
+arm-none-eabi-gcov           arm-none-eabi-strings
+arm-none-eabi-gcov-dump      arm-none-eabi-strip
 arm-none-eabi-gcov-tool
 ```
 
@@ -198,11 +198,11 @@ STMFD    SP!,{R1-R7,LR}
 > 跳转为24位长有符号数据
 
 + B: 绝对跳转
-+ BL: 带返回的跳转 
++ BL: 带返回的跳转
 + BLX: 带返回和状态切换的跳转
 + BX: 状态切换的跳转
 
-B(跳转) 
+B(跳转)
 L(设置链接寄存器)
 X(切换arm/thumb状态)
 
@@ -221,7 +221,7 @@ BX label_jump_BX
 
 	BL label_jump_BL
 label_jump_BL:
-	
+
 	BLX label_jump_BLX
 label_jump_BLX:
 ```
@@ -229,7 +229,7 @@ label_jump_BLX:
 
 #### 数据传送指令
 
-+ mov: 直接传送 
++ mov: 直接传送
 + mvn: 取反码传送
 
 ```assembly

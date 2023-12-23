@@ -1,5 +1,5 @@
 <!doctype html><html lang=zh-CN><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>pthread线程源码分析 - 编程日志</title><meta name=Description content="pthread线程源码分析"><meta property="og:title" content="pthread线程源码分析">
-<meta property="og:description" content="pthread线程源码分析"><meta property="og:type" content="article"><meta property="og:url" content="https://mengdemao.github.io/pthread_thread/"><meta property="og:image" content="https://mengdemao.github.io/images/avatar.webp"><meta property="article:section" content="posts"><meta property="article:published_time" content="2022-07-18T21:27:23+08:00"><meta property="article:modified_time" content="2023-03-05T08:33:20+08:00"><meta property="og:site_name" content="编程日志"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://mengdemao.github.io/images/avatar.webp"><meta name=twitter:title content="pthread线程源码分析"><meta name=twitter:description content="pthread线程源码分析"><meta name=application-name content="DoIt"><meta name=apple-mobile-web-app-title content="DoIt"><meta name=theme-color content="#f8f8f8"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://mengdemao.github.io/pthread_thread/><link rel=prev href=https://mengdemao.github.io/compile/><link rel=next href=https://mengdemao.github.io/pthread_lock/><link rel=stylesheet href=/css/main.40a82f90b86e2a2d0de8dc5537accbdec2b3d8d88a1314300bde9ae62a626856.css integrity="sha256-QKgvkLhuKi0N6NxVN6zL3sKz2NiKExQwC96a5ipiaFY="><link rel=stylesheet href=/lib/normalize/normalize.min.055364f5be272caa092b0e6654c165828707f8ab971e2656383a6d6392bc345e.css integrity="sha256-BVNk9b4nLKoJKw5mVMFlgocH+KuXHiZWODptY5K8NF4="><link rel=stylesheet href=/css/color.b0a0f8c429ce52dfa2805b5f9e99ccdae1e8fbfd9adf4f3ddb409d8201fc0c5a.css integrity="sha256-sKD4xCnOUt+igFtfnpnM2uHo+/2a308920CdggH8DFo="><link rel=stylesheet href=/css/style.min.6b5844a20592b7199d260e114204594c0d83eef9095058c6cfd42f5b0dedf8e1.css integrity="sha256-a1hEogWStxmdJg4RQgRZTA2D7vkJUFjGz9QvWw3t+OE="><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/fontawesome-free/all.min.43202d5486e011f9684a17bd6846b5c16a2619002bfc783f7e32e20dfb6bf857.css integrity="sha256-QyAtVIbgEfloShe9aEa1wWomGQAr/Hg/fjLiDftr+Fc="><noscript><link rel=stylesheet href=/lib/fontawesome-free/all.min.43202d5486e011f9684a17bd6846b5c16a2619002bfc783f7e32e20dfb6bf857.css integrity="sha256-QyAtVIbgEfloShe9aEa1wWomGQAr/Hg/fjLiDftr+Fc="></noscript><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="><noscript><link rel=stylesheet href=/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="></noscript><meta name=google-site-verification content="MQ8DNu27ayX6B_4ObiEDK09vGr1fdy7kOAnbd09hJk4"><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"pthread线程源码分析","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/mengdemao.github.io\/pthread_thread\/"},"image":["https:\/\/mengdemao.github.io\/images\/Apple-Devices-Preview.png"],"genre":"posts","keywords":"pthread","wordcount":5149,"url":"https:\/\/mengdemao.github.io\/pthread_thread\/","datePublished":"2022-07-18T21:27:23+08:00","dateModified":"2023-03-05T08:33:20+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"xxxx","logo":{"@type":"ImageObject","url":"https:\/\/mengdemao.github.io\/images\/avatar.webp","width":528,"height":560}},"author":{"@type":"Person","name":"mengdemao"},"description":"pthread线程源码分析"}</script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>function setTheme(e){document.body.setAttribute("theme",e),document.documentElement.style.setProperty("color-scheme",e==="light"?"light":"dark"),window.theme=e,window.isDark=window.theme!=="light"}function saveTheme(e){window.localStorage&&localStorage.setItem("theme",e)}function getMeta(e){const t=document.getElementsByTagName("meta");for(let n=0;n<t.length;n++)if(t[n].getAttribute("name")===e)return t[n];return""}if(window.localStorage&&localStorage.getItem("theme")){let e=localStorage.getItem("theme");e==="light"||e==="dark"||e==="black"?setTheme(e):setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}else"auto"==="light"||"auto"==="dark"||"auto"==="black"?(setTheme("auto"),saveTheme("auto")):(saveTheme("auto"),setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));let metaColors={light:"#f8f8f8",dark:"#252627",black:"#000000"};getMeta("theme-color").content=metaColors[document.body.getAttribute("theme")],window.switchThemeEventSet=new Set</script><div id=back-to-top></div><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=header-title-pre><i class='far fa-edit fa-fw'></i></span><span id=desktop-header-typeit class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/series/>系列 </a><a class=menu-item href=/authors/>作者 </a><a class=menu-item href=/showcase/>作品 </a><a class=menu-item href=/categories/documentation/>文档 </a><a class=menu-item href=/about/>关于 </a><a class=menu-item href=https://github.com/mengdemao/github.io title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw'></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<meta property="og:description" content="pthread线程源码分析"><meta property="og:type" content="article"><meta property="og:url" content="https://mengdemao.github.io/pthread_thread/"><meta property="og:image" content="https://mengdemao.github.io/images/avatar.webp"><meta property="article:section" content="posts"><meta property="article:published_time" content="2022-07-18T21:27:23+08:00"><meta property="article:modified_time" content="2023-12-23T16:42:42+08:00"><meta property="og:site_name" content="编程日志"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://mengdemao.github.io/images/avatar.webp"><meta name=twitter:title content="pthread线程源码分析"><meta name=twitter:description content="pthread线程源码分析"><meta name=application-name content="DoIt"><meta name=apple-mobile-web-app-title content="DoIt"><meta name=theme-color content="#f8f8f8"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://mengdemao.github.io/pthread_thread/><link rel=prev href=https://mengdemao.github.io/compile/><link rel=next href=https://mengdemao.github.io/pthread_lock/><link rel=stylesheet href=/css/main.40a82f90b86e2a2d0de8dc5537accbdec2b3d8d88a1314300bde9ae62a626856.css integrity="sha256-QKgvkLhuKi0N6NxVN6zL3sKz2NiKExQwC96a5ipiaFY="><link rel=stylesheet href=/lib/normalize/normalize.min.055364f5be272caa092b0e6654c165828707f8ab971e2656383a6d6392bc345e.css integrity="sha256-BVNk9b4nLKoJKw5mVMFlgocH+KuXHiZWODptY5K8NF4="><link rel=stylesheet href=/css/color.b0a0f8c429ce52dfa2805b5f9e99ccdae1e8fbfd9adf4f3ddb409d8201fc0c5a.css integrity="sha256-sKD4xCnOUt+igFtfnpnM2uHo+/2a308920CdggH8DFo="><link rel=stylesheet href=/css/style.min.6b5844a20592b7199d260e114204594c0d83eef9095058c6cfd42f5b0dedf8e1.css integrity="sha256-a1hEogWStxmdJg4RQgRZTA2D7vkJUFjGz9QvWw3t+OE="><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/fontawesome-free/all.min.43202d5486e011f9684a17bd6846b5c16a2619002bfc783f7e32e20dfb6bf857.css integrity="sha256-QyAtVIbgEfloShe9aEa1wWomGQAr/Hg/fjLiDftr+Fc="><noscript><link rel=stylesheet href=/lib/fontawesome-free/all.min.43202d5486e011f9684a17bd6846b5c16a2619002bfc783f7e32e20dfb6bf857.css integrity="sha256-QyAtVIbgEfloShe9aEa1wWomGQAr/Hg/fjLiDftr+Fc="></noscript><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="><noscript><link rel=stylesheet href=/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="></noscript><meta name=google-site-verification content="MQ8DNu27ayX6B_4ObiEDK09vGr1fdy7kOAnbd09hJk4"><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"pthread线程源码分析","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/mengdemao.github.io\/pthread_thread\/"},"image":["https:\/\/mengdemao.github.io\/images\/Apple-Devices-Preview.png"],"genre":"posts","keywords":"pthread","wordcount":5149,"url":"https:\/\/mengdemao.github.io\/pthread_thread\/","datePublished":"2022-07-18T21:27:23+08:00","dateModified":"2023-12-23T16:42:42+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"xxxx","logo":{"@type":"ImageObject","url":"https:\/\/mengdemao.github.io\/images\/avatar.webp","width":528,"height":560}},"author":{"@type":"Person","name":"mengdemao"},"description":"pthread线程源码分析"}</script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>function setTheme(e){document.body.setAttribute("theme",e),document.documentElement.style.setProperty("color-scheme",e==="light"?"light":"dark"),window.theme=e,window.isDark=window.theme!=="light"}function saveTheme(e){window.localStorage&&localStorage.setItem("theme",e)}function getMeta(e){const t=document.getElementsByTagName("meta");for(let n=0;n<t.length;n++)if(t[n].getAttribute("name")===e)return t[n];return""}if(window.localStorage&&localStorage.getItem("theme")){let e=localStorage.getItem("theme");e==="light"||e==="dark"||e==="black"?setTheme(e):setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}else"auto"==="light"||"auto"==="dark"||"auto"==="black"?(setTheme("auto"),saveTheme("auto")):(saveTheme("auto"),setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));let metaColors={light:"#f8f8f8",dark:"#252627",black:"#000000"};getMeta("theme-color").content=metaColors[document.body.getAttribute("theme")],window.switchThemeEventSet=new Set</script><div id=back-to-top></div><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=header-title-pre><i class='far fa-edit fa-fw'></i></span><span id=desktop-header-typeit class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/series/>系列 </a><a class=menu-item href=/authors/>作者 </a><a class=menu-item href=/showcase/>作品 </a><a class=menu-item href=/categories/documentation/>文档 </a><a class=menu-item href=/about/>关于 </a><a class=menu-item href=https://github.com/mengdemao/github.io title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw'></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
 <input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
 <a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw"></i>
 </a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw"></i>
@@ -11,7 +11,7 @@
 </a><span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin"></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts/ title>所有文章</a><a class=menu-item href=/tags/ title>标签</a><a class=menu-item href=/categories/ title>分类</a><a class=menu-item href=/series/ title>系列</a><a class=menu-item href=/authors/ title>作者</a><a class=menu-item href=/showcase/ title>作品</a><a class=menu-item href=/categories/documentation/ title>文档</a><a class=menu-item href=/about/ title>关于</a><a class=menu-item href=https://github.com/mengdemao/github.io title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw'></i></a><a href=javascript:void(0); class="menu-item theme-select" title=切换主题>
 <i class="fas fa-adjust fa-fw"></i>
 <select class=color-theme-select id=theme-select-mobile title=切换主题><option value=light>浅色</option><option value=dark>深色</option><option value=black>黑色</option><option value=auto>跟随系统</option></select></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto><nav id=TableOfContents><ul><li><a href=#调试环境搭建>调试环境搭建</a><ul><li><a href=#下载源码>下载源码</a></li><li><a href=#编译glibc>编译glibc</a></li><li><a href=#测试代码>测试代码</a></li></ul></li><li><a href=#pthread句柄>pthread句柄</a><ul><li><a href=#musl实现>musl实现</a></li><li><a href=#glibc实现>glibc实现</a></li></ul></li><li><a href=#所有的函数>所有的函数</a><ul><li><a href=#线程创建>线程创建</a></li><li><a href=#线程属性>线程属性</a></li><li><a href=#线程分离>线程分离</a></li><li><a href=#线程取消>线程取消</a></li><li><a href=#调度相关>调度相关</a></li></ul></li><li><a href=#linux线程实现>Linux线程实现</a></li><li><a href=#系统调用>系统调用</a><ul><li><a href=#系统调用实现musl>系统调用实现(musl)</a></li><li><a href=#系统调用实现glibc>系统调用实现(glibc)</a></li></ul></li><li><a href=#线程基础>线程基础</a><ul><li><a href=#线程创建-1>线程创建</a><ul><li><a href=#glibc实现的线程函数>glibc实现的线程函数</a></li><li><a href=#pthread管理单元申请与释放>pthread管理单元申请与释放</a></li><li><a href=#内核线程创建>内核线程创建</a></li><li><a href=#tls创建>TLS创建</a></li><li><a href=#设置启动参数>设置启动参数</a></li></ul></li><li><a href=#ptrhead进程属性机制>ptrhead进程属性机制</a></li><li><a href=#自身线程id>自身线程ID</a></li><li><a href=#线程清理函数>线程清理函数</a><ul><li><a href=#cancle设置>cancle设置</a></li></ul></li><li><a href=#线程分离-1>线程分离</a></li></ul></li></ul></nav></div></div><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC","true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">pthread线程源码分析</h1><div class=post-meta><div class=post-meta-line><span class=post-author><span class="author fas fa-user-circle fa-fw"></span><a href=https://github.com/mengdemao title=Author target=_blank rel="noopener noreferrer author" class=author>mengdemao</a>
-</span>&nbsp;<span class=post-category>收录于 </span>&nbsp;<span class=post-category>类别 <a href=/categories/pthread/><i class="far fa-folder fa-fw"></i>pthread</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2022-07-18>2022-07-18</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime=2023-03-05>2023-03-05</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 5149 字&nbsp;<i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 11 分钟&nbsp;</div></div><div class=featured-image><img loading=eager src=/featuredImage/02.jpg srcset="/featuredImage/02.jpg, /featuredImage/02.jpg 1.5x, /featuredImage/02.jpg 2x" sizes=auto alt=pthread线程源码分析 title=pthread线程源码分析 height=auto width=auto></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>目录</span>
+</span>&nbsp;<span class=post-category>收录于 </span>&nbsp;<span class=post-category>类别 <a href=/categories/pthread/><i class="far fa-folder fa-fw"></i>pthread</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2022-07-18>2022-07-18</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime=2023-12-23>2023-12-23</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 5149 字&nbsp;<i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 11 分钟&nbsp;</div></div><div class=featured-image><img loading=eager src=featuredImage/[0-9][0-9].webp srcset="featuredImage/[0-9][0-9].webp, featuredImage/[0-9][0-9].webp 1.5x, featuredImage/[0-9][0-9].webp 2x" sizes=auto alt=pthread线程源码分析 title=pthread线程源码分析 height=auto width=auto></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>目录</span>
 <span><i class="details-icon fas fa-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#调试环境搭建>调试环境搭建</a><ul><li><a href=#下载源码>下载源码</a></li><li><a href=#编译glibc>编译glibc</a></li><li><a href=#测试代码>测试代码</a></li></ul></li><li><a href=#pthread句柄>pthread句柄</a><ul><li><a href=#musl实现>musl实现</a></li><li><a href=#glibc实现>glibc实现</a></li></ul></li><li><a href=#所有的函数>所有的函数</a><ul><li><a href=#线程创建>线程创建</a></li><li><a href=#线程属性>线程属性</a></li><li><a href=#线程分离>线程分离</a></li><li><a href=#线程取消>线程取消</a></li><li><a href=#调度相关>调度相关</a></li></ul></li><li><a href=#linux线程实现>Linux线程实现</a></li><li><a href=#系统调用>系统调用</a><ul><li><a href=#系统调用实现musl>系统调用实现(musl)</a></li><li><a href=#系统调用实现glibc>系统调用实现(glibc)</a></li></ul></li><li><a href=#线程基础>线程基础</a><ul><li><a href=#线程创建-1>线程创建</a><ul><li><a href=#glibc实现的线程函数>glibc实现的线程函数</a></li><li><a href=#pthread管理单元申请与释放>pthread管理单元申请与释放</a></li><li><a href=#内核线程创建>内核线程创建</a></li><li><a href=#tls创建>TLS创建</a></li><li><a href=#设置启动参数>设置启动参数</a></li></ul></li><li><a href=#ptrhead进程属性机制>ptrhead进程属性机制</a></li><li><a href=#自身线程id>自身线程ID</a></li><li><a href=#线程清理函数>线程清理函数</a><ul><li><a href=#cancle设置>cancle设置</a></li></ul></li><li><a href=#线程分离-1>线程分离</a></li></ul></li></ul></nav></div></div><div class=content id=content><blockquote><p>基于musl源码库与glibc库,其中musl提供分析的思路,glibc分析具体实现</p></blockquote><h2 id=调试环境搭建 class=headerLink><a href=#%e8%b0%83%e8%af%95%e7%8e%af%e5%a2%83%e6%90%ad%e5%bb%ba class=header-mark></a>1 调试环境搭建</h2><h3 id=下载源码 class=headerLink><a href=#%e4%b8%8b%e8%bd%bd%e6%ba%90%e7%a0%81 class=header-mark></a>1.1 下载源码</h3><p>执行<code>/usr/lib/libc.so.6</code>,确定版本</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
@@ -154,71 +154,71 @@
 </span></span><span class=line><span class=cl>    <span class=cp>#ifndef TLS_ABOVE_TP
 </span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=kt>uintptr_t</span> <span class=o>*</span><span class=n>dtv</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	
+</span></span></span><span class=line><span class=cl><span class=cp></span>
 </span></span><span class=line><span class=cl>    <span class=cm>/* 线程链表项 */</span>
 </span></span><span class=line><span class=cl>    <span class=k>struct</span> <span class=n>pthread</span> <span class=o>*</span><span class=n>prev</span><span class=p>,</span> <span class=o>*</span><span class=n>next</span><span class=p>;</span> <span class=cm>/* non-ABI */</span>
-</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=cm>/* 系统信息 */</span>
 </span></span><span class=line><span class=cl>	<span class=kt>uintptr_t</span> <span class=n>sysinfo</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=cp>#ifndef TLS_ABOVE_TP
 </span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cp>#ifdef CANARY_PAD
 </span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=kt>uintptr_t</span> <span class=n>canary_pad</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>	<span class=cp>#endif 
+</span></span><span class=line><span class=cl>	<span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=kt>uintptr_t</span> <span class=n>canary</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=cp>#endif </span><span class=cm>/* TLS_ABOVE_TP */</span><span class=cp>
 </span></span></span><span class=line><span class=cl><span class=cp></span>
 </span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=n>tid</span><span class=p>;</span> <span class=c1>// 线程ID
-</span></span></span><span class=line><span class=cl><span class=c1></span>	
+</span></span></span><span class=line><span class=cl><span class=c1></span>
 </span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>errno_val</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=k>volatile</span> <span class=kt>int</span> <span class=n>detach_state</span><span class=p>;</span>  <span class=c1>// 分离状态
-</span></span></span><span class=line><span class=cl><span class=c1></span>	
+</span></span></span><span class=line><span class=cl><span class=c1></span>
 </span></span><span class=line><span class=cl>    <span class=k>volatile</span> <span class=kt>int</span> <span class=n>cancel</span><span class=p>;</span>					<span class=c1>// cancle启动标志
 </span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>volatile</span> <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>canceldisable</span><span class=p>;</span> 	<span class=c1>// cancle控制
 </span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>volatile</span> <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>cancelasync</span><span class=p>;</span>   	<span class=c1>// cancle同步标志
-</span></span></span><span class=line><span class=cl><span class=c1></span>	
+</span></span></span><span class=line><span class=cl><span class=c1></span>
 </span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=nl>tsd_used</span><span class=p>:</span><span class=mi>1</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>char</span> <span class=nl>dlerror_flag</span><span class=p>:</span><span class=mi>1</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>char</span> <span class=o>*</span><span class=n>map_base</span><span class=p>;</span>	<span class=c1>// mmap
 </span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=kt>size_t</span> <span class=n>map_size</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=o>*</span><span class=n>stack</span><span class=p>;</span>	<span class=c1>// 堆栈
 </span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=kt>size_t</span> <span class=n>stack_size</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>	
-</span></span><span class=line><span class=cl>    <span class=kt>size_t</span> <span class=n>guard_size</span><span class=p>;</span> 
-</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kt>size_t</span> <span class=n>guard_size</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=o>*</span><span class=n>result</span><span class=p>;</span> <span class=c1>// 返回结果,
-</span></span></span><span class=line><span class=cl><span class=c1></span>    
+</span></span></span><span class=line><span class=cl><span class=c1></span>
 </span></span><span class=line><span class=cl>    <span class=cm>/* 线程清理回调函数 pthread_cleanup_push、pthread_cleanup_pop */</span>
-</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>__ptcb</span> <span class=o>*</span><span class=n>cancelbuf</span><span class=p>;</span> 
-</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>__ptcb</span> <span class=o>*</span><span class=n>cancelbuf</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=o>**</span><span class=n>tsd</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=k>struct</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>		<span class=k>volatile</span> <span class=kt>void</span> <span class=o>*</span><span class=k>volatile</span> <span class=n>head</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>		<span class=kt>long</span> <span class=n>off</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>		<span class=k>volatile</span> <span class=kt>void</span> <span class=o>*</span><span class=k>volatile</span> <span class=n>pending</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=p>}</span> <span class=n>robust_list</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>h_errno_val</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=k>volatile</span> <span class=kt>int</span> <span class=n>timer_id</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=kt>locale_t</span> <span class=n>locale</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=k>volatile</span> <span class=kt>int</span> <span class=n>killlock</span><span class=p>[</span><span class=mi>1</span><span class=p>];</span>		<span class=c1>// 退出锁
-</span></span></span><span class=line><span class=cl><span class=c1></span>	
+</span></span></span><span class=line><span class=cl><span class=c1></span>
 </span></span><span class=line><span class=cl>    <span class=kt>char</span> <span class=o>*</span><span class=n>dlerror_buf</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=o>*</span><span class=n>stdio_locks</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=cp>#ifdef TLS_ABOVE_TP
 </span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=kt>uintptr_t</span> <span class=n>canary</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=kt>uintptr_t</span> <span class=o>*</span><span class=n>dtv</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>    
+</span></span></span><span class=line><span class=cl><span class=cp></span>
 </span></span><span class=line><span class=cl><span class=p>};</span>
 </span></span></code></pre></td></tr></table></div></div><h3 id=glibc实现 class=headerLink><a href=#glibc%e5%ae%9e%e7%8e%b0 class=header-mark></a>2.2 glibc实现</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
@@ -298,7 +298,7 @@
 </span></span><span class=line><span class=cl>  <span class=cm>/* 线程ID: typedef unsigned long int pthread_t; */</span>
 </span></span><span class=line><span class=cl>  <span class=kt>pthread_t</span> <span class=kr>thread</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>  <span class=kt>unsigned</span> <span class=kt>int</span> <span class=n>nr_refs</span><span class=p>;</span>		
+</span></span><span class=line><span class=cl>  <span class=kt>unsigned</span> <span class=kt>int</span> <span class=n>nr_refs</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>  <span class=cm>/* Detached threads have a self reference only,
 </span></span></span><span class=line><span class=cl><span class=cm>	while joinable threads have two references.
 </span></span></span><span class=line><span class=cl><span class=cm>	These are used to keep the structure valid at
@@ -307,7 +307,7 @@
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>  <span class=cm>/* Cancellation.  */</span>
 </span></span><span class=line><span class=cl>  <span class=kt>pthread_mutex_t</span> <span class=n>cancel_lock</span><span class=p>;</span>	<span class=cm>/* Protect cancel_xxx members.  */</span>
-</span></span><span class=line><span class=cl>  <span class=kt>void</span> <span class=p>(</span><span class=o>*</span><span class=n>cancel_hook</span><span class=p>)</span> <span class=p>(</span><span class=kt>void</span> <span class=o>*</span><span class=p>);</span>	
+</span></span><span class=line><span class=cl>  <span class=kt>void</span> <span class=p>(</span><span class=o>*</span><span class=n>cancel_hook</span><span class=p>)</span> <span class=p>(</span><span class=kt>void</span> <span class=o>*</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>  <span class=cm>/* Called to unblock a thread blocking
 </span></span></span><span class=line><span class=cl><span class=cm>	in a cancellation point (namely,
 </span></span></span><span class=line><span class=cl><span class=cm>	__pthread_cond_timedwait_internal).  */</span>
@@ -346,9 +346,9 @@
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=n>PTHREAD_KEY_MEMBERS</span>
 </span></span><span class=line><span class=cl>	<span class=cm>/*
-</span></span></span><span class=line><span class=cl><span class=cm>	void **thread_specifics;		
+</span></span></span><span class=line><span class=cl><span class=cm>	void **thread_specifics;
 </span></span></span><span class=line><span class=cl><span class=cm>  	// This is only resized by the thread, and always growing
-</span></span></span><span class=line><span class=cl><span class=cm>	unsigned thread_specifics_size;	
+</span></span></span><span class=line><span class=cl><span class=cm>	unsigned thread_specifics_size;
 </span></span></span><span class=line><span class=cl><span class=cm>	// Number of entries in thread_specifics
 </span></span></span><span class=line><span class=cl><span class=cm>	*/</span>
 </span></span><span class=line><span class=cl>
@@ -357,12 +357,12 @@
 </span></span></span><span class=line><span class=cl><span class=cm>	thread_t kernel_thread;
 </span></span></span><span class=line><span class=cl><span class=cm>	mach_msg_header_t wakeupmsg;
 </span></span></span><span class=line><span class=cl><span class=cm>	*/</span>
-</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=cm>/* 线程控制块:与系统进行沟通 */</span>
 </span></span><span class=line><span class=cl> 	<span class=kt>tcbhead_t</span> <span class=o>*</span><span class=n>tcb</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>	<span class=cm>/* Queue links.  Since PREVP is used to determine 
-</span></span></span><span class=line><span class=cl><span class=cm>	if a thread has been awaken, 
+</span></span><span class=line><span class=cl>	<span class=cm>/* Queue links.  Since PREVP is used to determine
+</span></span></span><span class=line><span class=cl><span class=cm>	if a thread has been awaken,
 </span></span></span><span class=line><span class=cl><span class=cm>	it must be protected by the queue lock.  */</span>
 </span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>__pthread</span> <span class=o>*</span><span class=n>next</span><span class=p>,</span> <span class=o>**</span><span class=n>prevp</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=p>};</span>
@@ -456,8 +456,8 @@
 </span><span class=lnt>6
 </span><span class=lnt>7
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=c1>// 线程创建
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kt>int</span> <span class=nf>pthread_create</span><span class=p>(</span><span class=kt>pthread_t</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>,</span> 
-</span></span><span class=line><span class=cl>                   <span class=k>const</span> <span class=kt>pthread_attr_t</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>,</span> 
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kt>int</span> <span class=nf>pthread_create</span><span class=p>(</span><span class=kt>pthread_t</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                   <span class=k>const</span> <span class=kt>pthread_attr_t</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>                   <span class=kt>void</span> <span class=o>*</span><span class=p>(</span><span class=o>*</span><span class=p>)(</span><span class=kt>void</span> <span class=o>*</span><span class=p>),</span> <span class=kt>void</span> <span class=o>*</span><span class=n>__restrict</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=c1>// 线程退出
@@ -542,14 +542,14 @@
 </span><span class=lnt>12
 </span><span class=lnt>13
 </span><span class=lnt>14
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_getschedparam</span><span class=p>(</span><span class=kt>pthread_t</span> <span class=n>t</span><span class=p>,</span> 
-</span></span><span class=line><span class=cl>                          <span class=kt>int</span> <span class=o>*</span><span class=kr>restrict</span> <span class=n>policy</span><span class=p>,</span> 
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_getschedparam</span><span class=p>(</span><span class=kt>pthread_t</span> <span class=n>t</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                          <span class=kt>int</span> <span class=o>*</span><span class=kr>restrict</span> <span class=n>policy</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>                          <span class=k>struct</span> <span class=n>sched_param</span> <span class=o>*</span><span class=kr>restrict</span> <span class=n>param</span><span class=p>);</span>
 </span></span><span class=line><span class=cl><span class=nf>__syscall</span><span class=p>(</span><span class=n>SYS_sched_getparam</span><span class=p>,</span> <span class=kt>pthread_t</span><span class=o>-&gt;</span><span class=n>tid</span><span class=p>,</span> <span class=n>sched_param</span><span class=p>);</span>
 </span></span><span class=line><span class=cl><span class=nf>__syscall</span><span class=p>(</span><span class=n>SYS_sched_getscheduler</span><span class=p>,</span> <span class=kt>pthread_t</span><span class=o>-&gt;</span><span class=n>tid</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_setschedparam</span><span class=p>(</span><span class=kt>pthread_t</span> <span class=n>t</span><span class=p>,</span> 
-</span></span><span class=line><span class=cl>                          <span class=kt>int</span> <span class=n>policy</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_setschedparam</span><span class=p>(</span><span class=kt>pthread_t</span> <span class=n>t</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                          <span class=kt>int</span> <span class=n>policy</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>                          <span class=k>const</span> <span class=k>struct</span> <span class=n>sched_param</span> <span class=o>*</span><span class=n>param</span><span class=p>);</span>
 </span></span><span class=line><span class=cl><span class=nf>__syscall</span><span class=p>(</span><span class=n>SYS_sched_setscheduler</span><span class=p>,</span> <span class=kt>pthread_t</span><span class=o>-&gt;</span><span class=n>tid</span><span class=p>,</span> <span class=n>policy</span><span class=p>,</span> <span class=n>sched_param</span><span class=p>);</span>
 </span></span><span class=line><span class=cl><span class=c1>// sched_param保存着优先级参数
@@ -602,7 +602,7 @@
 </span><span class=lnt>44
 </span><span class=lnt>45
 </span><span class=lnt>46
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cp>#define __asm_syscall(...) 
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cp>#define __asm_syscall(...)
 </span></span></span><span class=line><span class=cl><span class=cp></span><span class=k>do</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>	<span class=n>__asm__</span> <span class=nf>__volatile__</span> <span class=p>(</span> <span class=s>&#34;svc 0&#34;</span> <span class=o>:</span> <span class=s>&#34;=r&#34;</span><span class=p>(</span><span class=n>r0</span><span class=p>)</span> <span class=o>:</span> <span class=nl>__VA_ARGS__</span> <span class=p>:</span> <span class=s>&#34;memory&#34;</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=n>r0</span><span class=p>;</span>
@@ -883,12 +883,12 @@
 </span><span class=lnt>182
 </span><span class=lnt>183
 </span><span class=lnt>184
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>typedef</span> <span class=k>struct</span> <span class=p>{</span> 
-</span></span><span class=line><span class=cl>    <span class=k>union</span> <span class=p>{</span> 
-</span></span><span class=line><span class=cl>        <span class=kt>int</span> <span class=n>__i</span><span class=p>[</span><span class=k>sizeof</span><span class=p>(</span><span class=kt>long</span><span class=p>)</span><span class=o>==</span><span class=mi>8</span><span class=o>?</span><span class=mi>14</span><span class=o>:</span><span class=mi>9</span><span class=p>];</span> 
-</span></span><span class=line><span class=cl>        <span class=k>volatile</span> <span class=kt>int</span> <span class=n>__vi</span><span class=p>[</span><span class=k>sizeof</span><span class=p>(</span><span class=kt>long</span><span class=p>)</span><span class=o>==</span><span class=mi>8</span><span class=o>?</span><span class=mi>14</span><span class=o>:</span><span class=mi>9</span><span class=p>];</span> 
-</span></span><span class=line><span class=cl>        <span class=kt>unsigned</span> <span class=kt>long</span> <span class=n>__s</span><span class=p>[</span><span class=k>sizeof</span><span class=p>(</span><span class=kt>long</span><span class=p>)</span><span class=o>==</span><span class=mi>8</span><span class=o>?</span><span class=mi>7</span><span class=o>:</span><span class=mi>9</span><span class=p>];</span> 
-</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=n>__u</span><span class=p>;</span> 
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>typedef</span> <span class=k>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>union</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=kt>int</span> <span class=n>__i</span><span class=p>[</span><span class=k>sizeof</span><span class=p>(</span><span class=kt>long</span><span class=p>)</span><span class=o>==</span><span class=mi>8</span><span class=o>?</span><span class=mi>14</span><span class=o>:</span><span class=mi>9</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>        <span class=k>volatile</span> <span class=kt>int</span> <span class=n>__vi</span><span class=p>[</span><span class=k>sizeof</span><span class=p>(</span><span class=kt>long</span><span class=p>)</span><span class=o>==</span><span class=mi>8</span><span class=o>?</span><span class=mi>14</span><span class=o>:</span><span class=mi>9</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>        <span class=kt>unsigned</span> <span class=kt>long</span> <span class=n>__s</span><span class=p>[</span><span class=k>sizeof</span><span class=p>(</span><span class=kt>long</span><span class=p>)</span><span class=o>==</span><span class=mi>8</span><span class=o>?</span><span class=mi>7</span><span class=o>:</span><span class=mi>9</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=n>__u</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=p>}</span> <span class=kt>pthread_attr_t</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#define __SU (sizeof(size_t)/sizeof(int))
@@ -935,7 +935,7 @@
 </span></span></span><span class=line><span class=cl><span class=cm> */</span>
 </span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_create</span><span class=p>(</span><span class=kt>pthread_t</span> <span class=o>*</span><span class=kr>restrict</span> <span class=n>res</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>				   <span class=k>const</span> <span class=kt>pthread_attr_t</span> <span class=o>*</span><span class=kr>restrict</span> <span class=n>attrp</span><span class=p>,</span>
-</span></span><span class=line><span class=cl>				   <span class=kt>void</span> <span class=o>*</span><span class=p>(</span><span class=o>*</span><span class=n>entry</span><span class=p>)(</span><span class=kt>void</span> <span class=o>*</span><span class=p>),</span> 
+</span></span><span class=line><span class=cl>				   <span class=kt>void</span> <span class=o>*</span><span class=p>(</span><span class=o>*</span><span class=n>entry</span><span class=p>)(</span><span class=kt>void</span> <span class=o>*</span><span class=p>),</span>
 </span></span><span class=line><span class=cl>                   <span class=kt>void</span> <span class=o>*</span><span class=kr>restrict</span> <span class=n>arg</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>ret</span><span class=p>,</span> <span class=n>c11</span> <span class=o>=</span> <span class=p>(</span><span class=n>attrp</span> <span class=o>==</span> <span class=n>__ATTRP_C11_THREAD</span><span class=p>);</span>
@@ -947,15 +947,15 @@
 </span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=n>flags</span> <span class=o>=</span> <span class=n>CLONE_VM</span> <span class=o>|</span> <span class=n>CLONE_FS</span> <span class=o>|</span> <span class=n>CLONE_FILES</span> <span class=o>|</span> <span class=n>CLONE_SIGHAND</span>
 </span></span><span class=line><span class=cl>		<span class=o>|</span> <span class=n>CLONE_THREAD</span> <span class=o>|</span> <span class=n>CLONE_SYSVSEM</span> <span class=o>|</span> <span class=n>CLONE_SETTLS</span>
 </span></span><span class=line><span class=cl>		<span class=o>|</span> <span class=n>CLONE_PARENT_SETTID</span> <span class=o>|</span> <span class=n>CLONE_CHILD_CLEARTID</span> <span class=o>|</span> <span class=n>CLONE_DETACHED</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=c1>// 通过一定的规则将attrp--&gt;attr
 </span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=kt>pthread_attr_t</span> <span class=n>attr</span> <span class=o>=</span> <span class=p>{</span> <span class=mi>0</span> <span class=p>};</span>
 </span></span><span class=line><span class=cl>	<span class=kt>sigset_t</span> <span class=n>set</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=cm>/* 如果没有设置堆栈大小,先设置默认的堆栈大小 */</span>
 </span></span><span class=line><span class=cl>    <span class=n>attr</span><span class=p>.</span><span class=n>_a_stacksize</span> <span class=o>=</span> <span class=n>__default_stacksize</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=n>attr</span><span class=p>.</span><span class=n>_a_guardsize</span> <span class=o>=</span> <span class=n>__default_guardsize</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=cm>/* 填充pthread成员 */</span>
 </span></span><span class=line><span class=cl>    <span class=n>new</span> <span class=o>=</span> <span class=nf>__copy_tls</span><span class=p>(</span><span class=n>tsd</span> <span class=o>-</span> <span class=n>libc</span><span class=p>.</span><span class=n>tls_size</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>	<span class=n>new</span><span class=o>-&gt;</span><span class=n>map_base</span> <span class=o>=</span> <span class=n>map</span><span class=p>;</span>
@@ -974,33 +974,33 @@
 </span></span><span class=line><span class=cl>	<span class=n>new</span><span class=o>-&gt;</span><span class=n>robust_list</span><span class=p>.</span><span class=n>head</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>new</span><span class=o>-&gt;</span><span class=n>robust_list</span><span class=p>.</span><span class=n>head</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=n>new</span><span class=o>-&gt;</span><span class=n>canary</span> <span class=o>=</span> <span class=n>self</span><span class=o>-&gt;</span><span class=n>canary</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=n>new</span><span class=o>-&gt;</span><span class=n>sysinfo</span> <span class=o>=</span> <span class=n>self</span><span class=o>-&gt;</span><span class=n>sysinfo</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=cm>/* 移动stack指针,保存启动参数 */</span>
 </span></span><span class=line><span class=cl>    <span class=n>stack</span> <span class=o>-=</span> <span class=p>(</span><span class=kt>uintptr_t</span><span class=p>)</span><span class=n>stack</span> <span class=o>%</span> <span class=k>sizeof</span><span class=p>(</span><span class=kt>uintptr_t</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>	<span class=n>stack</span> <span class=o>-=</span> <span class=k>sizeof</span><span class=p>(</span><span class=k>struct</span> <span class=n>start_args</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=cm>/* 设置启动参数 */</span>
 </span></span><span class=line><span class=cl>    <span class=k>struct</span> <span class=n>start_args</span> <span class=o>*</span><span class=n>args</span> <span class=o>=</span> <span class=p>(</span><span class=kt>void</span> <span class=o>*</span><span class=p>)</span><span class=n>stack</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=n>args</span><span class=o>-&gt;</span><span class=n>start_func</span> <span class=o>=</span> <span class=n>entry</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=n>args</span><span class=o>-&gt;</span><span class=n>start_arg</span> <span class=o>=</span> <span class=n>arg</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=n>args</span><span class=o>-&gt;</span><span class=n>control</span> <span class=o>=</span> <span class=n>attr</span><span class=p>.</span><span class=n>_a_sched</span> <span class=o>?</span> <span class=mi>1</span> <span class=o>:</span> <span class=mi>0</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=cm>/* 调用clone创建线程  */</span>
 </span></span><span class=line><span class=cl>    <span class=nf>clone</span><span class=p>(</span><span class=n>start</span><span class=p>,</span> <span class=n>stack</span><span class=p>,</span> <span class=n>flags</span><span class=p>,</span> <span class=n>args</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>new</span><span class=o>-&gt;</span><span class=n>tid</span><span class=p>,</span> <span class=nf>TP_ADJ</span><span class=p>(</span><span class=n>new</span><span class=p>),</span> <span class=o>&amp;</span><span class=n>__thread_list_lock</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=cm>/* 设置调度器 */</span>
 </span></span><span class=line><span class=cl>    <span class=n>ret</span> <span class=o>=</span> <span class=nf>__syscall</span><span class=p>(</span><span class=n>SYS_sched_setscheduler</span><span class=p>,</span> <span class=n>new</span><span class=o>-&gt;</span><span class=n>tid</span><span class=p>,</span> <span class=n>attr</span><span class=p>.</span><span class=n>_a_policy</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>attr</span><span class=p>.</span><span class=n>_a_prio</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=nf>a_swap</span><span class=p>(</span><span class=o>&amp;</span><span class=n>args</span><span class=o>-&gt;</span><span class=n>control</span><span class=p>,</span> <span class=n>ret</span> <span class=o>?</span> <span class=mi>3</span> <span class=o>:</span> <span class=mi>0</span><span class=p>)</span><span class=o>==</span><span class=mi>2</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>		<span class=nf>__wake</span><span class=p>(</span><span class=o>&amp;</span><span class=n>args</span><span class=o>-&gt;</span><span class=n>control</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=mi>1</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>ret</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>		<span class=nf>__wait</span><span class=p>(</span><span class=o>&amp;</span><span class=n>args</span><span class=o>-&gt;</span><span class=n>control</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=mi>0</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=cm>/* 初始化链表 */</span>
 </span></span><span class=line><span class=cl>    <span class=n>new</span><span class=o>-&gt;</span><span class=n>next</span> <span class=o>=</span> <span class=n>self</span><span class=o>-&gt;</span><span class=n>next</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=n>new</span><span class=o>-&gt;</span><span class=n>prev</span> <span class=o>=</span> <span class=n>self</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=n>new</span><span class=o>-&gt;</span><span class=n>next</span><span class=o>-&gt;</span><span class=n>prev</span> <span class=o>=</span> <span class=n>new</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=n>new</span><span class=o>-&gt;</span><span class=n>prev</span><span class=o>-&gt;</span><span class=n>next</span> <span class=o>=</span> <span class=n>new</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=cm>/* 返回new作为线程ID */</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
 </span></span><span class=line><span class=cl>
@@ -1008,12 +1008,12 @@
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>	<span class=kt>pthread_t</span> <span class=n>self</span> <span class=o>=</span> <span class=nf>__pthread_self</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>	<span class=kt>sigset_t</span> <span class=n>set</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=cm>/*  设置退出标志 */</span>
 </span></span><span class=line><span class=cl>    <span class=n>self</span><span class=o>-&gt;</span><span class=n>canceldisable</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=n>self</span><span class=o>-&gt;</span><span class=n>cancelasync</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=n>self</span><span class=o>-&gt;</span><span class=n>result</span> <span class=o>=</span> <span class=n>result</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=cm>/* 执行线程清理函数 */</span>
 </span></span><span class=line><span class=cl>	<span class=k>while</span> <span class=p>(</span><span class=n>self</span><span class=o>-&gt;</span><span class=n>cancelbuf</span><span class=p>)</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>		<span class=kt>void</span> <span class=p>(</span><span class=o>*</span><span class=n>f</span><span class=p>)(</span><span class=kt>void</span> <span class=o>*</span><span class=p>)</span> <span class=o>=</span> <span class=n>self</span><span class=o>-&gt;</span><span class=n>cancelbuf</span><span class=o>-&gt;</span><span class=n>__f</span><span class=p>;</span>
@@ -1023,12 +1023,12 @@
 </span></span><span class=line><span class=cl>	<span class=p>}</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>state</span> <span class=o>=</span> <span class=nf>a_cas</span><span class=p>(</span><span class=o>&amp;</span><span class=n>self</span><span class=o>-&gt;</span><span class=n>detach_state</span><span class=p>,</span> <span class=n>DT_JOINABLE</span><span class=p>,</span> <span class=n>DT_EXITING</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=cm>/* 如果线程分离状态,则代表需要自己手动释放内存 */</span>
 </span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>state</span><span class=o>==</span><span class=n>DT_DETACHED</span> <span class=o>&amp;&amp;</span> <span class=n>self</span><span class=o>-&gt;</span><span class=n>map_base</span><span class=p>)</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>        <span class=nf>__vm_wait</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>	<span class=p>}</span>
-</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=k>volatile</span> <span class=kt>void</span> <span class=o>*</span><span class=k>volatile</span> <span class=o>*</span><span class=n>rp</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=k>while</span> <span class=p>((</span><span class=n>rp</span><span class=o>=</span><span class=n>self</span><span class=o>-&gt;</span><span class=n>robust_list</span><span class=p>.</span><span class=n>head</span><span class=p>)</span> <span class=o>&amp;&amp;</span> <span class=n>rp</span> <span class=o>!=</span> <span class=o>&amp;</span><span class=n>self</span><span class=o>-&gt;</span><span class=n>robust_list</span><span class=p>.</span><span class=n>head</span><span class=p>)</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>		<span class=kt>pthread_mutex_t</span> <span class=o>*</span><span class=n>m</span> <span class=o>=</span> <span class=p>(</span><span class=kt>void</span> <span class=o>*</span><span class=p>)((</span><span class=kt>char</span> <span class=o>*</span><span class=p>)</span><span class=n>rp</span>
@@ -1051,13 +1051,13 @@
 </span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=n>self</span><span class=o>-&gt;</span><span class=n>robust_list</span><span class=p>.</span><span class=n>off</span><span class=p>)</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>			<span class=nf>__syscall</span><span class=p>(</span><span class=n>SYS_set_robust_list</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=mi>3</span><span class=o>*</span><span class=k>sizeof</span><span class=p>(</span><span class=kt>long</span><span class=p>));</span>
 </span></span><span class=line><span class=cl>        <span class=p>}</span>
-</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>		<span class=nf>__unmapself</span><span class=p>(</span><span class=n>self</span><span class=o>-&gt;</span><span class=n>map_base</span><span class=p>,</span> <span class=n>self</span><span class=o>-&gt;</span><span class=n>map_size</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>	<span class=p>}</span>
-</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=cm>/* 设置线程为退出 */</span>
 </span></span><span class=line><span class=cl>    <span class=nf>a_store</span><span class=p>(</span><span class=o>&amp;</span><span class=n>self</span><span class=o>-&gt;</span><span class=n>detach_state</span><span class=p>,</span> <span class=n>DT_EXITED</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=cm>/* 唤醒 */</span>
 </span></span><span class=line><span class=cl>    <span class=nf>__wake</span><span class=p>(</span><span class=o>&amp;</span><span class=n>self</span><span class=o>-&gt;</span><span class=n>detach_state</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=mi>1</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>
@@ -1145,29 +1145,29 @@
 </span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=k>struct</span> <span class=n>__pthread_attr</span> <span class=o>*</span><span class=n>setup</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=kt>sigset_t</span> <span class=n>sigset</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=kt>size_t</span> <span class=n>stacksize</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=n>err</span><span class=p>;</span>	
-</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=n>err</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=n>err</span> <span class=o>=</span> <span class=nf>__pthread_alloc</span> <span class=p>(</span><span class=o>&amp;</span><span class=n>pthread</span><span class=p>);</span> <span class=c1>// 申请pthread
-</span></span></span><span class=line><span class=cl><span class=c1></span>	
+</span></span></span><span class=line><span class=cl><span class=c1></span>
 </span></span><span class=line><span class=cl>	<span class=cm>/* 填充堆栈大小,优先级从上到下 */</span>
-</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=cm>/* 1. 用户设定 */</span>
 </span></span><span class=line><span class=cl>	<span class=n>stacksize</span> <span class=o>=</span> <span class=n>setup</span><span class=o>-&gt;</span><span class=n>__stacksize</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=cm>/* 2. 系统限制 */</span>
 </span></span><span class=line><span class=cl>    <span class=nf>__getrlimit</span> <span class=p>(</span><span class=n>RLIMIT_STACK</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>rlim</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>	<span class=n>stacksize</span> <span class=o>=</span> <span class=n>rlim</span><span class=p>.</span><span class=n>rlim_cur</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=cm>/* 3. 默认大小8M */</span>
 </span></span><span class=line><span class=cl>	<span class=n>stacksize</span> <span class=o>=</span> <span class=n>PTHREAD_STACK_DEFAULT</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=cm>/* 最后将结果回填 */</span>
 </span></span><span class=line><span class=cl>	<span class=n>pthread</span><span class=o>-&gt;</span><span class=n>stacksize</span> <span class=o>=</span> <span class=n>stacksize</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=cm>/* 确定PTHREAD_DETACHED/PTHREAD_JOINABLE */</span>
 </span></span><span class=line><span class=cl>	<span class=n>pthread</span><span class=o>-&gt;</span><span class=n>state</span> <span class=o>=</span> <span class=p>(</span><span class=n>setup</span><span class=o>-&gt;</span><span class=n>__detachstate</span> <span class=o>==</span> <span class=n>PTHREAD_CREATE_DETACHED</span>
 </span></span><span class=line><span class=cl>					  <span class=o>?</span> <span class=nl>PTHREAD_DETACHED</span> <span class=p>:</span> <span class=n>PTHREAD_JOINABLE</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=cm>/* 1. 填充堆栈:用户提供堆栈 */</span>
 </span></span><span class=line><span class=cl>	<span class=n>pthread</span><span class=o>-&gt;</span><span class=n>stackaddr</span> <span class=o>=</span> <span class=n>setup</span><span class=o>-&gt;</span><span class=n>__stackaddr</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=n>pthread</span><span class=o>-&gt;</span><span class=n>guardsize</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
@@ -1180,30 +1180,30 @@
 </span></span><span class=line><span class=cl>				   <span class=o>+</span> <span class=n>stacksize</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>	<span class=n>pthread</span><span class=o>-&gt;</span><span class=n>guardsize</span> <span class=o>=</span> <span class=n>setup</span><span class=o>-&gt;</span><span class=n>__guardsize</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=n>pthread</span><span class=o>-&gt;</span><span class=n>stack</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=cm>/* 申请内核线程 */</span>
 </span></span><span class=line><span class=cl>    <span class=nf>__pthread_thread_alloc</span> <span class=p>(</span><span class=n>pthread</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=cm>/* 申请线程控制块 */</span>
 </span></span><span class=line><span class=cl>    <span class=n>pthread</span><span class=o>-&gt;</span><span class=n>tcb</span> <span class=o>=</span> <span class=nf>_dl_allocate_tls</span> <span class=p>(</span><span class=nb>NULL</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>    <span class=n>pthread</span><span class=o>-&gt;</span><span class=n>tcb</span><span class=o>-&gt;</span><span class=n>tcb</span> <span class=o>=</span> <span class=n>pthread</span><span class=o>-&gt;</span><span class=n>tcb</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=cm>/* 设置入口地址等相关参数 */</span>
 </span></span><span class=line><span class=cl>	<span class=nf>__pthread_setup</span> <span class=p>(</span><span class=n>pthread</span><span class=p>,</span> <span class=n>entry_point</span><span class=p>,</span> <span class=n>start_routine</span><span class=p>,</span> <span class=n>arg</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=cm>/* 初始化信号 */</span>
 </span></span><span class=line><span class=cl>    <span class=nf>__pthread_sigstate_init</span> <span class=p>(</span><span class=n>pthread</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>    <span class=nf>__pthread_sigstate</span> <span class=p>(</span><span class=nf>_pthread_self</span><span class=p>(),</span> <span class=mi>0</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>pthread</span><span class=o>-&gt;</span><span class=n>init_sigset</span><span class=p>,</span> <span class=mi>0</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=cm>/* 增加计数 */</span>
 </span></span><span class=line><span class=cl>    <span class=nf>atomic_increment</span> <span class=p>(</span><span class=o>&amp;</span><span class=n>__pthread_total</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>    <span class=nf>__libc_rwlock_rdlock</span> <span class=p>(</span><span class=nf>GL</span> <span class=p>(</span><span class=n>dl_pthread_threads_lock</span><span class=p>));</span>
 </span></span><span class=line><span class=cl>  	<span class=nf>GL</span> <span class=p>(</span><span class=n>dl_pthread_threads</span><span class=p>)[</span><span class=n>pthread</span><span class=o>-&gt;</span><span class=kr>thread</span> <span class=o>-</span> <span class=mi>1</span><span class=p>]</span> <span class=o>=</span> <span class=n>pthread</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>  	<span class=nf>__libc_rwlock_unlock</span> <span class=p>(</span><span class=nf>GL</span> <span class=p>(</span><span class=n>dl_pthread_threads_lock</span><span class=p>));</span>
-</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=cm>/* 创建结束,返回线程ID  */</span>
 </span></span><span class=line><span class=cl>	<span class=o>*</span><span class=kr>thread</span> <span class=o>=</span> <span class=n>pthread</span><span class=o>-&gt;</span><span class=kr>thread</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=cm>/* 启动调度 */</span>
 </span></span><span class=line><span class=cl>    <span class=nf>__pthread_thread_start</span><span class=p>(</span><span class=n>pthread</span><span class=p>);</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
@@ -1269,7 +1269,7 @@
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=c1>/// 创建唤醒消息
 </span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nf>create_wakeupmsg</span><span class=p>(</span><span class=kr>thread</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=c1>/// 创建内核线程
 </span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nf>__thread_create</span><span class=p>(</span><span class=nf>__mach_task_self</span><span class=p>(),</span> <span class=o>&amp;</span><span class=kr>thread</span><span class=o>-&gt;</span><span class=n>kernel_thread</span><span class=p>);</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
@@ -1291,7 +1291,7 @@
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>void</span> <span class=o>*</span><span class=nf>_dl_allocate_tls</span> <span class=p>(</span><span class=kt>void</span> <span class=o>*</span><span class=n>mem</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=o>*</span><span class=n>result</span> <span class=o>=</span> <span class=n>NULLL</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=nb>NULL</span> <span class=o>==</span> <span class=n>mem</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>    <span class=p>{</span>
 </span></span><span class=line><span class=cl>        <span class=n>result</span> <span class=o>=</span> <span class=nf>_dl_allocate_tls_storage</span><span class=p>();</span>
@@ -1300,7 +1300,7 @@
 </span></span><span class=line><span class=cl>    <span class=p>{</span>
 </span></span><span class=line><span class=cl>        <span class=n>result</span> <span class=o>=</span> <span class=nf>allocate_dtv</span><span class=p>(</span><span class=n>mem</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>    <span class=p>}</span>
-</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nf>_dl_allocate_tls_init</span><span class=p>(</span><span class=n>result</span><span class=p>);</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
 </span></span></code></pre></td></tr></table></div></div><h4 id=设置启动参数 class=headerLink><a href=#%e8%ae%be%e7%bd%ae%e5%90%af%e5%8a%a8%e5%8f%82%e6%95%b0 class=header-mark></a>6.1.5 设置启动参数</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
@@ -1316,13 +1316,13 @@
 </span><span class=lnt>11
 </span><span class=lnt>12
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=c1>// 1. 线程实体
-</span></span></span><span class=line><span class=cl><span class=c1>// 2. 入口函数 entry_point --&gt; start_routine(arg); 
+</span></span></span><span class=line><span class=cl><span class=c1>// 2. 入口函数 entry_point --&gt; start_routine(arg);
 </span></span></span><span class=line><span class=cl><span class=c1>// 3. 用户线程
 </span></span></span><span class=line><span class=cl><span class=c1>// 4. 用户参数
 </span></span></span><span class=line><span class=cl><span class=c1></span><span class=kt>int</span> <span class=nf>__pthread_setup</span> <span class=p>(</span><span class=k>struct</span> <span class=n>__pthread</span> <span class=o>*</span><span class=kr>thread</span><span class=p>,</span>
-</span></span><span class=line><span class=cl>	<span class=kt>void</span> <span class=p>(</span><span class=o>*</span><span class=n>entry_point</span><span class=p>)</span> <span class=p>(</span><span class=k>struct</span> <span class=n>__pthread</span> <span class=o>*</span><span class=p>,</span> <span class=kt>void</span> <span class=o>*</span><span class=p>(</span><span class=o>*</span><span class=p>)(</span><span class=kt>void</span> <span class=o>*</span><span class=p>),</span> <span class=kt>void</span> <span class=o>*</span><span class=p>),</span> 
+</span></span><span class=line><span class=cl>	<span class=kt>void</span> <span class=p>(</span><span class=o>*</span><span class=n>entry_point</span><span class=p>)</span> <span class=p>(</span><span class=k>struct</span> <span class=n>__pthread</span> <span class=o>*</span><span class=p>,</span> <span class=kt>void</span> <span class=o>*</span><span class=p>(</span><span class=o>*</span><span class=p>)(</span><span class=kt>void</span> <span class=o>*</span><span class=p>),</span> <span class=kt>void</span> <span class=o>*</span><span class=p>),</span>
 </span></span><span class=line><span class=cl>	<span class=kt>void</span> <span class=o>*</span><span class=p>(</span><span class=o>*</span><span class=n>start_routine</span><span class=p>)</span> <span class=p>(</span><span class=kt>void</span> <span class=o>*</span><span class=p>),</span> <span class=kt>void</span> <span class=o>*</span><span class=n>arg</span><span class=p>)</span>
-</span></span><span class=line><span class=cl><span class=p>{</span>	
+</span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=cm>/* 设置线程上下文:此时应该思考一个问题，什么叫做上下文 */</span>
 </span></span><span class=line><span class=cl>    <span class=kr>thread</span><span class=o>-&gt;</span><span class=n>mcontext</span><span class=p>.</span><span class=n>pc</span> <span class=o>=</span> <span class=n>entry_point</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>  	<span class=kr>thread</span><span class=o>-&gt;</span><span class=n>mcontext</span><span class=p>.</span><span class=n>sp</span> <span class=o>=</span> <span class=nf>stack_setup</span> <span class=p>(</span><span class=kr>thread</span><span class=p>,</span> <span class=n>start_routine</span><span class=p>,</span> <span class=n>arg</span><span class=p>);</span>
@@ -1369,7 +1369,7 @@
 </span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_attr_setinheritsched</span><span class=p>(</span><span class=kt>pthread_attr_t</span> <span class=o>*</span><span class=n>a</span><span class=p>,</span> <span class=kt>int</span> <span class=n>inherit</span><span class=p>);</span>
 </span></span><span class=line><span class=cl><span class=kt>pthread_attr_t</span><span class=o>-&gt;</span><span class=n>_a_sched</span> <span class=o>=</span> <span class=n>inherit</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_attr_setschedparam</span><span class=p>(</span><span class=kt>pthread_attr_t</span> <span class=o>*</span><span class=kr>restrict</span> <span class=n>a</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_attr_setschedparam</span><span class=p>(</span><span class=kt>pthread_attr_t</span> <span class=o>*</span><span class=kr>restrict</span> <span class=n>a</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=k>const</span> <span class=k>struct</span> <span class=n>sched_param</span> <span class=o>*</span><span class=kr>restrict</span> <span class=n>param</span><span class=p>);</span>
 </span></span><span class=line><span class=cl><span class=kt>pthread_attr_t</span><span class=o>-&gt;</span><span class=n>_a_prio</span> <span class=o>=</span> <span class=n>param</span><span class=o>-&gt;</span><span class=n>sched_priority</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
@@ -1538,12 +1538,12 @@
 </span></span><span class=line><span class=cl><span class=n>self</span><span class=o>-&gt;</span><span class=n>cancelasync</span> <span class=o>--&gt;</span> <span class=n>old</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=n>self</span><span class=o>-&gt;</span><span class=n>cancelasync</span> <span class=o>&lt;--</span> <span class=n>new</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=c1>// 同时还会执行__pthread_testcancel
-</span></span></span><span class=line><span class=cl><span class=c1></span>	
+</span></span></span><span class=line><span class=cl><span class=c1></span>
 </span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_cancel</span><span class=p>(</span><span class=kt>pthread_t</span> <span class=n>t</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>	<span class=c1>// 自己的线程,直接退出
 </span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nf>pthread_exit</span><span class=p>(</span><span class=n>PTHREAD_CANCELED</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=c1>// 不是自己,发送退出信息
 </span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nf>pthread_kill</span><span class=p>(</span><span class=n>t</span><span class=p>,</span> <span class=n>SIGCANCEL</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
@@ -1631,10 +1631,10 @@
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>	<span class=nf>__block_all_sigs</span><span class=p>(</span><span class=o>&amp;</span><span class=n>set</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>	<span class=nf>LOCK</span><span class=p>(</span><span class=n>t</span><span class=o>-&gt;</span><span class=n>killlock</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=c1>// 仅仅对线程发送了一个信号
 </span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nf>__syscall</span><span class=p>(</span><span class=n>SYS_tkill</span><span class=p>,</span> <span class=n>t</span><span class=o>-&gt;</span><span class=n>tid</span><span class=p>,</span> <span class=n>sig</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=nf>UNLOCK</span><span class=p>(</span><span class=n>t</span><span class=o>-&gt;</span><span class=n>killlock</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>	<span class=nf>__restore_sigs</span><span class=p>(</span><span class=o>&amp;</span><span class=n>set</span><span class=p>);</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
@@ -1743,10 +1743,10 @@
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>	<span class=cm>/* 设置线程分离状态 */</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></td></tr></table></div></div></div><h2>相关内容</h2><div class=related-container><div class=related-item-container><div class=related-image><a href=/pthread_local_storage/><img loading=lazy src=/featuredImage/02.jpg srcset="/featuredImage/02.jpg, /featuredImage/02.jpg 1.5x, /featuredImage/02.jpg 2x" sizes=auto alt=pthread线程源码分析 title=pthread线程源码分析 height=200 width=400></a></div><h2 class=related-title><a href=/pthread_local_storage/>线程局部存储分析</a></h2></div><div class=related-item-container><div class=related-image><a href=/pthread_lock/><img loading=lazy src=/featuredImage/02.jpg srcset="/featuredImage/02.jpg, /featuredImage/02.jpg 1.5x, /featuredImage/02.jpg 2x" sizes=auto alt=pthread线程源码分析 title=pthread线程源码分析 height=200 width=400></a></div><h2 class=related-title><a href=/pthread_lock/>pthread线程同步</a></h2></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2023-03-05&nbsp;<a class=git-hash href=https://github.com/mengdemao/github.io.git/commit/3b6739100fd06f2e84ee6820f5fa0576ed4f6f44 target=_blank title="commit by mengdemao(mengdemao19951021@163.com) 3b6739100fd06f2e84ee6820f5fa0576ed4f6f44: 修改pthread源码阅读" rel="noopener noreferrer">
-<i class="fas fa-hashtag fa-fw"></i>3b67391</a></span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-mardown href=/pthread_thread/index.md target=_blank rel="noopener noreferrer">阅读原始文档</a>
+</span></span></code></pre></td></tr></table></div></div></div><h2>相关内容</h2><div class=related-container><div class=related-item-container><div class=related-image><a href=/pthread_local_storage/><img loading=lazy src=featuredImage/[0-9][0-9].webp srcset="featuredImage/[0-9][0-9].webp, featuredImage/[0-9][0-9].webp 1.5x, featuredImage/[0-9][0-9].webp 2x" sizes=auto alt=pthread线程源码分析 title=pthread线程源码分析 height=200 width=400></a></div><h2 class=related-title><a href=/pthread_local_storage/>线程局部存储分析</a></h2></div><div class=related-item-container><div class=related-image><a href=/pthread_lock/><img loading=lazy src=featuredImage/[0-9][0-9].webp srcset="featuredImage/[0-9][0-9].webp, featuredImage/[0-9][0-9].webp 1.5x, featuredImage/[0-9][0-9].webp 2x" sizes=auto alt=pthread线程源码分析 title=pthread线程源码分析 height=200 width=400></a></div><h2 class=related-title><a href=/pthread_lock/>pthread线程同步</a></h2></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2023-12-23&nbsp;<a class=git-hash href=https://github.com/mengdemao/github.io.git/commit/6891831db7945b462a6c035d7bddb5c2fb50e8e6 target=_blank title="commit by Meng Demao(mengdemao19951021@163.com) 6891831db7945b462a6c035d7bddb5c2fb50e8e6: 将jpg文件转化为webp文件" rel="noopener noreferrer">
+<i class="fas fa-hashtag fa-fw"></i>6891831</a></span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-mardown href=/pthread_thread/index.md target=_blank rel="noopener noreferrer">阅读原始文档</a>
 </span><span>|&nbsp;<a class=link-to-source href=https://github.com/mengdemao/github.io/blob/master/content/posts/pthread_thread/index.md target=_blank rel="noopener noreferrer">查看源代码</a>
 </span><span>|&nbsp;<a class=link-to-edit href=https://github.com/mengdemao/github.io/edit/master/content/posts/pthread_thread/index.md target=_blank rel="noopener noreferrer">编辑此页</a>
-</span><span>|&nbsp;<a class=link-to-report href="https://github.com/mengdemao/github.io/issues/new?title=[bug]%20pthread%E7%BA%BF%E7%A8%8B%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90&body=|Field|Value|%0A|-|-|%0A|Title|pthread%E7%BA%BF%E7%A8%8B%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90|%0A|Url|https://mengdemao.github.io/pthread_thread/|%0A|Filename|https://github.com/mengdemao/github.io/blob/main/exampleSite/content/posts/pthread_thread/index.md|" target=_blank rel="noopener noreferrer">报告问题</a></span></div><div class=post-info-share><button title="分享到 Twitter" data-sharer=twitter data-url=https://mengdemao.github.io/pthread_thread/ data-title=pthread线程源码分析 data-hashtags=pthread><span class="fab fa-twitter fa-fw"></span></button><button title="分享到 Facebook" data-sharer=facebook data-url=https://mengdemao.github.io/pthread_thread/ data-hashtag=pthread><span class="fab fa-facebook-square fa-fw"></span></button><button title="分享到 Hacker News" data-sharer=hackernews data-url=https://mengdemao.github.io/pthread_thread/ data-title=pthread线程源码分析><span class="fab fa-hacker-news fa-fw"></span></button><button title="分享到 Line" data-sharer=line data-url=https://mengdemao.github.io/pthread_thread/ data-title=pthread线程源码分析><span data-svg-src=/lib/simple-icons/icons/line.min.svg></span></button><button title="分享到 微博" data-sharer=weibo data-url=https://mengdemao.github.io/pthread_thread/ data-title=pthread线程源码分析 data-image=featuredImage/02.jpg data-ralateuid=xxxx><span class="fab fa-weibo fa-fw"></span></button><button title="分享到 Telegram" data-sharer=telegram data-url=https://mengdemao.github.io/pthread_thread/ data-title=pthread线程源码分析 data-web><span class="fab fa-telegram-plane fa-fw"></span></button></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw"></i>&nbsp;<a href=/tags/pthread/>pthread</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/compile/ class=prev rel=prev title=编译原理><i class="fas fa-angle-left fa-fw"></i>编译原理</a>
+</span><span>|&nbsp;<a class=link-to-report href="https://github.com/mengdemao/github.io/issues/new?title=[bug]%20pthread%E7%BA%BF%E7%A8%8B%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90&body=|Field|Value|%0A|-|-|%0A|Title|pthread%E7%BA%BF%E7%A8%8B%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90|%0A|Url|https://mengdemao.github.io/pthread_thread/|%0A|Filename|https://github.com/mengdemao/github.io/blob/main/exampleSite/content/posts/pthread_thread/index.md|" target=_blank rel="noopener noreferrer">报告问题</a></span></div><div class=post-info-share><button title="分享到 Twitter" data-sharer=twitter data-url=https://mengdemao.github.io/pthread_thread/ data-title=pthread线程源码分析 data-hashtags=pthread><span class="fab fa-twitter fa-fw"></span></button><button title="分享到 Facebook" data-sharer=facebook data-url=https://mengdemao.github.io/pthread_thread/ data-hashtag=pthread><span class="fab fa-facebook-square fa-fw"></span></button><button title="分享到 Hacker News" data-sharer=hackernews data-url=https://mengdemao.github.io/pthread_thread/ data-title=pthread线程源码分析><span class="fab fa-hacker-news fa-fw"></span></button><button title="分享到 Line" data-sharer=line data-url=https://mengdemao.github.io/pthread_thread/ data-title=pthread线程源码分析><span data-svg-src=/lib/simple-icons/icons/line.min.svg></span></button><button title="分享到 微博" data-sharer=weibo data-url=https://mengdemao.github.io/pthread_thread/ data-title=pthread线程源码分析 data-image=featuredImage/[0-9][0-9].webp data-ralateuid=xxxx><span class="fab fa-weibo fa-fw"></span></button><button title="分享到 Telegram" data-sharer=telegram data-url=https://mengdemao.github.io/pthread_thread/ data-title=pthread线程源码分析 data-web><span class="fab fa-telegram-plane fa-fw"></span></button></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw"></i>&nbsp;<a href=/tags/pthread/>pthread</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/compile/ class=prev rel=prev title=编译原理><i class="fas fa-angle-left fa-fw"></i>编译原理</a>
 <a href=/pthread_lock/ class=next rel=next title=pthread线程同步>pthread线程同步<i class="fas fa-angle-right fa-fw"></i></a></div></div><div id=comments><div id=utterances></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://utteranc.es/>Utterances</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.121.1">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.4.0"><i class="far fa-edit fa-fw"></i> DoIt</a></div><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2020 - 2023</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://github.com/mengdemao target=_blank rel="noopener noreferrer">mengdemao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div><div class=footer-line></div><div class=footer-line></div></div><script>"serviceWorker"in navigator&&(navigator.serviceWorker.register("/sw.min.js",{scope:"/"}).then(function(){}),navigator.serviceWorker.ready.then(function(){}))</script></footer></div><div id=fixed-buttons><a href=#back-to-top id=back-to-top-button class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw"></i>
 </a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw"></i></a></div><div class=assets><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:300},comment:{utterances:{darkTheme:"github-dark",issueTerm:"pathname",label:"",lightTheme:"github-light",repo:"Hugo-DoIt/utterances-comments"}},data:{"desktop-header-typeit":"编程日志","mobile-header-typeit":"编程日志"},search:{distance:100,findAllMatches:!1,fuseIndexURL:"/index.json",highlightTag:"em",ignoreFieldNorm:!1,ignoreLocation:!0,isCaseSensitive:!1,location:0,maxResultLength:10,minMatchCharLength:2,noResultsFound:"没有找到结果",snippetLength:50,threshold:.1,type:"fuse",useExtendedSearch:!1},sharerjs:!0,table:{sort:!0},typeit:{cursorChar:"|",cursorSpeed:1e3,data:{"desktop-header-typeit":["desktop-header-typeit"],"mobile-header-typeit":["mobile-header-typeit"]},duration:-1,speed:100}}</script><script type=text/javascript src=/lib/tablesort/tablesort.min.92de6dec051677787aed63503575b2f9be73f21f2745574e59647bc139a92d40.js integrity="sha256-kt5t7AUWd3h67WNQNXWy+b5z8h8nRVdOWWR7wTmpLUA="></script><script type=text/javascript src=/lib/clipboard/clipboard.min.11be927cda59c8b6019ebbea838285c5beaf21183ea4b83dbd4e4fbf9413ce4a.js integrity="sha256-Eb6SfNpZyLYBnrvqg4KFxb6vIRg+pLg9vU5Pv5QTzko="></script><script type=text/javascript src=/lib/sharer/sharer.min.8fe10eb615eb163a20f795484430a012805ec7c8c11df52df54ddb7a46084254.js integrity="sha256-j+EOthXrFjog95VIRDCgEoBex8jBHfUt9U3bekYIQlQ="></script><script type=text/javascript src=/lib/typeit/typeit.min.491c13689db70b6adb3176a9a792644be7578a2f931521f5cb199d313a21c359.js integrity="sha256-SRwTaJ23C2rbMXapp5JkS+dXii+TFSH1yxmdMTohw1k="></script><script type=text/javascript src=/js/theme.min.js defer></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js></script><script type=text/javascript src=/custom/javascript/custom.js></script></div></body></html>
