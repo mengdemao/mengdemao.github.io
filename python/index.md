@@ -670,16 +670,157 @@ Please enter a number: 12
 Process finished with exit code 0
 ```
 
-
 ## 文件操作
+
+### 文件打开模式
+打开文件获取文件描述符，打开文件时需要指定对文件的读写模式，和写追加模式。常见的文件模式如下：
+
+| 模式   | 描述                                                                     |
+| ------ | ------------------------------------------------------------             |
+| ‘r’  | 以只读方式打开文件（默认），不存在报错 FileNotFoundError                |
+| ‘w’  | 以写方式打开文件，如果文件存在，首先清空原内容，如果不存在先创建文件   |
+| ‘x’  | 以写方式打开文件，如果文件存在，则报错 FileExistsError                  |
+| ‘a’  | 以写方式打开文件，并追加内容到文件结尾，如果文件不能存在则先创建文件   |
+| ‘+’  | 可同时读写                                                               |
+
+### 打开文件(open函数)
+
+```python
+open(file, mode='r', buffering=-1, encoding=None, errors=None,
+     newline=None, closefd=True, opener=None)
+    Open file and return a stream.  Raise IOError upon failure.
+```
+
+测试代码
+```python
+# shell echo "Hello World" >> test
+Python 3.11.6 (main, Nov 14 2023, 09:36:21) [GCC 13.2.1 20230801] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> f = open('test.txt', 'r', encoding='utf-8')
+>>> print(f.read())
+Hello World
+>>> f.close()
+```
+
+但是这个写法不太好,如果文件打开出现异常,程序会出现崩溃(加上异常处理)
+
+```python
+f = None
+try:
+    f = open('test.txt', 'r', encoding='utf-8')
+    print(f.read())
+except FileNotFoundError:
+    print('无法打开指定的文件!')
+except LookupError:
+    print('指定了未知的编码!')
+except UnicodeDecodeError:
+    print('读取文件时解码错误!')
+finally:
+    if f:
+        f.close()
+
+```
+
+加上`with`关键字,在正常的情况下我们不需要进行手动关闭
+
+```python
+def main():
+    try:
+        with open('致橡树.txt', 'r', encoding='utf-8') as f:
+            print(f.read())
+    except FileNotFoundError:
+        print('无法打开指定的文件!')
+    except LookupError:
+        print('指定了未知的编码!')
+    except UnicodeDecodeError:
+        print('读取文件时解码错误!')
+
+
+if __name__ == '__main__':
+    main()
+```
+
+### 文件描述符的属性
+
+在 Python 中，文件描述符就是一个文件对象，它具有如下属性：
+
+| 属性        | 描述                        |
+| ----------- | --------------------------- |
+| file.closed | 返回布尔值，True 已被关闭。 |
+| file.mode   | 返回被打开文件的访问模式。  |
+| file.name   | 返回文件的名称。            |
+
+
+### 读取文件
+
+```python
+>>> f = open('test.txt', 'r', encoding='utf-8')
+
+>>> f.read()
+'Hello World\n'
+>>> f.readline()
+''
+>>> f.readlines()
+[]
+
+>>> type(f.readline())
+<class 'str'>
+>>> type(f.readlines())
+<class 'list'>
+>>> type(f.read())
+<class 'str'>
+```
+
+### 写入文件
+
+
 
 ## 正则表达式
 
+
+
 ## 进程线程
+
+
 
 ## 面向对象
 
+>  面向对象编程（Object Oriented Programming，OOP）是一种程序设计思想。它把对象作为程序的基本单元，一个对象包含了数据和操作数据的函数，相同属:性和操作方法的对象被抽象为类。类（Class）就类似上面所说的模具，而对象（Object）就是使用模具生产出的零件，对象就是类的实例(Instance)
+
+继承和多态、封装是面向对象编程的三个基本特征
+
+```python
+print(isinstance(object, type))
+print(isinstance(type, object))
+print(isinstance(type, type))
+print(isinstance(object, object))
+
+>>>
+True
+True
+True
+True
+```
+
 ### 类和对象
+
+> 在Python中可以使用`class`关键字定义类，然后在类中通过之前学习过的函数来> 定义方法，这样就可以将对象的动态特征描述出来，代码如下所示。
+
+```python
+# 1.1 定义类
+class clsTest:
+    clsNum = 0
+
+    def clsFunc(self):
+        print("执行方法")
+
+# 1.2 实例化对象
+t = clsTest()
+
+t.clsFunc()
+```
+
+> **说明：** 写在类中的函数，我们通常称之为（对象的）方法，这些方法就是对象可以接收的消息。
 
 ### 抽象/封装/继承/多态
 
