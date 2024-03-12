@@ -1,7 +1,7 @@
 {
 	"version": 3,
 	"file": "style.min.css",
-	"sourceRoot": "/home/runner/work/mengdemao.io/mengdemao.io",
+	"sourceRoot": "/home/runner/work/mengdemao.com/mengdemao.com",
 	"sources": [
 		"themes/DoIt/assets/css/style.scss",
 		"themes/DoIt/assets/css/_variables.scss",
