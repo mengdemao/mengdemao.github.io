@@ -1145,7 +1145,7 @@ D:\work\test\obj\x64\Debug\obj.exe (进程 19444)已退出，代码为 0。
 按任意键关闭此窗口. . .
 ```
 
-![C++对象模型(基础版).this指针调整](picture/C++%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B(%E5%9F%BA%E7%A1%80%E7%89%88).this%E6%8C%87%E9%92%88%E8%B0%83%E6%95%B4.svg)
+ ![C++对象模型(基础版)_this指针调正](/home/mengdemao/work/github.io/content/posts/cxx_enhance/picture/C++对象模型(基础版)_this指针调正.webp)
 
 可以看出类A和类C的起始地址相同,但是怎么理解呢?
 
