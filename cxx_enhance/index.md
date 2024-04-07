@@ -1194,3 +1194,94 @@ $ world
 $ simple string: hello\nworld
 $ orignl string: hello\nworld
 ```
+
+### C++17结构化绑定
+
+```c++
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+struct test {
+        int a;
+        string b;
+        int c;
+};
+
+int main(int argc, char* argv[])
+{
+        auto [A, B, C] = test{1, "hello", 2};
+        cout << "A: " << A << " B: " << B << " C: " << C << endl; 
+        return 0;
+}
+```
+
+编译测试
+```console
+#!/bin/bash
+g++ -std=gnu++17 test.cc
+./cast_test
+$ A: 1 B: hello C: 3
+```
+
+我们在看一段python代码
+
+```python
+def test() -> tuple:
+    return 1, 'hello', 2
+
+x, y, z = test()
+
+# 首先是test函数返回一个tuple
+# 然后tuple分配到x,y,z上面
+```
+
+那么我们是否可以在C++模拟上面的这种实现呢?
+
+在C++ 11中也提出了tuple概念
+
+```c++
+#include <iostream>
+#include <tuple>
+
+std::tuple<int, string, int> test()
+{
+    return std::make_tuple(1, "hello", 2);
+}
+
+int main()
+{
+    int a = 0;
+    string b;
+    int c = 0;
+
+    std::tie(a, b, c) = test();
+    std::cout<< "a:" << a << ", b:" << b ",c:" << c << std::endl;
+    return 0;
+}
+```
+
+上面的例子相当接近了,但是还是无法直接得到
+
+因此只能继续升级C++版本,才可以得到下面的写法
+
+```c++
+#include <iostream>
+#include <tuple>
+
+// C++14
+auto test(void)
+{
+    return std::make_tuple(1,"hello", 2);
+}
+
+int main()
+{
+    // C++17
+    auto [a, b, c] = test();
+    std::cout<< "a:" << a << ", b:" << b << ", c:" << c << std::endl;
+    return 0;
+}
+```
+
