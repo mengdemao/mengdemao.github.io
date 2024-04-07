@@ -1144,8 +1144,7 @@ A:[funcC]的this指针是: 00000077968FF798
 D:\work\test\obj\x64\Debug\obj.exe (进程 19444)已退出，代码为 0。
 按任意键关闭此窗口. . .
 ```
-
- ![C++对象模型(基础版)_this指针调正](/home/mengdemao/work/github.io/content/posts/cxx_enhance/picture/C++对象模型(基础版)_this指针调正.webp)
+![C++指正调整](picture/C++对象模型(基础版)_this指针调正.webp)
 
 可以看出类A和类C的起始地址相同,但是怎么理解呢?
 
@@ -1163,3 +1162,35 @@ D:\work\test\obj\x64\Debug\obj.exe (进程 19444)已退出，代码为 0。
 
 ### 成员初始化列表
 
+## 补充知识
+
+### 原始字符串(R表示法)
+
+> 原始字符串将"(和)"用作定界符，并使用前缀R标识原始字符串：
+> 表示程序不对字符串控制符的进行转义
+
+
+```c++
+#include <iostream>
+
+int main()
+{
+    std::string str0 =   "hello\nworld";        // 正常情况下
+    std::string str1 =   "hello\\nworld";       // C风格转化
+    std::string str2 = R"(hello\nworld)";       // C++风格原始字符串
+    
+    std::cout << "escape string: " << str0 << std::endl;
+    std::cout << "simple string: " << str1 << std::endl;
+    std::cout << "orignl string: " << str2 << std::endl;
+    return 0;
+}
+```
+
+打印效果
+
+```console
+$ escape string: hello
+$ world
+$ simple string: hello\nworld
+$ orignl string: hello\nworld
+```
