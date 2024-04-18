@@ -4,4 +4,4 @@
 &lt;img src="featuredImage/11.webp" referrerpolicy="no-referrer">
 &lt;/div>1 alloc_pageslinux常用的物理界面分配器的函数是alloc_pages,下面分析是如何实现的. 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 #define</description></item><item><title>调度器基础</title><link>https://mengdemao.com/scheduler/</link><pubDate>Mon, 04 Oct 2021 12:10:25 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/scheduler/</guid><description>&lt;div class="featured-image">
 &lt;img src="featuredImage/10.webp" referrerpolicy="no-referrer">
-&lt;/div>调度器分为主调度器和周期调度器 但是本节不考虑调度器的具体实现 只进行大方向接口的分析 系统调度器基础 完全公平调度器 1 权重计算 1.1 优先级计算优先级 1</description></item></channel></rss>
+&lt;/div>系统调度</description></item></channel></rss>
