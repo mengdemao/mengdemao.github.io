@@ -26,7 +26,8 @@ make -j$(nproc) ARCH=arm CROSS_COMPILE=arm-none-eabi-
 
 ## 功能仿真
 
-如果没有开发板的情况下,我们执行执行仿真的时候
+如果没有开发板的情况下,我们执行板子的仿真
+仿真版本:`2024.04`
 
 ```shell
 # 编译vexpress_ca9 u-boot
@@ -640,19 +641,14 @@ $ arm-non-eabi-objdump -S u-boot > u-boot.S
 	.endm
 ```
 
-
+**主要流程**
 
 ```mermaid
 graph LR
-
 reset --> _main
-
 _main --> board_init_r
-
 board_init_r --> initcall_run_list
-
 initcall_run_list --> run_main_loop
-
 run_main_loop --> main_loop
 ```
 
