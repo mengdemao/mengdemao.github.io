@@ -646,11 +646,18 @@ $ arm-non-eabi-objdump -S u-boot > u-boot.S
 ```mermaid
 graph LR
 reset --> _main
-_main --> board_init_r
+_main --> board_init_f_alloc_reserve
+board_init_f_alloc_reserve --> board_init_f_init_reserve 
+board_init_f_init_reserve --> debug_uart_init
+debug_uart_init --> CLEAR_BSS 
+CLEAR_BSS --> board_init_r
 board_init_r --> initcall_run_list
-initcall_run_list --> run_main_loop
-run_main_loop --> main_loop
+initcall_run_list --> relocate_code
+relocate_code --> relocate_vectors
 ```
+
+[board_init_f --> board_init_r]
+
 
 **[arch/arm/cpu/armv7/start.S]**
 
@@ -969,7 +976,9 @@ void lowlevel_init(void)
 
 ### C语言初始化
 
-**[arch/arm/lib/crt0_64.S]**
+32程序进入`crt0.S`
+64为程序进入`crt0_64.S`
+**[arch/arm/lib/crt0.S]**
 
 ```assembly
 ENTRY(_main)
@@ -1149,8 +1158,6 @@ void board_init_r(gd_t *new_gd, ulong dest_addr)
 	hang();
 }
 ```
-
-
 
 ### `initcall_run_list`
 
@@ -1561,7 +1568,50 @@ WEAK(relocate_vectors)
 ENDPROC(relocate_vectors)
 ```
 
+## 启动中期
+
+> 我程序在重定位之前称之为启动前夕
+> 重定位之后到设备初始化完成称之为启动中期
+> 剩余启动称之为启动后期
+
 ### c_runtime_cpu_setup
+
+当前在ARMV7上好像没有什么效果
+
+```assembly
+ENTRY(c_runtime_cpu_setup)
+/*
+ * If I-cache is enabled invalidate it
+ */
+#if !CONFIG_IS_ENABLED(SYS_ICACHE_OFF)
+	mcr	p15, 0, r0, c7, c5, 0	@ invalidate icache
+	dsb
+	isb
+#endif
+
+	bx	lr
+
+ENDPROC(c_runtime_cpu_setup)
+```
+
+当前在ARMV8好像也是如此
+```assembly
+ENTRY(c_runtime_cpu_setup)
+#if defined(CONFIG_ARMV8_SPL_EXCEPTION_VECTORS) || !defined(CONFIG_SPL_BUILD)
+	/* Relocate vBAR */
+	adr	x0, vectors
+	switch_el x1, 3f, 2f, 1f
+3:	msr	vbar_el3, x0
+	b	0f
+2:	msr	vbar_el2, x0
+	b	0f
+1:	msr	vbar_el1, x0
+0:
+#endif
+
+	ret
+ENDPROC(c_runtime_cpu_setup)
+```
 
 ## 命令实现
 
