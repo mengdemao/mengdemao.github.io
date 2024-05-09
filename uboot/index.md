@@ -1574,6 +1574,68 @@ ENDPROC(relocate_vectors)
 > 重定位之后到设备初始化完成称之为启动中期
 > 剩余启动称之为启动后期
 
+此时地址无法再次进行gdb调试,然后执行符号重新加载
+
+获取加载地址
+```c
+static inline gd_t *get_gd(void)
+{
+	gd_t *gd_ptr;
+
+#ifdef CONFIG_ARM64
+	__asm__ volatile("mov %0, x18\n" : "=r" (gd_ptr));
+#else
+	__asm__ volatile("mov %0, r9\n" : "=r" (gd_ptr));
+#endif
+
+	return gd_ptr;
+}
+
+relocaddr = gd->relocaddr;
+```
+
+执行地址加载
+
+```shell
+add-symbol-file u-boot [加载地址]
+```
+
+程序好像运行出错了,但是打印还是正在运行;
+计算偏移值
+
+![寄存器数据](picture/image-202405092243.png)
+
+对此地址进行反解析;
+```shell
+p/x *(gd_t *)0x6fb23eb0
+$ relocaddr = 0x6ff64000
+```
+
+将此地址写入,显示打印效果
+```shell 
+>>> add-symbol-file u-boot 0x6ff64000
+add symbol table from file "u-boot" at
+        .text_addr = 0x6ff64000
+(y or n) y
+Reading symbols from u-boot...
+>>> bt
+#0  timer_read_counter () at lib/time.c:39
+#1  0x6ffc5bc0 in get_ticks () at lib/time.c:117
+#2  0x6ffc5ca0 in __udelay (usec=usec@entry=10000) at lib/time.c:187
+#3  0x6ffc5cd8 in udelay (usec=10000) at lib/time.c:200
+#4  0x6ff7ac14 in abortboot_single_key (bootdelay=<optimized out>) at common/autoboot.c:401
+#5  abortboot (bootdelay=<optimized out>) at common/autoboot.c:420
+#6  autoboot_command (s=0x6fb28c38 "run distro_bootcmd; run bootflash") at common/autoboot.c:492
+#7  0x6ff77908 in main_loop () at common/main.c:72
+#8  0x6ff7b0a8 in run_main_loop () at common/board_r.c:554
+#9  0x6ffbcd5c in initcall_run_list (init_sequence=<optimized out>) at lib/initcall.c:73
+#10 0x6ff7b310 in board_init_r (new_gd=<optimized out>, dest_addr=<optimized out>) at common/board_r.c:770
+#11 0x6ff65570 in _main () at arch/arm/lib/crt0.S:190
+Backtrace stopped: previous frame identical to this frame (corrupt stack?)
+```
+
+此时就可以得到完美的打印效果了
+
 ### c_runtime_cpu_setup
 
 当前在ARMV7上好像没有什么效果
