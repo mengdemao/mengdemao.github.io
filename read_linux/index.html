@@ -1,5 +1,5 @@
 <!doctype html><html lang=zh-CN><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Linux内核源码阅读 - 编程日志</title><meta name=Description content="Linux内核源码阅读"><meta property="og:url" content="https://mengdemao.com/read_linux/">
-<meta property="og:site_name" content="编程日志"><meta property="og:title" content="Linux内核源码阅读"><meta property="og:description" content="Linux内核源码阅读"><meta property="og:locale" content="zh-CN"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2023-02-12T12:56:02+08:00"><meta property="article:modified_time" content="2023-12-23T17:10:11+08:00"><meta property="article:tag" content="Linux Kernel"><meta property="og:image" content="https://mengdemao.com/images/avatar.webp"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://mengdemao.com/images/avatar.webp"><meta name=twitter:title content="Linux内核源码阅读"><meta name=twitter:description content="Linux内核源码阅读"><meta name=application-name content="DoIt"><meta name=apple-mobile-web-app-title content="DoIt"><meta name=theme-color content="#f8f8f8"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://mengdemao.com/read_linux/><link rel=prev href=https://mengdemao.com/nodejs/><link rel=next href=https://mengdemao.com/uboot/><link rel=stylesheet href=/css/main.min.css><link rel=stylesheet href=/css/style.min.css><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="><noscript><link rel=stylesheet href=/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="></noscript><meta name=google-site-verification content="MQ8DNu27ayX6B_4ObiEDK09vGr1fdy7kOAnbd09hJk4"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Linux内核源码阅读","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://mengdemao.com/read_linux/"},"image":[{"@type":"ImageObject","url":"https://mengdemao.com/featuredImage/03.webp","width":1920,"height":1280}],"genre":"posts","keywords":["Linux Kernel"],"wordcount":4038,"url":"https://mengdemao.com/read_linux/","datePublished":"2023-02-12T12:56:02+08:00","dateModified":"2023-12-23T17:10:11+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"xxxx","logo":{"@type":"ImageObject","url":"https://mengdemao.com/images/avatar.webp","width":528,"height":560}},"author":{"@type":"Person","name":"mengdemao","url":"https://github.com/mengdemao"},"description":"Linux内核源码阅读"}</script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>function setTheme(e){document.body.setAttribute("theme",e),document.documentElement.className=e,document.documentElement.style.setProperty("color-scheme",e==="light"?"light":"dark"),e==="light"?document.documentElement.classList.remove("tw-dark"):document.documentElement.classList.add("tw-dark"),window.theme=e,window.isDark=window.theme!=="light"}function saveTheme(e){window.localStorage&&localStorage.setItem("theme",e)}function getMeta(e){const t=document.getElementsByTagName("meta");for(let n=0;n<t.length;n++)if(t[n].getAttribute("name")===e)return t[n];return""}if(window.localStorage&&localStorage.getItem("theme")){let e=localStorage.getItem("theme");e==="light"||e==="dark"?setTheme(e):setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}else"auto"==="light"||"auto"==="dark"?(setTheme("auto"),saveTheme("auto")):(saveTheme("auto"),setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));let metaColors={light:"#f8f8f8",dark:"#161b22"};getMeta("theme-color").content=metaColors[document.body.getAttribute("theme")],window.switchThemeEventSet=new Set</script><div id=back-to-top></div><div id=mask></div><div class=wrapper><header class="desktop print:!tw-hidden" id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=header-title-pre><i class='far fa-edit fa-fw'></i></span><span id=desktop-header-typeit class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/series/>系列 </a><a class=menu-item href=/authors/>作者 </a><a class=menu-item href=/showcase/>作品 </a><a class=menu-item href=/categories/documentation/>文档 </a><a class=menu-item href=/about/>关于 </a><a class=menu-item href=https://github.com/mengdemao/mengdemao.com title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw'></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<meta property="og:site_name" content="编程日志"><meta property="og:title" content="Linux内核源码阅读"><meta property="og:description" content="Linux内核源码阅读"><meta property="og:locale" content="zh_CN"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2023-02-12T12:56:02+08:00"><meta property="article:modified_time" content="2023-12-23T17:10:11+08:00"><meta property="article:tag" content="Linux Kernel"><meta property="og:image" content="https://mengdemao.com/images/avatar.webp"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://mengdemao.com/images/avatar.webp"><meta name=twitter:title content="Linux内核源码阅读"><meta name=twitter:description content="Linux内核源码阅读"><meta name=application-name content="DoIt"><meta name=apple-mobile-web-app-title content="DoIt"><meta name=theme-color content="#f8f8f8"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://mengdemao.com/read_linux/><link rel=prev href=https://mengdemao.com/nodejs/><link rel=next href=https://mengdemao.com/uboot/><link rel=stylesheet href=/css/main.min.css><link rel=stylesheet href=/css/style.min.css><meta name=google-site-verification content="MQ8DNu27ayX6B_4ObiEDK09vGr1fdy7kOAnbd09hJk4"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Linux内核源码阅读","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://mengdemao.com/read_linux/"},"image":[{"@type":"ImageObject","url":"https://mengdemao.com/featuredImage/03.webp","width":1920,"height":1280}],"genre":"posts","keywords":["Linux Kernel"],"wordcount":4038,"url":"https://mengdemao.com/read_linux/","datePublished":"2023-02-12T12:56:02+08:00","dateModified":"2023-12-23T17:10:11+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"xxxx","logo":{"@type":"ImageObject","url":"https://mengdemao.com/images/avatar.webp","width":528,"height":560}},"author":{"@type":"Person","name":"mengdemao","url":"https://github.com/mengdemao"},"description":"Linux内核源码阅读"}</script></head><body data-instant-intensity=viewport><script type=text/javascript>function setTheme(e){document.body.setAttribute("theme",e),document.documentElement.className=e,document.documentElement.style.setProperty("color-scheme",e==="light"?"light":"dark"),e==="light"?document.documentElement.classList.remove("tw-dark"):document.documentElement.classList.add("tw-dark"),window.theme=e,window.isDark=window.theme!=="light"}function saveTheme(e){window.localStorage&&localStorage.setItem("theme",e)}function getMeta(e){const t=document.getElementsByTagName("meta");for(let n=0;n<t.length;n++)if(t[n].getAttribute("name")===e)return t[n];return""}if(window.localStorage&&localStorage.getItem("theme")){let e=localStorage.getItem("theme");e==="light"||e==="dark"?setTheme(e):setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}else"auto"==="light"||"auto"==="dark"?(setTheme("auto"),saveTheme("auto")):(saveTheme("auto"),setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));let metaColors={light:"#f8f8f8",dark:"#161b22"};getMeta("theme-color").content=metaColors[document.body.getAttribute("theme")],window.switchThemeEventSet=new Set</script><div id=back-to-top></div><div id=mask></div><div class=wrapper><header class="desktop print:!tw-hidden" id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=tw-mr-1><i class='far fa-edit fa-fw'></i></span><span id=desktop-header-typeit class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/series/>系列 </a><a class=menu-item href=/authors/>作者 </a><a class=menu-item href=/showcase/>作品 </a><a class=menu-item href=/categories/documentation/>文档 </a><a class=menu-item href=/about/>关于 </a><a class=menu-item href=https://github.com/mengdemao/mengdemao.com title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw'></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
 <input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
 <button class="search-button search-toggle" id=search-toggle-desktop title=搜索>
 <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M505 442.7 405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9.0 208 0S0 93.1.0 208s93.1 208 208 208c48.3.0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9.0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7.0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7.0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
@@ -10,7 +10,7 @@
 <span class="search-button search-loading tw-animate-spin" id=search-loading-desktop><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48 48-48 48 21.49 48 48zm-48 368c-26.51.0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zm208-208c-26.51.0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49.0 256s21.49 48 48 48 48-21.49 48-48zm12.922 99.078c-26.51.0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156.0c-26.51.0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51.0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.491-48-48-48z"/></svg>
 </span></span><button class="menu-item theme-select" aria-label=切换主题>
 <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M8 256c0 136.966 111.033 248 248 248s248-111.034 248-248S392.966 8 256 8 8 119.033 8 256zm248 184V72c101.705.0 184 82.311 184 184 0 101.705-82.311 184-184 184z"/></svg>
-<select class=color-theme-select id=theme-select-desktop aria-label=切换主题><option value=light>浅色</option><option value=dark>深色</option><option value=auto>跟随系统</option></select></button></div></div></div></header><header class="mobile print:!tw-hidden" id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=header-title-pre><i class='far fa-edit fa-fw'></i></span><span id=mobile-header-typeit class=typeit></span></a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<select class=color-theme-select id=theme-select-desktop aria-label=切换主题><option value=light>浅色</option><option value=dark>深色</option><option value=auto>跟随系统</option></select></button></div></div></div></header><header class="mobile print:!tw-hidden" id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=tw-mr-1><i class='far fa-edit fa-fw'></i></span><span id=mobile-header-typeit class=typeit></span></a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
 <button class="search-button search-toggle tw-h-10" id=search-toggle-mobile title=搜索>
 <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M505 442.7 405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9.0 208 0S0 93.1.0 208s93.1 208 208 208c48.3.0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9.0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7.0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7.0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
 </button>
@@ -20,17 +20,13 @@
 <span class="search-button search-loading tw-animate-spin" id=search-loading-mobile><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48 48-48 48 21.49 48 48zm-48 368c-26.51.0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zm208-208c-26.51.0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49.0 256s21.49 48 48 48 48-21.49 48-48zm12.922 99.078c-26.51.0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156.0c-26.51.0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51.0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.491-48-48-48z"/></svg></span></div><button class=search-cancel id=search-cancel-mobile>
 取消</button></div><a class=menu-item href=/posts/ title>所有文章</a><a class=menu-item href=/tags/ title>标签</a><a class=menu-item href=/categories/ title>分类</a><a class=menu-item href=/series/ title>系列</a><a class=menu-item href=/authors/ title>作者</a><a class=menu-item href=/showcase/ title>作品</a><a class=menu-item href=/categories/documentation/ title>文档</a><a class=menu-item href=/about/ title>关于</a><a class=menu-item href=https://github.com/mengdemao/mengdemao.com title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw'></i></a><button class="menu-item theme-select tw-w-full" aria-label=切换主题>
 <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M8 256c0 136.966 111.033 248 248 248s248-111.034 248-248S392.966 8 256 8 8 119.033 8 256zm248 184V72c101.705.0 184 82.311 184 184 0 101.705-82.311 184-184 184z"/></svg>
-<select class=color-theme-select id=theme-select-mobile aria-label=切换主题><option value=light>浅色</option><option value=dark>深色</option><option value=auto>跟随系统</option></select></button></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class="toc print:!tw-hidden" id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto><nav id=TableOfContents><ul><li><a href=#建立环境>建立环境</a><ul><li><a href=#崩溃内核>崩溃内核</a><ul><li><a href=#安装拯救内核>安装拯救内核</a></li><li><a href=#启动kdump服务>启动kdump服务</a></li></ul></li><li><a href=#基础环境>基础环境</a></li><li><a href=#调试环境eclipse>调试环境(eclipse)</a></li><li><a href=#调试环境vscode>调试环境(vscode)</a></li><li><a href=#调试环境原始gdb>调试环境(原始gdb)</a></li></ul></li><li><a href=#系统构建>系统构建</a><ul><li><a href=#vmlinux生成过程>vmlinux生成过程</a></li><li><a href=#vmlinuxbin生成过程>vmlinux.bin生成过程</a></li><li><a href=#headero>header.o</a></li><li><a href=#setupbin生成过程>setup.bin生成过程</a></li><li><a href=#最后生成>最后生成</a></li></ul></li><li><a href=#根文件系统>根文件系统</a><ul><li><a href=#编译busybox>编译busybox</a></li><li><a href=#安装c库>安装C库</a></li></ul></li><li><a href=#initramfs>initramfs</a><ul><li><a href=#hello-initramfs>Hello initramfs</a></li></ul></li><li><a href=#启动分析>启动分析</a><ul><li><a href=#启动前夕>启动前夕</a></li><li><a href=#start_kernel>start_kernel</a></li><li><a href=#reset_init>reset_init</a></li><li><a href=#设置init任务堆栈>设置<code>init</code>任务堆栈</a></li><li><a href=#设置smp的cpu-id>设置smp的CPU ID</a></li><li><a href=#激活启动cpu>激活启动CPU</a></li><li><a href=#设置架构>设置架构</a></li><li><a href=#mm_init_cpumask>mm_init_cpumask</a></li><li><a href=#设置命令行command_line>设置命令行<code>command_line</code></a></li><li><a href=#设置cpu>设置CPU</a></li><li><a href=#smp_prepare_boot_cpu>smp_prepare_boot_cpu</a></li><li><a href=#build_all_zonelists>build_all_zonelists</a></li><li><a href=#page_alloc_init>page_alloc_init</a></li><li><a href=#jump_label_init>jump_label_init</a></li><li><a href=#setup_log_buf>setup_log_buf</a></li><li><a href=#pidhash_init>pidhash_init</a></li><li><a href=#vfs_caches_init_early>vfs_caches_init_early</a></li><li><a href=#sort_main_extable>sort_main_extable</a></li><li><a href=#trap_init>trap_init</a></li><li><a href=#mm_init>mm_init</a></li><li><a href=#sched_init>sched_init</a></li><li><a href=#idr_init_cache>idr_init_cache</a></li><li><a href=#rcu_init>rcu_init</a></li></ul></li></ul></nav></div></div><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC","true")</script><article class="page single print:!tw-w-full print:!tw-max-w-none print:!tw-m-0 print:!tw-p-0"><h1 class="single-title animate__animated animate__flipInX">Linux内核源码阅读</h1><div class=post-meta><div class=post-meta-line><span class=post-author><img src=https://mengdemao.com/images/avatar.webp alt="mengdemao avatar" class="tw-inline-block tw-max-h-4 tw-rounded-full tw-translate-y-[-2px] tw-mr-1"><a href=https://github.com/mengdemao title=Author target=_blank rel="noopener noreferrer author" class=author>mengdemao</a>
-</span>&nbsp;<span class=post-category>收录于 </span>&nbsp;<span class=post-category>类别 <a href=/categories/linux-kernel/><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M464 128H272l-54.63-54.63c-6-6-14.14-9.37-22.63-9.37H48C21.49 64 0 85.49.0 112v288c0 26.51 21.49 48 48 48h416c26.51.0 48-21.49 48-48V176c0-26.51-21.49-48-48-48zm0 272H48V112h140.12l54.63 54.63c6 6 14.14 9.37 22.63 9.37H464v224z"/></svg>Linux Kernel</a></span></div><div class=post-meta-line><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M148 288h-40c-6.6.0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v52h48c26.5.0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3.0 6-2.7 6-6z"/></svg>&nbsp;<time datetime=2023-02-12>2023-02-12</time>&nbsp;<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1.0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7.0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174 402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7-43.2-43.2c-4.1-4.1-10.8-4.1-14.8.0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg>&nbsp;<time datetime=2023-12-23>2023-12-23</time>&nbsp;<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3.0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9.0l60.1 60.1c18.8 18.7 18.8 49.1.0 67.9zM284.2 99.8 21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3.0-17l-111-111c-4.8-4.7-12.4-4.7-17.1.0zM124.1 339.9c-5.5-5.5-5.5-14.3.0-19.8l154-154c5.5-5.5 14.3-5.5 19.8.0s5.5 14.3.0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8.0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;约 4038 字&nbsp;<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5.0-2e2-89.5-2e2-2e2S145.5 56 256 56s2e2 89.5 2e2 2e2-89.5 2e2-2e2 2e2zm61.8-104.4-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6.0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;预计阅读 9 分钟&nbsp;<span id=/read_linux/ class=leancloud_visitors data-flag-title=Linux内核源码阅读>
+<select class=color-theme-select id=theme-select-mobile aria-label=切换主题><option value=light>浅色</option><option value=dark>深色</option><option value=auto>跟随系统</option></select></button></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class="toc print:!tw-hidden" id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto><nav id=TableOfContents><ul><li><a href=#建立环境>建立环境</a><ul><li><a href=#崩溃内核>崩溃内核</a><ul><li><a href=#安装拯救内核>安装拯救内核</a></li><li><a href=#启动kdump服务>启动kdump服务</a></li></ul></li><li><a href=#基础环境>基础环境</a></li><li><a href=#调试环境eclipse>调试环境(eclipse)</a></li><li><a href=#调试环境vscode>调试环境(vscode)</a></li><li><a href=#调试环境原始gdb>调试环境(原始gdb)</a></li></ul></li><li><a href=#系统构建>系统构建</a><ul><li><a href=#vmlinux生成过程>vmlinux生成过程</a></li><li><a href=#vmlinuxbin生成过程>vmlinux.bin生成过程</a></li><li><a href=#headero>header.o</a></li><li><a href=#setupbin生成过程>setup.bin生成过程</a></li><li><a href=#最后生成>最后生成</a></li></ul></li><li><a href=#根文件系统>根文件系统</a><ul><li><a href=#编译busybox>编译busybox</a></li><li><a href=#安装c库>安装C库</a></li></ul></li><li><a href=#initramfs>initramfs</a><ul><li><a href=#hello-initramfs>Hello initramfs</a></li></ul></li><li><a href=#启动分析>启动分析</a><ul><li><a href=#启动前夕>启动前夕</a></li><li><a href=#start_kernel>start_kernel</a></li><li><a href=#reset_init>reset_init</a></li><li><a href=#设置init任务堆栈>设置<code>init</code>任务堆栈</a></li><li><a href=#设置smp的cpu-id>设置smp的CPU ID</a></li><li><a href=#激活启动cpu>激活启动CPU</a></li><li><a href=#设置架构>设置架构</a></li><li><a href=#mm_init_cpumask>mm_init_cpumask</a></li><li><a href=#设置命令行command_line>设置命令行<code>command_line</code></a></li><li><a href=#设置cpu>设置CPU</a></li><li><a href=#smp_prepare_boot_cpu>smp_prepare_boot_cpu</a></li><li><a href=#build_all_zonelists>build_all_zonelists</a></li><li><a href=#page_alloc_init>page_alloc_init</a></li><li><a href=#jump_label_init>jump_label_init</a></li><li><a href=#setup_log_buf>setup_log_buf</a></li><li><a href=#pidhash_init>pidhash_init</a></li><li><a href=#vfs_caches_init_early>vfs_caches_init_early</a></li><li><a href=#sort_main_extable>sort_main_extable</a></li><li><a href=#trap_init>trap_init</a></li><li><a href=#mm_init>mm_init</a></li><li><a href=#sched_init>sched_init</a></li><li><a href=#idr_init_cache>idr_init_cache</a></li><li><a href=#rcu_init>rcu_init</a></li></ul></li></ul></nav></div></div><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC","true")</script><article class="page single print:!tw-w-full print:!tw-max-w-none print:!tw-m-0 print:!tw-p-0"><h1 class=single-title>Linux内核源码阅读</h1><div class=post-meta><div class=post-meta-line><span class=post-author><img class="tw-inline-block tw-max-h-4 tw-rounded-full tw-translate-y-[-2px] tw-mr-1" src=/images/avatar.webp alt="mengdemao avatar" height=16 width=16><a href=https://github.com/mengdemao title=Author target=_blank rel="noopener noreferrer author" class=author>mengdemao</a>
+</span>&nbsp;<span class=post-category>收录于 </span>&nbsp;<span class=post-category>类别 <a href><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M464 128H272l-54.63-54.63c-6-6-14.14-9.37-22.63-9.37H48C21.49 64 0 85.49.0 112v288c0 26.51 21.49 48 48 48h416c26.51.0 48-21.49 48-48V176c0-26.51-21.49-48-48-48zm0 272H48V112h140.12l54.63 54.63c6 6 14.14 9.37 22.63 9.37H464v224z"/></svg></a></span></div><div class=post-meta-line><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M148 288h-40c-6.6.0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v52h48c26.5.0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3.0 6-2.7 6-6z"/></svg>&nbsp;<time datetime=2023-02-12>2023-02-12</time>&nbsp;<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1.0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7.0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174 402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7-43.2-43.2c-4.1-4.1-10.8-4.1-14.8.0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg>&nbsp;<time datetime=2023-12-23>2023-12-23</time>&nbsp;<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3.0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9.0l60.1 60.1c18.8 18.7 18.8 49.1.0 67.9zM284.2 99.8 21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3.0-17l-111-111c-4.8-4.7-12.4-4.7-17.1.0zM124.1 339.9c-5.5-5.5-5.5-14.3.0-19.8l154-154c5.5-5.5 14.3-5.5 19.8.0s5.5 14.3.0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8.0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;约 4038 字&nbsp;<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5.0-2e2-89.5-2e2-2e2S145.5 56 256 56s2e2 89.5 2e2 2e2-89.5 2e2-2e2 2e2zm61.8-104.4-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6.0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;预计阅读 9 分钟&nbsp;<span id=/read_linux/ class=leancloud_visitors data-flag-title=Linux内核源码阅读>
 <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M288 144a110.94 110.94.0 00-31.24 5 55.4 55.4.0 017.24 27 56 56 0 01-56 56 55.4 55.4.0 01-27-7.24A111.71 111.71.0 10288 144zm284.52 97.4C518.29 135.59 410.93 64 288 64S57.68 135.64 3.48 241.41a32.35 32.35.0 000 29.19C57.71 376.41 165.07 448 288 448s230.32-71.64 284.52-177.41a32.35 32.35.0 000-29.19zM288 4e2c-98.65.0-189.09-55-237.93-144C98.91 167 189.34 112 288 112s189.09 55 237.93 144C477.1 345 386.66 4e2 288 4e2z"/></svg>&nbsp;<span class=leancloud-visitors-count id=twikoo_visitors></span>&nbsp;次阅读
 </span>&nbsp;<span id=/read_linux/ class=comment_count data-flag-title=Linux内核源码阅读>
 <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M532 386.2c27.5-27.1 44-61.1 44-98.2.0-80-76.5-146.1-176.2-157.9C368.3 72.5 294.3 32 208 32 93.1 32 0 103.6.0 192c0 37 16.5 71 44 98.2-15.3 30.7-37.3 54.5-37.7 54.9-6.3 6.7-8.1 16.5-4.4 25 3.6 8.5 12 14 21.2 14 53.5.0 96.7-20.2 125.2-38.8 9.2 2.1 18.7 3.7 28.4 4.9C208.1 407.6 281.8 448 368 448c20.8.0 40.8-2.4 59.8-6.8C456.3 459.7 499.4 480 553 480c9.2.0 17.5-5.5 21.2-14 3.6-8.5 1.9-18.3-4.4-25-.4-.3-22.5-24.1-37.8-54.8zm-392.8-92.3L122.1 305c-14.1 9.1-28.5 16.3-43.1 21.4 2.7-4.7 5.4-9.7 8-14.8l15.5-31.1L77.7 256C64.2 242.6 48 220.7 48 192c0-60.7 73.3-112 160-112s160 51.3 160 112-73.3 112-160 112c-16.5.0-33-1.9-49-5.6l-19.8-4.5zM498.3 352l-24.7 24.4 15.5 31.1c2.6 5.1 5.3 10.1 8 14.8-14.6-5.1-29-12.3-43.1-21.4l-17.1-11.1-19.9 4.6c-16 3.7-32.5 5.6-49 5.6-54 0-102.2-20.1-131.3-49.7C338 339.5 416 272.9 416 192c0-3.4-.4-6.7-.7-10C479.7 196.5 528 238.8 528 288c0 28.7-16.2 50.6-29.7 64z"/></svg>&nbsp;<span class=twikoo-comment-count id=twikoo-comment-count></span>&nbsp;条评论
-</span>&nbsp;</div></div><div class=featured-image><img loading=eager src=/featuredImage/03.webp srcset="/featuredImage/03.webp 1920w,
-/featuredImage/03.webp 1920w,
-/featuredImage/03.webp 1920w" title=Linux内核源码阅读 height=1280 width=1920></div><div class="details toc print:!tw-block" id=toc-static kept><div class="details-summary toc-title"><span>目录</span>
-<span class=details-icon><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9.0l-22.6-22.6c-9.4-9.4-9.4-24.6.0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6.0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9.0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#建立环境>建立环境</a><ul><li><a href=#崩溃内核>崩溃内核</a><ul><li><a href=#安装拯救内核>安装拯救内核</a></li><li><a href=#启动kdump服务>启动kdump服务</a></li></ul></li><li><a href=#基础环境>基础环境</a></li><li><a href=#调试环境eclipse>调试环境(eclipse)</a></li><li><a href=#调试环境vscode>调试环境(vscode)</a></li><li><a href=#调试环境原始gdb>调试环境(原始gdb)</a></li></ul></li><li><a href=#系统构建>系统构建</a><ul><li><a href=#vmlinux生成过程>vmlinux生成过程</a></li><li><a href=#vmlinuxbin生成过程>vmlinux.bin生成过程</a></li><li><a href=#headero>header.o</a></li><li><a href=#setupbin生成过程>setup.bin生成过程</a></li><li><a href=#最后生成>最后生成</a></li></ul></li><li><a href=#根文件系统>根文件系统</a><ul><li><a href=#编译busybox>编译busybox</a></li><li><a href=#安装c库>安装C库</a></li></ul></li><li><a href=#initramfs>initramfs</a><ul><li><a href=#hello-initramfs>Hello initramfs</a></li></ul></li><li><a href=#启动分析>启动分析</a><ul><li><a href=#启动前夕>启动前夕</a></li><li><a href=#start_kernel>start_kernel</a></li><li><a href=#reset_init>reset_init</a></li><li><a href=#设置init任务堆栈>设置<code>init</code>任务堆栈</a></li><li><a href=#设置smp的cpu-id>设置smp的CPU ID</a></li><li><a href=#激活启动cpu>激活启动CPU</a></li><li><a href=#设置架构>设置架构</a></li><li><a href=#mm_init_cpumask>mm_init_cpumask</a></li><li><a href=#设置命令行command_line>设置命令行<code>command_line</code></a></li><li><a href=#设置cpu>设置CPU</a></li><li><a href=#smp_prepare_boot_cpu>smp_prepare_boot_cpu</a></li><li><a href=#build_all_zonelists>build_all_zonelists</a></li><li><a href=#page_alloc_init>page_alloc_init</a></li><li><a href=#jump_label_init>jump_label_init</a></li><li><a href=#setup_log_buf>setup_log_buf</a></li><li><a href=#pidhash_init>pidhash_init</a></li><li><a href=#vfs_caches_init_early>vfs_caches_init_early</a></li><li><a href=#sort_main_extable>sort_main_extable</a></li><li><a href=#trap_init>trap_init</a></li><li><a href=#mm_init>mm_init</a></li><li><a href=#sched_init>sched_init</a></li><li><a href=#idr_init_cache>idr_init_cache</a></li><li><a href=#rcu_init>rcu_init</a></li></ul></li></ul></nav></div></div><div class=content id=content><p><strong>内核源码阅读</strong></p><ul><li>源码版本: <a href=https://github.com/figozhang/runninglinuxkernel_4.0.git target=_blank rel="noopener noreferrer">Linux 4.0.0</a></li><li>参考书籍:<ol><li>&#171; 奔跑吧Linux内核 &#187;</li><li>&#171; 深度探索linux系统虚拟化:原理与实现 &#187;</li></ol></li></ul><h2 id=建立环境 class=headerLink><a href=#%e5%bb%ba%e7%ab%8b%e7%8e%af%e5%a2%83 class=header-mark aria-label="Header mark for '建立环境'"></a>1 建立环境</h2><h3 id=崩溃内核 class=headerLink><a href=#%e5%b4%a9%e6%ba%83%e5%86%85%e6%a0%b8 class=header-mark aria-label="Header mark for '崩溃内核'"></a>1.1 崩溃内核</h3><p><a href=https://wiki.archlinux.org/title/Kdump target=_blank rel="noopener noreferrer">参考文档</a></p><h4 id=安装拯救内核 class=headerLink><a href=#%e5%ae%89%e8%a3%85%e6%8b%af%e6%95%91%e5%86%85%e6%a0%b8 class=header-mark aria-label="Header mark for '安装拯救内核'"></a>1.1.1 安装拯救内核</h4><p>下载内核<a href=https://gitlab.archlinux.org/archlinux/packaging/packages/linux-lts.git target=_blank rel="noopener noreferrer">稳定版</a>,修改构建脚本为了和主线内核区分即可</p><p><figure><img loading=lazy src=/read_linux/picture/image-20230806233120552.png srcset="/read_linux/picture/image-20230806233120552.png 935w,
-/read_linux/picture/image-20230806233120552.png 935w,
-/read_linux/picture/image-20230806233120552.png 935w" title=image-20230806233120552 height=232 width=935></figure></p><p>修改配置脚本<strong>config</strong></p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span>&nbsp;</div></div><div class=featured-image><img loading=eager src=/featuredImage/03.webp alt=Linux内核源码阅读 height=1280 width=1920></div><div class="details toc print:!tw-block" id=toc-static kept><div class="details-summary toc-title"><span>目录</span>
+<span class=details-icon><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9.0l-22.6-22.6c-9.4-9.4-9.4-24.6.0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6.0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9.0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#建立环境>建立环境</a><ul><li><a href=#崩溃内核>崩溃内核</a><ul><li><a href=#安装拯救内核>安装拯救内核</a></li><li><a href=#启动kdump服务>启动kdump服务</a></li></ul></li><li><a href=#基础环境>基础环境</a></li><li><a href=#调试环境eclipse>调试环境(eclipse)</a></li><li><a href=#调试环境vscode>调试环境(vscode)</a></li><li><a href=#调试环境原始gdb>调试环境(原始gdb)</a></li></ul></li><li><a href=#系统构建>系统构建</a><ul><li><a href=#vmlinux生成过程>vmlinux生成过程</a></li><li><a href=#vmlinuxbin生成过程>vmlinux.bin生成过程</a></li><li><a href=#headero>header.o</a></li><li><a href=#setupbin生成过程>setup.bin生成过程</a></li><li><a href=#最后生成>最后生成</a></li></ul></li><li><a href=#根文件系统>根文件系统</a><ul><li><a href=#编译busybox>编译busybox</a></li><li><a href=#安装c库>安装C库</a></li></ul></li><li><a href=#initramfs>initramfs</a><ul><li><a href=#hello-initramfs>Hello initramfs</a></li></ul></li><li><a href=#启动分析>启动分析</a><ul><li><a href=#启动前夕>启动前夕</a></li><li><a href=#start_kernel>start_kernel</a></li><li><a href=#reset_init>reset_init</a></li><li><a href=#设置init任务堆栈>设置<code>init</code>任务堆栈</a></li><li><a href=#设置smp的cpu-id>设置smp的CPU ID</a></li><li><a href=#激活启动cpu>激活启动CPU</a></li><li><a href=#设置架构>设置架构</a></li><li><a href=#mm_init_cpumask>mm_init_cpumask</a></li><li><a href=#设置命令行command_line>设置命令行<code>command_line</code></a></li><li><a href=#设置cpu>设置CPU</a></li><li><a href=#smp_prepare_boot_cpu>smp_prepare_boot_cpu</a></li><li><a href=#build_all_zonelists>build_all_zonelists</a></li><li><a href=#page_alloc_init>page_alloc_init</a></li><li><a href=#jump_label_init>jump_label_init</a></li><li><a href=#setup_log_buf>setup_log_buf</a></li><li><a href=#pidhash_init>pidhash_init</a></li><li><a href=#vfs_caches_init_early>vfs_caches_init_early</a></li><li><a href=#sort_main_extable>sort_main_extable</a></li><li><a href=#trap_init>trap_init</a></li><li><a href=#mm_init>mm_init</a></li><li><a href=#sched_init>sched_init</a></li><li><a href=#idr_init_cache>idr_init_cache</a></li><li><a href=#rcu_init>rcu_init</a></li></ul></li></ul></nav></div></div><div class=content id=content><p><strong>内核源码阅读</strong></p><ul><li>源码版本: <a href=https://github.com/figozhang/runninglinuxkernel_4.0.git target=_blank rel="noopener noreferrer">Linux 4.0.0</a></li><li>参考书籍:<ol><li>&#171; 奔跑吧Linux内核 &#187;</li><li>&#171; 深度探索linux系统虚拟化:原理与实现 &#187;</li></ol></li></ul><h2 id=建立环境 class=headerLink><a href=#%e5%bb%ba%e7%ab%8b%e7%8e%af%e5%a2%83 class=header-mark aria-label="Header mark for '建立环境'"></a>1 建立环境</h2><h3 id=崩溃内核 class=headerLink><a href=#%e5%b4%a9%e6%ba%83%e5%86%85%e6%a0%b8 class=header-mark aria-label="Header mark for '崩溃内核'"></a>1.1 崩溃内核</h3><p><a href=https://wiki.archlinux.org/title/Kdump target=_blank rel="noopener noreferrer">参考文档</a></p><h4 id=安装拯救内核 class=headerLink><a href=#%e5%ae%89%e8%a3%85%e6%8b%af%e6%95%91%e5%86%85%e6%a0%b8 class=header-mark aria-label="Header mark for '安装拯救内核'"></a>1.1.1 安装拯救内核</h4><p>下载内核<a href=https://gitlab.archlinux.org/archlinux/packaging/packages/linux-lts.git target=_blank rel="noopener noreferrer">稳定版</a>,修改构建脚本为了和主线内核区分即可</p><p><img class=tw-inline loading=lazy src=/read_linux/picture/image-20230806233120552.png alt=image-20230806233120552 height=232 width=935></p><p>修改配置脚本<strong>config</strong></p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
 tw-justify-between
@@ -79,7 +75,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl><span class=na>CONFIG_DEBUG_INFO</span><span class=o>=</span><span class=s>y</span>
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=na>CONFIG_DEBUG_INFO</span><span class=o>=</span><span class=s>y</span>
 </span></span><span class=line><span class=cl><span class=na>CONFIG_CRASH_DUMP</span><span class=o>=</span><span class=s>y</span>
 </span></span><span class=line><span class=cl><span class=na>CONFIG_PROC_VMCORE</span><span class=o>=</span><span class=s>y</span></span></span></code></pre></div><p>构建此内核</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
@@ -130,7 +127,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl><span class=c1># 更新校验值</span>
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=c1># 更新校验值</span>
 </span></span><span class=line><span class=cl>updpkgsums
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=c1># 构建内核</span>
@@ -185,7 +183,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl><span class=gd>- GRUB_CMDLINE_LINUX_DEFAULT=&#34;loglevel=7&#34;
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=gd>- GRUB_CMDLINE_LINUX_DEFAULT=&#34;loglevel=7&#34;
 </span></span></span><span class=line><span class=cl><span class=gd></span><span class=gi>+ GRUB_CMDLINE_LINUX_DEFAULT=&#34;loglevel=7 crashkernel=256M@16M&#34;
 </span></span></span></code></pre></div><p>更新grub配置<code>grub-mkconfig</code></p><h4 id=启动kdump服务 class=headerLink><a href=#%e5%90%af%e5%8a%a8kdump%e6%9c%8d%e5%8a%a1 class=header-mark aria-label="Header mark for '启动kdump服务'"></a>1.1.2 启动kdump服务</h4><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
@@ -236,7 +235,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl>/etc/systemd/system/kdump.service
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl>/etc/systemd/system/kdump.service
 </span></span><span class=line><span class=cl><span class=o>[</span>Unit<span class=o>]</span>
 </span></span><span class=line><span class=cl><span class=nv>Description</span><span class=o>=</span>Load dump capture kernel
 </span></span><span class=line><span class=cl><span class=nv>After</span><span class=o>=</span>local-fs.target
@@ -295,7 +295,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl>$ sudo apt install qemu
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl>$ sudo apt install qemu
 </span></span><span class=line><span class=cl>$ sudo apt install gcc-arm-none-eabi</span></span></code></pre></div><ol start=2><li>下载源码</li></ol><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
@@ -345,7 +346,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl>$ git clone https://github.com/figozhang/runninglinuxkernel_4.0.git</span></span></code></pre></div><ol start=3><li>构建运行</li></ol><ul><li>编译32位arm</li></ul><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl>$ git clone https://github.com/figozhang/runninglinuxkernel_4.0.git</span></span></code></pre></div><ol start=3><li>构建运行</li></ol><ul><li>编译32位arm</li></ul><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
 tw-justify-between
@@ -394,7 +396,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl>qemu-system-arm -m <span class=m>1024</span> -M virt<span class=se>\
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl>qemu-system-arm -m <span class=m>1024</span> -M virt<span class=se>\
 </span></span></span><span class=line><span class=cl><span class=se></span>    -nographic -smp <span class=m>4</span> -kernel arch/arm/boot/zImage <span class=se>\
 </span></span></span><span class=line><span class=cl><span class=se></span>    -append <span class=s2>&#34;crashkernel=128M root=/dev/vda rootfstype=ext4 rw&#34;</span><span class=se>\
 </span></span></span><span class=line><span class=cl><span class=se></span>    -drive <span class=k>if</span><span class=o>=</span>none,file<span class=o>=</span>rootfs_debian_arm32.ext4,id<span class=o>=</span>hd0 <span class=se>\
@@ -452,7 +455,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl>qemu-system-aarch64 -m <span class=m>1024</span> -cpu cortex-a57 -M virt<span class=se>\
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl>qemu-system-aarch64 -m <span class=m>1024</span> -cpu cortex-a57 -M virt<span class=se>\
 </span></span></span><span class=line><span class=cl><span class=se></span>    -nographic -smp <span class=m>4</span> -kernel arch/arm64/boot/Image <span class=se>\
 </span></span></span><span class=line><span class=cl><span class=se></span>    -append <span class=s2>&#34;noinintrd root=/dev/vda rootfstype=ext4 rw loglevel=8&#34;</span> <span class=se>\
 </span></span></span><span class=line><span class=cl><span class=se></span>    -drive <span class=k>if</span><span class=o>=</span>none,file<span class=o>=</span>rootfs_debian_arm64.ext4,id<span class=o>=</span>hd0 <span class=se>\
@@ -510,7 +514,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl><span class=c1># 下载代码</span>
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=c1># 下载代码</span>
 </span></span><span class=line><span class=cl>git clone --branch gdb-13-branch https://sourceware.org/git/binutils-gdb.git
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=c1># 执行构建</span>
@@ -578,7 +583,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl><span class=c1># 加载执行文件</span>
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=c1># 加载执行文件</span>
 </span></span><span class=line><span class=cl>$ file vmlinux
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=c1># 设置架构</span>
@@ -634,14 +640,10 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl>$ sudo apt update
-</span></span><span class=line><span class=cl>$ sudo apt install default-jre</span></span></code></pre></div><ul><li>下载<a href=https://www.eclipse.org/downloads/packages/ target=_blank rel="noopener noreferrer">eclipse C/C++</a><figure><img loading=lazy src=/read_linux/picture/image-20230212133122607.png srcset="/read_linux/picture/image-20230212133122607.png 1239w,
-/read_linux/picture/image-20230212133122607.png 1239w,
-/read_linux/picture/image-20230212133122607.png 1239w" title=image-20230212133122607 height=473 width=1239></figure></li><li>配置调试</li></ul><p><figure><img loading=lazy src=/read_linux/picture/image-20230212162459346.png srcset="/read_linux/picture/image-20230212162459346.png 1025w,
-/read_linux/picture/image-20230212162459346.png 1025w,
-/read_linux/picture/image-20230212162459346.png 1025w" title=image-20230212162459346 height=693 width=1025></figure></p><p><figure><img loading=lazy src=/read_linux/picture/image-20230212162628909.png srcset="/read_linux/picture/image-20230212162628909.png 1028w,
-/read_linux/picture/image-20230212162628909.png 1028w,
-/read_linux/picture/image-20230212162628909.png 1028w" title=image-20230212162628909 height=701 width=1028></figure></p><h3 id=调试环境vscode class=headerLink><a href=#%e8%b0%83%e8%af%95%e7%8e%af%e5%a2%83vscode class=header-mark aria-label="Header mark for '调试环境(vscode)'"></a>1.4 调试环境(vscode)</h3><p>当然<code>vscode</code>也是相当好用的,作为调试程序</p><ul><li>在当前工程中添加配置文件<strong>launch.json</strong></li></ul><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl>$ sudo apt update
+</span></span><span class=line><span class=cl>$ sudo apt install default-jre</span></span></code></pre></div><ul><li>下载<a href=https://www.eclipse.org/downloads/packages/ target=_blank rel="noopener noreferrer">eclipse C/C++</a>
+<img class=tw-inline loading=lazy src=/read_linux/picture/image-20230212133122607.png alt=image-20230212133122607 height=473 width=1239></li><li>配置调试</li></ul><p><img class=tw-inline loading=lazy src=/read_linux/picture/image-20230212162459346.png alt=image-20230212162459346 height=693 width=1025></p><p><img class=tw-inline loading=lazy src=/read_linux/picture/image-20230212162628909.png alt=image-20230212162628909 height=701 width=1028></p><h3 id=调试环境vscode class=headerLink><a href=#%e8%b0%83%e8%af%95%e7%8e%af%e5%a2%83vscode class=header-mark aria-label="Header mark for '调试环境(vscode)'"></a>1.4 调试环境(vscode)</h3><p>当然<code>vscode</code>也是相当好用的,作为调试程序</p><ul><li>在当前工程中添加配置文件<strong>launch.json</strong></li></ul><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
 tw-justify-between
@@ -690,7 +692,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl><span class=p>{</span>
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=nt>&#34;configurations&#34;</span><span class=p>:</span> <span class=p>[</span>
 </span></span><span class=line><span class=cl>    <span class=p>{</span>
 </span></span><span class=line><span class=cl>        <span class=nt>&#34;type&#34;</span><span class=p>:</span> <span class=s2>&#34;cppdbg&#34;</span><span class=p>,</span>
@@ -753,11 +756,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl>yay -S gdb-multiarch</span></span></code></pre></div><ul><li>启动调试器</li></ul><p><figure><img loading=lazy src=/read_linux/picture/image-20230305211803830.png srcset="/read_linux/picture/image-20230305211803830.png 1325w,
-/read_linux/picture/image-20230305211803830.png 1325w,
-/read_linux/picture/image-20230305211803830.png 1325w" title=image-20230305211803830 height=728 width=1325></figure></p><p><figure><img loading=lazy src=/read_linux/picture/image-20230305211922693.png srcset="/read_linux/picture/image-20230305211922693.png 1366w,
-/read_linux/picture/image-20230305211922693.png 1366w,
-/read_linux/picture/image-20230305211922693.png 1366w" title=image-20230305211922693 height=728 width=1366></figure></p><h3 id=调试环境原始gdb class=headerLink><a href=#%e8%b0%83%e8%af%95%e7%8e%af%e5%a2%83%e5%8e%9f%e5%a7%8bgdb class=header-mark aria-label="Header mark for '调试环境(原始gdb)'"></a>1.5 调试环境(原始gdb)</h3><ul><li>安装gdbgui</li></ul><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl>yay -S gdb-multiarch</span></span></code></pre></div><ul><li>启动调试器</li></ul><p><img class=tw-inline loading=lazy src=/read_linux/picture/image-20230305211803830.png alt=image-20230305211803830 height=728 width=1325></p><p><img class=tw-inline loading=lazy src=/read_linux/picture/image-20230305211922693.png alt=image-20230305211922693 height=728 width=1366></p><h3 id=调试环境原始gdb class=headerLink><a href=#%e8%b0%83%e8%af%95%e7%8e%af%e5%a2%83%e5%8e%9f%e5%a7%8bgdb class=header-mark aria-label="Header mark for '调试环境(原始gdb)'"></a>1.5 调试环境(原始gdb)</h3><ul><li>安装gdbgui</li></ul><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
 tw-justify-between
@@ -806,7 +806,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl><span class=c1># 安装</span>
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=c1># 安装</span>
 </span></span><span class=line><span class=cl>pip install gdbgui
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=c1># 设计</span>
@@ -862,13 +863,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl>gdbgui -g arm-multiarch</span></span></code></pre></div><p><figure><img loading=lazy src=/read_linux/picture/image-20230312105941779.png srcset="/read_linux/picture/image-20230312105941779.png 1366w,
-/read_linux/picture/image-20230312105941779.png 1366w,
-/read_linux/picture/image-20230312105941779.png 1366w" title=image-20230312105941779 height=625 width=1366></figure></p><h2 id=系统构建 class=headerLink><a href=#%e7%b3%bb%e7%bb%9f%e6%9e%84%e5%bb%ba class=header-mark aria-label="Header mark for '系统构建'"></a>2 系统构建</h2><p>镜像文件的整体过程</p><p><figure><img loading=lazy src=/read_linux/picture/image-20230401145402912.png srcset="/read_linux/picture/image-20230401145402912.png 669w,
-/read_linux/picture/image-20230401145402912.png 669w,
-/read_linux/picture/image-20230401145402912.png 669w" title=image-20230401145402912 height=325 width=669></figure></p><p><figure><img loading=lazy src=/read_linux/picture/image-20230401153013219.png srcset="/read_linux/picture/image-20230401153013219.png 592w,
-/read_linux/picture/image-20230401153013219.png 592w,
-/read_linux/picture/image-20230401153013219.png 592w" title=image-20230401153013219 height=368 width=592></figure></p><ul><li>构建<strong>vmlinux</strong>,objcopy生成vmlinux.bin,然后将其压缩为vmlinux.bin.gz</li><li>添加操作,生成<strong>vmlinux.bin</strong></li><li>构造<strong>setup.bin</strong></li><li>将setup.bin与vmlinux.bin进行合成,生成bzImage</li></ul><h3 id=vmlinux生成过程 class=headerLink><a href=#vmlinux%e7%94%9f%e6%88%90%e8%bf%87%e7%a8%8b class=header-mark aria-label="Header mark for 'vmlinux生成过程'"></a>2.1 vmlinux生成过程</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl>gdbgui -g arm-multiarch</span></span></code></pre></div><p><img class=tw-inline loading=lazy src=/read_linux/picture/image-20230312105941779.png alt=image-20230312105941779 height=625 width=1366></p><h2 id=系统构建 class=headerLink><a href=#%e7%b3%bb%e7%bb%9f%e6%9e%84%e5%bb%ba class=header-mark aria-label="Header mark for '系统构建'"></a>2 系统构建</h2><p>镜像文件的整体过程</p><p><img class=tw-inline loading=lazy src=/read_linux/picture/image-20230401145402912.png alt=image-20230401145402912 height=325 width=669></p><p><img class=tw-inline loading=lazy src=/read_linux/picture/image-20230401153013219.png alt=image-20230401153013219 height=368 width=592></p><ul><li>构建<strong>vmlinux</strong>,objcopy生成vmlinux.bin,然后将其压缩为vmlinux.bin.gz</li><li>添加操作,生成<strong>vmlinux.bin</strong></li><li>构造<strong>setup.bin</strong></li><li>将setup.bin与vmlinux.bin进行合成,生成bzImage</li></ul><h3 id=vmlinux生成过程 class=headerLink><a href=#vmlinux%e7%94%9f%e6%88%90%e8%bf%87%e7%a8%8b class=header-mark aria-label="Header mark for 'vmlinux生成过程'"></a>2.1 vmlinux生成过程</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
 tw-justify-between
@@ -917,7 +913,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl><span class=c1># x86_64架构链接过程</span>
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=c1># x86_64架构链接过程</span>
 </span></span><span class=line><span class=cl>ld -m elf_x86_64 --no-ld-generated-unwind-info  -pie  --no-dynamic-linker --orphan-handling<span class=o>=</span>error -z noexecstack --no-warn-rwx-segments
 </span></span><span class=line><span class=cl>-T arch/x86/boot/compressed/vmlinux.lds
 </span></span><span class=line><span class=cl>	arch/x86/boot/compressed/kernel_info.o arch/x86/boot/compressed/head_64.o 				arch/x86/boot/compressed/misc.o arch/x86/boot/compressed/string.o 						arch/x86/boot/compressed/cmdline.o arch/x86/boot/compressed/error.o           			arch/x86/boot/compressed/piggy.o arch/x86/boot/compressed/cpuflags.o    				arch/x86/boot/compressed/early_serial_console.o arch/x86/boot/compressed/kaslr.o arch/x86/boot/compressed/ident_map_64.o arch/x86/boot/compressed/idt_64.o arch/x86/boot/compressed/idt_handlers_64.o arch/x86/boot/compressed/pgtable_64.o arch/x86/boot/compressed/acpi.o arch/x86/boot/compressed/efi.o arch/x86/boot/compressed/efi_mixed.o drivers/firmware/efi/libstub/lib.a
@@ -972,7 +969,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl>objcopy  -O binary -R .note -R .comment -S arch/x86/boot/compressed/vmlinux arch/x86/boot/vmlinux.bin</span></span></code></pre></div><h3 id=headero class=headerLink><a href=#headero class=header-mark aria-label="Header mark for 'header.o'"></a>2.3 header.o</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl>objcopy  -O binary -R .note -R .comment -S arch/x86/boot/compressed/vmlinux arch/x86/boot/vmlinux.bin</span></span></code></pre></div><h3 id=headero class=headerLink><a href=#headero class=header-mark aria-label="Header mark for 'header.o'"></a>2.3 header.o</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
 tw-justify-between
@@ -1021,7 +1019,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl>gcc -Wp,-MMD,arch/x86/boot/.header.o.d -nostdinc -I./arch/x86/include -I./arch/x86/include/generated  -I./include -I./arch/x86/include/uapi -I./arch/x86/include/generated/uapi -I./include/uapi -I./include/generated/uapi -include ./include/linux/compiler-version.h -include ./include/linux/kconfig.h -D__KERNEL__ -Werror -fmacro-prefix-map<span class=o>=</span>./<span class=o>=</span> -m16 -g -Os -DDISABLE_BRANCH_PROFILING -D__DISABLE_EXPORTS -Wall -Wstrict-prototypes -march<span class=o>=</span>i386 -mregparm<span class=o>=</span><span class=m>3</span> -fno-strict-aliasing -fomit-frame-pointer -fno-pic -mno-mmx -mno-sse -fcf-protection<span class=o>=</span>none -ffreestanding -fno-stack-protector -Wno-address-of-packed-member -mpreferred-stack-boundary<span class=o>=</span><span class=m>2</span> -D_SETUP -D__ASSEMBLY__ -DSVGA_MODE<span class=o>=</span>NORMAL_VGA -I./arch/x86/boot    -c -o arch/x86/boot/header.o arch/x86/boot/header.S</span></span></code></pre></div><h3 id=setupbin生成过程 class=headerLink><a href=#setupbin%e7%94%9f%e6%88%90%e8%bf%87%e7%a8%8b class=header-mark aria-label="Header mark for 'setup.bin生成过程'"></a>2.4 setup.bin生成过程</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl>gcc -Wp,-MMD,arch/x86/boot/.header.o.d -nostdinc -I./arch/x86/include -I./arch/x86/include/generated  -I./include -I./arch/x86/include/uapi -I./arch/x86/include/generated/uapi -I./include/uapi -I./include/generated/uapi -include ./include/linux/compiler-version.h -include ./include/linux/kconfig.h -D__KERNEL__ -Werror -fmacro-prefix-map<span class=o>=</span>./<span class=o>=</span> -m16 -g -Os -DDISABLE_BRANCH_PROFILING -D__DISABLE_EXPORTS -Wall -Wstrict-prototypes -march<span class=o>=</span>i386 -mregparm<span class=o>=</span><span class=m>3</span> -fno-strict-aliasing -fomit-frame-pointer -fno-pic -mno-mmx -mno-sse -fcf-protection<span class=o>=</span>none -ffreestanding -fno-stack-protector -Wno-address-of-packed-member -mpreferred-stack-boundary<span class=o>=</span><span class=m>2</span> -D_SETUP -D__ASSEMBLY__ -DSVGA_MODE<span class=o>=</span>NORMAL_VGA -I./arch/x86/boot    -c -o arch/x86/boot/header.o arch/x86/boot/header.S</span></span></code></pre></div><h3 id=setupbin生成过程 class=headerLink><a href=#setupbin%e7%94%9f%e6%88%90%e8%bf%87%e7%a8%8b class=header-mark aria-label="Header mark for 'setup.bin生成过程'"></a>2.4 setup.bin生成过程</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
 tw-justify-between
@@ -1070,7 +1069,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl>ld -m elf_x86_64 -z noexecstack --no-warn-rwx-segments  -m elf_i386 -z noexecstack -T arch/x86/boot/setup.ld arch/x86/boot/a20.o arch/x86/boot/bioscall.o arch/x86/boot/cmdline.o arch/x86/boot/copy.o arch/x86/boot/cpu.o arch/x86/boot/cpuflags.o arch/x86/boot/cpucheck.o arch/x86/boot/early_serial_console.o arch/x86/boot/edd.o arch/x86/boot/header.o arch/x86/boot/main.o arch/x86/boot/memory.o arch/x86/boot/pm.o arch/x86/boot/pmjump.o arch/x86/boot/printf.o arch/x86/boot/regs.o arch/x86/boot/string.o arch/x86/boot/tty.o arch/x86/boot/video.o arch/x86/boot/video-mode.o arch/x86/boot/version.o arch/x86/boot/video-vga.o arch/x86/boot/video-vesa.o arch/x86/boot/video-bios.o -o arch/x86/boot/setup.elf
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl>ld -m elf_x86_64 -z noexecstack --no-warn-rwx-segments  -m elf_i386 -z noexecstack -T arch/x86/boot/setup.ld arch/x86/boot/a20.o arch/x86/boot/bioscall.o arch/x86/boot/cmdline.o arch/x86/boot/copy.o arch/x86/boot/cpu.o arch/x86/boot/cpuflags.o arch/x86/boot/cpucheck.o arch/x86/boot/early_serial_console.o arch/x86/boot/edd.o arch/x86/boot/header.o arch/x86/boot/main.o arch/x86/boot/memory.o arch/x86/boot/pm.o arch/x86/boot/pmjump.o arch/x86/boot/printf.o arch/x86/boot/regs.o arch/x86/boot/string.o arch/x86/boot/tty.o arch/x86/boot/video.o arch/x86/boot/video-mode.o arch/x86/boot/version.o arch/x86/boot/video-vga.o arch/x86/boot/video-vesa.o arch/x86/boot/video-bios.o -o arch/x86/boot/setup.elf
 </span></span><span class=line><span class=cl>objcopy  -O binary arch/x86/boot/setup.elf arch/x86/boot/setup.bin</span></span></code></pre></div><h3 id=最后生成 class=headerLink><a href=#%e6%9c%80%e5%90%8e%e7%94%9f%e6%88%90 class=header-mark aria-label="Header mark for '最后生成'"></a>2.5 最后生成</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
@@ -1120,11 +1120,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl>arch/x86/boot/tools/build arch/x86/boot/setup.bin arch/x86/boot/vmlinux.bin arch/x86/boot/zoffset.h arch/x86/boot/bzImag</span></span></code></pre></div><h2 id=根文件系统 class=headerLink><a href=#%e6%a0%b9%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f class=header-mark aria-label="Header mark for '根文件系统'"></a>3 根文件系统</h2><p>linux系统在启动之后需要加载根文件系统</p><p><figure><img loading=lazy src=/read_linux/picture/image-20230401153524962.png srcset="/read_linux/picture/image-20230401153524962.png 687w,
-/read_linux/picture/image-20230401153524962.png 687w,
-/read_linux/picture/image-20230401153524962.png 687w" title=image-20230401153524962 height=262 width=687></figure></p><p><figure><img loading=lazy src=/read_linux/picture/image-20230401153542375.png srcset="/read_linux/picture/image-20230401153542375.png 669w,
-/read_linux/picture/image-20230401153542375.png 669w,
-/read_linux/picture/image-20230401153542375.png 669w" title=image-20230401153542375 height=192 width=669></figure></p><h3 id=编译busybox class=headerLink><a href=#%e7%bc%96%e8%af%91busybox class=header-mark aria-label="Header mark for '编译busybox'"></a>3.1 编译busybox</h3><h3 id=安装c库 class=headerLink><a href=#%e5%ae%89%e8%a3%85c%e5%ba%93 class=header-mark aria-label="Header mark for '安装C库'"></a>3.2 安装C库</h3><p>从交叉编译器中拷贝即可</p><h2 id=initramfs class=headerLink><a href=#initramfs class=header-mark aria-label="Header mark for 'initramfs'"></a>4 initramfs</h2><h3 id=hello-initramfs class=headerLink><a href=#hello-initramfs class=header-mark aria-label="Header mark for 'Hello initramfs'"></a>4.1 Hello initramfs</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl>arch/x86/boot/tools/build arch/x86/boot/setup.bin arch/x86/boot/vmlinux.bin arch/x86/boot/zoffset.h arch/x86/boot/bzImag</span></span></code></pre></div><h2 id=根文件系统 class=headerLink><a href=#%e6%a0%b9%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f class=header-mark aria-label="Header mark for '根文件系统'"></a>3 根文件系统</h2><p>linux系统在启动之后需要加载根文件系统</p><p><img class=tw-inline loading=lazy src=/read_linux/picture/image-20230401153524962.png alt=image-20230401153524962 height=262 width=687></p><p><img class=tw-inline loading=lazy src=/read_linux/picture/image-20230401153542375.png alt=image-20230401153542375 height=192 width=669></p><h3 id=编译busybox class=headerLink><a href=#%e7%bc%96%e8%af%91busybox class=header-mark aria-label="Header mark for '编译busybox'"></a>3.1 编译busybox</h3><h3 id=安装c库 class=headerLink><a href=#%e5%ae%89%e8%a3%85c%e5%ba%93 class=header-mark aria-label="Header mark for '安装C库'"></a>3.2 安装C库</h3><p>从交叉编译器中拷贝即可</p><h2 id=initramfs class=headerLink><a href=#initramfs class=header-mark aria-label="Header mark for 'initramfs'"></a>4 initramfs</h2><h3 id=hello-initramfs class=headerLink><a href=#hello-initramfs class=header-mark aria-label="Header mark for 'Hello initramfs'"></a>4.1 Hello initramfs</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
 tw-justify-between
@@ -1173,7 +1170,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;stdio.h&gt;</span><span class=cp>
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;stdio.h&gt;</span><span class=cp>
 </span></span></span><span class=line><span class=cl><span class=cp></span>
 </span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=kt>int</span> <span class=n>argc</span><span class=p>,</span> <span class=kt>char</span> <span class=o>*</span><span class=n>argv</span><span class=p>[])</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
@@ -1229,7 +1227,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl>gcc -static -o init init.c
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl>gcc -static -o init init.c
 </span></span><span class=line><span class=cl><span class=nb>echo</span> init <span class=p>|</span> cpio -o --format<span class=o>=</span>newc &gt; initramfs</span></span></code></pre></div><p>启动测试</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
@@ -1279,13 +1278,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl>qemu-system-x86_64 -kernel linux/arch/x86_64/boot/bzImage -initrd initramfs -append &#34;console=ttyS0 rdinit=init&#34; -nographic</span></span></code></pre></div><p>然后就可以发现打印的数据</p><p><figure><img loading=lazy src=/read_linux/picture/image-20230401191307654.png srcset="/read_linux/picture/image-20230401191307654.png 933w,
-/read_linux/picture/image-20230401191307654.png 933w,
-/read_linux/picture/image-20230401191307654.png 933w" title=image-20230401191307654 height=562 width=933></figure></p><h2 id=启动分析 class=headerLink><a href=#%e5%90%af%e5%8a%a8%e5%88%86%e6%9e%90 class=header-mark aria-label="Header mark for '启动分析'"></a>5 启动分析</h2><p>一般情况下，我们都会讲断点打在<code>start_kernel</code>上,但是在进入C语言之前会存在一段汇编代码;</p><p>入口地址,我们可以通过链接脚本分析得到</p><p><a href=https://elixir.bootlin.com/linux/v4.0/source/include/asm-generic/vmlinux.lds.h target=_blank rel="noopener noreferrer">链接头文件</a>,那么真正的链接文件在**[arch/arm/kernel/vmlinux.lds]**,但是这个文件是生成的;</p><p>这个链接脚本用来描述vmlinux的生成</p><p><figure><img loading=lazy src=/read_linux/picture/image-20230401201824826.png srcset="/read_linux/picture/image-20230401201824826.png 636w,
-/read_linux/picture/image-20230401201824826.png 636w,
-/read_linux/picture/image-20230401201824826.png 636w" title=image-20230401201824826 height=373 width=636></figure></p><p>但是aarch64入口地址就是</p><p><figure><img loading=lazy src=/read_linux/picture/image-20230401202647492.png srcset="/read_linux/picture/image-20230401202647492.png 701w,
-/read_linux/picture/image-20230401202647492.png 701w,
-/read_linux/picture/image-20230401202647492.png 701w" title=image-20230401202647492 height=339 width=701></figure></p><pre class=mermaid>graph LR
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl>qemu-system-x86_64 -kernel linux/arch/x86_64/boot/bzImage -initrd initramfs -append &#34;console=ttyS0 rdinit=init&#34; -nographic</span></span></code></pre></div><p>然后就可以发现打印的数据</p><p><img class=tw-inline loading=lazy src=/read_linux/picture/image-20230401191307654.png alt=image-20230401191307654 height=562 width=933></p><h2 id=启动分析 class=headerLink><a href=#%e5%90%af%e5%8a%a8%e5%88%86%e6%9e%90 class=header-mark aria-label="Header mark for '启动分析'"></a>5 启动分析</h2><p>一般情况下，我们都会讲断点打在<code>start_kernel</code>上,但是在进入C语言之前会存在一段汇编代码;</p><p>入口地址,我们可以通过链接脚本分析得到</p><p><a href=https://elixir.bootlin.com/linux/v4.0/source/include/asm-generic/vmlinux.lds.h target=_blank rel="noopener noreferrer">链接头文件</a>,那么真正的链接文件在**[arch/arm/kernel/vmlinux.lds]**,但是这个文件是生成的;</p><p>这个链接脚本用来描述vmlinux的生成</p><p><img class=tw-inline loading=lazy src=/read_linux/picture/image-20230401201824826.png alt=image-20230401201824826 height=373 width=636></p><p>但是aarch64入口地址就是</p><p><img class=tw-inline loading=lazy src=/read_linux/picture/image-20230401202647492.png alt=image-20230401202647492 height=339 width=701></p><pre class=mermaid>graph LR
 
 stext --> __mmap_switched
 
@@ -1339,7 +1333,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl>__mmap_switched:
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl>__mmap_switched:
 </span></span><span class=line><span class=cl>	adr	r3, __mmap_switched_data
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	ldmia	r3!, {r4, r5, r6, r7}
@@ -1412,7 +1407,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl>__mmap_switched:
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl>__mmap_switched:
 </span></span><span class=line><span class=cl>	adr	x3, __switch_data + 8
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	ldp	x6, x7, [x3], #16
@@ -1475,9 +1471,7 @@ tw-overflow-x-auto"><span class=line><span class=cl>__mmap_switched:
 </span></span><span class=line><span class=cl>	ldr	x12, [x23, #CPU_INFO_SETUP]
 </span></span><span class=line><span class=cl>	add	x12, x12, x28			// __virt_to_phys
 </span></span><span class=line><span class=cl>	br	x12				// initialise processor
-</span></span><span class=line><span class=cl>ENDPROC(stext)</span></span></code></pre></div><p>上面的汇编函数都是由<a href=https://elixir.bootlin.com/linux/v4.0/source/arch/arm/boot/compressed/head.S target=_blank rel="noopener noreferrer">head.s</a>跳入继续向下分析,谁开启了汇编,如何执行到这个函数<strong>vmlinux.lds</strong>决定，分析实现;</p><p>需要分析bootloader的实现;</p><p>下面我们开始分析</p><p><figure><img loading=lazy src=/read_linux/picture/image-20230212185559643.png srcset="/read_linux/picture/image-20230212185559643.png 1321w,
-/read_linux/picture/image-20230212185559643.png 1321w,
-/read_linux/picture/image-20230212185559643.png 1321w" title=image-20230212185559643 height=433 width=1321></figure></p><h3 id=start_kernel class=headerLink><a href=#start_kernel class=header-mark aria-label="Header mark for 'start_kernel'"></a>5.2 start_kernel</h3><p>进入内核中第一个C语言启动函数;<a href=https://elixir.bootlin.com/linux/v4.0/source/init/main.c#L489 target=_blank rel="noopener noreferrer">源码位置</a></p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl>ENDPROC(stext)</span></span></code></pre></div><p>上面的汇编函数都是由<a href=https://elixir.bootlin.com/linux/v4.0/source/arch/arm/boot/compressed/head.S target=_blank rel="noopener noreferrer">head.s</a>跳入继续向下分析,谁开启了汇编,如何执行到这个函数<strong>vmlinux.lds</strong>决定，分析实现;</p><p>需要分析bootloader的实现;</p><p>下面我们开始分析</p><p><img class=tw-inline loading=lazy src=/read_linux/picture/image-20230212185559643.png alt=image-20230212185559643 height=433 width=1321></p><h3 id=start_kernel class=headerLink><a href=#start_kernel class=header-mark aria-label="Header mark for 'start_kernel'"></a>5.2 start_kernel</h3><p>进入内核中第一个C语言启动函数;<a href=https://elixir.bootlin.com/linux/v4.0/source/init/main.c#L489 target=_blank rel="noopener noreferrer">源码位置</a></p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
 tw-justify-between
@@ -1526,7 +1520,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl><span class=n>asmlinkage</span> <span class=n>__visible</span> <span class=kt>void</span> <span class=n>__init</span> <span class=nf>start_kernel</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=n>asmlinkage</span> <span class=n>__visible</span> <span class=kt>void</span> <span class=n>__init</span> <span class=nf>start_kernel</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>	<span class=kt>char</span> <span class=o>*</span><span class=n>command_line</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=kt>char</span> <span class=o>*</span><span class=n>after_dashes</span><span class=p>;</span>
@@ -1765,7 +1760,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl><span class=k>static</span> <span class=n>noinline</span> <span class=kt>void</span> <span class=n>__init_refok</span> <span class=nf>rest_init</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=k>static</span> <span class=n>noinline</span> <span class=kt>void</span> <span class=n>__init_refok</span> <span class=nf>rest_init</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=n>pid</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
@@ -1840,7 +1836,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl><span class=nf>set_task_stack_end_magic</span><span class=p>(</span><span class=o>&amp;</span><span class=n>init_task</span><span class=p>);</span>
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=nf>set_task_stack_end_magic</span><span class=p>(</span><span class=o>&amp;</span><span class=n>init_task</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>set_task_stack_end_magic</span><span class=p>(</span><span class=k>struct</span> <span class=n>task_struct</span> <span class=o>*</span><span class=n>tsk</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
@@ -1848,9 +1845,7 @@ tw-overflow-x-auto"><span class=line><span class=cl><span class=nf>set_task_stac
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=n>stackend</span> <span class=o>=</span> <span class=nf>end_of_stack</span><span class=p>(</span><span class=n>tsk</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>	<span class=o>*</span><span class=n>stackend</span> <span class=o>=</span> <span class=n>STACK_END_MAGIC</span><span class=p>;</span>	<span class=cm>/* for overflow detection */</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p><figure><img loading=lazy src=/read_linux/picture/image-20230212190355701.png srcset="/read_linux/picture/image-20230212190355701.png 1264w,
-/read_linux/picture/image-20230212190355701.png 1264w,
-/read_linux/picture/image-20230212190355701.png 1264w" title=image-20230212190355701 height=134 width=1264></figure></p><p>此处可以得知:</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p><img class=tw-inline loading=lazy src=/read_linux/picture/image-20230212190355701.png alt=image-20230212190355701 height=134 width=1264></p><p>此处可以得知:</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
 tw-justify-between
@@ -1899,7 +1894,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl><span class=k>static</span> <span class=kr>inline</span> <span class=kt>unsigned</span> <span class=kt>long</span> <span class=o>*</span><span class=nf>end_of_stack</span><span class=p>(</span><span class=k>struct</span> <span class=n>task_struct</span> <span class=o>*</span><span class=n>p</span><span class=p>)</span>
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=k>static</span> <span class=kr>inline</span> <span class=kt>unsigned</span> <span class=kt>long</span> <span class=o>*</span><span class=nf>end_of_stack</span><span class=p>(</span><span class=k>struct</span> <span class=n>task_struct</span> <span class=o>*</span><span class=n>p</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_STACK_GROWSUP
 </span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=k>return</span> <span class=p>(</span><span class=kt>unsigned</span> <span class=kt>long</span> <span class=o>*</span><span class=p>)((</span><span class=kt>unsigned</span> <span class=kt>long</span><span class=p>)</span><span class=nf>task_thread_info</span><span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=o>+</span> <span class=n>THREAD_SIZE</span><span class=p>)</span> <span class=o>-</span> <span class=mi>1</span><span class=p>;</span>
@@ -1955,7 +1951,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl><span class=kt>int</span> <span class=n>nr_cpu_ids</span> <span class=n>__read_mostly</span> <span class=o>=</span> <span class=n>NR_CPUS</span><span class=p>;</span>		<span class=c1>// 此参数通过配置文件得到
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>int</span> <span class=n>nr_cpu_ids</span> <span class=n>__read_mostly</span> <span class=o>=</span> <span class=n>NR_CPUS</span><span class=p>;</span>		<span class=c1>// 此参数通过配置文件得到
 </span></span></span><span class=line><span class=cl><span class=c1></span><span class=nf>EXPORT_SYMBOL</span><span class=p>(</span><span class=n>nr_cpu_ids</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=n>u32</span> <span class=n>__cpu_logical_map</span><span class=p>[</span><span class=n>NR_CPUS</span><span class=p>]</span> <span class=o>=</span> <span class=p>{</span> <span class=p>[</span><span class=mi>0</span> <span class=p>...</span> <span class=n>NR_CPUS</span><span class=o>-</span><span class=mi>1</span><span class=p>]</span> <span class=o>=</span> <span class=n>MPIDR_INVALID</span> <span class=p>};</span>
@@ -2039,7 +2036,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl><span class=k>static</span> <span class=kt>void</span> <span class=n>__init</span> <span class=nf>boot_cpu_init</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=k>static</span> <span class=kt>void</span> <span class=n>__init</span> <span class=nf>boot_cpu_init</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=n>cpu</span> <span class=o>=</span> <span class=nf>smp_processor_id</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>	<span class=cm>/* Mark the boot cpu &#34;present&#34;, &#34;online&#34; etc for SMP and UP case */</span>
@@ -2096,7 +2094,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl><span class=kt>void</span> <span class=n>__init</span> <span class=nf>setup_arch</span><span class=p>(</span><span class=kt>char</span> <span class=o>**</span><span class=n>cmdline_p</span><span class=p>)</span>
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>void</span> <span class=n>__init</span> <span class=nf>setup_arch</span><span class=p>(</span><span class=kt>char</span> <span class=o>**</span><span class=n>cmdline_p</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=c1>// 机器描述符
 </span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=k>const</span> <span class=k>struct</span> <span class=n>machine_desc</span> <span class=o>*</span><span class=n>mdesc</span><span class=p>;</span>
@@ -2225,7 +2224,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl><span class=k>static</span> <span class=kr>inline</span> <span class=kt>void</span> <span class=nf>mm_init_cpumask</span><span class=p>(</span><span class=k>struct</span> <span class=n>mm_struct</span> <span class=o>*</span><span class=n>mm</span><span class=p>)</span>
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=k>static</span> <span class=kr>inline</span> <span class=kt>void</span> <span class=nf>mm_init_cpumask</span><span class=p>(</span><span class=k>struct</span> <span class=n>mm_struct</span> <span class=o>*</span><span class=n>mm</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_CPUMASK_OFFSTACK
 </span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>mm</span><span class=o>-&gt;</span><span class=n>cpu_vm_mask_var</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>mm</span><span class=o>-&gt;</span><span class=n>cpumask_allocation</span><span class=p>;</span>
@@ -2280,7 +2280,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl><span class=cm>/* Untouched saved command line (eg. for /proc) */</span>
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=cm>/* Untouched saved command line (eg. for /proc) */</span>
 </span></span><span class=line><span class=cl><span class=kt>char</span> <span class=o>*</span><span class=n>saved_command_line</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cm>/* Command line for parameter parsing */</span>
 </span></span><span class=line><span class=cl><span class=k>static</span> <span class=kt>char</span> <span class=o>*</span><span class=n>static_command_line</span><span class=p>;</span>
@@ -2345,7 +2346,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl><span class=cm>/* Setup number of possible processor ids */</span>
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=cm>/* Setup number of possible processor ids */</span>
 </span></span><span class=line><span class=cl><span class=kt>int</span> <span class=n>nr_cpu_ids</span> <span class=n>__read_mostly</span> <span class=o>=</span> <span class=n>NR_CPUS</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=nf>EXPORT_SYMBOL</span><span class=p>(</span><span class=n>nr_cpu_ids</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>
@@ -2402,7 +2404,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl><span class=k>static</span> <span class=kr>inline</span> <span class=kt>void</span> <span class=nf>set_my_cpu_offset</span><span class=p>(</span><span class=kt>unsigned</span> <span class=kt>long</span> <span class=n>off</span><span class=p>)</span>
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=k>static</span> <span class=kr>inline</span> <span class=kt>void</span> <span class=nf>set_my_cpu_offset</span><span class=p>(</span><span class=kt>unsigned</span> <span class=kt>long</span> <span class=n>off</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>	<span class=cm>/* Set TPIDRPRW */</span>
 </span></span><span class=line><span class=cl>	<span class=k>asm</span> <span class=k>volatile</span><span class=p>(</span><span class=s>&#34;mcr p15, 0, %0, c13, c0, 4&#34;</span> <span class=o>:</span> <span class=o>:</span> <span class=s>&#34;r&#34;</span> <span class=p>(</span><span class=n>off</span><span class=p>)</span> <span class=o>:</span> <span class=s>&#34;memory&#34;</span><span class=p>);</span>
@@ -2460,7 +2463,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl><span class=cm>/*
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=cm>/*
 </span></span></span><span class=line><span class=cl><span class=cm> *  zonelist_order:
 </span></span></span><span class=line><span class=cl><span class=cm> *  0 = automatic detection of better ordering.
 </span></span></span><span class=line><span class=cl><span class=cm> *  1 = order by ([node] distance, -zonetype)
@@ -2531,7 +2535,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl><span class=k>static</span> <span class=n>noinline</span> <span class=kt>void</span> <span class=n>__init</span> <span class=nf>build_all_zonelists_init</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=k>static</span> <span class=n>noinline</span> <span class=kt>void</span> <span class=n>__init</span> <span class=nf>build_all_zonelists_init</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>	<span class=nf>__build_all_zonelists</span><span class=p>(</span><span class=nb>NULL</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>	<span class=nf>mminit_verify_zonelist</span><span class=p>();</span>
@@ -2585,7 +2590,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl><span class=kt>void</span> <span class=n>__init</span> <span class=nf>page_alloc_init</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>void</span> <span class=n>__init</span> <span class=nf>page_alloc_init</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>	<span class=nf>hotcpu_notifier</span><span class=p>(</span><span class=n>page_alloc_cpu_notify</span><span class=p>,</span> <span class=mi>0</span><span class=p>);</span>
 </span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=jump_label_init class=headerLink><a href=#jump_label_init class=header-mark aria-label="Header mark for 'jump_label_init'"></a>5.14 jump_label_init</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
@@ -2637,7 +2643,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl><span class=cm>/*
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=cm>/*
 </span></span></span><span class=line><span class=cl><span class=cm> * Used to generate warnings if static_key manipulation functions are used
 </span></span></span><span class=line><span class=cl><span class=cm> * before jump_label_init is called.
 </span></span></span><span class=line><span class=cl><span class=cm> */</span>
@@ -2696,7 +2703,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl><span class=k>struct</span> <span class=n>hlist_head</span> <span class=p>{</span>
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <span class=n>hlist_head</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>hlist_node</span> <span class=o>*</span><span class=n>first</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=p>};</span>
 </span></span><span class=line><span class=cl><span class=k>struct</span> <span class=n>hlist_node</span> <span class=p>{</span>
@@ -2766,7 +2774,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl><span class=kt>void</span> <span class=n>__init</span> <span class=nf>vfs_caches_init_early</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>void</span> <span class=n>__init</span> <span class=nf>vfs_caches_init_early</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>	<span class=nf>dcache_init_early</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>	<span class=nf>inode_init_early</span><span class=p>();</span>
@@ -2819,7 +2828,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl><span class=k>struct</span> <span class=n>exception_table_entry</span>
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <span class=n>exception_table_entry</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>long</span> <span class=n>insn</span><span class=p>,</span> <span class=n>fixup</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=p>};</span>
@@ -2901,7 +2911,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl>	<span class=p>.</span> <span class=o>=</span> <span class=nf>ALIGN</span><span class=p>(</span><span class=mi>4</span><span class=p>);</span>
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl>	<span class=p>.</span> <span class=o>=</span> <span class=nf>ALIGN</span><span class=p>(</span><span class=mi>4</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>	<span class=nl>__ex_table</span> <span class=p>:</span> <span class=nf>AT</span><span class=p>(</span><span class=nf>ADDR</span><span class=p>(</span><span class=n>__ex_table</span><span class=p>)</span> <span class=o>-</span> <span class=n>LOAD_OFFSET</span><span class=p>)</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>		<span class=n>__start___ex_table</span> <span class=o>=</span> <span class=p>.;</span>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_MMU
@@ -2957,7 +2968,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl># define _ASM_EXTABLE_TYPE(from, to, type)			\
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl># define _ASM_EXTABLE_TYPE(from, to, type)			\
 </span></span><span class=line><span class=cl>	.pushsection &#34;__ex_table&#34;,&#34;a&#34; ;					\
 </span></span><span class=line><span class=cl>	.balign 4 ;										\
 </span></span><span class=line><span class=cl>	.long (from) - . ;								\
@@ -3012,7 +3024,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl><span class=kt>int</span> <span class=nf>fixup_exception</span><span class=p>(</span><span class=k>struct</span> <span class=n>pt_regs</span> <span class=o>*</span><span class=n>regs</span><span class=p>)</span>
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>int</span> <span class=nf>fixup_exception</span><span class=p>(</span><span class=k>struct</span> <span class=n>pt_regs</span> <span class=o>*</span><span class=n>regs</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=k>struct</span> <span class=n>exception_table_entry</span> <span class=o>*</span><span class=n>fixup</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
@@ -3077,7 +3090,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl><span class=k>static</span> <span class=kt>void</span> <span class=n>__init</span> <span class=nf>mm_init</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=k>static</span> <span class=kt>void</span> <span class=n>__init</span> <span class=nf>mm_init</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>	<span class=cm>/*
 </span></span></span><span class=line><span class=cl><span class=cm>	 * page_ext requires contiguous pages,
@@ -3138,7 +3152,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl><span class=kt>void</span> <span class=n>__init</span> <span class=nf>idr_init_cache</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>void</span> <span class=n>__init</span> <span class=nf>idr_init_cache</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>	<span class=n>idr_layer_cache</span> <span class=o>=</span> <span class=nf>kmem_cache_create</span><span class=p>(</span><span class=s>&#34;idr_layer_cache&#34;</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>				<span class=k>sizeof</span><span class=p>(</span><span class=k>struct</span> <span class=n>idr_layer</span><span class=p>),</span> <span class=mi>0</span><span class=p>,</span> <span class=n>SLAB_PANIC</span><span class=p>,</span> <span class=nb>NULL</span><span class=p>);</span>
@@ -3191,7 +3206,8 @@ tw-ease-in-out
 group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
-tw-overflow-x-auto"><span class=line><span class=cl><span class=kt>void</span> <span class=n>__init</span> <span class=nf>rcu_init</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>void</span> <span class=n>__init</span> <span class=nf>rcu_init</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=n>cpu</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
@@ -3217,6 +3233,15 @@ tw-overflow-x-auto"><span class=line><span class=cl><span class=kt>void</span> <
 <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M440.667 182.109l7.143-40c1.313-7.355-4.342-14.109-11.813-14.109h-74.81l14.623-81.891C377.123 38.754 371.468 32 363.997 32h-40.632a12 12 0 00-11.813 9.891L296.175 128H197.54l14.623-81.891C213.477 38.754 207.822 32 200.35 32h-40.632a12 12 0 00-11.813 9.891L132.528 128H53.432a12 12 0 00-11.813 9.891l-7.143 40C33.163 185.246 38.818 192 46.289 192h74.81L98.242 320H19.146a12 12 0 00-11.813 9.891l-7.143 40C-1.123 377.246 4.532 384 12.003 384h74.81L72.19 465.891C70.877 473.246 76.532 480 84.003 480h40.632a12 12 0 0011.813-9.891L151.826 384h98.634l-14.623 81.891C234.523 473.246 240.178 480 247.65 480h40.632a12 12 0 0011.813-9.891L315.472 384h79.096a12 12 0 0011.813-9.891l7.143-40c1.313-7.355-4.342-14.109-11.813-14.109h-74.81l22.857-128h79.096a12 12 0 0011.813-9.891zM261.889 320h-98.634l22.857-128h98.634l-22.857 128z"/></svg>1754a59</a></span></div><div class=post-info-license></div></div><div class="post-info-line print:!tw-hidden"><div class=post-info-md><span><a class=link-to-mardown href=/read_linux/index.md target=_blank rel="noopener noreferrer">阅读原始文档</a>
 </span><span>|&nbsp;<a class=link-to-source href=https://github.com/mengdemao/github.io/blob/master/content/posts/read_linux/index.md target=_blank rel="noopener noreferrer">查看源代码</a>
 </span><span>|&nbsp;<a class=link-to-edit href=https://github.com/mengdemao/github.io/edit/master/content/posts/read_linux/index.md target=_blank rel="noopener noreferrer">编辑此页</a>
-</span><span>|&nbsp;<a class=link-to-report href="https://github.com/mengdemao/github.io/issues/new?title=[bug]%20Linux%E5%86%85%E6%A0%B8%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB&body=|Field|Value|%0A|-|-|%0A|Title|Linux%E5%86%85%E6%A0%B8%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB|%0A|Url|https://mengdemao.com/read_linux/|%0A|Filename|https://github.com/mengdemao/github.io/blob/main/exampleSite/content/posts/read_linux/index.md|" target=_blank rel="noopener noreferrer">报告问题</a></span></div><div class=post-info-share></div></div></div><div class=post-info-more><section class=post-tags><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path d="M497.941 225.941 286.059 14.059A48 48 0 00252.118.0H48C21.49.0.0 21.49.0 48v204.118a48 48 0 0014.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882.0l204.118-204.118c18.745-18.745 18.745-49.137.0-67.882zM112 160c-26.51.0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882.0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397.0h48.721a48 48 0 0133.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137.0 67.882z"/></svg>&nbsp;<a href=/tags/linux-kernel/>Linux Kernel</a></section><section class=print:!tw-hidden><span><button class="tw-text-fgColor-link-muted hover:tw-text-fgColor-link-muted-hover" onclick=window.history.back()>返回</button></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class="post-nav print:tw-hidden"><a href=/nodejs/ class=prev rel=prev title=Nodejs笔记><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9.0l22.6 22.6c9.4 9.4 9.4 24.6.0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6.0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9.0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"/></svg>Nodejs笔记</a>
-<a href=/uboot/ class=next rel=next title=Uboot>Uboot<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9.0l-22.6-22.6c-9.4-9.4-9.4-24.6.0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6.0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9.0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></a></div></div><div id=comments class=print:!tw-hidden><div id=twikoo></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://twikoo.js.org/>Twikoo</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.125.7">Hugo</a> 强力驱动&nbsp;|&nbsp;托管在 <a title="Github Pages" href=https://docs.github.com/en/pages/ target=_blank rel="noopener noreffer">GitHub Pages</a> 上&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.4.0"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1.0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7.0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174 402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7-43.2-43.2c-4.1-4.1-10.8-4.1-14.8.0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg> DoIt</a></div><div class=footer-line><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 448c-110.532.0-2e2-89.451-2e2-2e2.0-110.531 89.451-2e2 2e2-2e2 110.532.0 2e2 89.451 2e2 2e2.0 110.532-89.451 2e2-2e2 2e2zm107.351-101.064c-9.614 9.712-45.53 41.396-104.065 41.396-82.43.0-140.484-61.425-140.484-141.567.0-79.152 60.275-139.401 139.762-139.401 55.531.0 88.738 26.62 97.593 34.779a11.965 11.965.0 011.936 15.322l-18.155 28.113c-3.841 5.95-11.966 7.282-17.499 2.921-8.595-6.776-31.814-22.538-61.708-22.538-48.303.0-77.916 35.33-77.916 80.082.0 41.589 26.888 83.692 78.277 83.692 32.657.0 56.843-19.039 65.726-27.225 5.27-4.857 13.596-4.039 17.82 1.738l19.865 27.17a11.947 11.947.0 01-1.152 15.518z"/></svg>2020 - 2024<span class=author>&nbsp;<a href=https://github.com/mengdemao target=_blank rel="noopener noreferrer">mengdemao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span><span class=icp-splitter>&nbsp;|&nbsp;</span><br class=icp-br><span class=icp><a href=https://beian.miit.gov.cn/>鲁ICP备2023050410号-1</a></span></div><div class=footer-line></div><div class=footer-line></div></div><script>"serviceWorker"in navigator&&(navigator.serviceWorker.register("/sw.min.js",{scope:"/"}).then(function(){}),navigator.serviceWorker.ready.then(function(){}))</script></footer></div><div id=fixed-buttons class=print:!tw-hidden><a href=#back-to-top id=back-to-top-button class=fixed-button title=回到顶部><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6.0-33.9L207 39c9.4-9.4 24.6-9.4 33.9.0l194.3 194.3c9.4 9.4 9.4 24.6.0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3.0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg>
-</a><a href=# id=view-comments class=fixed-button title=查看评论><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 32C114.6 32 0 125.1.0 240c0 49.6 21.4 95 57 130.7C44.5 421.1 2.7 466 2.2 466.5c-2.2 2.3-2.8 5.7-1.5 8.7S4.8 480 8 480c66.3.0 116-31.8 140.6-51.4 32.7 12.3 69 19.4 107.4 19.4 141.4.0 256-93.1 256-208S397.4 32 256 32z"/></svg></a></div><div id=cookieconsent-container></div><div class=assets><link rel=stylesheet href=/lib/cookieconsent/cookieconsent.min.cd0d0b6e50ff01ff2f3a9a70d7cfb66a7c6cb9acf7a566325568be6d3bd31fc4.css integrity="sha256-zQ0LblD/Af8vOppw18+2anxsuaz3pWYyVWi+bTvTH8Q="><script type=text/javascript>window.config={comment:{twikoo:{commentCount:!0,el:"#twikoo",envId:"https://mengdemao.com:8080",lang:"zh-cn"}},cookieconsent:{content:{dismiss:"同意",link:"了解更多",message:"本网站使用 Cookies 来改善您的浏览体验."},enable:!0,palette:{button:{background:"#f0f0f0"},popup:{background:"#1aa3ff"}},theme:"edgeless"},data:{"desktop-header-typeit":"编程日志","mobile-header-typeit":"编程日志"},search:{algoliaAppID:"PQZTCYTP3M",algoliaIndex:"zh_cn_meng",algoliaSearchKey:"67a3d5929b94f3dc005abb63778b8928",highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:50,type:"algolia"},table:{sort:!0},typeit:{cursorChar:"|",cursorSpeed:1e3,data:{"desktop-header-typeit":["desktop-header-typeit"],"mobile-header-typeit":["mobile-header-typeit"]},duration:-1,speed:100}}</script><script src=/lib/tablesort/tablesort.min.92de6dec051677787aed63503575b2f9be73f21f2745574e59647bc139a92d40.js integrity="sha256-kt5t7AUWd3h67WNQNXWy+b5z8h8nRVdOWWR7wTmpLUA="></script><script src=/lib/typeit/typeit.min.da1df336329685cdb2394f353621d8f2445a8a12fa5f780298d56cad8a44b915.js integrity="sha256-2h3zNjKWhc2yOU81NiHY8kRaihL6X3gCmNVsrYpEuRU="></script><script src=/lib/cookieconsent/cookieconsent.min.e55842a856a6d829feca3c3ad736c136b6c7549e9247274f78aa296259e06e24.js integrity="sha256-5VhCqFam2Cn+yjw61zbBNrbHVJ6SRydPeKopYlngbiQ=" defer></script><script src=/js/cookieconsent.min.js defer></script><script src=/js/theme.min.js defer></script><script src=/lib/twikoo/twikoo.all.min.47d2caa53bd4388df0da49e6e0268f11e3e5f5273ba97e20f4edf71de1b56f22.js integrity="sha256-R9LKpTvUOI3w2knm4CaPEePl9Sc7qX4g9O33HeG1byI=" defer></script><script src=/js/twikoo.min.js defer></script><script type=text/javascript>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-6QCK4BFMHW",{anonymize_ip:!0})</script><script src="https://www.googletagmanager.com/gtag/js?id=G-6QCK4BFMHW" async></script></div></body></html>
+</span><span>|&nbsp;<a class=link-to-report href="https://github.com/mengdemao/github.io/issues/new?title=[bug]%20Linux%E5%86%85%E6%A0%B8%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB&body=|Field|Value|%0A|-|-|%0A|Title|Linux%E5%86%85%E6%A0%B8%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB|%0A|Url|https://mengdemao.com/read_linux/|%0A|Filename|https://github.com/mengdemao/github.io/blob/main/exampleSite/content/posts/read_linux/index.md|" target=_blank rel="noopener noreferrer">报告问题</a></span></div><div class=post-info-share></div></div></div><div class=post-info-more><section class=post-tags><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path d="M497.941 225.941 286.059 14.059A48 48 0 00252.118.0H48C21.49.0.0 21.49.0 48v204.118a48 48 0 0014.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882.0l204.118-204.118c18.745-18.745 18.745-49.137.0-67.882zM112 160c-26.51.0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882.0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397.0h48.721a48 48 0 0133.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137.0 67.882z"/></svg>&nbsp;<a href></a></section><section class=print:!tw-hidden><span><button class="tw-text-fgColor-link-muted hover:tw-text-fgColor-link-muted-hover" onclick=window.history.back()>返回</button></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class="post-nav print:tw-hidden"><a href=/nodejs/ class=prev rel=prev title=Nodejs笔记><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9.0l22.6 22.6c9.4 9.4 9.4 24.6.0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6.0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9.0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"/></svg>Nodejs笔记</a>
+<a href=/uboot/ class=next rel=next title=Uboot>Uboot<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9.0l-22.6-22.6c-9.4-9.4-9.4-24.6.0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6.0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9.0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></a></div></div><div id=comments class="print:!tw-hidden tw-pt-32 tw-pb-8"><div id=twikoo></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://twikoo.js.org/>Twikoo</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.128.2">Hugo</a> 强力驱动&nbsp;|&nbsp;托管在 <a title="Github Pages" href=https://docs.github.com/en/pages/ target=_blank rel="noopener noreffer">GitHub Pages</a> 上&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.4.0"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1.0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7.0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174 402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7-43.2-43.2c-4.1-4.1-10.8-4.1-14.8.0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg> DoIt</a></div><div class=footer-line><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 448c-110.532.0-2e2-89.451-2e2-2e2.0-110.531 89.451-2e2 2e2-2e2 110.532.0 2e2 89.451 2e2 2e2.0 110.532-89.451 2e2-2e2 2e2zm107.351-101.064c-9.614 9.712-45.53 41.396-104.065 41.396-82.43.0-140.484-61.425-140.484-141.567.0-79.152 60.275-139.401 139.762-139.401 55.531.0 88.738 26.62 97.593 34.779a11.965 11.965.0 011.936 15.322l-18.155 28.113c-3.841 5.95-11.966 7.282-17.499 2.921-8.595-6.776-31.814-22.538-61.708-22.538-48.303.0-77.916 35.33-77.916 80.082.0 41.589 26.888 83.692 78.277 83.692 32.657.0 56.843-19.039 65.726-27.225 5.27-4.857 13.596-4.039 17.82 1.738l19.865 27.17a11.947 11.947.0 01-1.152 15.518z"/></svg>2020 - 2024<span class=author>&nbsp;<a href=https://github.com/mengdemao target=_blank rel="noopener noreferrer">mengdemao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span><span class=icp-splitter>&nbsp;|&nbsp;</span><br class=icp-br><span class=icp><a href=https://beian.miit.gov.cn/>鲁ICP备2023050410号-1</a></span></div><div class=footer-line></div><div class=footer-line></div></div><script>"serviceWorker"in navigator&&(navigator.serviceWorker.register("/sw.min.js",{scope:"/"}).then(function(){}),navigator.serviceWorker.ready.then(function(){}))</script></footer></div><div id=fixed-buttons class=print:!tw-hidden><a href=#back-to-top id=back-to-top-button class="fixed-button tw-transition-opacity tw-opacity-0" title=回到顶部><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6.0-33.9L207 39c9.4-9.4 24.6-9.4 33.9.0l194.3 194.3c9.4 9.4 9.4 24.6.0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3.0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg>
+</a><a href=#comments id=view-comments class=fixed-button title=查看评论><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 32C114.6 32 0 125.1.0 240c0 49.6 21.4 95 57 130.7C44.5 421.1 2.7 466 2.2 466.5c-2.2 2.3-2.8 5.7-1.5 8.7S4.8 480 8 480c66.3.0 116-31.8 140.6-51.4 32.7 12.3 69 19.4 107.4 19.4 141.4.0 256-93.1 256-208S397.4 32 256 32z"/></svg></a></div><div id=cookieconsent-container></div><link rel=stylesheet href=/lib/cookieconsent/cookieconsent.min.cd0d0b6e50ff01ff2f3a9a70d7cfb66a7c6cb9acf7a566325568be6d3bd31fc4.css integrity="sha256-zQ0LblD/Af8vOppw18+2anxsuaz3pWYyVWi+bTvTH8Q="><script>window.config={"algoliasearch.min.js":"/lib/algoliasearch/algoliasearch-lite.umd.min.js","autocomplete.min.js":"/lib/autocomplete/autocomplete.min.js",comment:{twikoo:{commentCount:!0,el:"#twikoo",envId:"https://mengdemao.com:8080",lang:"zh-cn"}},cookieconsent:{content:{dismiss:"同意",link:"了解更多",message:"本网站使用 Cookies 来改善您的浏览体验."},enable:!0,palette:{button:{background:"#f0f0f0"},popup:{background:"#1aa3ff"}},theme:"edgeless"},data:{"desktop-header-typeit":"编程日志","mobile-header-typeit":"编程日志"},search:{algoliaAppID:"PQZTCYTP3M",algoliaIndex:"zh_cn_meng",algoliaSearchKey:"67a3d5929b94f3dc005abb63778b8928",highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:50,type:"algolia"},table:{sort:!0},typeit:{cursorChar:"|",cursorSpeed:1e3,data:{"desktop-header-typeit":["desktop-header-typeit"],"mobile-header-typeit":["mobile-header-typeit"]},duration:-1,speed:100}}</script><script src=/lib/tablesort/tablesort.min.92de6dec051677787aed63503575b2f9be73f21f2745574e59647bc139a92d40.js integrity="sha256-kt5t7AUWd3h67WNQNXWy+b5z8h8nRVdOWWR7wTmpLUA="></script><script src=/lib/typeit/typeit.min.da1df336329685cdb2394f353621d8f2445a8a12fa5f780298d56cad8a44b915.js integrity="sha256-2h3zNjKWhc2yOU81NiHY8kRaihL6X3gCmNVsrYpEuRU="></script><script src=/lib/cookieconsent/cookieconsent.min.e55842a856a6d829feca3c3ad736c136b6c7549e9247274f78aa296259e06e24.js integrity="sha256-5VhCqFam2Cn+yjw61zbBNrbHVJ6SRydPeKopYlngbiQ=" defer></script><script src=/js/cookieconsent.min.js defer></script><script src=/js/theme.min.js defer></script><script src=/lib/twikoo/twikoo.all.min.21b2b008caa4f0cbfc971f58fafc1a9e36baff4586ee7334110e0bec1e3f2e54.js integrity="sha256-IbKwCMqk8Mv8lx9Y+vwanja6/0WG7nM0EQ4L7B4/LlQ=" defer></script><script src=/js/twikoo.min.js defer></script><script type=text/javascript>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-6QCK4BFMHW",{anonymize_ip:!0})</script><script src="https://www.googletagmanager.com/gtag/js?id=G-6QCK4BFMHW" async></script><script type=speculationrules>
+        {
+          "prerender": [
+            {
+              "where": { "href_matches": "/*" },
+              "eagerness": "moderate"
+            }
+          ]
+        }
+    </script></body></html>
