@@ -1,7 +1,40 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>前端知识 - 标签 - 编程日志</title><link>https://mengdemao.com/tags/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86/</link><description>前端知识 - 标签 - 编程日志</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>mengdemao19951021@gmail.com (mengdemao)</managingEditor><webMaster>mengdemao19951021@gmail.com (mengdemao)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 02 Jan 2023 00:36:37 +0800</lastBuildDate><atom:link href="https://mengdemao.com/tags/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86/" rel="self" type="application/rss+xml"/><item><title>Nodejs笔记</title><link>https://mengdemao.com/nodejs/</link><pubDate>Mon, 02 Jan 2023 00:36:37 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/nodejs/</guid><description>&lt;div class="featured-image">
-&lt;img src="featuredImage/15.webp" referrerpolicy="no-referrer">
-&lt;/div>1 Nodejs安装 2 Nodejs教程</description></item><item><title>javascript基础教程</title><link>https://mengdemao.com/javascript/</link><pubDate>Thu, 07 Oct 2021 11:52:24 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/javascript/</guid><description>&lt;div class="featured-image">
-&lt;img src="featuredImage/15.webp" referrerpolicy="no-referrer">
-&lt;/div>1 基础知识 JavaScript是一种运行在浏览器中的解释型的编程语言 JavaScript（JS）是一种具有函数优先特性的轻量级、解释型或者说</description></item><item><title>CSS3基础教程</title><link>https://mengdemao.com/css3/</link><pubDate>Thu, 07 Oct 2021 11:52:18 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/css3/</guid><description>1 基础知识 Cascading Style Sheets(层叠样式表) HTML + CSS + JavaScript =&amp;gt; 名词 + 形容词 + 动词 CSS可以认为对原始的HTML进行美化 1.1 快速入门 CSS是什么 CSS怎么</description></item><item><title>HTML5基础教程</title><link>https://mengdemao.com/html5/</link><pubDate>Thu, 07 Oct 2021 11:51:59 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/html5/</guid><description>hugo中markdown可以直接渲染html,可以直接得到效果 但是网页基础结构却不可以编写,这样会破坏渲染过程 因此点击例子,同时点击F12</description></item><item><title>WebAssembly</title><link>https://mengdemao.com/webassembly/</link><pubDate>Sun, 03 Oct 2021 17:20:41 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/webassembly/</guid><description>&lt;div class="featured-image">
-&lt;img src="featuredImage/14.webp" referrerpolicy="no-referrer">
-&lt;/div>WebAssembly</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>前端知识 - 标签 - 编程日志</title><link>https://mengdemao.com/tags/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86/</link><description>前端知识 - 标签 - 编程日志</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>megndemao19951021@gmail.com (mengdemao)</managingEditor><webMaster>megndemao19951021@gmail.com (mengdemao)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 02 Jan 2023 00:36:37 +0800</lastBuildDate><atom:link href="https://mengdemao.com/tags/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86/" rel="self" type="application/rss+xml"/><item><title>Nodejs笔记</title><link>https://mengdemao.com/nodejs/</link><pubDate>Mon, 02 Jan 2023 00:36:37 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/nodejs/</guid><description><![CDATA[<div class="featured-image">
+                <img src="featuredImage/15.webp" referrerpolicy="no-referrer">
+            </div><h2 id="nodejs安装" class="headerLink">
+    <a href="#nodejs%e5%ae%89%e8%a3%85" class="header-mark"></a>1 Nodejs安装</h2><h2 id="nodejs教程" class="headerLink">
+    <a href="#nodejs%e6%95%99%e7%a8%8b" class="header-mark"></a>2 Nodejs教程</h2>]]></description></item><item><title>javascript基础教程</title><link>https://mengdemao.com/javascript/</link><pubDate>Thu, 07 Oct 2021 11:52:24 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/javascript/</guid><description><![CDATA[<div class="featured-image">
+                <img src="featuredImage/15.webp" referrerpolicy="no-referrer">
+            </div><h2 id="基础知识" class="headerLink">
+    <a href="#%e5%9f%ba%e7%a1%80%e7%9f%a5%e8%af%86" class="header-mark"></a>1 基础知识</h2><blockquote>
+  <p>JavaScript是一种运行在浏览器中的解释型的编程语言
+JavaScript（JS）是一种具有函数优先特性的轻量级、解释型或者说即时编译型的编程语言。
+虽然作为 Web 页面中的脚本语言被人所熟知，但是它也被用到了很多非浏览器环境中，
+例如 Node.js、Apache CouchDB、Adobe Acrobat 等。
+进一步说，JavaScript 是一种基于原型、多范式、单线程的动态 (en-US)语言，
+并且支持面向对象、命令式和声明式（如函数式编程）风格。</p>]]></description></item><item><title>CSS3基础教程</title><link>https://mengdemao.com/css3/</link><pubDate>Thu, 07 Oct 2021 11:52:18 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/css3/</guid><description><![CDATA[<h2 id="基础知识" class="headerLink">
+    <a href="#%e5%9f%ba%e7%a1%80%e7%9f%a5%e8%af%86" class="header-mark"></a>1 基础知识</h2><blockquote>
+  <p>Cascading Style Sheets(层叠样式表)</p>
+
+</blockquote><p>HTML + CSS + JavaScript =&gt; 名词 + 形容词 + 动词</p>
+<p><code>CSS</code>可以认为对原始的<code>HTML</code>进行美化</p>
+<h3 id="快速入门" class="headerLink">
+    <a href="#%e5%bf%ab%e9%80%9f%e5%85%a5%e9%97%a8" class="header-mark"></a>1.1 快速入门</h3><ol>
+<li>CSS是什么</li>
+<li>CSS怎么用</li>
+<li>CSS选择器</li>
+<li>美化网页</li>
+<li>盒子模型</li>
+<li>浮动</li>
+<li>定位</li>
+<li>网页动画</li>
+</ol>
+<h3 id="什么是css" class="headerLink">
+    <a href="#%e4%bb%80%e4%b9%88%e6%98%afcss" class="header-mark"></a>1.2 什么是CSS</h3><p>美化:字体, 颜色,高度,宽度, 背景图片</p>]]></description></item><item><title>HTML5基础教程</title><link>https://mengdemao.com/html5/</link><pubDate>Thu, 07 Oct 2021 11:51:59 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/html5/</guid><description><![CDATA[<blockquote>
+  <p>hugo中<code>markdown</code>可以直接渲染<code>html</code>,可以直接得到效果
+但是网页基础结构却不可以编写,这样会破坏渲染过程</p>
+
+</blockquote><p>因此<a href="/demo/web/html/body.html" rel="">点击例子</a>,同时点击F12,确定效果.</p>
+<p><strong>页面显示空白</strong></p>
+<p>但是我们可以在源代码中看到</p>]]></description></item><item><title>WebAssembly</title><link>https://mengdemao.com/webassembly/</link><pubDate>Sun, 03 Oct 2021 17:20:41 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/webassembly/</guid><description>&lt;div class="featured-image">
+                &lt;img src="featuredImage/14.webp" referrerpolicy="no-referrer">
+            &lt;/div>WebAssembly</description></item></channel></rss>

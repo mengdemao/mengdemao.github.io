@@ -1,3 +1,83 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Arm - 分类 - 编程日志</title><link>https://mengdemao.com/categories/arm/</link><description>Arm - 分类 - 编程日志</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>mengdemao19951021@gmail.com (mengdemao)</managingEditor><webMaster>mengdemao19951021@gmail.com (mengdemao)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 24 Sep 2022 10:37:25 +0800</lastBuildDate><atom:link href="https://mengdemao.com/categories/arm/" rel="self" type="application/rss+xml"/><item><title>Arm笔记</title><link>https://mengdemao.com/arm/</link><pubDate>Sat, 24 Sep 2022 10:37:25 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/arm/</guid><description>&lt;div class="featured-image">
-&lt;img src="featuredImage/12.webp" referrerpolicy="no-referrer">
-&lt;/div>1 体系结构参考文件 arm指令手册1 arm指令手册2 arm指令手册3 1.1 相关术语 流水线 DSP Jazelle ThumbEE Thumb-2 TrustZone VFP NEON LAPE big.LITTLE 1.2 工具链 文件名 详解 addr2line 把程序地址转化为文件</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Arm - 分类 - 编程日志</title><link>https://mengdemao.com/categories/arm/</link><description>Arm - 分类 - 编程日志</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>megndemao19951021@gmail.com (mengdemao)</managingEditor><webMaster>megndemao19951021@gmail.com (mengdemao)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 24 Sep 2022 10:37:25 +0800</lastBuildDate><atom:link href="https://mengdemao.com/categories/arm/" rel="self" type="application/rss+xml"/><item><title>Arm笔记</title><link>https://mengdemao.com/arm/</link><pubDate>Sat, 24 Sep 2022 10:37:25 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/arm/</guid><description><![CDATA[<div class="featured-image">
+                <img src="featuredImage/12.webp" referrerpolicy="no-referrer">
+            </div><h2 id="体系结构" class="headerLink">
+    <a href="#%e4%bd%93%e7%b3%bb%e7%bb%93%e6%9e%84" class="header-mark"></a>1 体系结构</h2><p>参考文件</p>
+<p><a href="./source/arm%E6%8C%87%E4%BB%A4%E6%89%8B%E5%86%8C1.pdf" rel="">arm指令手册1</a>
+<a href="./source/arm%E6%8C%87%E4%BB%A4%E6%89%8B%E5%86%8C2.pdf" rel="">arm指令手册2</a>
+<a href="./source/arm%E6%8C%87%E4%BB%A4%E6%89%8B%E5%86%8C3.pdf" rel="">arm指令手册3</a></p>
+<h3 id="相关术语" class="headerLink">
+    <a href="#%e7%9b%b8%e5%85%b3%e6%9c%af%e8%af%ad" class="header-mark"></a>1.1 相关术语</h3><ul>
+<li>流水线</li>
+<li>DSP</li>
+<li>Jazelle</li>
+<li>ThumbEE</li>
+<li>Thumb-2</li>
+<li>TrustZone</li>
+<li>VFP</li>
+<li>NEON</li>
+<li>LAPE</li>
+<li>big.LITTLE</li>
+</ul>
+<h3 id="工具链" class="headerLink">
+    <a href="#%e5%b7%a5%e5%85%b7%e9%93%be" class="header-mark"></a>1.2 工具链</h3>
+<div class="table-wrapper">
+  <table>
+    <thead>
+        <tr>
+            <th style="text-align: ">文件名</th>
+            <th style="text-align: ">详解</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td style="text-align: ">addr2line</td>
+            <td style="text-align: ">把程序地址转化为文件名和行号</td>
+        </tr>
+        <tr>
+            <td style="text-align: ">ar</td>
+            <td style="text-align: ">建立、修改和提取归档文件</td>
+        </tr>
+        <tr>
+            <td style="text-align: ">as</td>
+            <td style="text-align: ">汇编编译器</td>
+        </tr>
+        <tr>
+            <td style="text-align: ">ld</td>
+            <td style="text-align: ">链接器</td>
+        </tr>
+        <tr>
+            <td style="text-align: ">nm</td>
+            <td style="text-align: ">列出文件的符号</td>
+        </tr>
+        <tr>
+            <td style="text-align: ">objcopy</td>
+            <td style="text-align: ">文件个数格式转换</td>
+        </tr>
+        <tr>
+            <td style="text-align: ">objdump</td>
+            <td style="text-align: ">反汇编</td>
+        </tr>
+        <tr>
+            <td style="text-align: ">ranlib</td>
+            <td style="text-align: ">产生索引,并且保存进入文件中</td>
+        </tr>
+        <tr>
+            <td style="text-align: ">readelf</td>
+            <td style="text-align: ">显示elf文件信息</td>
+        </tr>
+        <tr>
+            <td style="text-align: ">size</td>
+            <td style="text-align: ">列出文件大小</td>
+        </tr>
+        <tr>
+            <td style="text-align: ">string</td>
+            <td style="text-align: ">打印文件可打印字符串</td>
+        </tr>
+        <tr>
+            <td style="text-align: ">strip</td>
+            <td style="text-align: ">丢弃文件符号</td>
+        </tr>
+    </tbody>
+  </table>
+</div>
+<p>交叉工具链测试</p>]]></description></item></channel></rss>

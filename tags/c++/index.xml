@@ -1,11 +1,18 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>C++ - 标签 - 编程日志</title><link>https://mengdemao.com/tags/c++/</link><description>C++ - 标签 - 编程日志</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>mengdemao19951021@gmail.com (mengdemao)</managingEditor><webMaster>mengdemao19951021@gmail.com (mengdemao)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Thu, 28 Jul 2022 22:37:59 +0800</lastBuildDate><atom:link href="https://mengdemao.com/tags/c++/" rel="self" type="application/rss+xml"/><item><title>C++基础笔记</title><link>https://mengdemao.com/cxx_basic/</link><pubDate>Thu, 28 Jul 2022 22:37:59 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/cxx_basic/</guid><description>&lt;div class="featured-image">
-&lt;img src="featuredImage/13.webp" referrerpolicy="no-referrer">
-&lt;/div>C++基础笔记</description></item><item><title>C++提高笔记</title><link>https://mengdemao.com/cxx_enhance/</link><pubDate>Thu, 28 Jul 2022 22:37:49 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/cxx_enhance/</guid><description>&lt;div class="featured-image">
-&lt;img src="featuredImage/13.webp" referrerpolicy="no-referrer">
-&lt;/div>C++提高笔记</description></item><item><title>C++增强笔记</title><link>https://mengdemao.com/cxx_advance/</link><pubDate>Thu, 28 Jul 2022 22:37:49 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/cxx_advance/</guid><description>&lt;div class="featured-image">
-&lt;img src="featuredImage/13.webp" referrerpolicy="no-referrer">
-&lt;/div>C++增强笔记</description></item><item><title>C++模板</title><link>https://mengdemao.com/cxx_template/</link><pubDate>Sat, 18 Jun 2022 14:21:30 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/cxx_template/</guid><description>&lt;div class="featured-image">
-&lt;img src="featuredImage/01.webp" referrerpolicy="no-referrer">
-&lt;/div>1 相关知识gcc中typeof关键字用来检查变量类型,那么则可以用来判断魔板生成中的数据类型, 但是在C++中存在这另外的运算符typeid,</description></item><item><title>STL基础笔记</title><link>https://mengdemao.com/stl/</link><pubDate>Wed, 06 Oct 2021 11:24:07 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/stl/</guid><description>&lt;div class="featured-image">
-&lt;img src="featuredImage/11.webp" referrerpolicy="no-referrer">
-&lt;/div>STL称为标准模板库(Standard Template Library) 广义上可以分为容器,算法,迭代器 容器和算法通过迭代器进行无缝连接 STL几乎所有的代码都采用了函数模</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>C++ - 标签 - 编程日志</title><link>https://mengdemao.com/tags/c++/</link><description>C++ - 标签 - 编程日志</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>megndemao19951021@gmail.com (mengdemao)</managingEditor><webMaster>megndemao19951021@gmail.com (mengdemao)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Thu, 28 Jul 2022 22:37:59 +0800</lastBuildDate><atom:link href="https://mengdemao.com/tags/c++/" rel="self" type="application/rss+xml"/><item><title>C++基础笔记</title><link>https://mengdemao.com/cxx_basic/</link><pubDate>Thu, 28 Jul 2022 22:37:59 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/cxx_basic/</guid><description>&lt;div class="featured-image">
+                &lt;img src="featuredImage/13.webp" referrerpolicy="no-referrer">
+            &lt;/div>C++基础笔记</description></item><item><title>C++提高笔记</title><link>https://mengdemao.com/cxx_enhance/</link><pubDate>Thu, 28 Jul 2022 22:37:49 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/cxx_enhance/</guid><description>&lt;div class="featured-image">
+                &lt;img src="featuredImage/13.webp" referrerpolicy="no-referrer">
+            &lt;/div>C++提高笔记</description></item><item><title>C++增强笔记</title><link>https://mengdemao.com/cxx_advance/</link><pubDate>Thu, 28 Jul 2022 22:37:49 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/cxx_advance/</guid><description>&lt;div class="featured-image">
+                &lt;img src="featuredImage/13.webp" referrerpolicy="no-referrer">
+            &lt;/div>C++增强笔记</description></item><item><title>C++模板</title><link>https://mengdemao.com/cxx_template/</link><pubDate>Sat, 18 Jun 2022 14:21:30 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/cxx_template/</guid><description><![CDATA[<div class="featured-image">
+                <img src="featuredImage/01.webp" referrerpolicy="no-referrer">
+            </div><h2 id="相关知识" class="headerLink">
+    <a href="#%e7%9b%b8%e5%85%b3%e7%9f%a5%e8%af%86" class="header-mark"></a>1 相关知识</h2><p><strong>gcc</strong>中<code>typeof</code>关键字用来检查变量类型,那么则可以用来判断魔板生成中的数据类型,
+但是在C++中存在这另外的运算符<code>typeid</code>,但是我个人认为<code>typeof</code>更加优秀，但是二者并不相同,
+<code>typeid</code>返回类型对象,<code>typeof</code>只可以判断类型;</p>]]></description></item><item><title>STL基础笔记</title><link>https://mengdemao.com/stl/</link><pubDate>Wed, 06 Oct 2021 11:24:07 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/stl/</guid><description><![CDATA[<div class="featured-image">
+                <img src="featuredImage/11.webp" referrerpolicy="no-referrer">
+            </div><blockquote>
+  <p>STL称为标准模板库(Standard Template Library)
+广义上可以分为容器,算法,迭代器
+容器和算法通过迭代器进行无缝连接
+STL几乎所有的代码都采用了函数模版或者类模板</p>]]></description></item></channel></rss>
