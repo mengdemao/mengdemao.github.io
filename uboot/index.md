@@ -103,6 +103,14 @@ make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu-
 qemu-system-aarch64 -machine virt -nographic -cpu cortex-a57 -bios u-boot.bin
 ```
 
+运行程序
+```shell
+pulseaudio: set_sink_input_volume() failed
+pulseaudio: Reason: Invalid argument
+pulseaudio: set_sink_input_mute() failed
+pulseaudio: Reason: Invalid argument
+```
+
 ## 全局参数
 
 **DECLARE_GLOBAL_DATA_PTR**
