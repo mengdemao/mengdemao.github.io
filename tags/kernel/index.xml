@@ -9,7 +9,7 @@
 </ol>
 
 </blockquote><h2 id="虚拟时间vruntime" class="headerLink">
-    <a href="#%e8%99%9a%e6%8b%9f%e6%97%b6%e9%97%b4vruntime" class="header-mark"></a>1 虚拟时间(vruntime)</h2><div class="code-block highlight is-closed show-line-numbers  tw-group tw-my-2">
+    <a href="#%e8%99%9a%e6%8b%9f%e6%97%b6%e9%97%b4vruntime" class="header-mark"></a>1 虚拟时间(vruntime)</h2><div class="code-block highlight is-open show-line-numbers  tw-group tw-my-2">
   <div class="
     code-block-title 
     
@@ -37,7 +37,7 @@
                 <img src="featuredImage/11.webp" referrerpolicy="no-referrer">
             </div><h2 id="alloc_pages" class="headerLink">
     <a href="#alloc_pages" class="header-mark"></a>1 alloc_pages</h2><p>linux常用的物理界面分配器的函数是<code>alloc_pages</code>,下面分析是如何实现的.</p>
-<div class="code-block highlight is-closed show-line-numbers  tw-group tw-my-2">
+<div class="code-block highlight is-open show-line-numbers  tw-group tw-my-2">
   <div class="
     code-block-title 
     
