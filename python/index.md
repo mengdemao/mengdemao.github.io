@@ -6,6 +6,7 @@ python学习笔记
 <!--more-->
 
 ## 开发环境安装
+
 > 推荐Mambaforge,与anaconda相同功能,但是速度更加快;
 
 mamba是包管理器的重新实现,由C++重新实现,主页地址:[miniforge](https://github.com/conda-forge/miniforge),
@@ -203,7 +204,7 @@ Rich中的打印更加漂亮
 ```
 
 3. 旧式字符串格式化方法
-不在使用了,还是新的看着舒服
+   不在使用了,还是新的看着舒服
 
 ### `main`函数
 
@@ -231,6 +232,7 @@ print(type(intA))
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">class</span><span style="color: #000000; text-decoration-color: #000000"> </span><span style="color: #008000; text-decoration-color: #008000">'int'</span><span style="font-weight: bold">&gt;</span>
 </pre>
 
+
 ```python
 longB = 0xDAEABEEF
 print(type(longB))
@@ -238,6 +240,7 @@ print(type(longB))
 
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">class</span><span style="color: #000000; text-decoration-color: #000000"> </span><span style="color: #008000; text-decoration-color: #008000">'int'</span><span style="font-weight: bold">&gt;</span>
 </pre>
+
 
 ```python
 floatC = 1.2
@@ -247,6 +250,7 @@ print(type(floatC))
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">class</span><span style="color: #000000; text-decoration-color: #000000"> </span><span style="color: #008000; text-decoration-color: #008000">'float'</span><span style="font-weight: bold">&gt;</span>
 </pre>
 
+
 ```python
 doubleD = 1.2
 print(type(doubleD))
@@ -255,7 +259,9 @@ print(type(doubleD))
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">class</span><span style="color: #000000; text-decoration-color: #000000"> </span><span style="color: #008000; text-decoration-color: #008000">'float'</span><span style="font-weight: bold">&gt;</span>
 </pre>
 
+
 ### 布尔类型
+
 + True
 + False
 
@@ -270,8 +276,10 @@ print(boolB, type(boolB))
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span> <span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">class</span><span style="color: #000000; text-decoration-color: #000000"> </span><span style="color: #008000; text-decoration-color: #008000">'bool'</span><span style="font-weight: bold">&gt;</span>
 </pre>
 
+
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span> <span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">class</span><span style="color: #000000; text-decoration-color: #000000"> </span><span style="color: #008000; text-decoration-color: #008000">'bool'</span><span style="font-weight: bold">&gt;</span>
 </pre>
+
 ### String(字符串)
 
  + 使用""定义字符串
@@ -323,6 +331,7 @@ print(strC, str(strC))
 </pre>
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
 The Zen of Python, by Tim Peters
+
 
 Beautiful is better than ugly.
 Explicit is better than implicit.
@@ -454,7 +463,6 @@ print("while Loop finish")
 > 迭代列表或字符串等任意序列,元素的迭代顺序与在序列中出现的顺序一致
 
 ```python
-
 # 定义一个列表
 words = ["linux", "macos", "windows"]
 
@@ -526,7 +534,6 @@ for i in range(1, 10, 2):
 > 字典是无法进行转换的
 
 ```python
-
 l = list(range(10))
 
 t = tuple(range(10))
@@ -661,6 +668,7 @@ while True:
 ```
 
 执行结果:
+
 ```txt
 D:\python\异常处理\.venv\Scripts\python.exe D:\python\异常处理\main.py
 Please enter a number: a
@@ -673,15 +681,16 @@ Process finished with exit code 0
 ## 文件操作
 
 ### 文件打开模式
+
 打开文件获取文件描述符，打开文件时需要指定对文件的读写模式，和写追加模式。常见的文件模式如下：
 
-| 模式   | 描述                                                                     |
-| ------ | ------------------------------------------------------------             |
-| ‘r’  | 以只读方式打开文件（默认），不存在报错 FileNotFoundError                |
-| ‘w’  | 以写方式打开文件，如果文件存在，首先清空原内容，如果不存在先创建文件   |
-| ‘x’  | 以写方式打开文件，如果文件存在，则报错 FileExistsError                  |
-| ‘a’  | 以写方式打开文件，并追加内容到文件结尾，如果文件不能存在则先创建文件   |
-| ‘+’  | 可同时读写                                                               |
+| 模式 | 描述                                                         |
+| ---- | ------------------------------------------------------------ |
+| ‘r’  | 以只读方式打开文件（默认），不存在报错 FileNotFoundError     |
+| ‘w’  | 以写方式打开文件，如果文件存在，首先清空原内容，如果不存在先创建文件 |
+| ‘x’  | 以写方式打开文件，如果文件存在，则报错 FileExistsError       |
+| ‘a’  | 以写方式打开文件，并追加内容到文件结尾，如果文件不能存在则先创建文件 |
+| ‘+’  | 可同时读写                                                   |
 
 ### 打开文件(open函数)
 
@@ -692,6 +701,7 @@ open(file, mode='r', buffering=-1, encoding=None, errors=None,
 ```
 
 测试代码
+
 ```python
 # shell echo "Hello World" >> test
 Python 3.11.6 (main, Nov 14 2023, 09:36:21) [GCC 13.2.1 20230801] on linux
@@ -838,5 +848,212 @@ t.clsFunc()
 
 ## 虚拟环境
 
-## GUI基础(tkinter)
+1. 创建虚拟环境
+
+```shell
+virtualenv envName
+```
+
+2. 激活环境
+
+```shell
+cd envName
+source ./bin/activate
+```
+
+3. 销毁环境
+
+```shell
+deactivate
+```
+
+## GUI基础(pyQt)
+
+### 打印版本号
+
+```python
+from PyQt6.QtCore import QT_VERSION_STR
+from PyQt6.QtCore import PYQT_VERSION_STR
+
+print(f'QT_VERSION_STR   ==> {QT_VERSION_STR}')
+print(f'PYQT_VERSION_STR ==> {PYQT_VERSION_STR}')
+```
+
+运行结果
+
+```shell
+QT_VERSION_STR   ==> 6.8.1
+PYQT_VERSION_STR ==> 6.8.0
+```
+
+### 运行widgets
+
+```python
+#!/bin/env python3
+
+import sys
+
+from PyQt6.QtWidgets import QWidget, QApplication
+
+app = QApplication(sys.argv)
+widget = QWidget()
+widget.resize(640, 480)
+widget.setWindowTitle("Hello, PyQt6!")
+widget.show()
+
+sys.exit(app.exec())
+```
+
+![hello-widgets](picture/hello_widgets.png)
+
+### PyQt6 日期和时间
+
+```python
+#!/usr/bin/python
+
+from PyQt6.QtCore import QDate, QTime, QDateTime, Qt
+
+now = QDate.currentDate()
+
+print(now.toString(Qt.DateFormat.ISODate))
+print(now.toString(Qt.DateFormat.RFC2822Date))
+
+datetime = QDateTime.currentDateTime()
+
+print(datetime.toString())
+
+time = QTime.currentTime()
+print(time.toString(Qt.DateFormat.ISODate))
+```
+
+打印结果
+
+```shell
+2025-01-01
+01 Jan 2025
+Wed Jan 1 20:01:17 2025
+20:01:17
+```
+
+### pyQt6状态栏
+
+```python
+#!/usr/bin/python
+
+"""
+PyQt6 tutorial
+
+This program creates a statusbar.
+"""
+
+import sys
+from PyQt6.QtWidgets import QMainWindow, QApplication
+
+
+class Example(QMainWindow):
+
+    def __init__(self):
+        super().__init__()
+
+        self.initUI()
+
+
+    def initUI(self):
+
+        self.statusBar().showMessage('Ready')
+
+        self.setGeometry(300, 300, 350, 250)
+        self.setWindowTitle('Statusbar')
+        self.show()
+
+
+def main():
+
+    app = QApplication(sys.argv)
+    ex = Example()
+    sys.exit(app.exec())
+
+
+if __name__ == '__main__':
+    main()
+```
+
+![image-20250101200620036](./picture/index/image-20250101200620036.png)
+
+### pyQt6菜单
+
+```python
+#!/usr/bin/python
+
+"""
+PyQt6 tutorial
+
+This program creates a menubar. The
+menubar has one menu with an exit action.
+"""
+
+import sys
+from PyQt6.QtWidgets import QMainWindow, QApplication
+from PyQt6.QtGui import QIcon, QAction
+
+
+class Example(QMainWindow):
+
+    def __init__(self):
+        super().__init__()
+
+        self.initUI()
+
+
+    def initUI(self):
+
+        exitAct = QAction(QIcon('exit.png'), '&Exit', self)
+        exitAct.setShortcut('Ctrl+Q')
+        exitAct.setStatusTip('Exit application')
+        exitAct.triggered.connect(QApplication.instance().quit)
+
+        self.statusBar()
+
+        menubar = self.menuBar()
+        fileMenu = menubar.addMenu('&File')
+        fileMenu.addAction(exitAct)
+
+        self.setGeometry(300, 300, 350, 250)
+        self.setWindowTitle('Simple menu')
+        self.show()
+
+
+def main():
+
+    app = QApplication(sys.argv)
+    ex = Example()
+    sys.exit(app.exec())
+
+
+if __name__ == '__main__':
+    main()
+```
+
+
+
+### pyQt6布局管理
+
+TODO
+
+
+
+### PyQt6 事件和信号
+
+TODO
+
+
+
+### PyQt6 的对话框
+
+TODO
+
+
+## python打包
+
+![打包](/home/mengdemao/work/mengdemao.com/content/posts/python/picture/index/pyinstaller.jpg)
 
