@@ -978,7 +978,7 @@ if __name__ == '__main__':
     main()
 ```
 
-![image-20250101200620036](./picture/index/image-20250101200620036.png)
+
 
 ### pyQt6菜单
 
@@ -1055,5 +1055,5 @@ TODO
 
 ## python打包
 
-![打包](/home/mengdemao/work/mengdemao.com/content/posts/python/picture/index/pyinstaller.jpg)
+![打包](picture/pyinstaller.jpg)
 
