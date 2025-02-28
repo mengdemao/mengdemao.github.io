@@ -1221,3 +1221,117 @@ public:
 
 总之，`const`成员函数保证了函数不会修改对象的状态（除了那些被标记为`mutable`的成员），并且可以被`const`对象调用。而`mutable`关键字提供了一种机制，允许在`const`成员函数中修改特定成员，这对于实现线程安全等场景非常有用。
 
+## lambda表达式
+
+### 基础表达式
+
+```c
+int absSort(double* x, uint32_t n)
+{
+    std::sort(x, x+n,
+        [](double a, double b)
+        {
+            return abs(a) - abs(b);
+        }
+    );
+
+    return EXIT_SUCCESS;
+}
+```
+
+### lambda语法组成部分
+
+```c
+1    2   3      4        5
+[=]  () mutable throw() -> int
+{
+	/* 函数体 */
+}
+```
+
+1. 捕获字句
+2. 参数列表
+3. mutable规范
+4. 异常规范
+5. 返回值
+
+#### 捕获列表
+
+> 捕获列表允许Lambda表达式访问其定义范围内的变量。
+> 可以通过值(=)或引用(&)进行捕获，或者同时使用两者。
+
+```c++
+int x = 10;
+int y = 20;
+auto sum = [=]() -> int { return x + y; }; // 捕获所有局部变量通过值
+std::cout << "Sum: " << sum(); // 输出：Sum: 30
+
+auto increment = [&x]() { ++x; }; // 捕获x通过引用
+increment();
+std::cout << "X: " << x; // 输出：X: 11
+```
+
+默认情况下，通过值捕获的变量在Lambda内部被视为const，这意味着你不能修改它们。如果你想修改这些捕获到的变量，你需要在参数列表后面加上mutable关键字。
+
+```c++
+int value = 5;
+auto modify = [value]() mutable {
+    value += 2;
+    std::cout << "Modified Value: " << value;
+};
+modify(); // 输出：Modified Value: 7
+// 注意这里的修改不会影响原始的value变量
+```
+
+#### 抛出异常
+
+```c++
+auto lambda = []() throw(std::runtime_error) {
+    // Lambda body that may throw std::runtime_error
+};
+```
+
+Lambda不会抛出任何异常，可以使用`noexcept`关键字。
+
+```
+auto lambda = []() noexcept {
+    // Lambda body that guarantees not to throw any exceptions
+};
+```
+
+捕获异常
+
+```c
+auto lambda = []() {
+    throw std::runtime_error("An error occurred inside the lambda.");
+};
+
+try {
+    lambda();
+} catch (const std::runtime_error& e) {
+    std::cout << "Caught exception: " << e.what() << '\n';
+}
+```
+
+测试用例
+
+```c++
+#include <iostream>
+#include <stdexcept>
+
+int main() {
+    auto riskyLambda = []() -> void {
+        // 假设这里有一些可能导致异常的操作
+        throw std::runtime_error("Something went wrong!");
+    };
+
+    try {
+        riskyLambda();
+    } catch (const std::exception& ex) {
+        std::cerr << "Exception caught: " << ex.what() << '\n';
+    }
+
+    return 0;
+}
+```
+
