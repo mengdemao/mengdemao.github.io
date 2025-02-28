@@ -3,7 +3,6 @@
             </div><blockquote>
   <p>A C dynamic strings library
 C语言版本动态字符串库</p>
-
 </blockquote><h2 id="sds" class="headerLink">
     <a href="#sds" class="header-mark"></a>1 SDS</h2><p>SDS的类型就是</p>
 <div class="code-block highlight is-open show-line-numbers  tw-group tw-my-2">

@@ -1124,4 +1124,100 @@ unsigned long n = reinterpret_cast<unsigned long>(&i);
 ```
 需要注意的是，由于指针的大小和整数的大小可能不同，因此在进行指针与整数之间的转换时应该格外谨慎。
 
+## const描述成员函数
+
+给出以下例子
+
+```c++
+class SafeQueue {
+private:
+    std::queue<T> queue;
+    mutable std::mutex mutex;
+
+public:
+    void push(T value) {
+        std::lock_guard<std::mutex> lock(mutex);
+        queue.push(std::move(value));
+    }
+
+    void pop(void) {
+        std::lock_guard<std::mutex> lock(mutex);
+        if (queue.empty()) {
+            return;
+        }
+        queue.pop();
+    }
+
+    T back(void) const {
+        std::lock_guard<std::mutex> lock(mutex);
+        if (queue.empty()) {
+            return false;
+        }
+        return queue.front();
+    }
+
+    bool empty() const {
+        std::lock_guard<std::mutex> lock(mutex);
+        return queue.empty();
+    }
+
+    size_t size() const {
+        std::lock_guard<std::mutex> lock(mutex);
+        return queue.size();
+    }
+
+};
+```
+
+在C++中，`const`关键字用于指定某个对象、变量或方法的不可变性。当你在一个成员函数后面加上`const`关键字时，这意味着该成员函数承诺不会修改其所属对象的状态（即类的数据成员），除非这些数据成员被声明为`mutable`。这有助于让调用者知道哪些方法是安全的读操作，并且可以帮助编译器进行一些优化。
+
+### `const`成员函数
+
+当你在成员函数声明和定义的末尾添加`const`关键字时，例如：
+
+```cpp
+bool empty() const {
+    std::lock_guard<std::mutex> lock(mutex);
+    return queue.empty();
+}
+```
+
+这里的意思是：
+
+1. **不修改对象状态**：此成员函数不会修改对象的任何非`mutable`数据成员。尝试在这样的函数内部修改非`mutable`成员会导致编译错误。
+
+2. **允许对`const`对象的调用**：如果一个对象被声明为`const`，那么只能调用其`const`成员函数。因此，将成员函数声明为`const`使得它们可以被`const`对象调用。
+
+### `mutable`关键字
+
+然而，在某些情况下，你可能需要在逻辑上“不变”的函数中改变某些成员变量，比如为了实现线程同步而使用的互斥锁(`std::mutex`)。在这种情况下，你可以使用`mutable`关键字来标记那些即使在`const`成员函数中也可以被修改的成员变量。例如：
+
+```cpp
+template<typename T>
+class SafeQueue {
+private:
+    std::queue<T> queue;
+    mutable std::mutex mutex; // 标记为mutable，使其可以在const成员函数中修改
+
+public:
+    bool empty() const {
+        std::lock_guard<std::mutex> lock(mutex); // 现在可以正确编译并运行
+        return queue.empty();
+    }
+
+    // 其他成员函数...
+};
+```
+
+在这个例子中：
+
+- **`mutable std::mutex mutex;`**：通过将`mutex`声明为`mutable`，我们告知编译器尽管`empty()`是一个`const`成员函数，它仍然允许修改`mutex`。这是因为互斥锁的存在主要是为了管理并发访问，而不是表示对象逻辑状态的一部分。
+
+- **`bool empty() const`**：这个函数现在可以正常工作，因为它能够在保证不改变对象逻辑状态的前提下，安全地锁定互斥锁来访问共享资源（即队列）。
+
+### 为什么需要这样做？
+
+在多线程环境中，为了确保线程安全，通常需要在访问共享资源之前获取锁。即使是在只读操作（如检查队列是否为空）中也需要这样做，以避免竞态条件。然而，从逻辑上看，像`empty()`这样的函数不应该修改对象的状态。通过将互斥锁声明为`mutable`，我们既能保持这种逻辑上的不变性，又能满足实际的线程安全需求。
+
+总之，`const`成员函数保证了函数不会修改对象的状态（除了那些被标记为`mutable`的成员），并且可以被`const`对象调用。而`mutable`关键字提供了一种机制，允许在`const`成员函数中修改特定成员，这对于实现线程安全等场景非常有用。
 
