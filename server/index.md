@@ -1,8 +1,7 @@
-# Server
+# Linux工具部署功能记录
 
 
-个人服务器安装记录
-====
+
 ## 配置交换文件
 ```shell
 # 创建交换文件
@@ -190,5 +189,118 @@ opengrok-indexer \
     -c /usr/local/bin/ctags \
     -s /opt/opengrok/src -d /opt/opengrok/data -H -P -S -G \
     -W /opt/opengrok/etc/configuration.xml -U http://localhost:8080/source
+```
+
+## HTTPS配置
+
+1. 安装acme.sh工具
+
+```shell
+curl https://get.acme.sh | sh -s email=my@example.com
+```
+
+```shell
+wget -O -  https://get.acme.sh | sh -s email=my@example.com
+```
+
+同时脚本会将环境变量写道bashrc中
+
+2.设置默认CA
+
+```shell
+acme.sh --set-default-ca --server letsencrypt
+```
+
+3.生成证书
+
++ 直接签发
+
+```shell
+acme.sh --issue -d mydomain.com -d www.mydomain.com --webroot /home/wwwroot/mydomain.com/
+```
+
++ 使用 Apache 模式
+
+```shell
+acme.sh --issue --apache -d example.com -d www.example.com -d cp.example.com
+```
+
++ nginx
+
+```shell
+acme.sh --issue --nginx -d example.com -d www.example.com -d cp.example.com
+```
+
++ 独立模式
+
+```shell
+acme.sh --issue --standalone -d example.com -d www.example.com -d cp.example.com
+```
+
+4.安装证书
+
+```shell
+acme.sh --install-cert -d example.com \
+    --key-file       /path/to/keyfile/in/nginx/key.pem  \
+    --fullchain-file /path/to/fullchain/nginx/cert.pem \
+    --reloadcmd     "service nginx reload"
+```
+
+5. 更新证书
+```shell
+acme.sh --renew -d example.com --force
+```
+
+6. 配置nginx
+
+```shell
+server {
+    listen       443 ssl http2;
+    listen       [::]:443 ssl http2;
+    server_name  mengdemao.com;
+    root         /var/www/mengdemao.com;
+
+    ssl_certificate "/etc/nginx/ssl/mengdemao.com/fullchain.cer";
+    ssl_certificate_key "/etc/nginx/ssl/mengdemao.com/mengdemao.com.key";
+    ssl_session_cache shared:SSL:1m;
+    ssl_session_timeout  10m;
+    ssl_ciphers HIGH:!aNULL:!MD5;
+    ssl_prefer_server_ciphers on;
+
+    # Load configuration files for the default server block.
+    include /etc/nginx/default.d/*.conf;
+
+    error_page 404 /404.html;
+        location = /40x.html {
+    }
+
+    error_page 500 502 503 504 /50x.html;
+        location = /50x.html {
+    }
+}
+```
+
+## nfs
+
+### 安装
+
+``` shell
+sudo apt-get install nfs-kernel-server
+```
+
+### 设置导出
+``` shell
+/home/exports *(rw,nohide,insecure,no_subtree_check,async,no_root_squash)
+```
+
+### 开启服务
+``` shell
+sudo /etc/init.d/nfs-kernel-server restart
+```
+
+### 测试
+``` shell
+sudo mount -t nfs -o nolock,vers=3 127.0.0.1:/home/exports /mnt
+ls /mnt
 ```
 
