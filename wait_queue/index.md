@@ -1,9 +1,10 @@
 # Linux等待队列实现
 
 
+<!--more-->
 等待事件是建立在调度的基础之上的一种同步机制
+<!--more-->
 
-# 使用
 ## 等待队列头
 ``` c
 struct __wait_queue_head {
@@ -12,6 +13,7 @@ struct __wait_queue_head {
 };
 typedef struct __wait_queue_head wait_queue_head_t;
 ```
+
 ## 等待队列实体
 ``` c
 struct __wait_queue {
@@ -35,7 +37,7 @@ void init_waitqueue_head(struct wait_queue_head *wq_head);
 {																\
 	.private	= tsk,											\
 	.func		= default_wake_function,						\
-	.entry		= { NULL, NULL }								\ 
+	.entry		= { NULL, NULL }								\
 }
 
 #define DECLARE_WAITQUEUE(name, tsk)  struct wait_queue_entry name = __WAITQUEUE_INITIALIZER(name, tsk)
@@ -71,7 +73,6 @@ void wait_event_interruptible(wq, condition);
 + wake_up_interruptible_sync
 
 
-# 例子
 ## 写端
 
 ```c
@@ -161,5 +162,3 @@ out:
 	return 0;
 }
 ```
-
-# 原理
