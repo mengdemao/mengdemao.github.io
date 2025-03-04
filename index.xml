@@ -1,4 +1,32 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>编程日志</title><link>https://mengdemao.com/</link><description>编程日志</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>megndemao19951021@gmail.com (mengdemao)</managingEditor><webMaster>megndemao19951021@gmail.com (mengdemao)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 15 Dec 2024 22:43:01 +0800</lastBuildDate><atom:link href="https://mengdemao.com/index.xml" rel="self" type="application/rss+xml"/><item><title>Linux驱动模型</title><link>https://mengdemao.com/driver_model/</link><pubDate>Sun, 24 Nov 2024 20:32:46 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/driver_model/</guid><description>&lt;div class="featured-image">
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>编程日志</title><link>https://mengdemao.com/</link><description>编程日志</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>megndemao19951021@gmail.com (mengdemao)</managingEditor><webMaster>megndemao19951021@gmail.com (mengdemao)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 03 Mar 2025 14:23:40 +0800</lastBuildDate><atom:link href="https://mengdemao.com/index.xml" rel="self" type="application/rss+xml"/><item><title>RT-Thread</title><link>https://mengdemao.com/rtthread/</link><pubDate>Mon, 03 Mar 2025 14:23:40 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/rtthread/</guid><description><![CDATA[<div class="featured-image">
+                <img src="featuredImage/05.webp" referrerpolicy="no-referrer">
+            </div><h2 id="线程管理" class="headerLink">
+    <a href="#%e7%ba%bf%e7%a8%8b%e7%ae%a1%e7%90%86" class="header-mark"></a>1 线程管理</h2><h3 id="线程对象" class="headerLink">
+    <a href="#%e7%ba%bf%e7%a8%8b%e5%af%b9%e8%b1%a1" class="header-mark"></a>1.1 线程对象</h3><div class="code-block highlight is-open show-line-numbers  tw-group tw-my-2">
+  <div class="
+    code-block-title 
+    
+    tw-flex 
+    tw-flex-row 
+    tw-justify-between 
+    tw-w-full tw-bg-bgColor-secondary
+    ">      
+    <button 
+      class="
+        tw-select-none 
+        tw-mx-2 
+        tw-block
+        group-[.is-open]:tw-rotate-90
+        tw-transition-[transform] 
+        tw-duration-500 
+        tw-ease-in-out
+        print:!tw-hidden"
+      disabled
+      aria-hidden="true"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button>
+
+    <div class="code-block-title-bar tw-w-full">
+      <p class="tw-select-none !tw-my-1">c</p>]]></description></item><item><title>Linux驱动模型</title><link>https://mengdemao.com/driver_model/</link><pubDate>Sun, 24 Nov 2024 20:32:46 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/driver_model/</guid><description>&lt;div class="featured-image">
                 &lt;img src="featuredImage/04.webp" referrerpolicy="no-referrer">
             &lt;/div>驱动模型</description></item><item><title>Rbtree</title><link>https://mengdemao.com/rbtree/</link><pubDate>Sun, 24 Nov 2024 00:48:16 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/rbtree/</guid><description>&lt;div class="featured-image">
                 &lt;img src="featuredImage/10.webp" referrerpolicy="no-referrer">
@@ -18,12 +46,4 @@
                 &lt;img src="featuredImage/04.webp" referrerpolicy="no-referrer">
             &lt;/div>RTOS</description></item><item><title>Arm笔记</title><link>https://mengdemao.com/arm/</link><pubDate>Sat, 24 Sep 2022 10:37:25 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/arm/</guid><description>&lt;div class="featured-image">
                 &lt;img src="featuredImage/12.webp" referrerpolicy="no-referrer">
-            &lt;/div>arm汇编</description></item><item><title>Bsdiff</title><link>https://mengdemao.com/bsdiff/</link><pubDate>Wed, 17 Aug 2022 17:24:30 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/bsdiff/</guid><description><![CDATA[<div class="featured-image">
-                <img src="featuredImage/10.webp" referrerpolicy="no-referrer">
-            </div><h2 id="引言" class="headerLink">
-    <a href="#%e5%bc%95%e8%a8%80" class="header-mark"></a>1 引言</h2><blockquote>
-  <p>bsdiff and bspatch are tools for building and applying patches to binary files. By using suffix &gt;  sorting (specifically, Larsson and Sadakane&rsquo;s qsufsort) and taking advantage of how
-executable files change, bsdiff routinely produces binary patches 50-80% smaller than
-those produced by Xdelta, and 15% smaller than those produced by .RTPatch (a $2750/seat
-commercial patch tool) &ndash; 直接摘抄自官网</p>
-</blockquote><p>详情可以查看<a href="http://www.daemonology.net/bsdiff/" target="_blank" rel="noopener noreferrer">bsdiff官网</a>,存在这个详细描述.</p>]]></description></item></channel></rss>
+            &lt;/div>arm汇编</description></item></channel></rss>
