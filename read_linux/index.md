@@ -1227,6 +1227,3 @@ void __init rcu_init(void)
 }
 ```
 
-
-
-
