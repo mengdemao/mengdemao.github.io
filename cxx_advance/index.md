@@ -848,6 +848,348 @@ int main()
 
 ![image-20230801075105713](picture/image-20230801075105713.png)
 
+1. 左值 (`lvalue`, left value)，顾名思义就是赋值符号左边的值。准确来说，左值是表达式（不一定是 赋值表达式）后依然存在的持久对象
+
+2. 右值 (`rvalue`, right value)，右边的值，是指表达式结束后就不再存在的临时对象。
+
+3. 纯右值 (`prvalue`, pure `rvalue`)
+  + 纯粹的右值，要么是纯粹的字面量，例如 10, true；要么是求值 结果相当于字面量或匿名临时对象，例如 1+2。
+  + 非引用返回的临时变量、运算表达式产生的临时变量、原始字面量、Lambda 表达式都属于纯右值。
+```c++
+class Foo {
+    const char*&& right = "this is a rvalue"; // 此处字符串字面量为右值
+public:
+    void bar() {
+    right = "still rvalue"; // 此处字符串字面量为右值
+    }
+};
+
+int main()
+{
+    const char* const &left = "this is an lvalue"; // 此处字符串字面量为左值
+}
+```
+
+4. 将亡值 (`xvalue`, expiring value)，是 C++11 为了引入右值引用而提出的概念也就是即将被销毁、却能够被移动的值。
+```c++
+std::vector<int> foo() {
+    std::vector<int> temp = {1, 2, 3, 4};
+    return temp;
+}
+
+std::vector<int> v = foo();
+```
+在最后一行中,v是左值、foo()返回的值就是右值（也是纯右值）。
+但是, v可以被别的变量捕获到,而foo()产生的那个返回值作为一个临时值，一旦被 v 复制后，将立即被销毁，无法获取、也不能修改。
+而将亡值就定义了这样一种行为：**临时的值能够被识别、同时又能够被移动**
+
+### remove_reference
+
+```c++
+template <class _Tp> struct remove_reference        {typedef _Tp type;};
+```
+任何非引用类型。它简单地将输入类型定义为其自身，不做任何修改。
+
+```c++
+template <class _Tp> struct remove_reference<_Tp&>  {typedef _Tp type;};
+```
+当模板参数是一个左值引用时，此特化版本会被使用。它会去掉类型中的引用部分，只留下原始类型
+
+```c++
+template <class _Tp> struct remove_reference<_Tp&&> {typedef _Tp type;};
+```
+右值引用（例如，int&&）。同样，它返回不带引用修饰的基础类型
+
+完美转发实现
+```c++
+template <class _Tp>
+inline constexpr _Tp&& forward(typename remove_reference<_Tp>::type& __t) _NOEXCEPT {
+	return static_cast<_Tp&&>(__t);
+}
+```
+完美转发允许函数模板将其参数的左右值属性（包括引用类型）完整地传递给另一个函数，这是通过使用引用折叠(reference collapsing)规则和static_cast来实现的。
+
+```c++
+template <class _Tp>
+inline  typename remove_reference<_Tp>::type&&move(_Tp&& __t) {
+  typedef typename remove_reference<_Tp>::type _Up;
+  return static_cast<_Up&&>(__t);
+}
+
+```
+
+```c++
+#include <iostream>
+#include <utility> // 包含 std::forward 和 std::move 所在的头文件
+
+// 目标函数：用于展示对左值和右值的不同处理
+void processValue(int& x) {
+    std::cout << "processValue (lvalue): " << x << std::endl;
+}
+
+void processValue(int&& x) {
+    std::cout << "processValue (rvalue): " << x << std::endl;
+}
+
+// 通用包装函数：使用 std::forward 实现完美转发，并根据条件使用 std::move
+template<typename T>
+void wrapper(T&& arg, bool shouldMove) {
+    if(shouldMove) {
+        std::cout << "Moving argument." << std::endl;
+        // 使用 std::move 强制转换为右值引用，即使传入的是左值
+        processValue(std::move(arg));
+    } else {
+        std::cout << "Forwarding argument." << std::endl;
+        // 使用 std::forward 保持 arg 的左右值属性
+        processValue(std::forward<T>(arg));
+    }
+}
+
+int main() {
+    int a = 10;
+
+    // 传递左值，不进行移动
+    std::cout << "Passing lvalue without moving:" << std::endl;
+    wrapper(a, false); // 不会调用右值重载版本
+
+    std::cout << "\nPassing lvalue with moving:" << std::endl;
+    // 尽管 a 是左值，但由于 std::move，它会被视为右值
+    wrapper(a, true);
+
+    std::cout << "\nPassing rvalue without moving:" << std::endl;
+    // 传递右值，不进行额外的 std::move
+    wrapper(20, false); // 由于是右值，会调用右值重载版本
+
+    return 0;
+}
+```
+
+### 原理分析
+
+#### forward完美转发原理
+
+**引用折叠规则**：这是理解 `std::forward` 工作原理的关键之一。当使用模板参数推导时，C++ 对引用类型的处理有一些特殊规则:
+- T& & 会折叠为 T&
+- T& && 也会折叠为 T&
+- T&& & 折叠为 T&
+- T&& && 折叠为 T&&
+这些规则确保了通过适当的类型转换可以保留参数的左右值特性。
+
+```c++
+template<typename T>
+T&& forward(typename std::remove_reference<T>::type& arg) noexcept {
+    return static_cast<T&&>(arg);
+}
+```
++ 模板参数 T：代表传递给 std::forward 的实际类型。由于是通用引用（T&&），根据上下文，T 可以推导为左值引用（如 int&）或非引用类型（如 int）。
++ 函数参数 arg：接受一个移除了引用修饰的基础类型的左值引用。这样做的目的是为了确保即使是左值引用也能正确地参与后续的类型转换。
++ 返回类型 T&&：通过将 arg 强制转换为 T&&，利用引用折叠规则来保留原参数的左右值特性。如果 T 是左值引用，则最终返回类型是左值引用；如果是非引用类型，则返回右值引用。
+
+在C++中，`std::move` 是一个非常有用的工具，它用于启用移动语义（Move Semantics），从而允许资源从一个对象高效地转移到另一个对象，而不是进行深拷贝。理解 `std::move` 的原理对于编写高效的C++代码至关重要。
+
+#### `std::move` 原理分析
+
+##### 1. 移动语义基础
+
+- **右值引用**：C++11引入了右值引用（用`&&`表示），这使得我们可以区分左值和右值，并针对它们定义不同的行为。右值引用主要用来绑定到临时对象上。
+  
+- **移动构造函数/赋值操作符**：为了利用移动语义，类需要定义移动构造函数和移动赋值操作符。这些特殊成员函数允许将资源的所有权从一个对象转移到另一个对象，而不是复制这些资源。
+
+##### 2. `std::move` 实现原理
+
+`std::move` 并不真正“移动”任何东西；它实际上只是将它的参数转换为右值引用。这样做的目的是标记该对象可以被“窃取”其资源。下面是 `std::move` 的简化实现：
+
+```cpp
+template<typename T>
+constexpr typename std::remove_reference<T>::type&& move(T&& t) noexcept {
+    return static_cast<typename std::remove_reference<T>::type&&>(t);
+}
+```
+
+- **模板参数 `T`**：代表传入 `std::move` 的类型。由于使用了通用引用(`T&&`)，`T` 可以推导为左值引用或非引用类型。
+  
+- **返回类型**：通过移除引用后将 `t` 转换为右值引用，无论 `T` 是否是引用类型。这个转换让接收者知道它可以“窃取” `t` 的资源，因为它现在被视为一个右值。
+
+##### 3. 示例分析
+
+下面是一个简单的例子来展示 `std::move` 如何工作：
+
+```cpp
+#include <utility> // 包含 std::move 所在的头文件
+#include <iostream>
+
+class MyClass {
+public:
+    MyClass() { std::cout << "Default constructor\n"; }
+    MyClass(const MyClass&) { std::cout << "Copy constructor\n"; }
+    MyClass(MyClass&&) { std::cout << "Move constructor\n"; }
+};
+
+MyClass createObject() {
+    MyClass obj;
+    return obj; // 如果开启RVO/NRVO, 这里可能不会调用任何构造函数
+}
+
+int main() {
+    MyClass myObj = std::move(createObject()); // 使用 std::move 强制调用移动构造函数
+    return 0;
+}
+```
+
+在这个例子中，`createObject` 函数创建了一个局部对象 `obj`。当我们使用 `std::move` 将 `obj` 转换为右值引用时，我们实际上是告诉编译器这个对象可以被移动而不是被复制。因此，在 `main` 中，当我们将 `createObject()` 的结果传递给 `myObj` 时，移动构造函数被调用（假设没有优化如RVO/NRVO发生）。
+
+##### 4. 总结
+
+- `std::move` 的核心功能是将一个对象转换为右值引用，以此来表明这个对象可以被移动而非复制。
+  
+- 它的实际效果依赖于是否存在相应的移动构造函数或移动赋值操作符。如果类未定义这些函数，编译器会退回到使用复制构造函数或复制赋值操作符。
+  
+- 使用 `std::move` 可以避免不必要的数据拷贝，特别是在处理大型数据结构时，能够显著提升程序性能。
+
+通过理解和正确使用 `std::move`，你可以编写更加高效、灵活的C++代码，同时充分利用现代C++提供的资源管理特性。
+
+在C++中，移动语义（Move Semantics）是通过移动构造函数和移动赋值操作符实现的。这些特殊成员函数允许资源从一个对象高效地转移到另一个对象，而不是进行深拷贝，从而提高程序性能，尤其是在处理大型数据结构时。
+
+### 移动构造函数
+
+移动构造函数通常用于接收一个右值引用参数，并“窃取”原对象的资源，如动态分配的内存、文件描述符等，而不复制这些资源。这使得原对象进入一种有效的但未指定的状态。
+
+**语法：**
+```cpp
+class MyClass {
+public:
+    // 移动构造函数
+    MyClass(MyClass&& other) noexcept : /* 初始化列表 */ {
+        // 窃取other的资源
+        this->resource = other.resource;
+        other.resource = nullptr; // 将原对象置为安全状态
+    }
+private:
+    SomeResource* resource;
+};
+```
+
+### 移动赋值操作符
+
+移动赋值操作符的工作原理与移动构造函数类似，但它是一个赋值操作，因此需要首先释放当前对象拥有的任何资源，然后从右侧操作数“窃取”资源。
+
+**语法：**
+```cpp
+class MyClass {
+public:
+    // 移动赋值操作符
+    MyClass& operator=(MyClass&& other) noexcept {
+        if (this != &other) { // 防止自我赋值
+            // 释放已有资源
+            delete this->resource;
+            
+            // 窃取other的资源
+            this->resource = other.resource;
+            other.resource = nullptr; // 将原对象置为安全状态
+        }
+        return *this;
+    }
+private:
+    SomeResource* resource;
+};
+```
+
+### 完整例子
+
+以下是一个完整的示例，展示了如何定义并使用移动构造函数和移动赋值操作符：
+
+```cpp
+#include <iostream>
+#include <utility> // 包含 std::move
+#include <cstring>
+
+class MyString {
+public:
+    // 构造函数
+    MyString(const char* str = "") 
+        : len(std::strlen(str)), data(new char[len + 1]) {
+        std::strcpy(data, str);
+        std::cout << "Constructor: " << data << "\n";
+    }
+
+    // 拷贝构造函数
+    MyString(const MyString& other)
+        : len(other.len), data(new char[other.len + 1]) {
+        std::strcpy(data, other.data);
+        std::cout << "Copy Constructor: " << data << "\n";
+    }
+
+    // 移动构造函数
+    MyString(MyString&& other) noexcept
+        : len(0), data(nullptr) {
+        *this = std::move(other);
+        std::cout << "Move Constructor: " << data << "\n";
+    }
+
+    // 拷贝赋值操作符
+    MyString& operator=(const MyString& other) {
+        if (this != &other) {
+            delete[] data;
+            len = other.len;
+            data = new char[len + 1];
+            std::strcpy(data, other.data);
+            std::cout << "Copy Assignment: " << data << "\n";
+        }
+        return *this;
+    }
+
+    // 移动赋值操作符
+    MyString& operator=(MyString&& other) noexcept {
+        if (this != &other) {
+            delete[] data; // 释放已有的资源
+            len = other.len;
+            data = other.data;
+            other.data = nullptr; // 将other置为安全状态
+            other.len = 0;
+            std::cout << "Move Assignment: " << data << "\n";
+        }
+        return *this;
+    }
+
+    ~MyString() {
+        delete[] data;
+        std::cout << "Destructor\n";
+    }
+
+private:
+    size_t len;
+    char* data;
+};
+
+int main() {
+    MyString str1("Hello");
+    MyString str2 = std::move(str1); // 调用移动构造函数
+    
+    MyString str3("World");
+    str3 = std::move(str2); // 调用移动赋值操作符
+
+    return 0;
+}
+```
+
+```shell
+$ Constructor: Hello
+$ Move Assignment: Hello
+$ Move Constructor: Hello
+$ Constructor: World
+$ Move Assignment: Hello
+$ Destructor
+$ Destructor
+$ Destructor
+```
+
+- **`noexcept`关键字**：建议将移动构造函数和移动赋值操作符声明为`noexcept`，因为某些标准库容器（如`std::vector`）在进行元素移动时依赖于这一点来优化性能。
+  
+- **防止自我赋值**：在赋值操作符中检查`this != &other`以避免自我赋值导致的问题。
+  
+- **清理旧资源**：在移动赋值操作符中，首先要确保释放当前对象已经持有的资源，然后再“窃取”新资源的所有权。
+
+通过使用移动语义，可以显著减少不必要的资源复制，特别是在处理大型对象或容器时，能够带来明显的性能提升。
 
 ## 智能指针
 

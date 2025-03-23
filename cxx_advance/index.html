@@ -1,16 +1,16 @@
 <!doctype html><html lang=zh-CN><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>C++增强笔记 - 编程日志</title><meta name=Description content="C++增强笔记"><meta property="og:url" content="https://mengdemao.com/cxx_advance/">
-<meta property="og:site_name" content="编程日志"><meta property="og:title" content="C++增强笔记"><meta property="og:description" content="C++增强笔记"><meta property="og:locale" content="zh_CN"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2022-07-28T22:37:49+08:00"><meta property="article:modified_time" content="2025-02-28T23:06:56+08:00"><meta property="article:tag" content="C++"><meta property="og:image" content="https://mengdemao.com/images/avatar.webp"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://mengdemao.com/images/avatar.webp"><meta name=twitter:title content="C++增强笔记"><meta name=twitter:description content="C++增强笔记"><meta name=application-name content="编程日志"><meta name=apple-mobile-web-app-title content="编程日志"><meta name=theme-color content="#f8f8f8"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=canonical href=https://mengdemao.com/cxx_advance/><link rel=prev href=https://mengdemao.com/pthread_local_storage/><link rel=next href=https://mengdemao.com/cxx_enhance/><link rel=stylesheet href=/css/main.min.css><link rel=stylesheet href=/css/style.min.css><meta name=google-site-verification content="MQ8DNu27ayX6B_4ObiEDK09vGr1fdy7kOAnbd09hJk4"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"C++增强笔记","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://mengdemao.com/cxx_advance/"},"image":[{"@type":"ImageObject","url":"https://mengdemao.com/featuredImage/13.webp","width":1920,"height":1277}],"genre":"posts","keywords":["C++"],"wordcount":13432,"url":"https://mengdemao.com/cxx_advance/","datePublished":"2022-07-28T22:37:49+08:00","dateModified":"2025-02-28T23:06:56+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"xxxx","logo":{"@type":"ImageObject","url":"https://mengdemao.com/images/avatar.webp","width":528,"height":560}},"author":{"@type":"Person","name":"mengdemao","url":"https://github.com/mengdemao"},"description":"C++增强笔记"}</script></head><body data-instant-intensity=viewport class="tw-flex tw-min-h-screen tw-flex-col"><script type=text/javascript>function setTheme(e){document.body.setAttribute("theme",e),document.documentElement.className=e,document.documentElement.style.setProperty("color-scheme",e==="light"?"light":"dark"),e==="light"?document.documentElement.classList.remove("tw-dark"):document.documentElement.classList.add("tw-dark"),window.theme=e,window.isDark=window.theme!=="light"}function saveTheme(e){window.localStorage&&localStorage.setItem("theme",e)}function getMeta(e){const t=document.getElementsByTagName("meta");for(let n=0;n<t.length;n++)if(t[n].getAttribute("name")===e)return t[n];return""}if(window.localStorage&&localStorage.getItem("theme")){let e=localStorage.getItem("theme");e==="light"||e==="dark"?setTheme(e):setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}else"auto"==="light"||"auto"==="dark"?(setTheme("auto"),saveTheme("auto")):(saveTheme("auto"),setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));let metaColors={light:"#f8f8f8",dark:"#161b22"};getMeta("theme-color").content=metaColors[document.body.getAttribute("theme")],window.switchThemeEventSet=new Set</script><div id=back-to-top></div><div id=mask></div><header class="desktop print:!tw-hidden" id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=tw-mr-1><i class='far fa-edit fa-fw'></i></span><span id=desktop-header-typeit class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/series/>系列 </a><a class=menu-item href=/authors/>作者 </a><a class=menu-item href=/showcase/>作品 </a><a class=menu-item href=/categories/documentation/>文档 </a><a class=menu-item href=/about/>关于 </a><a class=menu-item href=https://github.com/mengdemao/mengdemao.com title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw'></i> </a><span class="menu-item delimiter"></span><button class="menu-item theme-select" aria-label=切换主题>
+<meta property="og:site_name" content="编程日志"><meta property="og:title" content="C++增强笔记"><meta property="og:description" content="C++增强笔记"><meta property="og:locale" content="zh_CN"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2022-07-28T22:37:49+08:00"><meta property="article:modified_time" content="2025-03-23T11:30:37+08:00"><meta property="article:tag" content="C++"><meta property="og:image" content="https://mengdemao.com/images/avatar.webp"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://mengdemao.com/images/avatar.webp"><meta name=twitter:title content="C++增强笔记"><meta name=twitter:description content="C++增强笔记"><meta name=application-name content="编程日志"><meta name=apple-mobile-web-app-title content="编程日志"><meta name=theme-color content="#f8f8f8"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=canonical href=https://mengdemao.com/cxx_advance/><link rel=prev href=https://mengdemao.com/pthread_local_storage/><link rel=next href=https://mengdemao.com/cxx_enhance/><link rel=stylesheet href=/css/main.min.css><link rel=stylesheet href=/css/style.min.css><meta name=google-site-verification content="MQ8DNu27ayX6B_4ObiEDK09vGr1fdy7kOAnbd09hJk4"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"C++增强笔记","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://mengdemao.com/cxx_advance/"},"image":[{"@type":"ImageObject","url":"https://mengdemao.com/featuredImage/13.webp","width":1920,"height":1277}],"genre":"posts","keywords":["C++"],"wordcount":16739,"url":"https://mengdemao.com/cxx_advance/","datePublished":"2022-07-28T22:37:49+08:00","dateModified":"2025-03-23T11:30:37+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"xxxx","logo":{"@type":"ImageObject","url":"https://mengdemao.com/images/avatar.webp","width":528,"height":560}},"author":{"@type":"Person","name":"mengdemao","url":"https://github.com/mengdemao"},"description":"C++增强笔记"}</script></head><body data-instant-intensity=viewport class="tw-flex tw-min-h-screen tw-flex-col"><script type=text/javascript>function setTheme(e){document.body.setAttribute("theme",e),document.documentElement.className=e,document.documentElement.style.setProperty("color-scheme",e==="light"?"light":"dark"),e==="light"?document.documentElement.classList.remove("tw-dark"):document.documentElement.classList.add("tw-dark"),window.theme=e,window.isDark=window.theme!=="light"}function saveTheme(e){window.localStorage&&localStorage.setItem("theme",e)}function getMeta(e){const t=document.getElementsByTagName("meta");for(let n=0;n<t.length;n++)if(t[n].getAttribute("name")===e)return t[n];return""}if(window.localStorage&&localStorage.getItem("theme")){let e=localStorage.getItem("theme");e==="light"||e==="dark"?setTheme(e):setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}else"auto"==="light"||"auto"==="dark"?(setTheme("auto"),saveTheme("auto")):(saveTheme("auto"),setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));let metaColors={light:"#f8f8f8",dark:"#161b22"};getMeta("theme-color").content=metaColors[document.body.getAttribute("theme")],window.switchThemeEventSet=new Set</script><div id=back-to-top></div><div id=mask></div><header class="desktop print:!tw-hidden" id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=tw-mr-1><i class='far fa-edit fa-fw'></i></span><span id=desktop-header-typeit class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/series/>系列 </a><a class=menu-item href=/authors/>作者 </a><a class=menu-item href=/showcase/>作品 </a><a class=menu-item href=/categories/documentation/>文档 </a><a class=menu-item href=/about/>关于 </a><a class=menu-item href=https://github.com/mengdemao/mengdemao.com title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw'></i> </a><span class="menu-item delimiter"></span><button class="menu-item theme-select" aria-label=切换主题>
 <svg class="icon" viewBox="0 0 512 512"><path d="M8 256c0 136.966 111.033 248 248 248s248-111.034 248-248S392.966 8 256 8 8 119.033 8 256zm248 184V72c101.705.0 184 82.311 184 184 0 101.705-82.311 184-184 184z"/></svg>
 <select class=color-theme-select id=theme-select-desktop aria-label=切换主题><option value=light>浅色</option><option value=dark>深色</option><option value=auto>跟随系统</option></select></button></div></div></div></header><header class="mobile print:!tw-hidden" id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=tw-mr-1><i class='far fa-edit fa-fw'></i></span><span id=mobile-header-typeit class=typeit></span></a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><a class=menu-item href=/posts/ title>所有文章</a><a class=menu-item href=/tags/ title>标签</a><a class=menu-item href=/categories/ title>分类</a><a class=menu-item href=/series/ title>系列</a><a class=menu-item href=/authors/ title>作者</a><a class=menu-item href=/showcase/ title>作品</a><a class=menu-item href=/categories/documentation/ title>文档</a><a class=menu-item href=/about/ title>关于</a><a class=menu-item href=https://github.com/mengdemao/mengdemao.com title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw'></i></a><button class="menu-item theme-select tw-w-full" aria-label=切换主题>
 <svg class="icon" viewBox="0 0 512 512"><path d="M8 256c0 136.966 111.033 248 248 248s248-111.034 248-248S392.966 8 256 8 8 119.033 8 256zm248 184V72c101.705.0 184 82.311 184 184 0 101.705-82.311 184-184 184z"/></svg>
-<select class=color-theme-select id=theme-select-mobile aria-label=切换主题><option value=light>浅色</option><option value=dark>深色</option><option value=auto>跟随系统</option></select></button></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class="tw-mx-4 tw-flex-1"><div class="toc print:!tw-hidden" id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto><nav id=TableOfContents><ul><li><a href=#c对象模型深入版>C++对象模型(深入版)</a><ul><li><a href=#关于对象object-lessons>关于对象(Object Lessons)</a><ul><li><a href=#c对象模型>C++对象模型</a></li><li><a href=#对象的差异an-object-distinction>对象的差异(An Object Distinction)</a></li></ul></li><li><a href=#构造函数语意学the-semantics-of-constructors>构造函数语意学(The Semantics of constructors)</a><ul><li><a href=#default-constructor的建构操作>Default Constructor的建构操作</a></li><li><a href=#copy-constructor的建构操作>Copy Constructor的建构操作</a></li><li><a href=#程序转换语意学program--transformation-semantics>程序转换语意学(Program Transformation Semantics)</a></li><li><a href=#成员们的初始化队伍member-initialization-list>成员们的初始化队伍(Member Initialization List)</a></li></ul></li><li><a href=#data语意学the-semantics-of-data>Data语意学(The Semantics of Data)</a><ul><li><a href=#data-member的绑定>Data Member的绑定</a></li><li><a href=#data-member的布局>Data Member的布局</a></li><li><a href=#data-member的存取>Data Member的存取</a></li><li><a href=#继承与data-member>&ldquo;继承"与Data Member</a></li><li><a href=#对象的效率>对象的效率</a></li><li><a href=#指向data-member的指针>指向Data Member的指针</a></li></ul></li><li><a href=#function语意学the-semantics-of-function>Function语意学(The Semantics of Function)</a><ul><li><a href=#纯虚函数的存在presence-of-a--pu-re-virtual-function>纯虚函数的存在（Presence of a Pu re Virtual Function)</a></li><li><a href=#虚拟规格的存在-presence--of--a--virtual--specification->虚拟规格的存在 （Presence of a Virtual Specification )</a></li><li><a href=#虚拟规格中const-的存在>虚拟规格中const 的存在</a></li><li><a href=#重新考虑class的声明>重新考虑class的声明</a></li></ul></li><li><a href=#构造析构拷贝语意学>构造、析构、拷贝语意学</a></li><li><a href=#执行期语意学>执行期语意学</a></li><li><a href=#站在对象模型的类端>站在对象模型的类端</a></li></ul></li><li><a href=#构造函数>构造函数</a><ul><li><a href=#普通构造默认构造函数>普通构造(默认构造函数)</a></li><li><a href=#拷贝构造>拷贝构造</a></li><li><a href=#移动构造>移动构造</a></li><li><a href=#委托构造>委托构造</a></li></ul></li><li><a href=#移动语意>移动语意</a><ul><li><a href=#左值与右值>左值与右值</a></li><li><a href=#可修改的左值>可修改的左值</a></li><li><a href=#完美转发>完美转发</a></li><li><a href=#移动语意-1>移动语意</a></li></ul></li><li><a href=#智能指针>智能指针</a><ul><li><a href=#stdunique_ptr><code>std::unique_ptr</code></a></li><li><a href=#stdshared_ptr><code>std::shared_ptr</code></a></li><li><a href=#stdweak_ptr><code>std::weak_ptr</code></a></li></ul></li><li><a href=#强制类型转换>强制类型转换</a><ul><li><a href=#c风格的强制转换>C风格的强制转换</a></li><li><a href=#const_cast><code>const_cast</code></a></li><li><a href=#static_cast><code>static_cast</code></a></li><li><a href=#dynamic_cast><code>dynamic_cast</code></a></li><li><a href=#reinterpret_cast><code>reinterpret_cast</code></a></li></ul></li><li><a href=#const描述成员函数>const描述成员函数</a><ul><li><a href=#const成员函数><code>const</code>成员函数</a></li><li><a href=#mutable关键字><code>mutable</code>关键字</a></li><li><a href=#为什么需要这样做>为什么需要这样做？</a></li></ul></li><li><a href=#lambda表达式>lambda表达式</a><ul><li><a href=#基础表达式>基础表达式</a></li><li><a href=#lambda语法组成部分>lambda语法组成部分</a><ul><li><a href=#捕获列表>捕获列表</a></li><li><a href=#抛出异常>抛出异常</a></li></ul></li></ul></li></ul></nav></div></div><dialog id=toc-dialog class="tw-max-w-full tw-w-full tw-max-h-full tw-h-full tw-ml-16"><div class="toc tw-mx-4 tw-max-w-full"><h2 class="tw-mx-0 tw-my-6 tw-uppercase tw-text-2xl">目录</h2><div class=toc-content><nav id=TableOfContents><ul><li><a href=#c对象模型深入版>C++对象模型(深入版)</a><ul><li><a href=#关于对象object-lessons>关于对象(Object Lessons)</a><ul><li><a href=#c对象模型>C++对象模型</a></li><li><a href=#对象的差异an-object-distinction>对象的差异(An Object Distinction)</a></li></ul></li><li><a href=#构造函数语意学the-semantics-of-constructors>构造函数语意学(The Semantics of constructors)</a><ul><li><a href=#default-constructor的建构操作>Default Constructor的建构操作</a></li><li><a href=#copy-constructor的建构操作>Copy Constructor的建构操作</a></li><li><a href=#程序转换语意学program--transformation-semantics>程序转换语意学(Program Transformation Semantics)</a></li><li><a href=#成员们的初始化队伍member-initialization-list>成员们的初始化队伍(Member Initialization List)</a></li></ul></li><li><a href=#data语意学the-semantics-of-data>Data语意学(The Semantics of Data)</a><ul><li><a href=#data-member的绑定>Data Member的绑定</a></li><li><a href=#data-member的布局>Data Member的布局</a></li><li><a href=#data-member的存取>Data Member的存取</a></li><li><a href=#继承与data-member>&ldquo;继承"与Data Member</a></li><li><a href=#对象的效率>对象的效率</a></li><li><a href=#指向data-member的指针>指向Data Member的指针</a></li></ul></li><li><a href=#function语意学the-semantics-of-function>Function语意学(The Semantics of Function)</a><ul><li><a href=#纯虚函数的存在presence-of-a--pu-re-virtual-function>纯虚函数的存在（Presence of a Pu re Virtual Function)</a></li><li><a href=#虚拟规格的存在-presence--of--a--virtual--specification->虚拟规格的存在 （Presence of a Virtual Specification )</a></li><li><a href=#虚拟规格中const-的存在>虚拟规格中const 的存在</a></li><li><a href=#重新考虑class的声明>重新考虑class的声明</a></li></ul></li><li><a href=#构造析构拷贝语意学>构造、析构、拷贝语意学</a></li><li><a href=#执行期语意学>执行期语意学</a></li><li><a href=#站在对象模型的类端>站在对象模型的类端</a></li></ul></li><li><a href=#构造函数>构造函数</a><ul><li><a href=#普通构造默认构造函数>普通构造(默认构造函数)</a></li><li><a href=#拷贝构造>拷贝构造</a></li><li><a href=#移动构造>移动构造</a></li><li><a href=#委托构造>委托构造</a></li></ul></li><li><a href=#移动语意>移动语意</a><ul><li><a href=#左值与右值>左值与右值</a></li><li><a href=#可修改的左值>可修改的左值</a></li><li><a href=#完美转发>完美转发</a></li><li><a href=#移动语意-1>移动语意</a></li></ul></li><li><a href=#智能指针>智能指针</a><ul><li><a href=#stdunique_ptr><code>std::unique_ptr</code></a></li><li><a href=#stdshared_ptr><code>std::shared_ptr</code></a></li><li><a href=#stdweak_ptr><code>std::weak_ptr</code></a></li></ul></li><li><a href=#强制类型转换>强制类型转换</a><ul><li><a href=#c风格的强制转换>C风格的强制转换</a></li><li><a href=#const_cast><code>const_cast</code></a></li><li><a href=#static_cast><code>static_cast</code></a></li><li><a href=#dynamic_cast><code>dynamic_cast</code></a></li><li><a href=#reinterpret_cast><code>reinterpret_cast</code></a></li></ul></li><li><a href=#const描述成员函数>const描述成员函数</a><ul><li><a href=#const成员函数><code>const</code>成员函数</a></li><li><a href=#mutable关键字><code>mutable</code>关键字</a></li><li><a href=#为什么需要这样做>为什么需要这样做？</a></li></ul></li><li><a href=#lambda表达式>lambda表达式</a><ul><li><a href=#基础表达式>基础表达式</a></li><li><a href=#lambda语法组成部分>lambda语法组成部分</a><ul><li><a href=#捕获列表>捕获列表</a></li><li><a href=#抛出异常>抛出异常</a></li></ul></li></ul></li></ul></nav></div></div></dialog><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC","true")</script><article class="page single print:!tw-w-full print:!tw-max-w-none print:!tw-m-0 print:!tw-p-0"><h1 class=single-title data-pagefind-meta=date:2022-07-28 data-pagefind-body>C++增强笔记</h1><div class=post-meta><div class=post-meta-line><span class=post-author><img class="tw-inline-block tw-max-h-4 tw-rounded-full tw-translate-y-[-2px] tw-mr-1" src=/images/avatar.webp alt="mengdemao avatar" height=16 width=16><a href=https://github.com/mengdemao title=Author target=_blank rel="noopener noreferrer author" class=author>mengdemao</a>
-</span>&nbsp;<span class=post-category>收录于 </span>&nbsp;<span class=post-category>类别 <a href=/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/><svg class="icon" viewBox="0 0 512 512"><path d="M464 128H272l-54.63-54.63c-6-6-14.14-9.37-22.63-9.37H48C21.49 64 0 85.49.0 112v288c0 26.51 21.49 48 48 48h416c26.51.0 48-21.49 48-48V176c0-26.51-21.49-48-48-48zm0 272H48V112h140.12l54.63 54.63c6 6 14.14 9.37 22.63 9.37H464v224z"/></svg>编程语言</a></span></div><div class=post-meta-line><svg class="icon" viewBox="0 0 448 512"><path d="M148 288h-40c-6.6.0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v52h48c26.5.0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3.0 6-2.7 6-6z"/></svg>&nbsp;<time datetime=2022-07-28>2022-07-28</time>&nbsp;<svg class="icon" viewBox="0 0 576 512"><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1.0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7.0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174 402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7-43.2-43.2c-4.1-4.1-10.8-4.1-14.8.0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg>&nbsp;<time datetime=2025-02-28>2025-02-28</time>&nbsp;<svg class="icon" viewBox="0 0 512 512"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3.0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9.0l60.1 60.1c18.8 18.7 18.8 49.1.0 67.9zM284.2 99.8 21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3.0-17l-111-111c-4.8-4.7-12.4-4.7-17.1.0zM124.1 339.9c-5.5-5.5-5.5-14.3.0-19.8l154-154c5.5-5.5 14.3-5.5 19.8.0s5.5 14.3.0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8.0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;约 13432 字&nbsp;
-<svg class="icon" viewBox="0 0 512 512"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5.0-2e2-89.5-2e2-2e2S145.5 56 256 56s2e2 89.5 2e2 2e2-89.5 2e2-2e2 2e2zm61.8-104.4-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6.0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;预计阅读 59 分钟&nbsp;<span id=/cxx_advance/ class=leancloud_visitors data-flag-title=C++增强笔记>
+<select class=color-theme-select id=theme-select-mobile aria-label=切换主题><option value=light>浅色</option><option value=dark>深色</option><option value=auto>跟随系统</option></select></button></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class="tw-mx-4 tw-flex-1"><div class="toc print:!tw-hidden" id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto><nav id=TableOfContents><ul><li><a href=#c对象模型深入版>C++对象模型(深入版)</a><ul><li><a href=#关于对象object-lessons>关于对象(Object Lessons)</a><ul><li><a href=#c对象模型>C++对象模型</a></li><li><a href=#对象的差异an-object-distinction>对象的差异(An Object Distinction)</a></li></ul></li><li><a href=#构造函数语意学the-semantics-of-constructors>构造函数语意学(The Semantics of constructors)</a><ul><li><a href=#default-constructor的建构操作>Default Constructor的建构操作</a></li><li><a href=#copy-constructor的建构操作>Copy Constructor的建构操作</a></li><li><a href=#程序转换语意学program--transformation-semantics>程序转换语意学(Program Transformation Semantics)</a></li><li><a href=#成员们的初始化队伍member-initialization-list>成员们的初始化队伍(Member Initialization List)</a></li></ul></li><li><a href=#data语意学the-semantics-of-data>Data语意学(The Semantics of Data)</a><ul><li><a href=#data-member的绑定>Data Member的绑定</a></li><li><a href=#data-member的布局>Data Member的布局</a></li><li><a href=#data-member的存取>Data Member的存取</a></li><li><a href=#继承与data-member>&ldquo;继承"与Data Member</a></li><li><a href=#对象的效率>对象的效率</a></li><li><a href=#指向data-member的指针>指向Data Member的指针</a></li></ul></li><li><a href=#function语意学the-semantics-of-function>Function语意学(The Semantics of Function)</a><ul><li><a href=#纯虚函数的存在presence-of-a--pu-re-virtual-function>纯虚函数的存在（Presence of a Pu re Virtual Function)</a></li><li><a href=#虚拟规格的存在-presence--of--a--virtual--specification->虚拟规格的存在 （Presence of a Virtual Specification )</a></li><li><a href=#虚拟规格中const-的存在>虚拟规格中const 的存在</a></li><li><a href=#重新考虑class的声明>重新考虑class的声明</a></li></ul></li><li><a href=#构造析构拷贝语意学>构造、析构、拷贝语意学</a></li><li><a href=#执行期语意学>执行期语意学</a></li><li><a href=#站在对象模型的类端>站在对象模型的类端</a></li></ul></li><li><a href=#构造函数>构造函数</a><ul><li><a href=#普通构造默认构造函数>普通构造(默认构造函数)</a></li><li><a href=#拷贝构造>拷贝构造</a></li><li><a href=#移动构造>移动构造</a></li><li><a href=#委托构造>委托构造</a></li></ul></li><li><a href=#移动语意>移动语意</a><ul><li><a href=#左值与右值>左值与右值</a></li><li><a href=#可修改的左值>可修改的左值</a></li><li><a href=#完美转发>完美转发</a></li><li><a href=#移动语意-1>移动语意</a></li><li><a href=#remove_reference>remove_reference</a></li><li><a href=#原理分析>原理分析</a><ul><li><a href=#forward完美转发原理>forward完美转发原理</a></li><li><a href=#stdmove-原理分析><code>std::move</code> 原理分析</a><ul><li><a href=#1-移动语义基础>1. 移动语义基础</a></li><li><a href=#2-stdmove-实现原理>2. <code>std::move</code> 实现原理</a></li><li><a href=#3-示例分析>3. 示例分析</a></li><li><a href=#4-总结>4. 总结</a></li></ul></li></ul></li><li><a href=#移动构造函数>移动构造函数</a></li><li><a href=#移动赋值操作符>移动赋值操作符</a></li><li><a href=#完整例子>完整例子</a></li></ul></li><li><a href=#智能指针>智能指针</a><ul><li><a href=#stdunique_ptr><code>std::unique_ptr</code></a></li><li><a href=#stdshared_ptr><code>std::shared_ptr</code></a></li><li><a href=#stdweak_ptr><code>std::weak_ptr</code></a></li></ul></li><li><a href=#强制类型转换>强制类型转换</a><ul><li><a href=#c风格的强制转换>C风格的强制转换</a></li><li><a href=#const_cast><code>const_cast</code></a></li><li><a href=#static_cast><code>static_cast</code></a></li><li><a href=#dynamic_cast><code>dynamic_cast</code></a></li><li><a href=#reinterpret_cast><code>reinterpret_cast</code></a></li></ul></li><li><a href=#const描述成员函数>const描述成员函数</a><ul><li><a href=#const成员函数><code>const</code>成员函数</a></li><li><a href=#mutable关键字><code>mutable</code>关键字</a></li><li><a href=#为什么需要这样做>为什么需要这样做？</a></li></ul></li><li><a href=#lambda表达式>lambda表达式</a><ul><li><a href=#基础表达式>基础表达式</a></li><li><a href=#lambda语法组成部分>lambda语法组成部分</a><ul><li><a href=#捕获列表>捕获列表</a></li><li><a href=#抛出异常>抛出异常</a></li></ul></li></ul></li></ul></nav></div></div><dialog id=toc-dialog class="tw-max-w-full tw-w-full tw-max-h-full tw-h-full tw-ml-16"><div class="toc tw-mx-4 tw-max-w-full"><h2 class="tw-mx-0 tw-my-6 tw-uppercase tw-text-2xl">目录</h2><div class=toc-content><nav id=TableOfContents><ul><li><a href=#c对象模型深入版>C++对象模型(深入版)</a><ul><li><a href=#关于对象object-lessons>关于对象(Object Lessons)</a><ul><li><a href=#c对象模型>C++对象模型</a></li><li><a href=#对象的差异an-object-distinction>对象的差异(An Object Distinction)</a></li></ul></li><li><a href=#构造函数语意学the-semantics-of-constructors>构造函数语意学(The Semantics of constructors)</a><ul><li><a href=#default-constructor的建构操作>Default Constructor的建构操作</a></li><li><a href=#copy-constructor的建构操作>Copy Constructor的建构操作</a></li><li><a href=#程序转换语意学program--transformation-semantics>程序转换语意学(Program Transformation Semantics)</a></li><li><a href=#成员们的初始化队伍member-initialization-list>成员们的初始化队伍(Member Initialization List)</a></li></ul></li><li><a href=#data语意学the-semantics-of-data>Data语意学(The Semantics of Data)</a><ul><li><a href=#data-member的绑定>Data Member的绑定</a></li><li><a href=#data-member的布局>Data Member的布局</a></li><li><a href=#data-member的存取>Data Member的存取</a></li><li><a href=#继承与data-member>&ldquo;继承"与Data Member</a></li><li><a href=#对象的效率>对象的效率</a></li><li><a href=#指向data-member的指针>指向Data Member的指针</a></li></ul></li><li><a href=#function语意学the-semantics-of-function>Function语意学(The Semantics of Function)</a><ul><li><a href=#纯虚函数的存在presence-of-a--pu-re-virtual-function>纯虚函数的存在（Presence of a Pu re Virtual Function)</a></li><li><a href=#虚拟规格的存在-presence--of--a--virtual--specification->虚拟规格的存在 （Presence of a Virtual Specification )</a></li><li><a href=#虚拟规格中const-的存在>虚拟规格中const 的存在</a></li><li><a href=#重新考虑class的声明>重新考虑class的声明</a></li></ul></li><li><a href=#构造析构拷贝语意学>构造、析构、拷贝语意学</a></li><li><a href=#执行期语意学>执行期语意学</a></li><li><a href=#站在对象模型的类端>站在对象模型的类端</a></li></ul></li><li><a href=#构造函数>构造函数</a><ul><li><a href=#普通构造默认构造函数>普通构造(默认构造函数)</a></li><li><a href=#拷贝构造>拷贝构造</a></li><li><a href=#移动构造>移动构造</a></li><li><a href=#委托构造>委托构造</a></li></ul></li><li><a href=#移动语意>移动语意</a><ul><li><a href=#左值与右值>左值与右值</a></li><li><a href=#可修改的左值>可修改的左值</a></li><li><a href=#完美转发>完美转发</a></li><li><a href=#移动语意-1>移动语意</a></li><li><a href=#remove_reference>remove_reference</a></li><li><a href=#原理分析>原理分析</a><ul><li><a href=#forward完美转发原理>forward完美转发原理</a></li><li><a href=#stdmove-原理分析><code>std::move</code> 原理分析</a><ul><li><a href=#1-移动语义基础>1. 移动语义基础</a></li><li><a href=#2-stdmove-实现原理>2. <code>std::move</code> 实现原理</a></li><li><a href=#3-示例分析>3. 示例分析</a></li><li><a href=#4-总结>4. 总结</a></li></ul></li></ul></li><li><a href=#移动构造函数>移动构造函数</a></li><li><a href=#移动赋值操作符>移动赋值操作符</a></li><li><a href=#完整例子>完整例子</a></li></ul></li><li><a href=#智能指针>智能指针</a><ul><li><a href=#stdunique_ptr><code>std::unique_ptr</code></a></li><li><a href=#stdshared_ptr><code>std::shared_ptr</code></a></li><li><a href=#stdweak_ptr><code>std::weak_ptr</code></a></li></ul></li><li><a href=#强制类型转换>强制类型转换</a><ul><li><a href=#c风格的强制转换>C风格的强制转换</a></li><li><a href=#const_cast><code>const_cast</code></a></li><li><a href=#static_cast><code>static_cast</code></a></li><li><a href=#dynamic_cast><code>dynamic_cast</code></a></li><li><a href=#reinterpret_cast><code>reinterpret_cast</code></a></li></ul></li><li><a href=#const描述成员函数>const描述成员函数</a><ul><li><a href=#const成员函数><code>const</code>成员函数</a></li><li><a href=#mutable关键字><code>mutable</code>关键字</a></li><li><a href=#为什么需要这样做>为什么需要这样做？</a></li></ul></li><li><a href=#lambda表达式>lambda表达式</a><ul><li><a href=#基础表达式>基础表达式</a></li><li><a href=#lambda语法组成部分>lambda语法组成部分</a><ul><li><a href=#捕获列表>捕获列表</a></li><li><a href=#抛出异常>抛出异常</a></li></ul></li></ul></li></ul></nav></div></div></dialog><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC","true")</script><article class="page single print:!tw-w-full print:!tw-max-w-none print:!tw-m-0 print:!tw-p-0"><h1 class=single-title data-pagefind-meta=date:2022-07-28 data-pagefind-body>C++增强笔记</h1><div class=post-meta><div class=post-meta-line><span class=post-author><img class="tw-inline-block tw-max-h-4 tw-rounded-full tw-translate-y-[-2px] tw-mr-1" src=/images/avatar.webp alt="mengdemao avatar" height=16 width=16><a href=https://github.com/mengdemao title=Author target=_blank rel="noopener noreferrer author" class=author>mengdemao</a>
+</span>&nbsp;<span class=post-category>收录于 </span>&nbsp;<span class=post-category>类别 <a href=/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/><svg class="icon" viewBox="0 0 512 512"><path d="M464 128H272l-54.63-54.63c-6-6-14.14-9.37-22.63-9.37H48C21.49 64 0 85.49.0 112v288c0 26.51 21.49 48 48 48h416c26.51.0 48-21.49 48-48V176c0-26.51-21.49-48-48-48zm0 272H48V112h140.12l54.63 54.63c6 6 14.14 9.37 22.63 9.37H464v224z"/></svg>编程语言</a></span></div><div class=post-meta-line><svg class="icon" viewBox="0 0 448 512"><path d="M148 288h-40c-6.6.0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v52h48c26.5.0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3.0 6-2.7 6-6z"/></svg>&nbsp;<time datetime=2022-07-28>2022-07-28</time>&nbsp;<svg class="icon" viewBox="0 0 576 512"><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1.0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7.0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174 402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7-43.2-43.2c-4.1-4.1-10.8-4.1-14.8.0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg>&nbsp;<time datetime=2025-03-23>2025-03-23</time>&nbsp;<svg class="icon" viewBox="0 0 512 512"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3.0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9.0l60.1 60.1c18.8 18.7 18.8 49.1.0 67.9zM284.2 99.8 21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3.0-17l-111-111c-4.8-4.7-12.4-4.7-17.1.0zM124.1 339.9c-5.5-5.5-5.5-14.3.0-19.8l154-154c5.5-5.5 14.3-5.5 19.8.0s5.5 14.3.0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8.0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;约 16739 字&nbsp;
+<svg class="icon" viewBox="0 0 512 512"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5.0-2e2-89.5-2e2-2e2S145.5 56 256 56s2e2 89.5 2e2 2e2-89.5 2e2-2e2 2e2zm61.8-104.4-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6.0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;预计阅读 74 分钟&nbsp;<span id=/cxx_advance/ class=leancloud_visitors data-flag-title=C++增强笔记>
 <svg class="icon" viewBox="0 0 576 512"><path d="M288 144a110.94 110.94.0 00-31.24 5 55.4 55.4.0 017.24 27 56 56 0 01-56 56 55.4 55.4.0 01-27-7.24A111.71 111.71.0 10288 144zm284.52 97.4C518.29 135.59 410.93 64 288 64S57.68 135.64 3.48 241.41a32.35 32.35.0 000 29.19C57.71 376.41 165.07 448 288 448s230.32-71.64 284.52-177.41a32.35 32.35.0 000-29.19zM288 4e2c-98.65.0-189.09-55-237.93-144C98.91 167 189.34 112 288 112s189.09 55 237.93 144C477.1 345 386.66 4e2 288 4e2z"/></svg>&nbsp;<span class=leancloud-visitors-count id=twikoo_visitors></span>&nbsp;次阅读
 </span>&nbsp;<span id=/cxx_advance/ class=comment_count data-flag-title=C++增强笔记>
 <svg class="icon" viewBox="0 0 576 512"><path d="M532 386.2c27.5-27.1 44-61.1 44-98.2.0-80-76.5-146.1-176.2-157.9C368.3 72.5 294.3 32 208 32 93.1 32 0 103.6.0 192c0 37 16.5 71 44 98.2-15.3 30.7-37.3 54.5-37.7 54.9-6.3 6.7-8.1 16.5-4.4 25 3.6 8.5 12 14 21.2 14 53.5.0 96.7-20.2 125.2-38.8 9.2 2.1 18.7 3.7 28.4 4.9C208.1 407.6 281.8 448 368 448c20.8.0 40.8-2.4 59.8-6.8C456.3 459.7 499.4 480 553 480c9.2.0 17.5-5.5 21.2-14 3.6-8.5 1.9-18.3-4.4-25-.4-.3-22.5-24.1-37.8-54.8zm-392.8-92.3L122.1 305c-14.1 9.1-28.5 16.3-43.1 21.4 2.7-4.7 5.4-9.7 8-14.8l15.5-31.1L77.7 256C64.2 242.6 48 220.7 48 192c0-60.7 73.3-112 160-112s160 51.3 160 112-73.3 112-160 112c-16.5.0-33-1.9-49-5.6l-19.8-4.5zM498.3 352l-24.7 24.4 15.5 31.1c2.6 5.1 5.3 10.1 8 14.8-14.6-5.1-29-12.3-43.1-21.4l-17.1-11.1-19.9 4.6c-16 3.7-32.5 5.6-49 5.6-54 0-102.2-20.1-131.3-49.7C338 339.5 416 272.9 416 192c0-3.4-.4-6.7-.7-10C479.7 196.5 528 238.8 528 288c0 28.7-16.2 50.6-29.7 64z"/></svg>&nbsp;<span class=twikoo-comment-count id=twikoo-comment-count></span>&nbsp;条评论
 </span>&nbsp;</div></div><div class=featured-image><img loading=eager src=/featuredImage/13.webp alt=C++增强笔记 height=1277 width=1920></div><div class="details toc print:!tw-block" id=toc-static kept><div class="details-summary toc-title"><span>目录</span>
-<span class=details-icon><svg class="icon" viewBox="0 0 256 512"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9.0l-22.6-22.6c-9.4-9.4-9.4-24.6.0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6.0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9.0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#c对象模型深入版>C++对象模型(深入版)</a><ul><li><a href=#关于对象object-lessons>关于对象(Object Lessons)</a><ul><li><a href=#c对象模型>C++对象模型</a></li><li><a href=#对象的差异an-object-distinction>对象的差异(An Object Distinction)</a></li></ul></li><li><a href=#构造函数语意学the-semantics-of-constructors>构造函数语意学(The Semantics of constructors)</a><ul><li><a href=#default-constructor的建构操作>Default Constructor的建构操作</a></li><li><a href=#copy-constructor的建构操作>Copy Constructor的建构操作</a></li><li><a href=#程序转换语意学program--transformation-semantics>程序转换语意学(Program Transformation Semantics)</a></li><li><a href=#成员们的初始化队伍member-initialization-list>成员们的初始化队伍(Member Initialization List)</a></li></ul></li><li><a href=#data语意学the-semantics-of-data>Data语意学(The Semantics of Data)</a><ul><li><a href=#data-member的绑定>Data Member的绑定</a></li><li><a href=#data-member的布局>Data Member的布局</a></li><li><a href=#data-member的存取>Data Member的存取</a></li><li><a href=#继承与data-member>&ldquo;继承"与Data Member</a></li><li><a href=#对象的效率>对象的效率</a></li><li><a href=#指向data-member的指针>指向Data Member的指针</a></li></ul></li><li><a href=#function语意学the-semantics-of-function>Function语意学(The Semantics of Function)</a><ul><li><a href=#纯虚函数的存在presence-of-a--pu-re-virtual-function>纯虚函数的存在（Presence of a Pu re Virtual Function)</a></li><li><a href=#虚拟规格的存在-presence--of--a--virtual--specification->虚拟规格的存在 （Presence of a Virtual Specification )</a></li><li><a href=#虚拟规格中const-的存在>虚拟规格中const 的存在</a></li><li><a href=#重新考虑class的声明>重新考虑class的声明</a></li></ul></li><li><a href=#构造析构拷贝语意学>构造、析构、拷贝语意学</a></li><li><a href=#执行期语意学>执行期语意学</a></li><li><a href=#站在对象模型的类端>站在对象模型的类端</a></li></ul></li><li><a href=#构造函数>构造函数</a><ul><li><a href=#普通构造默认构造函数>普通构造(默认构造函数)</a></li><li><a href=#拷贝构造>拷贝构造</a></li><li><a href=#移动构造>移动构造</a></li><li><a href=#委托构造>委托构造</a></li></ul></li><li><a href=#移动语意>移动语意</a><ul><li><a href=#左值与右值>左值与右值</a></li><li><a href=#可修改的左值>可修改的左值</a></li><li><a href=#完美转发>完美转发</a></li><li><a href=#移动语意-1>移动语意</a></li></ul></li><li><a href=#智能指针>智能指针</a><ul><li><a href=#stdunique_ptr><code>std::unique_ptr</code></a></li><li><a href=#stdshared_ptr><code>std::shared_ptr</code></a></li><li><a href=#stdweak_ptr><code>std::weak_ptr</code></a></li></ul></li><li><a href=#强制类型转换>强制类型转换</a><ul><li><a href=#c风格的强制转换>C风格的强制转换</a></li><li><a href=#const_cast><code>const_cast</code></a></li><li><a href=#static_cast><code>static_cast</code></a></li><li><a href=#dynamic_cast><code>dynamic_cast</code></a></li><li><a href=#reinterpret_cast><code>reinterpret_cast</code></a></li></ul></li><li><a href=#const描述成员函数>const描述成员函数</a><ul><li><a href=#const成员函数><code>const</code>成员函数</a></li><li><a href=#mutable关键字><code>mutable</code>关键字</a></li><li><a href=#为什么需要这样做>为什么需要这样做？</a></li></ul></li><li><a href=#lambda表达式>lambda表达式</a><ul><li><a href=#基础表达式>基础表达式</a></li><li><a href=#lambda语法组成部分>lambda语法组成部分</a><ul><li><a href=#捕获列表>捕获列表</a></li><li><a href=#抛出异常>抛出异常</a></li></ul></li></ul></li></ul></nav></div></div><div class=content id=content data-pagefind-body><blockquote><p>这个是我在学习<code>C++</code>语言中所记录的笔记,有可能会存在错误和遗漏,并且我有一点点C语言基础,
+<span class=details-icon><svg class="icon" viewBox="0 0 256 512"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9.0l-22.6-22.6c-9.4-9.4-9.4-24.6.0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6.0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9.0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#c对象模型深入版>C++对象模型(深入版)</a><ul><li><a href=#关于对象object-lessons>关于对象(Object Lessons)</a><ul><li><a href=#c对象模型>C++对象模型</a></li><li><a href=#对象的差异an-object-distinction>对象的差异(An Object Distinction)</a></li></ul></li><li><a href=#构造函数语意学the-semantics-of-constructors>构造函数语意学(The Semantics of constructors)</a><ul><li><a href=#default-constructor的建构操作>Default Constructor的建构操作</a></li><li><a href=#copy-constructor的建构操作>Copy Constructor的建构操作</a></li><li><a href=#程序转换语意学program--transformation-semantics>程序转换语意学(Program Transformation Semantics)</a></li><li><a href=#成员们的初始化队伍member-initialization-list>成员们的初始化队伍(Member Initialization List)</a></li></ul></li><li><a href=#data语意学the-semantics-of-data>Data语意学(The Semantics of Data)</a><ul><li><a href=#data-member的绑定>Data Member的绑定</a></li><li><a href=#data-member的布局>Data Member的布局</a></li><li><a href=#data-member的存取>Data Member的存取</a></li><li><a href=#继承与data-member>&ldquo;继承"与Data Member</a></li><li><a href=#对象的效率>对象的效率</a></li><li><a href=#指向data-member的指针>指向Data Member的指针</a></li></ul></li><li><a href=#function语意学the-semantics-of-function>Function语意学(The Semantics of Function)</a><ul><li><a href=#纯虚函数的存在presence-of-a--pu-re-virtual-function>纯虚函数的存在（Presence of a Pu re Virtual Function)</a></li><li><a href=#虚拟规格的存在-presence--of--a--virtual--specification->虚拟规格的存在 （Presence of a Virtual Specification )</a></li><li><a href=#虚拟规格中const-的存在>虚拟规格中const 的存在</a></li><li><a href=#重新考虑class的声明>重新考虑class的声明</a></li></ul></li><li><a href=#构造析构拷贝语意学>构造、析构、拷贝语意学</a></li><li><a href=#执行期语意学>执行期语意学</a></li><li><a href=#站在对象模型的类端>站在对象模型的类端</a></li></ul></li><li><a href=#构造函数>构造函数</a><ul><li><a href=#普通构造默认构造函数>普通构造(默认构造函数)</a></li><li><a href=#拷贝构造>拷贝构造</a></li><li><a href=#移动构造>移动构造</a></li><li><a href=#委托构造>委托构造</a></li></ul></li><li><a href=#移动语意>移动语意</a><ul><li><a href=#左值与右值>左值与右值</a></li><li><a href=#可修改的左值>可修改的左值</a></li><li><a href=#完美转发>完美转发</a></li><li><a href=#移动语意-1>移动语意</a></li><li><a href=#remove_reference>remove_reference</a></li><li><a href=#原理分析>原理分析</a><ul><li><a href=#forward完美转发原理>forward完美转发原理</a></li><li><a href=#stdmove-原理分析><code>std::move</code> 原理分析</a><ul><li><a href=#1-移动语义基础>1. 移动语义基础</a></li><li><a href=#2-stdmove-实现原理>2. <code>std::move</code> 实现原理</a></li><li><a href=#3-示例分析>3. 示例分析</a></li><li><a href=#4-总结>4. 总结</a></li></ul></li></ul></li><li><a href=#移动构造函数>移动构造函数</a></li><li><a href=#移动赋值操作符>移动赋值操作符</a></li><li><a href=#完整例子>完整例子</a></li></ul></li><li><a href=#智能指针>智能指针</a><ul><li><a href=#stdunique_ptr><code>std::unique_ptr</code></a></li><li><a href=#stdshared_ptr><code>std::shared_ptr</code></a></li><li><a href=#stdweak_ptr><code>std::weak_ptr</code></a></li></ul></li><li><a href=#强制类型转换>强制类型转换</a><ul><li><a href=#c风格的强制转换>C风格的强制转换</a></li><li><a href=#const_cast><code>const_cast</code></a></li><li><a href=#static_cast><code>static_cast</code></a></li><li><a href=#dynamic_cast><code>dynamic_cast</code></a></li><li><a href=#reinterpret_cast><code>reinterpret_cast</code></a></li></ul></li><li><a href=#const描述成员函数>const描述成员函数</a><ul><li><a href=#const成员函数><code>const</code>成员函数</a></li><li><a href=#mutable关键字><code>mutable</code>关键字</a></li><li><a href=#为什么需要这样做>为什么需要这样做？</a></li></ul></li><li><a href=#lambda表达式>lambda表达式</a><ul><li><a href=#基础表达式>基础表达式</a></li><li><a href=#lambda语法组成部分>lambda语法组成部分</a><ul><li><a href=#捕获列表>捕获列表</a></li><li><a href=#抛出异常>抛出异常</a></li></ul></li></ul></li></ul></nav></div></div><div class=content id=content data-pagefind-body><blockquote><p>这个是我在学习<code>C++</code>语言中所记录的笔记,有可能会存在错误和遗漏,并且我有一点点C语言基础,
 会大量的提及C语言与C++的不同,从而造成笔记晦涩;
 另外C++的学习是一个长期且艰难的过程,因此本文进行了切分;</p></blockquote><p><a href=https://mengdemao.com/cxx_basic/ rel>C++基础笔记</a></br><a href=https://mengdemao.com/cxx_enhance/ rel>C++提高笔记</a></br><a href=https://mengdemao.com/cxx_advance/ rel>C++增强笔记</a></br><a href=https://mengdemao.com/cxx_template/ rel>C++模板笔记</a></br></p><h2 id=c对象模型深入版 class=headerLink><a href=#c%e5%af%b9%e8%b1%a1%e6%a8%a1%e5%9e%8b%e6%b7%b1%e5%85%a5%e7%89%88 class=header-mark></a>1 C++对象模型(深入版)</h2><blockquote><ul><li>对象模型是一种描述计算机程序中的对象及其相互关系的方式。在面向对象编程中，每个对象都有一个类型、属性和方法。对象之间可以相互通信，从而实现特定的任务。</li><li>在对象模型中，对象类是描述对象的通用模板。每个类都有一组属性和方法，它们定义了该类的行为。当我们创建一个对象时，我们使用该类来生成该对象，并且该对象将具备该类所定义的属性和方法。</li><li>对象之间可以通过消息传递进行通信。消息包含了一个方法调用请求，接收者也就是被调用的对象会执行该方法，并将结果返回给发送者。这种方式实现了数据和操作的封装，使得程序的实现更加模块化和灵活。</li><li>总之，对象模型是一种以对象为基本单位的编程范式，通过对对象的抽象，实现了高度复用性、可扩展性和可维护性的程序设计。</li></ul></blockquote><h3 id=关于对象object-lessons class=headerLink><a href=#%e5%85%b3%e4%ba%8e%e5%af%b9%e8%b1%a1object-lessons class=header-mark></a>1.1 关于对象(Object Lessons)</h3><p>在C++中农, Point3d可以 使用独立的抽象数据类型(abstract data types ADT)</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
@@ -1950,7 +1950,952 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#include</span
 </span></span><span class=line><span class=cl>    <span class=n>print_vector</span><span class=p>(</span><span class=n>B</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p><img class=tw-inline loading=lazy src=/cxx_advance/picture/image-20230801075105713.png alt=image-20230801075105713 height=501 width=977></p><h2 id=智能指针 class=headerLink><a href=#%e6%99%ba%e8%83%bd%e6%8c%87%e9%92%88 class=header-mark></a>4 智能指针</h2><blockquote><p>智能指针是一种 C++ 的语言特性，用于管理动态分配内存的生命周期。它可以自动跟踪一个对象被多少个指针引用，并在不需要时释放对象占用的内存。
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p><img class=tw-inline loading=lazy src=/cxx_advance/picture/image-20230801075105713.png alt=image-20230801075105713 height=501 width=977></p><ol><li><p>左值 (<code>lvalue</code>, left value)，顾名思义就是赋值符号左边的值。准确来说，左值是表达式（不一定是 赋值表达式）后依然存在的持久对象</p></li><li><p>右值 (<code>rvalue</code>, right value)，右边的值，是指表达式结束后就不再存在的临时对象。</p></li><li><p>纯右值 (<code>prvalue</code>, pure <code>rvalue</code>)</p></li></ol><ul><li>纯粹的右值，要么是纯粹的字面量，例如 10, true；要么是求值 结果相当于字面量或匿名临时对象，例如 1+2。</li><li>非引用返回的临时变量、运算表达式产生的临时变量、原始字面量、Lambda 表达式都属于纯右值。</li></ul><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.show-line-numbers]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle line numbers"><svg class="icon" viewBox="0 0 512 512"><path d="M61.77 401l17.5-20.15a19.92 19.92.0 005.07-14.19v-3.31C84.34 356 80.5 352 73 352H16a8 8 0 00-8 8v16a8 8 0 008 8h22.83a157.41 157.41.0 00-11 12.31l-5.61 7c-4 5.07-5.25 10.13-2.8 14.88l1.05 1.93c3 5.76 6.29 7.88 12.25 7.88h4.73c10.33.0 15.94 2.44 15.94 9.09.0 4.72-4.2 8.22-14.36 8.22a41.54 41.54.0 01-15.47-3.12c-6.49-3.88-11.74-3.5-15.6 3.12l-5.59 9.31c-3.72 6.13-3.19 11.72 2.63 15.94 7.71 4.69 20.38 9.44 37 9.44 34.16.0 48.5-22.75 48.5-44.12-.03-14.38-9.12-29.76-28.73-34.88zM496 224H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zm0-160H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16V80a16 16 0 00-16-16zm0 320H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zM16 160h64a8 8 0 008-8v-16a8 8 0 00-8-8H64V40a8 8 0 00-8-8H32a8 8 0 00-7.14 4.42l-8 16A8 8 0 0024 64h8v64H16a8 8 0 00-8 8v16a8 8 0 008 8zm-3.91 160H80a8 8 0 008-8v-16a8 8 0 00-8-8H41.32c3.29-10.29 48.34-18.68 48.34-56.44.0-29.06-25-39.56-44.47-39.56-21.36.0-33.8 10-40.46 18.75-4.37 5.59-3 10.84 2.8 15.37l8.58 6.88c5.61 4.56 11 2.47 16.12-2.44a13.44 13.44.0 019.46-3.84c3.33.0 9.28 1.56 9.28 8.75C51 248.19.0 257.31.0 304.59v4C0 316 5.08 320 12.09 320z"/></svg></button>
+<button class="wrap-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.is-wrap]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle code wrap"><svg class="icon" viewBox="0 0 448 512"><path d="M16 132h416c8.837.0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163.0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg></button>
+<button class="copy-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+hover:tw-text-fgColor-link
+print:!tw-hidden" title="Copy code">
+<span class="copy-icon tw-block"><svg class="icon" viewBox="0 0 448 512"><path d="M433.941 65.941l-51.882-51.882A48 48 0 00348.118.0H176c-26.51.0-48 21.49-48 48v48H48c-26.51.0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h224c26.51.0 48-21.49 48-48v-48h80c26.51.0 48-21.49 48-48V99.882a48 48 0 00-14.059-33.941zM266 464H54a6 6 0 01-6-6V150a6 6 0 016-6h74v224c0 26.51 21.49 48 48 48h96v42a6 6 0 01-6 6zm128-96H182a6 6 0 01-6-6V54a6 6 0 016-6h106v88c0 13.255 10.745 24 24 24h88v202a6 6 0 01-6 6zm6-256h-64V48h9.632c1.591.0 3.117.632 4.243 1.757l48.368 48.368a6 6 0 011.757 4.243V112z"/></svg></span>
+<span class="check-icon tw-hidden"><svg class="icon" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206.0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204.0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204.0l36.203 36.204c9.997 9.997 9.997 26.206.0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"/></svg></span>
+</button>
+<button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-hidden
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-32 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=k>class</span> <span class=nc>Foo</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>const</span> <span class=kt>char</span><span class=o>*&amp;&amp;</span> <span class=n>right</span> <span class=o>=</span> <span class=s>&#34;this is a rvalue&#34;</span><span class=p>;</span> <span class=c1>// 此处字符串字面量为右值
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=n>bar</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>right</span> <span class=o>=</span> <span class=s>&#34;still rvalue&#34;</span><span class=p>;</span> <span class=c1>// 此处字符串字面量为右值
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>const</span> <span class=kt>char</span><span class=o>*</span> <span class=k>const</span> <span class=o>&amp;</span><span class=n>left</span> <span class=o>=</span> <span class=s>&#34;this is an lvalue&#34;</span><span class=p>;</span> <span class=c1>// 此处字符串字面量为左值
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span></span></span></code></pre></div><ol start=4><li>将亡值 (<code>xvalue</code>, expiring value)，是 C++11 为了引入右值引用而提出的概念也就是即将被销毁、却能够被移动的值。</li></ol><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.show-line-numbers]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle line numbers"><svg class="icon" viewBox="0 0 512 512"><path d="M61.77 401l17.5-20.15a19.92 19.92.0 005.07-14.19v-3.31C84.34 356 80.5 352 73 352H16a8 8 0 00-8 8v16a8 8 0 008 8h22.83a157.41 157.41.0 00-11 12.31l-5.61 7c-4 5.07-5.25 10.13-2.8 14.88l1.05 1.93c3 5.76 6.29 7.88 12.25 7.88h4.73c10.33.0 15.94 2.44 15.94 9.09.0 4.72-4.2 8.22-14.36 8.22a41.54 41.54.0 01-15.47-3.12c-6.49-3.88-11.74-3.5-15.6 3.12l-5.59 9.31c-3.72 6.13-3.19 11.72 2.63 15.94 7.71 4.69 20.38 9.44 37 9.44 34.16.0 48.5-22.75 48.5-44.12-.03-14.38-9.12-29.76-28.73-34.88zM496 224H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zm0-160H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16V80a16 16 0 00-16-16zm0 320H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zM16 160h64a8 8 0 008-8v-16a8 8 0 00-8-8H64V40a8 8 0 00-8-8H32a8 8 0 00-7.14 4.42l-8 16A8 8 0 0024 64h8v64H16a8 8 0 00-8 8v16a8 8 0 008 8zm-3.91 160H80a8 8 0 008-8v-16a8 8 0 00-8-8H41.32c3.29-10.29 48.34-18.68 48.34-56.44.0-29.06-25-39.56-44.47-39.56-21.36.0-33.8 10-40.46 18.75-4.37 5.59-3 10.84 2.8 15.37l8.58 6.88c5.61 4.56 11 2.47 16.12-2.44a13.44 13.44.0 019.46-3.84c3.33.0 9.28 1.56 9.28 8.75C51 248.19.0 257.31.0 304.59v4C0 316 5.08 320 12.09 320z"/></svg></button>
+<button class="wrap-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.is-wrap]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle code wrap"><svg class="icon" viewBox="0 0 448 512"><path d="M16 132h416c8.837.0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163.0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg></button>
+<button class="copy-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+hover:tw-text-fgColor-link
+print:!tw-hidden" title="Copy code">
+<span class="copy-icon tw-block"><svg class="icon" viewBox="0 0 448 512"><path d="M433.941 65.941l-51.882-51.882A48 48 0 00348.118.0H176c-26.51.0-48 21.49-48 48v48H48c-26.51.0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h224c26.51.0 48-21.49 48-48v-48h80c26.51.0 48-21.49 48-48V99.882a48 48 0 00-14.059-33.941zM266 464H54a6 6 0 01-6-6V150a6 6 0 016-6h74v224c0 26.51 21.49 48 48 48h96v42a6 6 0 01-6 6zm128-96H182a6 6 0 01-6-6V54a6 6 0 016-6h106v88c0 13.255 10.745 24 24 24h88v202a6 6 0 01-6 6zm6-256h-64V48h9.632c1.591.0 3.117.632 4.243 1.757l48.368 48.368a6 6 0 011.757 4.243V112z"/></svg></span>
+<span class="check-icon tw-hidden"><svg class="icon" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206.0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204.0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204.0l36.203 36.204c9.997 9.997 9.997 26.206.0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"/></svg></span>
+</button>
+<button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-hidden
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-33 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=n>std</span><span class=o>::</span><span class=n>vector</span><span class=o>&lt;</span><span class=kt>int</span><span class=o>&gt;</span> <span class=n>foo</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>vector</span><span class=o>&lt;</span><span class=kt>int</span><span class=o>&gt;</span> <span class=n>temp</span> <span class=o>=</span> <span class=p>{</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=mi>4</span><span class=p>};</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>temp</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>std</span><span class=o>::</span><span class=n>vector</span><span class=o>&lt;</span><span class=kt>int</span><span class=o>&gt;</span> <span class=n>v</span> <span class=o>=</span> <span class=n>foo</span><span class=p>();</span></span></span></code></pre></div><p>在最后一行中,v是左值、foo()返回的值就是右值（也是纯右值）。
+但是, v可以被别的变量捕获到,而foo()产生的那个返回值作为一个临时值，一旦被 v 复制后，将立即被销毁，无法获取、也不能修改。
+而将亡值就定义了这样一种行为：<strong>临时的值能够被识别、同时又能够被移动</strong></p><h3 id=remove_reference class=headerLink><a href=#remove_reference class=header-mark></a>3.5 remove_reference</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.show-line-numbers]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle line numbers"><svg class="icon" viewBox="0 0 512 512"><path d="M61.77 401l17.5-20.15a19.92 19.92.0 005.07-14.19v-3.31C84.34 356 80.5 352 73 352H16a8 8 0 00-8 8v16a8 8 0 008 8h22.83a157.41 157.41.0 00-11 12.31l-5.61 7c-4 5.07-5.25 10.13-2.8 14.88l1.05 1.93c3 5.76 6.29 7.88 12.25 7.88h4.73c10.33.0 15.94 2.44 15.94 9.09.0 4.72-4.2 8.22-14.36 8.22a41.54 41.54.0 01-15.47-3.12c-6.49-3.88-11.74-3.5-15.6 3.12l-5.59 9.31c-3.72 6.13-3.19 11.72 2.63 15.94 7.71 4.69 20.38 9.44 37 9.44 34.16.0 48.5-22.75 48.5-44.12-.03-14.38-9.12-29.76-28.73-34.88zM496 224H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zm0-160H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16V80a16 16 0 00-16-16zm0 320H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zM16 160h64a8 8 0 008-8v-16a8 8 0 00-8-8H64V40a8 8 0 00-8-8H32a8 8 0 00-7.14 4.42l-8 16A8 8 0 0024 64h8v64H16a8 8 0 00-8 8v16a8 8 0 008 8zm-3.91 160H80a8 8 0 008-8v-16a8 8 0 00-8-8H41.32c3.29-10.29 48.34-18.68 48.34-56.44.0-29.06-25-39.56-44.47-39.56-21.36.0-33.8 10-40.46 18.75-4.37 5.59-3 10.84 2.8 15.37l8.58 6.88c5.61 4.56 11 2.47 16.12-2.44a13.44 13.44.0 019.46-3.84c3.33.0 9.28 1.56 9.28 8.75C51 248.19.0 257.31.0 304.59v4C0 316 5.08 320 12.09 320z"/></svg></button>
+<button class="wrap-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.is-wrap]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle code wrap"><svg class="icon" viewBox="0 0 448 512"><path d="M16 132h416c8.837.0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163.0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg></button>
+<button class="copy-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+hover:tw-text-fgColor-link
+print:!tw-hidden" title="Copy code">
+<span class="copy-icon tw-block"><svg class="icon" viewBox="0 0 448 512"><path d="M433.941 65.941l-51.882-51.882A48 48 0 00348.118.0H176c-26.51.0-48 21.49-48 48v48H48c-26.51.0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h224c26.51.0 48-21.49 48-48v-48h80c26.51.0 48-21.49 48-48V99.882a48 48 0 00-14.059-33.941zM266 464H54a6 6 0 01-6-6V150a6 6 0 016-6h74v224c0 26.51 21.49 48 48 48h96v42a6 6 0 01-6 6zm128-96H182a6 6 0 01-6-6V54a6 6 0 016-6h106v88c0 13.255 10.745 24 24 24h88v202a6 6 0 01-6 6zm6-256h-64V48h9.632c1.591.0 3.117.632 4.243 1.757l48.368 48.368a6 6 0 011.757 4.243V112z"/></svg></span>
+<span class="check-icon tw-hidden"><svg class="icon" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206.0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204.0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204.0l36.203 36.204c9.997 9.997 9.997 26.206.0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"/></svg></span>
+</button>
+<button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-hidden
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-34 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=k>template</span> <span class=o>&lt;</span><span class=k>class</span> <span class=nc>_Tp</span><span class=o>&gt;</span> <span class=k>struct</span> <span class=nc>remove_reference</span>        <span class=p>{</span><span class=k>typedef</span> <span class=n>_Tp</span> <span class=n>type</span><span class=p>;};</span></span></span></code></pre></div><p>任何非引用类型。它简单地将输入类型定义为其自身，不做任何修改。</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.show-line-numbers]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle line numbers"><svg class="icon" viewBox="0 0 512 512"><path d="M61.77 401l17.5-20.15a19.92 19.92.0 005.07-14.19v-3.31C84.34 356 80.5 352 73 352H16a8 8 0 00-8 8v16a8 8 0 008 8h22.83a157.41 157.41.0 00-11 12.31l-5.61 7c-4 5.07-5.25 10.13-2.8 14.88l1.05 1.93c3 5.76 6.29 7.88 12.25 7.88h4.73c10.33.0 15.94 2.44 15.94 9.09.0 4.72-4.2 8.22-14.36 8.22a41.54 41.54.0 01-15.47-3.12c-6.49-3.88-11.74-3.5-15.6 3.12l-5.59 9.31c-3.72 6.13-3.19 11.72 2.63 15.94 7.71 4.69 20.38 9.44 37 9.44 34.16.0 48.5-22.75 48.5-44.12-.03-14.38-9.12-29.76-28.73-34.88zM496 224H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zm0-160H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16V80a16 16 0 00-16-16zm0 320H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zM16 160h64a8 8 0 008-8v-16a8 8 0 00-8-8H64V40a8 8 0 00-8-8H32a8 8 0 00-7.14 4.42l-8 16A8 8 0 0024 64h8v64H16a8 8 0 00-8 8v16a8 8 0 008 8zm-3.91 160H80a8 8 0 008-8v-16a8 8 0 00-8-8H41.32c3.29-10.29 48.34-18.68 48.34-56.44.0-29.06-25-39.56-44.47-39.56-21.36.0-33.8 10-40.46 18.75-4.37 5.59-3 10.84 2.8 15.37l8.58 6.88c5.61 4.56 11 2.47 16.12-2.44a13.44 13.44.0 019.46-3.84c3.33.0 9.28 1.56 9.28 8.75C51 248.19.0 257.31.0 304.59v4C0 316 5.08 320 12.09 320z"/></svg></button>
+<button class="wrap-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.is-wrap]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle code wrap"><svg class="icon" viewBox="0 0 448 512"><path d="M16 132h416c8.837.0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163.0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg></button>
+<button class="copy-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+hover:tw-text-fgColor-link
+print:!tw-hidden" title="Copy code">
+<span class="copy-icon tw-block"><svg class="icon" viewBox="0 0 448 512"><path d="M433.941 65.941l-51.882-51.882A48 48 0 00348.118.0H176c-26.51.0-48 21.49-48 48v48H48c-26.51.0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h224c26.51.0 48-21.49 48-48v-48h80c26.51.0 48-21.49 48-48V99.882a48 48 0 00-14.059-33.941zM266 464H54a6 6 0 01-6-6V150a6 6 0 016-6h74v224c0 26.51 21.49 48 48 48h96v42a6 6 0 01-6 6zm128-96H182a6 6 0 01-6-6V54a6 6 0 016-6h106v88c0 13.255 10.745 24 24 24h88v202a6 6 0 01-6 6zm6-256h-64V48h9.632c1.591.0 3.117.632 4.243 1.757l48.368 48.368a6 6 0 011.757 4.243V112z"/></svg></span>
+<span class="check-icon tw-hidden"><svg class="icon" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206.0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204.0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204.0l36.203 36.204c9.997 9.997 9.997 26.206.0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"/></svg></span>
+</button>
+<button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-hidden
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-35 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=k>template</span> <span class=o>&lt;</span><span class=k>class</span> <span class=nc>_Tp</span><span class=o>&gt;</span> <span class=k>struct</span> <span class=nc>remove_reference</span><span class=o>&lt;</span><span class=n>_Tp</span><span class=o>&amp;&gt;</span>  <span class=p>{</span><span class=k>typedef</span> <span class=n>_Tp</span> <span class=n>type</span><span class=p>;};</span></span></span></code></pre></div><p>当模板参数是一个左值引用时，此特化版本会被使用。它会去掉类型中的引用部分，只留下原始类型</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.show-line-numbers]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle line numbers"><svg class="icon" viewBox="0 0 512 512"><path d="M61.77 401l17.5-20.15a19.92 19.92.0 005.07-14.19v-3.31C84.34 356 80.5 352 73 352H16a8 8 0 00-8 8v16a8 8 0 008 8h22.83a157.41 157.41.0 00-11 12.31l-5.61 7c-4 5.07-5.25 10.13-2.8 14.88l1.05 1.93c3 5.76 6.29 7.88 12.25 7.88h4.73c10.33.0 15.94 2.44 15.94 9.09.0 4.72-4.2 8.22-14.36 8.22a41.54 41.54.0 01-15.47-3.12c-6.49-3.88-11.74-3.5-15.6 3.12l-5.59 9.31c-3.72 6.13-3.19 11.72 2.63 15.94 7.71 4.69 20.38 9.44 37 9.44 34.16.0 48.5-22.75 48.5-44.12-.03-14.38-9.12-29.76-28.73-34.88zM496 224H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zm0-160H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16V80a16 16 0 00-16-16zm0 320H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zM16 160h64a8 8 0 008-8v-16a8 8 0 00-8-8H64V40a8 8 0 00-8-8H32a8 8 0 00-7.14 4.42l-8 16A8 8 0 0024 64h8v64H16a8 8 0 00-8 8v16a8 8 0 008 8zm-3.91 160H80a8 8 0 008-8v-16a8 8 0 00-8-8H41.32c3.29-10.29 48.34-18.68 48.34-56.44.0-29.06-25-39.56-44.47-39.56-21.36.0-33.8 10-40.46 18.75-4.37 5.59-3 10.84 2.8 15.37l8.58 6.88c5.61 4.56 11 2.47 16.12-2.44a13.44 13.44.0 019.46-3.84c3.33.0 9.28 1.56 9.28 8.75C51 248.19.0 257.31.0 304.59v4C0 316 5.08 320 12.09 320z"/></svg></button>
+<button class="wrap-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.is-wrap]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle code wrap"><svg class="icon" viewBox="0 0 448 512"><path d="M16 132h416c8.837.0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163.0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg></button>
+<button class="copy-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+hover:tw-text-fgColor-link
+print:!tw-hidden" title="Copy code">
+<span class="copy-icon tw-block"><svg class="icon" viewBox="0 0 448 512"><path d="M433.941 65.941l-51.882-51.882A48 48 0 00348.118.0H176c-26.51.0-48 21.49-48 48v48H48c-26.51.0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h224c26.51.0 48-21.49 48-48v-48h80c26.51.0 48-21.49 48-48V99.882a48 48 0 00-14.059-33.941zM266 464H54a6 6 0 01-6-6V150a6 6 0 016-6h74v224c0 26.51 21.49 48 48 48h96v42a6 6 0 01-6 6zm128-96H182a6 6 0 01-6-6V54a6 6 0 016-6h106v88c0 13.255 10.745 24 24 24h88v202a6 6 0 01-6 6zm6-256h-64V48h9.632c1.591.0 3.117.632 4.243 1.757l48.368 48.368a6 6 0 011.757 4.243V112z"/></svg></span>
+<span class="check-icon tw-hidden"><svg class="icon" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206.0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204.0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204.0l36.203 36.204c9.997 9.997 9.997 26.206.0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"/></svg></span>
+</button>
+<button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-hidden
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-36 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=k>template</span> <span class=o>&lt;</span><span class=k>class</span> <span class=nc>_Tp</span><span class=o>&gt;</span> <span class=k>struct</span> <span class=nc>remove_reference</span><span class=o>&lt;</span><span class=n>_Tp</span><span class=o>&amp;&amp;&gt;</span> <span class=p>{</span><span class=k>typedef</span> <span class=n>_Tp</span> <span class=n>type</span><span class=p>;};</span></span></span></code></pre></div><p>右值引用（例如，int&&）。同样，它返回不带引用修饰的基础类型</p><p>完美转发实现</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.show-line-numbers]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle line numbers"><svg class="icon" viewBox="0 0 512 512"><path d="M61.77 401l17.5-20.15a19.92 19.92.0 005.07-14.19v-3.31C84.34 356 80.5 352 73 352H16a8 8 0 00-8 8v16a8 8 0 008 8h22.83a157.41 157.41.0 00-11 12.31l-5.61 7c-4 5.07-5.25 10.13-2.8 14.88l1.05 1.93c3 5.76 6.29 7.88 12.25 7.88h4.73c10.33.0 15.94 2.44 15.94 9.09.0 4.72-4.2 8.22-14.36 8.22a41.54 41.54.0 01-15.47-3.12c-6.49-3.88-11.74-3.5-15.6 3.12l-5.59 9.31c-3.72 6.13-3.19 11.72 2.63 15.94 7.71 4.69 20.38 9.44 37 9.44 34.16.0 48.5-22.75 48.5-44.12-.03-14.38-9.12-29.76-28.73-34.88zM496 224H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zm0-160H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16V80a16 16 0 00-16-16zm0 320H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zM16 160h64a8 8 0 008-8v-16a8 8 0 00-8-8H64V40a8 8 0 00-8-8H32a8 8 0 00-7.14 4.42l-8 16A8 8 0 0024 64h8v64H16a8 8 0 00-8 8v16a8 8 0 008 8zm-3.91 160H80a8 8 0 008-8v-16a8 8 0 00-8-8H41.32c3.29-10.29 48.34-18.68 48.34-56.44.0-29.06-25-39.56-44.47-39.56-21.36.0-33.8 10-40.46 18.75-4.37 5.59-3 10.84 2.8 15.37l8.58 6.88c5.61 4.56 11 2.47 16.12-2.44a13.44 13.44.0 019.46-3.84c3.33.0 9.28 1.56 9.28 8.75C51 248.19.0 257.31.0 304.59v4C0 316 5.08 320 12.09 320z"/></svg></button>
+<button class="wrap-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.is-wrap]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle code wrap"><svg class="icon" viewBox="0 0 448 512"><path d="M16 132h416c8.837.0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163.0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg></button>
+<button class="copy-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+hover:tw-text-fgColor-link
+print:!tw-hidden" title="Copy code">
+<span class="copy-icon tw-block"><svg class="icon" viewBox="0 0 448 512"><path d="M433.941 65.941l-51.882-51.882A48 48 0 00348.118.0H176c-26.51.0-48 21.49-48 48v48H48c-26.51.0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h224c26.51.0 48-21.49 48-48v-48h80c26.51.0 48-21.49 48-48V99.882a48 48 0 00-14.059-33.941zM266 464H54a6 6 0 01-6-6V150a6 6 0 016-6h74v224c0 26.51 21.49 48 48 48h96v42a6 6 0 01-6 6zm128-96H182a6 6 0 01-6-6V54a6 6 0 016-6h106v88c0 13.255 10.745 24 24 24h88v202a6 6 0 01-6 6zm6-256h-64V48h9.632c1.591.0 3.117.632 4.243 1.757l48.368 48.368a6 6 0 011.757 4.243V112z"/></svg></span>
+<span class="check-icon tw-hidden"><svg class="icon" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206.0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204.0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204.0l36.203 36.204c9.997 9.997 9.997 26.206.0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"/></svg></span>
+</button>
+<button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-hidden
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-37 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=k>template</span> <span class=o>&lt;</span><span class=k>class</span> <span class=nc>_Tp</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=kr>inline</span> <span class=k>constexpr</span> <span class=n>_Tp</span><span class=o>&amp;&amp;</span> <span class=n>forward</span><span class=p>(</span><span class=k>typename</span> <span class=n>remove_reference</span><span class=o>&lt;</span><span class=n>_Tp</span><span class=o>&gt;::</span><span class=n>type</span><span class=o>&amp;</span> <span class=n>__t</span><span class=p>)</span> <span class=n>_NOEXCEPT</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=k>static_cast</span><span class=o>&lt;</span><span class=n>_Tp</span><span class=o>&amp;&amp;&gt;</span><span class=p>(</span><span class=n>__t</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>完美转发允许函数模板将其参数的左右值属性（包括引用类型）完整地传递给另一个函数，这是通过使用引用折叠(reference collapsing)规则和static_cast来实现的。</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.show-line-numbers]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle line numbers"><svg class="icon" viewBox="0 0 512 512"><path d="M61.77 401l17.5-20.15a19.92 19.92.0 005.07-14.19v-3.31C84.34 356 80.5 352 73 352H16a8 8 0 00-8 8v16a8 8 0 008 8h22.83a157.41 157.41.0 00-11 12.31l-5.61 7c-4 5.07-5.25 10.13-2.8 14.88l1.05 1.93c3 5.76 6.29 7.88 12.25 7.88h4.73c10.33.0 15.94 2.44 15.94 9.09.0 4.72-4.2 8.22-14.36 8.22a41.54 41.54.0 01-15.47-3.12c-6.49-3.88-11.74-3.5-15.6 3.12l-5.59 9.31c-3.72 6.13-3.19 11.72 2.63 15.94 7.71 4.69 20.38 9.44 37 9.44 34.16.0 48.5-22.75 48.5-44.12-.03-14.38-9.12-29.76-28.73-34.88zM496 224H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zm0-160H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16V80a16 16 0 00-16-16zm0 320H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zM16 160h64a8 8 0 008-8v-16a8 8 0 00-8-8H64V40a8 8 0 00-8-8H32a8 8 0 00-7.14 4.42l-8 16A8 8 0 0024 64h8v64H16a8 8 0 00-8 8v16a8 8 0 008 8zm-3.91 160H80a8 8 0 008-8v-16a8 8 0 00-8-8H41.32c3.29-10.29 48.34-18.68 48.34-56.44.0-29.06-25-39.56-44.47-39.56-21.36.0-33.8 10-40.46 18.75-4.37 5.59-3 10.84 2.8 15.37l8.58 6.88c5.61 4.56 11 2.47 16.12-2.44a13.44 13.44.0 019.46-3.84c3.33.0 9.28 1.56 9.28 8.75C51 248.19.0 257.31.0 304.59v4C0 316 5.08 320 12.09 320z"/></svg></button>
+<button class="wrap-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.is-wrap]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle code wrap"><svg class="icon" viewBox="0 0 448 512"><path d="M16 132h416c8.837.0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163.0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg></button>
+<button class="copy-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+hover:tw-text-fgColor-link
+print:!tw-hidden" title="Copy code">
+<span class="copy-icon tw-block"><svg class="icon" viewBox="0 0 448 512"><path d="M433.941 65.941l-51.882-51.882A48 48 0 00348.118.0H176c-26.51.0-48 21.49-48 48v48H48c-26.51.0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h224c26.51.0 48-21.49 48-48v-48h80c26.51.0 48-21.49 48-48V99.882a48 48 0 00-14.059-33.941zM266 464H54a6 6 0 01-6-6V150a6 6 0 016-6h74v224c0 26.51 21.49 48 48 48h96v42a6 6 0 01-6 6zm128-96H182a6 6 0 01-6-6V54a6 6 0 016-6h106v88c0 13.255 10.745 24 24 24h88v202a6 6 0 01-6 6zm6-256h-64V48h9.632c1.591.0 3.117.632 4.243 1.757l48.368 48.368a6 6 0 011.757 4.243V112z"/></svg></span>
+<span class="check-icon tw-hidden"><svg class="icon" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206.0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204.0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204.0l36.203 36.204c9.997 9.997 9.997 26.206.0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"/></svg></span>
+</button>
+<button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-hidden
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-38 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=k>template</span> <span class=o>&lt;</span><span class=k>class</span> <span class=nc>_Tp</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=kr>inline</span>  <span class=k>typename</span> <span class=n>remove_reference</span><span class=o>&lt;</span><span class=n>_Tp</span><span class=o>&gt;::</span><span class=n>type</span><span class=o>&amp;&amp;</span><span class=n>move</span><span class=p>(</span><span class=n>_Tp</span><span class=o>&amp;&amp;</span> <span class=n>__t</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>typedef</span> <span class=k>typename</span> <span class=n>remove_reference</span><span class=o>&lt;</span><span class=n>_Tp</span><span class=o>&gt;::</span><span class=n>type</span> <span class=n>_Up</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=k>static_cast</span><span class=o>&lt;</span><span class=n>_Up</span><span class=o>&amp;&amp;&gt;</span><span class=p>(</span><span class=n>__t</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.show-line-numbers]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle line numbers"><svg class="icon" viewBox="0 0 512 512"><path d="M61.77 401l17.5-20.15a19.92 19.92.0 005.07-14.19v-3.31C84.34 356 80.5 352 73 352H16a8 8 0 00-8 8v16a8 8 0 008 8h22.83a157.41 157.41.0 00-11 12.31l-5.61 7c-4 5.07-5.25 10.13-2.8 14.88l1.05 1.93c3 5.76 6.29 7.88 12.25 7.88h4.73c10.33.0 15.94 2.44 15.94 9.09.0 4.72-4.2 8.22-14.36 8.22a41.54 41.54.0 01-15.47-3.12c-6.49-3.88-11.74-3.5-15.6 3.12l-5.59 9.31c-3.72 6.13-3.19 11.72 2.63 15.94 7.71 4.69 20.38 9.44 37 9.44 34.16.0 48.5-22.75 48.5-44.12-.03-14.38-9.12-29.76-28.73-34.88zM496 224H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zm0-160H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16V80a16 16 0 00-16-16zm0 320H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zM16 160h64a8 8 0 008-8v-16a8 8 0 00-8-8H64V40a8 8 0 00-8-8H32a8 8 0 00-7.14 4.42l-8 16A8 8 0 0024 64h8v64H16a8 8 0 00-8 8v16a8 8 0 008 8zm-3.91 160H80a8 8 0 008-8v-16a8 8 0 00-8-8H41.32c3.29-10.29 48.34-18.68 48.34-56.44.0-29.06-25-39.56-44.47-39.56-21.36.0-33.8 10-40.46 18.75-4.37 5.59-3 10.84 2.8 15.37l8.58 6.88c5.61 4.56 11 2.47 16.12-2.44a13.44 13.44.0 019.46-3.84c3.33.0 9.28 1.56 9.28 8.75C51 248.19.0 257.31.0 304.59v4C0 316 5.08 320 12.09 320z"/></svg></button>
+<button class="wrap-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.is-wrap]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle code wrap"><svg class="icon" viewBox="0 0 448 512"><path d="M16 132h416c8.837.0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163.0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg></button>
+<button class="copy-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+hover:tw-text-fgColor-link
+print:!tw-hidden" title="Copy code">
+<span class="copy-icon tw-block"><svg class="icon" viewBox="0 0 448 512"><path d="M433.941 65.941l-51.882-51.882A48 48 0 00348.118.0H176c-26.51.0-48 21.49-48 48v48H48c-26.51.0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h224c26.51.0 48-21.49 48-48v-48h80c26.51.0 48-21.49 48-48V99.882a48 48 0 00-14.059-33.941zM266 464H54a6 6 0 01-6-6V150a6 6 0 016-6h74v224c0 26.51 21.49 48 48 48h96v42a6 6 0 01-6 6zm128-96H182a6 6 0 01-6-6V54a6 6 0 016-6h106v88c0 13.255 10.745 24 24 24h88v202a6 6 0 01-6 6zm6-256h-64V48h9.632c1.591.0 3.117.632 4.243 1.757l48.368 48.368a6 6 0 011.757 4.243V112z"/></svg></span>
+<span class="check-icon tw-hidden"><svg class="icon" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206.0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204.0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204.0l36.203 36.204c9.997 9.997 9.997 26.206.0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"/></svg></span>
+</button>
+<button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-hidden
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-39 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;utility&gt;</span><span class=cp> </span><span class=c1>// 包含 std::forward 和 std::move 所在的头文件
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=c1>// 目标函数：用于展示对左值和右值的不同处理
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kt>void</span> <span class=nf>processValue</span><span class=p>(</span><span class=kt>int</span><span class=o>&amp;</span> <span class=n>x</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;processValue (lvalue): &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>x</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>processValue</span><span class=p>(</span><span class=kt>int</span><span class=o>&amp;&amp;</span> <span class=n>x</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;processValue (rvalue): &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>x</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 通用包装函数：使用 std::forward 实现完美转发，并根据条件使用 std::move
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>template</span><span class=o>&lt;</span><span class=k>typename</span> <span class=n>T</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=n>wrapper</span><span class=p>(</span><span class=n>T</span><span class=o>&amp;&amp;</span> <span class=n>arg</span><span class=p>,</span> <span class=kt>bool</span> <span class=n>shouldMove</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span><span class=p>(</span><span class=n>shouldMove</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Moving argument.&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 使用 std::move 强制转换为右值引用，即使传入的是左值
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=n>processValue</span><span class=p>(</span><span class=n>std</span><span class=o>::</span><span class=n>move</span><span class=p>(</span><span class=n>arg</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Forwarding argument.&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 使用 std::forward 保持 arg 的左右值属性
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=n>processValue</span><span class=p>(</span><span class=n>std</span><span class=o>::</span><span class=n>forward</span><span class=o>&lt;</span><span class=n>T</span><span class=o>&gt;</span><span class=p>(</span><span class=n>arg</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>a</span> <span class=o>=</span> <span class=mi>10</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 传递左值，不进行移动
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Passing lvalue without moving:&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>wrapper</span><span class=p>(</span><span class=n>a</span><span class=p>,</span> <span class=nb>false</span><span class=p>);</span> <span class=c1>// 不会调用右值重载版本
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;</span><span class=se>\n</span><span class=s>Passing lvalue with moving:&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 尽管 a 是左值，但由于 std::move，它会被视为右值
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>wrapper</span><span class=p>(</span><span class=n>a</span><span class=p>,</span> <span class=nb>true</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;</span><span class=se>\n</span><span class=s>Passing rvalue without moving:&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 传递右值，不进行额外的 std::move
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>wrapper</span><span class=p>(</span><span class=mi>20</span><span class=p>,</span> <span class=nb>false</span><span class=p>);</span> <span class=c1>// 由于是右值，会调用右值重载版本
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=原理分析 class=headerLink><a href=#%e5%8e%9f%e7%90%86%e5%88%86%e6%9e%90 class=header-mark></a>3.6 原理分析</h3><h4 id=forward完美转发原理 class=headerLink><a href=#forward%e5%ae%8c%e7%be%8e%e8%bd%ac%e5%8f%91%e5%8e%9f%e7%90%86 class=header-mark></a>3.6.1 forward完美转发原理</h4><p><strong>引用折叠规则</strong>：这是理解 <code>std::forward</code> 工作原理的关键之一。当使用模板参数推导时，C++ 对引用类型的处理有一些特殊规则:</p><ul><li>T& & 会折叠为 T&</li><li>T& && 也会折叠为 T&</li><li>T&& & 折叠为 T&</li><li>T&& && 折叠为 T&&
+这些规则确保了通过适当的类型转换可以保留参数的左右值特性。</li></ul><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.show-line-numbers]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle line numbers"><svg class="icon" viewBox="0 0 512 512"><path d="M61.77 401l17.5-20.15a19.92 19.92.0 005.07-14.19v-3.31C84.34 356 80.5 352 73 352H16a8 8 0 00-8 8v16a8 8 0 008 8h22.83a157.41 157.41.0 00-11 12.31l-5.61 7c-4 5.07-5.25 10.13-2.8 14.88l1.05 1.93c3 5.76 6.29 7.88 12.25 7.88h4.73c10.33.0 15.94 2.44 15.94 9.09.0 4.72-4.2 8.22-14.36 8.22a41.54 41.54.0 01-15.47-3.12c-6.49-3.88-11.74-3.5-15.6 3.12l-5.59 9.31c-3.72 6.13-3.19 11.72 2.63 15.94 7.71 4.69 20.38 9.44 37 9.44 34.16.0 48.5-22.75 48.5-44.12-.03-14.38-9.12-29.76-28.73-34.88zM496 224H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zm0-160H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16V80a16 16 0 00-16-16zm0 320H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zM16 160h64a8 8 0 008-8v-16a8 8 0 00-8-8H64V40a8 8 0 00-8-8H32a8 8 0 00-7.14 4.42l-8 16A8 8 0 0024 64h8v64H16a8 8 0 00-8 8v16a8 8 0 008 8zm-3.91 160H80a8 8 0 008-8v-16a8 8 0 00-8-8H41.32c3.29-10.29 48.34-18.68 48.34-56.44.0-29.06-25-39.56-44.47-39.56-21.36.0-33.8 10-40.46 18.75-4.37 5.59-3 10.84 2.8 15.37l8.58 6.88c5.61 4.56 11 2.47 16.12-2.44a13.44 13.44.0 019.46-3.84c3.33.0 9.28 1.56 9.28 8.75C51 248.19.0 257.31.0 304.59v4C0 316 5.08 320 12.09 320z"/></svg></button>
+<button class="wrap-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.is-wrap]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle code wrap"><svg class="icon" viewBox="0 0 448 512"><path d="M16 132h416c8.837.0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163.0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg></button>
+<button class="copy-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+hover:tw-text-fgColor-link
+print:!tw-hidden" title="Copy code">
+<span class="copy-icon tw-block"><svg class="icon" viewBox="0 0 448 512"><path d="M433.941 65.941l-51.882-51.882A48 48 0 00348.118.0H176c-26.51.0-48 21.49-48 48v48H48c-26.51.0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h224c26.51.0 48-21.49 48-48v-48h80c26.51.0 48-21.49 48-48V99.882a48 48 0 00-14.059-33.941zM266 464H54a6 6 0 01-6-6V150a6 6 0 016-6h74v224c0 26.51 21.49 48 48 48h96v42a6 6 0 01-6 6zm128-96H182a6 6 0 01-6-6V54a6 6 0 016-6h106v88c0 13.255 10.745 24 24 24h88v202a6 6 0 01-6 6zm6-256h-64V48h9.632c1.591.0 3.117.632 4.243 1.757l48.368 48.368a6 6 0 011.757 4.243V112z"/></svg></span>
+<span class="check-icon tw-hidden"><svg class="icon" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206.0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204.0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204.0l36.203 36.204c9.997 9.997 9.997 26.206.0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"/></svg></span>
+</button>
+<button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-hidden
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-40 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=k>template</span><span class=o>&lt;</span><span class=k>typename</span> <span class=n>T</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=n>T</span><span class=o>&amp;&amp;</span> <span class=n>forward</span><span class=p>(</span><span class=k>typename</span> <span class=n>std</span><span class=o>::</span><span class=n>remove_reference</span><span class=o>&lt;</span><span class=n>T</span><span class=o>&gt;::</span><span class=n>type</span><span class=o>&amp;</span> <span class=n>arg</span><span class=p>)</span> <span class=k>noexcept</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=k>static_cast</span><span class=o>&lt;</span><span class=n>T</span><span class=o>&amp;&amp;&gt;</span><span class=p>(</span><span class=n>arg</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><ul><li>模板参数 T：代表传递给 std::forward 的实际类型。由于是通用引用（T&&），根据上下文，T 可以推导为左值引用（如 int&）或非引用类型（如 int）。</li><li>函数参数 arg：接受一个移除了引用修饰的基础类型的左值引用。这样做的目的是为了确保即使是左值引用也能正确地参与后续的类型转换。</li><li>返回类型 T&&：通过将 arg 强制转换为 T&&，利用引用折叠规则来保留原参数的左右值特性。如果 T 是左值引用，则最终返回类型是左值引用；如果是非引用类型，则返回右值引用。</li></ul><p>在C++中，<code>std::move</code> 是一个非常有用的工具，它用于启用移动语义（Move Semantics），从而允许资源从一个对象高效地转移到另一个对象，而不是进行深拷贝。理解 <code>std::move</code> 的原理对于编写高效的C++代码至关重要。</p><h4 id=stdmove-原理分析 class=headerLink><a href=#stdmove-%e5%8e%9f%e7%90%86%e5%88%86%e6%9e%90 class=header-mark></a>3.6.2 <code>std::move</code> 原理分析</h4><h5 id=1-移动语义基础 class=headerLink><a href=#1-%e7%a7%bb%e5%8a%a8%e8%af%ad%e4%b9%89%e5%9f%ba%e7%a1%80 class=header-mark></a>3.6.2.1 1. 移动语义基础</h5><ul><li><p><strong>右值引用</strong>：C++11引入了右值引用（用<code>&&</code>表示），这使得我们可以区分左值和右值，并针对它们定义不同的行为。右值引用主要用来绑定到临时对象上。</p></li><li><p><strong>移动构造函数/赋值操作符</strong>：为了利用移动语义，类需要定义移动构造函数和移动赋值操作符。这些特殊成员函数允许将资源的所有权从一个对象转移到另一个对象，而不是复制这些资源。</p></li></ul><h5 id=2-stdmove-实现原理 class=headerLink><a href=#2-stdmove-%e5%ae%9e%e7%8e%b0%e5%8e%9f%e7%90%86 class=header-mark></a>3.6.2.2 2. <code>std::move</code> 实现原理</h5><p><code>std::move</code> 并不真正“移动”任何东西；它实际上只是将它的参数转换为右值引用。这样做的目的是标记该对象可以被“窃取”其资源。下面是 <code>std::move</code> 的简化实现：</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">cpp</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.show-line-numbers]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle line numbers"><svg class="icon" viewBox="0 0 512 512"><path d="M61.77 401l17.5-20.15a19.92 19.92.0 005.07-14.19v-3.31C84.34 356 80.5 352 73 352H16a8 8 0 00-8 8v16a8 8 0 008 8h22.83a157.41 157.41.0 00-11 12.31l-5.61 7c-4 5.07-5.25 10.13-2.8 14.88l1.05 1.93c3 5.76 6.29 7.88 12.25 7.88h4.73c10.33.0 15.94 2.44 15.94 9.09.0 4.72-4.2 8.22-14.36 8.22a41.54 41.54.0 01-15.47-3.12c-6.49-3.88-11.74-3.5-15.6 3.12l-5.59 9.31c-3.72 6.13-3.19 11.72 2.63 15.94 7.71 4.69 20.38 9.44 37 9.44 34.16.0 48.5-22.75 48.5-44.12-.03-14.38-9.12-29.76-28.73-34.88zM496 224H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zm0-160H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16V80a16 16 0 00-16-16zm0 320H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zM16 160h64a8 8 0 008-8v-16a8 8 0 00-8-8H64V40a8 8 0 00-8-8H32a8 8 0 00-7.14 4.42l-8 16A8 8 0 0024 64h8v64H16a8 8 0 00-8 8v16a8 8 0 008 8zm-3.91 160H80a8 8 0 008-8v-16a8 8 0 00-8-8H41.32c3.29-10.29 48.34-18.68 48.34-56.44.0-29.06-25-39.56-44.47-39.56-21.36.0-33.8 10-40.46 18.75-4.37 5.59-3 10.84 2.8 15.37l8.58 6.88c5.61 4.56 11 2.47 16.12-2.44a13.44 13.44.0 019.46-3.84c3.33.0 9.28 1.56 9.28 8.75C51 248.19.0 257.31.0 304.59v4C0 316 5.08 320 12.09 320z"/></svg></button>
+<button class="wrap-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.is-wrap]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle code wrap"><svg class="icon" viewBox="0 0 448 512"><path d="M16 132h416c8.837.0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163.0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg></button>
+<button class="copy-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+hover:tw-text-fgColor-link
+print:!tw-hidden" title="Copy code">
+<span class="copy-icon tw-block"><svg class="icon" viewBox="0 0 448 512"><path d="M433.941 65.941l-51.882-51.882A48 48 0 00348.118.0H176c-26.51.0-48 21.49-48 48v48H48c-26.51.0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h224c26.51.0 48-21.49 48-48v-48h80c26.51.0 48-21.49 48-48V99.882a48 48 0 00-14.059-33.941zM266 464H54a6 6 0 01-6-6V150a6 6 0 016-6h74v224c0 26.51 21.49 48 48 48h96v42a6 6 0 01-6 6zm128-96H182a6 6 0 01-6-6V54a6 6 0 016-6h106v88c0 13.255 10.745 24 24 24h88v202a6 6 0 01-6 6zm6-256h-64V48h9.632c1.591.0 3.117.632 4.243 1.757l48.368 48.368a6 6 0 011.757 4.243V112z"/></svg></span>
+<span class="check-icon tw-hidden"><svg class="icon" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206.0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204.0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204.0l36.203 36.204c9.997 9.997 9.997 26.206.0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"/></svg></span>
+</button>
+<button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-hidden
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-41 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=k>template</span><span class=o>&lt;</span><span class=k>typename</span> <span class=n>T</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=k>constexpr</span> <span class=k>typename</span> <span class=n>std</span><span class=o>::</span><span class=n>remove_reference</span><span class=o>&lt;</span><span class=n>T</span><span class=o>&gt;::</span><span class=n>type</span><span class=o>&amp;&amp;</span> <span class=n>move</span><span class=p>(</span><span class=n>T</span><span class=o>&amp;&amp;</span> <span class=n>t</span><span class=p>)</span> <span class=k>noexcept</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=k>static_cast</span><span class=o>&lt;</span><span class=k>typename</span> <span class=n>std</span><span class=o>::</span><span class=n>remove_reference</span><span class=o>&lt;</span><span class=n>T</span><span class=o>&gt;::</span><span class=n>type</span><span class=o>&amp;&amp;&gt;</span><span class=p>(</span><span class=n>t</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><ul><li><p><strong>模板参数 <code>T</code></strong>：代表传入 <code>std::move</code> 的类型。由于使用了通用引用(<code>T&&</code>)，<code>T</code> 可以推导为左值引用或非引用类型。</p></li><li><p><strong>返回类型</strong>：通过移除引用后将 <code>t</code> 转换为右值引用，无论 <code>T</code> 是否是引用类型。这个转换让接收者知道它可以“窃取” <code>t</code> 的资源，因为它现在被视为一个右值。</p></li></ul><h5 id=3-示例分析 class=headerLink><a href=#3-%e7%a4%ba%e4%be%8b%e5%88%86%e6%9e%90 class=header-mark></a>3.6.2.3 3. 示例分析</h5><p>下面是一个简单的例子来展示 <code>std::move</code> 如何工作：</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">cpp</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.show-line-numbers]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle line numbers"><svg class="icon" viewBox="0 0 512 512"><path d="M61.77 401l17.5-20.15a19.92 19.92.0 005.07-14.19v-3.31C84.34 356 80.5 352 73 352H16a8 8 0 00-8 8v16a8 8 0 008 8h22.83a157.41 157.41.0 00-11 12.31l-5.61 7c-4 5.07-5.25 10.13-2.8 14.88l1.05 1.93c3 5.76 6.29 7.88 12.25 7.88h4.73c10.33.0 15.94 2.44 15.94 9.09.0 4.72-4.2 8.22-14.36 8.22a41.54 41.54.0 01-15.47-3.12c-6.49-3.88-11.74-3.5-15.6 3.12l-5.59 9.31c-3.72 6.13-3.19 11.72 2.63 15.94 7.71 4.69 20.38 9.44 37 9.44 34.16.0 48.5-22.75 48.5-44.12-.03-14.38-9.12-29.76-28.73-34.88zM496 224H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zm0-160H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16V80a16 16 0 00-16-16zm0 320H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zM16 160h64a8 8 0 008-8v-16a8 8 0 00-8-8H64V40a8 8 0 00-8-8H32a8 8 0 00-7.14 4.42l-8 16A8 8 0 0024 64h8v64H16a8 8 0 00-8 8v16a8 8 0 008 8zm-3.91 160H80a8 8 0 008-8v-16a8 8 0 00-8-8H41.32c3.29-10.29 48.34-18.68 48.34-56.44.0-29.06-25-39.56-44.47-39.56-21.36.0-33.8 10-40.46 18.75-4.37 5.59-3 10.84 2.8 15.37l8.58 6.88c5.61 4.56 11 2.47 16.12-2.44a13.44 13.44.0 019.46-3.84c3.33.0 9.28 1.56 9.28 8.75C51 248.19.0 257.31.0 304.59v4C0 316 5.08 320 12.09 320z"/></svg></button>
+<button class="wrap-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.is-wrap]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle code wrap"><svg class="icon" viewBox="0 0 448 512"><path d="M16 132h416c8.837.0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163.0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg></button>
+<button class="copy-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+hover:tw-text-fgColor-link
+print:!tw-hidden" title="Copy code">
+<span class="copy-icon tw-block"><svg class="icon" viewBox="0 0 448 512"><path d="M433.941 65.941l-51.882-51.882A48 48 0 00348.118.0H176c-26.51.0-48 21.49-48 48v48H48c-26.51.0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h224c26.51.0 48-21.49 48-48v-48h80c26.51.0 48-21.49 48-48V99.882a48 48 0 00-14.059-33.941zM266 464H54a6 6 0 01-6-6V150a6 6 0 016-6h74v224c0 26.51 21.49 48 48 48h96v42a6 6 0 01-6 6zm128-96H182a6 6 0 01-6-6V54a6 6 0 016-6h106v88c0 13.255 10.745 24 24 24h88v202a6 6 0 01-6 6zm6-256h-64V48h9.632c1.591.0 3.117.632 4.243 1.757l48.368 48.368a6 6 0 011.757 4.243V112z"/></svg></span>
+<span class="check-icon tw-hidden"><svg class="icon" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206.0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204.0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204.0l36.203 36.204c9.997 9.997 9.997 26.206.0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"/></svg></span>
+</button>
+<button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-hidden
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-42 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;utility&gt;</span><span class=cp> </span><span class=c1>// 包含 std::move 所在的头文件
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>MyClass</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>MyClass</span><span class=p>()</span> <span class=p>{</span> <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Default constructor</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=n>MyClass</span><span class=p>(</span><span class=k>const</span> <span class=n>MyClass</span><span class=o>&amp;</span><span class=p>)</span> <span class=p>{</span> <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Copy constructor</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=n>MyClass</span><span class=p>(</span><span class=n>MyClass</span><span class=o>&amp;&amp;</span><span class=p>)</span> <span class=p>{</span> <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Move constructor</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>MyClass</span> <span class=nf>createObject</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>MyClass</span> <span class=n>obj</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>obj</span><span class=p>;</span> <span class=c1>// 如果开启RVO/NRVO, 这里可能不会调用任何构造函数
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>MyClass</span> <span class=n>myObj</span> <span class=o>=</span> <span class=n>std</span><span class=o>::</span><span class=n>move</span><span class=p>(</span><span class=n>createObject</span><span class=p>());</span> <span class=c1>// 使用 std::move 强制调用移动构造函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>在这个例子中，<code>createObject</code> 函数创建了一个局部对象 <code>obj</code>。当我们使用 <code>std::move</code> 将 <code>obj</code> 转换为右值引用时，我们实际上是告诉编译器这个对象可以被移动而不是被复制。因此，在 <code>main</code> 中，当我们将 <code>createObject()</code> 的结果传递给 <code>myObj</code> 时，移动构造函数被调用（假设没有优化如RVO/NRVO发生）。</p><h5 id=4-总结 class=headerLink><a href=#4-%e6%80%bb%e7%bb%93 class=header-mark></a>3.6.2.4 4. 总结</h5><ul><li><p><code>std::move</code> 的核心功能是将一个对象转换为右值引用，以此来表明这个对象可以被移动而非复制。</p></li><li><p>它的实际效果依赖于是否存在相应的移动构造函数或移动赋值操作符。如果类未定义这些函数，编译器会退回到使用复制构造函数或复制赋值操作符。</p></li><li><p>使用 <code>std::move</code> 可以避免不必要的数据拷贝，特别是在处理大型数据结构时，能够显著提升程序性能。</p></li></ul><p>通过理解和正确使用 <code>std::move</code>，你可以编写更加高效、灵活的C++代码，同时充分利用现代C++提供的资源管理特性。</p><p>在C++中，移动语义（Move Semantics）是通过移动构造函数和移动赋值操作符实现的。这些特殊成员函数允许资源从一个对象高效地转移到另一个对象，而不是进行深拷贝，从而提高程序性能，尤其是在处理大型数据结构时。</p><h3 id=移动构造函数 class=headerLink><a href=#%e7%a7%bb%e5%8a%a8%e6%9e%84%e9%80%a0%e5%87%bd%e6%95%b0 class=header-mark></a>3.7 移动构造函数</h3><p>移动构造函数通常用于接收一个右值引用参数，并“窃取”原对象的资源，如动态分配的内存、文件描述符等，而不复制这些资源。这使得原对象进入一种有效的但未指定的状态。</p><p><strong>语法：</strong></p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">cpp</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.show-line-numbers]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle line numbers"><svg class="icon" viewBox="0 0 512 512"><path d="M61.77 401l17.5-20.15a19.92 19.92.0 005.07-14.19v-3.31C84.34 356 80.5 352 73 352H16a8 8 0 00-8 8v16a8 8 0 008 8h22.83a157.41 157.41.0 00-11 12.31l-5.61 7c-4 5.07-5.25 10.13-2.8 14.88l1.05 1.93c3 5.76 6.29 7.88 12.25 7.88h4.73c10.33.0 15.94 2.44 15.94 9.09.0 4.72-4.2 8.22-14.36 8.22a41.54 41.54.0 01-15.47-3.12c-6.49-3.88-11.74-3.5-15.6 3.12l-5.59 9.31c-3.72 6.13-3.19 11.72 2.63 15.94 7.71 4.69 20.38 9.44 37 9.44 34.16.0 48.5-22.75 48.5-44.12-.03-14.38-9.12-29.76-28.73-34.88zM496 224H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zm0-160H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16V80a16 16 0 00-16-16zm0 320H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zM16 160h64a8 8 0 008-8v-16a8 8 0 00-8-8H64V40a8 8 0 00-8-8H32a8 8 0 00-7.14 4.42l-8 16A8 8 0 0024 64h8v64H16a8 8 0 00-8 8v16a8 8 0 008 8zm-3.91 160H80a8 8 0 008-8v-16a8 8 0 00-8-8H41.32c3.29-10.29 48.34-18.68 48.34-56.44.0-29.06-25-39.56-44.47-39.56-21.36.0-33.8 10-40.46 18.75-4.37 5.59-3 10.84 2.8 15.37l8.58 6.88c5.61 4.56 11 2.47 16.12-2.44a13.44 13.44.0 019.46-3.84c3.33.0 9.28 1.56 9.28 8.75C51 248.19.0 257.31.0 304.59v4C0 316 5.08 320 12.09 320z"/></svg></button>
+<button class="wrap-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.is-wrap]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle code wrap"><svg class="icon" viewBox="0 0 448 512"><path d="M16 132h416c8.837.0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163.0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg></button>
+<button class="copy-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+hover:tw-text-fgColor-link
+print:!tw-hidden" title="Copy code">
+<span class="copy-icon tw-block"><svg class="icon" viewBox="0 0 448 512"><path d="M433.941 65.941l-51.882-51.882A48 48 0 00348.118.0H176c-26.51.0-48 21.49-48 48v48H48c-26.51.0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h224c26.51.0 48-21.49 48-48v-48h80c26.51.0 48-21.49 48-48V99.882a48 48 0 00-14.059-33.941zM266 464H54a6 6 0 01-6-6V150a6 6 0 016-6h74v224c0 26.51 21.49 48 48 48h96v42a6 6 0 01-6 6zm128-96H182a6 6 0 01-6-6V54a6 6 0 016-6h106v88c0 13.255 10.745 24 24 24h88v202a6 6 0 01-6 6zm6-256h-64V48h9.632c1.591.0 3.117.632 4.243 1.757l48.368 48.368a6 6 0 011.757 4.243V112z"/></svg></span>
+<span class="check-icon tw-hidden"><svg class="icon" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206.0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204.0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204.0l36.203 36.204c9.997 9.997 9.997 26.206.0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"/></svg></span>
+</button>
+<button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-hidden
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-43 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=k>class</span> <span class=nc>MyClass</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 移动构造函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>MyClass</span><span class=p>(</span><span class=n>MyClass</span><span class=o>&amp;&amp;</span> <span class=n>other</span><span class=p>)</span> <span class=k>noexcept</span> <span class=o>:</span> <span class=cm>/* 初始化列表 */</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 窃取other的资源
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=k>this</span><span class=o>-&gt;</span><span class=n>resource</span> <span class=o>=</span> <span class=n>other</span><span class=p>.</span><span class=n>resource</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>other</span><span class=p>.</span><span class=n>resource</span> <span class=o>=</span> <span class=k>nullptr</span><span class=p>;</span> <span class=c1>// 将原对象置为安全状态
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=k>private</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>SomeResource</span><span class=o>*</span> <span class=n>resource</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span></span></span></code></pre></div><h3 id=移动赋值操作符 class=headerLink><a href=#%e7%a7%bb%e5%8a%a8%e8%b5%8b%e5%80%bc%e6%93%8d%e4%bd%9c%e7%ac%a6 class=header-mark></a>3.8 移动赋值操作符</h3><p>移动赋值操作符的工作原理与移动构造函数类似，但它是一个赋值操作，因此需要首先释放当前对象拥有的任何资源，然后从右侧操作数“窃取”资源。</p><p><strong>语法：</strong></p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">cpp</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.show-line-numbers]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle line numbers"><svg class="icon" viewBox="0 0 512 512"><path d="M61.77 401l17.5-20.15a19.92 19.92.0 005.07-14.19v-3.31C84.34 356 80.5 352 73 352H16a8 8 0 00-8 8v16a8 8 0 008 8h22.83a157.41 157.41.0 00-11 12.31l-5.61 7c-4 5.07-5.25 10.13-2.8 14.88l1.05 1.93c3 5.76 6.29 7.88 12.25 7.88h4.73c10.33.0 15.94 2.44 15.94 9.09.0 4.72-4.2 8.22-14.36 8.22a41.54 41.54.0 01-15.47-3.12c-6.49-3.88-11.74-3.5-15.6 3.12l-5.59 9.31c-3.72 6.13-3.19 11.72 2.63 15.94 7.71 4.69 20.38 9.44 37 9.44 34.16.0 48.5-22.75 48.5-44.12-.03-14.38-9.12-29.76-28.73-34.88zM496 224H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zm0-160H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16V80a16 16 0 00-16-16zm0 320H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zM16 160h64a8 8 0 008-8v-16a8 8 0 00-8-8H64V40a8 8 0 00-8-8H32a8 8 0 00-7.14 4.42l-8 16A8 8 0 0024 64h8v64H16a8 8 0 00-8 8v16a8 8 0 008 8zm-3.91 160H80a8 8 0 008-8v-16a8 8 0 00-8-8H41.32c3.29-10.29 48.34-18.68 48.34-56.44.0-29.06-25-39.56-44.47-39.56-21.36.0-33.8 10-40.46 18.75-4.37 5.59-3 10.84 2.8 15.37l8.58 6.88c5.61 4.56 11 2.47 16.12-2.44a13.44 13.44.0 019.46-3.84c3.33.0 9.28 1.56 9.28 8.75C51 248.19.0 257.31.0 304.59v4C0 316 5.08 320 12.09 320z"/></svg></button>
+<button class="wrap-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.is-wrap]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle code wrap"><svg class="icon" viewBox="0 0 448 512"><path d="M16 132h416c8.837.0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163.0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg></button>
+<button class="copy-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+hover:tw-text-fgColor-link
+print:!tw-hidden" title="Copy code">
+<span class="copy-icon tw-block"><svg class="icon" viewBox="0 0 448 512"><path d="M433.941 65.941l-51.882-51.882A48 48 0 00348.118.0H176c-26.51.0-48 21.49-48 48v48H48c-26.51.0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h224c26.51.0 48-21.49 48-48v-48h80c26.51.0 48-21.49 48-48V99.882a48 48 0 00-14.059-33.941zM266 464H54a6 6 0 01-6-6V150a6 6 0 016-6h74v224c0 26.51 21.49 48 48 48h96v42a6 6 0 01-6 6zm128-96H182a6 6 0 01-6-6V54a6 6 0 016-6h106v88c0 13.255 10.745 24 24 24h88v202a6 6 0 01-6 6zm6-256h-64V48h9.632c1.591.0 3.117.632 4.243 1.757l48.368 48.368a6 6 0 011.757 4.243V112z"/></svg></span>
+<span class="check-icon tw-hidden"><svg class="icon" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206.0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204.0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204.0l36.203 36.204c9.997 9.997 9.997 26.206.0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"/></svg></span>
+</button>
+<button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-hidden
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-44 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=k>class</span> <span class=nc>MyClass</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 移动赋值操作符
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>MyClass</span><span class=o>&amp;</span> <span class=k>operator</span><span class=o>=</span><span class=p>(</span><span class=n>MyClass</span><span class=o>&amp;&amp;</span> <span class=n>other</span><span class=p>)</span> <span class=k>noexcept</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=k>this</span> <span class=o>!=</span> <span class=o>&amp;</span><span class=n>other</span><span class=p>)</span> <span class=p>{</span> <span class=c1>// 防止自我赋值
+</span></span></span><span class=line><span class=cl><span class=c1></span>            <span class=c1>// 释放已有资源
+</span></span></span><span class=line><span class=cl><span class=c1></span>            <span class=k>delete</span> <span class=k>this</span><span class=o>-&gt;</span><span class=n>resource</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            
+</span></span><span class=line><span class=cl>            <span class=c1>// 窃取other的资源
+</span></span></span><span class=line><span class=cl><span class=c1></span>            <span class=k>this</span><span class=o>-&gt;</span><span class=n>resource</span> <span class=o>=</span> <span class=n>other</span><span class=p>.</span><span class=n>resource</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=n>other</span><span class=p>.</span><span class=n>resource</span> <span class=o>=</span> <span class=k>nullptr</span><span class=p>;</span> <span class=c1>// 将原对象置为安全状态
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=o>*</span><span class=k>this</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=k>private</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>SomeResource</span><span class=o>*</span> <span class=n>resource</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span></span></span></code></pre></div><h3 id=完整例子 class=headerLink><a href=#%e5%ae%8c%e6%95%b4%e4%be%8b%e5%ad%90 class=header-mark></a>3.9 完整例子</h3><p>以下是一个完整的示例，展示了如何定义并使用移动构造函数和移动赋值操作符：</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">cpp</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.show-line-numbers]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle line numbers"><svg class="icon" viewBox="0 0 512 512"><path d="M61.77 401l17.5-20.15a19.92 19.92.0 005.07-14.19v-3.31C84.34 356 80.5 352 73 352H16a8 8 0 00-8 8v16a8 8 0 008 8h22.83a157.41 157.41.0 00-11 12.31l-5.61 7c-4 5.07-5.25 10.13-2.8 14.88l1.05 1.93c3 5.76 6.29 7.88 12.25 7.88h4.73c10.33.0 15.94 2.44 15.94 9.09.0 4.72-4.2 8.22-14.36 8.22a41.54 41.54.0 01-15.47-3.12c-6.49-3.88-11.74-3.5-15.6 3.12l-5.59 9.31c-3.72 6.13-3.19 11.72 2.63 15.94 7.71 4.69 20.38 9.44 37 9.44 34.16.0 48.5-22.75 48.5-44.12-.03-14.38-9.12-29.76-28.73-34.88zM496 224H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zm0-160H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16V80a16 16 0 00-16-16zm0 320H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zM16 160h64a8 8 0 008-8v-16a8 8 0 00-8-8H64V40a8 8 0 00-8-8H32a8 8 0 00-7.14 4.42l-8 16A8 8 0 0024 64h8v64H16a8 8 0 00-8 8v16a8 8 0 008 8zm-3.91 160H80a8 8 0 008-8v-16a8 8 0 00-8-8H41.32c3.29-10.29 48.34-18.68 48.34-56.44.0-29.06-25-39.56-44.47-39.56-21.36.0-33.8 10-40.46 18.75-4.37 5.59-3 10.84 2.8 15.37l8.58 6.88c5.61 4.56 11 2.47 16.12-2.44a13.44 13.44.0 019.46-3.84c3.33.0 9.28 1.56 9.28 8.75C51 248.19.0 257.31.0 304.59v4C0 316 5.08 320 12.09 320z"/></svg></button>
+<button class="wrap-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.is-wrap]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle code wrap"><svg class="icon" viewBox="0 0 448 512"><path d="M16 132h416c8.837.0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163.0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg></button>
+<button class="copy-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+hover:tw-text-fgColor-link
+print:!tw-hidden" title="Copy code">
+<span class="copy-icon tw-block"><svg class="icon" viewBox="0 0 448 512"><path d="M433.941 65.941l-51.882-51.882A48 48 0 00348.118.0H176c-26.51.0-48 21.49-48 48v48H48c-26.51.0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h224c26.51.0 48-21.49 48-48v-48h80c26.51.0 48-21.49 48-48V99.882a48 48 0 00-14.059-33.941zM266 464H54a6 6 0 01-6-6V150a6 6 0 016-6h74v224c0 26.51 21.49 48 48 48h96v42a6 6 0 01-6 6zm128-96H182a6 6 0 01-6-6V54a6 6 0 016-6h106v88c0 13.255 10.745 24 24 24h88v202a6 6 0 01-6 6zm6-256h-64V48h9.632c1.591.0 3.117.632 4.243 1.757l48.368 48.368a6 6 0 011.757 4.243V112z"/></svg></span>
+<span class="check-icon tw-hidden"><svg class="icon" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206.0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204.0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204.0l36.203 36.204c9.997 9.997 9.997 26.206.0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"/></svg></span>
+</button>
+<button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-hidden
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-45 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;utility&gt;</span><span class=cp> </span><span class=c1>// 包含 std::move
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=cp>#include</span> <span class=cpf>&lt;cstring&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>MyString</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 构造函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>MyString</span><span class=p>(</span><span class=k>const</span> <span class=kt>char</span><span class=o>*</span> <span class=n>str</span> <span class=o>=</span> <span class=s>&#34;&#34;</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl>        <span class=o>:</span> <span class=n>len</span><span class=p>(</span><span class=n>std</span><span class=o>::</span><span class=n>strlen</span><span class=p>(</span><span class=n>str</span><span class=p>)),</span> <span class=n>data</span><span class=p>(</span><span class=k>new</span> <span class=kt>char</span><span class=p>[</span><span class=n>len</span> <span class=o>+</span> <span class=mi>1</span><span class=p>])</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>strcpy</span><span class=p>(</span><span class=n>data</span><span class=p>,</span> <span class=n>str</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Constructor: &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>data</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 拷贝构造函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>MyString</span><span class=p>(</span><span class=k>const</span> <span class=n>MyString</span><span class=o>&amp;</span> <span class=n>other</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=o>:</span> <span class=n>len</span><span class=p>(</span><span class=n>other</span><span class=p>.</span><span class=n>len</span><span class=p>),</span> <span class=n>data</span><span class=p>(</span><span class=k>new</span> <span class=kt>char</span><span class=p>[</span><span class=n>other</span><span class=p>.</span><span class=n>len</span> <span class=o>+</span> <span class=mi>1</span><span class=p>])</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>strcpy</span><span class=p>(</span><span class=n>data</span><span class=p>,</span> <span class=n>other</span><span class=p>.</span><span class=n>data</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Copy Constructor: &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>data</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 移动构造函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>MyString</span><span class=p>(</span><span class=n>MyString</span><span class=o>&amp;&amp;</span> <span class=n>other</span><span class=p>)</span> <span class=k>noexcept</span>
+</span></span><span class=line><span class=cl>        <span class=o>:</span> <span class=n>len</span><span class=p>(</span><span class=mi>0</span><span class=p>),</span> <span class=n>data</span><span class=p>(</span><span class=k>nullptr</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=o>*</span><span class=k>this</span> <span class=o>=</span> <span class=n>std</span><span class=o>::</span><span class=n>move</span><span class=p>(</span><span class=n>other</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Move Constructor: &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>data</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 拷贝赋值操作符
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>MyString</span><span class=o>&amp;</span> <span class=k>operator</span><span class=o>=</span><span class=p>(</span><span class=k>const</span> <span class=n>MyString</span><span class=o>&amp;</span> <span class=n>other</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=k>this</span> <span class=o>!=</span> <span class=o>&amp;</span><span class=n>other</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>delete</span><span class=p>[]</span> <span class=n>data</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=n>len</span> <span class=o>=</span> <span class=n>other</span><span class=p>.</span><span class=n>len</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=n>data</span> <span class=o>=</span> <span class=k>new</span> <span class=kt>char</span><span class=p>[</span><span class=n>len</span> <span class=o>+</span> <span class=mi>1</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>            <span class=n>std</span><span class=o>::</span><span class=n>strcpy</span><span class=p>(</span><span class=n>data</span><span class=p>,</span> <span class=n>other</span><span class=p>.</span><span class=n>data</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Copy Assignment: &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>data</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=o>*</span><span class=k>this</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 移动赋值操作符
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>MyString</span><span class=o>&amp;</span> <span class=k>operator</span><span class=o>=</span><span class=p>(</span><span class=n>MyString</span><span class=o>&amp;&amp;</span> <span class=n>other</span><span class=p>)</span> <span class=k>noexcept</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=k>this</span> <span class=o>!=</span> <span class=o>&amp;</span><span class=n>other</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>delete</span><span class=p>[]</span> <span class=n>data</span><span class=p>;</span> <span class=c1>// 释放已有的资源
+</span></span></span><span class=line><span class=cl><span class=c1></span>            <span class=n>len</span> <span class=o>=</span> <span class=n>other</span><span class=p>.</span><span class=n>len</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=n>data</span> <span class=o>=</span> <span class=n>other</span><span class=p>.</span><span class=n>data</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=n>other</span><span class=p>.</span><span class=n>data</span> <span class=o>=</span> <span class=k>nullptr</span><span class=p>;</span> <span class=c1>// 将other置为安全状态
+</span></span></span><span class=line><span class=cl><span class=c1></span>            <span class=n>other</span><span class=p>.</span><span class=n>len</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Move Assignment: &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>data</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=o>*</span><span class=k>this</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=o>~</span><span class=n>MyString</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>delete</span><span class=p>[]</span> <span class=n>data</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Destructor</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>private</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>size_t</span> <span class=n>len</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>char</span><span class=o>*</span> <span class=n>data</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>MyString</span> <span class=n>str1</span><span class=p>(</span><span class=s>&#34;Hello&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>MyString</span> <span class=n>str2</span> <span class=o>=</span> <span class=n>std</span><span class=o>::</span><span class=n>move</span><span class=p>(</span><span class=n>str1</span><span class=p>);</span> <span class=c1>// 调用移动构造函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>    
+</span></span><span class=line><span class=cl>    <span class=n>MyString</span> <span class=n>str3</span><span class=p>(</span><span class=s>&#34;World&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>str3</span> <span class=o>=</span> <span class=n>std</span><span class=o>::</span><span class=n>move</span><span class=p>(</span><span class=n>str2</span><span class=p>);</span> <span class=c1>// 调用移动赋值操作符
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">shell</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.show-line-numbers]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle line numbers"><svg class="icon" viewBox="0 0 512 512"><path d="M61.77 401l17.5-20.15a19.92 19.92.0 005.07-14.19v-3.31C84.34 356 80.5 352 73 352H16a8 8 0 00-8 8v16a8 8 0 008 8h22.83a157.41 157.41.0 00-11 12.31l-5.61 7c-4 5.07-5.25 10.13-2.8 14.88l1.05 1.93c3 5.76 6.29 7.88 12.25 7.88h4.73c10.33.0 15.94 2.44 15.94 9.09.0 4.72-4.2 8.22-14.36 8.22a41.54 41.54.0 01-15.47-3.12c-6.49-3.88-11.74-3.5-15.6 3.12l-5.59 9.31c-3.72 6.13-3.19 11.72 2.63 15.94 7.71 4.69 20.38 9.44 37 9.44 34.16.0 48.5-22.75 48.5-44.12-.03-14.38-9.12-29.76-28.73-34.88zM496 224H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zm0-160H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16V80a16 16 0 00-16-16zm0 320H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zM16 160h64a8 8 0 008-8v-16a8 8 0 00-8-8H64V40a8 8 0 00-8-8H32a8 8 0 00-7.14 4.42l-8 16A8 8 0 0024 64h8v64H16a8 8 0 00-8 8v16a8 8 0 008 8zm-3.91 160H80a8 8 0 008-8v-16a8 8 0 00-8-8H41.32c3.29-10.29 48.34-18.68 48.34-56.44.0-29.06-25-39.56-44.47-39.56-21.36.0-33.8 10-40.46 18.75-4.37 5.59-3 10.84 2.8 15.37l8.58 6.88c5.61 4.56 11 2.47 16.12-2.44a13.44 13.44.0 019.46-3.84c3.33.0 9.28 1.56 9.28 8.75C51 248.19.0 257.31.0 304.59v4C0 316 5.08 320 12.09 320z"/></svg></button>
+<button class="wrap-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.is-wrap]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle code wrap"><svg class="icon" viewBox="0 0 448 512"><path d="M16 132h416c8.837.0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163.0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg></button>
+<button class="copy-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+hover:tw-text-fgColor-link
+print:!tw-hidden" title="Copy code">
+<span class="copy-icon tw-block"><svg class="icon" viewBox="0 0 448 512"><path d="M433.941 65.941l-51.882-51.882A48 48 0 00348.118.0H176c-26.51.0-48 21.49-48 48v48H48c-26.51.0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h224c26.51.0 48-21.49 48-48v-48h80c26.51.0 48-21.49 48-48V99.882a48 48 0 00-14.059-33.941zM266 464H54a6 6 0 01-6-6V150a6 6 0 016-6h74v224c0 26.51 21.49 48 48 48h96v42a6 6 0 01-6 6zm128-96H182a6 6 0 01-6-6V54a6 6 0 016-6h106v88c0 13.255 10.745 24 24 24h88v202a6 6 0 01-6 6zm6-256h-64V48h9.632c1.591.0 3.117.632 4.243 1.757l48.368 48.368a6 6 0 011.757 4.243V112z"/></svg></span>
+<span class="check-icon tw-hidden"><svg class="icon" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206.0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204.0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204.0l36.203 36.204c9.997 9.997 9.997 26.206.0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"/></svg></span>
+</button>
+<button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-hidden
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-46 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl>$ Constructor: Hello
+</span></span><span class=line><span class=cl>$ Move Assignment: Hello
+</span></span><span class=line><span class=cl>$ Move Constructor: Hello
+</span></span><span class=line><span class=cl>$ Constructor: World
+</span></span><span class=line><span class=cl>$ Move Assignment: Hello
+</span></span><span class=line><span class=cl>$ Destructor
+</span></span><span class=line><span class=cl>$ Destructor
+</span></span><span class=line><span class=cl>$ Destructor</span></span></code></pre></div><ul><li><p><strong><code>noexcept</code>关键字</strong>：建议将移动构造函数和移动赋值操作符声明为<code>noexcept</code>，因为某些标准库容器（如<code>std::vector</code>）在进行元素移动时依赖于这一点来优化性能。</p></li><li><p><strong>防止自我赋值</strong>：在赋值操作符中检查<code>this != &amp;other</code>以避免自我赋值导致的问题。</p></li><li><p><strong>清理旧资源</strong>：在移动赋值操作符中，首先要确保释放当前对象已经持有的资源，然后再“窃取”新资源的所有权。</p></li></ul><p>通过使用移动语义，可以显著减少不必要的资源复制，特别是在处理大型对象或容器时，能够带来明显的性能提升。</p><h2 id=智能指针 class=headerLink><a href=#%e6%99%ba%e8%83%bd%e6%8c%87%e9%92%88 class=header-mark></a>4 智能指针</h2><blockquote><p>智能指针是一种 C++ 的语言特性，用于管理动态分配内存的生命周期。它可以自动跟踪一个对象被多少个指针引用，并在不需要时释放对象占用的内存。
 C++ 智能指针的实现一般采用 RAII（Resource Acquisition Is Initialization）技术，即资源获取即初始化。当一个智能指针对象被创建时，它会自动申请分配所需的内存空间，并将所指对象的指针保存在自己的成员变量中。当这个智能指针对象被销毁时，它会自动释放其所占用的内存空间。</p></blockquote><h3 id=stdunique_ptr class=headerLink><a href=#stdunique_ptr class=header-mark></a>4.1 <code>std::unique_ptr</code></h3><blockquote><p>std::unique_ptr 是 C++ 11 标准中提供的一种智能指针，用于管理独占式所有权的资源。
 它采用了 RAII 技术，可以自动管理资源的生命周期。</p></blockquote><p><a href=https://en.cppreference.com/w/cpp/memory/unique_ptr target=_blank rel="noopener noreferrer">unique_ptr参考实现</a></p><p>std::unique_ptr 的最大特点是“独占性”，即同一时间内只能有一个 std::unique_ptr 指向一个资源（内存块、文件句柄等）。当 std::unique_ptr 对象被销毁时，它所管理的资源也会被自动释放，从而避免了内存泄漏和资源泄露等问题。</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
@@ -1991,7 +2936,7 @@ print:!tw-hidden" title="Copy code">
 tw-mx-2
 tw-block
 group-[.is-open]:tw-hidden
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-32 class="chroma
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-47 class="chroma
 !tw-block
 tw-p-0
 tw-m-0
@@ -2065,7 +3010,7 @@ print:!tw-hidden" title="Copy code">
 tw-mx-2
 tw-block
 group-[.is-open]:tw-hidden
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-33 class="chroma
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-48 class="chroma
 !tw-block
 tw-p-0
 tw-m-0
@@ -2131,7 +3076,7 @@ print:!tw-hidden" title="Copy code">
 tw-mx-2
 tw-block
 group-[.is-open]:tw-hidden
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-34 class="chroma
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-49 class="chroma
 !tw-block
 tw-p-0
 tw-m-0
@@ -2206,7 +3151,7 @@ print:!tw-hidden" title="Copy code">
 tw-mx-2
 tw-block
 group-[.is-open]:tw-hidden
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-35 class="chroma
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-50 class="chroma
 !tw-block
 tw-p-0
 tw-m-0
@@ -2260,7 +3205,7 @@ print:!tw-hidden" title="Copy code">
 tw-mx-2
 tw-block
 group-[.is-open]:tw-hidden
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-36 class="chroma
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-51 class="chroma
 !tw-block
 tw-p-0
 tw-m-0
@@ -2313,7 +3258,7 @@ print:!tw-hidden" title="Copy code">
 tw-mx-2
 tw-block
 group-[.is-open]:tw-hidden
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-37 class="chroma
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-52 class="chroma
 !tw-block
 tw-p-0
 tw-m-0
@@ -2364,7 +3309,7 @@ print:!tw-hidden" title="Copy code">
 tw-mx-2
 tw-block
 group-[.is-open]:tw-hidden
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-38 class="chroma
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-53 class="chroma
 !tw-block
 tw-p-0
 tw-m-0
@@ -2416,7 +3361,7 @@ print:!tw-hidden" title="Copy code">
 tw-mx-2
 tw-block
 group-[.is-open]:tw-hidden
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-39 class="chroma
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-54 class="chroma
 !tw-block
 tw-p-0
 tw-m-0
@@ -2471,7 +3416,7 @@ print:!tw-hidden" title="Copy code">
 tw-mx-2
 tw-block
 group-[.is-open]:tw-hidden
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-40 class="chroma
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-55 class="chroma
 !tw-block
 tw-p-0
 tw-m-0
@@ -2530,7 +3475,7 @@ print:!tw-hidden" title="Copy code">
 tw-mx-2
 tw-block
 group-[.is-open]:tw-hidden
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-41 class="chroma
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-56 class="chroma
 !tw-block
 tw-p-0
 tw-m-0
@@ -2581,7 +3526,7 @@ print:!tw-hidden" title="Copy code">
 tw-mx-2
 tw-block
 group-[.is-open]:tw-hidden
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-42 class="chroma
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-57 class="chroma
 !tw-block
 tw-p-0
 tw-m-0
@@ -2645,7 +3590,7 @@ print:!tw-hidden" title="Copy code">
 tw-mx-2
 tw-block
 group-[.is-open]:tw-hidden
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-43 class="chroma
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-58 class="chroma
 !tw-block
 tw-p-0
 tw-m-0
@@ -2696,7 +3641,7 @@ print:!tw-hidden" title="Copy code">
 tw-mx-2
 tw-block
 group-[.is-open]:tw-hidden
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-44 class="chroma
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-59 class="chroma
 !tw-block
 tw-p-0
 tw-m-0
@@ -2748,7 +3693,7 @@ print:!tw-hidden" title="Copy code">
 tw-mx-2
 tw-block
 group-[.is-open]:tw-hidden
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-45 class="chroma
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-60 class="chroma
 !tw-block
 tw-p-0
 tw-m-0
@@ -2799,7 +3744,7 @@ print:!tw-hidden" title="Copy code">
 tw-mx-2
 tw-block
 group-[.is-open]:tw-hidden
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-46 class="chroma
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-61 class="chroma
 !tw-block
 tw-p-0
 tw-m-0
@@ -2886,7 +3831,7 @@ print:!tw-hidden" title="Copy code">
 tw-mx-2
 tw-block
 group-[.is-open]:tw-hidden
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-47 class="chroma
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-62 class="chroma
 !tw-block
 tw-p-0
 tw-m-0
@@ -2939,7 +3884,7 @@ print:!tw-hidden" title="Copy code">
 tw-mx-2
 tw-block
 group-[.is-open]:tw-hidden
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-48 class="chroma
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-63 class="chroma
 !tw-block
 tw-p-0
 tw-m-0
@@ -3002,7 +3947,7 @@ print:!tw-hidden" title="Copy code">
 tw-mx-2
 tw-block
 group-[.is-open]:tw-hidden
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-49 class="chroma
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-64 class="chroma
 !tw-block
 tw-p-0
 tw-m-0
@@ -3062,7 +4007,7 @@ print:!tw-hidden" title="Copy code">
 tw-mx-2
 tw-block
 group-[.is-open]:tw-hidden
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-50 class="chroma
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-65 class="chroma
 !tw-block
 tw-p-0
 tw-m-0
@@ -3117,7 +4062,7 @@ print:!tw-hidden" title="Copy code">
 tw-mx-2
 tw-block
 group-[.is-open]:tw-hidden
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-51 class="chroma
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-66 class="chroma
 !tw-block
 tw-p-0
 tw-m-0
@@ -3175,7 +4120,7 @@ print:!tw-hidden" title="Copy code">
 tw-mx-2
 tw-block
 group-[.is-open]:tw-hidden
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-52 class="chroma
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-67 class="chroma
 !tw-block
 tw-p-0
 tw-m-0
@@ -3232,7 +4177,7 @@ print:!tw-hidden" title="Copy code">
 tw-mx-2
 tw-block
 group-[.is-open]:tw-hidden
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-53 class="chroma
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-68 class="chroma
 !tw-block
 tw-p-0
 tw-m-0
@@ -3284,7 +4229,7 @@ print:!tw-hidden" title="Copy code">
 tw-mx-2
 tw-block
 group-[.is-open]:tw-hidden
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-54 class="chroma
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-69 class="chroma
 !tw-block
 tw-p-0
 tw-m-0
@@ -3336,7 +4281,7 @@ print:!tw-hidden" title="Copy code">
 tw-mx-2
 tw-block
 group-[.is-open]:tw-hidden
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-55 class="chroma
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-70 class="chroma
 !tw-block
 tw-p-0
 tw-m-0
@@ -3394,7 +4339,7 @@ print:!tw-hidden" title="Copy code">
 tw-mx-2
 tw-block
 group-[.is-open]:tw-hidden
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-56 class="chroma
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-71 class="chroma
 !tw-block
 tw-p-0
 tw-m-0
@@ -3421,8 +4366,8 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#include</span
 </span></span><span class=line><span class=cl>    <span class=p>}</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div></div><h2>相关内容</h2><div class=related-container><div class=related-item-container><div class=related-image><a href=/cxx_basic/><img src=/featuredImage/13.webp alt=C++增强笔记 height=200 width=400></a></div><h2 class=related-title><a href=/cxx_basic/>C++基础笔记</a></h2></div><div class=related-item-container><div class=related-image><a href=/cxx_enhance/><img src=/featuredImage/13.webp alt=C++增强笔记 height=200 width=400></a></div><h2 class=related-title><a href=/cxx_enhance/>C++提高笔记</a></h2></div><div class=related-item-container><div class=related-image><a href=/cxx_template/><img src=/featuredImage/01.webp alt=C++增强笔记 height=200 width=400></a></div><h2 class=related-title><a href=/cxx_template/>C++模板</a></h2></div><div class=related-item-container><div class=related-image><a href=/stl/><img src=/featuredImage/11.webp alt=C++增强笔记 height=200 width=400></a></div><h2 class=related-title><a href=/stl/>STL基础笔记</a></h2></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2025-02-28&nbsp;<a class=git-hash href=https://github.com/mengdemao/megndemao.com/commit/adae0c4327a0e555f06ac53944fd1ba49b81441d target=_blank title="commit by Meng Demao(mengdemao19951021@163.com) adae0c4327a0e555f06ac53944fd1ba49b81441d: update cxx_advance notes" rel="noopener noreferrer">
-<svg class="icon" viewBox="0 0 448 512"><path d="M440.667 182.109l7.143-40c1.313-7.355-4.342-14.109-11.813-14.109h-74.81l14.623-81.891C377.123 38.754 371.468 32 363.997 32h-40.632a12 12 0 00-11.813 9.891L296.175 128H197.54l14.623-81.891C213.477 38.754 207.822 32 200.35 32h-40.632a12 12 0 00-11.813 9.891L132.528 128H53.432a12 12 0 00-11.813 9.891l-7.143 40C33.163 185.246 38.818 192 46.289 192h74.81L98.242 320H19.146a12 12 0 00-11.813 9.891l-7.143 40C-1.123 377.246 4.532 384 12.003 384h74.81L72.19 465.891C70.877 473.246 76.532 480 84.003 480h40.632a12 12 0 0011.813-9.891L151.826 384h98.634l-14.623 81.891C234.523 473.246 240.178 480 247.65 480h40.632a12 12 0 0011.813-9.891L315.472 384h79.096a12 12 0 0011.813-9.891l7.143-40c1.313-7.355-4.342-14.109-11.813-14.109h-74.81l22.857-128h79.096a12 12 0 0011.813-9.891zM261.889 320h-98.634l22.857-128h98.634l-22.857 128z"/></svg>adae0c4</a></span></div><div class=post-info-license></div></div><div class="post-info-line print:!tw-hidden"><div class=post-info-md><span><a class=link-to-mardown href=/cxx_advance/index.md target=_blank rel="noopener noreferrer">阅读原始文档</a>
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div></div><h2>相关内容</h2><div class=related-container><div class=related-item-container><div class=related-image><a href=/cxx_basic/><img src=/featuredImage/13.webp alt=C++增强笔记 height=200 width=400></a></div><h2 class=related-title><a href=/cxx_basic/>C++基础笔记</a></h2></div><div class=related-item-container><div class=related-image><a href=/cxx_enhance/><img src=/featuredImage/13.webp alt=C++增强笔记 height=200 width=400></a></div><h2 class=related-title><a href=/cxx_enhance/>C++提高笔记</a></h2></div><div class=related-item-container><div class=related-image><a href=/cxx_template/><img src=/featuredImage/01.webp alt=C++增强笔记 height=200 width=400></a></div><h2 class=related-title><a href=/cxx_template/>C++模板</a></h2></div><div class=related-item-container><div class=related-image><a href=/stl/><img src=/featuredImage/11.webp alt=C++增强笔记 height=200 width=400></a></div><h2 class=related-title><a href=/stl/>STL基础笔记</a></h2></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2025-03-23&nbsp;<a class=git-hash href=https://github.com/mengdemao/megndemao.com/commit/cbd23929939a17e72805590a143e49fd7ff5cdef target=_blank title="commit by mengdemao(mengdemao19951021@gmail.com) cbd23929939a17e72805590a143e49fd7ff5cdef: 更新移动语义" rel="noopener noreferrer">
+<svg class="icon" viewBox="0 0 448 512"><path d="M440.667 182.109l7.143-40c1.313-7.355-4.342-14.109-11.813-14.109h-74.81l14.623-81.891C377.123 38.754 371.468 32 363.997 32h-40.632a12 12 0 00-11.813 9.891L296.175 128H197.54l14.623-81.891C213.477 38.754 207.822 32 200.35 32h-40.632a12 12 0 00-11.813 9.891L132.528 128H53.432a12 12 0 00-11.813 9.891l-7.143 40C33.163 185.246 38.818 192 46.289 192h74.81L98.242 320H19.146a12 12 0 00-11.813 9.891l-7.143 40C-1.123 377.246 4.532 384 12.003 384h74.81L72.19 465.891C70.877 473.246 76.532 480 84.003 480h40.632a12 12 0 0011.813-9.891L151.826 384h98.634l-14.623 81.891C234.523 473.246 240.178 480 247.65 480h40.632a12 12 0 0011.813-9.891L315.472 384h79.096a12 12 0 0011.813-9.891l7.143-40c1.313-7.355-4.342-14.109-11.813-14.109h-74.81l22.857-128h79.096a12 12 0 0011.813-9.891zM261.889 320h-98.634l22.857-128h98.634l-22.857 128z"/></svg>cbd2392</a></span></div><div class=post-info-license></div></div><div class="post-info-line print:!tw-hidden"><div class=post-info-md><span><a class=link-to-mardown href=/cxx_advance/index.md target=_blank rel="noopener noreferrer">阅读原始文档</a>
 </span><span>|&nbsp;<a class=link-to-source href=https://github.com/mengdemao/github.io/blob/master/content/posts/cxx_advance/index.md target=_blank rel="noopener noreferrer">查看源代码</a>
 </span><span>|&nbsp;<a class=link-to-edit href=https://github.com/mengdemao/github.io/edit/master/content/posts/cxx_advance/index.md target=_blank rel="noopener noreferrer">编辑此页</a>
 </span><span>|&nbsp;<a class=link-to-report href="https://github.com/mengdemao/github.io/issues/new?title=[bug]%20C%2B%2B%E5%A2%9E%E5%BC%BA%E7%AC%94%E8%AE%B0&body=|Field|Value|%0A|-|-|%0A|Title|C%2B%2B%E5%A2%9E%E5%BC%BA%E7%AC%94%E8%AE%B0|%0A|Url|https://mengdemao.com/cxx_advance/|%0A|Filename|https://github.com/mengdemao/github.io/blob/main/exampleSite/content/posts/cxx_advance/index.md|" target=_blank rel="noopener noreferrer">报告问题</a></span></div><div class=post-info-share></div></div></div><div class=post-info-more><section class=post-tags><svg class="icon" viewBox="0 0 640 512"><path d="M497.941 225.941 286.059 14.059A48 48 0 00252.118.0H48C21.49.0.0 21.49.0 48v204.118a48 48 0 0014.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882.0l204.118-204.118c18.745-18.745 18.745-49.137.0-67.882zM112 160c-26.51.0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882.0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397.0h48.721a48 48 0 0133.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137.0 67.882z"/></svg>&nbsp;<a href=/tags/c++/>C++</a></section><section class=print:!tw-hidden><span><button class="tw-text-fgColor-link-muted hover:tw-text-fgColor-link-muted-hover" onclick=window.history.back()>返回</button></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class="post-nav print:tw-hidden"><a href=/pthread_local_storage/ class=prev rel=prev title=线程局部存储分析><svg class="icon" viewBox="0 0 256 512"><path d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9.0l22.6 22.6c9.4 9.4 9.4 24.6.0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6.0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9.0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"/></svg>线程局部存储分析</a>
