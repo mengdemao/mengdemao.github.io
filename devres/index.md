@@ -1,7 +1,9 @@
 # Devres内存管理
 
 
-**Devres（Device Resource Management）分析**
+<!--more-->
+Devres(Device Resource Management)分析
+<!--more-->
 
 ## **1. 概念与背景**
 Devres 是 Linux 内核中用于**自动化设备资源管理**的机制，旨在简化驱动开发中的资源分配与释放流程。通过 Devres，开发者无需手动跟踪和释放资源（如内存、中断、DMA 缓冲区等），而是将资源绑定到设备生命周期（`struct device`），当设备注销或驱动卸载时，内核自动释放相关资源，从而减少内存泄漏风险。
