@@ -11,7 +11,7 @@
             </div><h2 id="相关知识" class="headerLink">
     <a href="#%e7%9b%b8%e5%85%b3%e7%9f%a5%e8%af%86" class="header-mark"></a>1 相关知识</h2><p><strong>gcc</strong>中<code>typeof</code>关键字用来检查变量类型,那么则可以用来判断魔板生成中的数据类型,
 但是在C++中存在这另外的运算符<code>typeid</code>,但是我个人认为<code>typeof</code>更加优秀，但是二者并不相同,
-<code>typeid</code>返回类型对象,<code>typeof</code>只可以判断类型;</p>]]></description></item><item><title>STL基础笔记</title><link>https://mengdemao.com/stl/</link><pubDate>Wed, 06 Oct 2021 11:24:07 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/stl/</guid><description><![CDATA[<div class="featured-image">
+<code>typeid</code>返回类型对象,<code>typeof</code>只可以判断类型;</p>]]></description></item><item><title>STL基础笔记</title><link>https://mengdemao.com/stl_basic/</link><pubDate>Wed, 06 Oct 2021 11:24:07 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/stl_basic/</guid><description><![CDATA[<div class="featured-image">
                 <img src="featuredImage/11.webp" referrerpolicy="no-referrer">
             </div><blockquote>
   <p>STL称为标准模板库(Standard Template Library)
