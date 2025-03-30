@@ -5,6 +5,177 @@
 Linux内核同步实现
 <!--more-->
 
+## 抢占管理
+
++ preempt_enable
++ preempt_disable
+
+```c
+#define preempt_disable() \
+do { \
+	preempt_count_inc(); \
+	barrier(); \
+} while (0)
+```
+
+```c
+#define preempt_enable() \
+do { \
+	barrier(); \
+	if (unlikely(preempt_count_dec_and_test())) \
+		__preempt_schedule(); \
+} while (0)
+
+// 继续分析
+#define preempt_count_dec_and_test() \
+	({ preempt_count_sub(1); should_resched(0); })
+
+static __always_inline bool should_resched(int preempt_offset)
+{
+	return unlikely(raw_cpu_read_4(pcpu_hot.preempt_count) == preempt_offset);
+}
+```
+
+可以看到`preempt_count()`获取计数
+```c
+static __always_inline int preempt_count(void)
+{
+	return raw_cpu_read_4(pcpu_hot.preempt_count) & ~PREEMPT_NEED_RESCHED;
+}
+```
+
+1. barrier() 防止指令乱序
+2. preempt_count_inc 增加计数
+3. preempt_count_dec_and_test 减少计数
+4. 获取抢占计数
+
+增加/减少计数
+```c
+static __always_inline void __preempt_count_add(int val)
+{
+	raw_cpu_add_4(pcpu_hot.preempt_count, val);
+}
+
+static __always_inline void __preempt_count_sub(int val)
+{
+	raw_cpu_add_4(pcpu_hot.preempt_count, -val);
+}
+```
+
+为什么这个变量可以实现抢占呢?
+需要检查`schedule`实现分析
+
+在Linux内核中，`preempt_disable()` 和 `preempt_enable()` 是用于控制内核抢占（Preemption）的关键函数。
+它们通过管理抢占计数器（`preempt_count`）来确保临界区代码的原子性，避免任务在内核态执行期间被其他高优先级任务抢占。以下是详细分析：
+
+### **3. 使用场景**
+#### **典型用例**
+1. **访问每CPU变量（Per-CPU Data）**：
+   - 每CPU变量是每个CPU独有的数据，禁用抢占可防止任务被迁移到其他CPU。
+   - 例如：
+     ```c
+     int *ptr = this_cpu_ptr(&my_percpu_var);
+     preempt_disable();
+     *ptr += 1;            /* 操作每CPU变量 */
+     preempt_enable();
+     ```
+
+2. **保护短临界区**：
+   - 当需要保证一段代码不被其他任务打断，但无需处理中断或软中断时。
+   - 例如：
+     ```c
+     preempt_disable();
+     modify_global_non_sleepable_data();  /* 修改非睡眠安全的数据 */
+     preempt_enable();
+     ```
+
+3. **与自旋锁配合使用**：
+   - 自旋锁（如`spin_lock()`）内部会自动禁用抢占，但在某些手动管理场景中可能需要显式调用。
+   - 例如，持有锁期间访问共享资源：
+     ```c
+     spin_lock(&lock);
+     preempt_disable();
+     critical_section();
+     preempt_enable();
+     spin_unlock(&lock);
+     ```
+
+#### **与自旋锁的区别**
+| **机制**            | **抢占控制** | **中断控制**        | **适用场景**                  |
+| ------------------- | ------------ | ------------------- | ----------------------------- |
+| `preempt_disable()` | 禁用任务调度 | 不影响中断          | 短临界区、每CPU变量           |
+| `spin_lock()`       | 隐式禁用抢占 | 可能禁用中断/软中断 | 共享资源在多核/中断上下文访问 |
+
+---
+
+### **4. 注意事项**
+#### **(1) 嵌套调用**
+- `preempt_disable()` 和 `preempt_enable()` 必须严格配对。
+- 每次`preempt_disable()`增加计数器，`preempt_enable()`减少计数器。
+- 错误示例：
+  ```c
+  preempt_disable();
+  preempt_disable();  /* 嵌套禁用抢占 */
+  critical_section();
+  preempt_enable();   /* 仅减少一次计数器，抢占仍被禁用！ */
+  ```
+
+#### **(2) 禁止在禁用抢占时睡眠**
+- 若在`preempt_disable()`后调用可能睡眠的函数（如`kmalloc(GFP_KERNEL)`），会导致死锁或内核崩溃。
+- 原因：调度器无法切换任务，当前任务无法释放CPU。
+
+#### **(3) 单核与多核行为**
+- **单核系统（非抢占内核）**：`preempt_disable()`可能无实际效果（因内核不可抢占），但仍需使用以保证代码可移植性。
+- **多核系统**：禁用抢占仅对当前CPU有效，其他CPU仍可并发执行。
+
+#### **(4) 与中断的关系**
+- **不禁止中断**：中断仍可发生，但中断处理程序执行完毕后，调度器不会抢占当前任务（因`preempt_count > 0`）。
+- 若需同时禁用中断，需配合`local_irq_disable()`：
+  ```c
+  local_irq_disable();
+  preempt_disable();
+  /* 临界区：不受中断和任务抢占影响 */
+  preempt_enable();
+  local_irq_enable();
+  ```
+
+---
+
+### **5. 性能影响**
+- **优点**：轻量级，仅操作计数器，适合高频短临界区。
+- **缺点**：
+  - 长时间禁用抢占会导致调度延迟，影响系统实时性。
+  - 不适用于需要睡眠的操作（如I/O等待）。
+
+---
+
+### **6. 代码示例**
+```c
+#include <linux/preempt.h>
+
+void example_function(void) {
+    preempt_disable();  // 禁用抢占
+
+    // 临界区代码：不会被其他任务抢占
+    access_shared_data();
+
+    preempt_enable();   // 启用抢占，可能触发调度
+}
+```
+
+---
+
+### **总结**
+| **关键点**   | **说明**                                                |
+| ------------ | ------------------------------------------------------- |
+| **作用**     | 禁用/启用内核抢占，保护短临界区代码的原子性。           |
+| **实现机制** | 通过`preempt_count`计数器控制抢占。                     |
+| **适用场景** | 每CPU变量、非睡眠安全的短临界区、与锁配合使用。         |
+| **注意事项** | 严格嵌套配对、禁止睡眠、区分单核/多核行为、不保护中断。 |
+| **替代方案** | 自旋锁（处理多核并发+中断）、RCU（读多写少场景）。      |
+
+合理使用`preempt_disable()`/`preempt_enable()`可在不引入锁开销的情况下，高效实现内核数据保护，但需严格遵守使用规则以避免系统稳定性问题。
+
 ## 原子变量
 
 ### 原子变量数据结构
@@ -97,6 +268,91 @@ https://elixir.bootlin.com/linux/v4.0/source/arch/arm/include/asm/atomic.h#L30
 
 ## 自旋锁
 
+### 概览
+
+> 在Linux内核中，自旋锁（spinlock）是一种用于多处理器（SMP）环境的同步机制，确保共享资源的互斥访问。以下是不同自旋锁变种的详细解释及使用场景：
+
++ spin_lock/spin_unlock
++ spin_lock_bh/spin_unlock_bh
++ spin_lock_irq/spin_unlock_irq
++ spin_lock_irqsave/spin_unlock_irqrestore
++ queued_spin_lock/queued_spin_unlock
+
+#### 1. **`spin_lock()` / `spin_unlock()`**
+- **功能**：最基本的自旋锁操作。
+- **行为**：
+  - `spin_lock()`：尝试获取锁，若锁被占用，则自旋等待。
+  - `spin_unlock()`：释放锁。
+- **适用场景**：
+  - **非中断上下文**（如线程、进程上下文）。
+  - 共享资源**不会被中断处理程序或软中断（Bottom Half）访问**。
+- **注意**：若在中断上下文中可能访问同一锁，需使用其他变种（如`spin_lock_irq()`）。
+
+---
+
+#### 2. **`spin_lock_bh()` / `spin_unlock_bh()`**
+- **功能**：在获取锁的同时禁用软中断（Bottom Half）。
+- **行为**：
+  - `spin_lock_bh()`：禁用本地CPU的软中断，然后获取锁。
+  - `spin_unlock_bh()`：释放锁，并重新启用软中断。
+- **适用场景**：
+  - 保护共享资源在**进程上下文与软中断（如tasklet、定时器）**之间的并发访问。
+  - 例如：进程上下文与网络协议栈的软中断共享数据时。
+
+---
+
+#### 3. **`spin_lock_irq()` / `spin_unlock_irq()`**
+- **功能**：在获取锁的同时禁用硬中断。
+- **行为**：
+  - `spin_lock_irq()`：禁用本地CPU的硬中断，然后获取锁。
+  - `spin_unlock_irq()`：释放锁，并重新启用硬中断。
+- **适用场景**：
+  - 保护共享资源在**进程上下文与硬中断处理程序**之间的并发访问。
+  - **注意**：若在调用前中断已禁用，解锁后可能错误启用中断。此时应使用`spin_lock_irqsave()`。
+
+---
+
+#### 4. **`spin_lock_irqsave()` / `spin_unlock_irqrestore()`**
+- **功能**：安全处理中断状态的锁操作。
+- **行为**：
+  - `spin_lock_irqsave()`：保存当前中断状态到变量，禁用本地CPU中断，然后获取锁。
+  - `spin_unlock_irqrestore()`：释放锁，并根据保存的状态恢复中断。
+- **适用场景**：
+  - 共享资源在**不确定中断是否已禁用**的上下文中使用（如可重入函数）。
+  - 确保中断状态的正确保存与恢复，避免破坏原有状态。
+
+---
+
+#### 5. **`queued_spin_lock()` / `queued_spin_unlock()`**
+- **功能**：排队自旋锁的实现，解决传统自旋锁的高竞争问题。
+- **行为**：
+  - 通过队列机制让等待锁的CPU按顺序获取，减少缓存行争用。
+  - 提升多核系统下的扩展性和公平性。
+- **内核使用**：
+  - 从Linux 3.10开始，x86架构默认使用排队自旋锁。
+  - 用户通过通用接口（如`spin_lock()`）调用，无需直接操作`queued_spin_*`。
+- **优点**：在高竞争场景下性能更优，避免“惊群效应”。
+
+---
+
+#### **总结与选择指南**
+| **锁类型**            | **禁用中断类型**      | **适用场景**                                     |
+| --------------------- | --------------------- | ------------------------------------------------ |
+| `spin_lock()`         | 无                    | 仅进程上下文，无中断/软中断竞争                  |
+| `spin_lock_bh()`      | 软中断（Bottom Half） | 进程上下文与软中断共享资源                       |
+| `spin_lock_irq()`     | 硬中断                | 进程上下文与硬中断共享资源，且已知中断状态       |
+| `spin_lock_irqsave()` | 硬中断（带状态保存）  | 进程上下文与硬中断共享资源，且需安全处理中断状态 |
+| `queued_spin_lock()`  | 无（内核内部优化）    | 高竞争场景，由内核自动选择                       |
+
+---
+
+#### **注意事项**
+1. **禁止在持有自旋锁时睡眠**：可能导致死锁或内核崩溃。
+2. **锁持有时间应极短**：自旋锁通过忙等待消耗CPU，长时间持有会降低性能。
+3. **区分单核与多核行为**：在单核非抢占内核中，自旋锁可能退化为仅禁用抢占。
+
+通过合理选择自旋锁变种，可确保内核数据的安全访问，同时兼顾性能与正确性。
+
 ### 数据结构
 
 https://elixir.bootlin.com/linux/v4.0/source/include/linux/spinlock_types.h#L32
@@ -149,12 +405,56 @@ static inline void spin_lock(spinlock_t *lock)
 }
 
 #define raw_spin_lock(lock)	_raw_spin_lock(lock)
+
+static inline void __raw_spin_lock(raw_spinlock_t *lock)
+{
+	preempt_disable(); // 核心实现
+	spin_acquire(&lock->dep_map, 0, 0, _RET_IP_); // lockdep检测
+	LOCK_CONTENDED(lock, do_raw_spin_trylock, do_raw_spin_lock);
+}
 ```
+
+```c
+static __always_inline void spin_lock_irq(spinlock_t *lock)
+{
+	raw_spin_lock_irq(&lock->rlock);
+}
+
+
+```
+
+函数调用路线:
+```mermaid
+graph LR
+spin_lock_bh
+	==> __raw_spin_lock_bh
+		==> __local_bh_disable_ip
+			==> preempt_count_add
+```
+最终，执行到了`pcpu_hot.preempt_count`计数功能实现
 
 ```c
 static inline void spin_lock_bh(spinlock_t *lock)
 {
 	raw_spin_lock_bh(&lock->rlock);
+}
+
+static inline void __raw_spin_lock_bh(raw_spinlock_t *lock)
+{
+	__local_bh_disable_ip(_RET_IP_, SOFTIRQ_LOCK_OFFSET);
+	spin_acquire(&lock->dep_map, 0, 0, _RET_IP_);
+	LOCK_CONTENDED(lock, do_raw_spin_trylock, do_raw_spin_lock);
+}
+
+static __always_inline void __local_bh_disable_ip(unsigned long ip, unsigned int cnt)
+{
+	preempt_count_add(cnt);
+	barrier();
+}
+
+static __always_inline void __preempt_count_add(int val)
+{
+	raw_cpu_add_4(pcpu_hot.preempt_count, val);
 }
 ```
 
@@ -188,7 +488,103 @@ static inline void spin_unlock_irq(spinlock_t *lock)
 }
 ```
 
+### qspinlock实现
+**进入qspin实现**
 
+qspin锁数据
+```c
+typedef struct qspinlock {
+	union {
+		atomic_t val;
+
+		/*
+		 * By using the whole 2nd least significant byte for the
+		 * pending bit, we can allow better optimization of the lock
+		 * acquisition for the pending bit holder.
+		 */
+#ifdef __LITTLE_ENDIAN
+		struct {
+			u8	locked;
+			u8	pending;
+		};
+		struct {
+			u16	locked_pending;
+			u16	tail;
+		};
+#else
+		struct {
+			u16	tail;
+			u16	locked_pending;
+		};
+		struct {
+			u8	reserved[2];
+			u8	pending;
+			u8	locked;
+		};
+#endif
+	};
+} arch_spinlock_t;
+```
+
+1. 如果lock可以直接获取,直接返回;
+2. 进入`slowpath`
+
+```c
+static __always_inline void queued_spin_lock(struct qspinlock *lock)
+{
+	int val = 0;
+
+	if (likely(atomic_try_cmpxchg_acquire(&lock->val, &val, _Q_LOCKED_VAL)))
+		return;
+
+	queued_spin_lock_slowpath(lock, val);
+}
+```
+
+slowpath实现
+```c
+void queued_spin_lock_slowpath(struct qspinlock *lock)
+{
+	/*
+	 * This looks funny, but it induces the compiler to inline both
+	 * sides of the branch rather than share code as when the condition
+	 * is passed as the paravirt argument to the functions.
+	 */
+	if (IS_ENABLED(CONFIG_PARAVIRT_SPINLOCKS) && is_shared_processor()) {
+		if (try_to_steal_lock(lock, true)) {
+			spec_barrier();
+			return;
+		}
+		queued_spin_lock_mcs_queue(lock, true);
+	} else {
+		if (try_to_steal_lock(lock, false)) {
+			spec_barrier();
+			return;
+		}
+		queued_spin_lock_mcs_queue(lock, false);
+	}
+}
+```
+
+```c
+static __always_inline void queued_spin_unlock(struct qspinlock *lock)
+{
+	/*
+	 * unlock() needs release semantics:
+	 */
+	smp_store_release(&lock->locked, 0);
+}
+
+// 直接进行smp释放
+#define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
+
+// 对locked直接释放
+do {									\
+	compiletime_assert_atomic_type(*p);				\
+	__smp_mb();							\
+	WRITE_ONCE(*p, v);						\
+} while (0)
+```
 
 ## 互斥锁
 
