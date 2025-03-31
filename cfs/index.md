@@ -808,7 +808,7 @@ static void task_tick_fair(struct rq *rq, struct task_struct *curr, int queued)
 
 ## task_fork_fair
 
-```
+```c
 static void task_fork_fair(struct task_struct *p)
 {
 	struct cfs_rq *cfs_rq;
@@ -897,5 +897,4 @@ static void update_curr(struct cfs_rq *cfs_rq)
 	account_cfs_rq_runtime(cfs_rq, delta_exec);
 }
 ```
-
 
