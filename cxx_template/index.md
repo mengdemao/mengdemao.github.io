@@ -2629,12 +2629,12 @@ int main() {
   + 一个 || 的一元折叠的空扩展产生值 false
   + 一个 , 的一元折叠空扩展产生一个 void 表达式
 
-|折叠表达式|计算结果|
-|:-:|:-:|
-|(... op pack)|(((pack1 op pack2) op pack3) ... op PackN)|
-|(pack op ...)|(pack1 op (... (packN-1 op packN)))|
-|(init op ... op pack)|(((init op pack1) op pack2) ... op PackN)|
-|(pack op ... op init)|(pack1 op (... (packN op init)))|
+|      折叠表达式       |                  计算结果                  |
+| :-------------------: | :----------------------------------------: |
+|     (... op pack)     | (((pack1 op pack2) op pack3) ... op PackN) |
+|     (pack op ...)     |    (pack1 op (... (packN-1 op packN)))     |
+| (init op ... op pack) | (((init op pack1) op pack2) ... op PackN)  |
+| (pack op ... op init) |      (pack1 op (... (packN op init)))      |
 
 + 折叠表达式借鉴的是 Haskell 的 fold
 

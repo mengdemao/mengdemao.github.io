@@ -1,75 +1,59 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Kernel - 标签 - 编程日志</title><link>https://mengdemao.com/tags/kernel/</link><description>Kernel - 标签 - 编程日志</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>megndemao19951021@gmail.com (mengdemao)</managingEditor><webMaster>megndemao19951021@gmail.com (mengdemao)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 28 Mar 2025 16:57:56 +0800</lastBuildDate><atom:link href="https://mengdemao.com/tags/kernel/" rel="self" type="application/rss+xml"/><item><title>RCU机制</title><link>https://mengdemao.com/rcu/</link><pubDate>Fri, 28 Mar 2025 16:57:56 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/rcu/</guid><description>&lt;div class="featured-image">
-                &lt;img src="featuredImage/03.webp" referrerpolicy="no-referrer">
-            &lt;/div>Linux RCU机制</description></item><item><title>Linux内核同步笔记</title><link>https://mengdemao.com/kernel_sync/</link><pubDate>Sat, 22 Mar 2025 12:44:23 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/kernel_sync/</guid><description>&lt;div class="featured-image">
-                &lt;img src="featuredImage/03.webp" referrerpolicy="no-referrer">
-            &lt;/div>内核同步实现</description></item><item><title>Devres内存管理</title><link>https://mengdemao.com/devres/</link><pubDate>Mon, 17 Mar 2025 14:42:07 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/devres/</guid><description>&lt;div class="featured-image">
-                &lt;img src="featuredImage/04.webp" referrerpolicy="no-referrer">
-            &lt;/div>设备驱动资源自动管理</description></item><item><title>Complete完成量笔记</title><link>https://mengdemao.com/complete/</link><pubDate>Sun, 16 Mar 2025 17:02:49 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/complete/</guid><description>&lt;div class="featured-image">
-                &lt;img src="featuredImage/13.webp" referrerpolicy="no-referrer">
-            &lt;/div></description></item><item><title>Linux内核源码阅读</title><link>https://mengdemao.com/read_linux/</link><pubDate>Sun, 12 Feb 2023 12:56:02 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/read_linux/</guid><description>&lt;div class="featured-image">
-                &lt;img src="featuredImage/03.webp" referrerpolicy="no-referrer">
-            &lt;/div>Linux内核源码阅读</description></item><item><title>完全公平调度器</title><link>https://mengdemao.com/cfs/</link><pubDate>Thu, 28 Oct 2021 07:40:31 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/cfs/</guid><description><![CDATA[<div class="featured-image">
-                <img src="featuredImage/13.webp" referrerpolicy="no-referrer">
-            </div><blockquote>
-  <p>需要处理的问题?</p>
-<ol>
-<li>如何确定哪个进程可以运行</li>
-<li>进程切换发生后,老的进程去了哪里,新的进程如何变化</li>
-<li>PLET实现中,谁负责移动调度实体</li>
-</ol>
-</blockquote><h2 id="虚拟时间vruntime" class="headerLink">
-    <a href="#%e8%99%9a%e6%8b%9f%e6%97%b6%e9%97%b4vruntime" class="header-mark"></a>1 虚拟时间(vruntime)</h2><div class="code-block highlight is-open show-line-numbers  tw-group tw-my-2">
-  <div class="
-    code-block-title 
-    
-    tw-flex 
-    tw-flex-row 
-    tw-justify-between 
-    tw-w-full tw-bg-bgColor-secondary
-    ">      
-    <button 
-      class="
-        tw-select-none 
-        tw-mx-2 
-        tw-block
-        group-[.is-open]:tw-rotate-90
-        tw-transition-[transform] 
-        tw-duration-500 
-        tw-ease-in-out
-        print:!tw-hidden"
-      disabled
-      aria-hidden="true"><svg class="icon"
-    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kernel on 编程日志</title><link>https://mengdemao.com/tags/kernel/</link><description>Recent content in Kernel on 编程日志</description><generator>Hugo</generator><language>zh-CN</language><managingEditor>megndemao19951021@gmail.com (mengdemao)</managingEditor><webMaster>megndemao19951021@gmail.com (mengdemao)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 31 Mar 2025 12:53:37 +0800</lastBuildDate><atom:link href="https://mengdemao.com/tags/kernel/index.xml" rel="self" type="application/rss+xml"/><item><title>RCU机制</title><link>https://mengdemao.com/rcu/</link><pubDate>Fri, 28 Mar 2025 16:57:56 +0800</pubDate><author>megndemao19951021@gmail.com (mengdemao)</author><guid>https://mengdemao.com/rcu/</guid><description/></item><item><title>Linux内核同步笔记</title><link>https://mengdemao.com/kernel_sync/</link><pubDate>Sat, 22 Mar 2025 12:44:23 +0800</pubDate><author>megndemao19951021@gmail.com (mengdemao)</author><guid>https://mengdemao.com/kernel_sync/</guid><description/></item><item><title>Devres内存管理</title><link>https://mengdemao.com/devres/</link><pubDate>Mon, 17 Mar 2025 14:42:07 +0800</pubDate><author>megndemao19951021@gmail.com (mengdemao)</author><guid>https://mengdemao.com/devres/</guid><description/></item><item><title>Complete完成量笔记</title><link>https://mengdemao.com/complete/</link><pubDate>Sun, 16 Mar 2025 17:02:49 +0800</pubDate><author>megndemao19951021@gmail.com (mengdemao)</author><guid>https://mengdemao.com/complete/</guid><description/></item><item><title>Linux内核源码阅读</title><link>https://mengdemao.com/read_linux/</link><pubDate>Sun, 12 Feb 2023 12:56:02 +0800</pubDate><author>megndemao19951021@gmail.com (mengdemao)</author><guid>https://mengdemao.com/read_linux/</guid><description/></item><item><title>完全公平调度器</title><link>https://mengdemao.com/cfs/</link><pubDate>Thu, 28 Oct 2021 07:40:31 +0800</pubDate><author>megndemao19951021@gmail.com (mengdemao)</author><guid>https://mengdemao.com/cfs/</guid><description>&lt;blockquote>
+ &lt;p>需要处理的问题?&lt;/p>
+&lt;ol>
+&lt;li>如何确定哪个进程可以运行&lt;/li>
+&lt;li>进程切换发生后,老的进程去了哪里,新的进程如何变化&lt;/li>
+&lt;li>PLET实现中,谁负责移动调度实体&lt;/li>
+&lt;/ol>
+&lt;/blockquote>&lt;h2 id="虚拟时间vruntime" class="headerLink">
+ &lt;a href="#%e8%99%9a%e6%8b%9f%e6%97%b6%e9%97%b4vruntime" class="header-mark">&lt;/a>1 虚拟时间(vruntime)&lt;/h2>&lt;div class="code-block highlight is-open show-line-numbers tw-group tw-my-2">
+ &lt;div class="
+ code-block-title 
+ 
+ tw-flex 
+ tw-flex-row 
+ tw-justify-between 
+ tw-w-full tw-bg-bgColor-secondary
+ "> 
+ &lt;button 
+ class="
+ tw-select-none 
+ tw-mx-2 
+ tw-block
+ group-[.is-open]:tw-rotate-90
+ tw-transition-[transform] 
+ tw-duration-500 
+ tw-ease-in-out
+ print:!tw-hidden"
+ disabled
+ aria-hidden="true">&lt;svg class="icon"
+ xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">&lt;!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) -->&lt;path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/>&lt;/svg>&lt;/button>
 
-    <div class="code-block-title-bar tw-w-full">
-      <p class="tw-select-none !tw-my-1">c</p>]]></description></item><item><title>物理页面分配器</title><link>https://mengdemao.com/page_allocator/</link><pubDate>Thu, 28 Oct 2021 07:40:31 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/page_allocator/</guid><description><![CDATA[<div class="featured-image">
-                <img src="featuredImage/11.webp" referrerpolicy="no-referrer">
-            </div><h2 id="alloc_pages" class="headerLink">
-    <a href="#alloc_pages" class="header-mark"></a>1 alloc_pages</h2><p>linux常用的物理界面分配器的函数是<code>alloc_pages</code>,下面分析是如何实现的.</p>
-<div class="code-block highlight is-open show-line-numbers  tw-group tw-my-2">
-  <div class="
-    code-block-title 
-    
-    tw-flex 
-    tw-flex-row 
-    tw-justify-between 
-    tw-w-full tw-bg-bgColor-secondary
-    ">      
-    <button 
-      class="
-        tw-select-none 
-        tw-mx-2 
-        tw-block
-        group-[.is-open]:tw-rotate-90
-        tw-transition-[transform] 
-        tw-duration-500 
-        tw-ease-in-out
-        print:!tw-hidden"
-      disabled
-      aria-hidden="true"><svg class="icon"
-    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button>
+ &lt;div class="code-block-title-bar tw-w-full">
+ &lt;p class="tw-select-none !tw-my-1">c&lt;/p></description></item><item><title>物理页面分配器</title><link>https://mengdemao.com/page_allocator/</link><pubDate>Thu, 28 Oct 2021 07:40:31 +0800</pubDate><author>megndemao19951021@gmail.com (mengdemao)</author><guid>https://mengdemao.com/page_allocator/</guid><description>&lt;h2 id="alloc_pages" class="headerLink">
+ &lt;a href="#alloc_pages" class="header-mark">&lt;/a>1 alloc_pages&lt;/h2>&lt;p>linux常用的物理界面分配器的函数是&lt;code>alloc_pages&lt;/code>,下面分析是如何实现的.&lt;/p>
+&lt;div class="code-block highlight is-open show-line-numbers tw-group tw-my-2">
+ &lt;div class="
+ code-block-title 
+ 
+ tw-flex 
+ tw-flex-row 
+ tw-justify-between 
+ tw-w-full tw-bg-bgColor-secondary
+ "> 
+ &lt;button 
+ class="
+ tw-select-none 
+ tw-mx-2 
+ tw-block
+ group-[.is-open]:tw-rotate-90
+ tw-transition-[transform] 
+ tw-duration-500 
+ tw-ease-in-out
+ print:!tw-hidden"
+ disabled
+ aria-hidden="true">&lt;svg class="icon"
+ xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">&lt;!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) -->&lt;path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/>&lt;/svg>&lt;/button>
 
-    <div class="code-block-title-bar tw-w-full">
-      <p class="tw-select-none !tw-my-1">c</p>]]></description></item><item><title>调度器基础</title><link>https://mengdemao.com/scheduler/</link><pubDate>Mon, 04 Oct 2021 12:10:25 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/scheduler/</guid><description>&lt;div class="featured-image">
-                &lt;img src="featuredImage/10.webp" referrerpolicy="no-referrer">
-            &lt;/div>系统调度</description></item></channel></rss>
+ &lt;div class="code-block-title-bar tw-w-full">
+ &lt;p class="tw-select-none !tw-my-1">c&lt;/p></description></item><item><title>调度器基础</title><link>https://mengdemao.com/scheduler/</link><pubDate>Mon, 04 Oct 2021 12:10:25 +0800</pubDate><author>megndemao19951021@gmail.com (mengdemao)</author><guid>https://mengdemao.com/scheduler/</guid><description/></item></channel></rss>

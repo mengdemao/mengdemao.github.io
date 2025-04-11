@@ -1178,7 +1178,7 @@ int main()
     std::string str0 =   "hello\nworld";        // 正常情况下
     std::string str1 =   "hello\\nworld";       // C风格转化
     std::string str2 = R"(hello\nworld)";       // C++风格原始字符串
-    
+
     std::cout << "escape string: " << str0 << std::endl;
     std::cout << "simple string: " << str1 << std::endl;
     std::cout << "orignl string: " << str2 << std::endl;
@@ -1212,7 +1212,7 @@ struct test {
 int main(int argc, char* argv[])
 {
         auto [A, B, C] = test{1, "hello", 2};
-        cout << "A: " << A << " B: " << B << " C: " << C << endl; 
+        cout << "A: " << A << " B: " << B << " C: " << C << endl;
         return 0;
 }
 ```
