@@ -1,6 +1,56 @@
 # Linux工具部署功能记录
 
 
+## 添加普通用户
+
+```shell
+useradd -m -G users,wheel,audio -s /bin/bash larry
+passwd larry
+Password: (Enter the password for larry)
+Re-enter password: (Re-enter the password to verify)
+```
+
+## gentoo emerge
+
+1. 更新sync
+```shell
+emerge-webrsync
+
+emerge --sync
+```
+
+2. 更新软件包
+```shell
+emerge --ask --verbose --update --deep --newuse --getbinpkg @world
+```
+
+3. 安装软件包
+```shell
+emerge --ask --verbose --getbinpkg 软件包名
+```
+
+## 编译内核
+
+1. 配置key
+
+```shell
+openssl req -new -nodes -utf8 -sha256 -x509 -outform PEM -out kernel_key.pem -keyout kernel_key.pem
+```
+修改make.conf,将路径添加到
+```shell
+USE="modules-sign"
+
+# Optionally, when using custom signing keys.
+MODULES_SIGN_KEY="/path/to/kernel_key.pem"
+MODULES_SIGN_CERT="/path/to/kernel_key.pem" # Only required if the MODULES_SIGN_KEY does not also contain the certificate
+MODULES_SIGN_HASH="sha512" # Defaults to sha512
+```
+
+```shell
+zcat /proc/config.gz > /usr/src/linux
+
+genkernel --menuconfig all
+```
 
 ## 配置交换文件
 ```shell

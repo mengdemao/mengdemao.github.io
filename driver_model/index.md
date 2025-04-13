@@ -87,6 +87,7 @@ $ sudo rmmod hello
 ```
 
 ### 驱动签名
+> TODO:此问题并没有解决
 
 但是，在安装驱动的时候;
 
@@ -95,6 +96,19 @@ $ sudo rmmod hello
 [ 6522.571933] hello: module verification failed: signature and/or required key missing - tainting kernel
 ```
 需要进行签名,
+
+签名所需要的文件存在与linux源码目录的cert中
+```shell
+~/linux-source-6.8.0$ ls certs/signing_key.*
++ certs/signing_key.pem
++ certs/signing_key.x509
+```
+
+```shell
+/lib/modules/$(uname -r)/build/scripts/sign-file sha512 signing_key.pem signing_key.x509 ${ko-file}
+```
+
+再次安装驱动
 
 ## 驱动原理
 
@@ -254,6 +268,231 @@ static inline unsigned long __must_check copy_to_user(void __user *to, const voi
 __copy_from_user
 __copy_to_user
 都是汇编实现的,暂时不进行分析
+
+## 驱动映射
+在Linux中映射驱动程序的内存到用户空间通常通过`mmap`系统调用实现，以下是详细的步骤和实现原理：
+
+---
+
+### **1. 驱动内存分配**
+在内核驱动中，根据需求选择不同的内存分配方法：
+
+#### **1.1 物理连续内存（DMA场景）**
+使用`dma_alloc_coherent`分配物理连续的内存（适用于DMA操作）：
+```c
+#include <linux/dma-mapping.h>
+
+void *dma_vaddr;
+dma_addr_t dma_paddr;
+
+dma_vaddr = dma_alloc_coherent(dev, size, &dma_paddr, GFP_KERNEL);
+```
+- **特点**：内存物理连续，缓存一致性由硬件保证。
+
+#### **1.2 虚拟连续内存（非DMA场景）**
+使用`vmalloc`分配虚拟连续但物理可能不连续的内存：
+```c
+#include <linux/vmalloc.h>
+
+void *vaddr = vmalloc(size);
+```
+- **特点**：适合大块内存，但访问效率低于`kmalloc`。
+
+#### **1.3 内核通用内存**
+使用`kmalloc`分配小块的物理连续内存：
+```c
+#include <linux/slab.h>
+
+void *kaddr = kmalloc(size, GFP_KERNEL);
+```
+
+---
+
+### **2. 实现驱动的`mmap`方法**
+在驱动程序的`file_operations`结构中定义`mmap`函数：
+```c
+static struct file_operations fops = {
+    .owner = THIS_MODULE,
+    .mmap = my_mmap,
+};
+```
+
+#### **2.1 `mmap`函数实现**
+```c
+#include <linux/mm.h>
+
+static int my_mmap(struct file *filp, struct vm_area_struct *vma)
+{
+    unsigned long offset = vma->vm_pgoff << PAGE_SHIFT;
+    unsigned long size = vma->vm_end - vma->vm_start;
+
+    // 检查偏移和大小是否合法
+    if (offset + size > allocated_memory_size)
+        return -EINVAL;
+
+    // 映射物理内存到用户空间（以dma_alloc_coherent为例）
+    if (remap_pfn_range(vma,
+                        vma->vm_start,
+                        dma_paddr >> PAGE_SHIFT,  // 物理页帧号
+                        size,
+                        vma->vm_page_prot)) {     // 页面保护标志
+        return -EAGAIN;
+    }
+
+    return 0;
+}
+```
+- **关键函数**：`remap_pfn_range`将物理内存映射到用户空间。
+- **缓存控制**：若需禁用缓存（如DMA内存），需修改`vma->vm_page_prot`：
+  ```c
+  vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
+  ```
+
+---
+
+### **3. 用户空间访问映射内存**
+用户程序通过`mmap`系统调用访问驱动内存：
+```c
+#include <sys/mman.h>
+#include <fcntl.h>
+
+int main() {
+    int fd = open("/dev/my_device", O_RDWR);
+    void *mapped_addr = mmap(NULL,
+                             size,
+                             PROT_READ | PROT_WRITE,
+                             MAP_SHARED,
+                             fd,
+                             0);  // 偏移量需与驱动中的offset对应
+
+    // 直接读写映射内存
+    *(int *)mapped_addr = 0x1234;
+    munmap(mapped_addr, size);
+    close(fd);
+    return 0;
+}
+```
+
+---
+
+### **4. 关键注意事项**
+
+#### **4.1 内存类型选择**
+- **DMA操作**：必须使用`dma_alloc_coherent`确保物理连续性和缓存一致性。
+- **普通内存**：`vmalloc`适合大块内存，`kmalloc`适合小块内存。
+
+#### **4.2 安全与权限**
+- 在`mmap`中检查用户请求的`offset`和`size`，防止越界访问。
+- 使用`ioctl`或其他机制限制用户空间对内存的映射范围。
+
+#### **4.3 缓存一致性**
+- DMA内存需标记为`pgprot_noncached`，避免CPU缓存与设备访问冲突。
+- 对于可缓存内存，需手动调用`dma_sync_single_for_cpu`或`dma_sync_single_for_device`同步数据。
+
+#### **4.4 调试方法**
+- **内核日志**：使用`printk`输出物理地址和虚拟地址。
+- **用户态工具**：通过`devmem`或自定义程序读写映射内存。
+- **内核调试器**：使用`KGDB`或`crash`工具分析内存状态。
+
+---
+
+### **5. 完整驱动示例**
+#### **5.1 内核驱动代码**
+```c
+#include <linux/module.h>
+#include <linux/fs.h>
+#include <linux/mm.h>
+#include <linux/dma-mapping.h>
+
+#define DEVICE_NAME "mmap_demo"
+#define MEM_SIZE (4 * 1024)  // 4KB
+
+static void *dma_vaddr;
+static dma_addr_t dma_paddr;
+static struct device *dev;
+
+static int my_mmap(struct file *filp, struct vm_area_struct *vma) {
+    unsigned long offset = vma->vm_pgoff << PAGE_SHIFT;
+    unsigned long size = vma->vm_end - vma->vm_start;
+
+    if (offset + size > MEM_SIZE)
+        return -EINVAL;
+
+    vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
+    if (remap_pfn_range(vma, vma->vm_start, dma_paddr >> PAGE_SHIFT, size, vma->vm_page_prot))
+        return -EAGAIN;
+
+    return 0;
+}
+
+static struct file_operations fops = {
+    .owner = THIS_MODULE,
+    .mmap = my_mmap,
+};
+
+static int __init my_init(void) {
+    dev = &pdev->dev;  // 假设已获取设备结构体
+    dma_vaddr = dma_alloc_coherent(dev, MEM_SIZE, &dma_paddr, GFP_KERNEL);
+    if (!dma_vaddr)
+        return -ENOMEM;
+
+    register_chrdev(0, DEVICE_NAME, &fops);
+    return 0;
+}
+
+static void __exit my_exit(void) {
+    dma_free_coherent(dev, MEM_SIZE, dma_vaddr, dma_paddr);
+    unregister_chrdev(0, DEVICE_NAME);
+}
+
+module_init(my_init);
+module_exit(my_exit);
+```
+
+#### **5.2 用户空间测试代码**
+```c
+#include <stdio.h>
+#include <fcntl.h>
+#include <sys/mman.h>
+
+int main() {
+    int fd = open("/dev/mmap_demo", O_RDWR);
+    void *addr = mmap(NULL, 4096, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+
+    printf("Mapped address: %p\n", addr);
+    *(int *)addr = 0xdeadbeef;  // 写入数据到驱动内存
+    printf("Read value: 0x%x\n", *(int *)addr);
+
+    munmap(addr, 4096);
+    close(fd);
+    return 0;
+}
+```
+
+---
+
+### **6. 高级场景**
+#### **6.1 多进程共享映射**
+- 使用`MAP_SHARED`标志，多个进程可共享同一块物理内存。
+- 需自行实现同步机制（如信号量或原子操作）。
+
+#### **6.2 动态调整映射内存**
+- 通过`ioctl`通知驱动调整内存大小，用户空间重新调用`mmap`。
+
+#### **6.3 NUMA架构优化**
+- 使用`alloc_pages_node`在特定NUMA节点分配内存，提升访问性能。
+
+---
+
+### **总结**
+通过`mmap`实现Linux驱动内存映射的核心步骤包括：
+1. **内核内存分配**（物理连续或虚拟连续）。
+2. **实现`mmap`方法**（使用`remap_pfn_range`映射物理内存）。
+3. **用户空间调用`mmap`**访问驱动内存。
+4. **处理缓存、权限和安全问题**。
+
+此机制广泛用于高性能数据传输（如摄像头、GPU驱动）和零拷贝网络通信场景。
+
 
 ## 驱动模型
 
