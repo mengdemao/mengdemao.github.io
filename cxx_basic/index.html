@@ -1,5 +1,4 @@
-<!doctype html><html lang=zh-CN><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>C++基础笔记 - 编程日志</title><meta name=Description content="C++基础笔记"><meta property="og:url" content="https://mengdemao.com/cxx_basic/">
-<meta property="og:site_name" content="编程日志"><meta property="og:title" content="C++基础笔记"><meta property="og:description" content="C++基础笔记"><meta property="og:locale" content="zh_CN"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2022-07-28T22:37:59+08:00"><meta property="article:modified_time" content="2025-04-11T11:02:44+08:00"><meta property="article:tag" content="C++"><meta property="og:image" content="https://mengdemao.com/images/avatar.webp"><meta property="og:see_also" content="https://mengdemao.com/cxx_primer/"><meta property="og:see_also" content="https://mengdemao.com/cxx_enhance/"><meta property="og:see_also" content="https://mengdemao.com/cxx_template/"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://mengdemao.com/images/avatar.webp"><meta name=twitter:title content="C++基础笔记"><meta name=twitter:description content="C++基础笔记"><meta name=application-name content="编程日志"><meta name=apple-mobile-web-app-title content="编程日志"><meta name=theme-color content="#f8f8f8"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=canonical href=https://mengdemao.com/cxx_basic/><link rel=prev href=https://mengdemao.com/cxx_enhance/><link rel=next href=https://mengdemao.com/bsdiff/><link rel=stylesheet href=/css/main.min.css><link rel=stylesheet href=/css/style.min.css><meta name=google-site-verification content="MQ8DNu27ayX6B_4ObiEDK09vGr1fdy7kOAnbd09hJk4"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"C++基础笔记","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://mengdemao.com/cxx_basic/"},"image":[{"@type":"ImageObject","url":"https://mengdemao.com/featuredImage/13.webp","width":1920,"height":1277}],"genre":"posts","keywords":["C++"],"wordcount":4607,"url":"https://mengdemao.com/cxx_basic/","datePublished":"2022-07-28T22:37:59+08:00","dateModified":"2025-04-11T11:02:44+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"xxxx","logo":{"@type":"ImageObject","url":"https://mengdemao.com/images/avatar.webp","width":528,"height":560}},"author":{"@type":"Person","name":"mengdemao","url":"https://github.com/mengdemao"},"description":"C++基础笔记"}</script></head><body data-instant-intensity=viewport class="tw-flex tw-min-h-screen tw-flex-col"><script type=text/javascript>function setTheme(e){document.body.setAttribute("theme",e),document.documentElement.className=e,document.documentElement.style.setProperty("color-scheme",e==="light"?"light":"dark"),e==="light"?document.documentElement.classList.remove("tw-dark"):document.documentElement.classList.add("tw-dark"),window.theme=e,window.isDark=window.theme!=="light"}function saveTheme(e){window.localStorage&&localStorage.setItem("theme",e)}function getMeta(e){const t=document.getElementsByTagName("meta");for(let n=0;n<t.length;n++)if(t[n].getAttribute("name")===e)return t[n];return""}if(window.localStorage&&localStorage.getItem("theme")){let e=localStorage.getItem("theme");e==="light"||e==="dark"?setTheme(e):setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}else"auto"==="light"||"auto"==="dark"?(setTheme("auto"),saveTheme("auto")):(saveTheme("auto"),setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));let metaColors={light:"#f8f8f8",dark:"#161b22"};getMeta("theme-color").content=metaColors[document.body.getAttribute("theme")],window.switchThemeEventSet=new Set</script><div id=back-to-top></div><div id=mask></div><header class="desktop print:!tw-hidden" id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=tw-mr-1><i class='far fa-edit fa-fw'></i></span><span id=desktop-header-typeit class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/series/>系列 </a><a class=menu-item href=/authors/>作者 </a><a class=menu-item href=/showcase/>作品 </a><a class=menu-item href=/categories/documentation/>文档 </a><a class=menu-item href=/about/>关于 </a><a class=menu-item href=https://github.com/mengdemao/mengdemao.com title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw'></i> </a><span class="menu-item delimiter"></span><button class="menu-item theme-select" aria-label=切换主题>
+<!doctype html><html lang=zh-CN><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>C++基础笔记 - 编程日志</title><meta name=Description content="C++基础笔记"><meta property="og:url" content="https://mengdemao.com/cxx_basic/"><meta property="og:site_name" content="编程日志"><meta property="og:title" content="C++基础笔记"><meta property="og:description" content="C++基础笔记"><meta property="og:locale" content="zh_CN"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2022-07-28T22:37:59+08:00"><meta property="article:modified_time" content="2025-04-11T11:02:44+08:00"><meta property="article:tag" content="C++"><meta property="og:image" content="https://mengdemao.com/images/avatar.webp"><meta property="og:see_also" content="https://mengdemao.com/cxx_primer/"><meta property="og:see_also" content="https://mengdemao.com/cxx_enhance/"><meta property="og:see_also" content="https://mengdemao.com/cxx_template/"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://mengdemao.com/images/avatar.webp"><meta name=twitter:title content="C++基础笔记"><meta name=twitter:description content="C++基础笔记"><meta name=application-name content="编程日志"><meta name=apple-mobile-web-app-title content="编程日志"><meta name=theme-color content="#f8f8f8"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=canonical href=https://mengdemao.com/cxx_basic/><link rel=prev href=https://mengdemao.com/cxx_enhance/><link rel=next href=https://mengdemao.com/bsdiff/><link rel=stylesheet href=/css/main.min.css><link rel=stylesheet href=/css/style.min.css><meta name=google-site-verification content="MQ8DNu27ayX6B_4ObiEDK09vGr1fdy7kOAnbd09hJk4"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"C++基础笔记","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://mengdemao.com/cxx_basic/"},"image":[{"@type":"ImageObject","url":"https://mengdemao.com/featuredImage/13.webp","width":1920,"height":1277}],"genre":"posts","keywords":["C++"],"wordcount":4607,"url":"https://mengdemao.com/cxx_basic/","datePublished":"2022-07-28T22:37:59+08:00","dateModified":"2025-04-11T11:02:44+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"xxxx","logo":{"@type":"ImageObject","url":"https://mengdemao.com/images/avatar.webp","width":528,"height":560}},"author":{"@type":"Person","name":"mengdemao","url":"https://github.com/mengdemao"},"description":"C++基础笔记"}</script></head><body data-instant-intensity=viewport class="tw-flex tw-min-h-screen tw-flex-col"><script>function setTheme(e){document.body.setAttribute("theme",e),document.documentElement.className=e,document.documentElement.style.setProperty("color-scheme",e==="light"?"light":"dark"),e==="light"?document.documentElement.classList.remove("tw-dark"):document.documentElement.classList.add("tw-dark"),window.theme=e,window.isDark=window.theme!=="light"}function saveTheme(e){window.localStorage&&localStorage.setItem("theme",e)}function getMeta(e){const t=document.getElementsByTagName("meta");for(let n=0;n<t.length;n++)if(t[n].getAttribute("name")===e)return t[n];return""}if(window.localStorage&&localStorage.getItem("theme")){let e=localStorage.getItem("theme");e==="light"||e==="dark"?setTheme(e):setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}else"auto"==="light"||"auto"==="dark"?(setTheme("auto"),saveTheme("auto")):(saveTheme("auto"),setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));let metaColors={light:"#f8f8f8",dark:"#161b22"};getMeta("theme-color").content=metaColors[document.body.getAttribute("theme")],window.switchThemeEventSet=new Set</script><div id=back-to-top></div><div id=mask></div><header class="desktop print:!tw-hidden" id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=tw-mr-1><i class='far fa-edit fa-fw'></i></span><span id=desktop-header-typeit class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/series/>系列 </a><a class=menu-item href=/authors/>作者 </a><a class=menu-item href=/showcase/>作品 </a><a class=menu-item href=/categories/documentation/>文档 </a><a class=menu-item href=/about/>关于 </a><a class=menu-item href=https://github.com/mengdemao/mengdemao.com title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw'></i> </a><span class="menu-item delimiter"></span><button class="menu-item theme-select" aria-label=切换主题>
 <svg class="icon" viewBox="0 0 512 512"><path d="M8 256c0 136.966 111.033 248 248 248s248-111.034 248-248S392.966 8 256 8 8 119.033 8 256zm248 184V72c101.705.0 184 82.311 184 184 0 101.705-82.311 184-184 184z"/></svg>
 <select class=color-theme-select id=theme-select-desktop aria-label=切换主题><option value=light>浅色</option><option value=dark>深色</option><option value=auto>跟随系统</option></select></button></div></div></div></header><header class="mobile print:!tw-hidden" id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=tw-mr-1><i class='far fa-edit fa-fw'></i></span><span id=mobile-header-typeit class=typeit></span></a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><a class=menu-item href=/posts/ title>所有文章</a><a class=menu-item href=/tags/ title>标签</a><a class=menu-item href=/categories/ title>分类</a><a class=menu-item href=/series/ title>系列</a><a class=menu-item href=/authors/ title>作者</a><a class=menu-item href=/showcase/ title>作品</a><a class=menu-item href=/categories/documentation/ title>文档</a><a class=menu-item href=/about/ title>关于</a><a class=menu-item href=https://github.com/mengdemao/mengdemao.com title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw'></i></a><button class="menu-item theme-select tw-w-full" aria-label=切换主题>
 <svg class="icon" viewBox="0 0 512 512"><path d="M8 256c0 136.966 111.033 248 248 248s248-111.034 248-248S392.966 8 256 8 8 119.033 8 256zm248 184V72c101.705.0 184 82.311 184 184 0 101.705-82.311 184-184 184z"/></svg>
@@ -13,19 +12,15 @@
 <span class=details-icon><svg class="icon" viewBox="0 0 256 512"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9.0l-22.6-22.6c-9.4-9.4-9.4-24.6.0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6.0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9.0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></span></div><div class="details-content series-content"><nav><ul><li><a href=/cxx_primer/>C++ Primer笔记</a></li><li><span class=active>C++基础笔记</span></li><li><a href=/cxx_enhance/>C++提高笔记</a></li><li><a href=/cxx_template/>C++模板</a></li></ul></nav></div></div><div class="details toc print:!tw-block" id=toc-static kept><div class="details-summary toc-title"><span>目录</span>
 <span class=details-icon><svg class="icon" viewBox="0 0 256 512"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9.0l-22.6-22.6c-9.4-9.4-9.4-24.6.0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6.0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9.0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#第一个程序>第一个程序</a></li><li><a href=#注释>注释</a><ul><li><a href=#c注释>C++注释</a></li><li><a href=#c注释-1>C注释</a></li></ul></li><li><a href=#标识符>标识符</a><ul><li><a href=#变量>变量</a></li><li><a href=#常量>常量</a></li><li><a href=#关键字>关键字</a></li><li><a href=#命名规则>命名规则</a></li></ul></li><li><a href=#数据类型>数据类型</a><ul><li><a href=#整形>整形</a></li><li><a href=#浮点型>浮点型</a></li><li><a href=#字符型>字符型</a></li><li><a href=#转义字符>转义字符</a></li><li><a href=#字符串>字符串</a></li><li><a href=#布尔类型>布尔类型</a></li></ul></li><li><a href=#运算符>运算符</a><ul><li><a href=#基本运算符>基本运算符</a></li><li><a href=#取模运算>取模运算</a></li><li><a href=#自增自减运算>自增自减运算</a></li><li><a href=#赋值运算>赋值运算</a></li><li><a href=#比较运算符>比较运算符</a></li><li><a href=#逻辑运算符>逻辑运算符</a></li></ul></li><li><a href=#流程控制>流程控制</a><ul><li><a href=#顺序结构>顺序结构</a><ul><li><a href=#if语句>if语句</a></li><li><a href=#三目运算符>三目运算符</a></li></ul></li><li><a href=#选择结构>选择结构</a></li><li><a href=#循环结构>循环结构</a></li><li><a href=#while循环>while循环</a></li><li><a href=#for循环>for循环</a></li><li><a href=#跳转语句>跳转语句</a><ul><li><a href=#goto>goto</a></li></ul></li></ul></li><li><a href=#函数定义>函数定义</a><ul><li><a href=#值传递>值传递</a></li><li><a href=#函数的常见样式>函数的常见样式</a></li><li><a href=#声明>声明</a></li><li><a href=#多文件>多文件</a></li></ul></li><li><a href=#复合数据结构>复合数据结构</a><ul><li><a href=#数组>数组</a></li><li><a href=#指针>指针</a><ul><li><a href=#指针的定义和使用>指针的定义和使用</a></li><li><a href=#指针所占用空间>指针所占用空间</a></li><li><a href=#空指针>空指针</a></li><li><a href=#野指针>野指针</a></li><li><a href=#const与指针>const与指针</a></li><li><a href=#指针与数组>指针与数组</a></li><li><a href=#指针与函数>指针与函数</a></li></ul></li><li><a href=#结构体>结构体</a><ul><li><a href=#结构体数组>结构体数组</a></li><li><a href=#结构体指针>结构体指针</a></li><li><a href=#结构体嵌套>结构体嵌套</a></li></ul></li><li><a href=#枚举>枚举</a></li><li><a href=#联合>联合</a></li><li><a href=#位域>位域</a></li></ul></li><li><a href=#c内存分区>C++内存分区</a></li><li><a href=#newdelete操作符>new/delete操作符</a></li><li><a href=#引用>引用</a><ul><li><a href=#引用做参数>引用做参数</a></li><li><a href=#引用做返回值>引用做返回值</a></li><li><a href=#引用的本质>引用的本质</a></li><li><a href=#常量引用>常量引用</a></li></ul></li><li><a href=#函数提高>函数提高</a><ul><li><a href=#函数默认值>函数默认值</a></li><li><a href=#函数的占位参数>函数的占位参数</a></li><li><a href=#函数重载>函数重载</a></li></ul></li><li><a href=#命名空间>命名空间</a></li><li><a href=#异常处理>异常处理</a></li></ul></nav></div></div><div class=content id=content data-pagefind-body><blockquote><p>这个是我在学习<code>C++</code>语言中所记录的笔记,有可能会存在错误和遗漏,并且我有一点点C语言基础,
 会大量的提及C语言与C++的不同,从而造成笔记晦涩;
-另外C++的学习是一个长期且艰难的过程,因此本文进行了切分;</p></blockquote><p><a href=https://mengdemao.com/cxx_basic/ rel>C++基础笔记</a></br><a href=https://mengdemao.com/cxx_enhance/ rel>C++提高笔记</a></br><a href=https://mengdemao.com/cxx_advance/ rel>C++增强笔记</a></br><a href=https://mengdemao.com/cxx_template/ rel>C++模板笔记</a></br></p><h2 id=第一个程序 class=headerLink><a href=#%e7%ac%ac%e4%b8%80%e4%b8%aa%e7%a8%8b%e5%ba%8f class=header-mark></a>1 第一个程序</h2><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+另外C++的学习是一个长期且艰难的过程,因此本文进行了切分;</p></blockquote><p><a href=https://mengdemao.com/cxx_basic/ rel>C++基础笔记</a></br><a href=https://mengdemao.com/cxx_enhance/ rel>C++提高笔记</a></br><a href=https://mengdemao.com/cxx_advance/ rel>C++增强笔记</a></br><a href=https://mengdemao.com/cxx_template/ rel>C++模板笔记</a></br></p><h2 id=第一个程序 class=headerLink><a href=#%e7%ac%ac%e4%b8%80%e4%b8%aa%e7%a8%8b%e5%ba%8f class=header-mark></a>1 第一个程序</h2><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">cpp</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">cpp</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -71,19 +66,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#include</span
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Hello World&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>编译指令</p><p><img class=tw-inline loading=lazy src=/cxx_basic/picture/HelloWorld.gif alt="Hello world编译指令" height=1176 width=1536></p><p>从生成的汇编指令来看,复杂不少</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>编译指令</p><p><img class=tw-inline loading=lazy src=/cxx_basic/picture/HelloWorld.gif alt="Hello world编译指令" height=1176 width=1536></p><p>从生成的汇编指令来看,复杂不少</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">asm</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">asm</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -187,19 +178,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=nl>__cxx_global_v
 </span></span><span class=line><span class=cl>        <span class=nf>pop</span>     <span class=err>{</span><span class=no>r11</span><span class=p>,</span> <span class=no>lr</span><span class=err>}</span>
 </span></span><span class=line><span class=cl>        <span class=nf>bx</span>      <span class=no>lr</span>
 </span></span><span class=line><span class=cl><span class=nl>.L.str:</span>
-</span></span><span class=line><span class=cl>        <span class=na>.asciz</span>  <span class=s>&#34;Hello World&#34;</span></span></span></code></pre></div><h2 id=注释 class=headerLink><a href=#%e6%b3%a8%e9%87%8a class=header-mark></a>2 注释</h2><h3 id=c注释 class=headerLink><a href=#c%e6%b3%a8%e9%87%8a class=header-mark></a>2.1 C++注释</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl>        <span class=na>.asciz</span>  <span class=s>&#34;Hello World&#34;</span></span></span></code></pre></div><h2 id=注释 class=headerLink><a href=#%e6%b3%a8%e9%87%8a class=header-mark></a>2 注释</h2><h3 id=c注释 class=headerLink><a href=#c%e6%b3%a8%e9%87%8a class=header-mark></a>2.1 C++注释</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -238,19 +225,15 @@ group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=c1>// 这个是一个单行注释
-</span></span></span></code></pre></div><h3 id=c注释-1 class=headerLink><a href=#c%e6%b3%a8%e9%87%8a-1 class=header-mark></a>2.2 C注释</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span></span></code></pre></div><h3 id=c注释-1 class=headerLink><a href=#c%e6%b3%a8%e9%87%8a-1 class=header-mark></a>2.2 C注释</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -291,19 +274,15 @@ tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=cm>/*
 </span></span></span><span class=line><span class=cl><span class=cm>这个里面是一个注释
 </span></span></span><span class=line><span class=cl><span class=cm>*/</span></span></span></code></pre></div><blockquote><p>在C/C++中两种注释都是可以使用的
-并不是绝对的,只因为提出者是C或者C++</p></blockquote><ol><li>注释不影响程序的编译&ndash;>(预编译删除所有注释)</li><li>推荐使用<a href=https://www.doxygen.nl/index.html target=_blank rel="noopener noreferrer">doxygen</a>&ndash;>(使用doxygen漂亮的注释)</li></ol><h2 id=标识符 class=headerLink><a href=#%e6%a0%87%e8%af%86%e7%ac%a6 class=header-mark></a>3 标识符</h2><h3 id=变量 class=headerLink><a href=#%e5%8f%98%e9%87%8f class=header-mark></a>3.1 变量</h3><p>变量的存在意义:方便我们管理内存</p><blockquote><p>变量创建的语法</p></blockquote><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+并不是绝对的,只因为提出者是C或者C++</p></blockquote><ol><li>注释不影响程序的编译&ndash;>(预编译删除所有注释)</li><li>推荐使用<a href=https://www.doxygen.nl/index.html target=_blank rel="noopener noreferrer">doxygen</a>&ndash;>(使用doxygen漂亮的注释)</li></ol><h2 id=标识符 class=headerLink><a href=#%e6%a0%87%e8%af%86%e7%ac%a6 class=header-mark></a>3 标识符</h2><h3 id=变量 class=headerLink><a href=#%e5%8f%98%e9%87%8f class=header-mark></a>3.1 变量</h3><p>变量的存在意义:方便我们管理内存</p><blockquote><p>变量创建的语法</p></blockquote><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">cpp</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">cpp</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -341,19 +320,15 @@ group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
-tw-scrollbar-thin"><span class=line><span class=cl><span class=err>存储类型</span> <span class=err>数据类型</span> <span class=err>变量名</span> <span class=o>=</span> <span class=err>变量初始化</span><span class=p>;</span></span></span></code></pre></div><ul><li>自动,不使用标识符</li><li>寄存器(register)</li><li>静态static</li><li>外部extern</li></ul><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-scrollbar-thin"><span class=line><span class=cl><span class=err>存储类型</span> <span class=err>数据类型</span> <span class=err>变量名</span> <span class=o>=</span> <span class=err>变量初始化</span><span class=p>;</span></span></span></code></pre></div><ul><li>自动,不使用标识符</li><li>寄存器(register)</li><li>静态static</li><li>外部extern</li></ul><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">cxx</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">cxx</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -395,19 +370,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=cm>/* auto */</sp
 </span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>static</span> <span class=kt>int</span> <span class=n>a</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>           <span class=c1>// 静态
 </span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>register</span> <span class=kt>int</span> <span class=n>a</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>         <span class=c1>// 寄存器
 </span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>extern</span> <span class=kt>int</span> <span class=n>a</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>           <span class=c1>// 外部
-</span></span></span></code></pre></div><blockquote><p>总结</p></blockquote><div class=table-wrapper><table><thead><tr><th style=text-align:>存储类型</th><th style=text-align:>持续性</th><th style=text-align:>作用域</th><th style=text-align:center>链接性</th><th style=text-align:>定义</th></tr></thead><tbody><tr><td style=text-align:>自动变量</td><td style=text-align:>自动</td><td style=text-align:>函数内</td><td style=text-align:center>&#x274e;</td><td style=text-align:>无标志符,定义在函数内</td></tr><tr><td style=text-align:>寄存器</td><td style=text-align:>自动</td><td style=text-align:>函数内</td><td style=text-align:center>&#x274e;</td><td style=text-align:><code>register</code></td></tr><tr><td style=text-align:>静态</td><td style=text-align:>全局</td><td style=text-align:>函数内|文件内</td><td style=text-align:center>&#x274e;</td><td style=text-align:><code>static</code></td></tr><tr><td style=text-align:>外部</td><td style=text-align:>全局</td><td style=text-align:>文件内</td><td style=text-align:center>✅</td><td style=text-align:>无标志符,定义在文件内</td></tr></tbody></table></div><h3 id=常量 class=headerLink><a href=#%e5%b8%b8%e9%87%8f class=header-mark></a>3.2 常量</h3><p>作用: 记录程序中不可以改变的数据</p><ul><li><code>define </code>宏常量(预编译期)</li><li><code>const </code>修饰变量(编译期)</li></ul><h3 id=关键字 class=headerLink><a href=#%e5%85%b3%e9%94%ae%e5%ad%97 class=header-mark></a>3.3 关键字</h3><div class=table-wrapper><table><thead><tr><th style=text-align:>关键字</th><th style=text-align:></th><th style=text-align:></th><th style=text-align:></th></tr></thead><tbody><tr><td style=text-align:>asm</td><td style=text-align:>else</td><td style=text-align:>new</td><td style=text-align:>this</td></tr><tr><td style=text-align:>auto</td><td style=text-align:>enum</td><td style=text-align:>operator</td><td style=text-align:>throw</td></tr><tr><td style=text-align:>bool</td><td style=text-align:>explicit</td><td style=text-align:>private</td><td style=text-align:>true</td></tr><tr><td style=text-align:>break</td><td style=text-align:>export</td><td style=text-align:>protected</td><td style=text-align:>try</td></tr><tr><td style=text-align:>case</td><td style=text-align:>extern</td><td style=text-align:>public</td><td style=text-align:>typedef</td></tr><tr><td style=text-align:>catch</td><td style=text-align:>false</td><td style=text-align:>register</td><td style=text-align:>typeid</td></tr><tr><td style=text-align:>char</td><td style=text-align:>float</td><td style=text-align:>reinterpret_cast</td><td style=text-align:>typename</td></tr><tr><td style=text-align:>class</td><td style=text-align:>for</td><td style=text-align:>return</td><td style=text-align:>union</td></tr><tr><td style=text-align:>const</td><td style=text-align:>friend</td><td style=text-align:>short</td><td style=text-align:>unsigned</td></tr><tr><td style=text-align:>const_cast</td><td style=text-align:>goto</td><td style=text-align:>signed</td><td style=text-align:>using</td></tr><tr><td style=text-align:>continue</td><td style=text-align:>if</td><td style=text-align:>sizeof</td><td style=text-align:>virtual</td></tr><tr><td style=text-align:>default</td><td style=text-align:>inline</td><td style=text-align:>static</td><td style=text-align:>void</td></tr><tr><td style=text-align:>delete</td><td style=text-align:>int</td><td style=text-align:>static_cast</td><td style=text-align:>volatile</td></tr><tr><td style=text-align:>do</td><td style=text-align:>long</td><td style=text-align:>struct</td><td style=text-align:>wchar_t</td></tr><tr><td style=text-align:>double</td><td style=text-align:>mutable</td><td style=text-align:>switch</td><td style=text-align:>while</td></tr><tr><td style=text-align:>dynamic_cast</td><td style=text-align:>namespace</td><td style=text-align:>template</td><td style=text-align:></td></tr></tbody></table></div><h3 id=命名规则 class=headerLink><a href=#%e5%91%bd%e5%90%8d%e8%a7%84%e5%88%99 class=header-mark></a>3.4 命名规则</h3><ol><li>标识符不可以是关键字</li><li>只能由字母、数字、下划线构成</li><li>第一个字母只能是字母或者是下划线</li><li>区分大小写</li></ol><h2 id=数据类型 class=headerLink><a href=#%e6%95%b0%e6%8d%ae%e7%b1%bb%e5%9e%8b class=header-mark></a>4 数据类型</h2><p>指定类型,分配内存</p><h3 id=整形 class=headerLink><a href=#%e6%95%b4%e5%bd%a2 class=header-mark></a>4.1 整形</h3><h3 id=浮点型 class=headerLink><a href=#%e6%b5%ae%e7%82%b9%e5%9e%8b class=header-mark></a>4.2 浮点型</h3><ol><li>单精度<code>float</code></li><li>双精度<code>double</code></li></ol><h3 id=字符型 class=headerLink><a href=#%e5%ad%97%e7%ac%a6%e5%9e%8b class=header-mark></a>4.3 字符型</h3><h3 id=转义字符 class=headerLink><a href=#%e8%bd%ac%e4%b9%89%e5%ad%97%e7%ac%a6 class=header-mark></a>4.4 转义字符</h3><h3 id=字符串 class=headerLink><a href=#%e5%ad%97%e7%ac%a6%e4%b8%b2 class=header-mark></a>4.5 字符串</h3><ol><li>C风格</li></ol><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span></span></code></pre></div><blockquote><p>总结</p></blockquote><div class=table-wrapper><table><thead><tr><th style=text-align:>存储类型</th><th style=text-align:>持续性</th><th style=text-align:>作用域</th><th style=text-align:center>链接性</th><th style=text-align:>定义</th></tr></thead><tbody><tr><td style=text-align:>自动变量</td><td style=text-align:>自动</td><td style=text-align:>函数内</td><td style=text-align:center>&#x274e;</td><td style=text-align:>无标志符,定义在函数内</td></tr><tr><td style=text-align:>寄存器</td><td style=text-align:>自动</td><td style=text-align:>函数内</td><td style=text-align:center>&#x274e;</td><td style=text-align:><code>register</code></td></tr><tr><td style=text-align:>静态</td><td style=text-align:>全局</td><td style=text-align:>函数内|文件内</td><td style=text-align:center>&#x274e;</td><td style=text-align:><code>static</code></td></tr><tr><td style=text-align:>外部</td><td style=text-align:>全局</td><td style=text-align:>文件内</td><td style=text-align:center>✅</td><td style=text-align:>无标志符,定义在文件内</td></tr></tbody></table></div><h3 id=常量 class=headerLink><a href=#%e5%b8%b8%e9%87%8f class=header-mark></a>3.2 常量</h3><p>作用: 记录程序中不可以改变的数据</p><ul><li><code>define </code>宏常量(预编译期)</li><li><code>const </code>修饰变量(编译期)</li></ul><h3 id=关键字 class=headerLink><a href=#%e5%85%b3%e9%94%ae%e5%ad%97 class=header-mark></a>3.3 关键字</h3><div class=table-wrapper><table><thead><tr><th style=text-align:>关键字</th><th style=text-align:></th><th style=text-align:></th><th style=text-align:></th></tr></thead><tbody><tr><td style=text-align:>asm</td><td style=text-align:>else</td><td style=text-align:>new</td><td style=text-align:>this</td></tr><tr><td style=text-align:>auto</td><td style=text-align:>enum</td><td style=text-align:>operator</td><td style=text-align:>throw</td></tr><tr><td style=text-align:>bool</td><td style=text-align:>explicit</td><td style=text-align:>private</td><td style=text-align:>true</td></tr><tr><td style=text-align:>break</td><td style=text-align:>export</td><td style=text-align:>protected</td><td style=text-align:>try</td></tr><tr><td style=text-align:>case</td><td style=text-align:>extern</td><td style=text-align:>public</td><td style=text-align:>typedef</td></tr><tr><td style=text-align:>catch</td><td style=text-align:>false</td><td style=text-align:>register</td><td style=text-align:>typeid</td></tr><tr><td style=text-align:>char</td><td style=text-align:>float</td><td style=text-align:>reinterpret_cast</td><td style=text-align:>typename</td></tr><tr><td style=text-align:>class</td><td style=text-align:>for</td><td style=text-align:>return</td><td style=text-align:>union</td></tr><tr><td style=text-align:>const</td><td style=text-align:>friend</td><td style=text-align:>short</td><td style=text-align:>unsigned</td></tr><tr><td style=text-align:>const_cast</td><td style=text-align:>goto</td><td style=text-align:>signed</td><td style=text-align:>using</td></tr><tr><td style=text-align:>continue</td><td style=text-align:>if</td><td style=text-align:>sizeof</td><td style=text-align:>virtual</td></tr><tr><td style=text-align:>default</td><td style=text-align:>inline</td><td style=text-align:>static</td><td style=text-align:>void</td></tr><tr><td style=text-align:>delete</td><td style=text-align:>int</td><td style=text-align:>static_cast</td><td style=text-align:>volatile</td></tr><tr><td style=text-align:>do</td><td style=text-align:>long</td><td style=text-align:>struct</td><td style=text-align:>wchar_t</td></tr><tr><td style=text-align:>double</td><td style=text-align:>mutable</td><td style=text-align:>switch</td><td style=text-align:>while</td></tr><tr><td style=text-align:>dynamic_cast</td><td style=text-align:>namespace</td><td style=text-align:>template</td><td style=text-align:></td></tr></tbody></table></div><h3 id=命名规则 class=headerLink><a href=#%e5%91%bd%e5%90%8d%e8%a7%84%e5%88%99 class=header-mark></a>3.4 命名规则</h3><ol><li>标识符不可以是关键字</li><li>只能由字母、数字、下划线构成</li><li>第一个字母只能是字母或者是下划线</li><li>区分大小写</li></ol><h2 id=数据类型 class=headerLink><a href=#%e6%95%b0%e6%8d%ae%e7%b1%bb%e5%9e%8b class=header-mark></a>4 数据类型</h2><p>指定类型,分配内存</p><h3 id=整形 class=headerLink><a href=#%e6%95%b4%e5%bd%a2 class=header-mark></a>4.1 整形</h3><h3 id=浮点型 class=headerLink><a href=#%e6%b5%ae%e7%82%b9%e5%9e%8b class=header-mark></a>4.2 浮点型</h3><ol><li>单精度<code>float</code></li><li>双精度<code>double</code></li></ol><h3 id=字符型 class=headerLink><a href=#%e5%ad%97%e7%ac%a6%e5%9e%8b class=header-mark></a>4.3 字符型</h3><h3 id=转义字符 class=headerLink><a href=#%e8%bd%ac%e4%b9%89%e5%ad%97%e7%ac%a6 class=header-mark></a>4.4 转义字符</h3><h3 id=字符串 class=headerLink><a href=#%e5%ad%97%e7%ac%a6%e4%b8%b2 class=header-mark></a>4.5 字符串</h3><ol><li>C风格</li></ol><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -445,19 +416,15 @@ group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
-tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>char</span> <span class=err>变量名</span><span class=p>[]</span> <span class=o>=</span> <span class=s>&#34;字符串值&#34;</span><span class=p>;</span></span></span></code></pre></div><ol start=2><li>C++风格</li></ol><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>char</span> <span class=err>变量名</span><span class=p>[]</span> <span class=o>=</span> <span class=s>&#34;字符串值&#34;</span><span class=p>;</span></span></span></code></pre></div><ol start=2><li>C++风格</li></ol><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">cpp</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">cpp</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -495,19 +462,15 @@ group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
-tw-scrollbar-thin"><span class=line><span class=cl><span class=n>string</span> <span class=err>变量名</span> <span class=o>=</span> <span class=s>&#34;字符串值&#34;</span><span class=p>;</span></span></span></code></pre></div><h3 id=布尔类型 class=headerLink><a href=#%e5%b8%83%e5%b0%94%e7%b1%bb%e5%9e%8b class=header-mark></a>4.6 布尔类型</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-scrollbar-thin"><span class=line><span class=cl><span class=n>string</span> <span class=err>变量名</span> <span class=o>=</span> <span class=s>&#34;字符串值&#34;</span><span class=p>;</span></span></span></code></pre></div><h3 id=布尔类型 class=headerLink><a href=#%e5%b8%83%e5%b0%94%e7%b1%bb%e5%9e%8b class=header-mark></a>4.6 布尔类型</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">cpp</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">cpp</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -546,19 +509,15 @@ group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>bool</span> <span class=n>A</span> <span class=o>=</span> <span class=nb>true</span><span class=p>;</span>
-</span></span><span class=line><span class=cl><span class=kt>bool</span> <span class=n>B</span> <span class=o>=</span> <span class=nb>false</span><span class=p>;</span></span></span></code></pre></div><h2 id=运算符 class=headerLink><a href=#%e8%bf%90%e7%ae%97%e7%ac%a6 class=header-mark></a>5 运算符</h2><h3 id=基本运算符 class=headerLink><a href=#%e5%9f%ba%e6%9c%ac%e8%bf%90%e7%ae%97%e7%ac%a6 class=header-mark></a>5.1 基本运算符</h3><h3 id=取模运算 class=headerLink><a href=#%e5%8f%96%e6%a8%a1%e8%bf%90%e7%ae%97 class=header-mark></a>5.2 取模运算</h3><p>就是取余数</p><h3 id=自增自减运算 class=headerLink><a href=#%e8%87%aa%e5%a2%9e%e8%87%aa%e5%87%8f%e8%bf%90%e7%ae%97 class=header-mark></a>5.3 自增自减运算</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=kt>bool</span> <span class=n>B</span> <span class=o>=</span> <span class=nb>false</span><span class=p>;</span></span></span></code></pre></div><h2 id=运算符 class=headerLink><a href=#%e8%bf%90%e7%ae%97%e7%ac%a6 class=header-mark></a>5 运算符</h2><h3 id=基本运算符 class=headerLink><a href=#%e5%9f%ba%e6%9c%ac%e8%bf%90%e7%ae%97%e7%ac%a6 class=header-mark></a>5.1 基本运算符</h3><h3 id=取模运算 class=headerLink><a href=#%e5%8f%96%e6%a8%a1%e8%bf%90%e7%ae%97 class=header-mark></a>5.2 取模运算</h3><p>就是取余数</p><h3 id=自增自减运算 class=headerLink><a href=#%e8%87%aa%e5%a2%9e%e8%87%aa%e5%87%8f%e8%bf%90%e7%ae%97 class=header-mark></a>5.3 自增自减运算</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -597,19 +556,15 @@ group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=n>a1</span><span class=o>++</span><span class=p>;</span>
-</span></span><span class=line><span class=cl><span class=n>a2</span><span class=o>--</span><span class=p>;</span></span></span></code></pre></div><h3 id=赋值运算 class=headerLink><a href=#%e8%b5%8b%e5%80%bc%e8%bf%90%e7%ae%97 class=header-mark></a>5.4 赋值运算</h3><div class=table-wrapper><table><thead><tr><th style=text-align:center>运算符</th><th style=text-align:center>术语</th><th style=text-align:center>示例</th><th style=text-align:center>结果</th></tr></thead><tbody><tr><td style=text-align:center>=</td><td style=text-align:center></td><td style=text-align:center></td><td style=text-align:center></td></tr><tr><td style=text-align:center>+=</td><td style=text-align:center></td><td style=text-align:center></td><td style=text-align:center></td></tr><tr><td style=text-align:center>-=</td><td style=text-align:center></td><td style=text-align:center></td><td style=text-align:center></td></tr><tr><td style=text-align:center>*=</td><td style=text-align:center></td><td style=text-align:center></td><td style=text-align:center></td></tr><tr><td style=text-align:center>/=</td><td style=text-align:center></td><td style=text-align:center></td><td style=text-align:center></td></tr><tr><td style=text-align:center>%=</td><td style=text-align:center></td><td style=text-align:center></td><td style=text-align:center></td></tr></tbody></table></div><h3 id=比较运算符 class=headerLink><a href=#%e6%af%94%e8%be%83%e8%bf%90%e7%ae%97%e7%ac%a6 class=header-mark></a>5.5 比较运算符</h3><h3 id=逻辑运算符 class=headerLink><a href=#%e9%80%bb%e8%be%91%e8%bf%90%e7%ae%97%e7%ac%a6 class=header-mark></a>5.6 逻辑运算符</h3><h2 id=流程控制 class=headerLink><a href=#%e6%b5%81%e7%a8%8b%e6%8e%a7%e5%88%b6 class=header-mark></a>6 流程控制</h2><h3 id=顺序结构 class=headerLink><a href=#%e9%a1%ba%e5%ba%8f%e7%bb%93%e6%9e%84 class=header-mark></a>6.1 顺序结构</h3><h4 id=if语句 class=headerLink><a href=#if%e8%af%ad%e5%8f%a5 class=header-mark></a>6.1.1 if语句</h4><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=n>a2</span><span class=o>--</span><span class=p>;</span></span></span></code></pre></div><h3 id=赋值运算 class=headerLink><a href=#%e8%b5%8b%e5%80%bc%e8%bf%90%e7%ae%97 class=header-mark></a>5.4 赋值运算</h3><div class=table-wrapper><table><thead><tr><th style=text-align:center>运算符</th><th style=text-align:center>术语</th><th style=text-align:center>示例</th><th style=text-align:center>结果</th></tr></thead><tbody><tr><td style=text-align:center>=</td><td style=text-align:center></td><td style=text-align:center></td><td style=text-align:center></td></tr><tr><td style=text-align:center>+=</td><td style=text-align:center></td><td style=text-align:center></td><td style=text-align:center></td></tr><tr><td style=text-align:center>-=</td><td style=text-align:center></td><td style=text-align:center></td><td style=text-align:center></td></tr><tr><td style=text-align:center>*=</td><td style=text-align:center></td><td style=text-align:center></td><td style=text-align:center></td></tr><tr><td style=text-align:center>/=</td><td style=text-align:center></td><td style=text-align:center></td><td style=text-align:center></td></tr><tr><td style=text-align:center>%=</td><td style=text-align:center></td><td style=text-align:center></td><td style=text-align:center></td></tr></tbody></table></div><h3 id=比较运算符 class=headerLink><a href=#%e6%af%94%e8%be%83%e8%bf%90%e7%ae%97%e7%ac%a6 class=header-mark></a>5.5 比较运算符</h3><h3 id=逻辑运算符 class=headerLink><a href=#%e9%80%bb%e8%be%91%e8%bf%90%e7%ae%97%e7%ac%a6 class=header-mark></a>5.6 逻辑运算符</h3><h2 id=流程控制 class=headerLink><a href=#%e6%b5%81%e7%a8%8b%e6%8e%a7%e5%88%b6 class=header-mark></a>6 流程控制</h2><h3 id=顺序结构 class=headerLink><a href=#%e9%a1%ba%e5%ba%8f%e7%bb%93%e6%9e%84 class=header-mark></a>6.1 顺序结构</h3><h4 id=if语句 class=headerLink><a href=#if%e8%af%ad%e5%8f%a5 class=header-mark></a>6.1.1 if语句</h4><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -666,19 +621,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=c1>// 情景1
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h4 id=三目运算符 class=headerLink><a href=#%e4%b8%89%e7%9b%ae%e8%bf%90%e7%ae%97%e7%ac%a6 class=header-mark></a>6.1.2 三目运算符</h4><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h4 id=三目运算符 class=headerLink><a href=#%e4%b8%89%e7%9b%ae%e8%bf%90%e7%ae%97%e7%ac%a6 class=header-mark></a>6.1.2 三目运算符</h4><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -716,19 +667,15 @@ group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
-tw-scrollbar-thin"><span class=line><span class=cl><span class=err>表达式</span><span class=mi>1</span><span class=o>?</span> <span class=err>表达式</span><span class=mi>2</span><span class=o>:</span><span class=err>表达式</span><span class=mi>3</span></span></span></code></pre></div><h3 id=选择结构 class=headerLink><a href=#%e9%80%89%e6%8b%a9%e7%bb%93%e6%9e%84 class=header-mark></a>6.2 选择结构</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-scrollbar-thin"><span class=line><span class=cl><span class=err>表达式</span><span class=mi>1</span><span class=o>?</span> <span class=err>表达式</span><span class=mi>2</span><span class=o>:</span><span class=err>表达式</span><span class=mi>3</span></span></span></code></pre></div><h3 id=选择结构 class=headerLink><a href=#%e9%80%89%e6%8b%a9%e7%bb%93%e6%9e%84 class=header-mark></a>6.2 选择结构</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -774,19 +721,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>switch</span><s
 </span></span><span class=line><span class=cl>    <span class=k>break</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=k>default</span><span class=o>:</span>
 </span></span><span class=line><span class=cl>    <span class=k>break</span><span class=p>;</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=循环结构 class=headerLink><a href=#%e5%be%aa%e7%8e%af%e7%bb%93%e6%9e%84 class=header-mark></a>6.3 循环结构</h3><h3 id=while循环 class=headerLink><a href=#while%e5%be%aa%e7%8e%af class=header-mark></a>6.4 while循环</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=循环结构 class=headerLink><a href=#%e5%be%aa%e7%8e%af%e7%bb%93%e6%9e%84 class=header-mark></a>6.3 循环结构</h3><h3 id=while循环 class=headerLink><a href=#while%e5%be%aa%e7%8e%af class=header-mark></a>6.4 while循环</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -827,19 +770,15 @@ tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=k>while</span><span class=p>(</span><span class=err>条件</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=err>循环体</span><span class=p>;</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>###<code>do...while</code>循环</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>###<code>do...while</code>循环</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -879,19 +818,15 @@ tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=k>do</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=p>}</span> <span class=k>while</span><span class=p>(</span><span class=err>条件</span><span class=p>)</span></span></span></code></pre></div><h3 id=for循环 class=headerLink><a href=#for%e5%be%aa%e7%8e%af class=header-mark></a>6.5 for循环</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=p>}</span> <span class=k>while</span><span class=p>(</span><span class=err>条件</span><span class=p>)</span></span></span></code></pre></div><h3 id=for循环 class=headerLink><a href=#for%e5%be%aa%e7%8e%af class=header-mark></a>6.5 for循环</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -932,19 +867,15 @@ tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=k>for</span> <span class=p>(</span><span class=err>起始表达式</span><span class=p>;</span> <span class=err>条件表达式</span><span class=p>;</span> <span class=err>末尾循环体</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=err>循环体</span><span class=p>;</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=跳转语句 class=headerLink><a href=#%e8%b7%b3%e8%bd%ac%e8%af%ad%e5%8f%a5 class=header-mark></a>6.6 跳转语句</h3><ul><li>break</li><li>continue</li></ul><h4 id=goto class=headerLink><a href=#goto class=header-mark></a>6.6.1 goto</h4><blockquote><p>绝对跳转语句</p></blockquote><h2 id=函数定义 class=headerLink><a href=#%e5%87%bd%e6%95%b0%e5%ae%9a%e4%b9%89 class=header-mark></a>7 函数定义</h2><ol><li>返回值类型</li><li>函数名</li><li>参数列表</li><li>函数体语句</li><li><code>return</code>表达式</li></ol><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=跳转语句 class=headerLink><a href=#%e8%b7%b3%e8%bd%ac%e8%af%ad%e5%8f%a5 class=header-mark></a>6.6 跳转语句</h3><ul><li>break</li><li>continue</li></ul><h4 id=goto class=headerLink><a href=#goto class=header-mark></a>6.6.1 goto</h4><blockquote><p>绝对跳转语句</p></blockquote><h2 id=函数定义 class=headerLink><a href=#%e5%87%bd%e6%95%b0%e5%ae%9a%e4%b9%89 class=header-mark></a>7 函数定义</h2><ol><li>返回值类型</li><li>函数名</li><li>参数列表</li><li>函数体语句</li><li><code>return</code>表达式</li></ol><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -988,19 +919,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=err>返回值类�
 </span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=err>表达式</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=值传递 class=headerLink><a href=#%e5%80%bc%e4%bc%a0%e9%80%92 class=header-mark></a>7.1 值传递</h3><blockquote><p>类似数值拷贝</p></blockquote><h3 id=函数的常见样式 class=headerLink><a href=#%e5%87%bd%e6%95%b0%e7%9a%84%e5%b8%b8%e8%a7%81%e6%a0%b7%e5%bc%8f class=header-mark></a>7.2 函数的常见样式</h3><ol><li>无参无返</li><li>有参无返</li><li>无参有反</li><li>有参有返</li></ol><h3 id=声明 class=headerLink><a href=#%e5%a3%b0%e6%98%8e class=header-mark></a>7.3 声明</h3><p>作用: 告诉编译器函数名以及调用方式,函数实体可以单独实现;</p><h3 id=多文件 class=headerLink><a href=#%e5%a4%9a%e6%96%87%e4%bb%b6 class=header-mark></a>7.4 多文件</h3><h2 id=复合数据结构 class=headerLink><a href=#%e5%a4%8d%e5%90%88%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84 class=header-mark></a>8 复合数据结构</h2><h3 id=数组 class=headerLink><a href=#%e6%95%b0%e7%bb%84 class=header-mark></a>8.1 数组</h3><h3 id=指针 class=headerLink><a href=#%e6%8c%87%e9%92%88 class=header-mark></a>8.2 指针</h3><h4 id=指针的定义和使用 class=headerLink><a href=#%e6%8c%87%e9%92%88%e7%9a%84%e5%ae%9a%e4%b9%89%e5%92%8c%e4%bd%bf%e7%94%a8 class=header-mark></a>8.2.1 指针的定义和使用</h4><h4 id=指针所占用空间 class=headerLink><a href=#%e6%8c%87%e9%92%88%e6%89%80%e5%8d%a0%e7%94%a8%e7%a9%ba%e9%97%b4 class=header-mark></a>8.2.2 指针所占用空间</h4><h4 id=空指针 class=headerLink><a href=#%e7%a9%ba%e6%8c%87%e9%92%88 class=header-mark></a>8.2.3 空指针</h4><p>含义: 指针指向内存空间为0的指针;
 用途: 初始化指针变量
-注意: 空指针的地址是不可以访问的</p><h4 id=野指针 class=headerLink><a href=#%e9%87%8e%e6%8c%87%e9%92%88 class=header-mark></a>8.2.4 野指针</h4><p>指针指向非法的内存空间</p><h4 id=const与指针 class=headerLink><a href=#const%e4%b8%8e%e6%8c%87%e9%92%88 class=header-mark></a>8.2.5 const与指针</h4><ol><li>const修饰指针</li><li>const修饰常量</li><li>const既修饰指针又修饰常量</li></ol><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+注意: 空指针的地址是不可以访问的</p><h4 id=野指针 class=headerLink><a href=#%e9%87%8e%e6%8c%87%e9%92%88 class=header-mark></a>8.2.4 野指针</h4><p>指针指向非法的内存空间</p><h4 id=const与指针 class=headerLink><a href=#const%e4%b8%8e%e6%8c%87%e9%92%88 class=header-mark></a>8.2.5 const与指针</h4><ol><li>const修饰指针</li><li>const修饰常量</li><li>const既修饰指针又修饰常量</li></ol><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1043,19 +970,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>const</span> <s
 </span></span><span class=line><span class=cl><span class=kt>int</span> <span class=k>const</span> <span class=o>*</span><span class=n>p</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>a</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=k>const</span> <span class=kt>int</span> <span class=o>*</span><span class=k>const</span> <span class=n>p</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>a</span><span class=p>;</span></span></span></code></pre></div><h4 id=指针与数组 class=headerLink><a href=#%e6%8c%87%e9%92%88%e4%b8%8e%e6%95%b0%e7%bb%84 class=header-mark></a>8.2.6 指针与数组</h4><h4 id=指针与函数 class=headerLink><a href=#%e6%8c%87%e9%92%88%e4%b8%8e%e5%87%bd%e6%95%b0 class=header-mark></a>8.2.7 指针与函数</h4><h3 id=结构体 class=headerLink><a href=#%e7%bb%93%e6%9e%84%e4%bd%93 class=header-mark></a>8.3 结构体</h3><h4 id=结构体数组 class=headerLink><a href=#%e7%bb%93%e6%9e%84%e4%bd%93%e6%95%b0%e7%bb%84 class=header-mark></a>8.3.1 结构体数组</h4><h4 id=结构体指针 class=headerLink><a href=#%e7%bb%93%e6%9e%84%e4%bd%93%e6%8c%87%e9%92%88 class=header-mark></a>8.3.2 结构体指针</h4><h4 id=结构体嵌套 class=headerLink><a href=#%e7%bb%93%e6%9e%84%e4%bd%93%e5%b5%8c%e5%a5%97 class=header-mark></a>8.3.3 结构体嵌套</h4><h3 id=枚举 class=headerLink><a href=#%e6%9e%9a%e4%b8%be class=header-mark></a>8.4 枚举</h3><h3 id=联合 class=headerLink><a href=#%e8%81%94%e5%90%88 class=header-mark></a>8.5 联合</h3><h3 id=位域 class=headerLink><a href=#%e4%bd%8d%e5%9f%9f class=header-mark></a>8.6 位域</h3><h2 id=c内存分区 class=headerLink><a href=#c%e5%86%85%e5%ad%98%e5%88%86%e5%8c%ba class=header-mark></a>9 C++内存分区</h2><p>c++程序在运行时,将内存分为4个区域</p><ol><li>代码区: 存放程序的二进制代码,由操作系统管理</li><li>全局区: 存放全局变量、静态变量和常量</li><li>栈区: 编译器自动分配</li><li>堆区: 程序负责分配和释放</li></ol><h2 id=newdelete操作符 class=headerLink><a href=#newdelete%e6%93%8d%e4%bd%9c%e7%ac%a6 class=header-mark></a>10 new/delete操作符</h2><ul><li>new操作符在堆区开辟内存</li><li>delete释放内存对象</li></ul><h2 id=引用 class=headerLink><a href=#%e5%bc%95%e7%94%a8 class=header-mark></a>11 引用</h2><p>作用: 给变量起别名
-语法: 数据类型 &别名 = 原名;</p><h3 id=引用做参数 class=headerLink><a href=#%e5%bc%95%e7%94%a8%e5%81%9a%e5%8f%82%e6%95%b0 class=header-mark></a>11.1 引用做参数</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+语法: 数据类型 &别名 = 原名;</p><h3 id=引用做参数 class=headerLink><a href=#%e5%bc%95%e7%94%a8%e5%81%9a%e5%8f%82%e6%95%b0 class=header-mark></a>11.1 引用做参数</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1106,19 +1029,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#include</span
 </span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;交换后&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>a</span> <span class=o>&lt;&lt;</span> <span class=sc>&#39;\t&#39;</span> <span class=o>&lt;&lt;</span> <span class=n>b</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>执行结果
-<img class=tw-inline loading=lazy src=https://raw.githubusercontent.com/mengdemao/picture/master/image-20211003222910241.png alt=image-20211003222910241></p><h3 id=引用做返回值 class=headerLink><a href=#%e5%bc%95%e7%94%a8%e5%81%9a%e8%bf%94%e5%9b%9e%e5%80%bc class=header-mark></a>11.2 引用做返回值</h3><h3 id=引用的本质 class=headerLink><a href=#%e5%bc%95%e7%94%a8%e7%9a%84%e6%9c%ac%e8%b4%a8 class=header-mark></a>11.3 引用的本质</h3><p>引用的本质是C++内部实现的一个指针常量</p><h3 id=常量引用 class=headerLink><a href=#%e5%b8%b8%e9%87%8f%e5%bc%95%e7%94%a8 class=header-mark></a>11.4 常量引用</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+<img class=tw-inline loading=lazy src=https://raw.githubusercontent.com/mengdemao/picture/master/image-20211003222910241.png alt=image-20211003222910241></p><h3 id=引用做返回值 class=headerLink><a href=#%e5%bc%95%e7%94%a8%e5%81%9a%e8%bf%94%e5%9b%9e%e5%80%bc class=header-mark></a>11.2 引用做返回值</h3><h3 id=引用的本质 class=headerLink><a href=#%e5%bc%95%e7%94%a8%e7%9a%84%e6%9c%ac%e8%b4%a8 class=header-mark></a>11.3 引用的本质</h3><p>引用的本质是C++内部实现的一个指针常量</p><h3 id=常量引用 class=headerLink><a href=#%e5%b8%b8%e9%87%8f%e5%bc%95%e7%94%a8 class=header-mark></a>11.4 常量引用</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1156,19 +1075,15 @@ group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
-tw-scrollbar-thin"><span class=line><span class=cl><span class=k>const</span> <span class=kt>int</span> <span class=o>&amp;</span><span class=n>ref</span> <span class=o>=</span> <span class=mi>10</span><span class=p>;</span></span></span></code></pre></div><h2 id=函数提高 class=headerLink><a href=#%e5%87%bd%e6%95%b0%e6%8f%90%e9%ab%98 class=header-mark></a>12 函数提高</h2><h3 id=函数默认值 class=headerLink><a href=#%e5%87%bd%e6%95%b0%e9%bb%98%e8%ae%a4%e5%80%bc class=header-mark></a>12.1 函数默认值</h3><ol><li>某个位置有默认值，那么后面的参数也必须由默认值</li><li>如果声明了默认值，那么实现不可以有默认值(默认参数会产生冲突)</li></ol><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-scrollbar-thin"><span class=line><span class=cl><span class=k>const</span> <span class=kt>int</span> <span class=o>&amp;</span><span class=n>ref</span> <span class=o>=</span> <span class=mi>10</span><span class=p>;</span></span></span></code></pre></div><h2 id=函数提高 class=headerLink><a href=#%e5%87%bd%e6%95%b0%e6%8f%90%e9%ab%98 class=header-mark></a>12 函数提高</h2><h3 id=函数默认值 class=headerLink><a href=#%e5%87%bd%e6%95%b0%e9%bb%98%e8%ae%a4%e5%80%bc class=header-mark></a>12.1 函数默认值</h3><ol><li>某个位置有默认值，那么后面的参数也必须由默认值</li><li>如果声明了默认值，那么实现不可以有默认值(默认参数会产生冲突)</li></ol><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1209,19 +1124,15 @@ tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>void</span> <span class=nf>test_default_param</span><span class=p>(</span><span class=kt>int</span> <span class=n>a</span> <span class=o>=</span> <span class=mi>0</span><span class=p>,</span> <span class=kt>int</span> <span class=n>b</span> <span class=o>=</span> <span class=mi>0</span><span class=p>,</span> <span class=kt>int</span> <span class=n>c</span> <span class=o>=</span> <span class=mi>0</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>a</span> <span class=o>+</span> <span class=n>b</span> <span class=o>+</span> <span class=n>c</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=函数的占位参数 class=headerLink><a href=#%e5%87%bd%e6%95%b0%e7%9a%84%e5%8d%a0%e4%bd%8d%e5%8f%82%e6%95%b0 class=header-mark></a>12.2 函数的占位参数</h3><p>占位参数还可以有默认值</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=函数的占位参数 class=headerLink><a href=#%e5%87%bd%e6%95%b0%e7%9a%84%e5%8d%a0%e4%bd%8d%e5%8f%82%e6%95%b0 class=header-mark></a>12.2 函数的占位参数</h3><p>占位参数还可以有默认值</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1261,19 +1172,15 @@ tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>void</span> <span class=nf>test</span><span class=p>(</span><span class=kt>int</span> <span class=n>a</span><span class=p>,</span> <span class=kt>int</span> <span class=o>=</span> <span class=mi>10</span><span class=p>)</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>a</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=函数重载 class=headerLink><a href=#%e5%87%bd%e6%95%b0%e9%87%8d%e8%bd%bd class=header-mark></a>12.3 函数重载</h3><p>作用:函数名相同,提高复用性</p><p>重载的条件:</p><ol><li><p>相同作用域</p></li><li><p>函数名相同</p></li><li><p>参数不同(类型, 个数,顺序)</p></li></ol><p>注意事项:</p><ol><li>引用作为重载条件</li><li>函数重载碰到默认参数</li></ol><h2 id=命名空间 class=headerLink><a href=#%e5%91%bd%e5%90%8d%e7%a9%ba%e9%97%b4 class=header-mark></a>13 命名空间</h2><blockquote><p>namespace/using关键字</p></blockquote><p>命名空间（Namespace）是一种用于避免命名冲突的机制，它能够将众多的全局变量、函数和类组织在一起，形成一个独立的命名空间，从而避免不同代码块中的同名标识符发生冲突。下面是C++命名空间的详解：</p><ol><li>命名空间的定义</li></ol><p>命名空间可以通过使用关键字"namespace"来定义，其语法格式如下：</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=函数重载 class=headerLink><a href=#%e5%87%bd%e6%95%b0%e9%87%8d%e8%bd%bd class=header-mark></a>12.3 函数重载</h3><p>作用:函数名相同,提高复用性</p><p>重载的条件:</p><ol><li><p>相同作用域</p></li><li><p>函数名相同</p></li><li><p>参数不同(类型, 个数,顺序)</p></li></ol><p>注意事项:</p><ol><li>引用作为重载条件</li><li>函数重载碰到默认参数</li></ol><h2 id=命名空间 class=headerLink><a href=#%e5%91%bd%e5%90%8d%e7%a9%ba%e9%97%b4 class=header-mark></a>13 命名空间</h2><blockquote><p>namespace/using关键字</p></blockquote><p>命名空间（Namespace）是一种用于避免命名冲突的机制，它能够将众多的全局变量、函数和类组织在一起，形成一个独立的命名空间，从而避免不同代码块中的同名标识符发生冲突。下面是C++命名空间的详解：</p><ol><li>命名空间的定义</li></ol><p>命名空间可以通过使用关键字"namespace"来定义，其语法格式如下：</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1313,19 +1220,15 @@ tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=k>namespace</span> <span class=n>namespace_name</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>   <span class=c1>// namespace body
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span></span></span></code></pre></div><p>其中，namespace_name表示命名空间的名称，花括号内的部分为命名空间的主体，可以包含变量、函数和类等。</p><ol><li>命名空间的使用</li></ol><p>命名空间可以通过两种方式进行使用：</p><p>（1）使用命名空间前缀</p><p>可以通过加上命名空间前缀的方式访问该命名空间中的元素。例如：</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span></span></span></code></pre></div><p>其中，namespace_name表示命名空间的名称，花括号内的部分为命名空间的主体，可以包含变量、函数和类等。</p><ol><li>命名空间的使用</li></ol><p>命名空间可以通过两种方式进行使用：</p><p>（1）使用命名空间前缀</p><p>可以通过加上命名空间前缀的方式访问该命名空间中的元素。例如：</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1369,19 +1272,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>namespace</span
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=n>ns</span><span class=o>::</span><span class=n>func</span><span class=p>();</span>  <span class=c1>// 调用ns命名空间中的函数func()
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span></span></span></code></pre></div><p>（2）using声明</p><p>也可以通过using声明的方式引入指定命名空间中的元素，以便于直接使用。例如：</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span></span></span></code></pre></div><p>（2）using声明</p><p>也可以通过using声明的方式引入指定命名空间中的元素，以便于直接使用。例如：</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1427,19 +1326,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>namespace</span
 </span></span></span><span class=line><span class=cl><span class=c1></span>
 </span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=n>func</span><span class=p>();</span>  <span class=c1>// 直接调用func()
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span></span></span></code></pre></div><p>需要注意的是，using声明污染了当前命名空间的作用域，可能会导致命名冲突。</p><ol><li>命名空间的嵌套</li></ol><p>C++中，命名空间可以进行嵌套，从而形成多级命名空间。例如：</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span></span></span></code></pre></div><p>需要注意的是，using声明污染了当前命名空间的作用域，可能会导致命名冲突。</p><ol><li>命名空间的嵌套</li></ol><p>C++中，命名空间可以进行嵌套，从而形成多级命名空间。例如：</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1485,19 +1380,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>namespace</span
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=n>ns1</span><span class=o>::</span><span class=n>ns2</span><span class=o>::</span><span class=n>func</span><span class=p>();</span>  <span class=c1>// 调用ns1::ns2命名空间中的函数func()
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span></span></span></code></pre></div><ol><li>匿名命名空间</li></ol><p>C++还支持匿名命名空间，它定义在全局命名空间内，但是该命名空间的名称为空。在匿名命名空间内定义的变量、函数和类等被视为静态的，只能在当前文件内使用。例如：</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span></span></span></code></pre></div><ol><li>匿名命名空间</li></ol><p>C++还支持匿名命名空间，它定义在全局命名空间内，但是该命名空间的名称为空。在匿名命名空间内定义的变量、函数和类等被视为静态的，只能在当前文件内使用。例如：</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1542,19 +1433,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>namespace</span
 </span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=n>x</span> <span class=o>=</span> <span class=mi>10</span><span class=p>;</span> <span class=c1>// 错误：无法访问匿名命名空间内的变量x
 </span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>以上就是C++命名空间的详细介绍，通过合理使用命名空间可以避免不同代码块中的同名标识符发生冲突，提高程序的可读性和可维护性。</p><p><strong>using关键字用法分析</strong></p><ol><li>using声明</li></ol><p>using声明可以用于将指定的命名空间或名称引入当前作用域，以便于直接使用。例如：</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>以上就是C++命名空间的详细介绍，通过合理使用命名空间可以避免不同代码块中的同名标识符发生冲突，提高程序的可读性和可维护性。</p><p><strong>using关键字用法分析</strong></p><ol><li>using声明</li></ol><p>using声明可以用于将指定的命名空间或名称引入当前作用域，以便于直接使用。例如：</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1601,19 +1488,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#include</span
 </span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Hello, world!&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>在上面的例子中，使用了using声明将std命名空间中的cout和endl引入到了main函数的作用域中，从而可以直接使用它们输出文本信息。</p><p>需要注意的是，using声明可能会导致命名冲突，因此应当谨慎使用。</p><ol start=2><li>using指令</li></ol><p>using指令可以用于将所指向的命名空间中的所有名称都引入当前作用域，以便于直接使用。例如：</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>在上面的例子中，使用了using声明将std命名空间中的cout和endl引入到了main函数的作用域中，从而可以直接使用它们输出文本信息。</p><p>需要注意的是，using声明可能会导致命名冲突，因此应当谨慎使用。</p><ol start=2><li>using指令</li></ol><p>using指令可以用于将所指向的命名空间中的所有名称都引入当前作用域，以便于直接使用。例如：</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1659,19 +1542,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#include</span
 </span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;Hello, world!&#34;</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>在上面的例子中，使用了using指令将std命名空间中的所有名称都引入到了main函数的作用域中，从而可以直接使用其中的cout和endl等标准库函数。</p><p>需要注意的是，使用using指令会将整个命名空间的所有名称都引入到当前作用域中，可能会导致命名冲突和名称重定义等问题。因此，建议在较小的作用域内使用using声明，而尽量避免使用using指令。</p><ol start=3><li>using别名</li></ol><p>using别名可以用于为一个类型或值定义一个新的名称，以便于更加方便地使用它们。例如：</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>在上面的例子中，使用了using指令将std命名空间中的所有名称都引入到了main函数的作用域中，从而可以直接使用其中的cout和endl等标准库函数。</p><p>需要注意的是，使用using指令会将整个命名空间的所有名称都引入到当前作用域中，可能会导致命名冲突和名称重定义等问题。因此，建议在较小的作用域内使用using声明，而尽量避免使用using指令。</p><ol start=3><li>using别名</li></ol><p>using别名可以用于为一个类型或值定义一个新的名称，以便于更加方便地使用它们。例如：</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1718,19 +1597,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#include</span
 </span></span><span class=line><span class=cl>    <span class=n>myInt</span> <span class=n>x</span> <span class=o>=</span> <span class=mi>10</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>x</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>在上面的例子中，使用了using别名将int型定义为了myInt的别名，从而可以在程序中使用myInt来代替int类型。</p><p>需要注意的是，使用using别名会增加代码的可读性，但也可能导致代码可读性下降。因此，在定义别名时应当保持适度，避免过多使用。</p><h2 id=异常处理 class=headerLink><a href=#%e5%bc%82%e5%b8%b8%e5%a4%84%e7%90%86 class=header-mark></a>14 异常处理</h2><p>C++ 异常是一种程序运行时可能发生的错误，它们通常是程序中的逻辑或者数据错误，例如除以零、访问空指针、数组越界等。当这些错误发生时，程序会抛出异常，并且执行相应的异常处理代码。</p><p>C++ 中的异常处理机制有三个关键字：try、catch 和 throw。其中，try 块中包含可能会抛出异常的代码，catch 块用于捕获并处理异常，throw 关键字用于在代码中显式地抛出异常。</p><p>下面是一个简单的 C++ 异常处理示例：</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>在上面的例子中，使用了using别名将int型定义为了myInt的别名，从而可以在程序中使用myInt来代替int类型。</p><p>需要注意的是，使用using别名会增加代码的可读性，但也可能导致代码可读性下降。因此，在定义别名时应当保持适度，避免过多使用。</p><h2 id=异常处理 class=headerLink><a href=#%e5%bc%82%e5%b8%b8%e5%a4%84%e7%90%86 class=header-mark></a>14 异常处理</h2><p>C++ 异常是一种程序运行时可能发生的错误，它们通常是程序中的逻辑或者数据错误，例如除以零、访问空指针、数组越界等。当这些错误发生时，程序会抛出异常，并且执行相应的异常处理代码。</p><p>C++ 中的异常处理机制有三个关键字：try、catch 和 throw。其中，try 块中包含可能会抛出异常的代码，catch 块用于捕获并处理异常，throw 关键字用于在代码中显式地抛出异常。</p><p>下面是一个简单的 C++ 异常处理示例：</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1788,10 +1663,11 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#include</span
 </span><span>|&nbsp;<a class=link-to-source href=https://github.com/mengdemao/github.io/blob/master/content/posts/cxx_basic/index.md target=_blank rel="noopener noreferrer">查看源代码</a>
 </span><span>|&nbsp;<a class=link-to-edit href=https://github.com/mengdemao/github.io/edit/master/content/posts/cxx_basic/index.md target=_blank rel="noopener noreferrer">编辑此页</a>
 </span><span>|&nbsp;<a class=link-to-report href="https://github.com/mengdemao/github.io/issues/new?title=[bug]%20C%2B%2B%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0&body=|Field|Value|%0A|-|-|%0A|Title|C%2B%2B%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0|%0A|Url|https://mengdemao.com/cxx_basic/|%0A|Filename|https://github.com/mengdemao/github.io/blob/main/exampleSite/content/posts/cxx_basic/index.md|" target=_blank rel="noopener noreferrer">报告问题</a></span></div><div class=post-info-share></div></div></div><div class=post-info-more><section class=post-tags><svg class="icon" viewBox="0 0 640 512"><path d="M497.941 225.941 286.059 14.059A48 48 0 00252.118.0H48C21.49.0.0 21.49.0 48v204.118a48 48 0 0014.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882.0l204.118-204.118c18.745-18.745 18.745-49.137.0-67.882zM112 160c-26.51.0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882.0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397.0h48.721a48 48 0 0133.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137.0 67.882z"/></svg>&nbsp;<a href=/tags/c++/>C++</a></section><section class=print:!tw-hidden><span><button class="tw-text-fgColor-link-muted hover:tw-text-fgColor-link-muted-hover" onclick=window.history.back()>返回</button></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class="post-nav print:tw-hidden"><a href=/cxx_enhance/ class=prev rel=prev title=C++提高笔记><svg class="icon" viewBox="0 0 256 512"><path d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9.0l22.6 22.6c9.4 9.4 9.4 24.6.0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6.0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9.0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"/></svg>C++提高笔记</a>
-<a href=/bsdiff/ class=next rel=next title=Bsdiff>Bsdiff<svg class="icon" viewBox="0 0 256 512"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9.0l-22.6-22.6c-9.4-9.4-9.4-24.6.0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6.0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9.0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></a></div></div><div id=comments class="print:!tw-hidden tw-pt-32 tw-pb-8"><div id=twikoo></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://twikoo.js.org/>Twikoo</a>.</noscript></div></article></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.146.3">Hugo</a> 强力驱动&nbsp;|&nbsp;托管在 <a title="Github Pages" href=https://docs.github.com/en/pages/ target=_blank rel="noopener noreffer">GitHub Pages</a> 上&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.4.1"><svg class="icon" viewBox="0 0 576 512"><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1.0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7.0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174 402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7-43.2-43.2c-4.1-4.1-10.8-4.1-14.8.0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg> DoIt</a></div><div class=footer-line><svg class="icon" viewBox="0 0 512 512"><path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 448c-110.532.0-2e2-89.451-2e2-2e2.0-110.531 89.451-2e2 2e2-2e2 110.532.0 2e2 89.451 2e2 2e2.0 110.532-89.451 2e2-2e2 2e2zm107.351-101.064c-9.614 9.712-45.53 41.396-104.065 41.396-82.43.0-140.484-61.425-140.484-141.567.0-79.152 60.275-139.401 139.762-139.401 55.531.0 88.738 26.62 97.593 34.779a11.965 11.965.0 011.936 15.322l-18.155 28.113c-3.841 5.95-11.966 7.282-17.499 2.921-8.595-6.776-31.814-22.538-61.708-22.538-48.303.0-77.916 35.33-77.916 80.082.0 41.589 26.888 83.692 78.277 83.692 32.657.0 56.843-19.039 65.726-27.225 5.27-4.857 13.596-4.039 17.82 1.738l19.865 27.17a11.947 11.947.0 01-1.152 15.518z"/></svg>2020 - 2025<span class=author>&nbsp;<a href=https://github.com/mengdemao target=_blank rel="noopener noreferrer">mengdemao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span><span class=icp-splitter>&nbsp;|&nbsp;</span><br class=icp-br><span class=icp><a href=https://beian.miit.gov.cn/>鲁ICP备2023050410号-1</a></span></div><div class=footer-line></div><div class=footer-line></div></div></footer><div class="print:!tw-hidden tw-flex tw-flex-col tw-fixed tw-right-4 tw-bottom-4 tw-gap-2"><a href=#back-to-top id=back-to-top-button class="tw-transition-opacity tw-opacity-0 tw-block tw-bg-bgColor-secondary tw-rounded-full" style=padding:.6rem;line-height:1.3rem;font-size:1rem title=回到顶部><svg class="icon" viewBox="0 0 448 512"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6.0-33.9L207 39c9.4-9.4 24.6-9.4 33.9.0l194.3 194.3c9.4 9.4 9.4 24.6.0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3.0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg>
+<a href=/bsdiff/ class=next rel=next title=Bsdiff>Bsdiff<svg class="icon" viewBox="0 0 256 512"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9.0l-22.6-22.6c-9.4-9.4-9.4-24.6.0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6.0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9.0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></a></div></div><div id=comments class="print:!tw-hidden tw-pt-32 tw-pb-8"><div id=twikoo></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://twikoo.js.org/>Twikoo</a>.</noscript></div></article></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.148.2">Hugo</a> 强力驱动&nbsp;|&nbsp;托管在 <a title="Github Pages" href=https://docs.github.com/en/pages/ target=_blank rel="noopener noreffer">GitHub Pages</a> 上&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.4.2"><svg class="icon" viewBox="0 0 576 512"><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1.0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7.0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174 402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7-43.2-43.2c-4.1-4.1-10.8-4.1-14.8.0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg> DoIt</a></div><div class=footer-line><svg class="icon" viewBox="0 0 512 512"><path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 448c-110.532.0-2e2-89.451-2e2-2e2.0-110.531 89.451-2e2 2e2-2e2 110.532.0 2e2 89.451 2e2 2e2.0 110.532-89.451 2e2-2e2 2e2zm107.351-101.064c-9.614 9.712-45.53 41.396-104.065 41.396-82.43.0-140.484-61.425-140.484-141.567.0-79.152 60.275-139.401 139.762-139.401 55.531.0 88.738 26.62 97.593 34.779a11.965 11.965.0 011.936 15.322l-18.155 28.113c-3.841 5.95-11.966 7.282-17.499 2.921-8.595-6.776-31.814-22.538-61.708-22.538-48.303.0-77.916 35.33-77.916 80.082.0 41.589 26.888 83.692 78.277 83.692 32.657.0 56.843-19.039 65.726-27.225 5.27-4.857 13.596-4.039 17.82 1.738l19.865 27.17a11.947 11.947.0 01-1.152 15.518z"/></svg>2020 - 2025<span class=author>&nbsp;<a href=https://github.com/mengdemao target=_blank rel="noopener noreferrer">mengdemao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span><span class=icp-splitter>&nbsp;|&nbsp;</span><br class=icp-br><span class=icp><a href=https://beian.miit.gov.cn/>鲁ICP备2023050410号-1</a></span></div><div class=footer-line></div><div class=footer-line></div></div></footer><div class="print:!tw-hidden tw-flex tw-flex-col tw-fixed tw-right-4 tw-bottom-4 tw-gap-2"><a href=#back-to-top id=back-to-top-button class="tw-transition-opacity tw-opacity-0 tw-block tw-bg-bgColor-secondary tw-rounded-full" style=padding:.6rem;line-height:1.3rem;font-size:1rem title=回到顶部><svg class="icon" viewBox="0 0 448 512"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6.0-33.9L207 39c9.4-9.4 24.6-9.4 33.9.0l194.3 194.3c9.4 9.4 9.4 24.6.0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3.0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg>
 </a><button id=toc-drawer-button class="tw-block tw-bg-bgColor-secondary tw-rounded-full md:tw-hidden" style=padding:.6rem;line-height:1.3rem;font-size:1rem>
 <svg class="icon" viewBox="0 0 448 512"><path d="M16 132h416c8.837.0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163.0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg>
-</button><a href=#comments id=view-comments class="tw-block tw-bg-bgColor-secondary tw-rounded-full" style=padding:.6rem;line-height:1.3rem;font-size:1rem title=查看评论><svg class="icon" viewBox="0 0 512 512"><path d="M256 32C114.6 32 0 125.1.0 240c0 49.6 21.4 95 57 130.7C44.5 421.1 2.7 466 2.2 466.5c-2.2 2.3-2.8 5.7-1.5 8.7S4.8 480 8 480c66.3.0 116-31.8 140.6-51.4 32.7 12.3 69 19.4 107.4 19.4 141.4.0 256-93.1 256-208S397.4 32 256 32z"/></svg></a></div><div id=cookieconsent-container></div><link rel=stylesheet href=/lib/cookieconsent/cookieconsent.min.2d0f7b71a99aaff94e9624ff32a8dc42ce645a0cba433fdc091cf34735027efd1fa2db024c2f591d768f426255f17bbf3d500b7c967b0437b3979956dffa81c6.css integrity="sha512-LQ97camar/lOliT/MqjcQs5kWgy6Qz/cCRzzRzUCfv0fotsCTC9ZHXaPQmJV8Xu/PVALfJZ7BDezl5lW3/qBxg=="><script>window.config={comment:{twikoo:{commentCount:!0,el:"#twikoo",envId:"https://twikoo-comments-doit.vercel.app/",lang:"zh-cn"}},cookieconsent:{content:{dismiss:"同意",link:"了解更多",message:"本网站使用 Cookies 来改善您的浏览体验."},enable:!0,palette:{button:{background:"#f0f0f0"},popup:{background:"#1aa3ff"}},theme:"edgeless"},data:{"desktop-header-typeit":"编程日志","mobile-header-typeit":"编程日志"},table:{sort:!0},typeit:{cursorChar:"|",cursorSpeed:1e3,data:{"desktop-header-typeit":["desktop-header-typeit"],"mobile-header-typeit":["mobile-header-typeit"]},duration:-1,speed:100}}</script><script src=/lib/tablesort/tablesort.min.23640461c9e6941882f50f4208436e1932c806bcc32323a34ff378781204951e05534a0bbc3c1e401d111aa22a26ecc5d4f2cfb43af59d94da8a24f2b8ef8506.js integrity="sha512-I2QEYcnmlBiC9Q9CCENuGTLIBrzDIyOjT/N4eBIElR4FU0oLvDweQB0RGqIqJuzF1PLPtDr1nZTaiiTyuO+FBg=="></script><script src=/lib/typeit/typeit.min.535a28f8fb852c2444461a9a301c6435cc75831d3f0b1a6e18d5275f9d0cd7b78824c8204589bc875eb2b572536c6013461a1d84cf528cac8e7526fbcad17a9b.js integrity="sha512-U1oo+PuFLCRERhqaMBxkNcx1gx0/CxpuGNUnX50M17eIJMggRYm8h16ytXJTbGATRhodhM9SjKyOdSb7ytF6mw=="></script><script src=/lib/cookieconsent/cookieconsent.min.c975ea3858dd8c7347d46343fb510ed236efbde6c0069cc6283eba7639d47e22a560c1391c6314247a0269e1380f93d31b662c4897fa770ab2514bd0bd2d2f68.js integrity="sha512-yXXqOFjdjHNH1GND+1EO0jbvvebABpzGKD66djnUfiKlYME5HGMUJHoCaeE4D5PTG2YsSJf6dwqyUUvQvS0vaA==" defer></script><script src=/js/cookieconsent.min.js defer></script><script src=/js/theme.min.js defer></script><script src=/lib/twikoo/twikoo.all.min.71d2e513d9e7cdc257428cbd785bb319ca505f1ef4ad7c6650da6faef61303042fdadc4b49dbc452cf9e20b232295141bc0a149bd89447bddec120f7222199ff.js integrity="sha512-cdLlE9nnzcJXQoy9eFuzGcpQXx70rXxmUNpvrvYTAwQv2txLSdvEUs+eILIyKVFBvAoUm9iUR73ewSD3IiGZ/w==" defer></script><script src=/js/twikoo.min.js defer></script><script type=text/javascript>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-6QCK4BFMHW",{anonymize_ip:!0})</script><script src="https://www.googletagmanager.com/gtag/js?id=G-6QCK4BFMHW" async></script><script type=speculationrules>
+</button><a href=#comments id=view-comments class="tw-block tw-bg-bgColor-secondary tw-rounded-full" style=padding:.6rem;line-height:1.3rem;font-size:1rem title=查看评论>
+<svg class="icon" viewBox="0 0 512 512"><path d="M256 32C114.6 32 0 125.1.0 240c0 49.6 21.4 95 57 130.7C44.5 421.1 2.7 466 2.2 466.5c-2.2 2.3-2.8 5.7-1.5 8.7S4.8 480 8 480c66.3.0 116-31.8 140.6-51.4 32.7 12.3 69 19.4 107.4 19.4 141.4.0 256-93.1 256-208S397.4 32 256 32z"/></svg></a></div><div id=cookieconsent-container></div><link rel=stylesheet href=/lib/cookieconsent/cookieconsent.min.2d0f7b71a99aaff94e9624ff32a8dc42ce645a0cba433fdc091cf34735027efd1fa2db024c2f591d768f426255f17bbf3d500b7c967b0437b3979956dffa81c6.css integrity="sha512-LQ97camar/lOliT/MqjcQs5kWgy6Qz/cCRzzRzUCfv0fotsCTC9ZHXaPQmJV8Xu/PVALfJZ7BDezl5lW3/qBxg=="><script>window.config={comment:{twikoo:{commentCount:!0,el:"#twikoo",envId:"https://twikoo-comments-doit.vercel.app/",lang:"zh-cn"}},cookieconsent:{content:{dismiss:"同意",link:"了解更多",message:"本网站使用 Cookies 来改善您的浏览体验."},enable:!0,palette:{button:{background:"#f0f0f0"},popup:{background:"#1aa3ff"}},theme:"edgeless"},data:{"desktop-header-typeit":"编程日志","mobile-header-typeit":"编程日志"},table:{sort:!0},typeit:{cursorChar:"|",cursorSpeed:1e3,data:{"desktop-header-typeit":["desktop-header-typeit"],"mobile-header-typeit":["mobile-header-typeit"]},duration:-1,speed:100}}</script><script src=/lib/tablesort/tablesort.min.23640461c9e6941882f50f4208436e1932c806bcc32323a34ff378781204951e05534a0bbc3c1e401d111aa22a26ecc5d4f2cfb43af59d94da8a24f2b8ef8506.js integrity="sha512-I2QEYcnmlBiC9Q9CCENuGTLIBrzDIyOjT/N4eBIElR4FU0oLvDweQB0RGqIqJuzF1PLPtDr1nZTaiiTyuO+FBg=="></script><script src=/lib/typeit/typeit.min.535a28f8fb852c2444461a9a301c6435cc75831d3f0b1a6e18d5275f9d0cd7b78824c8204589bc875eb2b572536c6013461a1d84cf528cac8e7526fbcad17a9b.js integrity="sha512-U1oo+PuFLCRERhqaMBxkNcx1gx0/CxpuGNUnX50M17eIJMggRYm8h16ytXJTbGATRhodhM9SjKyOdSb7ytF6mw=="></script><script src=/lib/cookieconsent/cookieconsent.min.c975ea3858dd8c7347d46343fb510ed236efbde6c0069cc6283eba7639d47e22a560c1391c6314247a0269e1380f93d31b662c4897fa770ab2514bd0bd2d2f68.js integrity="sha512-yXXqOFjdjHNH1GND+1EO0jbvvebABpzGKD66djnUfiKlYME5HGMUJHoCaeE4D5PTG2YsSJf6dwqyUUvQvS0vaA==" defer></script><script src=/js/cookieconsent.min.js defer></script><script src=/js/theme.min.js defer></script><script src=/lib/twikoo/twikoo.all.min.acc3bd5a5601411aa01951d2a926924afb80ca8eaec600d6249917360ac87c13f962d743a9e7631092ec6ec3aaed81f4c321049f339093b1ba438e1b8d3bf843.js integrity="sha512-rMO9WlYBQRqgGVHSqSaSSvuAyo6uxgDWJJkXNgrIfBP5YtdDqedjEJLsbsOq7YH0wyEEnzOQk7G6Q44bjTv4Qw==" defer></script><script src=/js/twikoo.min.js defer></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-6QCK4BFMHW",{anonymize_ip:!0})</script><script src="https://www.googletagmanager.com/gtag/js?id=G-6QCK4BFMHW" async></script><script type=speculationrules>
   {
     "prerender": [
       {

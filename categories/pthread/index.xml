@@ -1,47 +1,48 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Pthread on 编程日志</title><link>https://mengdemao.com/categories/pthread/</link><description>Recent content in Pthread on 编程日志</description><generator>Hugo</generator><language>zh-CN</language><managingEditor>megndemao19951021@gmail.com (mengdemao)</managingEditor><webMaster>megndemao19951021@gmail.com (mengdemao)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 13 Apr 2025 23:00:38 +0800</lastBuildDate><atom:link href="https://mengdemao.com/categories/pthread/index.xml" rel="self" type="application/rss+xml"/><item><title>线程局部存储分析</title><link>https://mengdemao.com/pthread_local_storage/</link><pubDate>Mon, 18 Jul 2022 21:27:25 +0800</pubDate><author>megndemao19951021@gmail.com (mengdemao)</author><guid>https://mengdemao.com/pthread_local_storage/</guid><description>&lt;h2 id="前言" class="headerLink">
- &lt;a href="#%e5%89%8d%e8%a8%80" class="header-mark">&lt;/a>1 前言&lt;/h2>&lt;blockquote>
- &lt;p>在Linux C/C++编程时不可避免的会遇到以下的需求,全局变量线程共享;最为典型的功能则是&lt;code>errno&lt;/code>,变量
-在程序的任何地方都可以访问,但是不会影响到其他线程,这就是本文档说明的&lt;code>TLS&lt;/code>(线程局部存储变量)&lt;/p></description></item><item><title>pthread线程同步</title><link>https://mengdemao.com/pthread_lock/</link><pubDate>Mon, 18 Jul 2022 21:27:24 +0800</pubDate><author>megndemao19951021@gmail.com (mengdemao)</author><guid>https://mengdemao.com/pthread_lock/</guid><description>&lt;h2 id="futex原理" class="headerLink">
- &lt;a href="#futex%e5%8e%9f%e7%90%86" class="header-mark">&lt;/a>9 futex原理&lt;/h2>&lt;blockquote>
- &lt;p>高级锁的实现都是与futex实现相关&lt;/p>
-&lt;/blockquote>&lt;p>&lt;strong>Futex&lt;/strong>是&lt;strong>Fast Userspace muTexes&lt;/strong>的缩写&lt;/p>
-&lt;p>常用的锁都是通过futex实现的&lt;/p>
-&lt;ul>
-&lt;li>mutex (互斥锁)&lt;/li>
-&lt;li>rwlock (读写锁)&lt;/li>
-&lt;li>cond (条件变量)&lt;/li>
-&lt;/ul>
-&lt;pre class="mermaid">graph LR
- atom[原子操作] --> spin[自旋锁]
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Pthread - 分类 - 编程日志</title><link>https://mengdemao.com/categories/pthread/</link><description>Pthread - 分类 - 编程日志</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>megndemao19951021@gmail.com (mengdemao)</managingEditor><webMaster>megndemao19951021@gmail.com (mengdemao)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 18 Jul 2022 21:27:25 +0800</lastBuildDate><atom:link href="https://mengdemao.com/categories/pthread/" rel="self" type="application/rss+xml"/><item><title>线程局部存储分析</title><link>https://mengdemao.com/pthread_local_storage/</link><pubDate>Mon, 18 Jul 2022 21:27:25 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/pthread_local_storage/</guid><description><![CDATA[<div class="featured-image">
+                <img src="featuredImage/02.webp" referrerpolicy="no-referrer">
+            </div><h2 id="前言" class="headerLink">
+    <a href="#%e5%89%8d%e8%a8%80" class="header-mark"></a>1 前言</h2><blockquote>
+  <p>在Linux C/C++编程时不可避免的会遇到以下的需求,全局变量线程共享;最为典型的功能则是<code>errno</code>,变量
+在程序的任何地方都可以访问,但是不会影响到其他线程,这就是本文档说明的<code>TLS</code>(线程局部存储变量)</p>]]></description></item><item><title>pthread线程同步</title><link>https://mengdemao.com/pthread_lock/</link><pubDate>Mon, 18 Jul 2022 21:27:24 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/pthread_lock/</guid><description><![CDATA[<div class="featured-image">
+                <img src="featuredImage/02.webp" referrerpolicy="no-referrer">
+            </div><h2 id="futex原理" class="headerLink">
+    <a href="#futex%e5%8e%9f%e7%90%86" class="header-mark"></a>9 futex原理</h2><blockquote>
+  <p>高级锁的实现都是与futex实现相关</p>
+</blockquote><p><strong>Futex</strong>是<strong>Fast Userspace muTexes</strong>的缩写</p>
+<p>常用的锁都是通过futex实现的</p>
+<ul>
+<li>mutex (互斥锁)</li>
+<li>rwlock (读写锁)</li>
+<li>cond  (条件变量)</li>
+</ul>
+<pre class="mermaid">graph LR
+    atom[原子操作] --> spin[自旋锁]
 	futex --> mutex[互斥锁]
 	futex --> rwlock[读写锁]
 	futex --> cond[条件变量]
-&lt;/pre>&lt;div class="code-block highlight is-closed show-line-numbers tw-group tw-my-2">
- &lt;div class="
- code-block-title 
- 
- tw-flex 
- tw-flex-row 
- tw-justify-between 
- tw-w-full tw-bg-bgColor-secondary
- "> 
- &lt;button 
- class="
- tw-select-none 
- tw-mx-2 
- tw-block
- group-[.is-open]:tw-rotate-90
- tw-transition-[transform] 
- tw-duration-500 
- tw-ease-in-out
- print:!tw-hidden"
- disabled
- aria-hidden="true">&lt;svg class="icon"
- xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">&lt;!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) -->&lt;path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/>&lt;/svg>&lt;/button>
-
- &lt;div class="code-block-title-bar tw-w-full">
- &lt;p class="tw-select-none !tw-my-1">c&lt;/p></description></item><item><title>pthread线程源码分析</title><link>https://mengdemao.com/pthread_thread/</link><pubDate>Mon, 18 Jul 2022 21:27:23 +0800</pubDate><author>megndemao19951021@gmail.com (mengdemao)</author><guid>https://mengdemao.com/pthread_thread/</guid><description>&lt;blockquote>
- &lt;p>基于musl源码库与glibc库,其中musl提供分析的思路,glibc分析具体实现&lt;/p>
-&lt;/blockquote>&lt;h2 id="调试环境搭建" class="headerLink">
- &lt;a href="#%e8%b0%83%e8%af%95%e7%8e%af%e5%a2%83%e6%90%ad%e5%bb%ba" class="header-mark">&lt;/a>7 调试环境搭建&lt;/h2>&lt;h3 id="下载源码" class="headerLink">
- &lt;a href="#%e4%b8%8b%e8%bd%bd%e6%ba%90%e7%a0%81" class="header-mark">&lt;/a>7.1 下载源码&lt;/h3>&lt;p>执行&lt;code>/usr/lib/libc.so.6&lt;/code>,确定版本&lt;/p></description></item></channel></rss>
+</pre><div class="code-block highlight is-open show-line-numbers  tw-group tw-my-2">
+  <div class="
+    
+    tw-flex 
+    tw-flex-row
+    tw-flex-1 
+    tw-justify-between 
+    tw-w-full tw-bg-bgColor-secondary
+    ">      
+    <button 
+      class="
+        code-block-button
+        tw-mx-2 
+        tw-flex
+        tw-flex-row
+        tw-flex-1"
+      aria-hidden="true">
+          <div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div>
+          <p class="tw-select-none !tw-my-1">c</p>]]></description></item><item><title>pthread线程源码分析</title><link>https://mengdemao.com/pthread_thread/</link><pubDate>Mon, 18 Jul 2022 21:27:23 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/pthread_thread/</guid><description><![CDATA[<div class="featured-image">
+                <img src="featuredImage/02.webp" referrerpolicy="no-referrer">
+            </div><blockquote>
+  <p>基于musl源码库与glibc库,其中musl提供分析的思路,glibc分析具体实现</p>
+</blockquote><h2 id="调试环境搭建" class="headerLink">
+    <a href="#%e8%b0%83%e8%af%95%e7%8e%af%e5%a2%83%e6%90%ad%e5%bb%ba" class="header-mark"></a>7 调试环境搭建</h2><h3 id="下载源码" class="headerLink">
+    <a href="#%e4%b8%8b%e8%bd%bd%e6%ba%90%e7%a0%81" class="header-mark"></a>7.1 下载源码</h3><p>执行<code>/usr/lib/libc.so.6</code>,确定版本</p>]]></description></item></channel></rss>

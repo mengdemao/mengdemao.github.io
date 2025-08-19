@@ -1,144 +1,67 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>所有文章 - 编程日志</title><link>https://mengdemao.com/posts/</link><description>所有文章 | 编程日志</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>megndemao19951021@gmail.com (mengdemao)</managingEditor><webMaster>megndemao19951021@gmail.com (mengdemao)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 13 Apr 2025 21:09:55 +0800</lastBuildDate><atom:link href="https://mengdemao.com/posts/" rel="self" type="application/rss+xml"/><item><title>Linux工具部署功能记录</title><link>https://mengdemao.com/server/</link><pubDate>Fri, 05 Nov 2021 23:22:16 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/server/</guid><description><![CDATA[<h2 id="添加普通用户" class="headerLink">
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>所有文章 - 编程日志</title><link>https://mengdemao.com/posts/</link><description>所有文章 | 编程日志</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>megndemao19951021@gmail.com (mengdemao)</managingEditor><webMaster>megndemao19951021@gmail.com (mengdemao)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 31 May 2025 10:39:46 +0800</lastBuildDate><atom:link href="https://mengdemao.com/posts/" rel="self" type="application/rss+xml"/><item><title>Linux工具部署功能记录</title><link>https://mengdemao.com/server/</link><pubDate>Fri, 05 Nov 2021 23:22:16 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/server/</guid><description><![CDATA[<h2 id="添加普通用户" class="headerLink">
     <a href="#%e6%b7%bb%e5%8a%a0%e6%99%ae%e9%80%9a%e7%94%a8%e6%88%b7" class="header-mark"></a>1 添加普通用户</h2><div class="code-block highlight is-open show-line-numbers  tw-group tw-my-2">
   <div class="
-    code-block-title 
     
     tw-flex 
-    tw-flex-row 
+    tw-flex-row
+    tw-flex-1 
     tw-justify-between 
     tw-w-full tw-bg-bgColor-secondary
     ">      
     <button 
       class="
-        tw-select-none 
+        code-block-button
         tw-mx-2 
-        tw-block
-        group-[.is-open]:tw-rotate-90
-        tw-transition-[transform] 
-        tw-duration-500 
-        tw-ease-in-out
-        print:!tw-hidden"
-      disabled
-      aria-hidden="true"><svg class="icon"
-    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button>
+        tw-flex
+        tw-flex-row
+        tw-flex-1"
+      aria-hidden="true">
+          <div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div>
+          <p class="tw-select-none !tw-my-1">shell</p>]]></description></item><item><title>编译原理笔记</title><link>https://mengdemao.com/compile/</link><pubDate>Thu, 07 Jul 2022 21:44:09 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/compile/</guid><description><![CDATA[<div class="featured-image">
+                <img src="featuredImage/03.webp" referrerpolicy="no-referrer">
+            </div><h2 id="词法分析" class="headerLink">
+    <a href="#%e8%af%8d%e6%b3%95%e5%88%86%e6%9e%90" class="header-mark"></a>4 词法分析</h2><h3 id="概述" class="headerLink">
+    <a href="#%e6%a6%82%e8%bf%b0" class="header-mark"></a>4.1 概述</h3><blockquote>
+  <p>词法分析是编译原理的第一个阶段,词法分析的任务是读入源程序的输入字符,生成一个个的单词,其主要的功能是为语法分析提供词法单元</p>
+</blockquote><pre class="mermaid">graph LR
 
-    <div class="code-block-title-bar tw-w-full">
-      <p class="tw-select-none !tw-my-1">shell</p>]]></description></item><item><title>线程局部存储分析</title><link>https://mengdemao.com/pthread_local_storage/</link><pubDate>Mon, 18 Jul 2022 21:27:25 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/pthread_local_storage/</guid><description><![CDATA[<div class="featured-image">
-                <img src="featuredImage/02.webp" referrerpolicy="no-referrer">
-            </div><h2 id="前言" class="headerLink">
-    <a href="#%e5%89%8d%e8%a8%80" class="header-mark"></a>1 前言</h2><blockquote>
-  <p>在Linux C/C++编程时不可避免的会遇到以下的需求,全局变量线程共享;最为典型的功能则是<code>errno</code>,变量
-在程序的任何地方都可以访问,但是不会影响到其他线程,这就是本文档说明的<code>TLS</code>(线程局部存储变量)</p>]]></description></item><item><title>Linux驱动模型</title><link>https://mengdemao.com/driver_model/</link><pubDate>Sun, 24 Nov 2024 20:32:46 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/driver_model/</guid><description>&lt;div class="featured-image">
-                &lt;img src="featuredImage/04.webp" referrerpolicy="no-referrer">
-            &lt;/div>驱动模型</description></item><item><title>Pinctrl驱动子系统笔记</title><link>https://mengdemao.com/pinctrl/</link><pubDate>Sun, 13 Apr 2025 21:09:55 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/pinctrl/</guid><description>&lt;div class="featured-image">
+S1((源程序))
+S2[词法分析器]
+S3[语法分析器]
+S4((符号表))
+S5[输出之语义分析]
+
+S1-->S2-->S3-->S5
+
+S3-->S2
+
+S2-->S4
+S4-->S2
+
+S3-->S4
+S4-->S3
+</pre><h3 id="正则表达式" class="headerLink">
+    <a href="#%e6%ad%a3%e5%88%99%e8%a1%a8%e8%be%be%e5%bc%8f" class="header-mark"></a>4.2 正则表达式</h3><ul>
+<li>对于给定的正则表达式 $\Sigma$={c1, c2, c3&hellip;cn}</li>
+<li>归纳定义:
+<ul>
+<li>对于空串是正则表达式$\epsilon$是正则表达式</li>
+<li>对于任何$c\in\Sigma$,$c$是正则表达式</li>
+<li>如果M和N都是正则表达式,那么下面的也是正则表达式
+<ul>
+<li>选择: M | N = {M, N}</li>
+<li>连接: MN = {mn| m $\in$ M, n, $\in$ M }</li>
+<li>闭包: M* = { $\epsilon$ , M, MM, MMMM&hellip;.}</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="flex正则表达式" class="headerLink">
+    <a href="#flex%e6%ad%a3%e5%88%99%e8%a1%a8%e8%be%be%e5%bc%8f" class="header-mark"></a>4.2.1 flex正则表达式</h4><blockquote>
+  <p>使用flex学习正则表达式</p>]]></description></item><item><title>Pinctrl&amp;gpio驱动子系统笔记</title><link>https://mengdemao.com/pinctrl/</link><pubDate>Sun, 13 Apr 2025 21:09:55 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/pinctrl/</guid><description>&lt;div class="featured-image">
                 &lt;img src="featuredImage/07.webp" referrerpolicy="no-referrer">
-            &lt;/div>linux pinctrl subsystem</description></item><item><title>输入子系统</title><link>https://mengdemao.com/input_driver/</link><pubDate>Tue, 05 Oct 2021 21:14:34 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/input_driver/</guid><description>&lt;div class="featured-image">
-                &lt;img src="featuredImage/03.webp" referrerpolicy="no-referrer">
-            &lt;/div>inout driver</description></item><item><title>C++模板</title><link>https://mengdemao.com/cxx_template/</link><pubDate>Sat, 18 Jun 2022 14:21:30 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/cxx_template/</guid><description><![CDATA[<div class="featured-image">
-                <img src="featuredImage/01.webp" referrerpolicy="no-referrer">
-            </div><h2 id="相关知识" class="headerLink">
-    <a href="#%e7%9b%b8%e5%85%b3%e7%9f%a5%e8%af%86" class="header-mark"></a>66 相关知识</h2><p><strong>gcc</strong>中<code>typeof</code>关键字用来检查变量类型,那么则可以用来判断魔板生成中的数据类型,
-但是在C++中存在这另外的运算符<code>typeid</code>,但是我个人认为<code>typeof</code>更加优秀，但是二者并不相同,
-<code>typeid</code>返回类型对象,<code>typeof</code>只可以判断类型;</p>]]></description></item><item><title>C++提高笔记</title><link>https://mengdemao.com/cxx_enhance/</link><pubDate>Thu, 28 Jul 2022 22:37:49 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/cxx_enhance/</guid><description>&lt;div class="featured-image">
-                &lt;img src="featuredImage/13.webp" referrerpolicy="no-referrer">
-            &lt;/div>C++提高笔记</description></item><item><title>C++基础笔记</title><link>https://mengdemao.com/cxx_basic/</link><pubDate>Thu, 28 Jul 2022 22:37:59 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/cxx_basic/</guid><description>&lt;div class="featured-image">
-                &lt;img src="featuredImage/13.webp" referrerpolicy="no-referrer">
-            &lt;/div>C++基础笔记</description></item><item><title>FreeRTOS笔记</title><link>https://mengdemao.com/freertos/</link><pubDate>Sun, 30 Oct 2022 14:23:11 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/freertos/</guid><description>&lt;div class="featured-image">
+            &lt;/div>linux pinctrl subsystem</description></item><item><title>usb笔记</title><link>https://mengdemao.com/usb/</link><pubDate>Sat, 31 May 2025 10:39:46 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/usb/</guid><description>&lt;div class="featured-image">
                 &lt;img src="featuredImage/04.webp" referrerpolicy="no-referrer">
-            &lt;/div>RTOS</description></item><item><title>RT-Thread</title><link>https://mengdemao.com/rt-thread/</link><pubDate>Mon, 03 Mar 2025 14:23:40 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/rt-thread/</guid><description>&lt;div class="featured-image">
-                &lt;img src="featuredImage/05.webp" referrerpolicy="no-referrer">
-            &lt;/div>RT-Thread</description></item><item><title>C++ Primer笔记</title><link>https://mengdemao.com/cxx_primer/</link><pubDate>Tue, 08 Apr 2025 22:37:49 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/cxx_primer/</guid><description>&lt;div class="featured-image">
-                &lt;img src="featuredImage/13.webp" referrerpolicy="no-referrer">
-            &lt;/div>C++ Primer 笔记</description></item><item><title>完全公平调度器</title><link>https://mengdemao.com/cfs/</link><pubDate>Thu, 28 Oct 2021 07:40:31 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/cfs/</guid><description><![CDATA[<div class="featured-image">
-                <img src="featuredImage/13.webp" referrerpolicy="no-referrer">
-            </div><blockquote>
-  <p>需要处理的问题?</p>
-<ol>
-<li>如何确定哪个进程可以运行</li>
-<li>进程切换发生后,老的进程去了哪里,新的进程如何变化</li>
-<li>PLET实现中,谁负责移动调度实体</li>
-</ol>
-</blockquote><h2 id="虚拟时间vruntime" class="headerLink">
-    <a href="#%e8%99%9a%e6%8b%9f%e6%97%b6%e9%97%b4vruntime" class="header-mark"></a>1 虚拟时间(vruntime)</h2><div class="code-block highlight is-open show-line-numbers  tw-group tw-my-2">
-  <div class="
-    code-block-title 
-    
-    tw-flex 
-    tw-flex-row 
-    tw-justify-between 
-    tw-w-full tw-bg-bgColor-secondary
-    ">      
-    <button 
-      class="
-        tw-select-none 
-        tw-mx-2 
-        tw-block
-        group-[.is-open]:tw-rotate-90
-        tw-transition-[transform] 
-        tw-duration-500 
-        tw-ease-in-out
-        print:!tw-hidden"
-      disabled
-      aria-hidden="true"><svg class="icon"
-    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button>
-
-    <div class="code-block-title-bar tw-w-full">
-      <p class="tw-select-none !tw-my-1">c</p>]]></description></item><item><title>Lua笔记</title><link>https://mengdemao.com/lua/</link><pubDate>Sun, 02 Jan 2022 00:23:06 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/lua/</guid><description><![CDATA[<p><strong>Lua运行结构</strong></p>
-<pre class="mermaid">
-  graph LR
-  编译器==>PROTO==>虚拟机
-
-</pre>
-<h2 id="相关数据结构" class="headerLink">
-    <a href="#%e7%9b%b8%e5%85%b3%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84" class="header-mark"></a>1 相关数据结构</h2><h3 id="全局状态机" class="headerLink">
-    <a href="#%e5%85%a8%e5%b1%80%e7%8a%b6%e6%80%81%e6%9c%ba" class="header-mark"></a>1.1 全局状态机</h3><blockquote>
-  <p>描述Lua运行状态,同时可以产生一种面向对象的模拟</p>
-</blockquote><div class="code-block highlight is-open show-line-numbers  tw-group tw-my-2">
-  <div class="
-    code-block-title 
-    
-    tw-flex 
-    tw-flex-row 
-    tw-justify-between 
-    tw-w-full tw-bg-bgColor-secondary
-    ">      
-    <button 
-      class="
-        tw-select-none 
-        tw-mx-2 
-        tw-block
-        group-[.is-open]:tw-rotate-90
-        tw-transition-[transform] 
-        tw-duration-500 
-        tw-ease-in-out
-        print:!tw-hidden"
-      disabled
-      aria-hidden="true"><svg class="icon"
-    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button>
-
-    <div class="code-block-title-bar tw-w-full">
-      <p class="tw-select-none !tw-my-1">c</p>]]></description></item><item><title>Linux内核同步笔记</title><link>https://mengdemao.com/kernel_sync/</link><pubDate>Sat, 22 Mar 2025 12:44:23 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/kernel_sync/</guid><description>&lt;div class="featured-image">
-                &lt;img src="featuredImage/03.webp" referrerpolicy="no-referrer">
-            &lt;/div>内核同步实现</description></item><item><title>RCU机制</title><link>https://mengdemao.com/rcu/</link><pubDate>Fri, 28 Mar 2025 16:57:56 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/rcu/</guid><description>&lt;div class="featured-image">
-                &lt;img src="featuredImage/03.webp" referrerpolicy="no-referrer">
-            &lt;/div>Linux RCU机制</description></item><item><title>Uboot基础框架</title><link>https://mengdemao.com/uboot_basic/</link><pubDate>Sun, 12 Mar 2023 15:31:42 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/uboot_basic/</guid><description>&lt;div class="featured-image">
-                &lt;img src="featuredImage/03.webp" referrerpolicy="no-referrer">
-            &lt;/div>Uboot</description></item><item><title>Uboot驱动框架</title><link>https://mengdemao.com/uboot_dm/</link><pubDate>Sat, 11 May 2024 20:50:27 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/uboot_dm/</guid><description>&lt;div class="featured-image">
-                &lt;img src="featuredImage/03.webp" referrerpolicy="no-referrer">
-            &lt;/div>Uboot驱动框架</description></item><item><title>STL基础笔记</title><link>https://mengdemao.com/stl_basic/</link><pubDate>Wed, 06 Oct 2021 11:24:07 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/stl_basic/</guid><description><![CDATA[<div class="featured-image">
-                <img src="featuredImage/11.webp" referrerpolicy="no-referrer">
-            </div><blockquote>
-  <p>STL称为标准模板库(Standard Template Library)
-广义上可以分为容器,算法,迭代器
-容器和算法通过迭代器进行无缝连接
-STL几乎所有的代码都采用了函数模版或者类模板</p>]]></description></item><item><title>C++元组</title><link>https://mengdemao.com/cxx_tuple/</link><pubDate>Thu, 27 Mar 2025 14:35:09 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/cxx_tuple/</guid><description>&lt;div class="featured-image">
-                &lt;img src="featuredImage/13.webp" referrerpolicy="no-referrer">
-            &lt;/div>C++元组</description></item><item><title>Complete完成量笔记</title><link>https://mengdemao.com/complete/</link><pubDate>Sun, 16 Mar 2025 17:02:49 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/complete/</guid><description>&lt;div class="featured-image">
-                &lt;img src="featuredImage/13.webp" referrerpolicy="no-referrer">
-            &lt;/div></description></item><item><title>Devres内存管理</title><link>https://mengdemao.com/devres/</link><pubDate>Mon, 17 Mar 2025 14:42:07 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/devres/</guid><description>&lt;div class="featured-image">
-                &lt;img src="featuredImage/04.webp" referrerpolicy="no-referrer">
-            &lt;/div>设备驱动资源自动管理</description></item><item><title>C++增强笔记</title><link>https://mengdemao.com/cxx_advance/</link><pubDate>Thu, 28 Jul 2022 22:37:49 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/cxx_advance/</guid><description>&lt;div class="featured-image">
-                &lt;img src="featuredImage/13.webp" referrerpolicy="no-referrer">
-            &lt;/div>C++增强笔记</description></item><item><title>Linux内核源码阅读</title><link>https://mengdemao.com/read_linux/</link><pubDate>Sun, 12 Feb 2023 12:56:02 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/read_linux/</guid><description>&lt;div class="featured-image">
-                &lt;img src="featuredImage/03.webp" referrerpolicy="no-referrer">
-            &lt;/div>Linux内核源码阅读</description></item></channel></rss>
+            &lt;/div>usb笔记</description></item></channel></rss>

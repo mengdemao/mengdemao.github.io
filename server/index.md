@@ -353,4 +353,3 @@ sudo /etc/init.d/nfs-kernel-server restart
 sudo mount -t nfs -o nolock,vers=3 127.0.0.1:/home/exports /mnt
 ls /mnt
 ```
-
