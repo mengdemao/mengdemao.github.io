@@ -1,4 +1,4 @@
-<!doctype html><html lang=zh-CN><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>RT-Thread - 编程日志</title><meta name=Description content="RT-Thread"><meta property="og:url" content="https://mengdemao.com/rt-thread/"><meta property="og:site_name" content="编程日志"><meta property="og:title" content="RT-Thread"><meta property="og:description" content="RT-Thread"><meta property="og:locale" content="zh_CN"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2025-03-03T14:23:40+08:00"><meta property="article:modified_time" content="2025-04-11T11:02:44+08:00"><meta property="article:tag" content="RTOS"><meta property="og:image" content="https://mengdemao.com/images/avatar.webp"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://mengdemao.com/images/avatar.webp"><meta name=twitter:title content="RT-Thread"><meta name=twitter:description content="RT-Thread"><meta name=application-name content="编程日志"><meta name=apple-mobile-web-app-title content="编程日志"><meta name=theme-color content="#f8f8f8"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=canonical href=https://mengdemao.com/rt-thread/><link rel=prev href=https://mengdemao.com/driver_model/><link rel=next href=https://mengdemao.com/complete/><link rel=stylesheet href=/css/main.min.css><link rel=stylesheet href=/css/style.min.css><meta name=google-site-verification content="MQ8DNu27ayX6B_4ObiEDK09vGr1fdy7kOAnbd09hJk4"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"RT-Thread","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://mengdemao.com/rt-thread/"},"image":[{"@type":"ImageObject","url":"https://mengdemao.com/featuredImage/05.webp","width":1920,"height":1080}],"genre":"posts","keywords":["RTOS"],"wordcount":2298,"url":"https://mengdemao.com/rt-thread/","datePublished":"2025-03-03T14:23:40+08:00","dateModified":"2025-04-11T11:02:44+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"xxxx","logo":{"@type":"ImageObject","url":"https://mengdemao.com/images/avatar.webp","width":528,"height":560}},"author":{"@type":"Person","name":"mengdemao","url":"https://github.com/mengdemao"},"description":"RT-Thread"}</script></head><body data-instant-intensity=viewport class="tw-flex tw-min-h-screen tw-flex-col"><script>function setTheme(e){document.body.setAttribute("theme",e),document.documentElement.className=e,document.documentElement.style.setProperty("color-scheme",e==="light"?"light":"dark"),e==="light"?document.documentElement.classList.remove("tw-dark"):document.documentElement.classList.add("tw-dark"),window.theme=e,window.isDark=window.theme!=="light"}function saveTheme(e){window.localStorage&&localStorage.setItem("theme",e)}function getMeta(e){const t=document.getElementsByTagName("meta");for(let n=0;n<t.length;n++)if(t[n].getAttribute("name")===e)return t[n];return""}if(window.localStorage&&localStorage.getItem("theme")){let e=localStorage.getItem("theme");e==="light"||e==="dark"?setTheme(e):setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}else"auto"==="light"||"auto"==="dark"?(setTheme("auto"),saveTheme("auto")):(saveTheme("auto"),setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));let metaColors={light:"#f8f8f8",dark:"#161b22"};getMeta("theme-color").content=metaColors[document.body.getAttribute("theme")],window.switchThemeEventSet=new Set</script><div id=back-to-top></div><div id=mask></div><header class="desktop print:!tw-hidden" id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=tw-mr-1><i class='far fa-edit fa-fw'></i></span><span id=desktop-header-typeit class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/series/>系列 </a><a class=menu-item href=/authors/>作者 </a><a class=menu-item href=/showcase/>作品 </a><a class=menu-item href=/categories/documentation/>文档 </a><a class=menu-item href=/about/>关于 </a><a class=menu-item href=https://github.com/mengdemao/mengdemao.com title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw'></i> </a><span class="menu-item delimiter"></span><button class="menu-item theme-select" aria-label=切换主题>
+<!doctype html><html lang=zh-CN><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>RT-Thread - 编程日志</title><meta name=Description content="RT-Thread"><meta property="og:url" content="https://mengdemao.com/rt-thread/"><meta property="og:site_name" content="编程日志"><meta property="og:title" content="RT-Thread"><meta property="og:description" content="RT-Thread"><meta property="og:locale" content="zh_CN"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2025-03-03T14:23:40+08:00"><meta property="article:modified_time" content="2025-04-11T11:02:44+08:00"><meta property="article:tag" content="RTOS"><meta property="og:image" content="https://mengdemao.com/images/avatar.webp"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://mengdemao.com/images/avatar.webp"><meta name=twitter:title content="RT-Thread"><meta name=twitter:description content="RT-Thread"><meta name=application-name content="编程日志"><meta name=apple-mobile-web-app-title content="编程日志"><meta name=theme-color content="#f8f8f8"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=canonical href=https://mengdemao.com/rt-thread/><link rel=prev href=https://mengdemao.com/driver_model/><link rel=next href=https://mengdemao.com/complete/><link rel=stylesheet href=/css/main.min.css><link rel=stylesheet href=/css/style.min.css><meta name=google-site-verification content="MQ8DNu27ayX6B_4ObiEDK09vGr1fdy7kOAnbd09hJk4"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"RT-Thread","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://mengdemao.com/rt-thread/"},"image":[{"@type":"ImageObject","url":"https://mengdemao.com/featuredImage/05.webp","width":1920,"height":1080}],"genre":"posts","keywords":["RTOS"],"wordcount":2298,"url":"https://mengdemao.com/rt-thread/","datePublished":"2025-03-03T14:23:40+08:00","dateModified":"2025-04-11T11:02:44+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"xxxx","logo":{"@type":"ImageObject","url":"https://mengdemao.com/images/avatar.webp","width":528,"height":560}},"author":{"@type":"Person","name":"mengdemao","url":"https://github.com/mengdemao"},"description":"RT-Thread"}</script></head><body data-instant-intensity=viewport class="tw-flex tw-min-h-screen tw-flex-col"><script type=text/javascript>function setTheme(e){document.body.setAttribute("theme",e),document.documentElement.className=e,document.documentElement.style.setProperty("color-scheme",e==="light"?"light":"dark"),e==="light"?document.documentElement.classList.remove("tw-dark"):document.documentElement.classList.add("tw-dark"),window.theme=e,window.isDark=window.theme!=="light"}function saveTheme(e){window.localStorage&&localStorage.setItem("theme",e)}function getMeta(e){const t=document.getElementsByTagName("meta");for(let n=0;n<t.length;n++)if(t[n].getAttribute("name")===e)return t[n];return""}if(window.localStorage&&localStorage.getItem("theme")){let e=localStorage.getItem("theme");e==="light"||e==="dark"?setTheme(e):setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}else"auto"==="light"||"auto"==="dark"?(setTheme("auto"),saveTheme("auto")):(saveTheme("auto"),setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));let metaColors={light:"#f8f8f8",dark:"#161b22"};getMeta("theme-color").content=metaColors[document.body.getAttribute("theme")],window.switchThemeEventSet=new Set</script><div id=back-to-top></div><div id=mask></div><header class="desktop print:!tw-hidden" id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=tw-mr-1><i class='far fa-edit fa-fw'></i></span><span id=desktop-header-typeit class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/series/>系列 </a><a class=menu-item href=/authors/>作者 </a><a class=menu-item href=/showcase/>作品 </a><a class=menu-item href=/categories/documentation/>文档 </a><a class=menu-item href=/about/>关于 </a><a class=menu-item href=https://github.com/mengdemao/mengdemao.com title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw'></i> </a><span class="menu-item delimiter"></span><button class="menu-item theme-select" aria-label=切换主题>
 <svg class="icon" viewBox="0 0 512 512"><path d="M8 256c0 136.966 111.033 248 248 248s248-111.034 248-248S392.966 8 256 8 8 119.033 8 256zm248 184V72c101.705.0 184 82.311 184 184 0 101.705-82.311 184-184 184z"/></svg>
 <select class=color-theme-select id=theme-select-desktop aria-label=切换主题><option value=light>浅色</option><option value=dark>深色</option><option value=auto>跟随系统</option></select></button></div></div></div></header><header class="mobile print:!tw-hidden" id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=tw-mr-1><i class='far fa-edit fa-fw'></i></span><span id=mobile-header-typeit class=typeit></span></a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><a class=menu-item href=/posts/ title>所有文章</a><a class=menu-item href=/tags/ title>标签</a><a class=menu-item href=/categories/ title>分类</a><a class=menu-item href=/series/ title>系列</a><a class=menu-item href=/authors/ title>作者</a><a class=menu-item href=/showcase/ title>作品</a><a class=menu-item href=/categories/documentation/ title>文档</a><a class=menu-item href=/about/ title>关于</a><a class=menu-item href=https://github.com/mengdemao/mengdemao.com title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw'></i></a><button class="menu-item theme-select tw-w-full" aria-label=切换主题>
 <svg class="icon" viewBox="0 0 512 512"><path d="M8 256c0 136.966 111.033 248 248 248s248-111.034 248-248S392.966 8 256 8 8 119.033 8 256zm248 184V72c101.705.0 184 82.311 184 184 0 101.705-82.311 184-184 184z"/></svg>
@@ -9,15 +9,19 @@
 </span>&nbsp;<span id=/rt-thread/ class=comment_count data-flag-title=RT-Thread>
 <svg class="icon" viewBox="0 0 576 512"><path d="M532 386.2c27.5-27.1 44-61.1 44-98.2.0-80-76.5-146.1-176.2-157.9C368.3 72.5 294.3 32 208 32 93.1 32 0 103.6.0 192c0 37 16.5 71 44 98.2-15.3 30.7-37.3 54.5-37.7 54.9-6.3 6.7-8.1 16.5-4.4 25 3.6 8.5 12 14 21.2 14 53.5.0 96.7-20.2 125.2-38.8 9.2 2.1 18.7 3.7 28.4 4.9C208.1 407.6 281.8 448 368 448c20.8.0 40.8-2.4 59.8-6.8C456.3 459.7 499.4 480 553 480c9.2.0 17.5-5.5 21.2-14 3.6-8.5 1.9-18.3-4.4-25-.4-.3-22.5-24.1-37.8-54.8zm-392.8-92.3L122.1 305c-14.1 9.1-28.5 16.3-43.1 21.4 2.7-4.7 5.4-9.7 8-14.8l15.5-31.1L77.7 256C64.2 242.6 48 220.7 48 192c0-60.7 73.3-112 160-112s160 51.3 160 112-73.3 112-160 112c-16.5.0-33-1.9-49-5.6l-19.8-4.5zM498.3 352l-24.7 24.4 15.5 31.1c2.6 5.1 5.3 10.1 8 14.8-14.6-5.1-29-12.3-43.1-21.4l-17.1-11.1-19.9 4.6c-16 3.7-32.5 5.6-49 5.6-54 0-102.2-20.1-131.3-49.7C338 339.5 416 272.9 416 192c0-3.4-.4-6.7-.7-10C479.7 196.5 528 238.8 528 288c0 28.7-16.2 50.6-29.7 64z"/></svg>&nbsp;<span class=twikoo-comment-count id=twikoo-comment-count></span>&nbsp;条评论
 </span>&nbsp;</div></div><div class=featured-image><img loading=eager src=/featuredImage/05.webp alt=RT-Thread height=1080 width=1920></div><div class="details toc print:!tw-block" id=toc-static kept><div class="details-summary toc-title"><span>目录</span>
-<span class=details-icon><svg class="icon" viewBox="0 0 256 512"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9.0l-22.6-22.6c-9.4-9.4-9.4-24.6.0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6.0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9.0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#线程管理>线程管理</a><ul><li><a href=#线程对象>线程对象</a></li><li><a href=#创建任务>创建任务</a></li><li><a href=#启动任务>启动任务</a></li><li><a href=#删除任务>删除任务</a></li><li><a href=#任务调度>任务调度</a></li></ul></li><li><a href=#线程间同步与通信>线程间同步与通信</a></li><li><a href=#ipc对象>IPC对象</a></li><li><a href=#信号量>信号量</a></li><li><a href=#互斥量>互斥量</a></li><li><a href=#事件集>事件集</a></li><li><a href=#邮箱>邮箱</a></li><li><a href=#消息队列>消息队列</a></li><li><a href=#信号>信号</a></li><li><a href=#内存管理>内存管理</a></li><li><a href=#时钟管理>时钟管理</a><ul><li><a href=#tick自增函数><code>tick</code>自增函数</a></li><li><a href=#获取tick>获取tick</a></li><li><a href=#定时器实现>定时器实现</a></li></ul></li></ul></nav></div></div><div class=content id=content data-pagefind-body><p>RT_Thread笔记</p><h2 id=线程管理 class=headerLink><a href=#%e7%ba%bf%e7%a8%8b%e7%ae%a1%e7%90%86 class=header-mark></a>1 线程管理</h2><h3 id=线程对象 class=headerLink><a href=#%e7%ba%bf%e7%a8%8b%e5%af%b9%e8%b1%a1 class=header-mark></a>1.1 线程对象</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+<span class=details-icon><svg class="icon" viewBox="0 0 256 512"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9.0l-22.6-22.6c-9.4-9.4-9.4-24.6.0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6.0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9.0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#线程管理>线程管理</a><ul><li><a href=#线程对象>线程对象</a></li><li><a href=#创建任务>创建任务</a></li><li><a href=#启动任务>启动任务</a></li><li><a href=#删除任务>删除任务</a></li><li><a href=#任务调度>任务调度</a></li></ul></li><li><a href=#线程间同步与通信>线程间同步与通信</a></li><li><a href=#ipc对象>IPC对象</a></li><li><a href=#信号量>信号量</a></li><li><a href=#互斥量>互斥量</a></li><li><a href=#事件集>事件集</a></li><li><a href=#邮箱>邮箱</a></li><li><a href=#消息队列>消息队列</a></li><li><a href=#信号>信号</a></li><li><a href=#内存管理>内存管理</a></li><li><a href=#时钟管理>时钟管理</a><ul><li><a href=#tick自增函数><code>tick</code>自增函数</a></li><li><a href=#获取tick>获取tick</a></li><li><a href=#定时器实现>定时器实现</a></li></ul></li></ul></nav></div></div><div class=content id=content data-pagefind-body><p>RT_Thread笔记</p><h2 id=线程管理 class=headerLink><a href=#%e7%ba%bf%e7%a8%8b%e7%ae%a1%e7%90%86 class=header-mark></a>1 线程管理</h2><h3 id=线程对象 class=headerLink><a href=#%e7%ba%bf%e7%a8%8b%e5%af%b9%e8%b1%a1 class=header-mark></a>1.1 线程对象</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -169,15 +173,19 @@ tw-scrollbar-thin"><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=kt>rt_ubase_t</span> <span class=n>user_data</span><span class=p>;</span>                             <span class=cm>/**&lt; private user data beyond this thread */</span>
 </span></span><span class=line><span class=cl><span class=p>};</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=k>typedef</span> <span class=k>struct</span> <span class=n>rt_thread</span> <span class=o>*</span><span class=kt>rt_thread_t</span><span class=p>;</span></span></span></code></pre></div><h3 id=创建任务 class=headerLink><a href=#%e5%88%9b%e5%bb%ba%e4%bb%bb%e5%8a%a1 class=header-mark></a>1.2 创建任务</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</span></span><span class=line><span class=cl><span class=k>typedef</span> <span class=k>struct</span> <span class=n>rt_thread</span> <span class=o>*</span><span class=kt>rt_thread_t</span><span class=p>;</span></span></span></code></pre></div><h3 id=创建任务 class=headerLink><a href=#%e5%88%9b%e5%bb%ba%e4%bb%bb%e5%8a%a1 class=header-mark></a>1.2 创建任务</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -226,15 +234,19 @@ rt_thread_create --> rt_object_allocate
 rt_thread_create --> _thread_init
 
 _thread_init --> 填充成员数据
-</pre><h3 id=启动任务 class=headerLink><a href=#%e5%90%af%e5%8a%a8%e4%bb%bb%e5%8a%a1 class=header-mark></a>1.3 启动任务</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</pre><h3 id=启动任务 class=headerLink><a href=#%e5%90%af%e5%8a%a8%e4%bb%bb%e5%8a%a1 class=header-mark></a>1.3 启动任务</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -285,15 +297,19 @@ rt_thread_resume --> rt_schedule_insert_thread
 
 rt_schedule_insert_thread --> rt_list_insert_before
 rt_schedule_insert_thread --> rt_list_insert_after
-</pre><p>经过上面的代码分析，创建任务与启动的操作时将任务管理结构体链接进入<code>rt_thread_priority_table</code></p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</pre><p>经过上面的代码分析，创建任务与启动的操作时将任务管理结构体链接进入<code>rt_thread_priority_table</code></p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -332,15 +348,19 @@ group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>rt_list_t</span> <span class=n>rt_thread_priority_table</span><span class=p>[</span><span class=n>RT_THREAD_PRIORITY_MAX</span><span class=p>];</span>
-</span></span><span class=line><span class=cl><span class=kt>rt_uint32_t</span> <span class=n>rt_thread_ready_priority_group</span><span class=p>;</span></span></span></code></pre></div><h3 id=删除任务 class=headerLink><a href=#%e5%88%a0%e9%99%a4%e4%bb%bb%e5%8a%a1 class=header-mark></a>1.4 删除任务</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</span></span><span class=line><span class=cl><span class=kt>rt_uint32_t</span> <span class=n>rt_thread_ready_priority_group</span><span class=p>;</span></span></span></code></pre></div><h3 id=删除任务 class=headerLink><a href=#%e5%88%a0%e9%99%a4%e4%bb%bb%e5%8a%a1 class=header-mark></a>1.4 删除任务</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -381,15 +401,19 @@ tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>rt_err_t</span> <span class=nf>rt_thread_delete</span><span class=p>(</span><span class=kt>rt_thread_t</span> <span class=kr>thread</span><span class=p>);</span></span></span></code></pre></div><p>与创建任务相反的操作,删除任务的流程大致如下</p><pre class=mermaid>graph LR
 
 rt_thread_delete --> rt_schedule_remove_thread
-</pre><h3 id=任务调度 class=headerLink><a href=#%e4%bb%bb%e5%8a%a1%e8%b0%83%e5%ba%a6 class=header-mark></a>1.5 任务调度</h3><blockquote><p>任务调度实现实时操作系统的核心</p></blockquote><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</pre><h3 id=任务调度 class=headerLink><a href=#%e4%bb%bb%e5%8a%a1%e8%b0%83%e5%ba%a6 class=header-mark></a>1.5 任务调度</h3><blockquote><p>任务调度实现实时操作系统的核心</p></blockquote><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">text</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">text</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -432,15 +456,19 @@ tw-scrollbar-thin"><span class=line><span class=cl>void rt_schedule(void);</span
 rt_schedule -->  _scheduler_get_highest_priority_thread
 rt_schedule --> rt_hw_context_switch
 </pre><p>调度是如何发生的呢？</p><p>调度器rt_schedule的调用路线</p><p>ARM64调度
-<strong>scheduler_mp.c</strong></p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+<strong>scheduler_mp.c</strong></p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">shell</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">shell</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -490,15 +518,19 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=o>(</span>gdb<spa
 </span></span><span class=line><span class=cl>    at /home/mengdemao/work/rt-thread/libcpu/aarch64/common/trap.c:286
 </span></span><span class=line><span class=cl><span class=c1>#4  0x0000000040096b2c in vector_irq ()</span>
 </span></span><span class=line><span class=cl>    at /home/mengdemao/work/rt-thread/libcpu/aarch64/common/vector_gcc.S:114</span></span></code></pre></div><p>ARM32调度器实现
-<strong>scheduler_up.c</strong></p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+<strong>scheduler_up.c</strong></p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">shell</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">shell</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -556,15 +588,19 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=c1>#0  rt_schedul
 </span></span><span class=line><span class=cl>    at /home/mengdemao/work/rt-thread/libcpu/arm/cortex-a/trap.c:363
 </span></span><span class=line><span class=cl><span class=c1>#9  0x6009f4ac in vector_irq ()</span>
 </span></span><span class=line><span class=cl>    at /home/mengdemao/work/rt-thread/libcpu/arm/cortex-a/start_gcc.S:385</span></span></code></pre></div><h2 id=线程间同步与通信 class=headerLink><a href=#%e7%ba%bf%e7%a8%8b%e9%97%b4%e5%90%8c%e6%ad%a5%e4%b8%8e%e9%80%9a%e4%bf%a1 class=header-mark></a>2 线程间同步与通信</h2><p><a href="https://www.rt-thread.org/document/site/#/rt-thread-version/rt-thread-standard/programming-manual/ipc1/ipc1?id=%e7%ba%bf%e7%a8%8b%e9%97%b4%e5%90%8c%e6%ad%a5" target=_blank rel="noopener noreferrer">线程间同步</a>
-<a href="https://www.rt-thread.org/document/site/#/rt-thread-version/rt-thread-standard/programming-manual/ipc2/ipc2?id=%e7%ba%bf%e7%a8%8b%e9%97%b4%e9%80%9a%e4%bf%a1" target=_blank rel="noopener noreferrer">线程间通信</a></p><h2 id=ipc对象 class=headerLink><a href=#ipc%e5%af%b9%e8%b1%a1 class=header-mark></a>3 IPC对象</h2><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+<a href="https://www.rt-thread.org/document/site/#/rt-thread-version/rt-thread-standard/programming-manual/ipc2/ipc2?id=%e7%ba%bf%e7%a8%8b%e9%97%b4%e9%80%9a%e4%bf%a1" target=_blank rel="noopener noreferrer">线程间通信</a></p><h2 id=ipc对象 class=headerLink><a href=#ipc%e5%af%b9%e8%b1%a1 class=header-mark></a>3 IPC对象</h2><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -613,15 +649,19 @@ rt_mutex --> rt_ipc_object
 rt_event --> rt_ipc_object
 rt_mailbox --> rt_ipc_object
 rt_messagequeue --> rt_ipc_object
-</pre><h2 id=信号量 class=headerLink><a href=#%e4%bf%a1%e5%8f%b7%e9%87%8f class=header-mark></a>4 信号量</h2><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</pre><h2 id=信号量 class=headerLink><a href=#%e4%bf%a1%e5%8f%b7%e9%87%8f class=header-mark></a>4 信号量</h2><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -672,15 +712,19 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <
 </span></span></span><span class=line><span class=cl><span class=c1></span><span class=kt>rt_err_t</span> <span class=nf>rt_sem_init</span><span class=p>(</span><span class=kt>rt_sem_t</span>    <span class=n>sem</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>                     <span class=k>const</span> <span class=kt>char</span> <span class=o>*</span><span class=n>name</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>                     <span class=kt>rt_uint32_t</span> <span class=n>value</span><span class=p>,</span>
-</span></span><span class=line><span class=cl>                     <span class=kt>rt_uint8_t</span>  <span class=n>flag</span><span class=p>);</span></span></span></code></pre></div><h2 id=互斥量 class=headerLink><a href=#%e4%ba%92%e6%96%a5%e9%87%8f class=header-mark></a>5 互斥量</h2><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</span></span><span class=line><span class=cl>                     <span class=kt>rt_uint8_t</span>  <span class=n>flag</span><span class=p>);</span></span></span></code></pre></div><h2 id=互斥量 class=headerLink><a href=#%e4%ba%92%e6%96%a5%e9%87%8f class=header-mark></a>5 互斥量</h2><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -730,15 +774,19 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <
 </span></span><span class=line><span class=cl>    <span class=k>struct</span> <span class=n>rt_thread</span>    <span class=o>*</span><span class=n>owner</span><span class=p>;</span>                         <span class=cm>/**&lt; current owner of mutex */</span>
 </span></span><span class=line><span class=cl>    <span class=kt>rt_list_t</span>            <span class=n>taken_list</span><span class=p>;</span>                    <span class=cm>/**&lt; the object list taken by thread */</span>
 </span></span><span class=line><span class=cl><span class=p>};</span>
-</span></span><span class=line><span class=cl><span class=k>typedef</span> <span class=k>struct</span> <span class=n>rt_mutex</span> <span class=o>*</span><span class=kt>rt_mutex_t</span><span class=p>;</span></span></span></code></pre></div><h2 id=事件集 class=headerLink><a href=#%e4%ba%8b%e4%bb%b6%e9%9b%86 class=header-mark></a>6 事件集</h2><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</span></span><span class=line><span class=cl><span class=k>typedef</span> <span class=k>struct</span> <span class=n>rt_mutex</span> <span class=o>*</span><span class=kt>rt_mutex_t</span><span class=p>;</span></span></span></code></pre></div><h2 id=事件集 class=headerLink><a href=#%e4%ba%8b%e4%bb%b6%e9%9b%86 class=header-mark></a>6 事件集</h2><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -786,15 +834,19 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#define RT_EVE
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=kt>rt_uint32_t</span>          <span class=n>set</span><span class=p>;</span>                           <span class=cm>/**&lt; event set */</span>
 </span></span><span class=line><span class=cl><span class=p>};</span>
-</span></span><span class=line><span class=cl><span class=k>typedef</span> <span class=k>struct</span> <span class=n>rt_event</span> <span class=o>*</span><span class=kt>rt_event_t</span><span class=p>;</span></span></span></code></pre></div><h2 id=邮箱 class=headerLink><a href=#%e9%82%ae%e7%ae%b1 class=header-mark></a>7 邮箱</h2><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</span></span><span class=line><span class=cl><span class=k>typedef</span> <span class=k>struct</span> <span class=n>rt_event</span> <span class=o>*</span><span class=kt>rt_event_t</span><span class=p>;</span></span></span></code></pre></div><h2 id=邮箱 class=headerLink><a href=#%e9%82%ae%e7%ae%b1 class=header-mark></a>7 邮箱</h2><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -846,15 +898,19 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=kt>rt_list_t</span>            <span class=n>suspend_sender_thread</span><span class=p>;</span>         <span class=cm>/**&lt; sender thread suspended on this mailbox */</span>
 </span></span><span class=line><span class=cl><span class=p>};</span>
-</span></span><span class=line><span class=cl><span class=k>typedef</span> <span class=k>struct</span> <span class=n>rt_mailbox</span> <span class=o>*</span><span class=kt>rt_mailbox_t</span><span class=p>;</span></span></span></code></pre></div><h2 id=消息队列 class=headerLink><a href=#%e6%b6%88%e6%81%af%e9%98%9f%e5%88%97 class=header-mark></a>8 消息队列</h2><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</span></span><span class=line><span class=cl><span class=k>typedef</span> <span class=k>struct</span> <span class=n>rt_mailbox</span> <span class=o>*</span><span class=kt>rt_mailbox_t</span><span class=p>;</span></span></span></code></pre></div><h2 id=消息队列 class=headerLink><a href=#%e6%b6%88%e6%81%af%e9%98%9f%e5%88%97 class=header-mark></a>8 消息队列</h2><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -909,15 +965,19 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=kt>rt_list_t</span>            <span class=n>suspend_sender_thread</span><span class=p>;</span>         <span class=cm>/**&lt; sender thread suspended on this message queue */</span>
 </span></span><span class=line><span class=cl><span class=p>};</span>
-</span></span><span class=line><span class=cl><span class=k>typedef</span> <span class=k>struct</span> <span class=n>rt_messagequeue</span> <span class=o>*</span><span class=kt>rt_mq_t</span><span class=p>;</span></span></span></code></pre></div><h2 id=信号 class=headerLink><a href=#%e4%bf%a1%e5%8f%b7 class=header-mark></a>9 信号</h2><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</span></span><span class=line><span class=cl><span class=k>typedef</span> <span class=k>struct</span> <span class=n>rt_messagequeue</span> <span class=o>*</span><span class=kt>rt_mq_t</span><span class=p>;</span></span></span></code></pre></div><h2 id=信号 class=headerLink><a href=#%e4%bf%a1%e5%8f%b7 class=header-mark></a>9 信号</h2><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -959,15 +1019,19 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>typedef</span> 
 </span></span><span class=line><span class=cl><span class=k>typedef</span> <span class=kt>siginfo_t</span> <span class=kt>rt_siginfo_t</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=k>typedef</span> <span class=nf>void</span> <span class=p>(</span><span class=o>*</span><span class=kt>rt_sighandler_t</span><span class=p>)(</span><span class=kt>int</span> <span class=n>signo</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=cp>#define RT_SIG_MAX          32</span></span></span></code></pre></div><h2 id=内存管理 class=headerLink><a href=#%e5%86%85%e5%ad%98%e7%ae%a1%e7%90%86 class=header-mark></a>10 内存管理</h2><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</span></span><span class=line><span class=cl><span class=cp>#define RT_SIG_MAX          32</span></span></span></code></pre></div><h2 id=内存管理 class=headerLink><a href=#%e5%86%85%e5%ad%98%e7%ae%a1%e7%90%86 class=header-mark></a>10 内存管理</h2><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1061,15 +1125,19 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=n>rt_weak</span> 
 </span></span><span class=line><span class=cl>    <span class=nf>_MEM_FREE</span><span class=p>(</span><span class=n>ptr</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>    <span class=cm>/* Exit critical zone */</span>
 </span></span><span class=line><span class=cl>    <span class=nf>_heap_unlock</span><span class=p>(</span><span class=n>level</span><span class=p>);</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>进入不同的分配算法实现</p><ul><li>小内存分配算法</li></ul><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>进入不同的分配算法实现</p><ul><li>小内存分配算法</li></ul><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1116,15 +1184,19 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#define _MEM_I
 </span></span></span><span class=line><span class=cl><span class=cp>#define _MEM_FREE(_ptr) \
 </span></span></span><span class=line><span class=cl><span class=cp>    rt_smem_free(_ptr)
 </span></span></span><span class=line><span class=cl><span class=cp>#define _MEM_INFO(_total, _used, _max)  \
-</span></span></span><span class=line><span class=cl><span class=cp>    _smem_info(_total, _used, _max)</span></span></span></code></pre></div><ul><li>slab分配算法</li></ul><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</span></span></span><span class=line><span class=cl><span class=cp>    _smem_info(_total, _used, _max)</span></span></span></code></pre></div><ul><li>slab分配算法</li></ul><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1171,15 +1243,19 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#define _MEM_I
 </span></span></span><span class=line><span class=cl><span class=cp>#define _MEM_FREE(_ptr)   \
 </span></span></span><span class=line><span class=cl><span class=cp>    _memheap_free(_ptr)
 </span></span></span><span class=line><span class=cl><span class=cp>#define _MEM_INFO(_total, _used, _max)   \
-</span></span></span><span class=line><span class=cl><span class=cp>    rt_memheap_info(&amp;system_heap, _total, _used, _max)</span></span></span></code></pre></div><ul><li>内存池分配算法</li></ul><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</span></span></span><span class=line><span class=cl><span class=cp>    rt_memheap_info(&amp;system_heap, _total, _used, _max)</span></span></span></code></pre></div><ul><li>内存池分配算法</li></ul><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1225,15 +1301,19 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#define _MEM_I
 </span></span></span><span class=line><span class=cl><span class=cp>    rt_slab_realloc(system_heap, _ptr, _newsize)
 </span></span></span><span class=line><span class=cl><span class=cp>#define _MEM_FREE(_ptr) \
 </span></span></span><span class=line><span class=cl><span class=cp>    rt_slab_free(system_heap, _ptr)
-</span></span></span><span class=line><span class=cl><span class=cp>#define _MEM_INFO       _slab_info</span></span></span></code></pre></div><h2 id=时钟管理 class=headerLink><a href=#%e6%97%b6%e9%92%9f%e7%ae%a1%e7%90%86 class=header-mark></a>11 时钟管理</h2><h3 id=tick自增函数 class=headerLink><a href=#tick%e8%87%aa%e5%a2%9e%e5%87%bd%e6%95%b0 class=header-mark></a>11.1 <code>tick</code>自增函数</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</span></span></span><span class=line><span class=cl><span class=cp>#define _MEM_INFO       _slab_info</span></span></span></code></pre></div><h2 id=时钟管理 class=headerLink><a href=#%e6%97%b6%e9%92%9f%e7%ae%a1%e7%90%86 class=header-mark></a>11 时钟管理</h2><h3 id=tick自增函数 class=headerLink><a href=#tick%e8%87%aa%e5%a2%9e%e5%87%bd%e6%95%b0 class=header-mark></a>11.1 <code>tick</code>自增函数</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1315,15 +1395,19 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>void</span> <s
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=cm>/* check timer */</span>
 </span></span><span class=line><span class=cl>    <span class=nf>rt_timer_check</span><span class=p>();</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=获取tick class=headerLink><a href=#%e8%8e%b7%e5%8f%96tick class=header-mark></a>11.2 获取tick</h3><blockquote><p>直接获取滴答函数的计数</p></blockquote><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=获取tick class=headerLink><a href=#%e8%8e%b7%e5%8f%96tick class=header-mark></a>11.2 获取tick</h3><blockquote><p>直接获取滴答函数的计数</p></blockquote><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1371,15 +1455,19 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#ifdef RT_USIN
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=cm>/* return the global tick */</span>
 </span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>rt_tick</span><span class=p>;</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=定时器实现 class=headerLink><a href=#%e5%ae%9a%e6%97%b6%e5%99%a8%e5%ae%9e%e7%8e%b0 class=header-mark></a>11.3 定时器实现</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=定时器实现 class=headerLink><a href=#%e5%ae%9a%e6%97%b6%e5%99%a8%e5%ae%9e%e7%8e%b0 class=header-mark></a>11.3 定时器实现</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1527,14 +1615,14 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <
 </span><span>|&nbsp;<a class=link-to-source href=https://github.com/mengdemao/github.io/blob/master/content/posts/RT-Thread/index.md target=_blank rel="noopener noreferrer">查看源代码</a>
 </span><span>|&nbsp;<a class=link-to-edit href=https://github.com/mengdemao/github.io/edit/master/content/posts/RT-Thread/index.md target=_blank rel="noopener noreferrer">编辑此页</a>
 </span><span>|&nbsp;<a class=link-to-report href="https://github.com/mengdemao/github.io/issues/new?title=[bug]%20RT-Thread&body=|Field|Value|%0A|-|-|%0A|Title|RT-Thread|%0A|Url|https://mengdemao.com/rt-thread/|%0A|Filename|https://github.com/mengdemao/github.io/blob/main/exampleSite/content/posts/RT-Thread/index.md|" target=_blank rel="noopener noreferrer">报告问题</a></span></div><div class=post-info-share></div></div></div><div class=post-info-more><section class=post-tags><svg class="icon" viewBox="0 0 640 512"><path d="M497.941 225.941 286.059 14.059A48 48 0 00252.118.0H48C21.49.0.0 21.49.0 48v204.118a48 48 0 0014.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882.0l204.118-204.118c18.745-18.745 18.745-49.137.0-67.882zM112 160c-26.51.0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882.0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397.0h48.721a48 48 0 0133.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137.0 67.882z"/></svg>&nbsp;<a href=/tags/rtos/>RTOS</a></section><section class=print:!tw-hidden><span><button class="tw-text-fgColor-link-muted hover:tw-text-fgColor-link-muted-hover" onclick=window.history.back()>返回</button></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class="post-nav print:tw-hidden"><a href=/driver_model/ class=prev rel=prev title=Linux驱动模型><svg class="icon" viewBox="0 0 256 512"><path d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9.0l22.6 22.6c9.4 9.4 9.4 24.6.0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6.0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9.0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"/></svg>Linux驱动模型</a>
-<a href=/complete/ class=next rel=next title=Complete完成量笔记>Complete完成量笔记<svg class="icon" viewBox="0 0 256 512"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9.0l-22.6-22.6c-9.4-9.4-9.4-24.6.0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6.0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9.0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></a></div></div><div id=comments class="print:!tw-hidden tw-pt-32 tw-pb-8"><div id=twikoo></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://twikoo.js.org/>Twikoo</a>.</noscript></div></article></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.148.2">Hugo</a> 强力驱动&nbsp;|&nbsp;托管在 <a title="Github Pages" href=https://docs.github.com/en/pages/ target=_blank rel="noopener noreffer">GitHub Pages</a> 上&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.4.2"><svg class="icon" viewBox="0 0 576 512"><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1.0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7.0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174 402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7-43.2-43.2c-4.1-4.1-10.8-4.1-14.8.0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg> DoIt</a></div><div class=footer-line><svg class="icon" viewBox="0 0 512 512"><path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 448c-110.532.0-2e2-89.451-2e2-2e2.0-110.531 89.451-2e2 2e2-2e2 110.532.0 2e2 89.451 2e2 2e2.0 110.532-89.451 2e2-2e2 2e2zm107.351-101.064c-9.614 9.712-45.53 41.396-104.065 41.396-82.43.0-140.484-61.425-140.484-141.567.0-79.152 60.275-139.401 139.762-139.401 55.531.0 88.738 26.62 97.593 34.779a11.965 11.965.0 011.936 15.322l-18.155 28.113c-3.841 5.95-11.966 7.282-17.499 2.921-8.595-6.776-31.814-22.538-61.708-22.538-48.303.0-77.916 35.33-77.916 80.082.0 41.589 26.888 83.692 78.277 83.692 32.657.0 56.843-19.039 65.726-27.225 5.27-4.857 13.596-4.039 17.82 1.738l19.865 27.17a11.947 11.947.0 01-1.152 15.518z"/></svg>2020 - 2025<span class=author>&nbsp;<a href=https://github.com/mengdemao target=_blank rel="noopener noreferrer">mengdemao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span><span class=icp-splitter>&nbsp;|&nbsp;</span><br class=icp-br><span class=icp><a href=https://beian.miit.gov.cn/>鲁ICP备2023050410号-1</a></span></div><div class=footer-line></div><div class=footer-line></div></div></footer><div class="print:!tw-hidden tw-flex tw-flex-col tw-fixed tw-right-4 tw-bottom-4 tw-gap-2"><a href=#back-to-top id=back-to-top-button class="tw-transition-opacity tw-opacity-0 tw-block tw-bg-bgColor-secondary tw-rounded-full" style=padding:.6rem;line-height:1.3rem;font-size:1rem title=回到顶部><svg class="icon" viewBox="0 0 448 512"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6.0-33.9L207 39c9.4-9.4 24.6-9.4 33.9.0l194.3 194.3c9.4 9.4 9.4 24.6.0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3.0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg>
+<a href=/complete/ class=next rel=next title=Complete完成量笔记>Complete完成量笔记<svg class="icon" viewBox="0 0 256 512"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9.0l-22.6-22.6c-9.4-9.4-9.4-24.6.0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6.0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9.0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></a></div></div><div id=comments class="print:!tw-hidden tw-pt-32 tw-pb-8"><div id=twikoo></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://twikoo.js.org/>Twikoo</a>.</noscript></div></article></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.150.0">Hugo</a> 强力驱动&nbsp;|&nbsp;托管在 <a title="Github Pages" href=https://docs.github.com/en/pages/ target=_blank rel="noopener noreffer">GitHub Pages</a> 上&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.4.1"><svg class="icon" viewBox="0 0 576 512"><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1.0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7.0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174 402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7-43.2-43.2c-4.1-4.1-10.8-4.1-14.8.0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg> DoIt</a></div><div class=footer-line><svg class="icon" viewBox="0 0 512 512"><path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 448c-110.532.0-2e2-89.451-2e2-2e2.0-110.531 89.451-2e2 2e2-2e2 110.532.0 2e2 89.451 2e2 2e2.0 110.532-89.451 2e2-2e2 2e2zm107.351-101.064c-9.614 9.712-45.53 41.396-104.065 41.396-82.43.0-140.484-61.425-140.484-141.567.0-79.152 60.275-139.401 139.762-139.401 55.531.0 88.738 26.62 97.593 34.779a11.965 11.965.0 011.936 15.322l-18.155 28.113c-3.841 5.95-11.966 7.282-17.499 2.921-8.595-6.776-31.814-22.538-61.708-22.538-48.303.0-77.916 35.33-77.916 80.082.0 41.589 26.888 83.692 78.277 83.692 32.657.0 56.843-19.039 65.726-27.225 5.27-4.857 13.596-4.039 17.82 1.738l19.865 27.17a11.947 11.947.0 01-1.152 15.518z"/></svg>2020 - 2025<span class=author>&nbsp;<a href=https://github.com/mengdemao target=_blank rel="noopener noreferrer">mengdemao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span><span class=icp-splitter>&nbsp;|&nbsp;</span><br class=icp-br><span class=icp><a href=https://beian.miit.gov.cn/>鲁ICP备2023050410号-1</a></span></div><div class=footer-line></div><div class=footer-line></div></div></footer><div class="print:!tw-hidden tw-flex tw-flex-col tw-fixed tw-right-4 tw-bottom-4 tw-gap-2"><a href=#back-to-top id=back-to-top-button class="tw-transition-opacity tw-opacity-0 tw-block tw-bg-bgColor-secondary tw-rounded-full" style=padding:.6rem;line-height:1.3rem;font-size:1rem title=回到顶部><svg class="icon" viewBox="0 0 448 512"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6.0-33.9L207 39c9.4-9.4 24.6-9.4 33.9.0l194.3 194.3c9.4 9.4 9.4 24.6.0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3.0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg>
 </a><button id=toc-drawer-button class="tw-block tw-bg-bgColor-secondary tw-rounded-full md:tw-hidden" style=padding:.6rem;line-height:1.3rem;font-size:1rem>
 <svg class="icon" viewBox="0 0 448 512"><path d="M16 132h416c8.837.0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163.0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg>
 </button><a href=#comments id=view-comments class="tw-block tw-bg-bgColor-secondary tw-rounded-full" style=padding:.6rem;line-height:1.3rem;font-size:1rem title=查看评论>
 <svg class="icon" viewBox="0 0 512 512"><path d="M256 32C114.6 32 0 125.1.0 240c0 49.6 21.4 95 57 130.7C44.5 421.1 2.7 466 2.2 466.5c-2.2 2.3-2.8 5.7-1.5 8.7S4.8 480 8 480c66.3.0 116-31.8 140.6-51.4 32.7 12.3 69 19.4 107.4 19.4 141.4.0 256-93.1 256-208S397.4 32 256 32z"/></svg></a></div><script type=module>
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
     mermaid.initialize({ startOnLoad: true, theme: (window.theme === 'dark' ? 'dark' : 'default') });
-</script><div id=cookieconsent-container></div><link rel=stylesheet href=/lib/cookieconsent/cookieconsent.min.2d0f7b71a99aaff94e9624ff32a8dc42ce645a0cba433fdc091cf34735027efd1fa2db024c2f591d768f426255f17bbf3d500b7c967b0437b3979956dffa81c6.css integrity="sha512-LQ97camar/lOliT/MqjcQs5kWgy6Qz/cCRzzRzUCfv0fotsCTC9ZHXaPQmJV8Xu/PVALfJZ7BDezl5lW3/qBxg=="><script>window.config={comment:{twikoo:{commentCount:!0,el:"#twikoo",envId:"https://twikoo-comments-doit.vercel.app/",lang:"zh-cn"}},cookieconsent:{content:{dismiss:"同意",link:"了解更多",message:"本网站使用 Cookies 来改善您的浏览体验."},enable:!0,palette:{button:{background:"#f0f0f0"},popup:{background:"#1aa3ff"}},theme:"edgeless"},data:{"desktop-header-typeit":"编程日志","mobile-header-typeit":"编程日志"},table:{sort:!0},typeit:{cursorChar:"|",cursorSpeed:1e3,data:{"desktop-header-typeit":["desktop-header-typeit"],"mobile-header-typeit":["mobile-header-typeit"]},duration:-1,speed:100}}</script><script src=/lib/tablesort/tablesort.min.23640461c9e6941882f50f4208436e1932c806bcc32323a34ff378781204951e05534a0bbc3c1e401d111aa22a26ecc5d4f2cfb43af59d94da8a24f2b8ef8506.js integrity="sha512-I2QEYcnmlBiC9Q9CCENuGTLIBrzDIyOjT/N4eBIElR4FU0oLvDweQB0RGqIqJuzF1PLPtDr1nZTaiiTyuO+FBg=="></script><script src=/lib/typeit/typeit.min.535a28f8fb852c2444461a9a301c6435cc75831d3f0b1a6e18d5275f9d0cd7b78824c8204589bc875eb2b572536c6013461a1d84cf528cac8e7526fbcad17a9b.js integrity="sha512-U1oo+PuFLCRERhqaMBxkNcx1gx0/CxpuGNUnX50M17eIJMggRYm8h16ytXJTbGATRhodhM9SjKyOdSb7ytF6mw=="></script><script src=/lib/cookieconsent/cookieconsent.min.c975ea3858dd8c7347d46343fb510ed236efbde6c0069cc6283eba7639d47e22a560c1391c6314247a0269e1380f93d31b662c4897fa770ab2514bd0bd2d2f68.js integrity="sha512-yXXqOFjdjHNH1GND+1EO0jbvvebABpzGKD66djnUfiKlYME5HGMUJHoCaeE4D5PTG2YsSJf6dwqyUUvQvS0vaA==" defer></script><script src=/js/cookieconsent.min.js defer></script><script src=/js/theme.min.js defer></script><script src=/lib/twikoo/twikoo.all.min.0728767a978aebfc903fc5e8e998f703d1f5d2e1aac2f26187ef0b6cdf15191c43945c0f3a66b9e22e65c06d8b509e1023ce16236dcda869980f2dfcaeee1a35.js integrity="sha512-Byh2epeK6/yQP8Xo6Zj3A9H10uGqwvJhh+8LbN8VGRxDlFwPOma54i5lwG2LUJ4QI84WI23NqGmYDy38ru4aNQ==" defer></script><script src=/js/twikoo.min.js defer></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-6QCK4BFMHW",{anonymize_ip:!0})</script><script src="https://www.googletagmanager.com/gtag/js?id=G-6QCK4BFMHW" async></script><script type=speculationrules>
+</script><div id=cookieconsent-container></div><link rel=stylesheet href=/lib/cookieconsent/cookieconsent.min.2d0f7b71a99aaff94e9624ff32a8dc42ce645a0cba433fdc091cf34735027efd1fa2db024c2f591d768f426255f17bbf3d500b7c967b0437b3979956dffa81c6.css integrity="sha512-LQ97camar/lOliT/MqjcQs5kWgy6Qz/cCRzzRzUCfv0fotsCTC9ZHXaPQmJV8Xu/PVALfJZ7BDezl5lW3/qBxg=="><script>window.config={comment:{twikoo:{commentCount:!0,el:"#twikoo",envId:"https://twikoo-comments-doit.vercel.app/",lang:"zh-cn"}},cookieconsent:{content:{dismiss:"同意",link:"了解更多",message:"本网站使用 Cookies 来改善您的浏览体验."},enable:!0,palette:{button:{background:"#f0f0f0"},popup:{background:"#1aa3ff"}},theme:"edgeless"},data:{"desktop-header-typeit":"编程日志","mobile-header-typeit":"编程日志"},table:{sort:!0},typeit:{cursorChar:"|",cursorSpeed:1e3,data:{"desktop-header-typeit":["desktop-header-typeit"],"mobile-header-typeit":["mobile-header-typeit"]},duration:-1,speed:100}}</script><script src=/lib/tablesort/tablesort.min.23640461c9e6941882f50f4208436e1932c806bcc32323a34ff378781204951e05534a0bbc3c1e401d111aa22a26ecc5d4f2cfb43af59d94da8a24f2b8ef8506.js integrity="sha512-I2QEYcnmlBiC9Q9CCENuGTLIBrzDIyOjT/N4eBIElR4FU0oLvDweQB0RGqIqJuzF1PLPtDr1nZTaiiTyuO+FBg=="></script><script src=/lib/typeit/typeit.min.535a28f8fb852c2444461a9a301c6435cc75831d3f0b1a6e18d5275f9d0cd7b78824c8204589bc875eb2b572536c6013461a1d84cf528cac8e7526fbcad17a9b.js integrity="sha512-U1oo+PuFLCRERhqaMBxkNcx1gx0/CxpuGNUnX50M17eIJMggRYm8h16ytXJTbGATRhodhM9SjKyOdSb7ytF6mw=="></script><script src=/lib/cookieconsent/cookieconsent.min.c975ea3858dd8c7347d46343fb510ed236efbde6c0069cc6283eba7639d47e22a560c1391c6314247a0269e1380f93d31b662c4897fa770ab2514bd0bd2d2f68.js integrity="sha512-yXXqOFjdjHNH1GND+1EO0jbvvebABpzGKD66djnUfiKlYME5HGMUJHoCaeE4D5PTG2YsSJf6dwqyUUvQvS0vaA==" defer></script><script src=/js/cookieconsent.min.js defer></script><script src=/js/theme.min.js defer></script><script src=/lib/twikoo/twikoo.all.min.71d2e513d9e7cdc257428cbd785bb319ca505f1ef4ad7c6650da6faef61303042fdadc4b49dbc452cf9e20b232295141bc0a149bd89447bddec120f7222199ff.js integrity="sha512-cdLlE9nnzcJXQoy9eFuzGcpQXx70rXxmUNpvrvYTAwQv2txLSdvEUs+eILIyKVFBvAoUm9iUR73ewSD3IiGZ/w==" defer></script><script src=/js/twikoo.min.js defer></script><script type=text/javascript>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-6QCK4BFMHW",{anonymize_ip:!0})</script><script src="https://www.googletagmanager.com/gtag/js?id=G-6QCK4BFMHW" async></script><script type=speculationrules>
   {
     "prerender": [
       {

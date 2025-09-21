@@ -1,45 +1,38 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>编程语言 - 分类 - 编程日志</title><link>https://mengdemao.com/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/</link><description>编程语言 - 分类 - 编程日志</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>megndemao19951021@gmail.com (mengdemao)</managingEditor><webMaster>megndemao19951021@gmail.com (mengdemao)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Tue, 08 Apr 2025 22:37:49 +0800</lastBuildDate><atom:link href="https://mengdemao.com/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/" rel="self" type="application/rss+xml"/><item><title>C++ Primer笔记</title><link>https://mengdemao.com/cxx_primer/</link><pubDate>Tue, 08 Apr 2025 22:37:49 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/cxx_primer/</guid><description>&lt;div class="featured-image">
-                &lt;img src="featuredImage/13.webp" referrerpolicy="no-referrer">
-            &lt;/div>C++ Primer 笔记</description></item><item><title>Python学习笔记</title><link>https://mengdemao.com/python/</link><pubDate>Thu, 07 Dec 2023 11:22:39 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/python/</guid><description>&lt;div class="featured-image">
-                &lt;img src="featuredImage/14.webp" referrerpolicy="no-referrer">
-            &lt;/div>Python学习笔记</description></item><item><title>C++基础笔记</title><link>https://mengdemao.com/cxx_basic/</link><pubDate>Thu, 28 Jul 2022 22:37:59 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/cxx_basic/</guid><description>&lt;div class="featured-image">
-                &lt;img src="featuredImage/13.webp" referrerpolicy="no-referrer">
-            &lt;/div>C++基础笔记</description></item><item><title>C++提高笔记</title><link>https://mengdemao.com/cxx_enhance/</link><pubDate>Thu, 28 Jul 2022 22:37:49 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/cxx_enhance/</guid><description>&lt;div class="featured-image">
-                &lt;img src="featuredImage/13.webp" referrerpolicy="no-referrer">
-            &lt;/div>C++提高笔记</description></item><item><title>C++增强笔记</title><link>https://mengdemao.com/cxx_advance/</link><pubDate>Thu, 28 Jul 2022 22:37:49 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/cxx_advance/</guid><description>&lt;div class="featured-image">
-                &lt;img src="featuredImage/13.webp" referrerpolicy="no-referrer">
-            &lt;/div>C++增强笔记</description></item><item><title>C++模板</title><link>https://mengdemao.com/cxx_template/</link><pubDate>Sat, 18 Jun 2022 14:21:30 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/cxx_template/</guid><description><![CDATA[<div class="featured-image">
-                <img src="featuredImage/01.webp" referrerpolicy="no-referrer">
-            </div><h2 id="相关知识" class="headerLink">
-    <a href="#%e7%9b%b8%e5%85%b3%e7%9f%a5%e8%af%86" class="header-mark"></a>66 相关知识</h2><p><strong>gcc</strong>中<code>typeof</code>关键字用来检查变量类型,那么则可以用来判断魔板生成中的数据类型,
-但是在C++中存在这另外的运算符<code>typeid</code>,但是我个人认为<code>typeof</code>更加优秀，但是二者并不相同,
-<code>typeid</code>返回类型对象,<code>typeof</code>只可以判断类型;</p>]]></description></item><item><title>Lua笔记</title><link>https://mengdemao.com/lua/</link><pubDate>Sun, 02 Jan 2022 00:23:06 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/lua/</guid><description><![CDATA[<p><strong>Lua运行结构</strong></p>
-<pre class="mermaid">
-  graph LR
-  编译器==>PROTO==>虚拟机
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>编程语言 on 编程日志</title><link>https://mengdemao.com/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/</link><description>Recent content in 编程语言 on 编程日志</description><generator>Hugo</generator><language>zh-CN</language><managingEditor>megndemao19951021@gmail.com (mengdemao)</managingEditor><webMaster>megndemao19951021@gmail.com (mengdemao)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 11 Apr 2025 11:02:44 +0800</lastBuildDate><atom:link href="https://mengdemao.com/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/index.xml" rel="self" type="application/rss+xml"/><item><title>C++ Primer笔记</title><link>https://mengdemao.com/cxx_primer/</link><pubDate>Tue, 08 Apr 2025 22:37:49 +0800</pubDate><author>megndemao19951021@gmail.com (mengdemao)</author><guid>https://mengdemao.com/cxx_primer/</guid><description/></item><item><title>Python学习笔记</title><link>https://mengdemao.com/python/</link><pubDate>Thu, 07 Dec 2023 11:22:39 +0800</pubDate><author>megndemao19951021@gmail.com (mengdemao)</author><guid>https://mengdemao.com/python/</guid><description/></item><item><title>C++基础笔记</title><link>https://mengdemao.com/cxx_basic/</link><pubDate>Thu, 28 Jul 2022 22:37:59 +0800</pubDate><author>megndemao19951021@gmail.com (mengdemao)</author><guid>https://mengdemao.com/cxx_basic/</guid><description/></item><item><title>C++提高笔记</title><link>https://mengdemao.com/cxx_enhance/</link><pubDate>Thu, 28 Jul 2022 22:37:49 +0800</pubDate><author>megndemao19951021@gmail.com (mengdemao)</author><guid>https://mengdemao.com/cxx_enhance/</guid><description/></item><item><title>C++增强笔记</title><link>https://mengdemao.com/cxx_advance/</link><pubDate>Thu, 28 Jul 2022 22:37:49 +0800</pubDate><author>megndemao19951021@gmail.com (mengdemao)</author><guid>https://mengdemao.com/cxx_advance/</guid><description/></item><item><title>C++模板</title><link>https://mengdemao.com/cxx_template/</link><pubDate>Sat, 18 Jun 2022 14:21:30 +0800</pubDate><author>megndemao19951021@gmail.com (mengdemao)</author><guid>https://mengdemao.com/cxx_template/</guid><description>&lt;h2 id="相关知识" class="headerLink"&gt;
+ &lt;a href="#%e7%9b%b8%e5%85%b3%e7%9f%a5%e8%af%86" class="header-mark"&gt;&lt;/a&gt;66 相关知识&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;gcc&lt;/strong&gt;中&lt;code&gt;typeof&lt;/code&gt;关键字用来检查变量类型,那么则可以用来判断魔板生成中的数据类型,
+但是在C++中存在这另外的运算符&lt;code&gt;typeid&lt;/code&gt;,但是我个人认为&lt;code&gt;typeof&lt;/code&gt;更加优秀，但是二者并不相同,
+&lt;code&gt;typeid&lt;/code&gt;返回类型对象,&lt;code&gt;typeof&lt;/code&gt;只可以判断类型;&lt;/p&gt;</description></item><item><title>Lua笔记</title><link>https://mengdemao.com/lua/</link><pubDate>Sun, 02 Jan 2022 00:23:06 +0800</pubDate><author>megndemao19951021@gmail.com (mengdemao)</author><guid>https://mengdemao.com/lua/</guid><description>&lt;p&gt;&lt;strong&gt;Lua运行结构&lt;/strong&gt;&lt;/p&gt;
+&lt;pre class="mermaid"&gt;
+ graph LR
+ 编译器==&gt;PROTO==&gt;虚拟机
 
-</pre>
-<h2 id="相关数据结构" class="headerLink">
-    <a href="#%e7%9b%b8%e5%85%b3%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84" class="header-mark"></a>4 相关数据结构</h2><h3 id="全局状态机" class="headerLink">
-    <a href="#%e5%85%a8%e5%b1%80%e7%8a%b6%e6%80%81%e6%9c%ba" class="header-mark"></a>4.1 全局状态机</h3><blockquote>
-  <p>描述Lua运行状态,同时可以产生一种面向对象的模拟</p>
-</blockquote><div class="code-block highlight is-open show-line-numbers  tw-group tw-my-2">
-  <div class="
-    
-    tw-flex 
-    tw-flex-row
-    tw-flex-1 
-    tw-justify-between 
-    tw-w-full tw-bg-bgColor-secondary
-    ">      
-    <button 
-      class="
-        code-block-button
-        tw-mx-2 
-        tw-flex
-        tw-flex-row
-        tw-flex-1"
-      aria-hidden="true">
-          <div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon"
-    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div>
-          <p class="tw-select-none !tw-my-1">c</p>]]></description></item></channel></rss>
+&lt;/pre&gt;
+&lt;h2 id="相关数据结构" class="headerLink"&gt;
+ &lt;a href="#%e7%9b%b8%e5%85%b3%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84" class="header-mark"&gt;&lt;/a&gt;4 相关数据结构&lt;/h2&gt;&lt;h3 id="全局状态机" class="headerLink"&gt;
+ &lt;a href="#%e5%85%a8%e5%b1%80%e7%8a%b6%e6%80%81%e6%9c%ba" class="header-mark"&gt;&lt;/a&gt;4.1 全局状态机&lt;/h3&gt;&lt;blockquote&gt;
+ &lt;p&gt;描述Lua运行状态,同时可以产生一种面向对象的模拟&lt;/p&gt;
+&lt;/blockquote&gt;&lt;div class="code-block highlight is-closed show-line-numbers tw-group tw-my-2"&gt;
+ &lt;div class="
+ code-block-title 
+ 
+ tw-flex 
+ tw-flex-row 
+ tw-justify-between 
+ tw-w-full tw-bg-bgColor-secondary
+ "&gt; 
+ &lt;button 
+ class="
+ tw-select-none 
+ tw-mx-2 
+ tw-block
+ group-[.is-open]:tw-rotate-90
+ tw-transition-[transform] 
+ tw-duration-500 
+ tw-ease-in-out
+ print:!tw-hidden"
+ disabled
+ aria-hidden="true"&gt;&lt;svg class="icon"
+ xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"&gt;&lt;!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --&gt;&lt;path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/&gt;&lt;/svg&gt;&lt;/button&gt;
+
+ &lt;div class="code-block-title-bar tw-w-full"&gt;
+ &lt;p class="tw-select-none !tw-my-1"&gt;c&lt;/p&gt;</description></item></channel></rss>

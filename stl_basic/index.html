@@ -1,4 +1,4 @@
-<!doctype html><html lang=zh-CN><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>STL基础笔记 - 编程日志</title><meta name=Description content="STL基础笔记"><meta property="og:url" content="https://mengdemao.com/stl_basic/"><meta property="og:site_name" content="编程日志"><meta property="og:title" content="STL基础笔记"><meta property="og:description" content="STL基础笔记"><meta property="og:locale" content="zh_CN"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2021-10-06T11:24:07+08:00"><meta property="article:modified_time" content="2025-03-27T15:21:48+08:00"><meta property="article:tag" content="C++"><meta property="og:image" content="https://mengdemao.com/images/avatar.webp"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://mengdemao.com/images/avatar.webp"><meta name=twitter:title content="STL基础笔记"><meta name=twitter:description content="STL基础笔记"><meta name=application-name content="编程日志"><meta name=apple-mobile-web-app-title content="编程日志"><meta name=theme-color content="#f8f8f8"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=canonical href=https://mengdemao.com/stl_basic/><link rel=prev href=https://mengdemao.com/input_driver/><link rel=next href=https://mengdemao.com/sds/><link rel=stylesheet href=/css/main.min.css><link rel=stylesheet href=/css/style.min.css><meta name=google-site-verification content="MQ8DNu27ayX6B_4ObiEDK09vGr1fdy7kOAnbd09hJk4"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"STL基础笔记","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://mengdemao.com/stl_basic/"},"image":[{"@type":"ImageObject","url":"https://mengdemao.com/featuredImage/11.webp","width":2560,"height":1440}],"genre":"posts","keywords":["C++ STL"],"wordcount":5896,"url":"https://mengdemao.com/stl_basic/","datePublished":"2021-10-06T11:24:07+08:00","dateModified":"2025-03-27T15:21:48+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"xxxx","logo":{"@type":"ImageObject","url":"https://mengdemao.com/images/avatar.webp","width":528,"height":560}},"author":{"@type":"Person","name":"mengdemao","url":"https://github.com/mengdemao"},"description":"STL基础笔记"}</script></head><body data-instant-intensity=viewport class="tw-flex tw-min-h-screen tw-flex-col"><script>function setTheme(e){document.body.setAttribute("theme",e),document.documentElement.className=e,document.documentElement.style.setProperty("color-scheme",e==="light"?"light":"dark"),e==="light"?document.documentElement.classList.remove("tw-dark"):document.documentElement.classList.add("tw-dark"),window.theme=e,window.isDark=window.theme!=="light"}function saveTheme(e){window.localStorage&&localStorage.setItem("theme",e)}function getMeta(e){const t=document.getElementsByTagName("meta");for(let n=0;n<t.length;n++)if(t[n].getAttribute("name")===e)return t[n];return""}if(window.localStorage&&localStorage.getItem("theme")){let e=localStorage.getItem("theme");e==="light"||e==="dark"?setTheme(e):setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}else"auto"==="light"||"auto"==="dark"?(setTheme("auto"),saveTheme("auto")):(saveTheme("auto"),setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));let metaColors={light:"#f8f8f8",dark:"#161b22"};getMeta("theme-color").content=metaColors[document.body.getAttribute("theme")],window.switchThemeEventSet=new Set</script><div id=back-to-top></div><div id=mask></div><header class="desktop print:!tw-hidden" id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=tw-mr-1><i class='far fa-edit fa-fw'></i></span><span id=desktop-header-typeit class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/series/>系列 </a><a class=menu-item href=/authors/>作者 </a><a class=menu-item href=/showcase/>作品 </a><a class=menu-item href=/categories/documentation/>文档 </a><a class=menu-item href=/about/>关于 </a><a class=menu-item href=https://github.com/mengdemao/mengdemao.com title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw'></i> </a><span class="menu-item delimiter"></span><button class="menu-item theme-select" aria-label=切换主题>
+<!doctype html><html lang=zh-CN><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>STL基础笔记 - 编程日志</title><meta name=Description content="STL基础笔记"><meta property="og:url" content="https://mengdemao.com/stl_basic/"><meta property="og:site_name" content="编程日志"><meta property="og:title" content="STL基础笔记"><meta property="og:description" content="STL基础笔记"><meta property="og:locale" content="zh_CN"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2021-10-06T11:24:07+08:00"><meta property="article:modified_time" content="2025-03-27T15:21:48+08:00"><meta property="article:tag" content="C++"><meta property="og:image" content="https://mengdemao.com/images/avatar.webp"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://mengdemao.com/images/avatar.webp"><meta name=twitter:title content="STL基础笔记"><meta name=twitter:description content="STL基础笔记"><meta name=application-name content="编程日志"><meta name=apple-mobile-web-app-title content="编程日志"><meta name=theme-color content="#f8f8f8"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=canonical href=https://mengdemao.com/stl_basic/><link rel=prev href=https://mengdemao.com/input_driver/><link rel=next href=https://mengdemao.com/sds/><link rel=stylesheet href=/css/main.min.css><link rel=stylesheet href=/css/style.min.css><meta name=google-site-verification content="MQ8DNu27ayX6B_4ObiEDK09vGr1fdy7kOAnbd09hJk4"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"STL基础笔记","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://mengdemao.com/stl_basic/"},"image":[{"@type":"ImageObject","url":"https://mengdemao.com/featuredImage/11.webp","width":2560,"height":1440}],"genre":"posts","keywords":["C++ STL"],"wordcount":5896,"url":"https://mengdemao.com/stl_basic/","datePublished":"2021-10-06T11:24:07+08:00","dateModified":"2025-03-27T15:21:48+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"xxxx","logo":{"@type":"ImageObject","url":"https://mengdemao.com/images/avatar.webp","width":528,"height":560}},"author":{"@type":"Person","name":"mengdemao","url":"https://github.com/mengdemao"},"description":"STL基础笔记"}</script></head><body data-instant-intensity=viewport class="tw-flex tw-min-h-screen tw-flex-col"><script type=text/javascript>function setTheme(e){document.body.setAttribute("theme",e),document.documentElement.className=e,document.documentElement.style.setProperty("color-scheme",e==="light"?"light":"dark"),e==="light"?document.documentElement.classList.remove("tw-dark"):document.documentElement.classList.add("tw-dark"),window.theme=e,window.isDark=window.theme!=="light"}function saveTheme(e){window.localStorage&&localStorage.setItem("theme",e)}function getMeta(e){const t=document.getElementsByTagName("meta");for(let n=0;n<t.length;n++)if(t[n].getAttribute("name")===e)return t[n];return""}if(window.localStorage&&localStorage.getItem("theme")){let e=localStorage.getItem("theme");e==="light"||e==="dark"?setTheme(e):setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}else"auto"==="light"||"auto"==="dark"?(setTheme("auto"),saveTheme("auto")):(saveTheme("auto"),setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));let metaColors={light:"#f8f8f8",dark:"#161b22"};getMeta("theme-color").content=metaColors[document.body.getAttribute("theme")],window.switchThemeEventSet=new Set</script><div id=back-to-top></div><div id=mask></div><header class="desktop print:!tw-hidden" id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=tw-mr-1><i class='far fa-edit fa-fw'></i></span><span id=desktop-header-typeit class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/series/>系列 </a><a class=menu-item href=/authors/>作者 </a><a class=menu-item href=/showcase/>作品 </a><a class=menu-item href=/categories/documentation/>文档 </a><a class=menu-item href=/about/>关于 </a><a class=menu-item href=https://github.com/mengdemao/mengdemao.com title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw'></i> </a><span class="menu-item delimiter"></span><button class="menu-item theme-select" aria-label=切换主题>
 <svg class="icon" viewBox="0 0 512 512"><path d="M8 256c0 136.966 111.033 248 248 248s248-111.034 248-248S392.966 8 256 8 8 119.033 8 256zm248 184V72c101.705.0 184 82.311 184 184 0 101.705-82.311 184-184 184z"/></svg>
 <select class=color-theme-select id=theme-select-desktop aria-label=切换主题><option value=light>浅色</option><option value=dark>深色</option><option value=auto>跟随系统</option></select></button></div></div></div></header><header class="mobile print:!tw-hidden" id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=tw-mr-1><i class='far fa-edit fa-fw'></i></span><span id=mobile-header-typeit class=typeit></span></a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><a class=menu-item href=/posts/ title>所有文章</a><a class=menu-item href=/tags/ title>标签</a><a class=menu-item href=/categories/ title>分类</a><a class=menu-item href=/series/ title>系列</a><a class=menu-item href=/authors/ title>作者</a><a class=menu-item href=/showcase/ title>作品</a><a class=menu-item href=/categories/documentation/ title>文档</a><a class=menu-item href=/about/ title>关于</a><a class=menu-item href=https://github.com/mengdemao/mengdemao.com title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw'></i></a><button class="menu-item theme-select tw-w-full" aria-label=切换主题>
 <svg class="icon" viewBox="0 0 512 512"><path d="M8 256c0 136.966 111.033 248 248 248s248-111.034 248-248S392.966 8 256 8 8 119.033 8 256zm248 184V72c101.705.0 184 82.311 184 184 0 101.705-82.311 184-184 184z"/></svg>
@@ -12,15 +12,19 @@
 <span class=details-icon><svg class="icon" viewBox="0 0 256 512"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9.0l-22.6-22.6c-9.4-9.4-9.4-24.6.0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6.0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9.0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#stl分类>STL分类</a></li><li><a href=#空间管理>空间管理</a><ul><li><a href=#前言>前言</a></li><li><a href=#new的实现>&ldquo;new"的实现</a></li><li><a href=#delete实现>&ldquo;delete"实现</a></li><li><a href=#小结>小结</a></li></ul></li><li><a href=#一级配置器>一级配置器</a></li></ul><ul><li><ul><li><a href=#前言-1>前言</a></li><li><a href=#一级配置器-1>一级配置器</a></li><li><a href=#allocate>allocate</a></li><li><a href=#deallocate>deallocate</a></li><li><a href=#reallocate>reallocate</a></li><li><a href=#统一的接口>统一的接口</a></li><li><a href=#总结>总结</a></li></ul></li><li><a href=#二级配置器>二级配置器</a><ul><li><a href=#前言-2>前言</a></li><li><a href=#第二级配置器>第二级配置器</a></li><li><a href=#从allocate先切入分析>从allocate先切入分析</a></li><li><a href=#再从deallocate结束>再从deallocate结束</a></li><li><a href=#统一的接口-1>统一的接口</a></li><li><a href=#总结-1>总结</a></li></ul></li><li><a href=#内存池管理>内存池管理</a><ul><li><a href=#前言-3>前言</a></li><li><a href=#内存池>内存池</a></li><li><a href=#总结-2>总结</a></li></ul></li></ul></nav></div></div><div class=content id=content data-pagefind-body><blockquote><p>STL称为标准模板库(Standard Template Library)
 广义上可以分为容器,算法,迭代器
 容器和算法通过迭代器进行无缝连接
-STL几乎所有的代码都采用了函数模版或者类模板</p></blockquote><h2 id=stl分类 class=headerLink><a href=#stl%e5%88%86%e7%b1%bb class=header-mark></a>1 STL分类</h2><div class=table-wrapper><table><thead><tr><th style=text-align:>序号</th><th style=text-align:>名称</th><th style=text-align:>解释</th></tr></thead><tbody><tr><td style=text-align:>1</td><td style=text-align:>容器</td><td style=text-align:>各种数据结构</td></tr><tr><td style=text-align:>2</td><td style=text-align:>算法</td><td style=text-align:>各种常用的算法</td></tr><tr><td style=text-align:>3</td><td style=text-align:>迭代器</td><td style=text-align:>容器域算法的胶合</td></tr><tr><td style=text-align:>4</td><td style=text-align:>仿函数</td><td style=text-align:>行为类似函数</td></tr><tr><td style=text-align:>5</td><td style=text-align:>适配器</td><td style=text-align:>修饰容器或者仿函数迭代器</td></tr><tr><td style=text-align:>6</td><td style=text-align:>空间配置器</td><td style=text-align:>负责空间的配置和管理</td></tr></tbody></table></div><h2 id=空间管理 class=headerLink><a href=#%e7%a9%ba%e9%97%b4%e7%ae%a1%e7%90%86 class=header-mark></a>2 空间管理</h2><h3 id=前言 class=headerLink><a href=#%e5%89%8d%e8%a8%80 class=header-mark></a>2.1 前言</h3><p>SGI STL将new的申请空间和调用构造函数的两个功能分开实现, 如果对new不太清楚的, 可以先去看看这一篇<a href=https://blog.csdn.net/Function_Dou/article/details/84526761 target=_blank rel="noopener noreferrer">new实现</a>再来看配置器也不迟. 本节是STL分析的第一篇, 主要分析STL各个部分都会出现的<code>alloc</code>实现, 虽然每个部分都只会默认调用它, 不了解它也可以看懂分析, 但是他又是不可缺少的, 我们就以它做为开篇进行分析.</p><h3 id=new的实现 class=headerLink><a href=#new%e7%9a%84%e5%ae%9e%e7%8e%b0 class=header-mark></a>2.2 &ldquo;new"的实现</h3><p>这里直接我们直接来看STL的<code>construct</code>实现吧</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+STL几乎所有的代码都采用了函数模版或者类模板</p></blockquote><h2 id=stl分类 class=headerLink><a href=#stl%e5%88%86%e7%b1%bb class=header-mark></a>1 STL分类</h2><div class=table-wrapper><table><thead><tr><th style=text-align:>序号</th><th style=text-align:>名称</th><th style=text-align:>解释</th></tr></thead><tbody><tr><td style=text-align:>1</td><td style=text-align:>容器</td><td style=text-align:>各种数据结构</td></tr><tr><td style=text-align:>2</td><td style=text-align:>算法</td><td style=text-align:>各种常用的算法</td></tr><tr><td style=text-align:>3</td><td style=text-align:>迭代器</td><td style=text-align:>容器域算法的胶合</td></tr><tr><td style=text-align:>4</td><td style=text-align:>仿函数</td><td style=text-align:>行为类似函数</td></tr><tr><td style=text-align:>5</td><td style=text-align:>适配器</td><td style=text-align:>修饰容器或者仿函数迭代器</td></tr><tr><td style=text-align:>6</td><td style=text-align:>空间配置器</td><td style=text-align:>负责空间的配置和管理</td></tr></tbody></table></div><h2 id=空间管理 class=headerLink><a href=#%e7%a9%ba%e9%97%b4%e7%ae%a1%e7%90%86 class=header-mark></a>2 空间管理</h2><h3 id=前言 class=headerLink><a href=#%e5%89%8d%e8%a8%80 class=header-mark></a>2.1 前言</h3><p>SGI STL将new的申请空间和调用构造函数的两个功能分开实现, 如果对new不太清楚的, 可以先去看看这一篇<a href=https://blog.csdn.net/Function_Dou/article/details/84526761 target=_blank rel="noopener noreferrer">new实现</a>再来看配置器也不迟. 本节是STL分析的第一篇, 主要分析STL各个部分都会出现的<code>alloc</code>实现, 虽然每个部分都只会默认调用它, 不了解它也可以看懂分析, 但是他又是不可缺少的, 我们就以它做为开篇进行分析.</p><h3 id=new的实现 class=headerLink><a href=#new%e7%9a%84%e5%ae%9e%e7%8e%b0 class=header-mark></a>2.2 &ldquo;new"的实现</h3><p>这里直接我们直接来看STL的<code>construct</code>实现吧</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -63,15 +67,19 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=c1>// 这里的co
 </span></span><span class=line><span class=cl><span class=kr>inline</span> <span class=kt>void</span> <span class=n>construct</span><span class=p>(</span><span class=n>T1</span><span class=o>*</span> <span class=n>p</span><span class=p>,</span> <span class=k>const</span> <span class=n>T2</span><span class=o>&amp;</span> <span class=n>value</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>  <span class=k>new</span> <span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=n>T1</span><span class=p>(</span><span class=n>value</span><span class=p>);</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>可以明白这里就只是一个<code>placement new</code>的调用, 只是用了泛型来实现一个对象分配的模板, 并实现初始化.</p><p>既然已经看到了对象的分配, 那再接再厉看看空间的分配, 充分了解STL是怎么将new分开执行的. allocate函数实现空间的申请, 但是这里有一点看不出来, 申请内存是有分为一级配置器和二级配置器, 分配的空间小于128字节的就调用二级配置器, 大于就直接使用一级配置器, 一级配置器直接调用<code>malloc</code>申请, 二级使用内存池.</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>可以明白这里就只是一个<code>placement new</code>的调用, 只是用了泛型来实现一个对象分配的模板, 并实现初始化.</p><p>既然已经看到了对象的分配, 那再接再厉看看空间的分配, 充分了解STL是怎么将new分开执行的. allocate函数实现空间的申请, 但是这里有一点看不出来, 申请内存是有分为一级配置器和二级配置器, 分配的空间小于128字节的就调用二级配置器, 大于就直接使用一级配置器, 一级配置器直接调用<code>malloc</code>申请, 二级使用内存池.</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -120,15 +128,19 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>template</span>
 </span></span><span class=line><span class=cl>        <span class=n>exit</span><span class=p>(</span><span class=mi>1</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>    <span class=p>}</span>
 </span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>tmp</span><span class=p>;</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>内存分配果然是调用<code>operator new</code>来执行空间分配, 这里allocate和construct都只是简单的对<code>operator new</code>进行封装.</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>内存分配果然是调用<code>operator new</code>来执行空间分配, 这里allocate和construct都只是简单的对<code>operator new</code>进行封装.</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -186,15 +198,19 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>const</span> <s
 </span></span><span class=line><span class=cl>	<span class=n>alloc</span><span class=p>.</span><span class=n>deallocate</span><span class=p>(</span><span class=n>str_ve</span><span class=p>,</span> <span class=n>N</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=n>exit</span><span class=p>(</span><span class=mi>0</span><span class=p>);</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>输出结果为</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>输出结果为</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">shell</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">shell</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -235,15 +251,19 @@ tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl>rpz@0505:stl3.0$ ./a.out
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>aaaaaaaaaa
-</span></span><span class=line><span class=cl>construct</span></span></code></pre></div><p>这个程序首先调用<code>allocate</code>申请N个大小的空间, 在依次<code>construct</code>调用构造函数, 这里就先初始化3个结构, 紧接着通过<code>destory</code>调用析构函数, 最后<code>deallocate</code>释放申请的空间. 整个过程很容易理解, 但是这里还要深入是dealllocate和destroy两个函数.</p><h3 id=delete实现 class=headerLink><a href=#delete%e5%ae%9e%e7%8e%b0 class=header-mark></a>2.3 &ldquo;delete"实现</h3><p>先是看<code>destroy</code>调用析构函数. 而destroy有两个版本.</p><p><strong>版本一:</strong></p><p>需要传入的参数 : <strong>一个指针</strong></p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</span></span><span class=line><span class=cl>construct</span></span></code></pre></div><p>这个程序首先调用<code>allocate</code>申请N个大小的空间, 在依次<code>construct</code>调用构造函数, 这里就先初始化3个结构, 紧接着通过<code>destory</code>调用析构函数, 最后<code>deallocate</code>释放申请的空间. 整个过程很容易理解, 但是这里还要深入是dealllocate和destroy两个函数.</p><h3 id=delete实现 class=headerLink><a href=#delete%e5%ae%9e%e7%8e%b0 class=header-mark></a>2.3 &ldquo;delete"实现</h3><p>先是看<code>destroy</code>调用析构函数. 而destroy有两个版本.</p><p><strong>版本一:</strong></p><p>需要传入的参数 : <strong>一个指针</strong></p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -285,15 +305,19 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=c1>// 第一版�
 </span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>template</span> <span class=o>&lt;</span><span class=k>class</span> <span class=nc>T</span><span class=o>&gt;</span> <span class=kr>inline</span> <span class=kt>void</span> <span class=n>destroy</span><span class=p>(</span><span class=n>T</span><span class=o>*</span> <span class=n>pointer</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=n>pointer</span><span class=o>-&gt;~</span><span class=n>T</span><span class=p>();</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>版本一直接就调用了析构函数, 不用过多的分析.</p><p><strong>版本二:</strong></p><p>需要传入的参数 : <strong>两个迭代器</strong></p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>版本一直接就调用了析构函数, 不用过多的分析.</p><p><strong>版本二:</strong></p><p>需要传入的参数 : <strong>两个迭代器</strong></p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -344,15 +368,19 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=c1>// 第二个�
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>  <span class=k>typedef</span> <span class=k>typename</span> <span class=n>__type_traits</span><span class=o>&lt;</span><span class=n>T</span><span class=o>&gt;::</span><span class=n>has_trivial_destructor</span> <span class=n>trivial_destructor</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>  <span class=n>__destroy_aux</span><span class=p>(</span><span class=n>first</span><span class=p>,</span> <span class=n>last</span><span class=p>,</span> <span class=n>trivial_destructor</span><span class=p>());</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>destroy直接调用<code>__destroy</code>, 前者只是一个接口, 所以重点是在后者.</p><p>分析<code>__type_traits&lt;></code> : 它是用于获取迭代器所指对象的类型,运用traits技法实现的.只要记住我们用来获取对对象类型就可以了. 然后通过类型的不一样选择执行不同的析构调用.</p><p>当<code>__type_traits </code>为<code>__false_type</code>时, 调用的是下面这个函数, 通过迭代所有的对象并调用版本一的函数执行析构函数进行析构. 而这个是被称为<code>non-travial destructor</code></p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>destroy直接调用<code>__destroy</code>, 前者只是一个接口, 所以重点是在后者.</p><p>分析<code>__type_traits&lt;></code> : 它是用于获取迭代器所指对象的类型,运用traits技法实现的.只要记住我们用来获取对对象类型就可以了. 然后通过类型的不一样选择执行不同的析构调用.</p><p>当<code>__type_traits </code>为<code>__false_type</code>时, 调用的是下面这个函数, 通过迭代所有的对象并调用版本一的函数执行析构函数进行析构. 而这个是被称为<code>non-travial destructor</code></p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -396,15 +424,19 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=c1>// 没有non-t
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>  <span class=k>for</span> <span class=p>(</span> <span class=p>;</span> <span class=n>first</span> <span class=o>&lt;</span> <span class=n>last</span><span class=p>;</span> <span class=o>++</span><span class=n>first</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>    <span class=n>destroy</span><span class=p>(</span><span class=o>&amp;*</span><span class=n>first</span><span class=p>);</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>当<code>__type_traits </code>为<code>__true_type</code>时, 什么也不做, 因为这样效率很高效, 并不需要执行析构函数. 而这个是被称为<code>travial destructor </code>.</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>当<code>__type_traits </code>为<code>__true_type</code>时, 什么也不做, 因为这样效率很高效, 并不需要执行析构函数. 而这个是被称为<code>travial destructor </code>.</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -444,15 +476,19 @@ tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=c1>// 有travial destructor
 </span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>template</span> <span class=o>&lt;</span><span class=k>class</span> <span class=nc>ForwardIterator</span><span class=o>&gt;</span>
-</span></span><span class=line><span class=cl><span class=kr>inline</span> <span class=kt>void</span> <span class=n>__destroy_aux</span><span class=p>(</span><span class=n>ForwardIterator</span><span class=p>,</span> <span class=n>ForwardIterator</span><span class=p>,</span> <span class=n>__true_type</span><span class=p>)</span> <span class=p>{}</span></span></span></code></pre></div><p>最后是版本二的特化版, 同样也什么都不用做, 没有必要做析构.</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</span></span><span class=line><span class=cl><span class=kr>inline</span> <span class=kt>void</span> <span class=n>__destroy_aux</span><span class=p>(</span><span class=n>ForwardIterator</span><span class=p>,</span> <span class=n>ForwardIterator</span><span class=p>,</span> <span class=n>__true_type</span><span class=p>)</span> <span class=p>{}</span></span></span></code></pre></div><p>最后是版本二的特化版, 同样也什么都不用做, 没有必要做析构.</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -491,15 +527,19 @@ group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=kr>inline</span> <span class=kt>void</span> <span class=nf>destroy</span><span class=p>(</span><span class=kt>char</span><span class=o>*</span><span class=p>,</span> <span class=kt>char</span><span class=o>*</span><span class=p>)</span> <span class=p>{}</span>
-</span></span><span class=line><span class=cl><span class=kr>inline</span> <span class=kt>void</span> <span class=nf>destroy</span><span class=p>(</span><span class=kt>wchar_t</span><span class=o>*</span><span class=p>,</span> <span class=kt>wchar_t</span><span class=o>*</span><span class=p>)</span> <span class=p>{}</span></span></span></code></pre></div><p>destroy分为这么几个版本和几个不同的函数执行都是为了提升效率, 较小的调用并不能看出什么, 但是如果是范围析构的话这样不同的选择析构能很节约时间和效率.</p><p>讲解完了destory后应该就能明白上面代码循环执行析构函数了.</p><hr><h3 id=小结 class=headerLink><a href=#%e5%b0%8f%e7%bb%93 class=header-mark></a>2.4 小结</h3><p>这里用一个小小的例子来理解"new"和"delete"运算符, 理解new, delete每步分开执行, 内存释放(deallocate)这里没有讲解, 也只是简单的调用free函数. STL这样做1. 为了效率, 2. 为了构建内存池.</p><p>最后将所有的函数进行封装到<code>allocator</code> , 所以例子中都是调用的构造析构等都是封装在该类中.</p><h2 id=一级配置器 class=headerLink><a href=#%e4%b8%80%e7%ba%a7%e9%85%8d%e7%bd%ae%e5%99%a8 class=header-mark></a>3 一级配置器</h2><h1 id=第一级配置器 class=headerLink><a href=#%e7%ac%ac%e4%b8%80%e7%ba%a7%e9%85%8d%e7%bd%ae%e5%99%a8 class=header-mark></a>第一级配置器</h1><h3 id=前言-1 class=headerLink><a href=#%e5%89%8d%e8%a8%80-1 class=header-mark></a>0.1 前言</h3><p>上一节我们分析了空间配置器对new的配置, 而STL将空间配置器分为了两级, 第一级是直接调用<code>malloc</code>分配空间, 调用<code>free</code>释放空间, 第二级三就是建立一个内存池, 小于128字节的申请都直接在内存池申请, 不直接调用<code>malloc</code>和<code>free</code>.</p><p>本节我们就先分析第一种空间配置器, 直接调用malloc, free, 而STL有是怎样的封装处理.</p><h3 id=一级配置器-1 class=headerLink><a href=#%e4%b8%80%e7%ba%a7%e9%85%8d%e7%bd%ae%e5%99%a8-1 class=header-mark></a>0.2 一级配置器</h3><p>一级配置器的类. 它无template型别参数. 这里我将public定义的函数和私有成员函数成对分离出来讲解.</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</span></span><span class=line><span class=cl><span class=kr>inline</span> <span class=kt>void</span> <span class=nf>destroy</span><span class=p>(</span><span class=kt>wchar_t</span><span class=o>*</span><span class=p>,</span> <span class=kt>wchar_t</span><span class=o>*</span><span class=p>)</span> <span class=p>{}</span></span></span></code></pre></div><p>destroy分为这么几个版本和几个不同的函数执行都是为了提升效率, 较小的调用并不能看出什么, 但是如果是范围析构的话这样不同的选择析构能很节约时间和效率.</p><p>讲解完了destory后应该就能明白上面代码循环执行析构函数了.</p><hr><h3 id=小结 class=headerLink><a href=#%e5%b0%8f%e7%bb%93 class=header-mark></a>2.4 小结</h3><p>这里用一个小小的例子来理解"new"和"delete"运算符, 理解new, delete每步分开执行, 内存释放(deallocate)这里没有讲解, 也只是简单的调用free函数. STL这样做1. 为了效率, 2. 为了构建内存池.</p><p>最后将所有的函数进行封装到<code>allocator</code> , 所以例子中都是调用的构造析构等都是封装在该类中.</p><h2 id=一级配置器 class=headerLink><a href=#%e4%b8%80%e7%ba%a7%e9%85%8d%e7%bd%ae%e5%99%a8 class=header-mark></a>3 一级配置器</h2><h1 id=第一级配置器 class=headerLink><a href=#%e7%ac%ac%e4%b8%80%e7%ba%a7%e9%85%8d%e7%bd%ae%e5%99%a8 class=header-mark></a>第一级配置器</h1><h3 id=前言-1 class=headerLink><a href=#%e5%89%8d%e8%a8%80-1 class=header-mark></a>0.1 前言</h3><p>上一节我们分析了空间配置器对new的配置, 而STL将空间配置器分为了两级, 第一级是直接调用<code>malloc</code>分配空间, 调用<code>free</code>释放空间, 第二级三就是建立一个内存池, 小于128字节的申请都直接在内存池申请, 不直接调用<code>malloc</code>和<code>free</code>.</p><p>本节我们就先分析第一种空间配置器, 直接调用malloc, free, 而STL有是怎样的封装处理.</p><h3 id=一级配置器-1 class=headerLink><a href=#%e4%b8%80%e7%ba%a7%e9%85%8d%e7%bd%ae%e5%99%a8-1 class=header-mark></a>0.2 一级配置器</h3><p>一级配置器的类. 它无template型别参数. 这里我将public定义的函数和私有成员函数成对分离出来讲解.</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -549,15 +589,19 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=c1>// 一级配�
 </span></span></span><span class=line><span class=cl><span class=cp></span>    <span class=k>static</span> <span class=nf>void</span> <span class=p>(</span><span class=o>*</span> <span class=n>__malloc_alloc_oom_handler</span><span class=p>)();</span>   <span class=c1>// 内存不足设置的处理例程, 默认设置的是0, 表示没有设置处理例程, 这个处理例程是由用户手动设置的
 </span></span></span><span class=line><span class=cl><span class=c1></span><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp></span>  <span class=k>public</span><span class=o>:</span>
-</span></span><span class=line><span class=cl><span class=p>};</span></span></span></code></pre></div><p>唯一比较麻烦的就是<code>set_malloc_handler</code> 它就是接受一个函数指针, 用来保存用户自定义的处理函数, 如果用户没有设置的话, 默认就设置为0. 因为处理函数会跟后面的内存不足有关系.</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</span></span><span class=line><span class=cl><span class=p>};</span></span></span></code></pre></div><p>唯一比较麻烦的就是<code>set_malloc_handler</code> 它就是接受一个函数指针, 用来保存用户自定义的处理函数, 如果用户没有设置的话, 默认就设置为0. 因为处理函数会跟后面的内存不足有关系.</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -601,15 +645,19 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=c1>// 这里是�
 </span></span><span class=line><span class=cl>      <span class=kt>void</span> <span class=p>(</span><span class=o>*</span> <span class=n>old</span><span class=p>)()</span> <span class=o>=</span> <span class=n>__malloc_alloc_oom_handler</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>      <span class=n>__malloc_alloc_oom_handler</span> <span class=o>=</span> <span class=n>f</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>      <span class=k>return</span><span class=p>(</span><span class=n>old</span><span class=p>);</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>默认将处理例程设置为0, 只有用户自己设置.</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>默认将处理例程设置为0, 只有用户自己设置.</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -648,15 +696,19 @@ group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=k>template</span> <span class=o>&lt;</span><span class=kt>int</span> <span class=n>inst</span><span class=o>&gt;</span>
-</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=p>(</span><span class=o>*</span> <span class=n>__malloc_alloc_template</span><span class=o>&lt;</span><span class=n>inst</span><span class=o>&gt;::</span><span class=n>__malloc_alloc_oom_handler</span><span class=p>)()</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span></span></span></code></pre></div><h3 id=allocate class=headerLink><a href=#allocate class=header-mark></a>0.3 allocate</h3><p><code>allocate</code> : 很明显, 这里直接调用<code>malloc</code>分配内存, 当内存不足的时候, 程序继续调用<code>oom_malloc</code>来选择抛出异常还是一直申请内存, 直到申请内存成功.</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=p>(</span><span class=o>*</span> <span class=n>__malloc_alloc_template</span><span class=o>&lt;</span><span class=n>inst</span><span class=o>&gt;::</span><span class=n>__malloc_alloc_oom_handler</span><span class=p>)()</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span></span></span></code></pre></div><h3 id=allocate class=headerLink><a href=#allocate class=header-mark></a>0.3 allocate</h3><p><code>allocate</code> : 很明显, 这里直接调用<code>malloc</code>分配内存, 当内存不足的时候, 程序继续调用<code>oom_malloc</code>来选择抛出异常还是一直申请内存, 直到申请内存成功.</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -701,15 +753,19 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=c1>// 在分配�
 </span></span><span class=line><span class=cl>      <span class=k>if</span> <span class=p>(</span><span class=mi>0</span> <span class=o>==</span> <span class=n>result</span><span class=p>)</span> <span class=n>result</span> <span class=o>=</span> <span class=n>oom_malloc</span><span class=p>(</span><span class=n>n</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>      <span class=k>return</span> <span class=n>result</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p><code>oom_malloc</code>函数功能 : 除非用户自定义了处理例程, 否则当内存不足的时候直接输出内存不足的提示然后直接调用exit(1);
-用户定义了处理程序, 函数会一直进行内存申请, 直到申请到内存为止</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+用户定义了处理程序, 函数会一直进行内存申请, 直到申请到内存为止</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -761,15 +817,19 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>template</span>
 </span></span><span class=line><span class=cl>    <span class=n>result</span> <span class=o>=</span> <span class=n>malloc</span><span class=p>(</span><span class=n>n</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>result</span><span class=p>)</span> <span class=k>return</span><span class=p>(</span><span class=n>result</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>  <span class=p>}</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=deallocate class=headerLink><a href=#deallocate class=header-mark></a>0.4 deallocate</h3><p>一级配置器直接调用free释放内存</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=deallocate class=headerLink><a href=#deallocate class=header-mark></a>0.4 deallocate</h3><p>一级配置器直接调用free释放内存</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -810,15 +870,19 @@ tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=k>static</span> <span class=kt>void</span> <span class=nf>deallocate</span><span class=p>(</span><span class=kt>void</span> <span class=o>*</span><span class=n>p</span><span class=p>,</span> <span class=n>size_t</span> <span class=cm>/* n */</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>      <span class=n>free</span><span class=p>(</span><span class=n>p</span><span class=p>);</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=reallocate class=headerLink><a href=#reallocate class=header-mark></a>0.5 reallocate</h3><p>下面的函数都是很简单的或是重复的功能, 就一笔带过.</p><p>这里reallocate和oom_realloc和上面<code>allocate</code>一样的, 这里就不做过多的解释了.</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=reallocate class=headerLink><a href=#reallocate class=header-mark></a>0.5 reallocate</h3><p>下面的函数都是很简单的或是重复的功能, 就一笔带过.</p><p>这里reallocate和oom_realloc和上面<code>allocate</code>一样的, 这里就不做过多的解释了.</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -861,15 +925,19 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>static</span> <
 </span></span><span class=line><span class=cl>      <span class=kt>void</span> <span class=o>*</span> <span class=n>result</span> <span class=o>=</span> <span class=n>realloc</span><span class=p>(</span><span class=n>p</span><span class=p>,</span> <span class=n>new_sz</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>      <span class=k>if</span> <span class=p>(</span><span class=mi>0</span> <span class=o>==</span> <span class=n>result</span><span class=p>)</span> <span class=n>result</span> <span class=o>=</span> <span class=n>oom_realloc</span><span class=p>(</span><span class=n>p</span><span class=p>,</span> <span class=n>new_sz</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>      <span class=k>return</span> <span class=n>result</span><span class=p>;</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -920,15 +988,19 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>template</span>
 </span></span><span class=line><span class=cl>    <span class=n>result</span> <span class=o>=</span> <span class=n>realloc</span><span class=p>(</span><span class=n>p</span><span class=p>,</span> <span class=n>n</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>result</span><span class=p>)</span> <span class=k>return</span><span class=p>(</span><span class=n>result</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>  <span class=p>}</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><hr><p>程序默认定义<code>mallo_alloc</code>函数, 并且设置统一的调用接口, 默认的的接口为第二级配置器</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><hr><p>程序默认定义<code>mallo_alloc</code>函数, 并且设置统一的调用接口, 默认的的接口为第二级配置器</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -967,15 +1039,19 @@ group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=c1>// 默认将malloc_alloc设为0;
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>typedef</span> <span class=n>__malloc_alloc_template</span><span class=o>&lt;</span><span class=mi>0</span><span class=o>&gt;</span> <span class=n>malloc_alloc</span><span class=p>;</span></span></span></code></pre></div><h3 id=统一的接口 class=headerLink><a href=#%e7%bb%9f%e4%b8%80%e7%9a%84%e6%8e%a5%e5%8f%a3 class=header-mark></a>0.6 统一的接口</h3><p>定义符合STL规格的配置器接口, 不管是一级配置器还是二级配置器都是使用这个接口进行分配的</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>typedef</span> <span class=n>__malloc_alloc_template</span><span class=o>&lt;</span><span class=mi>0</span><span class=o>&gt;</span> <span class=n>malloc_alloc</span><span class=p>;</span></span></span></code></pre></div><h3 id=统一的接口 class=headerLink><a href=#%e7%bb%9f%e4%b8%80%e7%9a%84%e6%8e%a5%e5%8f%a3 class=header-mark></a>0.6 统一的接口</h3><p>定义符合STL规格的配置器接口, 不管是一级配置器还是二级配置器都是使用这个接口进行分配的</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1025,15 +1101,19 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=c1>// 定义符�
 </span></span><span class=line><span class=cl>    <span class=p>{</span> <span class=k>if</span> <span class=p>(</span><span class=mi>0</span> <span class=o>!=</span> <span class=n>n</span><span class=p>)</span> <span class=n>Alloc</span><span class=o>::</span><span class=n>deallocate</span><span class=p>(</span><span class=n>p</span><span class=p>,</span> <span class=n>n</span> <span class=o>*</span> <span class=k>sizeof</span> <span class=p>(</span><span class=n>T</span><span class=p>));</span> <span class=p>}</span>
 </span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=kt>void</span> <span class=nf>deallocate</span><span class=p>(</span><span class=n>T</span> <span class=o>*</span><span class=n>p</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>    <span class=p>{</span> <span class=n>Alloc</span><span class=o>::</span><span class=n>deallocate</span><span class=p>(</span><span class=n>p</span><span class=p>,</span> <span class=k>sizeof</span> <span class=p>(</span><span class=n>T</span><span class=p>));</span> <span class=p>}</span>
-</span></span><span class=line><span class=cl><span class=p>};</span></span></span></code></pre></div><h3 id=总结 class=headerLink><a href=#%e6%80%bb%e7%bb%93 class=header-mark></a>0.7 总结</h3><p>本节对STL的第一级配置器做了分析, STL对malloc和free用函数重新进行了封装, 同时一级还是二级都做了统一的接口. 接下来我们继续分析第二级配置器.</p><h2 id=二级配置器 class=headerLink><a href=#%e4%ba%8c%e7%ba%a7%e9%85%8d%e7%bd%ae%e5%99%a8 class=header-mark></a>1 二级配置器</h2><h3 id=前言-2 class=headerLink><a href=#%e5%89%8d%e8%a8%80-2 class=header-mark></a>1.1 前言</h3><p>第一级是直接调用<code>malloc</code>分配空间, 调用<code>free</code>释放空间, 第二级三就是建立一个内存池, 小于128字节的申请都直接在内存池申请, 不直接调用<code>malloc</code>和<code>free</code>. 本节分析第二级空间配置器, STL将第二级配置器设置为默认的配置器, 所以只要一次申请的空间不超过128字节就默认在内存池中申请空间, 超过才会调用第一级配置器.</p><h3 id=第二级配置器 class=headerLink><a href=#%e7%ac%ac%e4%ba%8c%e7%ba%a7%e9%85%8d%e7%bd%ae%e5%99%a8 class=header-mark></a>1.2 第二级配置器</h3><p>首先先来介绍3个常量.</p><blockquote><ol><li><code>__ALIGN</code> : 以8字节进行对齐</li><li><code>__MAX_BYTES</code> : 二级分配器最大分配的内存大小</li><li><code>__NFREELISTS</code> : 128字节能分配的的链表个数, 并且从每个链表保存的内存大小都是8的倍数, 而且都比前一个大8字节, 也就是分别是8, 16, 32&mldr;128字节</li></ol></blockquote><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</span></span><span class=line><span class=cl><span class=p>};</span></span></span></code></pre></div><h3 id=总结 class=headerLink><a href=#%e6%80%bb%e7%bb%93 class=header-mark></a>0.7 总结</h3><p>本节对STL的第一级配置器做了分析, STL对malloc和free用函数重新进行了封装, 同时一级还是二级都做了统一的接口. 接下来我们继续分析第二级配置器.</p><h2 id=二级配置器 class=headerLink><a href=#%e4%ba%8c%e7%ba%a7%e9%85%8d%e7%bd%ae%e5%99%a8 class=header-mark></a>1 二级配置器</h2><h3 id=前言-2 class=headerLink><a href=#%e5%89%8d%e8%a8%80-2 class=header-mark></a>1.1 前言</h3><p>第一级是直接调用<code>malloc</code>分配空间, 调用<code>free</code>释放空间, 第二级三就是建立一个内存池, 小于128字节的申请都直接在内存池申请, 不直接调用<code>malloc</code>和<code>free</code>. 本节分析第二级空间配置器, STL将第二级配置器设置为默认的配置器, 所以只要一次申请的空间不超过128字节就默认在内存池中申请空间, 超过才会调用第一级配置器.</p><h3 id=第二级配置器 class=headerLink><a href=#%e7%ac%ac%e4%ba%8c%e7%ba%a7%e9%85%8d%e7%bd%ae%e5%99%a8 class=header-mark></a>1.2 第二级配置器</h3><p>首先先来介绍3个常量.</p><blockquote><ol><li><code>__ALIGN</code> : 以8字节进行对齐</li><li><code>__MAX_BYTES</code> : 二级分配器最大分配的内存大小</li><li><code>__NFREELISTS</code> : 128字节能分配的的链表个数, 并且从每个链表保存的内存大小都是8的倍数, 而且都比前一个大8字节, 也就是分别是8, 16, 32&mldr;128字节</li></ol></blockquote><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1075,15 +1155,19 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=c1>// 二级配�
 </span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>enum</span> <span class=p>{</span><span class=n>__ALIGN</span> <span class=o>=</span> <span class=mi>8</span><span class=p>};</span> <span class=c1>// 设置对齐要求. 对齐为8字节, 没有8字节自动补齐
 </span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>enum</span> <span class=p>{</span><span class=n>__MAX_BYTES</span> <span class=o>=</span> <span class=mi>128</span><span class=p>};</span>   <span class=c1>// 第二级配置器的最大一次性申请大小, 大于128就直接调用第一级配置器
 </span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>enum</span> <span class=p>{</span><span class=n>__NFREELISTS</span> <span class=o>=</span> <span class=n>__MAX_BYTES</span><span class=o>/</span><span class=n>__ALIGN</span><span class=p>};</span>  <span class=c1>// 链表个数, 分别代表8, 16, 32....字节的链表
-</span></span></span></code></pre></div><p>再介绍一个宏操作, 这是进行对齐操作, 将不满8的倍数的填充成8的倍数.</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</span></span></span></code></pre></div><p>再介绍一个宏操作, 这是进行对齐操作, 将不满8的倍数的填充成8的倍数.</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1124,15 +1208,19 @@ tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=k>static</span> <span class=n>size_t</span> <span class=nf>FREELIST_INDEX</span><span class=p>(</span><span class=n>size_t</span> <span class=n>bytes</span><span class=p>)</span> \
 </span></span><span class=line><span class=cl><span class=p>{</span>\
 </span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=p>(((</span><span class=n>bytes</span><span class=p>)</span> <span class=o>+</span> <span class=n>ALIGN</span><span class=o>-</span><span class=mi>1</span><span class=p>)</span> <span class=o>/</span> <span class=n>__ALIGN</span> <span class=o>-</span> <span class=mi>1</span><span class=p>);</span>\
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=从allocate先切入分析 class=headerLink><a href=#%e4%bb%8eallocate%e5%85%88%e5%88%87%e5%85%a5%e5%88%86%e6%9e%90 class=header-mark></a>1.3 从allocate先切入分析</h3><ol><li>先判断申请的字节大小是不是大于128字节, 是, 则交给第一级配置器来处理. 否, 继续往下执行</li><li>找到分配的地址对齐后分配的是第几个大小的链表.</li><li>获得该链表指向的首地址, 如果链表没有多余的内存, 就先填充链表.</li><li>返回链表的首地址, 和一块能容纳一个对象的内存, 并更新链表的首地址</li></ol><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=从allocate先切入分析 class=headerLink><a href=#%e4%bb%8eallocate%e5%85%88%e5%88%87%e5%85%a5%e5%88%86%e6%9e%90 class=header-mark></a>1.3 从allocate先切入分析</h3><ol><li>先判断申请的字节大小是不是大于128字节, 是, 则交给第一级配置器来处理. 否, 继续往下执行</li><li>找到分配的地址对齐后分配的是第几个大小的链表.</li><li>获得该链表指向的首地址, 如果链表没有多余的内存, 就先填充链表.</li><li>返回链表的首地址, 和一块能容纳一个对象的内存, 并更新链表的首地址</li></ol><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1188,15 +1276,19 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>static</span> <
 </span></span><span class=line><span class=cl>      <span class=p>}</span>
 </span></span><span class=line><span class=cl>      <span class=o>*</span><span class=n>my_free_list</span> <span class=o>=</span> <span class=n>result</span> <span class=o>-&gt;</span> <span class=n>free_list_link</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>      <span class=k>return</span> <span class=p>(</span><span class=n>result</span><span class=p>);</span>
-</span></span><span class=line><span class=cl><span class=p>};</span></span></span></code></pre></div><p><code>refill</code>内存填充.</p><blockquote><ol><li>向内存池申请空间的起始地址</li><li>如果只申请到一个对象的大小, 就直接返回一个内存的大小, 如果有更多的内存, 就继续执行</li><li>从第二个块内存开始, 把从内存池里面分配的内存用链表给串起来, 并返回一个块内存的地址给用户</li></ol></blockquote><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</span></span><span class=line><span class=cl><span class=p>};</span></span></span></code></pre></div><p><code>refill</code>内存填充.</p><blockquote><ol><li>向内存池申请空间的起始地址</li><li>如果只申请到一个对象的大小, 就直接返回一个内存的大小, 如果有更多的内存, 就继续执行</li><li>从第二个块内存开始, 把从内存池里面分配的内存用链表给串起来, 并返回一个块内存的地址给用户</li></ol></blockquote><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1269,15 +1361,19 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=c1>// 内存填�
 </span></span><span class=line><span class=cl>    	<span class=p>}</span>
 </span></span><span class=line><span class=cl>  		<span class=p>}</span>
 </span></span><span class=line><span class=cl>  	<span class=k>return</span><span class=p>(</span><span class=n>result</span><span class=p>);</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=再从deallocate结束 class=headerLink><a href=#%e5%86%8d%e4%bb%8edeallocate%e7%bb%93%e6%9d%9f class=header-mark></a>1.4 再从deallocate结束</h3><blockquote><ol><li>释放的内存大于128字节直接调用一级配置器进行释放</li><li>将内存直接还给对应大小的链表就行了, 并不用直接释放内存, 以便后面分配内存的时候快速.</li></ol></blockquote><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=再从deallocate结束 class=headerLink><a href=#%e5%86%8d%e4%bb%8edeallocate%e7%bb%93%e6%9d%9f class=header-mark></a>1.4 再从deallocate结束</h3><blockquote><ol><li>释放的内存大于128字节直接调用一级配置器进行释放</li><li>将内存直接还给对应大小的链表就行了, 并不用直接释放内存, 以便后面分配内存的时候快速.</li></ol></blockquote><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1329,15 +1425,19 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>static</span> <
 </span></span><span class=line><span class=cl>      <span class=n>my_free_list</span> <span class=o>=</span> <span class=n>free_list</span> <span class=o>+</span> <span class=n>FREELIST_INDEX</span><span class=p>(</span><span class=n>n</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>      <span class=n>q</span> <span class=o>-&gt;</span> <span class=n>free_list_link</span> <span class=o>=</span> <span class=o>*</span><span class=n>my_free_list</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>      <span class=o>*</span><span class=n>my_free_list</span> <span class=o>=</span> <span class=n>q</span><span class=p>;</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=统一的接口-1 class=headerLink><a href=#%e7%bb%9f%e4%b8%80%e7%9a%84%e6%8e%a5%e5%8f%a3-1 class=header-mark></a>1.5 统一的接口</h3><p>定义符合STL规格的配置器接口, 不管是一级配置器还是二级配置器都是使用这个接口进行分配的</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=统一的接口-1 class=headerLink><a href=#%e7%bb%9f%e4%b8%80%e7%9a%84%e6%8e%a5%e5%8f%a3-1 class=header-mark></a>1.5 统一的接口</h3><p>定义符合STL规格的配置器接口, 不管是一级配置器还是二级配置器都是使用这个接口进行分配的</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1387,15 +1487,19 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=c1>// 定义符�
 </span></span><span class=line><span class=cl>    <span class=p>{</span> <span class=k>if</span> <span class=p>(</span><span class=mi>0</span> <span class=o>!=</span> <span class=n>n</span><span class=p>)</span> <span class=n>Alloc</span><span class=o>::</span><span class=n>deallocate</span><span class=p>(</span><span class=n>p</span><span class=p>,</span> <span class=n>n</span> <span class=o>*</span> <span class=k>sizeof</span> <span class=p>(</span><span class=n>T</span><span class=p>));</span> <span class=p>}</span>
 </span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=kt>void</span> <span class=nf>deallocate</span><span class=p>(</span><span class=n>T</span> <span class=o>*</span><span class=n>p</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>    <span class=p>{</span> <span class=n>Alloc</span><span class=o>::</span><span class=n>deallocate</span><span class=p>(</span><span class=n>p</span><span class=p>,</span> <span class=k>sizeof</span> <span class=p>(</span><span class=n>T</span><span class=p>));</span> <span class=p>}</span>
-</span></span><span class=line><span class=cl><span class=p>};</span></span></span></code></pre></div><hr><h3 id=总结-1 class=headerLink><a href=#%e6%80%bb%e7%bb%93-1 class=header-mark></a>1.6 总结</h3><p>用链表来保存不同字节大小的内存块, 就很容易的进行维护, 而且每次的内存分配都直接可以从链表或者内存池中获得, 提升了我们申请内存的效率, 毕竟每次调用malloc和free效率是很低的, 特别是很小内存的时候.</p><p><strong>STL默认的就是第二级配置器, 它会自动判断我们使用哪一个配置器.</strong></p><h2 id=内存池管理 class=headerLink><a href=#%e5%86%85%e5%ad%98%e6%b1%a0%e7%ae%a1%e7%90%86 class=header-mark></a>2 内存池管理</h2><h3 id=前言-3 class=headerLink><a href=#%e5%89%8d%e8%a8%80-3 class=header-mark></a>2.1 前言</h3><p>上一节只分析了第二级配置器是由多个链表来存放相同内存大小, 当没有空间的时候就向内存池索取就行了, 却没有具体分析内存池是怎么保存空间的, 是不是内存池真的有用不完的内存, 本节我们就具体来分析一下</p><h3 id=内存池 class=headerLink><a href=#%e5%86%85%e5%ad%98%e6%b1%a0 class=header-mark></a>2.2 内存池</h3><p><strong>static data template的初始化</strong></p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</span></span><span class=line><span class=cl><span class=p>};</span></span></span></code></pre></div><hr><h3 id=总结-1 class=headerLink><a href=#%e6%80%bb%e7%bb%93-1 class=header-mark></a>1.6 总结</h3><p>用链表来保存不同字节大小的内存块, 就很容易的进行维护, 而且每次的内存分配都直接可以从链表或者内存池中获得, 提升了我们申请内存的效率, 毕竟每次调用malloc和free效率是很低的, 特别是很小内存的时候.</p><p><strong>STL默认的就是第二级配置器, 它会自动判断我们使用哪一个配置器.</strong></p><h2 id=内存池管理 class=headerLink><a href=#%e5%86%85%e5%ad%98%e6%b1%a0%e7%ae%a1%e7%90%86 class=header-mark></a>2 内存池管理</h2><h3 id=前言-3 class=headerLink><a href=#%e5%89%8d%e8%a8%80-3 class=header-mark></a>2.1 前言</h3><p>上一节只分析了第二级配置器是由多个链表来存放相同内存大小, 当没有空间的时候就向内存池索取就行了, 却没有具体分析内存池是怎么保存空间的, 是不是内存池真的有用不完的内存, 本节我们就具体来分析一下</p><h3 id=内存池 class=headerLink><a href=#%e5%86%85%e5%ad%98%e6%b1%a0 class=header-mark></a>2.2 内存池</h3><p><strong>static data template的初始化</strong></p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1439,15 +1543,19 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>template</span>
 </span></span><span class=line><span class=cl><span class=kt>char</span> <span class=o>*</span><span class=n>__default_alloc_template</span><span class=o>&lt;</span><span class=n>threads</span><span class=p>,</span> <span class=n>inst</span><span class=o>&gt;::</span><span class=n>end_free</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>	<span class=c1>// 内存池的结束地址
 </span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>template</span> <span class=o>&lt;</span><span class=kt>bool</span> <span class=n>threads</span><span class=p>,</span> <span class=kt>int</span> <span class=n>inst</span><span class=o>&gt;</span>
 </span></span><span class=line><span class=cl><span class=n>size_t</span> <span class=n>__default_alloc_template</span><span class=o>&lt;</span><span class=n>threads</span><span class=p>,</span> <span class=n>inst</span><span class=o>&gt;::</span><span class=n>heap_size</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>	<span class=c1>// 多次调用内存池, 就会更多的是给链表分配内存, 这就是一个增量.
-</span></span></span></code></pre></div><p>这里代码注释写的很清楚了, 我就提取出来分析一下吧</p><blockquote><ol><li>内存池的大小大于需要的空间, 直接返回起始地址(nobjs默认设置为20, 所以每次调用都会给链表额外的19个内存块)</li><li>内存池的内存不足以马上分配那么多内存, 但是还能满足分配一个即以上的大小, 那就全部分配出去</li><li>如果一个对象的大小都已经提供不了了, 先将零碎的内存块给一个小内存的链表来保存, 然后就准备调用malloc申请40块+额外大小的内存块(额外内存块就由heap_size决定), 如果申请失败跳转到步骤4, 成功跳转到步骤6</li><li>充分利用更大内存的链表, 通过递归来调用他们的内存块</li><li>如果还是没有内存块, 直接调用一级配置器来申请内存, 还是失败就抛出异常, 成功申请就继续执行</li><li>重新修改内存起始地址和结束地址为当前申请的地址块, 重新调用chunk_alloc分配内存</li></ol></blockquote><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
-tw-flex-row
-tw-flex-1
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
-tw-mx-2
+</span></span></span></code></pre></div><p>这里代码注释写的很清楚了, 我就提取出来分析一下吧</p><blockquote><ol><li>内存池的大小大于需要的空间, 直接返回起始地址(nobjs默认设置为20, 所以每次调用都会给链表额外的19个内存块)</li><li>内存池的内存不足以马上分配那么多内存, 但是还能满足分配一个即以上的大小, 那就全部分配出去</li><li>如果一个对象的大小都已经提供不了了, 先将零碎的内存块给一个小内存的链表来保存, 然后就准备调用malloc申请40块+额外大小的内存块(额外内存块就由heap_size决定), 如果申请失败跳转到步骤4, 成功跳转到步骤6</li><li>充分利用更大内存的链表, 通过递归来调用他们的内存块</li><li>如果还是没有内存块, 直接调用一级配置器来申请内存, 还是失败就抛出异常, 成功申请就继续执行</li><li>重新修改内存起始地址和结束地址为当前申请的地址块, 重新调用chunk_alloc分配内存</li></ol></blockquote><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
 tw-flex
 tw-flex-row
-tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c++</p></button><div class=tw-flex><button class="line-number-button
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c++</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1555,11 +1663,11 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=c1>// 内存池
 </span><span>|&nbsp;<a class=link-to-source href=https://github.com/mengdemao/github.io/blob/master/content/posts/stl_basic/index.md target=_blank rel="noopener noreferrer">查看源代码</a>
 </span><span>|&nbsp;<a class=link-to-edit href=https://github.com/mengdemao/github.io/edit/master/content/posts/stl_basic/index.md target=_blank rel="noopener noreferrer">编辑此页</a>
 </span><span>|&nbsp;<a class=link-to-report href="https://github.com/mengdemao/github.io/issues/new?title=[bug]%20STL%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0&body=|Field|Value|%0A|-|-|%0A|Title|STL%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0|%0A|Url|https://mengdemao.com/stl_basic/|%0A|Filename|https://github.com/mengdemao/github.io/blob/main/exampleSite/content/posts/stl_basic/index.md|" target=_blank rel="noopener noreferrer">报告问题</a></span></div><div class=post-info-share></div></div></div><div class=post-info-more><section class=post-tags><svg class="icon" viewBox="0 0 640 512"><path d="M497.941 225.941 286.059 14.059A48 48 0 00252.118.0H48C21.49.0.0 21.49.0 48v204.118a48 48 0 0014.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882.0l204.118-204.118c18.745-18.745 18.745-49.137.0-67.882zM112 160c-26.51.0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882.0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397.0h48.721a48 48 0 0133.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137.0 67.882z"/></svg>&nbsp;<a href=/tags/c++/>C++</a></section><section class=print:!tw-hidden><span><button class="tw-text-fgColor-link-muted hover:tw-text-fgColor-link-muted-hover" onclick=window.history.back()>返回</button></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class="post-nav print:tw-hidden"><a href=/input_driver/ class=prev rel=prev title=输入子系统><svg class="icon" viewBox="0 0 256 512"><path d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9.0l22.6 22.6c9.4 9.4 9.4 24.6.0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6.0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9.0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"/></svg>输入子系统</a>
-<a href=/sds/ class=next rel=next title=Sds>Sds<svg class="icon" viewBox="0 0 256 512"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9.0l-22.6-22.6c-9.4-9.4-9.4-24.6.0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6.0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9.0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></a></div></div><div id=comments class="print:!tw-hidden tw-pt-32 tw-pb-8"><div id=twikoo></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://twikoo.js.org/>Twikoo</a>.</noscript></div></article></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.148.2">Hugo</a> 强力驱动&nbsp;|&nbsp;托管在 <a title="Github Pages" href=https://docs.github.com/en/pages/ target=_blank rel="noopener noreffer">GitHub Pages</a> 上&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.4.2"><svg class="icon" viewBox="0 0 576 512"><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1.0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7.0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174 402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7-43.2-43.2c-4.1-4.1-10.8-4.1-14.8.0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg> DoIt</a></div><div class=footer-line><svg class="icon" viewBox="0 0 512 512"><path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 448c-110.532.0-2e2-89.451-2e2-2e2.0-110.531 89.451-2e2 2e2-2e2 110.532.0 2e2 89.451 2e2 2e2.0 110.532-89.451 2e2-2e2 2e2zm107.351-101.064c-9.614 9.712-45.53 41.396-104.065 41.396-82.43.0-140.484-61.425-140.484-141.567.0-79.152 60.275-139.401 139.762-139.401 55.531.0 88.738 26.62 97.593 34.779a11.965 11.965.0 011.936 15.322l-18.155 28.113c-3.841 5.95-11.966 7.282-17.499 2.921-8.595-6.776-31.814-22.538-61.708-22.538-48.303.0-77.916 35.33-77.916 80.082.0 41.589 26.888 83.692 78.277 83.692 32.657.0 56.843-19.039 65.726-27.225 5.27-4.857 13.596-4.039 17.82 1.738l19.865 27.17a11.947 11.947.0 01-1.152 15.518z"/></svg>2020 - 2025<span class=author>&nbsp;<a href=https://github.com/mengdemao target=_blank rel="noopener noreferrer">mengdemao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span><span class=icp-splitter>&nbsp;|&nbsp;</span><br class=icp-br><span class=icp><a href=https://beian.miit.gov.cn/>鲁ICP备2023050410号-1</a></span></div><div class=footer-line></div><div class=footer-line></div></div></footer><div class="print:!tw-hidden tw-flex tw-flex-col tw-fixed tw-right-4 tw-bottom-4 tw-gap-2"><a href=#back-to-top id=back-to-top-button class="tw-transition-opacity tw-opacity-0 tw-block tw-bg-bgColor-secondary tw-rounded-full" style=padding:.6rem;line-height:1.3rem;font-size:1rem title=回到顶部><svg class="icon" viewBox="0 0 448 512"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6.0-33.9L207 39c9.4-9.4 24.6-9.4 33.9.0l194.3 194.3c9.4 9.4 9.4 24.6.0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3.0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg>
+<a href=/sds/ class=next rel=next title=Sds>Sds<svg class="icon" viewBox="0 0 256 512"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9.0l-22.6-22.6c-9.4-9.4-9.4-24.6.0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6.0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9.0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></a></div></div><div id=comments class="print:!tw-hidden tw-pt-32 tw-pb-8"><div id=twikoo></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://twikoo.js.org/>Twikoo</a>.</noscript></div></article></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.150.0">Hugo</a> 强力驱动&nbsp;|&nbsp;托管在 <a title="Github Pages" href=https://docs.github.com/en/pages/ target=_blank rel="noopener noreffer">GitHub Pages</a> 上&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.4.1"><svg class="icon" viewBox="0 0 576 512"><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1.0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7.0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174 402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7-43.2-43.2c-4.1-4.1-10.8-4.1-14.8.0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg> DoIt</a></div><div class=footer-line><svg class="icon" viewBox="0 0 512 512"><path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 448c-110.532.0-2e2-89.451-2e2-2e2.0-110.531 89.451-2e2 2e2-2e2 110.532.0 2e2 89.451 2e2 2e2.0 110.532-89.451 2e2-2e2 2e2zm107.351-101.064c-9.614 9.712-45.53 41.396-104.065 41.396-82.43.0-140.484-61.425-140.484-141.567.0-79.152 60.275-139.401 139.762-139.401 55.531.0 88.738 26.62 97.593 34.779a11.965 11.965.0 011.936 15.322l-18.155 28.113c-3.841 5.95-11.966 7.282-17.499 2.921-8.595-6.776-31.814-22.538-61.708-22.538-48.303.0-77.916 35.33-77.916 80.082.0 41.589 26.888 83.692 78.277 83.692 32.657.0 56.843-19.039 65.726-27.225 5.27-4.857 13.596-4.039 17.82 1.738l19.865 27.17a11.947 11.947.0 01-1.152 15.518z"/></svg>2020 - 2025<span class=author>&nbsp;<a href=https://github.com/mengdemao target=_blank rel="noopener noreferrer">mengdemao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span><span class=icp-splitter>&nbsp;|&nbsp;</span><br class=icp-br><span class=icp><a href=https://beian.miit.gov.cn/>鲁ICP备2023050410号-1</a></span></div><div class=footer-line></div><div class=footer-line></div></div></footer><div class="print:!tw-hidden tw-flex tw-flex-col tw-fixed tw-right-4 tw-bottom-4 tw-gap-2"><a href=#back-to-top id=back-to-top-button class="tw-transition-opacity tw-opacity-0 tw-block tw-bg-bgColor-secondary tw-rounded-full" style=padding:.6rem;line-height:1.3rem;font-size:1rem title=回到顶部><svg class="icon" viewBox="0 0 448 512"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6.0-33.9L207 39c9.4-9.4 24.6-9.4 33.9.0l194.3 194.3c9.4 9.4 9.4 24.6.0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3.0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg>
 </a><button id=toc-drawer-button class="tw-block tw-bg-bgColor-secondary tw-rounded-full md:tw-hidden" style=padding:.6rem;line-height:1.3rem;font-size:1rem>
 <svg class="icon" viewBox="0 0 448 512"><path d="M16 132h416c8.837.0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163.0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg>
 </button><a href=#comments id=view-comments class="tw-block tw-bg-bgColor-secondary tw-rounded-full" style=padding:.6rem;line-height:1.3rem;font-size:1rem title=查看评论>
-<svg class="icon" viewBox="0 0 512 512"><path d="M256 32C114.6 32 0 125.1.0 240c0 49.6 21.4 95 57 130.7C44.5 421.1 2.7 466 2.2 466.5c-2.2 2.3-2.8 5.7-1.5 8.7S4.8 480 8 480c66.3.0 116-31.8 140.6-51.4 32.7 12.3 69 19.4 107.4 19.4 141.4.0 256-93.1 256-208S397.4 32 256 32z"/></svg></a></div><div id=cookieconsent-container></div><link rel=stylesheet href=/lib/cookieconsent/cookieconsent.min.2d0f7b71a99aaff94e9624ff32a8dc42ce645a0cba433fdc091cf34735027efd1fa2db024c2f591d768f426255f17bbf3d500b7c967b0437b3979956dffa81c6.css integrity="sha512-LQ97camar/lOliT/MqjcQs5kWgy6Qz/cCRzzRzUCfv0fotsCTC9ZHXaPQmJV8Xu/PVALfJZ7BDezl5lW3/qBxg=="><script>window.config={comment:{twikoo:{commentCount:!0,el:"#twikoo",envId:"https://twikoo-comments-doit.vercel.app/",lang:"zh-cn"}},cookieconsent:{content:{dismiss:"同意",link:"了解更多",message:"本网站使用 Cookies 来改善您的浏览体验."},enable:!0,palette:{button:{background:"#f0f0f0"},popup:{background:"#1aa3ff"}},theme:"edgeless"},data:{"desktop-header-typeit":"编程日志","mobile-header-typeit":"编程日志"},table:{sort:!0},typeit:{cursorChar:"|",cursorSpeed:1e3,data:{"desktop-header-typeit":["desktop-header-typeit"],"mobile-header-typeit":["mobile-header-typeit"]},duration:-1,speed:100}}</script><script src=/lib/tablesort/tablesort.min.23640461c9e6941882f50f4208436e1932c806bcc32323a34ff378781204951e05534a0bbc3c1e401d111aa22a26ecc5d4f2cfb43af59d94da8a24f2b8ef8506.js integrity="sha512-I2QEYcnmlBiC9Q9CCENuGTLIBrzDIyOjT/N4eBIElR4FU0oLvDweQB0RGqIqJuzF1PLPtDr1nZTaiiTyuO+FBg=="></script><script src=/lib/typeit/typeit.min.535a28f8fb852c2444461a9a301c6435cc75831d3f0b1a6e18d5275f9d0cd7b78824c8204589bc875eb2b572536c6013461a1d84cf528cac8e7526fbcad17a9b.js integrity="sha512-U1oo+PuFLCRERhqaMBxkNcx1gx0/CxpuGNUnX50M17eIJMggRYm8h16ytXJTbGATRhodhM9SjKyOdSb7ytF6mw=="></script><script src=/lib/cookieconsent/cookieconsent.min.c975ea3858dd8c7347d46343fb510ed236efbde6c0069cc6283eba7639d47e22a560c1391c6314247a0269e1380f93d31b662c4897fa770ab2514bd0bd2d2f68.js integrity="sha512-yXXqOFjdjHNH1GND+1EO0jbvvebABpzGKD66djnUfiKlYME5HGMUJHoCaeE4D5PTG2YsSJf6dwqyUUvQvS0vaA==" defer></script><script src=/js/cookieconsent.min.js defer></script><script src=/js/theme.min.js defer></script><script src=/lib/twikoo/twikoo.all.min.0728767a978aebfc903fc5e8e998f703d1f5d2e1aac2f26187ef0b6cdf15191c43945c0f3a66b9e22e65c06d8b509e1023ce16236dcda869980f2dfcaeee1a35.js integrity="sha512-Byh2epeK6/yQP8Xo6Zj3A9H10uGqwvJhh+8LbN8VGRxDlFwPOma54i5lwG2LUJ4QI84WI23NqGmYDy38ru4aNQ==" defer></script><script src=/js/twikoo.min.js defer></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-6QCK4BFMHW",{anonymize_ip:!0})</script><script src="https://www.googletagmanager.com/gtag/js?id=G-6QCK4BFMHW" async></script><script type=speculationrules>
+<svg class="icon" viewBox="0 0 512 512"><path d="M256 32C114.6 32 0 125.1.0 240c0 49.6 21.4 95 57 130.7C44.5 421.1 2.7 466 2.2 466.5c-2.2 2.3-2.8 5.7-1.5 8.7S4.8 480 8 480c66.3.0 116-31.8 140.6-51.4 32.7 12.3 69 19.4 107.4 19.4 141.4.0 256-93.1 256-208S397.4 32 256 32z"/></svg></a></div><div id=cookieconsent-container></div><link rel=stylesheet href=/lib/cookieconsent/cookieconsent.min.2d0f7b71a99aaff94e9624ff32a8dc42ce645a0cba433fdc091cf34735027efd1fa2db024c2f591d768f426255f17bbf3d500b7c967b0437b3979956dffa81c6.css integrity="sha512-LQ97camar/lOliT/MqjcQs5kWgy6Qz/cCRzzRzUCfv0fotsCTC9ZHXaPQmJV8Xu/PVALfJZ7BDezl5lW3/qBxg=="><script>window.config={comment:{twikoo:{commentCount:!0,el:"#twikoo",envId:"https://twikoo-comments-doit.vercel.app/",lang:"zh-cn"}},cookieconsent:{content:{dismiss:"同意",link:"了解更多",message:"本网站使用 Cookies 来改善您的浏览体验."},enable:!0,palette:{button:{background:"#f0f0f0"},popup:{background:"#1aa3ff"}},theme:"edgeless"},data:{"desktop-header-typeit":"编程日志","mobile-header-typeit":"编程日志"},table:{sort:!0},typeit:{cursorChar:"|",cursorSpeed:1e3,data:{"desktop-header-typeit":["desktop-header-typeit"],"mobile-header-typeit":["mobile-header-typeit"]},duration:-1,speed:100}}</script><script src=/lib/tablesort/tablesort.min.23640461c9e6941882f50f4208436e1932c806bcc32323a34ff378781204951e05534a0bbc3c1e401d111aa22a26ecc5d4f2cfb43af59d94da8a24f2b8ef8506.js integrity="sha512-I2QEYcnmlBiC9Q9CCENuGTLIBrzDIyOjT/N4eBIElR4FU0oLvDweQB0RGqIqJuzF1PLPtDr1nZTaiiTyuO+FBg=="></script><script src=/lib/typeit/typeit.min.535a28f8fb852c2444461a9a301c6435cc75831d3f0b1a6e18d5275f9d0cd7b78824c8204589bc875eb2b572536c6013461a1d84cf528cac8e7526fbcad17a9b.js integrity="sha512-U1oo+PuFLCRERhqaMBxkNcx1gx0/CxpuGNUnX50M17eIJMggRYm8h16ytXJTbGATRhodhM9SjKyOdSb7ytF6mw=="></script><script src=/lib/cookieconsent/cookieconsent.min.c975ea3858dd8c7347d46343fb510ed236efbde6c0069cc6283eba7639d47e22a560c1391c6314247a0269e1380f93d31b662c4897fa770ab2514bd0bd2d2f68.js integrity="sha512-yXXqOFjdjHNH1GND+1EO0jbvvebABpzGKD66djnUfiKlYME5HGMUJHoCaeE4D5PTG2YsSJf6dwqyUUvQvS0vaA==" defer></script><script src=/js/cookieconsent.min.js defer></script><script src=/js/theme.min.js defer></script><script src=/lib/twikoo/twikoo.all.min.71d2e513d9e7cdc257428cbd785bb319ca505f1ef4ad7c6650da6faef61303042fdadc4b49dbc452cf9e20b232295141bc0a149bd89447bddec120f7222199ff.js integrity="sha512-cdLlE9nnzcJXQoy9eFuzGcpQXx70rXxmUNpvrvYTAwQv2txLSdvEUs+eILIyKVFBvAoUm9iUR73ewSD3IiGZ/w==" defer></script><script src=/js/twikoo.min.js defer></script><script type=text/javascript>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-6QCK4BFMHW",{anonymize_ip:!0})</script><script src="https://www.googletagmanager.com/gtag/js?id=G-6QCK4BFMHW" async></script><script type=speculationrules>
   {
     "prerender": [
       {
