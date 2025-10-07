@@ -1,4 +1,4 @@
-<!doctype html><html lang=zh-CN><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>antlr笔记 - 编程日志</title><meta name=Description content="编译原理"><meta property="og:url" content="https://mengdemao.com/antlr/"><meta property="og:site_name" content="编程日志"><meta property="og:title" content="antlr笔记"><meta property="og:description" content="编译原理"><meta property="og:locale" content="zh_CN"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2021-05-04T22:53:09+08:00"><meta property="article:modified_time" content="2023-12-23T17:10:11+08:00"><meta property="article:tag" content="编译原理"><meta property="og:image" content="https://mengdemao.com/images/avatar.webp"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://mengdemao.com/images/avatar.webp"><meta name=twitter:title content="antlr笔记"><meta name=twitter:description content="编译原理"><meta name=application-name content="编程日志"><meta name=apple-mobile-web-app-title content="编程日志"><meta name=theme-color content="#f8f8f8"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=canonical href=https://mengdemao.com/antlr/><link rel=prev href=https://mengdemao.com/hugo/><link rel=next href=https://mengdemao.com/wait_queue/><link rel=stylesheet href=/css/main.min.css><link rel=stylesheet href=/css/style.min.css><meta name=google-site-verification content="MQ8DNu27ayX6B_4ObiEDK09vGr1fdy7kOAnbd09hJk4"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"antlr笔记","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://mengdemao.com/antlr/"},"image":[{"@type":"ImageObject","url":"https://mengdemao.com/featuredImage/04.webp","width":4e3,"height":2250}],"genre":"posts","keywords":["编译原理"],"wordcount":1244,"url":"https://mengdemao.com/antlr/","datePublished":"2021-05-04T22:53:09+08:00","dateModified":"2023-12-23T17:10:11+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"xxxx","logo":{"@type":"ImageObject","url":"https://mengdemao.com/images/avatar.webp","width":528,"height":560}},"author":{"@type":"Person","name":"mengdemao","url":"https://github.com/mengdemao"},"description":"编译原理"}</script></head><body data-instant-intensity=viewport class="tw-flex tw-min-h-screen tw-flex-col"><script type=text/javascript>function setTheme(e){document.body.setAttribute("theme",e),document.documentElement.className=e,document.documentElement.style.setProperty("color-scheme",e==="light"?"light":"dark"),e==="light"?document.documentElement.classList.remove("tw-dark"):document.documentElement.classList.add("tw-dark"),window.theme=e,window.isDark=window.theme!=="light"}function saveTheme(e){window.localStorage&&localStorage.setItem("theme",e)}function getMeta(e){const t=document.getElementsByTagName("meta");for(let n=0;n<t.length;n++)if(t[n].getAttribute("name")===e)return t[n];return""}if(window.localStorage&&localStorage.getItem("theme")){let e=localStorage.getItem("theme");e==="light"||e==="dark"?setTheme(e):setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}else"auto"==="light"||"auto"==="dark"?(setTheme("auto"),saveTheme("auto")):(saveTheme("auto"),setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));let metaColors={light:"#f8f8f8",dark:"#161b22"};getMeta("theme-color").content=metaColors[document.body.getAttribute("theme")],window.switchThemeEventSet=new Set</script><div id=back-to-top></div><div id=mask></div><header class="desktop print:!tw-hidden" id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=tw-mr-1><i class='far fa-edit fa-fw'></i></span><span id=desktop-header-typeit class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/series/>系列 </a><a class=menu-item href=/authors/>作者 </a><a class=menu-item href=/showcase/>作品 </a><a class=menu-item href=/categories/documentation/>文档 </a><a class=menu-item href=/about/>关于 </a><a class=menu-item href=https://github.com/mengdemao/mengdemao.com title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw'></i> </a><span class="menu-item delimiter"></span><button class="menu-item theme-select" aria-label=切换主题>
+<!doctype html><html lang=zh-CN><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>antlr笔记 - 编程日志</title><meta name=Description content="编译原理"><meta property="og:url" content="https://mengdemao.com/antlr/"><meta property="og:site_name" content="编程日志"><meta property="og:title" content="antlr笔记"><meta property="og:description" content="编译原理"><meta property="og:locale" content="zh_CN"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2021-05-04T22:53:09+08:00"><meta property="article:modified_time" content="2023-12-23T17:10:11+08:00"><meta property="article:tag" content="编译原理"><meta property="og:image" content="https://mengdemao.com/images/avatar.webp"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://mengdemao.com/images/avatar.webp"><meta name=twitter:title content="antlr笔记"><meta name=twitter:description content="编译原理"><meta name=application-name content="编程日志"><meta name=apple-mobile-web-app-title content="编程日志"><meta name=theme-color content="#f8f8f8"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=canonical href=https://mengdemao.com/antlr/><link rel=prev href=https://mengdemao.com/hugo/><link rel=next href=https://mengdemao.com/wait_queue/><link rel=stylesheet href=/css/main.min.css><link rel=stylesheet href=/css/style.min.css><meta name=google-site-verification content="MQ8DNu27ayX6B_4ObiEDK09vGr1fdy7kOAnbd09hJk4"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"antlr笔记","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://mengdemao.com/antlr/"},"image":[{"@type":"ImageObject","url":"https://mengdemao.com/featuredImage/04.webp","width":4e3,"height":2250}],"genre":"posts","keywords":["编译原理"],"wordcount":1244,"url":"https://mengdemao.com/antlr/","datePublished":"2021-05-04T22:53:09+08:00","dateModified":"2023-12-23T17:10:11+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"xxxx","logo":{"@type":"ImageObject","url":"https://mengdemao.com/images/avatar.webp","width":528,"height":560}},"author":{"@type":"Person","name":"mengdemao","url":"https://github.com/mengdemao"},"description":"编译原理"}</script></head><body data-instant-intensity=viewport class="tw-flex tw-min-h-screen tw-flex-col"><script>function setTheme(e){document.body.setAttribute("theme",e),document.documentElement.className=e,document.documentElement.style.setProperty("color-scheme",e==="light"?"light":"dark"),e==="light"?document.documentElement.classList.remove("tw-dark"):document.documentElement.classList.add("tw-dark"),window.theme=e,window.isDark=window.theme!=="light"}function saveTheme(e){window.localStorage&&localStorage.setItem("theme",e)}function getMeta(e){const t=document.getElementsByTagName("meta");for(let n=0;n<t.length;n++)if(t[n].getAttribute("name")===e)return t[n];return""}if(window.localStorage&&localStorage.getItem("theme")){let e=localStorage.getItem("theme");e==="light"||e==="dark"?setTheme(e):setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}else"auto"==="light"||"auto"==="dark"?(setTheme("auto"),saveTheme("auto")):(saveTheme("auto"),setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));let metaColors={light:"#f8f8f8",dark:"#161b22"};getMeta("theme-color").content=metaColors[document.body.getAttribute("theme")],window.switchThemeEventSet=new Set</script><div id=back-to-top></div><div id=mask></div><header class="desktop print:!tw-hidden" id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=tw-mr-1><i class='far fa-edit fa-fw'></i></span><span id=desktop-header-typeit class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/series/>系列 </a><a class=menu-item href=/authors/>作者 </a><a class=menu-item href=/showcase/>作品 </a><a class=menu-item href=/categories/documentation/>文档 </a><a class=menu-item href=/about/>关于 </a><a class=menu-item href=https://github.com/mengdemao/mengdemao.com title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw'></i> </a><span class="menu-item delimiter"></span><button class="menu-item theme-select" aria-label=切换主题>
 <svg class="icon" viewBox="0 0 512 512"><path d="M8 256c0 136.966 111.033 248 248 248s248-111.034 248-248S392.966 8 256 8 8 119.033 8 256zm248 184V72c101.705.0 184 82.311 184 184 0 101.705-82.311 184-184 184z"/></svg>
 <select class=color-theme-select id=theme-select-desktop aria-label=切换主题><option value=light>浅色</option><option value=dark>深色</option><option value=auto>跟随系统</option></select></button></div></div></div></header><header class="mobile print:!tw-hidden" id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=tw-mr-1><i class='far fa-edit fa-fw'></i></span><span id=mobile-header-typeit class=typeit></span></a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><a class=menu-item href=/posts/ title>所有文章</a><a class=menu-item href=/tags/ title>标签</a><a class=menu-item href=/categories/ title>分类</a><a class=menu-item href=/series/ title>系列</a><a class=menu-item href=/authors/ title>作者</a><a class=menu-item href=/showcase/ title>作品</a><a class=menu-item href=/categories/documentation/ title>文档</a><a class=menu-item href=/about/ title>关于</a><a class=menu-item href=https://github.com/mengdemao/mengdemao.com title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw'></i></a><button class="menu-item theme-select tw-w-full" aria-label=切换主题>
 <svg class="icon" viewBox="0 0 512 512"><path d="M8 256c0 136.966 111.033 248 248 248s248-111.034 248-248S392.966 8 256 8 8 119.033 8 256zm248 184V72c101.705.0 184 82.311 184 184 0 101.705-82.311 184-184 184z"/></svg>
@@ -11,19 +11,15 @@
 </span>&nbsp;</div></div><div class=featured-image><img loading=eager src=/featuredImage/04.webp alt=编译原理 height=2250 width=4000></div><div class="details toc print:!tw-block" id=toc-static kept><div class="details-summary toc-title"><span>目录</span>
 <span class=details-icon><svg class="icon" viewBox="0 0 256 512"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9.0l-22.6-22.6c-9.4-9.4-9.4-24.6.0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6.0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9.0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#简介>简介</a></li><li><a href=#安装说明>安装说明</a></li><li><a href=#语法设计>语法设计</a></li><li><a href=#错误处理>错误处理</a></li><li><a href=#解析器>解析器</a></li><li><a href=#测试程序>测试程序</a><ul><li><a href=#antlr4编译器>antlr4编译器</a></li><li><a href=#编译生成的java文件>编译生成的java文件</a></li><li><a href=#运行编译的结果>运行编译的结果</a></li></ul></li><li><a href=#antlr语法详解>antlr语法详解</a><ul><li><a href=#hello>Hello</a></li><li><a href=#arrayinit>ArrayInit</a></li><li><a href=#expr>Expr</a></li><li><a href=#json>json</a></li><li><a href=#xml>XML</a></li><li><a href=#dot>dot</a></li></ul></li></ul></nav></div></div><div class=content id=content data-pagefind-body><h2 id=简介 class=headerLink><a href=#%e7%ae%80%e4%bb%8b class=header-mark></a>1 简介</h2><blockquote><p>ANTLR是一款强大的语法分析器生成工具,用于读取、处理、执行和翻译结构化的文本或二进制文件.</p></blockquote><p>类似于<em>flex/bison</em>,根据描述文件,自动生成词法语法分析器;
 解析规则文件,生成解析源文件,与SDK组合编译生成可执行文件;</p><p>生成器可以支持的语言,但是下面我只会其中的几个语言:
-因此暂时只进行下面几种语言的开发,下面描述开发的情况和进度</p><ul><li><svg class="icon" viewBox="0 0 448 512"><path d="M4e2 32H48C21.5 32 0 53.5.0 80v352c0 26.5 21.5 48 48 48h352c26.5.0 48-21.5 48-48V80c0-26.5-21.5-48-48-48zm-6 4e2H54c-3.3.0-6-2.7-6-6V86c0-3.3 2.7-6 6-6h340c3.3.0 6 2.7 6 6v340c0 3.3-2.7 6-6 6z"/></svg> Python3</li><li><svg class="icon" viewBox="0 0 448 512"><path d="M4e2 32H48C21.5 32 0 53.5.0 80v352c0 26.5 21.5 48 48 48h352c26.5.0 48-21.5 48-48V80c0-26.5-21.5-48-48-48zm-6 4e2H54c-3.3.0-6-2.7-6-6V86c0-3.3 2.7-6 6-6h340c3.3.0 6 2.7 6 6v340c0 3.3-2.7 6-6 6z"/></svg> JavaScript</li><li><svg class="icon" viewBox="0 0 448 512"><path d="M4e2 32H48C21.5 32 0 53.5.0 80v352c0 26.5 21.5 48 48 48h352c26.5.0 48-21.5 48-48V80c0-26.5-21.5-48-48-48zm-6 4e2H54c-3.3.0-6-2.7-6-6V86c0-3.3 2.7-6 6-6h340c3.3.0 6 2.7 6 6v340c0 3.3-2.7 6-6 6z"/></svg> Go</li><li><svg class="icon" viewBox="0 0 448 512"><path d="M4e2 32H48C21.49 32 0 53.49.0 80v352c0 26.51 21.49 48 48 48h352c26.51.0 48-21.49 48-48V80c0-26.51-21.49-48-48-48zm0 4e2H48V80h352v352zm-35.864-241.724L191.547 361.48c-4.705 4.667-12.303 4.637-16.97-.068l-90.781-91.516c-4.667-4.705-4.637-12.303.069-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l59.792 60.277 141.352-140.216c4.705-4.667 12.303-4.637 16.97.068l22.536 22.718c4.667 4.706 4.637 12.304-.068 16.971z"/></svg> C++</li></ul><h2 id=安装说明 class=headerLink><a href=#%e5%ae%89%e8%a3%85%e8%af%b4%e6%98%8e class=header-mark></a>2 安装说明</h2><ol><li>下载<a href=https://www.antlr.org/download/antlr-4.9.2-complete.jar target=_blank rel="noopener noreferrer">antlr</a></li><li>设置path和classpath</li><li>编写相关脚本</li></ol><h2 id=语法设计 class=headerLink><a href=#%e8%af%ad%e6%b3%95%e8%ae%be%e8%ae%a1 class=header-mark></a>3 语法设计</h2><h2 id=错误处理 class=headerLink><a href=#%e9%94%99%e8%af%af%e5%a4%84%e7%90%86 class=header-mark></a>4 错误处理</h2><h2 id=解析器 class=headerLink><a href=#%e8%a7%a3%e6%9e%90%e5%99%a8 class=header-mark></a>5 解析器</h2><h2 id=测试程序 class=headerLink><a href=#%e6%b5%8b%e8%af%95%e7%a8%8b%e5%ba%8f class=header-mark></a>6 测试程序</h2><h3 id=antlr4编译器 class=headerLink><a href=#antlr4%e7%bc%96%e8%af%91%e5%99%a8 class=header-mark></a>6.1 antlr4编译器</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+因此暂时只进行下面几种语言的开发,下面描述开发的情况和进度</p><ul><li><svg class="icon" viewBox="0 0 448 512"><path d="M4e2 32H48C21.5 32 0 53.5.0 80v352c0 26.5 21.5 48 48 48h352c26.5.0 48-21.5 48-48V80c0-26.5-21.5-48-48-48zm-6 4e2H54c-3.3.0-6-2.7-6-6V86c0-3.3 2.7-6 6-6h340c3.3.0 6 2.7 6 6v340c0 3.3-2.7 6-6 6z"/></svg> Python3</li><li><svg class="icon" viewBox="0 0 448 512"><path d="M4e2 32H48C21.5 32 0 53.5.0 80v352c0 26.5 21.5 48 48 48h352c26.5.0 48-21.5 48-48V80c0-26.5-21.5-48-48-48zm-6 4e2H54c-3.3.0-6-2.7-6-6V86c0-3.3 2.7-6 6-6h340c3.3.0 6 2.7 6 6v340c0 3.3-2.7 6-6 6z"/></svg> JavaScript</li><li><svg class="icon" viewBox="0 0 448 512"><path d="M4e2 32H48C21.5 32 0 53.5.0 80v352c0 26.5 21.5 48 48 48h352c26.5.0 48-21.5 48-48V80c0-26.5-21.5-48-48-48zm-6 4e2H54c-3.3.0-6-2.7-6-6V86c0-3.3 2.7-6 6-6h340c3.3.0 6 2.7 6 6v340c0 3.3-2.7 6-6 6z"/></svg> Go</li><li><svg class="icon" viewBox="0 0 448 512"><path d="M4e2 32H48C21.49 32 0 53.49.0 80v352c0 26.51 21.49 48 48 48h352c26.51.0 48-21.49 48-48V80c0-26.51-21.49-48-48-48zm0 4e2H48V80h352v352zm-35.864-241.724L191.547 361.48c-4.705 4.667-12.303 4.637-16.97-.068l-90.781-91.516c-4.667-4.705-4.637-12.303.069-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l59.792 60.277 141.352-140.216c4.705-4.667 12.303-4.637 16.97.068l22.536 22.718c4.667 4.706 4.637 12.304-.068 16.971z"/></svg> C++</li></ul><h2 id=安装说明 class=headerLink><a href=#%e5%ae%89%e8%a3%85%e8%af%b4%e6%98%8e class=header-mark></a>2 安装说明</h2><ol><li>下载<a href=https://www.antlr.org/download/antlr-4.9.2-complete.jar target=_blank rel="noopener noreferrer">antlr</a></li><li>设置path和classpath</li><li>编写相关脚本</li></ol><h2 id=语法设计 class=headerLink><a href=#%e8%af%ad%e6%b3%95%e8%ae%be%e8%ae%a1 class=header-mark></a>3 语法设计</h2><h2 id=错误处理 class=headerLink><a href=#%e9%94%99%e8%af%af%e5%a4%84%e7%90%86 class=header-mark></a>4 错误处理</h2><h2 id=解析器 class=headerLink><a href=#%e8%a7%a3%e6%9e%90%e5%99%a8 class=header-mark></a>5 解析器</h2><h2 id=测试程序 class=headerLink><a href=#%e6%b5%8b%e8%af%95%e7%a8%8b%e5%ba%8f class=header-mark></a>6 测试程序</h2><h3 id=antlr4编译器 class=headerLink><a href=#antlr4%e7%bc%96%e8%af%91%e5%99%a8 class=header-mark></a>6.1 antlr4编译器</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">sh</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">sh</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -62,19 +58,15 @@ group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#!/bin/sh
-</span></span></span><span class=line><span class=cl><span class=cp></span>antlr4 Expr.g4</span></span></code></pre></div><h3 id=编译生成的java文件 class=headerLink><a href=#%e7%bc%96%e8%af%91%e7%94%9f%e6%88%90%e7%9a%84java%e6%96%87%e4%bb%b6 class=header-mark></a>6.2 编译生成的java文件</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span></span><span class=line><span class=cl><span class=cp></span>antlr4 Expr.g4</span></span></code></pre></div><h3 id=编译生成的java文件 class=headerLink><a href=#%e7%bc%96%e8%af%91%e7%94%9f%e6%88%90%e7%9a%84java%e6%96%87%e4%bb%b6 class=header-mark></a>6.2 编译生成的java文件</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">bash</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">bash</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -112,19 +104,15 @@ group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
-tw-scrollbar-thin"><span class=line><span class=cl>$ javac *.java</span></span></code></pre></div><h3 id=运行编译的结果 class=headerLink><a href=#%e8%bf%90%e8%a1%8c%e7%bc%96%e8%af%91%e7%9a%84%e7%bb%93%e6%9e%9c class=header-mark></a>6.3 运行编译的结果</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-scrollbar-thin"><span class=line><span class=cl>$ javac *.java</span></span></code></pre></div><h3 id=运行编译的结果 class=headerLink><a href=#%e8%bf%90%e8%a1%8c%e7%bc%96%e8%af%91%e7%9a%84%e7%bb%93%e6%9e%9c class=header-mark></a>6.3 运行编译的结果</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">bash</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">bash</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -162,19 +150,15 @@ group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
-tw-scrollbar-thin"><span class=line><span class=cl>$ grun Expr prog -tree</span></span></code></pre></div><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-scrollbar-thin"><span class=line><span class=cl>$ grun Expr prog -tree</span></span></code></pre></div><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">txt</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">txt</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -212,19 +196,15 @@ group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
-tw-scrollbar-thin"><span class=line><span class=cl>(prog (stat (expr (expr (expr 1) + (expr 2)) + (expr 3)) \r\n))</span></span></code></pre></div><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-scrollbar-thin"><span class=line><span class=cl>(prog (stat (expr (expr (expr 1) + (expr 2)) + (expr 3)) \r\n))</span></span></code></pre></div><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">shell</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">shell</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -262,19 +242,15 @@ group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
-tw-scrollbar-thin"><span class=line><span class=cl>grun Expr prog -gui</span></span></code></pre></div><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-scrollbar-thin"><span class=line><span class=cl>grun Expr prog -gui</span></span></code></pre></div><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">sh</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">sh</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -312,19 +288,15 @@ group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
-tw-scrollbar-thin"><span class=line><span class=cl>grun Expr prog -tokens</span></span></code></pre></div><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-scrollbar-thin"><span class=line><span class=cl>grun Expr prog -tokens</span></span></code></pre></div><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">txt</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">txt</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -368,19 +340,15 @@ tw-scrollbar-thin"><span class=line><span class=cl>[@0,0:0=&#39;1&#39;,&lt;INT&g
 </span></span><span class=line><span class=cl>[@3,3:3=&#39;+&#39;,&lt;&#39;+&#39;&gt;,1:3]
 </span></span><span class=line><span class=cl>[@4,4:4=&#39;3&#39;,&lt;INT&gt;,1:4]
 </span></span><span class=line><span class=cl>[@5,5:6=&#39;\r\n&#39;,&lt;NEWLINE&gt;,1:5]
-</span></span><span class=line><span class=cl>[@6,7:6=&#39;&lt;EOF&gt;&#39;,&lt;EOF&gt;,2:0]</span></span></code></pre></div><h2 id=antlr语法详解 class=headerLink><a href=#antlr%e8%af%ad%e6%b3%95%e8%af%a6%e8%a7%a3 class=header-mark></a>7 antlr语法详解</h2><h3 id=hello class=headerLink><a href=#hello class=header-mark></a>7.1 Hello</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl>[@6,7:6=&#39;&lt;EOF&gt;&#39;,&lt;EOF&gt;,2:0]</span></span></code></pre></div><h2 id=antlr语法详解 class=headerLink><a href=#antlr%e8%af%ad%e6%b3%95%e8%af%a6%e8%a7%a3 class=header-mark></a>7 antlr语法详解</h2><h3 id=hello class=headerLink><a href=#hello class=header-mark></a>7.1 Hello</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">antlr</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">antlr</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -424,19 +392,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=c>// antlr4 Hello
 </span></span></span><span class=line><span class=cl><span class=w></span><span class=k>grammar</span><span class=w> </span><span class=nc>Hello</span><span class=p>;</span><span class=w>              </span><span class=c>// 定义一个Hello的grammer</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w></span><span class=nl>r</span><span class=w>  </span><span class=p>:</span><span class=w> </span><span class=s>&#39;hello&#39;</span><span class=w> </span><span class=no>ID</span><span class=w> </span><span class=p>;</span><span class=w>           </span><span class=c>// 开头是hello后面接着一个ID</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w></span><span class=nl>ID</span><span class=w> </span><span class=p>:</span><span class=w> </span><span class=p>[</span><span class=x>a-z</span><span class=p>]</span><span class=o>+</span><span class=w> </span><span class=p>;</span><span class=w>               </span><span class=c>// ID由小写字母组成</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nl>WS</span><span class=w> </span><span class=p>:</span><span class=w> </span><span class=p>[</span><span class=x> \t\r\n</span><span class=p>]</span><span class=o>+</span><span class=w> </span><span class=o>-&gt;</span><span class=w> </span><span class=nv>skip</span><span class=w> </span><span class=p>;</span><span class=w>   </span><span class=c>// 控制符清除</span></span></span></code></pre></div><h3 id=arrayinit class=headerLink><a href=#arrayinit class=header-mark></a>7.2 ArrayInit</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nl>WS</span><span class=w> </span><span class=p>:</span><span class=w> </span><span class=p>[</span><span class=x> \t\r\n</span><span class=p>]</span><span class=o>+</span><span class=w> </span><span class=o>-&gt;</span><span class=w> </span><span class=nv>skip</span><span class=w> </span><span class=p>;</span><span class=w>   </span><span class=c>// 控制符清除</span></span></span></code></pre></div><h3 id=arrayinit class=headerLink><a href=#arrayinit class=header-mark></a>7.2 ArrayInit</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">antlr</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">antlr</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -483,19 +447,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=c>// antlr4 Array
 </span></span></span><span class=line><span class=cl><span class=w>        </span><span class=o>|</span><span class=w> </span><span class=no>INT</span><span class=w>							</span><span class=c>// 定义整数</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>        </span><span class=p>;</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w></span><span class=nl>INT</span><span class=w>     </span><span class=p>:</span><span class=w>   </span><span class=p>[</span><span class=x>0-9</span><span class=p>]</span><span class=o>+</span><span class=w> </span><span class=p>;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nl>WS</span><span class=w>      </span><span class=p>:</span><span class=w>   </span><span class=p>[</span><span class=x> \t\r\n</span><span class=p>]</span><span class=o>+</span><span class=w> </span><span class=o>-&gt;</span><span class=w> </span><span class=nv>skip</span><span class=w> </span><span class=p>;</span></span></span></code></pre></div><p>()* &ndash;> 相当于扩展</p><h3 id=expr class=headerLink><a href=#expr class=header-mark></a>7.3 Expr</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nl>WS</span><span class=w>      </span><span class=p>:</span><span class=w>   </span><span class=p>[</span><span class=x> \t\r\n</span><span class=p>]</span><span class=o>+</span><span class=w> </span><span class=o>-&gt;</span><span class=w> </span><span class=nv>skip</span><span class=w> </span><span class=p>;</span></span></span></code></pre></div><p>()* &ndash;> 相当于扩展</p><h3 id=expr class=headerLink><a href=#expr class=header-mark></a>7.3 Expr</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">antlr</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">antlr</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -560,19 +520,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=c>// antlr4 Expr.
 </span></span></span><span class=line><span class=cl><span class=w></span><span class=nl>INT</span><span class=w>     </span><span class=p>:</span><span class=w> </span><span class=p>[</span><span class=x>0-9</span><span class=p>]</span><span class=o>+</span><span class=w> </span><span class=p>;</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w></span><span class=nl>NEWLINE</span><span class=w> </span><span class=p>:</span><span class=s>&#39;\r&#39;</span><span class=o>?</span><span class=w> </span><span class=s>&#39;\n&#39;</span><span class=w> </span><span class=p>;</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w></span><span class=nl>WS</span><span class=w>      </span><span class=p>:</span><span class=w> </span><span class=p>[</span><span class=x> \t</span><span class=p>]</span><span class=o>+</span><span class=w> </span><span class=o>-&gt;</span><span class=w> </span><span class=nv>skip</span><span class=p>;</span></span></span></code></pre></div><h3 id=json class=headerLink><a href=#json class=header-mark></a>7.4 json</h3><blockquote><p>在词法规则中那些不会被语法规则直接调用的词法规则可以用一个fragment关键字来标识，
-fragment标识的规则只能为其它词法规则提供基础</p></blockquote><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+fragment标识的规则只能为其它词法规则提供基础</p></blockquote><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">antlr4</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">antlr4</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -685,19 +641,15 @@ tw-scrollbar-thin"><span class=line><span class=cl>grammar JSON;	// 声明一个
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>WS
 </span></span><span class=line><span class=cl>   : [ \t\n\r] + -&gt; skip
-</span></span><span class=line><span class=cl>   ;</span></span></code></pre></div><p>测试例子</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl>   ;</span></span></code></pre></div><p>测试例子</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">json</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">json</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -756,19 +708,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>            <span class=p>}</span>
 </span></span><span class=line><span class=cl>        <span class=p>}</span>
 </span></span><span class=line><span class=cl>    <span class=p>}</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>显示结果：</p><h3 id=xml class=headerLink><a href=#xml class=header-mark></a>7.5 XML</h3><blockquote><p>孤岛语法:</p></blockquote><h3 id=dot class=headerLink><a href=#dot class=header-mark></a>7.6 dot</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>显示结果：</p><h3 id=xml class=headerLink><a href=#xml class=header-mark></a>7.5 XML</h3><blockquote><p>孤岛语法:</p></blockquote><h3 id=dot class=headerLink><a href=#dot class=header-mark></a>7.6 dot</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">antlr</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">antlr</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -960,11 +908,11 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>grammar</span><
 </span><span>|&nbsp;<a class=link-to-source href=https://github.com/mengdemao/github.io/blob/master/content/posts/antlr/index.md target=_blank rel="noopener noreferrer">查看源代码</a>
 </span><span>|&nbsp;<a class=link-to-edit href=https://github.com/mengdemao/github.io/edit/master/content/posts/antlr/index.md target=_blank rel="noopener noreferrer">编辑此页</a>
 </span><span>|&nbsp;<a class=link-to-report href="https://github.com/mengdemao/github.io/issues/new?title=[bug]%20antlr%E7%AC%94%E8%AE%B0&body=|Field|Value|%0A|-|-|%0A|Title|antlr%E7%AC%94%E8%AE%B0|%0A|Url|https://mengdemao.com/antlr/|%0A|Filename|https://github.com/mengdemao/github.io/blob/main/exampleSite/content/posts/antlr/index.md|" target=_blank rel="noopener noreferrer">报告问题</a></span></div><div class=post-info-share></div></div></div><div class=post-info-more><section class=post-tags><svg class="icon" viewBox="0 0 640 512"><path d="M497.941 225.941 286.059 14.059A48 48 0 00252.118.0H48C21.49.0.0 21.49.0 48v204.118a48 48 0 0014.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882.0l204.118-204.118c18.745-18.745 18.745-49.137.0-67.882zM112 160c-26.51.0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882.0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397.0h48.721a48 48 0 0133.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137.0 67.882z"/></svg>&nbsp;<a href=/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/>编译原理</a></section><section class=print:!tw-hidden><span><button class="tw-text-fgColor-link-muted hover:tw-text-fgColor-link-muted-hover" onclick=window.history.back()>返回</button></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class="post-nav print:tw-hidden"><a href=/hugo/ class=prev rel=prev title=Hugo教程><svg class="icon" viewBox="0 0 256 512"><path d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9.0l22.6 22.6c9.4 9.4 9.4 24.6.0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6.0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9.0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"/></svg>Hugo教程</a>
-<a href=/wait_queue/ class=next rel=next title=Linux等待队列实现>Linux等待队列实现<svg class="icon" viewBox="0 0 256 512"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9.0l-22.6-22.6c-9.4-9.4-9.4-24.6.0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6.0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9.0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></a></div></div><div id=comments class="print:!tw-hidden tw-pt-32 tw-pb-8"><div id=twikoo></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://twikoo.js.org/>Twikoo</a>.</noscript></div></article></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.150.1">Hugo</a> 强力驱动&nbsp;|&nbsp;托管在 <a title="Github Pages" href=https://docs.github.com/en/pages/ target=_blank rel="noopener noreffer">GitHub Pages</a> 上&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.4.1"><svg class="icon" viewBox="0 0 576 512"><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1.0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7.0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174 402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7-43.2-43.2c-4.1-4.1-10.8-4.1-14.8.0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg> DoIt</a></div><div class=footer-line><svg class="icon" viewBox="0 0 512 512"><path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 448c-110.532.0-2e2-89.451-2e2-2e2.0-110.531 89.451-2e2 2e2-2e2 110.532.0 2e2 89.451 2e2 2e2.0 110.532-89.451 2e2-2e2 2e2zm107.351-101.064c-9.614 9.712-45.53 41.396-104.065 41.396-82.43.0-140.484-61.425-140.484-141.567.0-79.152 60.275-139.401 139.762-139.401 55.531.0 88.738 26.62 97.593 34.779a11.965 11.965.0 011.936 15.322l-18.155 28.113c-3.841 5.95-11.966 7.282-17.499 2.921-8.595-6.776-31.814-22.538-61.708-22.538-48.303.0-77.916 35.33-77.916 80.082.0 41.589 26.888 83.692 78.277 83.692 32.657.0 56.843-19.039 65.726-27.225 5.27-4.857 13.596-4.039 17.82 1.738l19.865 27.17a11.947 11.947.0 01-1.152 15.518z"/></svg>2020 - 2025<span class=author>&nbsp;<a href=https://github.com/mengdemao target=_blank rel="noopener noreferrer">mengdemao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span><span class=icp-splitter>&nbsp;|&nbsp;</span><br class=icp-br><span class=icp><a href=https://beian.miit.gov.cn/>鲁ICP备2023050410号-1</a></span></div><div class=footer-line></div><div class=footer-line></div></div></footer><div class="print:!tw-hidden tw-flex tw-flex-col tw-fixed tw-right-4 tw-bottom-4 tw-gap-2"><a href=#back-to-top id=back-to-top-button class="tw-transition-opacity tw-opacity-0 tw-block tw-bg-bgColor-secondary tw-rounded-full" style=padding:.6rem;line-height:1.3rem;font-size:1rem title=回到顶部><svg class="icon" viewBox="0 0 448 512"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6.0-33.9L207 39c9.4-9.4 24.6-9.4 33.9.0l194.3 194.3c9.4 9.4 9.4 24.6.0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3.0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg>
+<a href=/wait_queue/ class=next rel=next title=Linux等待队列实现>Linux等待队列实现<svg class="icon" viewBox="0 0 256 512"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9.0l-22.6-22.6c-9.4-9.4-9.4-24.6.0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6.0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9.0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></a></div></div><div id=comments class="print:!tw-hidden tw-pt-32 tw-pb-8"><div id=twikoo></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://twikoo.js.org/>Twikoo</a>.</noscript></div></article></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.151.0">Hugo</a> 强力驱动&nbsp;|&nbsp;托管在 <a title="Github Pages" href=https://docs.github.com/en/pages/ target=_blank rel="noopener noreffer">GitHub Pages</a> 上&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.4.2"><svg class="icon" viewBox="0 0 576 512"><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1.0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7.0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174 402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7-43.2-43.2c-4.1-4.1-10.8-4.1-14.8.0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg> DoIt</a></div><div class=footer-line><svg class="icon" viewBox="0 0 512 512"><path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 448c-110.532.0-2e2-89.451-2e2-2e2.0-110.531 89.451-2e2 2e2-2e2 110.532.0 2e2 89.451 2e2 2e2.0 110.532-89.451 2e2-2e2 2e2zm107.351-101.064c-9.614 9.712-45.53 41.396-104.065 41.396-82.43.0-140.484-61.425-140.484-141.567.0-79.152 60.275-139.401 139.762-139.401 55.531.0 88.738 26.62 97.593 34.779a11.965 11.965.0 011.936 15.322l-18.155 28.113c-3.841 5.95-11.966 7.282-17.499 2.921-8.595-6.776-31.814-22.538-61.708-22.538-48.303.0-77.916 35.33-77.916 80.082.0 41.589 26.888 83.692 78.277 83.692 32.657.0 56.843-19.039 65.726-27.225 5.27-4.857 13.596-4.039 17.82 1.738l19.865 27.17a11.947 11.947.0 01-1.152 15.518z"/></svg>2020 - 2025<span class=author>&nbsp;<a href=https://github.com/mengdemao target=_blank rel="noopener noreferrer">mengdemao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span><span class=icp-splitter>&nbsp;|&nbsp;</span><br class=icp-br><span class=icp><a href=https://beian.miit.gov.cn/>鲁ICP备2023050410号-1</a></span></div><div class=footer-line></div><div class=footer-line></div></div></footer><div class="print:!tw-hidden tw-flex tw-flex-col tw-fixed tw-right-4 tw-bottom-4 tw-gap-2"><a href=#back-to-top id=back-to-top-button class="tw-transition-opacity tw-opacity-0 tw-block tw-bg-bgColor-secondary tw-rounded-full" style=padding:.6rem;line-height:1.3rem;font-size:1rem title=回到顶部><svg class="icon" viewBox="0 0 448 512"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6.0-33.9L207 39c9.4-9.4 24.6-9.4 33.9.0l194.3 194.3c9.4 9.4 9.4 24.6.0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3.0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg>
 </a><button id=toc-drawer-button class="tw-block tw-bg-bgColor-secondary tw-rounded-full md:tw-hidden" style=padding:.6rem;line-height:1.3rem;font-size:1rem>
 <svg class="icon" viewBox="0 0 448 512"><path d="M16 132h416c8.837.0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163.0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg>
 </button><a href=#comments id=view-comments class="tw-block tw-bg-bgColor-secondary tw-rounded-full" style=padding:.6rem;line-height:1.3rem;font-size:1rem title=查看评论>
-<svg class="icon" viewBox="0 0 512 512"><path d="M256 32C114.6 32 0 125.1.0 240c0 49.6 21.4 95 57 130.7C44.5 421.1 2.7 466 2.2 466.5c-2.2 2.3-2.8 5.7-1.5 8.7S4.8 480 8 480c66.3.0 116-31.8 140.6-51.4 32.7 12.3 69 19.4 107.4 19.4 141.4.0 256-93.1 256-208S397.4 32 256 32z"/></svg></a></div><div id=cookieconsent-container></div><link rel=stylesheet href=/lib/cookieconsent/cookieconsent.min.2d0f7b71a99aaff94e9624ff32a8dc42ce645a0cba433fdc091cf34735027efd1fa2db024c2f591d768f426255f17bbf3d500b7c967b0437b3979956dffa81c6.css integrity="sha512-LQ97camar/lOliT/MqjcQs5kWgy6Qz/cCRzzRzUCfv0fotsCTC9ZHXaPQmJV8Xu/PVALfJZ7BDezl5lW3/qBxg=="><script>window.config={comment:{twikoo:{commentCount:!0,el:"#twikoo",envId:"https://twikoo-comments-doit.vercel.app/",lang:"zh-cn"}},cookieconsent:{content:{dismiss:"同意",link:"了解更多",message:"本网站使用 Cookies 来改善您的浏览体验."},enable:!0,palette:{button:{background:"#f0f0f0"},popup:{background:"#1aa3ff"}},theme:"edgeless"},data:{"desktop-header-typeit":"编程日志","mobile-header-typeit":"编程日志"},table:{sort:!0},typeit:{cursorChar:"|",cursorSpeed:1e3,data:{"desktop-header-typeit":["desktop-header-typeit"],"mobile-header-typeit":["mobile-header-typeit"]},duration:-1,speed:100}}</script><script src=/lib/tablesort/tablesort.min.23640461c9e6941882f50f4208436e1932c806bcc32323a34ff378781204951e05534a0bbc3c1e401d111aa22a26ecc5d4f2cfb43af59d94da8a24f2b8ef8506.js integrity="sha512-I2QEYcnmlBiC9Q9CCENuGTLIBrzDIyOjT/N4eBIElR4FU0oLvDweQB0RGqIqJuzF1PLPtDr1nZTaiiTyuO+FBg=="></script><script src=/lib/typeit/typeit.min.535a28f8fb852c2444461a9a301c6435cc75831d3f0b1a6e18d5275f9d0cd7b78824c8204589bc875eb2b572536c6013461a1d84cf528cac8e7526fbcad17a9b.js integrity="sha512-U1oo+PuFLCRERhqaMBxkNcx1gx0/CxpuGNUnX50M17eIJMggRYm8h16ytXJTbGATRhodhM9SjKyOdSb7ytF6mw=="></script><script src=/lib/cookieconsent/cookieconsent.min.c975ea3858dd8c7347d46343fb510ed236efbde6c0069cc6283eba7639d47e22a560c1391c6314247a0269e1380f93d31b662c4897fa770ab2514bd0bd2d2f68.js integrity="sha512-yXXqOFjdjHNH1GND+1EO0jbvvebABpzGKD66djnUfiKlYME5HGMUJHoCaeE4D5PTG2YsSJf6dwqyUUvQvS0vaA==" defer></script><script src=/js/cookieconsent.min.js defer></script><script src=/js/theme.min.js defer></script><script src=/lib/twikoo/twikoo.all.min.71d2e513d9e7cdc257428cbd785bb319ca505f1ef4ad7c6650da6faef61303042fdadc4b49dbc452cf9e20b232295141bc0a149bd89447bddec120f7222199ff.js integrity="sha512-cdLlE9nnzcJXQoy9eFuzGcpQXx70rXxmUNpvrvYTAwQv2txLSdvEUs+eILIyKVFBvAoUm9iUR73ewSD3IiGZ/w==" defer></script><script src=/js/twikoo.min.js defer></script><script type=text/javascript>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-6QCK4BFMHW",{anonymize_ip:!0})</script><script src="https://www.googletagmanager.com/gtag/js?id=G-6QCK4BFMHW" async></script><script type=speculationrules>
+<svg class="icon" viewBox="0 0 512 512"><path d="M256 32C114.6 32 0 125.1.0 240c0 49.6 21.4 95 57 130.7C44.5 421.1 2.7 466 2.2 466.5c-2.2 2.3-2.8 5.7-1.5 8.7S4.8 480 8 480c66.3.0 116-31.8 140.6-51.4 32.7 12.3 69 19.4 107.4 19.4 141.4.0 256-93.1 256-208S397.4 32 256 32z"/></svg></a></div><div id=cookieconsent-container></div><link rel=stylesheet href=/lib/cookieconsent/cookieconsent.min.2d0f7b71a99aaff94e9624ff32a8dc42ce645a0cba433fdc091cf34735027efd1fa2db024c2f591d768f426255f17bbf3d500b7c967b0437b3979956dffa81c6.css integrity="sha512-LQ97camar/lOliT/MqjcQs5kWgy6Qz/cCRzzRzUCfv0fotsCTC9ZHXaPQmJV8Xu/PVALfJZ7BDezl5lW3/qBxg=="><script>window.config={comment:{twikoo:{commentCount:!0,el:"#twikoo",envId:"https://twikoo-comments-doit.vercel.app/",lang:"zh-cn"}},cookieconsent:{content:{dismiss:"同意",link:"了解更多",message:"本网站使用 Cookies 来改善您的浏览体验."},enable:!0,palette:{button:{background:"#f0f0f0"},popup:{background:"#1aa3ff"}},theme:"edgeless"},data:{"desktop-header-typeit":"编程日志","mobile-header-typeit":"编程日志"},table:{sort:!0},typeit:{cursorChar:"|",cursorSpeed:1e3,data:{"desktop-header-typeit":["desktop-header-typeit"],"mobile-header-typeit":["mobile-header-typeit"]},duration:-1,speed:100}}</script><script src=/lib/tablesort/tablesort.min.23640461c9e6941882f50f4208436e1932c806bcc32323a34ff378781204951e05534a0bbc3c1e401d111aa22a26ecc5d4f2cfb43af59d94da8a24f2b8ef8506.js integrity="sha512-I2QEYcnmlBiC9Q9CCENuGTLIBrzDIyOjT/N4eBIElR4FU0oLvDweQB0RGqIqJuzF1PLPtDr1nZTaiiTyuO+FBg=="></script><script src=/lib/typeit/typeit.min.535a28f8fb852c2444461a9a301c6435cc75831d3f0b1a6e18d5275f9d0cd7b78824c8204589bc875eb2b572536c6013461a1d84cf528cac8e7526fbcad17a9b.js integrity="sha512-U1oo+PuFLCRERhqaMBxkNcx1gx0/CxpuGNUnX50M17eIJMggRYm8h16ytXJTbGATRhodhM9SjKyOdSb7ytF6mw=="></script><script src=/lib/cookieconsent/cookieconsent.min.c975ea3858dd8c7347d46343fb510ed236efbde6c0069cc6283eba7639d47e22a560c1391c6314247a0269e1380f93d31b662c4897fa770ab2514bd0bd2d2f68.js integrity="sha512-yXXqOFjdjHNH1GND+1EO0jbvvebABpzGKD66djnUfiKlYME5HGMUJHoCaeE4D5PTG2YsSJf6dwqyUUvQvS0vaA==" defer></script><script src=/js/cookieconsent.min.js defer></script><script src=/js/theme.min.js defer></script><script src=/lib/twikoo/twikoo.all.min.0728767a978aebfc903fc5e8e998f703d1f5d2e1aac2f26187ef0b6cdf15191c43945c0f3a66b9e22e65c06d8b509e1023ce16236dcda869980f2dfcaeee1a35.js integrity="sha512-Byh2epeK6/yQP8Xo6Zj3A9H10uGqwvJhh+8LbN8VGRxDlFwPOma54i5lwG2LUJ4QI84WI23NqGmYDy38ru4aNQ==" defer></script><script src=/js/twikoo.min.js defer></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-6QCK4BFMHW",{anonymize_ip:!0})</script><script src="https://www.googletagmanager.com/gtag/js?id=G-6QCK4BFMHW" async></script><script type=speculationrules>
   {
     "prerender": [
       {

@@ -1,8 +1,10 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>编译原理 on 编程日志</title><link>https://mengdemao.com/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/</link><description>Recent content in 编译原理 on 编程日志</description><generator>Hugo</generator><language>zh-CN</language><managingEditor>megndemao19951021@gmail.com (mengdemao)</managingEditor><webMaster>megndemao19951021@gmail.com (mengdemao)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Tue, 19 Aug 2025 23:02:19 +0800</lastBuildDate><atom:link href="https://mengdemao.com/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/index.xml" rel="self" type="application/rss+xml"/><item><title>编译原理笔记</title><link>https://mengdemao.com/compile/</link><pubDate>Thu, 07 Jul 2022 21:44:09 +0800</pubDate><author>megndemao19951021@gmail.com (mengdemao)</author><guid>https://mengdemao.com/compile/</guid><description>&lt;h2 id="词法分析" class="headerLink"&gt;
- &lt;a href="#%e8%af%8d%e6%b3%95%e5%88%86%e6%9e%90" class="header-mark"&gt;&lt;/a&gt;4 词法分析&lt;/h2&gt;&lt;h3 id="概述" class="headerLink"&gt;
- &lt;a href="#%e6%a6%82%e8%bf%b0" class="header-mark"&gt;&lt;/a&gt;4.1 概述&lt;/h3&gt;&lt;blockquote&gt;
- &lt;p&gt;词法分析是编译原理的第一个阶段,词法分析的任务是读入源程序的输入字符,生成一个个的单词,其主要的功能是为语法分析提供词法单元&lt;/p&gt;
-&lt;/blockquote&gt;&lt;pre class="mermaid"&gt;graph LR
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>编译原理 - 分类 - 编程日志</title><link>https://mengdemao.com/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/</link><description>编译原理 - 分类 - 编程日志</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>megndemao19951021@gmail.com (mengdemao)</managingEditor><webMaster>megndemao19951021@gmail.com (mengdemao)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Thu, 07 Jul 2022 21:44:09 +0800</lastBuildDate><atom:link href="https://mengdemao.com/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" rel="self" type="application/rss+xml"/><item><title>编译原理笔记</title><link>https://mengdemao.com/compile/</link><pubDate>Thu, 07 Jul 2022 21:44:09 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/compile/</guid><description><![CDATA[<div class="featured-image">
+                <img src="featuredImage/03.webp" referrerpolicy="no-referrer">
+            </div><h2 id="词法分析" class="headerLink">
+    <a href="#%e8%af%8d%e6%b3%95%e5%88%86%e6%9e%90" class="header-mark"></a>4 词法分析</h2><h3 id="概述" class="headerLink">
+    <a href="#%e6%a6%82%e8%bf%b0" class="header-mark"></a>4.1 概述</h3><blockquote>
+  <p>词法分析是编译原理的第一个阶段,词法分析的任务是读入源程序的输入字符,生成一个个的单词,其主要的功能是为语法分析提供词法单元</p>
+</blockquote><pre class="mermaid">graph LR
 
 S1((源程序))
 S2[词法分析器]
@@ -10,36 +12,38 @@ S3[语法分析器]
 S4((符号表))
 S5[输出之语义分析]
 
-S1--&gt;S2--&gt;S3--&gt;S5
+S1-->S2-->S3-->S5
 
-S3--&gt;S2
+S3-->S2
 
-S2--&gt;S4
-S4--&gt;S2
+S2-->S4
+S4-->S2
 
-S3--&gt;S4
-S4--&gt;S3
-&lt;/pre&gt;&lt;h3 id="正则表达式" class="headerLink"&gt;
- &lt;a href="#%e6%ad%a3%e5%88%99%e8%a1%a8%e8%be%be%e5%bc%8f" class="header-mark"&gt;&lt;/a&gt;4.2 正则表达式&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;对于给定的正则表达式 $\Sigma$={c1, c2, c3&amp;hellip;cn}&lt;/li&gt;
-&lt;li&gt;归纳定义:
-&lt;ul&gt;
-&lt;li&gt;对于空串是正则表达式$\epsilon$是正则表达式&lt;/li&gt;
-&lt;li&gt;对于任何$c\in\Sigma$,$c$是正则表达式&lt;/li&gt;
-&lt;li&gt;如果M和N都是正则表达式,那么下面的也是正则表达式
-&lt;ul&gt;
-&lt;li&gt;选择: M | N = {M, N}&lt;/li&gt;
-&lt;li&gt;连接: MN = {mn| m $\in$ M, n, $\in$ M }&lt;/li&gt;
-&lt;li&gt;闭包: M* = { $\epsilon$ , M, MM, MMMM&amp;hellip;.}&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h4 id="flex正则表达式" class="headerLink"&gt;
- &lt;a href="#flex%e6%ad%a3%e5%88%99%e8%a1%a8%e8%be%be%e5%bc%8f" class="header-mark"&gt;&lt;/a&gt;4.2.1 flex正则表达式&lt;/h4&gt;&lt;blockquote&gt;
- &lt;p&gt;使用flex学习正则表达式&lt;/p&gt;</description></item><item><title>antlr笔记</title><link>https://mengdemao.com/antlr/</link><pubDate>Tue, 04 May 2021 22:53:09 +0800</pubDate><author>megndemao19951021@gmail.com (mengdemao)</author><guid>https://mengdemao.com/antlr/</guid><description>&lt;h2 id="简介" class="headerLink"&gt;
- &lt;a href="#%e7%ae%80%e4%bb%8b" class="header-mark"&gt;&lt;/a&gt;1 简介&lt;/h2&gt;&lt;blockquote&gt;
- &lt;p&gt;ANTLR是一款强大的语法分析器生成工具,用于读取、处理、执行和翻译结构化的文本或二进制文件.&lt;/p&gt;
-&lt;/blockquote&gt;&lt;p&gt;类似于&lt;em&gt;flex/bison&lt;/em&gt;,根据描述文件,自动生成词法语法分析器;
-解析规则文件,生成解析源文件,与SDK组合编译生成可执行文件;&lt;/p&gt;</description></item></channel></rss>
+S3-->S4
+S4-->S3
+</pre><h3 id="正则表达式" class="headerLink">
+    <a href="#%e6%ad%a3%e5%88%99%e8%a1%a8%e8%be%be%e5%bc%8f" class="header-mark"></a>4.2 正则表达式</h3><ul>
+<li>对于给定的正则表达式 $\Sigma$={c1, c2, c3&hellip;cn}</li>
+<li>归纳定义:
+<ul>
+<li>对于空串是正则表达式$\epsilon$是正则表达式</li>
+<li>对于任何$c\in\Sigma$,$c$是正则表达式</li>
+<li>如果M和N都是正则表达式,那么下面的也是正则表达式
+<ul>
+<li>选择: M | N = {M, N}</li>
+<li>连接: MN = {mn| m $\in$ M, n, $\in$ M }</li>
+<li>闭包: M* = { $\epsilon$ , M, MM, MMMM&hellip;.}</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="flex正则表达式" class="headerLink">
+    <a href="#flex%e6%ad%a3%e5%88%99%e8%a1%a8%e8%be%be%e5%bc%8f" class="header-mark"></a>4.2.1 flex正则表达式</h4><blockquote>
+  <p>使用flex学习正则表达式</p>]]></description></item><item><title>antlr笔记</title><link>https://mengdemao.com/antlr/</link><pubDate>Tue, 04 May 2021 22:53:09 +0800</pubDate><author><name>mengdemao</name></author><guid>https://mengdemao.com/antlr/</guid><description><![CDATA[<div class="featured-image">
+                <img src="featuredImage/04.webp" referrerpolicy="no-referrer">
+            </div><h2 id="简介" class="headerLink">
+    <a href="#%e7%ae%80%e4%bb%8b" class="header-mark"></a>1 简介</h2><blockquote>
+  <p>ANTLR是一款强大的语法分析器生成工具,用于读取、处理、执行和翻译结构化的文本或二进制文件.</p>
+</blockquote><p>类似于<em>flex/bison</em>,根据描述文件,自动生成词法语法分析器;
+解析规则文件,生成解析源文件,与SDK组合编译生成可执行文件;</p>]]></description></item></channel></rss>

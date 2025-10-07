@@ -1,4 +1,4 @@
-<!doctype html><html lang=zh-CN><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Linux内核源码阅读 - 编程日志</title><meta name=Description content="Linux内核源码阅读"><meta property="og:url" content="https://mengdemao.com/read_linux/"><meta property="og:site_name" content="编程日志"><meta property="og:title" content="Linux内核源码阅读"><meta property="og:description" content="Linux内核源码阅读"><meta property="og:locale" content="zh_CN"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2023-02-12T12:56:02+08:00"><meta property="article:modified_time" content="2025-03-22T23:48:31+08:00"><meta property="article:tag" content="Kernel"><meta property="og:image" content="https://mengdemao.com/images/avatar.webp"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://mengdemao.com/images/avatar.webp"><meta name=twitter:title content="Linux内核源码阅读"><meta name=twitter:description content="Linux内核源码阅读"><meta name=application-name content="编程日志"><meta name=apple-mobile-web-app-title content="编程日志"><meta name=theme-color content="#f8f8f8"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=canonical href=https://mengdemao.com/read_linux/><link rel=prev href=https://mengdemao.com/nodejs/><link rel=next href=https://mengdemao.com/uboot_basic/><link rel=stylesheet href=/css/main.min.css><link rel=stylesheet href=/css/style.min.css><meta name=google-site-verification content="MQ8DNu27ayX6B_4ObiEDK09vGr1fdy7kOAnbd09hJk4"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Linux内核源码阅读","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://mengdemao.com/read_linux/"},"image":[{"@type":"ImageObject","url":"https://mengdemao.com/featuredImage/03.webp","width":1920,"height":1280}],"genre":"posts","keywords":["Linux Kernel"],"wordcount":4038,"url":"https://mengdemao.com/read_linux/","datePublished":"2023-02-12T12:56:02+08:00","dateModified":"2025-03-22T23:48:31+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"xxxx","logo":{"@type":"ImageObject","url":"https://mengdemao.com/images/avatar.webp","width":528,"height":560}},"author":{"@type":"Person","name":"mengdemao","url":"https://github.com/mengdemao"},"description":"Linux内核源码阅读"}</script></head><body data-instant-intensity=viewport class="tw-flex tw-min-h-screen tw-flex-col"><script type=text/javascript>function setTheme(e){document.body.setAttribute("theme",e),document.documentElement.className=e,document.documentElement.style.setProperty("color-scheme",e==="light"?"light":"dark"),e==="light"?document.documentElement.classList.remove("tw-dark"):document.documentElement.classList.add("tw-dark"),window.theme=e,window.isDark=window.theme!=="light"}function saveTheme(e){window.localStorage&&localStorage.setItem("theme",e)}function getMeta(e){const t=document.getElementsByTagName("meta");for(let n=0;n<t.length;n++)if(t[n].getAttribute("name")===e)return t[n];return""}if(window.localStorage&&localStorage.getItem("theme")){let e=localStorage.getItem("theme");e==="light"||e==="dark"?setTheme(e):setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}else"auto"==="light"||"auto"==="dark"?(setTheme("auto"),saveTheme("auto")):(saveTheme("auto"),setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));let metaColors={light:"#f8f8f8",dark:"#161b22"};getMeta("theme-color").content=metaColors[document.body.getAttribute("theme")],window.switchThemeEventSet=new Set</script><div id=back-to-top></div><div id=mask></div><header class="desktop print:!tw-hidden" id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=tw-mr-1><i class='far fa-edit fa-fw'></i></span><span id=desktop-header-typeit class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/series/>系列 </a><a class=menu-item href=/authors/>作者 </a><a class=menu-item href=/showcase/>作品 </a><a class=menu-item href=/categories/documentation/>文档 </a><a class=menu-item href=/about/>关于 </a><a class=menu-item href=https://github.com/mengdemao/mengdemao.com title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw'></i> </a><span class="menu-item delimiter"></span><button class="menu-item theme-select" aria-label=切换主题>
+<!doctype html><html lang=zh-CN><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Linux内核源码阅读 - 编程日志</title><meta name=Description content="Linux内核源码阅读"><meta property="og:url" content="https://mengdemao.com/read_linux/"><meta property="og:site_name" content="编程日志"><meta property="og:title" content="Linux内核源码阅读"><meta property="og:description" content="Linux内核源码阅读"><meta property="og:locale" content="zh_CN"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2023-02-12T12:56:02+08:00"><meta property="article:modified_time" content="2025-03-22T23:48:31+08:00"><meta property="article:tag" content="Kernel"><meta property="og:image" content="https://mengdemao.com/images/avatar.webp"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://mengdemao.com/images/avatar.webp"><meta name=twitter:title content="Linux内核源码阅读"><meta name=twitter:description content="Linux内核源码阅读"><meta name=application-name content="编程日志"><meta name=apple-mobile-web-app-title content="编程日志"><meta name=theme-color content="#f8f8f8"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=canonical href=https://mengdemao.com/read_linux/><link rel=prev href=https://mengdemao.com/nodejs/><link rel=next href=https://mengdemao.com/uboot_basic/><link rel=stylesheet href=/css/main.min.css><link rel=stylesheet href=/css/style.min.css><meta name=google-site-verification content="MQ8DNu27ayX6B_4ObiEDK09vGr1fdy7kOAnbd09hJk4"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Linux内核源码阅读","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://mengdemao.com/read_linux/"},"image":[{"@type":"ImageObject","url":"https://mengdemao.com/featuredImage/03.webp","width":1920,"height":1280}],"genre":"posts","keywords":["Linux Kernel"],"wordcount":4038,"url":"https://mengdemao.com/read_linux/","datePublished":"2023-02-12T12:56:02+08:00","dateModified":"2025-03-22T23:48:31+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"xxxx","logo":{"@type":"ImageObject","url":"https://mengdemao.com/images/avatar.webp","width":528,"height":560}},"author":{"@type":"Person","name":"mengdemao","url":"https://github.com/mengdemao"},"description":"Linux内核源码阅读"}</script></head><body data-instant-intensity=viewport class="tw-flex tw-min-h-screen tw-flex-col"><script>function setTheme(e){document.body.setAttribute("theme",e),document.documentElement.className=e,document.documentElement.style.setProperty("color-scheme",e==="light"?"light":"dark"),e==="light"?document.documentElement.classList.remove("tw-dark"):document.documentElement.classList.add("tw-dark"),window.theme=e,window.isDark=window.theme!=="light"}function saveTheme(e){window.localStorage&&localStorage.setItem("theme",e)}function getMeta(e){const t=document.getElementsByTagName("meta");for(let n=0;n<t.length;n++)if(t[n].getAttribute("name")===e)return t[n];return""}if(window.localStorage&&localStorage.getItem("theme")){let e=localStorage.getItem("theme");e==="light"||e==="dark"?setTheme(e):setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}else"auto"==="light"||"auto"==="dark"?(setTheme("auto"),saveTheme("auto")):(saveTheme("auto"),setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));let metaColors={light:"#f8f8f8",dark:"#161b22"};getMeta("theme-color").content=metaColors[document.body.getAttribute("theme")],window.switchThemeEventSet=new Set</script><div id=back-to-top></div><div id=mask></div><header class="desktop print:!tw-hidden" id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=tw-mr-1><i class='far fa-edit fa-fw'></i></span><span id=desktop-header-typeit class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/series/>系列 </a><a class=menu-item href=/authors/>作者 </a><a class=menu-item href=/showcase/>作品 </a><a class=menu-item href=/categories/documentation/>文档 </a><a class=menu-item href=/about/>关于 </a><a class=menu-item href=https://github.com/mengdemao/mengdemao.com title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw'></i> </a><span class="menu-item delimiter"></span><button class="menu-item theme-select" aria-label=切换主题>
 <svg class="icon" viewBox="0 0 512 512"><path d="M8 256c0 136.966 111.033 248 248 248s248-111.034 248-248S392.966 8 256 8 8 119.033 8 256zm248 184V72c101.705.0 184 82.311 184 184 0 101.705-82.311 184-184 184z"/></svg>
 <select class=color-theme-select id=theme-select-desktop aria-label=切换主题><option value=light>浅色</option><option value=dark>深色</option><option value=auto>跟随系统</option></select></button></div></div></div></header><header class="mobile print:!tw-hidden" id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=编程日志><span class=tw-mr-1><i class='far fa-edit fa-fw'></i></span><span id=mobile-header-typeit class=typeit></span></a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><a class=menu-item href=/posts/ title>所有文章</a><a class=menu-item href=/tags/ title>标签</a><a class=menu-item href=/categories/ title>分类</a><a class=menu-item href=/series/ title>系列</a><a class=menu-item href=/authors/ title>作者</a><a class=menu-item href=/showcase/ title>作品</a><a class=menu-item href=/categories/documentation/ title>文档</a><a class=menu-item href=/about/ title>关于</a><a class=menu-item href=https://github.com/mengdemao/mengdemao.com title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw'></i></a><button class="menu-item theme-select tw-w-full" aria-label=切换主题>
 <svg class="icon" viewBox="0 0 512 512"><path d="M8 256c0 136.966 111.033 248 248 248s248-111.034 248-248S392.966 8 256 8 8 119.033 8 256zm248 184V72c101.705.0 184 82.311 184 184 0 101.705-82.311 184-184 184z"/></svg>
@@ -9,19 +9,15 @@
 </span>&nbsp;<span id=/read_linux/ class=comment_count data-flag-title=Linux内核源码阅读>
 <svg class="icon" viewBox="0 0 576 512"><path d="M532 386.2c27.5-27.1 44-61.1 44-98.2.0-80-76.5-146.1-176.2-157.9C368.3 72.5 294.3 32 208 32 93.1 32 0 103.6.0 192c0 37 16.5 71 44 98.2-15.3 30.7-37.3 54.5-37.7 54.9-6.3 6.7-8.1 16.5-4.4 25 3.6 8.5 12 14 21.2 14 53.5.0 96.7-20.2 125.2-38.8 9.2 2.1 18.7 3.7 28.4 4.9C208.1 407.6 281.8 448 368 448c20.8.0 40.8-2.4 59.8-6.8C456.3 459.7 499.4 480 553 480c9.2.0 17.5-5.5 21.2-14 3.6-8.5 1.9-18.3-4.4-25-.4-.3-22.5-24.1-37.8-54.8zm-392.8-92.3L122.1 305c-14.1 9.1-28.5 16.3-43.1 21.4 2.7-4.7 5.4-9.7 8-14.8l15.5-31.1L77.7 256C64.2 242.6 48 220.7 48 192c0-60.7 73.3-112 160-112s160 51.3 160 112-73.3 112-160 112c-16.5.0-33-1.9-49-5.6l-19.8-4.5zM498.3 352l-24.7 24.4 15.5 31.1c2.6 5.1 5.3 10.1 8 14.8-14.6-5.1-29-12.3-43.1-21.4l-17.1-11.1-19.9 4.6c-16 3.7-32.5 5.6-49 5.6-54 0-102.2-20.1-131.3-49.7C338 339.5 416 272.9 416 192c0-3.4-.4-6.7-.7-10C479.7 196.5 528 238.8 528 288c0 28.7-16.2 50.6-29.7 64z"/></svg>&nbsp;<span class=twikoo-comment-count id=twikoo-comment-count></span>&nbsp;条评论
 </span>&nbsp;</div></div><div class=featured-image><img loading=eager src=/featuredImage/03.webp alt=Linux内核源码阅读 height=1280 width=1920></div><div class="details toc print:!tw-block" id=toc-static kept><div class="details-summary toc-title"><span>目录</span>
-<span class=details-icon><svg class="icon" viewBox="0 0 256 512"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9.0l-22.6-22.6c-9.4-9.4-9.4-24.6.0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6.0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9.0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#建立环境>建立环境</a><ul><li><a href=#崩溃内核>崩溃内核</a><ul><li><a href=#安装拯救内核>安装拯救内核</a></li><li><a href=#启动kdump服务>启动kdump服务</a></li></ul></li><li><a href=#基础环境>基础环境</a></li><li><a href=#调试环境eclipse>调试环境(eclipse)</a></li><li><a href=#调试环境vscode>调试环境(vscode)</a></li><li><a href=#调试环境原始gdb>调试环境(原始gdb)</a></li></ul></li><li><a href=#系统构建>系统构建</a><ul><li><a href=#vmlinux生成过程>vmlinux生成过程</a></li><li><a href=#vmlinuxbin生成过程>vmlinux.bin生成过程</a></li><li><a href=#headero>header.o</a></li><li><a href=#setupbin生成过程>setup.bin生成过程</a></li><li><a href=#最后生成>最后生成</a></li></ul></li><li><a href=#根文件系统>根文件系统</a><ul><li><a href=#编译busybox>编译busybox</a></li><li><a href=#安装c库>安装C库</a></li></ul></li><li><a href=#initramfs>initramfs</a><ul><li><a href=#hello-initramfs>Hello initramfs</a></li></ul></li><li><a href=#启动分析>启动分析</a><ul><li><a href=#启动前夕>启动前夕</a></li><li><a href=#start_kernel>start_kernel</a></li><li><a href=#reset_init>reset_init</a></li><li><a href=#设置init任务堆栈>设置<code>init</code>任务堆栈</a></li><li><a href=#设置smp的cpu-id>设置smp的CPU ID</a></li><li><a href=#激活启动cpu>激活启动CPU</a></li><li><a href=#设置架构>设置架构</a></li><li><a href=#mm_init_cpumask>mm_init_cpumask</a></li><li><a href=#设置命令行command_line>设置命令行<code>command_line</code></a></li><li><a href=#设置cpu>设置CPU</a></li><li><a href=#smp_prepare_boot_cpu>smp_prepare_boot_cpu</a></li><li><a href=#build_all_zonelists>build_all_zonelists</a></li><li><a href=#page_alloc_init>page_alloc_init</a></li><li><a href=#jump_label_init>jump_label_init</a></li><li><a href=#setup_log_buf>setup_log_buf</a></li><li><a href=#pidhash_init>pidhash_init</a></li><li><a href=#vfs_caches_init_early>vfs_caches_init_early</a></li><li><a href=#sort_main_extable>sort_main_extable</a></li><li><a href=#trap_init>trap_init</a></li><li><a href=#mm_init>mm_init</a></li><li><a href=#sched_init>sched_init</a></li><li><a href=#idr_init_cache>idr_init_cache</a></li><li><a href=#rcu_init>rcu_init</a></li></ul></li></ul></nav></div></div><div class=content id=content data-pagefind-body><p><strong>内核源码阅读</strong></p><ul><li>源码版本: <a href=https://github.com/figozhang/runninglinuxkernel_4.0.git target=_blank rel="noopener noreferrer">Linux 4.0.0</a></li><li>参考书籍:<ol><li>&#171; 奔跑吧Linux内核 &#187;</li><li>&#171; 深度探索linux系统虚拟化:原理与实现 &#187;</li></ol></li></ul><h2 id=建立环境 class=headerLink><a href=#%e5%bb%ba%e7%ab%8b%e7%8e%af%e5%a2%83 class=header-mark></a>1 建立环境</h2><h3 id=崩溃内核 class=headerLink><a href=#%e5%b4%a9%e6%ba%83%e5%86%85%e6%a0%b8 class=header-mark></a>1.1 崩溃内核</h3><p><a href=https://wiki.archlinux.org/title/Kdump target=_blank rel="noopener noreferrer">参考文档</a></p><h4 id=安装拯救内核 class=headerLink><a href=#%e5%ae%89%e8%a3%85%e6%8b%af%e6%95%91%e5%86%85%e6%a0%b8 class=header-mark></a>1.1.1 安装拯救内核</h4><p>下载内核<a href=https://gitlab.archlinux.org/archlinux/packaging/packages/linux-lts.git target=_blank rel="noopener noreferrer">稳定版</a>,修改构建脚本为了和主线内核区分即可</p><p><img class=tw-inline loading=lazy src=/read_linux/picture/image-20230806233120552.png alt=image-20230806233120552 height=232 width=935></p><p>修改配置脚本<strong>config</strong></p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+<span class=details-icon><svg class="icon" viewBox="0 0 256 512"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9.0l-22.6-22.6c-9.4-9.4-9.4-24.6.0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6.0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9.0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#建立环境>建立环境</a><ul><li><a href=#崩溃内核>崩溃内核</a><ul><li><a href=#安装拯救内核>安装拯救内核</a></li><li><a href=#启动kdump服务>启动kdump服务</a></li></ul></li><li><a href=#基础环境>基础环境</a></li><li><a href=#调试环境eclipse>调试环境(eclipse)</a></li><li><a href=#调试环境vscode>调试环境(vscode)</a></li><li><a href=#调试环境原始gdb>调试环境(原始gdb)</a></li></ul></li><li><a href=#系统构建>系统构建</a><ul><li><a href=#vmlinux生成过程>vmlinux生成过程</a></li><li><a href=#vmlinuxbin生成过程>vmlinux.bin生成过程</a></li><li><a href=#headero>header.o</a></li><li><a href=#setupbin生成过程>setup.bin生成过程</a></li><li><a href=#最后生成>最后生成</a></li></ul></li><li><a href=#根文件系统>根文件系统</a><ul><li><a href=#编译busybox>编译busybox</a></li><li><a href=#安装c库>安装C库</a></li></ul></li><li><a href=#initramfs>initramfs</a><ul><li><a href=#hello-initramfs>Hello initramfs</a></li></ul></li><li><a href=#启动分析>启动分析</a><ul><li><a href=#启动前夕>启动前夕</a></li><li><a href=#start_kernel>start_kernel</a></li><li><a href=#reset_init>reset_init</a></li><li><a href=#设置init任务堆栈>设置<code>init</code>任务堆栈</a></li><li><a href=#设置smp的cpu-id>设置smp的CPU ID</a></li><li><a href=#激活启动cpu>激活启动CPU</a></li><li><a href=#设置架构>设置架构</a></li><li><a href=#mm_init_cpumask>mm_init_cpumask</a></li><li><a href=#设置命令行command_line>设置命令行<code>command_line</code></a></li><li><a href=#设置cpu>设置CPU</a></li><li><a href=#smp_prepare_boot_cpu>smp_prepare_boot_cpu</a></li><li><a href=#build_all_zonelists>build_all_zonelists</a></li><li><a href=#page_alloc_init>page_alloc_init</a></li><li><a href=#jump_label_init>jump_label_init</a></li><li><a href=#setup_log_buf>setup_log_buf</a></li><li><a href=#pidhash_init>pidhash_init</a></li><li><a href=#vfs_caches_init_early>vfs_caches_init_early</a></li><li><a href=#sort_main_extable>sort_main_extable</a></li><li><a href=#trap_init>trap_init</a></li><li><a href=#mm_init>mm_init</a></li><li><a href=#sched_init>sched_init</a></li><li><a href=#idr_init_cache>idr_init_cache</a></li><li><a href=#rcu_init>rcu_init</a></li></ul></li></ul></nav></div></div><div class=content id=content data-pagefind-body><p><strong>内核源码阅读</strong></p><ul><li>源码版本: <a href=https://github.com/figozhang/runninglinuxkernel_4.0.git target=_blank rel="noopener noreferrer">Linux 4.0.0</a></li><li>参考书籍:<ol><li>&#171; 奔跑吧Linux内核 &#187;</li><li>&#171; 深度探索linux系统虚拟化:原理与实现 &#187;</li></ol></li></ul><h2 id=建立环境 class=headerLink><a href=#%e5%bb%ba%e7%ab%8b%e7%8e%af%e5%a2%83 class=header-mark></a>1 建立环境</h2><h3 id=崩溃内核 class=headerLink><a href=#%e5%b4%a9%e6%ba%83%e5%86%85%e6%a0%b8 class=header-mark></a>1.1 崩溃内核</h3><p><a href=https://wiki.archlinux.org/title/Kdump target=_blank rel="noopener noreferrer">参考文档</a></p><h4 id=安装拯救内核 class=headerLink><a href=#%e5%ae%89%e8%a3%85%e6%8b%af%e6%95%91%e5%86%85%e6%a0%b8 class=header-mark></a>1.1.1 安装拯救内核</h4><p>下载内核<a href=https://gitlab.archlinux.org/archlinux/packaging/packages/linux-lts.git target=_blank rel="noopener noreferrer">稳定版</a>,修改构建脚本为了和主线内核区分即可</p><p><img class=tw-inline loading=lazy src=/read_linux/picture/image-20230806233120552.png alt=image-20230806233120552 height=232 width=935></p><p>修改配置脚本<strong>config</strong></p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">ini</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">ini</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -61,19 +57,15 @@ tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=na>CONFIG_DEBUG_INFO</span><span class=o>=</span><span class=s>y</span>
 </span></span><span class=line><span class=cl><span class=na>CONFIG_CRASH_DUMP</span><span class=o>=</span><span class=s>y</span>
-</span></span><span class=line><span class=cl><span class=na>CONFIG_PROC_VMCORE</span><span class=o>=</span><span class=s>y</span></span></span></code></pre></div><p>构建此内核</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=na>CONFIG_PROC_VMCORE</span><span class=o>=</span><span class=s>y</span></span></span></code></pre></div><p>构建此内核</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">shell</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">shell</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -117,19 +109,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=c1># 更新校验
 </span></span><span class=line><span class=cl><span class=c1># 构建内核</span>
 </span></span><span class=line><span class=cl>makepkg -s --skippgpcheck
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=c1># 安装程序</span></span></span></code></pre></div><p>修改<code>/etc/default/grub</code>,为<strong>crash kernel</strong>配置空间</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=c1># 安装程序</span></span></span></code></pre></div><p>修改<code>/etc/default/grub</code>,为<strong>crash kernel</strong>配置空间</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">diff</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">diff</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -169,19 +157,15 @@ tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=gd>- GRUB_CMDLINE_LINUX_DEFAULT=&#34;loglevel=7&#34;
 </span></span></span><span class=line><span class=cl><span class=gd></span><span class=gi>+ GRUB_CMDLINE_LINUX_DEFAULT=&#34;loglevel=7 crashkernel=256M@16M&#34;
-</span></span></span></code></pre></div><p>更新grub配置<code>grub-mkconfig</code></p><h4 id=启动kdump服务 class=headerLink><a href=#%e5%90%af%e5%8a%a8kdump%e6%9c%8d%e5%8a%a1 class=header-mark></a>1.1.2 启动kdump服务</h4><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span></span></code></pre></div><p>更新grub配置<code>grub-mkconfig</code></p><h4 id=启动kdump服务 class=headerLink><a href=#%e5%90%af%e5%8a%a8kdump%e6%9c%8d%e5%8a%a1 class=header-mark></a>1.1.2 启动kdump服务</h4><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">shell</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">shell</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -229,19 +213,15 @@ tw-scrollbar-thin"><span class=line><span class=cl>/etc/systemd/system/kdump.ser
 </span></span><span class=line><span class=cl><span class=nv>Type</span><span class=o>=</span>oneshot
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=o>[</span>Install<span class=o>]</span>
-</span></span><span class=line><span class=cl><span class=nv>WantedBy</span><span class=o>=</span>multi-user.target</span></span></code></pre></div><h3 id=基础环境 class=headerLink><a href=#%e5%9f%ba%e7%a1%80%e7%8e%af%e5%a2%83 class=header-mark></a>1.2 基础环境</h3><ol><li>安装软件</li></ol><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=nv>WantedBy</span><span class=o>=</span>multi-user.target</span></span></code></pre></div><h3 id=基础环境 class=headerLink><a href=#%e5%9f%ba%e7%a1%80%e7%8e%af%e5%a2%83 class=header-mark></a>1.2 基础环境</h3><ol><li>安装软件</li></ol><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">shell</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">shell</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -280,19 +260,15 @@ group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl>$ sudo apt install qemu
-</span></span><span class=line><span class=cl>$ sudo apt install gcc-arm-none-eabi</span></span></code></pre></div><ol start=2><li>下载源码</li></ol><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl>$ sudo apt install gcc-arm-none-eabi</span></span></code></pre></div><ol start=2><li>下载源码</li></ol><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">shell</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">shell</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -330,19 +306,15 @@ group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
-tw-scrollbar-thin"><span class=line><span class=cl>$ git clone https://github.com/figozhang/runninglinuxkernel_4.0.git</span></span></code></pre></div><ol start=3><li>构建运行</li></ol><ul><li>编译32位arm</li></ul><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-scrollbar-thin"><span class=line><span class=cl>$ git clone https://github.com/figozhang/runninglinuxkernel_4.0.git</span></span></code></pre></div><ol start=3><li>构建运行</li></ol><ul><li>编译32位arm</li></ul><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">shell</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">shell</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -389,19 +361,15 @@ tw-scrollbar-thin"><span class=line><span class=cl>qemu-system-arm -m <span clas
 </span></span></span><span class=line><span class=cl><span class=se></span>    -device virtio-net-device,netdev<span class=o>=</span>mynet<span class=se>\
 </span></span></span><span class=line><span class=cl><span class=se></span>    --fsdev local,id<span class=o>=</span>kmod_dev,path<span class=o>=</span>./kmodules,security_model<span class=o>=</span>none<span class=se>\
 </span></span></span><span class=line><span class=cl><span class=se></span>    -device virtio-9p-device,fsdev<span class=o>=</span>kmod_dev,mount_tag<span class=o>=</span>kmod_mount<span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    -S -s</span></span></code></pre></div><ul><li>编译64位arm</li></ul><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span></span><span class=line><span class=cl><span class=se></span>    -S -s</span></span></code></pre></div><ul><li>编译64位arm</li></ul><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">shell</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">shell</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -448,19 +416,15 @@ tw-scrollbar-thin"><span class=line><span class=cl>qemu-system-aarch64 -m <span 
 </span></span></span><span class=line><span class=cl><span class=se></span>    -device virtio-9p-device,fsdev<span class=o>=</span>kmod_dev,mount_tag<span class=o>=</span>kmod_mount<span class=se>\
 </span></span></span><span class=line><span class=cl><span class=se></span>    -netdev user,id<span class=o>=</span>mynet<span class=se>\
 </span></span></span><span class=line><span class=cl><span class=se></span>    -device virtio-net-device,netdev<span class=o>=</span>mynet<span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    -S -s</span></span></code></pre></div><ul><li>安装gdb-multiarch</li></ul><blockquote><p>参考资料:<a href=https://aur.archlinux.org/packages/gdb-multiarch target=_blank rel="noopener noreferrer">Archlinux gdb-multiarch构建</a></p></blockquote><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span></span><span class=line><span class=cl><span class=se></span>    -S -s</span></span></code></pre></div><ul><li>安装gdb-multiarch</li></ul><blockquote><p>参考资料:<a href=https://aur.archlinux.org/packages/gdb-multiarch target=_blank rel="noopener noreferrer">Archlinux gdb-multiarch构建</a></p></blockquote><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">shell</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">shell</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -517,19 +481,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=c1># 下载代码
 </span></span><span class=line><span class=cl>make install
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=c1># 修改文件名</span>
-</span></span><span class=line><span class=cl>mv /usr/bin/gdb /usr/bin/gdb-multiarch</span></span></code></pre></div><ul><li>运行gdb-multiarch</li></ul><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl>mv /usr/bin/gdb /usr/bin/gdb-multiarch</span></span></code></pre></div><ul><li>运行gdb-multiarch</li></ul><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">shell</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">shell</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -574,19 +534,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=c1># 加载执行
 </span></span><span class=line><span class=cl>$ <span class=nb>set</span> architecture arm
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=c1># 远程连接</span>
-</span></span><span class=line><span class=cl>$ target remote localhost:1234</span></span></code></pre></div><h3 id=调试环境eclipse class=headerLink><a href=#%e8%b0%83%e8%af%95%e7%8e%af%e5%a2%83eclipse class=header-mark></a>1.3 调试环境(eclipse)</h3><ol><li>安装eclipse</li></ol><ul><li>安装jdk</li></ul><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl>$ target remote localhost:1234</span></span></code></pre></div><h3 id=调试环境eclipse class=headerLink><a href=#%e8%b0%83%e8%af%95%e7%8e%af%e5%a2%83eclipse class=header-mark></a>1.3 调试环境(eclipse)</h3><ol><li>安装eclipse</li></ol><ul><li>安装jdk</li></ul><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">shell</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">shell</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -626,19 +582,15 @@ tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl>$ sudo apt update
 </span></span><span class=line><span class=cl>$ sudo apt install default-jre</span></span></code></pre></div><ul><li>下载<a href=https://www.eclipse.org/downloads/packages/ target=_blank rel="noopener noreferrer">eclipse C/C++</a>
-<img class=tw-inline loading=lazy src=/read_linux/picture/image-20230212133122607.png alt=image-20230212133122607 height=473 width=1239></li><li>配置调试</li></ul><p><img class=tw-inline loading=lazy src=/read_linux/picture/image-20230212162459346.png alt=image-20230212162459346 height=693 width=1025></p><p><img class=tw-inline loading=lazy src=/read_linux/picture/image-20230212162628909.png alt=image-20230212162628909 height=701 width=1028></p><h3 id=调试环境vscode class=headerLink><a href=#%e8%b0%83%e8%af%95%e7%8e%af%e5%a2%83vscode class=header-mark></a>1.4 调试环境(vscode)</h3><p>当然<code>vscode</code>也是相当好用的,作为调试程序</p><ul><li>在当前工程中添加配置文件<strong>launch.json</strong></li></ul><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+<img class=tw-inline loading=lazy src=/read_linux/picture/image-20230212133122607.png alt=image-20230212133122607 height=473 width=1239></li><li>配置调试</li></ul><p><img class=tw-inline loading=lazy src=/read_linux/picture/image-20230212162459346.png alt=image-20230212162459346 height=693 width=1025></p><p><img class=tw-inline loading=lazy src=/read_linux/picture/image-20230212162628909.png alt=image-20230212162628909 height=701 width=1028></p><h3 id=调试环境vscode class=headerLink><a href=#%e8%b0%83%e8%af%95%e7%8e%af%e5%a2%83vscode class=header-mark></a>1.4 调试环境(vscode)</h3><p>当然<code>vscode</code>也是相当好用的,作为调试程序</p><ul><li>在当前工程中添加配置文件<strong>launch.json</strong></li></ul><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">json</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">json</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -690,19 +642,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>        <span class=nt>&#34;externalConsole&#34;</span><span class=p>:</span> <span class=kc>false</span>
 </span></span><span class=line><span class=cl>    <span class=p>}</span>
 </span></span><span class=line><span class=cl>    <span class=p>]</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><ul><li>安装调试器</li></ul><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><ul><li>安装调试器</li></ul><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">shell</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">shell</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -740,19 +688,15 @@ group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
-tw-scrollbar-thin"><span class=line><span class=cl>yay -S gdb-multiarch</span></span></code></pre></div><ul><li>启动调试器</li></ul><p><img class=tw-inline loading=lazy src=/read_linux/picture/image-20230305211803830.png alt=image-20230305211803830 height=728 width=1325></p><p><img class=tw-inline loading=lazy src=/read_linux/picture/image-20230305211922693.png alt=image-20230305211922693 height=728 width=1366></p><h3 id=调试环境原始gdb class=headerLink><a href=#%e8%b0%83%e8%af%95%e7%8e%af%e5%a2%83%e5%8e%9f%e5%a7%8bgdb class=header-mark></a>1.5 调试环境(原始gdb)</h3><ul><li>安装gdbgui</li></ul><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-scrollbar-thin"><span class=line><span class=cl>yay -S gdb-multiarch</span></span></code></pre></div><ul><li>启动调试器</li></ul><p><img class=tw-inline loading=lazy src=/read_linux/picture/image-20230305211803830.png alt=image-20230305211803830 height=728 width=1325></p><p><img class=tw-inline loading=lazy src=/read_linux/picture/image-20230305211922693.png alt=image-20230305211922693 height=728 width=1366></p><h3 id=调试环境原始gdb class=headerLink><a href=#%e8%b0%83%e8%af%95%e7%8e%af%e5%a2%83%e5%8e%9f%e5%a7%8bgdb class=header-mark></a>1.5 调试环境(原始gdb)</h3><ul><li>安装gdbgui</li></ul><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">shell</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">shell</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -797,19 +741,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=c1># 安装</span
 </span></span><span class=line><span class=cl>pip install --upgrade gdbgui
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=c1># 卸载</span>
-</span></span><span class=line><span class=cl>$ pip uninstall gdbgui</span></span></code></pre></div><ul><li>运行gdbgui</li></ul><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl>$ pip uninstall gdbgui</span></span></code></pre></div><ul><li>运行gdbgui</li></ul><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">shell</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">shell</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -847,19 +787,15 @@ group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
-tw-scrollbar-thin"><span class=line><span class=cl>gdbgui -g arm-multiarch</span></span></code></pre></div><p><img class=tw-inline loading=lazy src=/read_linux/picture/image-20230312105941779.png alt=image-20230312105941779 height=625 width=1366></p><h2 id=系统构建 class=headerLink><a href=#%e7%b3%bb%e7%bb%9f%e6%9e%84%e5%bb%ba class=header-mark></a>2 系统构建</h2><p>镜像文件的整体过程</p><p><img class=tw-inline loading=lazy src=/read_linux/picture/image-20230401145402912.png alt=image-20230401145402912 height=325 width=669></p><p><img class=tw-inline loading=lazy src=/read_linux/picture/image-20230401153013219.png alt=image-20230401153013219 height=368 width=592></p><ul><li>构建<strong>vmlinux</strong>,objcopy生成vmlinux.bin,然后将其压缩为vmlinux.bin.gz</li><li>添加操作,生成<strong>vmlinux.bin</strong></li><li>构造<strong>setup.bin</strong></li><li>将setup.bin与vmlinux.bin进行合成,生成bzImage</li></ul><h3 id=vmlinux生成过程 class=headerLink><a href=#vmlinux%e7%94%9f%e6%88%90%e8%bf%87%e7%a8%8b class=header-mark></a>2.1 vmlinux生成过程</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-scrollbar-thin"><span class=line><span class=cl>gdbgui -g arm-multiarch</span></span></code></pre></div><p><img class=tw-inline loading=lazy src=/read_linux/picture/image-20230312105941779.png alt=image-20230312105941779 height=625 width=1366></p><h2 id=系统构建 class=headerLink><a href=#%e7%b3%bb%e7%bb%9f%e6%9e%84%e5%bb%ba class=header-mark></a>2 系统构建</h2><p>镜像文件的整体过程</p><p><img class=tw-inline loading=lazy src=/read_linux/picture/image-20230401145402912.png alt=image-20230401145402912 height=325 width=669></p><p><img class=tw-inline loading=lazy src=/read_linux/picture/image-20230401153013219.png alt=image-20230401153013219 height=368 width=592></p><ul><li>构建<strong>vmlinux</strong>,objcopy生成vmlinux.bin,然后将其压缩为vmlinux.bin.gz</li><li>添加操作,生成<strong>vmlinux.bin</strong></li><li>构造<strong>setup.bin</strong></li><li>将setup.bin与vmlinux.bin进行合成,生成bzImage</li></ul><h3 id=vmlinux生成过程 class=headerLink><a href=#vmlinux%e7%94%9f%e6%88%90%e8%bf%87%e7%a8%8b class=header-mark></a>2.1 vmlinux生成过程</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">shell</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">shell</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -903,19 +839,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=c1># x86_64架构
 </span></span><span class=line><span class=cl>	arch/x86/boot/compressed/kernel_info.o arch/x86/boot/compressed/head_64.o 				arch/x86/boot/compressed/misc.o arch/x86/boot/compressed/string.o 						arch/x86/boot/compressed/cmdline.o arch/x86/boot/compressed/error.o           			arch/x86/boot/compressed/piggy.o arch/x86/boot/compressed/cpuflags.o    				arch/x86/boot/compressed/early_serial_console.o arch/x86/boot/compressed/kaslr.o arch/x86/boot/compressed/ident_map_64.o arch/x86/boot/compressed/idt_64.o arch/x86/boot/compressed/idt_handlers_64.o arch/x86/boot/compressed/pgtable_64.o arch/x86/boot/compressed/acpi.o arch/x86/boot/compressed/efi.o arch/x86/boot/compressed/efi_mixed.o drivers/firmware/efi/libstub/lib.a
 </span></span><span class=line><span class=cl>	-o arch/x86/boot/compressed/vmlinux
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=c1># arm32链接过程</span></span></span></code></pre></div><h3 id=vmlinuxbin生成过程 class=headerLink><a href=#vmlinuxbin%e7%94%9f%e6%88%90%e8%bf%87%e7%a8%8b class=header-mark></a>2.2 vmlinux.bin生成过程</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=c1># arm32链接过程</span></span></span></code></pre></div><h3 id=vmlinuxbin生成过程 class=headerLink><a href=#vmlinuxbin%e7%94%9f%e6%88%90%e8%bf%87%e7%a8%8b class=header-mark></a>2.2 vmlinux.bin生成过程</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">shell</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">shell</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -953,19 +885,15 @@ group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
-tw-scrollbar-thin"><span class=line><span class=cl>objcopy  -O binary -R .note -R .comment -S arch/x86/boot/compressed/vmlinux arch/x86/boot/vmlinux.bin</span></span></code></pre></div><h3 id=headero class=headerLink><a href=#headero class=header-mark></a>2.3 header.o</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-scrollbar-thin"><span class=line><span class=cl>objcopy  -O binary -R .note -R .comment -S arch/x86/boot/compressed/vmlinux arch/x86/boot/vmlinux.bin</span></span></code></pre></div><h3 id=headero class=headerLink><a href=#headero class=header-mark></a>2.3 header.o</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">shell</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">shell</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1003,19 +931,15 @@ group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
-tw-scrollbar-thin"><span class=line><span class=cl>gcc -Wp,-MMD,arch/x86/boot/.header.o.d -nostdinc -I./arch/x86/include -I./arch/x86/include/generated  -I./include -I./arch/x86/include/uapi -I./arch/x86/include/generated/uapi -I./include/uapi -I./include/generated/uapi -include ./include/linux/compiler-version.h -include ./include/linux/kconfig.h -D__KERNEL__ -Werror -fmacro-prefix-map<span class=o>=</span>./<span class=o>=</span> -m16 -g -Os -DDISABLE_BRANCH_PROFILING -D__DISABLE_EXPORTS -Wall -Wstrict-prototypes -march<span class=o>=</span>i386 -mregparm<span class=o>=</span><span class=m>3</span> -fno-strict-aliasing -fomit-frame-pointer -fno-pic -mno-mmx -mno-sse -fcf-protection<span class=o>=</span>none -ffreestanding -fno-stack-protector -Wno-address-of-packed-member -mpreferred-stack-boundary<span class=o>=</span><span class=m>2</span> -D_SETUP -D__ASSEMBLY__ -DSVGA_MODE<span class=o>=</span>NORMAL_VGA -I./arch/x86/boot    -c -o arch/x86/boot/header.o arch/x86/boot/header.S</span></span></code></pre></div><h3 id=setupbin生成过程 class=headerLink><a href=#setupbin%e7%94%9f%e6%88%90%e8%bf%87%e7%a8%8b class=header-mark></a>2.4 setup.bin生成过程</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-scrollbar-thin"><span class=line><span class=cl>gcc -Wp,-MMD,arch/x86/boot/.header.o.d -nostdinc -I./arch/x86/include -I./arch/x86/include/generated  -I./include -I./arch/x86/include/uapi -I./arch/x86/include/generated/uapi -I./include/uapi -I./include/generated/uapi -include ./include/linux/compiler-version.h -include ./include/linux/kconfig.h -D__KERNEL__ -Werror -fmacro-prefix-map<span class=o>=</span>./<span class=o>=</span> -m16 -g -Os -DDISABLE_BRANCH_PROFILING -D__DISABLE_EXPORTS -Wall -Wstrict-prototypes -march<span class=o>=</span>i386 -mregparm<span class=o>=</span><span class=m>3</span> -fno-strict-aliasing -fomit-frame-pointer -fno-pic -mno-mmx -mno-sse -fcf-protection<span class=o>=</span>none -ffreestanding -fno-stack-protector -Wno-address-of-packed-member -mpreferred-stack-boundary<span class=o>=</span><span class=m>2</span> -D_SETUP -D__ASSEMBLY__ -DSVGA_MODE<span class=o>=</span>NORMAL_VGA -I./arch/x86/boot    -c -o arch/x86/boot/header.o arch/x86/boot/header.S</span></span></code></pre></div><h3 id=setupbin生成过程 class=headerLink><a href=#setupbin%e7%94%9f%e6%88%90%e8%bf%87%e7%a8%8b class=header-mark></a>2.4 setup.bin生成过程</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">shell</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">shell</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1054,19 +978,15 @@ group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl>ld -m elf_x86_64 -z noexecstack --no-warn-rwx-segments  -m elf_i386 -z noexecstack -T arch/x86/boot/setup.ld arch/x86/boot/a20.o arch/x86/boot/bioscall.o arch/x86/boot/cmdline.o arch/x86/boot/copy.o arch/x86/boot/cpu.o arch/x86/boot/cpuflags.o arch/x86/boot/cpucheck.o arch/x86/boot/early_serial_console.o arch/x86/boot/edd.o arch/x86/boot/header.o arch/x86/boot/main.o arch/x86/boot/memory.o arch/x86/boot/pm.o arch/x86/boot/pmjump.o arch/x86/boot/printf.o arch/x86/boot/regs.o arch/x86/boot/string.o arch/x86/boot/tty.o arch/x86/boot/video.o arch/x86/boot/video-mode.o arch/x86/boot/version.o arch/x86/boot/video-vga.o arch/x86/boot/video-vesa.o arch/x86/boot/video-bios.o -o arch/x86/boot/setup.elf
-</span></span><span class=line><span class=cl>objcopy  -O binary arch/x86/boot/setup.elf arch/x86/boot/setup.bin</span></span></code></pre></div><h3 id=最后生成 class=headerLink><a href=#%e6%9c%80%e5%90%8e%e7%94%9f%e6%88%90 class=header-mark></a>2.5 最后生成</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl>objcopy  -O binary arch/x86/boot/setup.elf arch/x86/boot/setup.bin</span></span></code></pre></div><h3 id=最后生成 class=headerLink><a href=#%e6%9c%80%e5%90%8e%e7%94%9f%e6%88%90 class=header-mark></a>2.5 最后生成</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">shell</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">shell</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1104,19 +1024,15 @@ group-[.is-closed]:!tw-max-h-0
 group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
-tw-scrollbar-thin"><span class=line><span class=cl>arch/x86/boot/tools/build arch/x86/boot/setup.bin arch/x86/boot/vmlinux.bin arch/x86/boot/zoffset.h arch/x86/boot/bzImag</span></span></code></pre></div><h2 id=根文件系统 class=headerLink><a href=#%e6%a0%b9%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f class=header-mark></a>3 根文件系统</h2><p>linux系统在启动之后需要加载根文件系统</p><p><img class=tw-inline loading=lazy src=/read_linux/picture/image-20230401153524962.png alt=image-20230401153524962 height=262 width=687></p><p><img class=tw-inline loading=lazy src=/read_linux/picture/image-20230401153542375.png alt=image-20230401153542375 height=192 width=669></p><h3 id=编译busybox class=headerLink><a href=#%e7%bc%96%e8%af%91busybox class=header-mark></a>3.1 编译busybox</h3><h3 id=安装c库 class=headerLink><a href=#%e5%ae%89%e8%a3%85c%e5%ba%93 class=header-mark></a>3.2 安装C库</h3><p>从交叉编译器中拷贝即可</p><h2 id=initramfs class=headerLink><a href=#initramfs class=header-mark></a>4 initramfs</h2><h3 id=hello-initramfs class=headerLink><a href=#hello-initramfs class=header-mark></a>4.1 Hello initramfs</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-scrollbar-thin"><span class=line><span class=cl>arch/x86/boot/tools/build arch/x86/boot/setup.bin arch/x86/boot/vmlinux.bin arch/x86/boot/zoffset.h arch/x86/boot/bzImag</span></span></code></pre></div><h2 id=根文件系统 class=headerLink><a href=#%e6%a0%b9%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f class=header-mark></a>3 根文件系统</h2><p>linux系统在启动之后需要加载根文件系统</p><p><img class=tw-inline loading=lazy src=/read_linux/picture/image-20230401153524962.png alt=image-20230401153524962 height=262 width=687></p><p><img class=tw-inline loading=lazy src=/read_linux/picture/image-20230401153542375.png alt=image-20230401153542375 height=192 width=669></p><h3 id=编译busybox class=headerLink><a href=#%e7%bc%96%e8%af%91busybox class=header-mark></a>3.1 编译busybox</h3><h3 id=安装c库 class=headerLink><a href=#%e5%ae%89%e8%a3%85c%e5%ba%93 class=header-mark></a>3.2 安装C库</h3><p>从交叉编译器中拷贝即可</p><h2 id=initramfs class=headerLink><a href=#initramfs class=header-mark></a>4 initramfs</h2><h3 id=hello-initramfs class=headerLink><a href=#hello-initramfs class=header-mark></a>4.1 Hello initramfs</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1161,19 +1077,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#include</span
 </span></span><span class=line><span class=cl>    <span class=nf>printf</span><span class=p>(</span><span class=s>&#34;Hello initramfs</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>    <span class=nf>fflush</span><span class=p>(</span><span class=n>stdout</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>    <span class=k>while</span><span class=p>(</span><span class=mi>1</span><span class=p>);</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>执行构建</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>执行构建</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">shell</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">shell</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1212,19 +1124,15 @@ group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl>gcc -static -o init init.c
-</span></span><span class=line><span class=cl><span class=nb>echo</span> init <span class=p>|</span> cpio -o --format<span class=o>=</span>newc &gt; initramfs</span></span></code></pre></div><p>启动测试</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=nb>echo</span> init <span class=p>|</span> cpio -o --format<span class=o>=</span>newc &gt; initramfs</span></span></code></pre></div><p>启动测试</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">text</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">text</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1267,19 +1175,15 @@ tw-scrollbar-thin"><span class=line><span class=cl>qemu-system-x86_64 -kernel li
 stext --> __mmap_switched
 
 __mmap_switched --> start_kernel
-</pre><h3 id=启动前夕 class=headerLink><a href=#%e5%90%af%e5%8a%a8%e5%89%8d%e5%a4%95 class=header-mark></a>5.1 启动前夕</h3><p><strong>启动前夕(ARM32)</strong></p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</pre><h3 id=启动前夕 class=headerLink><a href=#%e5%90%af%e5%8a%a8%e5%89%8d%e5%a4%95 class=header-mark></a>5.1 启动前夕</h3><p><strong>启动前夕(ARM32)</strong></p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">assembly</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">assembly</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1341,19 +1245,15 @@ tw-scrollbar-thin"><span class=line><span class=cl>__mmap_switched:
 </span></span><span class=line><span class=cl>	cmp	r7, #0
 </span></span><span class=line><span class=cl>	strne	r0, [r7]			@ Save control register values
 </span></span><span class=line><span class=cl>	b	start_kernel
-</span></span><span class=line><span class=cl>ENDPROC(__mmap_switched)</span></span></code></pre></div><p><strong>启动前夕(ARM64)</strong></p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl>ENDPROC(__mmap_switched)</span></span></code></pre></div><p><strong>启动前夕(ARM64)</strong></p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">assembly</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">assembly</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1454,19 +1354,15 @@ tw-scrollbar-thin"><span class=line><span class=cl>__mmap_switched:
 </span></span><span class=line><span class=cl>	ldr	x12, [x23, #CPU_INFO_SETUP]
 </span></span><span class=line><span class=cl>	add	x12, x12, x28			// __virt_to_phys
 </span></span><span class=line><span class=cl>	br	x12				// initialise processor
-</span></span><span class=line><span class=cl>ENDPROC(stext)</span></span></code></pre></div><p>上面的汇编函数都是由<a href=https://elixir.bootlin.com/linux/v4.0/source/arch/arm/boot/compressed/head.S target=_blank rel="noopener noreferrer">head.s</a>跳入继续向下分析,谁开启了汇编,如何执行到这个函数<strong>vmlinux.lds</strong>决定，分析实现;</p><p>需要分析bootloader的实现;</p><p>下面我们开始分析</p><p><img class=tw-inline loading=lazy src=/read_linux/picture/image-20230212185559643.png alt=image-20230212185559643 height=433 width=1321></p><h3 id=start_kernel class=headerLink><a href=#start_kernel class=header-mark></a>5.2 start_kernel</h3><p>进入内核中第一个C语言启动函数;<a href=https://elixir.bootlin.com/linux/v4.0/source/init/main.c#L489 target=_blank rel="noopener noreferrer">源码位置</a></p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl>ENDPROC(stext)</span></span></code></pre></div><p>上面的汇编函数都是由<a href=https://elixir.bootlin.com/linux/v4.0/source/arch/arm/boot/compressed/head.S target=_blank rel="noopener noreferrer">head.s</a>跳入继续向下分析,谁开启了汇编,如何执行到这个函数<strong>vmlinux.lds</strong>决定，分析实现;</p><p>需要分析bootloader的实现;</p><p>下面我们开始分析</p><p><img class=tw-inline loading=lazy src=/read_linux/picture/image-20230212185559643.png alt=image-20230212185559643 height=433 width=1321></p><h3 id=start_kernel class=headerLink><a href=#start_kernel class=header-mark></a>5.2 start_kernel</h3><p>进入内核中第一个C语言启动函数;<a href=https://elixir.bootlin.com/linux/v4.0/source/init/main.c#L489 target=_blank rel="noopener noreferrer">源码位置</a></p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1694,19 +1590,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=n>asmlinkage</spa
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=cm>/* Do the rest non-__init&#39;ed, we&#39;re now alive */</span>
 </span></span><span class=line><span class=cl>	<span class=nf>rest_init</span><span class=p>();</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>但是谁调用了此函数呢?</p><h3 id=reset_init class=headerLink><a href=#reset_init class=header-mark></a>5.3 reset_init</h3><p>这个是系统调用的最后一个函数,调用结束后不会返回</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>但是谁调用了此函数呢?</p><h3 id=reset_init class=headerLink><a href=#reset_init class=header-mark></a>5.3 reset_init</h3><p>这个是系统调用的最后一个函数,调用结束后不会返回</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1770,19 +1662,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>static</span> <
 </span></span><span class=line><span class=cl>	<span class=nf>schedule_preempt_disabled</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>	<span class=cm>/* Call into cpu_idle with preempt disabled */</span>
 </span></span><span class=line><span class=cl>	<span class=nf>cpu_startup_entry</span><span class=p>(</span><span class=n>CPUHP_ONLINE</span><span class=p>);</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=设置init任务堆栈 class=headerLink><a href=#%e8%ae%be%e7%bd%aeinit%e4%bb%bb%e5%8a%a1%e5%a0%86%e6%a0%88 class=header-mark></a>5.4 设置<code>init</code>任务堆栈</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=设置init任务堆栈 class=headerLink><a href=#%e8%ae%be%e7%bd%aeinit%e4%bb%bb%e5%8a%a1%e5%a0%86%e6%a0%88 class=header-mark></a>5.4 设置<code>init</code>任务堆栈</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1828,19 +1716,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=nf>set_task_stack
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=n>stackend</span> <span class=o>=</span> <span class=nf>end_of_stack</span><span class=p>(</span><span class=n>tsk</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>	<span class=o>*</span><span class=n>stackend</span> <span class=o>=</span> <span class=n>STACK_END_MAGIC</span><span class=p>;</span>	<span class=cm>/* for overflow detection */</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p><img class=tw-inline loading=lazy src=/read_linux/picture/image-20230212190355701.png alt=image-20230212190355701 height=134 width=1264></p><p>此处可以得知:</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p><img class=tw-inline loading=lazy src=/read_linux/picture/image-20230212190355701.png alt=image-20230212190355701 height=134 width=1264></p><p>此处可以得知:</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1885,19 +1769,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>static</span> <
 </span></span><span class=line><span class=cl><span class=cp>#else
 </span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=k>return</span> <span class=p>(</span><span class=kt>unsigned</span> <span class=kt>long</span> <span class=o>*</span><span class=p>)(</span><span class=nf>task_thread_info</span><span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=o>+</span> <span class=mi>1</span><span class=p>);</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span><span class=p>}</span></span></span></code></pre></div><h3 id=设置smp的cpu-id class=headerLink><a href=#%e8%ae%be%e7%bd%aesmp%e7%9a%84cpu-id class=header-mark></a>5.5 设置smp的CPU ID</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span></span><span class=line><span class=cl><span class=cp></span><span class=p>}</span></span></span></code></pre></div><h3 id=设置smp的cpu-id class=headerLink><a href=#%e8%ae%be%e7%bd%aesmp%e7%9a%84cpu-id class=header-mark></a>5.5 设置smp的CPU ID</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -1970,19 +1850,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>int</span> <sp
 </span></span><span class=line><span class=cl>	<span class=cm>/* Set TPIDRPRW */</span>
 </span></span><span class=line><span class=cl>    <span class=c1>// off=0x0
 </span></span></span><span class=line><span class=cl><span class=c1></span> 	<span class=k>asm</span> <span class=k>volatile</span><span class=p>(</span><span class=s>&#34;mcr p15, 0, %0, c13, c0, 4&#34;</span> <span class=o>:</span> <span class=o>:</span> <span class=s>&#34;r&#34;</span> <span class=p>(</span><span class=n>off</span><span class=p>)</span> <span class=o>:</span> <span class=s>&#34;memory&#34;</span><span class=p>);</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=激活启动cpu class=headerLink><a href=#%e6%bf%80%e6%b4%bb%e5%90%af%e5%8a%a8cpu class=header-mark></a>5.6 激活启动CPU</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=激活启动cpu class=headerLink><a href=#%e6%bf%80%e6%b4%bb%e5%90%af%e5%8a%a8cpu class=header-mark></a>5.6 激活启动CPU</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -2028,19 +1904,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>static</span> <
 </span></span><span class=line><span class=cl>	<span class=nf>set_cpu_active</span><span class=p>(</span><span class=n>cpu</span><span class=p>,</span> <span class=nb>true</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>	<span class=nf>set_cpu_present</span><span class=p>(</span><span class=n>cpu</span><span class=p>,</span> <span class=nb>true</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>	<span class=nf>set_cpu_possible</span><span class=p>(</span><span class=n>cpu</span><span class=p>,</span> <span class=nb>true</span><span class=p>);</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=设置架构 class=headerLink><a href=#%e8%ae%be%e7%bd%ae%e6%9e%b6%e6%9e%84 class=header-mark></a>5.7 设置架构</h3><p>读取配置文件(设置树),设置内存信息</p><p>在设备树一章节中会详细分析</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=设置架构 class=headerLink><a href=#%e8%ae%be%e7%bd%ae%e6%9e%b6%e6%9e%84 class=header-mark></a>5.7 设置架构</h3><p>读取配置文件(设置树),设置内存信息</p><p>在设备树一章节中会详细分析</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -2158,19 +2030,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>void</span> <s
 </span></span></span><span class=line><span class=cl><span class=cp></span>
 </span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>mdesc</span><span class=o>-&gt;</span><span class=n>init_early</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>		<span class=n>mdesc</span><span class=o>-&gt;</span><span class=nf>init_early</span><span class=p>();</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=mm_init_cpumask class=headerLink><a href=#mm_init_cpumask class=header-mark></a>5.8 mm_init_cpumask</h3><p>清理内存管理系统的<code>init_mm->cpu_vm_mask_var</code></p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=mm_init_cpumask class=headerLink><a href=#mm_init_cpumask class=header-mark></a>5.8 mm_init_cpumask</h3><p>清理内存管理系统的<code>init_mm->cpu_vm_mask_var</code></p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -2214,19 +2082,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>static</span> <
 </span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>mm</span><span class=o>-&gt;</span><span class=n>cpu_vm_mask_var</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>mm</span><span class=o>-&gt;</span><span class=n>cpumask_allocation</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=nf>cpumask_clear</span><span class=p>(</span><span class=n>mm</span><span class=o>-&gt;</span><span class=n>cpu_vm_mask_var</span><span class=p>);</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=设置命令行command_line class=headerLink><a href=#%e8%ae%be%e7%bd%ae%e5%91%bd%e4%bb%a4%e8%a1%8ccommand_line class=header-mark></a>5.9 设置命令行<code>command_line</code></h3><p>申请内存， 保存命令行参数</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=设置命令行command_line class=headerLink><a href=#%e8%ae%be%e7%bd%ae%e5%91%bd%e4%bb%a4%e8%a1%8ccommand_line class=header-mark></a>5.9 设置命令行<code>command_line</code></h3><p>申请内存， 保存命令行参数</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -2280,19 +2144,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=cm>/* Untouched s
 </span></span><span class=line><span class=cl>	<span class=n>static_command_line</span> <span class=o>=</span> <span class=nf>memblock_virt_alloc</span><span class=p>(</span><span class=nf>strlen</span><span class=p>(</span><span class=n>command_line</span><span class=p>)</span> <span class=o>+</span> <span class=mi>1</span><span class=p>,</span> <span class=mi>0</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>	<span class=nf>strcpy</span><span class=p>(</span><span class=n>saved_command_line</span><span class=p>,</span> <span class=n>boot_command_line</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>	<span class=nf>strcpy</span><span class=p>(</span><span class=n>static_command_line</span><span class=p>,</span> <span class=n>command_line</span><span class=p>);</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=设置cpu class=headerLink><a href=#%e8%ae%be%e7%bd%aecpu class=header-mark></a>5.10 设置CPU</h3><ol><li><code>setup_nr_cpu_ids</code></li><li><code>setup_per_cpu_areas</code></li></ol><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=设置cpu class=headerLink><a href=#%e8%ae%be%e7%bd%aecpu class=header-mark></a>5.10 设置CPU</h3><ol><li><code>setup_nr_cpu_ids</code></li><li><code>setup_per_cpu_areas</code></li></ol><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -2338,19 +2198,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=cm>/* Setup numbe
 </span></span><span class=line><span class=cl><span class=kt>void</span> <span class=n>__init</span> <span class=nf>setup_nr_cpu_ids</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>	<span class=n>nr_cpu_ids</span> <span class=o>=</span> <span class=nf>find_last_bit</span><span class=p>(</span><span class=nf>cpumask_bits</span><span class=p>(</span><span class=n>cpu_possible_mask</span><span class=p>),</span><span class=n>NR_CPUS</span><span class=p>)</span> <span class=o>+</span> <span class=mi>1</span><span class=p>;</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=smp_prepare_boot_cpu class=headerLink><a href=#smp_prepare_boot_cpu class=header-mark></a>5.11 smp_prepare_boot_cpu</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=smp_prepare_boot_cpu class=headerLink><a href=#smp_prepare_boot_cpu class=header-mark></a>5.11 smp_prepare_boot_cpu</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -2397,19 +2253,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>static</span> <
 </span></span><span class=line><span class=cl><span class=kt>void</span> <span class=n>__init</span> <span class=nf>smp_prepare_boot_cpu</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>	<span class=nf>set_my_cpu_offset</span><span class=p>(</span><span class=nf>per_cpu_offset</span><span class=p>(</span><span class=nf>smp_processor_id</span><span class=p>()));</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=build_all_zonelists class=headerLink><a href=#build_all_zonelists class=header-mark></a>5.12 build_all_zonelists</h3><p>启动期间构建zone,</p><p><strong>[build_all_zonelists &ndash;> build_all_zonelists_init]</strong></p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=build_all_zonelists class=headerLink><a href=#build_all_zonelists class=header-mark></a>5.12 build_all_zonelists</h3><p>启动期间构建zone,</p><p><strong>[build_all_zonelists &ndash;> build_all_zonelists_init]</strong></p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -2469,19 +2321,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=cm>/*
 </span></span><span class=line><span class=cl><span class=k>static</span> <span class=kt>void</span> <span class=nf>set_zonelist_order</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>	<span class=n>current_zonelist_order</span> <span class=o>=</span> <span class=n>ZONELIST_ORDER_ZONE</span><span class=p>;</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>最终调用到<code>build_all_zonelists_init</code></p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>最终调用到<code>build_all_zonelists_init</code></p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -2524,19 +2372,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>static</span> <
 </span></span><span class=line><span class=cl>	<span class=nf>__build_all_zonelists</span><span class=p>(</span><span class=nb>NULL</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>	<span class=nf>mminit_verify_zonelist</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>	<span class=nf>cpuset_init_current_mems_allowed</span><span class=p>();</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=page_alloc_init class=headerLink><a href=#page_alloc_init class=header-mark></a>5.13 page_alloc_init</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=page_alloc_init class=headerLink><a href=#page_alloc_init class=header-mark></a>5.13 page_alloc_init</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -2577,19 +2421,15 @@ tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>void</span> <span class=n>__init</span> <span class=nf>page_alloc_init</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>	<span class=nf>hotcpu_notifier</span><span class=p>(</span><span class=n>page_alloc_cpu_notify</span><span class=p>,</span> <span class=mi>0</span><span class=p>);</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=jump_label_init class=headerLink><a href=#jump_label_init class=header-mark></a>5.14 jump_label_init</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=jump_label_init class=headerLink><a href=#jump_label_init class=header-mark></a>5.14 jump_label_init</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -2637,19 +2477,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=cm>/*
 </span></span><span class=line><span class=cl><span class=k>static</span> <span class=n>__always_inline</span> <span class=kt>void</span> <span class=nf>jump_label_init</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>	<span class=n>static_key_initialized</span> <span class=o>=</span> <span class=nb>true</span><span class=p>;</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=setup_log_buf class=headerLink><a href=#setup_log_buf class=header-mark></a>5.15 setup_log_buf</h3><p>设置日志buf</p><h3 id=pidhash_init class=headerLink><a href=#pidhash_init class=header-mark></a>5.16 pidhash_init</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=setup_log_buf class=headerLink><a href=#setup_log_buf class=header-mark></a>5.15 setup_log_buf</h3><p>设置日志buf</p><h3 id=pidhash_init class=headerLink><a href=#pidhash_init class=header-mark></a>5.16 pidhash_init</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -2708,19 +2544,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=k>for</span> <span class=p>(</span><span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=n>pidhash_size</span><span class=p>;</span> <span class=n>i</span><span class=o>++</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>		<span class=nf>INIT_HLIST_HEAD</span><span class=p>(</span><span class=o>&amp;</span><span class=n>pid_hash</span><span class=p>[</span><span class=n>i</span><span class=p>]);</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=vfs_caches_init_early class=headerLink><a href=#vfs_caches_init_early class=header-mark></a>5.17 vfs_caches_init_early</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=vfs_caches_init_early class=headerLink><a href=#vfs_caches_init_early class=header-mark></a>5.17 vfs_caches_init_early</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -2762,19 +2594,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>void</span> <s
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>	<span class=nf>dcache_init_early</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>	<span class=nf>inode_init_early</span><span class=p>();</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=sort_main_extable class=headerLink><a href=#sort_main_extable class=header-mark></a>5.18 sort_main_extable</h3><p><strong>异常修复表</strong></p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=sort_main_extable class=headerLink><a href=#sort_main_extable class=header-mark></a>5.18 sort_main_extable</h3><p><strong>异常修复表</strong></p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -2845,19 +2673,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>	<span class=nf>sort</span><span class=p>(</span><span class=n>start</span><span class=p>,</span> <span class=n>finish</span> <span class=o>-</span> <span class=n>start</span><span class=p>,</span> <span class=k>sizeof</span><span class=p>(</span><span class=k>struct</span> <span class=n>exception_table_entry</span><span class=p>),</span>
 </span></span><span class=line><span class=cl>	     <span class=n>cmp_ex</span><span class=p>,</span> <span class=nb>NULL</span><span class=p>);</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>但是这个表定义在什么位置内?</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>但是这个表定义在什么位置内?</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">lds</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">lds</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -2902,19 +2726,15 @@ tw-scrollbar-thin"><span class=line><span class=cl>	<span class=p>.</span> <span
 </span></span></span><span class=line><span class=cl><span class=cp></span>		<span class=o>*</span><span class=p>(</span><span class=n>__ex_table</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp></span>		<span class=n>__stop___ex_table</span> <span class=o>=</span> <span class=p>.;</span>
-</span></span><span class=line><span class=cl>	<span class=p>}</span></span></span></code></pre></div><p>在链接脚本中定义,代表着什么呢？如何定义这个表呢？</p><p>大部分都是汇编实现的，当前不进行分析了</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl>	<span class=p>}</span></span></span></code></pre></div><p>在链接脚本中定义,代表着什么呢？如何定义这个表呢？</p><p>大部分都是汇编实现的，当前不进行分析了</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">assembly</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">assembly</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -2958,19 +2778,15 @@ tw-scrollbar-thin"><span class=line><span class=cl># define _ASM_EXTABLE_TYPE(fr
 </span></span><span class=line><span class=cl>	.long (from) - . ;								\
 </span></span><span class=line><span class=cl>	.long (to) - . ;								\
 </span></span><span class=line><span class=cl>	.long type ;									\
-</span></span><span class=line><span class=cl>	.popsection</span></span></code></pre></div><p>如何调用这个<strong>异常修复表</strong>呢?</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl>	.popsection</span></span></code></pre></div><p>如何调用这个<strong>异常修复表</strong>呢?</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -3024,19 +2840,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>int</span> <sp
 </span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=n>fixup</span> <span class=o>!=</span> <span class=nb>NULL</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>调用线路</p><pre class=mermaid>graph LR
 fixup_exception --> search_exception_tables --> search_extable --> search_module_extables
-</pre><h3 id=trap_init class=headerLink><a href=#trap_init class=header-mark></a>5.19 trap_init</h3><p>中断描述符初始化，但是在arm上初始化好像不是这样进行的</p><p>arm上此选项无效</p><h3 id=mm_init class=headerLink><a href=#mm_init class=header-mark></a>5.20 mm_init</h3><p>内存分配器初始化(单独分析)</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</pre><h3 id=trap_init class=headerLink><a href=#trap_init class=header-mark></a>5.19 trap_init</h3><p>中断描述符初始化，但是在arm上初始化好像不是这样进行的</p><p>arm上此选项无效</p><h3 id=mm_init class=headerLink><a href=#mm_init class=header-mark></a>5.20 mm_init</h3><p>内存分配器初始化(单独分析)</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -3086,19 +2898,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>static</span> <
 </span></span><span class=line><span class=cl>	<span class=nf>percpu_init_late</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>	<span class=nf>pgtable_init</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>	<span class=nf>vmalloc_init</span><span class=p>();</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=sched_init class=headerLink><a href=#sched_init class=header-mark></a>5.21 sched_init</h3><p>调度器初始化(单独分析)</p><h3 id=idr_init_cache class=headerLink><a href=#idr_init_cache class=header-mark></a>5.22 idr_init_cache</h3><p>整数ID管理机制</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=sched_init class=headerLink><a href=#sched_init class=header-mark></a>5.21 sched_init</h3><p>调度器初始化(单独分析)</p><h3 id=idr_init_cache class=headerLink><a href=#idr_init_cache class=header-mark></a>5.22 idr_init_cache</h3><p>整数ID管理机制</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -3140,19 +2948,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>void</span> <s
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>	<span class=n>idr_layer_cache</span> <span class=o>=</span> <span class=nf>kmem_cache_create</span><span class=p>(</span><span class=s>&#34;idr_layer_cache&#34;</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>				<span class=k>sizeof</span><span class=p>(</span><span class=k>struct</span> <span class=n>idr_layer</span><span class=p>),</span> <span class=mi>0</span><span class=p>,</span> <span class=n>SLAB_PANIC</span><span class=p>,</span> <span class=nb>NULL</span><span class=p>);</span>
-</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=rcu_init class=headerLink><a href=#rcu_init class=header-mark></a>5.23 rcu_init</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=rcu_init class=headerLink><a href=#rcu_init class=header-mark></a>5.23 rcu_init</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+tw-flex-row
+tw-flex-1
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="code-block-button
+tw-mx-2
 tw-flex
 tw-flex-row
-tw-justify-between
-tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
-tw-mx-2
-tw-block
-group-[.is-open]:tw-rotate-90
-tw-transition-[transform]
-tw-duration-500
-tw-ease-in-out
-print:!tw-hidden" disabled aria-hidden=true><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
-tw-select-none
+tw-flex-1" aria-hidden=true><div class="group-[.is-open]:tw-rotate-90 tw-transition-[transform] tw-duration-500 tw-ease-in-out print:!tw-hidden tw-w-min tw-h-min tw-my-1 tw-mx-1"><svg class="icon" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></div><p class="tw-select-none !tw-my-1">c</p></button><div class=tw-flex><button class="line-number-button
 tw-mx-2
 tw-hidden
 group-[.is-open]:tw-block
@@ -3217,14 +3021,14 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>void</span> <s
 </span><span>|&nbsp;<a class=link-to-source href=https://github.com/mengdemao/github.io/blob/master/content/posts/read_linux/index.md target=_blank rel="noopener noreferrer">查看源代码</a>
 </span><span>|&nbsp;<a class=link-to-edit href=https://github.com/mengdemao/github.io/edit/master/content/posts/read_linux/index.md target=_blank rel="noopener noreferrer">编辑此页</a>
 </span><span>|&nbsp;<a class=link-to-report href="https://github.com/mengdemao/github.io/issues/new?title=[bug]%20Linux%E5%86%85%E6%A0%B8%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB&body=|Field|Value|%0A|-|-|%0A|Title|Linux%E5%86%85%E6%A0%B8%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB|%0A|Url|https://mengdemao.com/read_linux/|%0A|Filename|https://github.com/mengdemao/github.io/blob/main/exampleSite/content/posts/read_linux/index.md|" target=_blank rel="noopener noreferrer">报告问题</a></span></div><div class=post-info-share></div></div></div><div class=post-info-more><section class=post-tags><svg class="icon" viewBox="0 0 640 512"><path d="M497.941 225.941 286.059 14.059A48 48 0 00252.118.0H48C21.49.0.0 21.49.0 48v204.118a48 48 0 0014.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882.0l204.118-204.118c18.745-18.745 18.745-49.137.0-67.882zM112 160c-26.51.0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882.0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397.0h48.721a48 48 0 0133.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137.0 67.882z"/></svg>&nbsp;<a href=/tags/kernel/>Kernel</a></section><section class=print:!tw-hidden><span><button class="tw-text-fgColor-link-muted hover:tw-text-fgColor-link-muted-hover" onclick=window.history.back()>返回</button></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class="post-nav print:tw-hidden"><a href=/nodejs/ class=prev rel=prev title=Nodejs笔记><svg class="icon" viewBox="0 0 256 512"><path d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9.0l22.6 22.6c9.4 9.4 9.4 24.6.0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6.0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9.0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"/></svg>Nodejs笔记</a>
-<a href=/uboot_basic/ class=next rel=next title=Uboot基础框架>Uboot基础框架<svg class="icon" viewBox="0 0 256 512"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9.0l-22.6-22.6c-9.4-9.4-9.4-24.6.0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6.0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9.0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></a></div></div><div id=comments class="print:!tw-hidden tw-pt-32 tw-pb-8"><div id=twikoo></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://twikoo.js.org/>Twikoo</a>.</noscript></div></article></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.150.1">Hugo</a> 强力驱动&nbsp;|&nbsp;托管在 <a title="Github Pages" href=https://docs.github.com/en/pages/ target=_blank rel="noopener noreffer">GitHub Pages</a> 上&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.4.1"><svg class="icon" viewBox="0 0 576 512"><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1.0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7.0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174 402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7-43.2-43.2c-4.1-4.1-10.8-4.1-14.8.0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg> DoIt</a></div><div class=footer-line><svg class="icon" viewBox="0 0 512 512"><path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 448c-110.532.0-2e2-89.451-2e2-2e2.0-110.531 89.451-2e2 2e2-2e2 110.532.0 2e2 89.451 2e2 2e2.0 110.532-89.451 2e2-2e2 2e2zm107.351-101.064c-9.614 9.712-45.53 41.396-104.065 41.396-82.43.0-140.484-61.425-140.484-141.567.0-79.152 60.275-139.401 139.762-139.401 55.531.0 88.738 26.62 97.593 34.779a11.965 11.965.0 011.936 15.322l-18.155 28.113c-3.841 5.95-11.966 7.282-17.499 2.921-8.595-6.776-31.814-22.538-61.708-22.538-48.303.0-77.916 35.33-77.916 80.082.0 41.589 26.888 83.692 78.277 83.692 32.657.0 56.843-19.039 65.726-27.225 5.27-4.857 13.596-4.039 17.82 1.738l19.865 27.17a11.947 11.947.0 01-1.152 15.518z"/></svg>2020 - 2025<span class=author>&nbsp;<a href=https://github.com/mengdemao target=_blank rel="noopener noreferrer">mengdemao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span><span class=icp-splitter>&nbsp;|&nbsp;</span><br class=icp-br><span class=icp><a href=https://beian.miit.gov.cn/>鲁ICP备2023050410号-1</a></span></div><div class=footer-line></div><div class=footer-line></div></div></footer><div class="print:!tw-hidden tw-flex tw-flex-col tw-fixed tw-right-4 tw-bottom-4 tw-gap-2"><a href=#back-to-top id=back-to-top-button class="tw-transition-opacity tw-opacity-0 tw-block tw-bg-bgColor-secondary tw-rounded-full" style=padding:.6rem;line-height:1.3rem;font-size:1rem title=回到顶部><svg class="icon" viewBox="0 0 448 512"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6.0-33.9L207 39c9.4-9.4 24.6-9.4 33.9.0l194.3 194.3c9.4 9.4 9.4 24.6.0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3.0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg>
+<a href=/uboot_basic/ class=next rel=next title=Uboot基础框架>Uboot基础框架<svg class="icon" viewBox="0 0 256 512"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9.0l-22.6-22.6c-9.4-9.4-9.4-24.6.0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6.0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9.0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></a></div></div><div id=comments class="print:!tw-hidden tw-pt-32 tw-pb-8"><div id=twikoo></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://twikoo.js.org/>Twikoo</a>.</noscript></div></article></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.151.0">Hugo</a> 强力驱动&nbsp;|&nbsp;托管在 <a title="Github Pages" href=https://docs.github.com/en/pages/ target=_blank rel="noopener noreffer">GitHub Pages</a> 上&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.4.2"><svg class="icon" viewBox="0 0 576 512"><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1.0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7.0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174 402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7-43.2-43.2c-4.1-4.1-10.8-4.1-14.8.0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg> DoIt</a></div><div class=footer-line><svg class="icon" viewBox="0 0 512 512"><path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 448c-110.532.0-2e2-89.451-2e2-2e2.0-110.531 89.451-2e2 2e2-2e2 110.532.0 2e2 89.451 2e2 2e2.0 110.532-89.451 2e2-2e2 2e2zm107.351-101.064c-9.614 9.712-45.53 41.396-104.065 41.396-82.43.0-140.484-61.425-140.484-141.567.0-79.152 60.275-139.401 139.762-139.401 55.531.0 88.738 26.62 97.593 34.779a11.965 11.965.0 011.936 15.322l-18.155 28.113c-3.841 5.95-11.966 7.282-17.499 2.921-8.595-6.776-31.814-22.538-61.708-22.538-48.303.0-77.916 35.33-77.916 80.082.0 41.589 26.888 83.692 78.277 83.692 32.657.0 56.843-19.039 65.726-27.225 5.27-4.857 13.596-4.039 17.82 1.738l19.865 27.17a11.947 11.947.0 01-1.152 15.518z"/></svg>2020 - 2025<span class=author>&nbsp;<a href=https://github.com/mengdemao target=_blank rel="noopener noreferrer">mengdemao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span><span class=icp-splitter>&nbsp;|&nbsp;</span><br class=icp-br><span class=icp><a href=https://beian.miit.gov.cn/>鲁ICP备2023050410号-1</a></span></div><div class=footer-line></div><div class=footer-line></div></div></footer><div class="print:!tw-hidden tw-flex tw-flex-col tw-fixed tw-right-4 tw-bottom-4 tw-gap-2"><a href=#back-to-top id=back-to-top-button class="tw-transition-opacity tw-opacity-0 tw-block tw-bg-bgColor-secondary tw-rounded-full" style=padding:.6rem;line-height:1.3rem;font-size:1rem title=回到顶部><svg class="icon" viewBox="0 0 448 512"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6.0-33.9L207 39c9.4-9.4 24.6-9.4 33.9.0l194.3 194.3c9.4 9.4 9.4 24.6.0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3.0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg>
 </a><button id=toc-drawer-button class="tw-block tw-bg-bgColor-secondary tw-rounded-full md:tw-hidden" style=padding:.6rem;line-height:1.3rem;font-size:1rem>
 <svg class="icon" viewBox="0 0 448 512"><path d="M16 132h416c8.837.0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163.0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg>
 </button><a href=#comments id=view-comments class="tw-block tw-bg-bgColor-secondary tw-rounded-full" style=padding:.6rem;line-height:1.3rem;font-size:1rem title=查看评论>
 <svg class="icon" viewBox="0 0 512 512"><path d="M256 32C114.6 32 0 125.1.0 240c0 49.6 21.4 95 57 130.7C44.5 421.1 2.7 466 2.2 466.5c-2.2 2.3-2.8 5.7-1.5 8.7S4.8 480 8 480c66.3.0 116-31.8 140.6-51.4 32.7 12.3 69 19.4 107.4 19.4 141.4.0 256-93.1 256-208S397.4 32 256 32z"/></svg></a></div><script type=module>
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
     mermaid.initialize({ startOnLoad: true, theme: (window.theme === 'dark' ? 'dark' : 'default') });
-</script><div id=cookieconsent-container></div><link rel=stylesheet href=/lib/cookieconsent/cookieconsent.min.2d0f7b71a99aaff94e9624ff32a8dc42ce645a0cba433fdc091cf34735027efd1fa2db024c2f591d768f426255f17bbf3d500b7c967b0437b3979956dffa81c6.css integrity="sha512-LQ97camar/lOliT/MqjcQs5kWgy6Qz/cCRzzRzUCfv0fotsCTC9ZHXaPQmJV8Xu/PVALfJZ7BDezl5lW3/qBxg=="><script>window.config={comment:{twikoo:{commentCount:!0,el:"#twikoo",envId:"https://twikoo-comments-doit.vercel.app/",lang:"zh-cn"}},cookieconsent:{content:{dismiss:"同意",link:"了解更多",message:"本网站使用 Cookies 来改善您的浏览体验."},enable:!0,palette:{button:{background:"#f0f0f0"},popup:{background:"#1aa3ff"}},theme:"edgeless"},data:{"desktop-header-typeit":"编程日志","mobile-header-typeit":"编程日志"},table:{sort:!0},typeit:{cursorChar:"|",cursorSpeed:1e3,data:{"desktop-header-typeit":["desktop-header-typeit"],"mobile-header-typeit":["mobile-header-typeit"]},duration:-1,speed:100}}</script><script src=/lib/tablesort/tablesort.min.23640461c9e6941882f50f4208436e1932c806bcc32323a34ff378781204951e05534a0bbc3c1e401d111aa22a26ecc5d4f2cfb43af59d94da8a24f2b8ef8506.js integrity="sha512-I2QEYcnmlBiC9Q9CCENuGTLIBrzDIyOjT/N4eBIElR4FU0oLvDweQB0RGqIqJuzF1PLPtDr1nZTaiiTyuO+FBg=="></script><script src=/lib/typeit/typeit.min.535a28f8fb852c2444461a9a301c6435cc75831d3f0b1a6e18d5275f9d0cd7b78824c8204589bc875eb2b572536c6013461a1d84cf528cac8e7526fbcad17a9b.js integrity="sha512-U1oo+PuFLCRERhqaMBxkNcx1gx0/CxpuGNUnX50M17eIJMggRYm8h16ytXJTbGATRhodhM9SjKyOdSb7ytF6mw=="></script><script src=/lib/cookieconsent/cookieconsent.min.c975ea3858dd8c7347d46343fb510ed236efbde6c0069cc6283eba7639d47e22a560c1391c6314247a0269e1380f93d31b662c4897fa770ab2514bd0bd2d2f68.js integrity="sha512-yXXqOFjdjHNH1GND+1EO0jbvvebABpzGKD66djnUfiKlYME5HGMUJHoCaeE4D5PTG2YsSJf6dwqyUUvQvS0vaA==" defer></script><script src=/js/cookieconsent.min.js defer></script><script src=/js/theme.min.js defer></script><script src=/lib/twikoo/twikoo.all.min.71d2e513d9e7cdc257428cbd785bb319ca505f1ef4ad7c6650da6faef61303042fdadc4b49dbc452cf9e20b232295141bc0a149bd89447bddec120f7222199ff.js integrity="sha512-cdLlE9nnzcJXQoy9eFuzGcpQXx70rXxmUNpvrvYTAwQv2txLSdvEUs+eILIyKVFBvAoUm9iUR73ewSD3IiGZ/w==" defer></script><script src=/js/twikoo.min.js defer></script><script type=text/javascript>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-6QCK4BFMHW",{anonymize_ip:!0})</script><script src="https://www.googletagmanager.com/gtag/js?id=G-6QCK4BFMHW" async></script><script type=speculationrules>
+</script><div id=cookieconsent-container></div><link rel=stylesheet href=/lib/cookieconsent/cookieconsent.min.2d0f7b71a99aaff94e9624ff32a8dc42ce645a0cba433fdc091cf34735027efd1fa2db024c2f591d768f426255f17bbf3d500b7c967b0437b3979956dffa81c6.css integrity="sha512-LQ97camar/lOliT/MqjcQs5kWgy6Qz/cCRzzRzUCfv0fotsCTC9ZHXaPQmJV8Xu/PVALfJZ7BDezl5lW3/qBxg=="><script>window.config={comment:{twikoo:{commentCount:!0,el:"#twikoo",envId:"https://twikoo-comments-doit.vercel.app/",lang:"zh-cn"}},cookieconsent:{content:{dismiss:"同意",link:"了解更多",message:"本网站使用 Cookies 来改善您的浏览体验."},enable:!0,palette:{button:{background:"#f0f0f0"},popup:{background:"#1aa3ff"}},theme:"edgeless"},data:{"desktop-header-typeit":"编程日志","mobile-header-typeit":"编程日志"},table:{sort:!0},typeit:{cursorChar:"|",cursorSpeed:1e3,data:{"desktop-header-typeit":["desktop-header-typeit"],"mobile-header-typeit":["mobile-header-typeit"]},duration:-1,speed:100}}</script><script src=/lib/tablesort/tablesort.min.23640461c9e6941882f50f4208436e1932c806bcc32323a34ff378781204951e05534a0bbc3c1e401d111aa22a26ecc5d4f2cfb43af59d94da8a24f2b8ef8506.js integrity="sha512-I2QEYcnmlBiC9Q9CCENuGTLIBrzDIyOjT/N4eBIElR4FU0oLvDweQB0RGqIqJuzF1PLPtDr1nZTaiiTyuO+FBg=="></script><script src=/lib/typeit/typeit.min.535a28f8fb852c2444461a9a301c6435cc75831d3f0b1a6e18d5275f9d0cd7b78824c8204589bc875eb2b572536c6013461a1d84cf528cac8e7526fbcad17a9b.js integrity="sha512-U1oo+PuFLCRERhqaMBxkNcx1gx0/CxpuGNUnX50M17eIJMggRYm8h16ytXJTbGATRhodhM9SjKyOdSb7ytF6mw=="></script><script src=/lib/cookieconsent/cookieconsent.min.c975ea3858dd8c7347d46343fb510ed236efbde6c0069cc6283eba7639d47e22a560c1391c6314247a0269e1380f93d31b662c4897fa770ab2514bd0bd2d2f68.js integrity="sha512-yXXqOFjdjHNH1GND+1EO0jbvvebABpzGKD66djnUfiKlYME5HGMUJHoCaeE4D5PTG2YsSJf6dwqyUUvQvS0vaA==" defer></script><script src=/js/cookieconsent.min.js defer></script><script src=/js/theme.min.js defer></script><script src=/lib/twikoo/twikoo.all.min.0728767a978aebfc903fc5e8e998f703d1f5d2e1aac2f26187ef0b6cdf15191c43945c0f3a66b9e22e65c06d8b509e1023ce16236dcda869980f2dfcaeee1a35.js integrity="sha512-Byh2epeK6/yQP8Xo6Zj3A9H10uGqwvJhh+8LbN8VGRxDlFwPOma54i5lwG2LUJ4QI84WI23NqGmYDy38ru4aNQ==" defer></script><script src=/js/twikoo.min.js defer></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-6QCK4BFMHW",{anonymize_ip:!0})</script><script src="https://www.googletagmanager.com/gtag/js?id=G-6QCK4BFMHW" async></script><script type=speculationrules>
   {
     "prerender": [
       {
