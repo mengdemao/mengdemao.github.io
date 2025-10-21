@@ -23,6 +23,7 @@
     <a href="#%e7%9b%b8%e5%85%b3%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84" class="header-mark"></a>4 相关数据结构</h2><h3 id="全局状态机" class="headerLink">
     <a href="#%e5%85%a8%e5%b1%80%e7%8a%b6%e6%80%81%e6%9c%ba" class="header-mark"></a>4.1 全局状态机</h3><blockquote>
   <p>描述Lua运行状态,同时可以产生一种面向对象的模拟</p>
+
 </blockquote><div class="code-block highlight is-open show-line-numbers  tw-group tw-my-2">
   <div class="
     

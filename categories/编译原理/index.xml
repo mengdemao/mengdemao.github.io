@@ -4,6 +4,7 @@
     <a href="#%e8%af%8d%e6%b3%95%e5%88%86%e6%9e%90" class="header-mark"></a>4 词法分析</h2><h3 id="概述" class="headerLink">
     <a href="#%e6%a6%82%e8%bf%b0" class="header-mark"></a>4.1 概述</h3><blockquote>
   <p>词法分析是编译原理的第一个阶段,词法分析的任务是读入源程序的输入字符,生成一个个的单词,其主要的功能是为语法分析提供词法单元</p>
+
 </blockquote><pre class="mermaid">graph LR
 
 S1((源程序))
@@ -45,5 +46,6 @@ S4-->S3
             </div><h2 id="简介" class="headerLink">
     <a href="#%e7%ae%80%e4%bb%8b" class="header-mark"></a>1 简介</h2><blockquote>
   <p>ANTLR是一款强大的语法分析器生成工具,用于读取、处理、执行和翻译结构化的文本或二进制文件.</p>
+
 </blockquote><p>类似于<em>flex/bison</em>,根据描述文件,自动生成词法语法分析器;
 解析规则文件,生成解析源文件,与SDK组合编译生成可执行文件;</p>]]></description></item></channel></rss>

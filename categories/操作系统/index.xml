@@ -2,6 +2,7 @@
     <a href="#fork" class="header-mark"></a>fork</h1><blockquote>
   <p>linux创建线程的函数
 fork &ndash;&gt; do_fork</p>
+
 </blockquote><p>do_fork的执行线路</p>
 <pre class="mermaid">graph LR
 do_fork --> copy_process --> get_task_pid --> wake_up_new_task --> put_pid

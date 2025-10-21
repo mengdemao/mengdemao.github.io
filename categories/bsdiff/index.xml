@@ -6,4 +6,5 @@
 executable files change, bsdiff routinely produces binary patches 50-80% smaller than
 those produced by Xdelta, and 15% smaller than those produced by .RTPatch (a $2750/seat
 commercial patch tool) &ndash; 直接摘抄自官网</p>
+
 </blockquote><p>详情可以查看<a href="http://www.daemonology.net/bsdiff/" target="_blank" rel="noopener noreferrer">bsdiff官网</a>,存在这个详细描述.</p>]]></description></item></channel></rss>
