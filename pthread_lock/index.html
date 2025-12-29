@@ -63,7 +63,7 @@ tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;linux/futex.h&gt;      /* Definition of FUTEX_* constants */</span><span class=cp>
 </span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;sys/syscall.h&gt;      /* Definition of SYS_* constants */</span><span class=cp>
 </span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;unistd.h&gt;</span><span class=cp>
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=kt>long</span> <span class=nf>syscall</span><span class=p>(</span><span class=n>SYS_futex</span><span class=p>,</span> <span class=kt>uint32_t</span> <span class=o>*</span><span class=n>uaddr</span><span class=p>,</span> <span class=kt>int</span> <span class=n>futex_op</span><span class=p>,</span> <span class=kt>uint32_t</span> <span class=n>val</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>             <span class=k>const</span> <span class=k>struct</span> <span class=n>timespec</span> <span class=o>*</span><span class=n>timeout</span><span class=p>,</span>   <span class=cm>/* or: uint32_t val2 */</span>
 </span></span><span class=line><span class=cl>             <span class=kt>uint32_t</span> <span class=o>*</span><span class=n>uaddr2</span><span class=p>,</span> <span class=kt>uint32_t</span> <span class=n>val3</span><span class=p>);</span></span></span></code></pre></div><ul><li>uaddr</li><li>futex_op</li><li>val</li><li>timeout</li><li>uaddr2</li><li>val3</li></ul><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
@@ -113,7 +113,7 @@ group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=c1>// 进入解析
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kt>long</span> <span class=nf>do_futex</span><span class=p>(</span><span class=n>u32</span> <span class=n>__user</span> <span class=o>*</span><span class=n>uaddr</span><span class=p>,</span> <span class=kt>int</span> <span class=n>op</span><span class=p>,</span> <span class=n>u32</span> <span class=n>val</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl><span class=kt>long</span> <span class=nf>do_futex</span><span class=p>(</span><span class=n>u32</span> <span class=n>__user</span> <span class=o>*</span><span class=n>uaddr</span><span class=p>,</span> <span class=kt>int</span> <span class=n>op</span><span class=p>,</span> <span class=n>u32</span> <span class=n>val</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>              <span class=kt>ktime_t</span> <span class=o>*</span><span class=n>timeout</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>			  <span class=n>u32</span> <span class=n>__user</span> <span class=o>*</span><span class=n>uaddr2</span><span class=p>,</span> <span class=n>u32</span> <span class=n>val2</span><span class=p>,</span> <span class=n>u32</span> <span class=n>val3</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
@@ -216,26 +216,26 @@ group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=c1>// 可以使用的op定义类型
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=cp>#define FUTEX_WAIT			0
+</span></span></span><span class=line><span class=cl><span class=cp>#define FUTEX_WAIT			0
 </span></span></span><span class=line><span class=cl><span class=cp>#define FUTEX_WAKE			1
 </span></span></span><span class=line><span class=cl><span class=cp>#define FUTEX_REQUEUE		3
 </span></span></span><span class=line><span class=cl><span class=cp>#define FUTEX_CMP_REQUEUE	4
 </span></span></span><span class=line><span class=cl><span class=cp>#define FUTEX_WAKE_OP		5
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#define FUTEX_OP_CLEAR_WAKE_IF_GT_ONE	((4 &lt;&lt; 24) | 1)
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#define FUTEX_LOCK_PI		6
 </span></span></span><span class=line><span class=cl><span class=cp>#define FUTEX_UNLOCK_PI		7
 </span></span></span><span class=line><span class=cl><span class=cp>#define FUTEX_TRYLOCK_PI	8
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#define FUTEX_WAIT_BITSET	9
 </span></span></span><span class=line><span class=cl><span class=cp>#define FUTEX_WAKE_BITSET	10
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#define FUTEX_WAIT_REQUEUE_PI   11
 </span></span></span><span class=line><span class=cl><span class=cp>#define FUTEX_CMP_REQUEUE_PI    12
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#define FUTEX_LOCK_PI2			13
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#define FUTEX_PRIVATE_FLAG		128
 </span></span></span><span class=line><span class=cl><span class=cp>#define FUTEX_CLOCK_REALTIME	256</span></span></span></code></pre></div><p><code>futex</code>管理结构</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
 tw-flex-row
@@ -572,19 +572,19 @@ group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#define lll_trylock(lock) 		原子的(lock 0 --&gt; 1) 	</span><span class=c1>// 不等待
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=cp>#define lll_cond_trylock(lock) 	原子的(lock 0 --&gt; 2)	</span><span class=c1>// 不等待
-</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span></span><span class=line><span class=cl><span class=cp>#define lll_cond_trylock(lock) 	原子的(lock 0 --&gt; 2)	</span><span class=c1>// 不等待
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#define lll_lock(futex, private)
-</span></span></span><span class=line><span class=cl><span class=cp></span><span class=mf>1.</span> <span class=err>原子的</span><span class=p>(</span><span class=n>futex</span> <span class=mi>0</span> <span class=o>--&gt;</span> <span class=mi>1</span><span class=p>)</span> <span class=c1>// 等待
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=mf>2.</span> <span class=nf>__lll_lock_wait</span> <span class=p>(</span><span class=n>futex</span><span class=p>,</span> <span class=n>private</span><span class=p>)</span>
+</span></span></span><span class=line><span class=cl><span class=mf>1.</span> <span class=err>原子的</span><span class=p>(</span><span class=n>futex</span> <span class=mi>0</span> <span class=o>--&gt;</span> <span class=mi>1</span><span class=p>)</span> <span class=c1>// 等待
+</span></span></span><span class=line><span class=cl><span class=mf>2.</span> <span class=nf>__lll_lock_wait</span> <span class=p>(</span><span class=n>futex</span><span class=p>,</span> <span class=n>private</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#define __lll_cond_lock(futex, private)
-</span></span></span><span class=line><span class=cl><span class=cp></span><span class=mf>1.</span> <span class=err>原子的</span><span class=p>(</span><span class=n>futex</span> <span class=mi>0</span> <span class=o>--&gt;</span> <span class=mi>2</span><span class=p>)</span> <span class=c1>// 等待
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=mf>2.</span> <span class=nf>__lll_lock_wait</span> <span class=p>(</span><span class=n>futex</span><span class=p>,</span> <span class=n>private</span><span class=p>)</span>
+</span></span></span><span class=line><span class=cl><span class=mf>1.</span> <span class=err>原子的</span><span class=p>(</span><span class=n>futex</span> <span class=mi>0</span> <span class=o>--&gt;</span> <span class=mi>2</span><span class=p>)</span> <span class=c1>// 等待
+</span></span></span><span class=line><span class=cl><span class=mf>2.</span> <span class=nf>__lll_lock_wait</span> <span class=p>(</span><span class=n>futex</span><span class=p>,</span> <span class=n>private</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#define __lll_unlock(futex, private)
-</span></span></span><span class=line><span class=cl><span class=cp></span><span class=mf>1.</span> <span class=err>原子的</span><span class=p>(</span><span class=n>futex</span> <span class=o>?</span> <span class=o>--&gt;</span> <span class=mi>0</span><span class=p>)</span> <span class=c1>// 等待
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=mf>2.</span> <span class=nf>__lll_lock_wait</span> <span class=p>(</span><span class=n>futex</span><span class=p>,</span> <span class=n>private</span><span class=p>)</span>
+</span></span></span><span class=line><span class=cl><span class=mf>1.</span> <span class=err>原子的</span><span class=p>(</span><span class=n>futex</span> <span class=o>?</span> <span class=o>--&gt;</span> <span class=mi>0</span><span class=p>)</span> <span class=c1>// 等待
+</span></span></span><span class=line><span class=cl><span class=mf>2.</span> <span class=nf>__lll_lock_wait</span> <span class=p>(</span><span class=n>futex</span><span class=p>,</span> <span class=n>private</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>__lll_lock_wake_private</span> <span class=p>(</span><span class=kt>int</span> <span class=o>*</span><span class=n>futex</span><span class=p>);</span>
 </span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>__lll_lock_wait_private</span> <span class=p>(</span><span class=kt>int</span> <span class=o>*</span><span class=n>futex</span><span class=p>);</span>
@@ -598,7 +598,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#define lll_tr
 </span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>futex_wake</span><span class=p>(</span><span class=kt>unsigned</span> <span class=kt>int</span><span class=o>*</span> <span class=n>futex_word</span><span class=p>,</span> <span class=kt>int</span> <span class=n>processes_to_wake</span><span class=p>,</span> <span class=kt>int</span> <span class=n>private</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=c1>// 进入系统调用阶段
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kt>int</span> <span class=nf>lll_futex_syscall</span><span class=p>(</span><span class=kt>int</span> <span class=n>nargs</span><span class=p>,</span> <span class=kt>int</span> <span class=o>*</span><span class=n>futexp</span><span class=p>,</span> <span class=kt>int</span> <span class=n>op</span><span class=p>,</span> <span class=p>...);</span></span></span></code></pre></div><p>那么进入到最后可以得知,一般会进行一些原子操作,启动的操作都是<code>INTERNAL_SYSCALL</code>进行实现的,然后就是<code>swi</code>指令实现的原理</p><h3 id=glibc实现 class=headerLink><a href=#glibc%e5%ae%9e%e7%8e%b0 class=header-mark></a>2.2 glibc实现</h3><pre class=mermaid>graph TD
+</span></span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>lll_futex_syscall</span><span class=p>(</span><span class=kt>int</span> <span class=n>nargs</span><span class=p>,</span> <span class=kt>int</span> <span class=o>*</span><span class=n>futexp</span><span class=p>,</span> <span class=kt>int</span> <span class=n>op</span><span class=p>,</span> <span class=p>...);</span></span></span></code></pre></div><p>那么进入到最后可以得知,一般会进行一些原子操作,启动的操作都是<code>INTERNAL_SYSCALL</code>进行实现的,然后就是<code>swi</code>指令实现的原理</p><h3 id=glibc实现 class=headerLink><a href=#glibc%e5%ae%9e%e7%8e%b0 class=header-mark></a>2.2 glibc实现</h3><pre class=mermaid>graph TD
 
 futex_wake --> lll_futex_wake
 
@@ -655,7 +655,7 @@ tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=cp># define lll_futex_wake(futexp, nr, private)                             	\
 </span></span></span><span class=line><span class=cl><span class=cp>  lll_futex_syscall (4, futexp,                                         	\
 </span></span></span><span class=line><span class=cl><span class=cp>		     __lll_private_flag (FUTEX_WAKE, private), nr, 0)
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp># define lll_futex_timed_wait(futexp, val, timeout, private)     			\
 </span></span></span><span class=line><span class=cl><span class=cp>  lll_futex_syscall (4, futexp,                                 			\
 </span></span></span><span class=line><span class=cl><span class=cp>		     __lll_private_flag (FUTEX_WAIT, private),  					\
@@ -846,7 +846,7 @@ tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#define atomic_load_relaxed(mem) \
 </span></span></span><span class=line><span class=cl><span class=cp> ({ __atomic_check_size_ls((mem));                                           \
 </span></span></span><span class=line><span class=cl><span class=cp>    __atomic_load_n ((mem), __ATOMIC_RELAXED); })
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#define atomic_load_acquire(mem) \
 </span></span></span><span class=line><span class=cl><span class=cp> ({ __atomic_check_size_ls((mem));                                           \
 </span></span></span><span class=line><span class=cl><span class=cp>    __atomic_load_n ((mem), __ATOMIC_ACQUIRE); })</span></span></span></code></pre></div><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
@@ -900,7 +900,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#define atomic
 </span></span></span><span class=line><span class=cl><span class=cp>   __atomic_check_size_ls((mem));                                            \
 </span></span></span><span class=line><span class=cl><span class=cp>   __atomic_store_n ((mem), (val), __ATOMIC_RELAXED);                        \
 </span></span></span><span class=line><span class=cl><span class=cp> } while (0)
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#define atomic_store_release(mem, val) \
 </span></span></span><span class=line><span class=cl><span class=cp> do {                                                                        \
 </span></span></span><span class=line><span class=cl><span class=cp>   __atomic_check_size_ls((mem));                                            \
@@ -1183,15 +1183,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>int</span> <sp
 </span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=n>val</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#if ! ATOMIC_EXCHANGE_USES_CAS
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=k>if</span> <span class=p>(</span><span class=nf>__glibc_likely</span><span class=p>(</span><span class=nf>atomic_exchange_acquire</span><span class=p>(</span><span class=n>lock</span><span class=p>,</span> <span class=mi>1</span><span class=p>)</span> <span class=o>==</span> <span class=mi>0</span><span class=p>))</span> <span class=p>{</span>
+</span></span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=nf>__glibc_likely</span><span class=p>(</span><span class=nf>atomic_exchange_acquire</span><span class=p>(</span><span class=n>lock</span><span class=p>,</span> <span class=mi>1</span><span class=p>)</span> <span class=o>==</span> <span class=mi>0</span><span class=p>))</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>		<span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=p>}</span>
 </span></span><span class=line><span class=cl><span class=cp>#else
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=k>if</span> <span class=p>(</span><span class=nf>__glibc_likely</span><span class=p>(</span><span class=nf>atomic_compare_exchange_weak_acquire</span><span class=p>(</span><span class=n>lock</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>val</span><span class=p>,</span> <span class=mi>1</span><span class=p>)))</span> <span class=p>{</span>
+</span></span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=nf>__glibc_likely</span><span class=p>(</span><span class=nf>atomic_compare_exchange_weak_acquire</span><span class=p>(</span><span class=n>lock</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>val</span><span class=p>,</span> <span class=mi>1</span><span class=p>)))</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>		<span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=p>}</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=k>do</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>		<span class=k>do</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>			<span class=nf>atomic_spin_nop</span><span class=p>();</span>
@@ -1204,17 +1204,17 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>int</span> <sp
 </span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_spin_trylock</span><span class=p>(</span><span class=kt>pthread_spinlock_t</span> <span class=o>*</span><span class=n>lock</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl><span class=cp>#if ! ATOMIC_EXCHANGE_USES_CAS
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=k>if</span> <span class=p>(</span><span class=nf>atomic_exchange_acquire</span> <span class=p>(</span><span class=n>lock</span><span class=p>,</span> <span class=mi>1</span><span class=p>)</span> <span class=o>==</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=nf>atomic_exchange_acquire</span> <span class=p>(</span><span class=n>lock</span><span class=p>,</span> <span class=mi>1</span><span class=p>)</span> <span class=o>==</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>		<span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>  	<span class=p>}</span>
 </span></span><span class=line><span class=cl><span class=cp>#else
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=k>do</span> <span class=p>{</span>
+</span></span></span><span class=line><span class=cl>	<span class=k>do</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>		<span class=kt>int</span> <span class=n>val</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=nf>atomic_compare_exchange_weak_acquire</span> <span class=p>(</span><span class=n>lock</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>val</span><span class=p>,</span> <span class=mi>1</span><span class=p>))</span>
 </span></span><span class=line><span class=cl>			<span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=p>}</span> <span class=k>while</span> <span class=p>(</span><span class=nf>atomic_load_relaxed</span> <span class=p>(</span><span class=n>lock</span><span class=p>)</span> <span class=o>==</span> <span class=mi>0</span><span class=p>);</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=n>EBUSY</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
 </span></span><span class=line><span class=cl>
@@ -1327,7 +1327,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>pthread_t</spa
 </span></span><span class=line><span class=cl><span class=kt>void</span> <span class=o>*</span><span class=nf>test_thread</span><span class=p>(</span><span class=kt>void</span> <span class=o>*</span><span class=n>arg</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=c1>// make gcc happy
-</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=kt>unsigned</span> <span class=kt>int</span> <span class=n>sleep_time</span> <span class=o>=</span> <span class=p>(</span><span class=kt>unsigned</span> <span class=kt>int</span><span class=p>)((</span><span class=kt>unsigned</span> <span class=kt>long</span><span class=p>)</span><span class=n>arg</span><span class=p>);</span>
+</span></span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>int</span> <span class=n>sleep_time</span> <span class=o>=</span> <span class=p>(</span><span class=kt>unsigned</span> <span class=kt>int</span><span class=p>)((</span><span class=kt>unsigned</span> <span class=kt>long</span><span class=p>)</span><span class=n>arg</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>    <span class=nf>sleep</span><span class=p>(</span><span class=n>sleep_time</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=nf>printf</span><span class=p>(</span><span class=s>&#34;wait begin %d</span><span class=se>\r\n</span><span class=s>&#34;</span><span class=p>,</span> <span class=nf>gettid</span><span class=p>());</span>
@@ -1346,7 +1346,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>pthread_t</spa
 </span></span><span class=line><span class=cl>    <span class=nf>pthread_create</span><span class=p>(</span><span class=o>&amp;</span><span class=n>p3</span><span class=p>,</span> <span class=nb>NULL</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>test_thread</span><span class=p>,</span> <span class=p>(</span><span class=kt>void</span> <span class=o>*</span><span class=p>)</span><span class=mi>3</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=c1>// 设置线程分离
-</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nf>pthread_detach</span><span class=p>(</span><span class=n>p1</span><span class=p>);</span>
+</span></span></span><span class=line><span class=cl>    <span class=nf>pthread_detach</span><span class=p>(</span><span class=n>p1</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>    <span class=nf>pthread_detach</span><span class=p>(</span><span class=n>p2</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>    <span class=nf>pthread_detach</span><span class=p>(</span><span class=n>p3</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>
@@ -1456,7 +1456,7 @@ group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=c1>// 初始化流程
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kt>int</span> <span class=nf>pthread_barrier_init</span><span class=p>(</span><span class=kt>pthread_barrier_t</span> <span class=o>*</span><span class=kr>restrict</span> <span class=n>b</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_barrier_init</span><span class=p>(</span><span class=kt>pthread_barrier_t</span> <span class=o>*</span><span class=kr>restrict</span> <span class=n>b</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>                  <span class=k>const</span> <span class=kt>pthread_barrierattr_t</span> <span class=o>*</span><span class=kr>restrict</span> <span class=n>a</span><span class=p>,</span> <span class=kt>unsigned</span> <span class=n>count</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>count</span><span class=o>-</span><span class=mi>1</span> <span class=o>&gt;</span> <span class=n>INT_MAX</span><span class=o>-</span><span class=mi>1</span><span class=p>)</span> <span class=k>return</span> <span class=n>EINVAL</span><span class=p>;</span>
@@ -2082,25 +2082,25 @@ group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#define TEST_MUTEX
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=kt>pthread_t</span> <span class=n>p1</span><span class=p>,</span> <span class=n>p2</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=kt>pthread_mutex_t</span> <span class=n>test_mutex</span> <span class=o>=</span> <span class=n>PTHREAD_MUTEX_INITIALIZER</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=kt>void</span> <span class=o>*</span><span class=nf>test_thread</span><span class=p>(</span><span class=kt>void</span> <span class=o>*</span><span class=n>arg</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=c1>// make gcc happy
-</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=kt>unsigned</span> <span class=kt>int</span> <span class=n>sleep_time</span> <span class=o>=</span> <span class=p>(</span><span class=kt>unsigned</span> <span class=kt>int</span><span class=p>)((</span><span class=kt>unsigned</span> <span class=kt>long</span><span class=p>)</span><span class=n>arg</span><span class=p>);</span>
+</span></span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>int</span> <span class=n>sleep_time</span> <span class=o>=</span> <span class=p>(</span><span class=kt>unsigned</span> <span class=kt>int</span><span class=p>)((</span><span class=kt>unsigned</span> <span class=kt>long</span><span class=p>)</span><span class=n>arg</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=k>while</span> <span class=p>(</span><span class=nb>true</span><span class=p>)</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>        <span class=cp>#ifdef TEST_MUTEX
-</span></span></span><span class=line><span class=cl><span class=cp></span>        <span class=nf>pthread_mutex_lock</span><span class=p>(</span><span class=o>&amp;</span><span class=n>test_mutex</span><span class=p>);</span>
+</span></span></span><span class=line><span class=cl>        <span class=nf>pthread_mutex_lock</span><span class=p>(</span><span class=o>&amp;</span><span class=n>test_mutex</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>        <span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>        <span class=nf>printf</span><span class=p>(</span><span class=s>&#34;thread %p</span><span class=se>\r\n</span><span class=s>&#34;</span><span class=p>,</span> <span class=n>arg</span><span class=p>);</span>
+</span></span></span><span class=line><span class=cl>        <span class=nf>printf</span><span class=p>(</span><span class=s>&#34;thread %p</span><span class=se>\r\n</span><span class=s>&#34;</span><span class=p>,</span> <span class=n>arg</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>        <span class=nf>sleep</span><span class=p>(</span><span class=n>sleep_time</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>        <span class=cp>#ifdef TEST_MUTEX
-</span></span></span><span class=line><span class=cl><span class=cp></span>        <span class=nf>pthread_mutex_unlock</span><span class=p>(</span><span class=o>&amp;</span><span class=n>test_mutex</span><span class=p>);</span>
+</span></span></span><span class=line><span class=cl>        <span class=nf>pthread_mutex_unlock</span><span class=p>(</span><span class=o>&amp;</span><span class=n>test_mutex</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>        <span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>        <span class=nf>sleep</span><span class=p>(</span><span class=n>sleep_time</span><span class=p>);</span>
+</span></span></span><span class=line><span class=cl>        <span class=nf>sleep</span><span class=p>(</span><span class=n>sleep_time</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>    <span class=p>}</span>
 </span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nb>NULL</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
@@ -2111,7 +2111,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#define TEST_M
 </span></span><span class=line><span class=cl>    <span class=nf>pthread_create</span><span class=p>(</span><span class=o>&amp;</span><span class=n>p2</span><span class=p>,</span> <span class=nb>NULL</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>test_thread</span><span class=p>,</span> <span class=p>(</span><span class=kt>void</span> <span class=o>*</span><span class=p>)</span><span class=mi>2</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=c1>// 设置线程分离
-</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nf>pthread_detach</span><span class=p>(</span><span class=n>p1</span><span class=p>);</span>
+</span></span></span><span class=line><span class=cl>    <span class=nf>pthread_detach</span><span class=p>(</span><span class=n>p1</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>    <span class=nf>pthread_detach</span><span class=p>(</span><span class=n>p2</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=k>while</span> <span class=p>(</span><span class=nb>true</span><span class=p>)</span> <span class=p>{</span>
@@ -2359,7 +2359,7 @@ group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=c1>// 双向链表
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>typedef</span> <span class=k>struct</span> <span class=n>__pthread_internal_list</span>
+</span></span></span><span class=line><span class=cl><span class=k>typedef</span> <span class=k>struct</span> <span class=n>__pthread_internal_list</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>  <span class=k>struct</span> <span class=n>__pthread_internal_list</span> <span class=o>*</span><span class=n>__prev</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>  <span class=k>struct</span> <span class=n>__pthread_internal_list</span> <span class=o>*</span><span class=n>__next</span><span class=p>;</span>
@@ -2379,7 +2379,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=c1>// 双向链�
 </span></span><span class=line><span class=cl><span class=p>};</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#define __SIZEOF_PTHREAD_MUTEX_T 40
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=k>typedef</span> <span class=k>union</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>  <span class=k>struct</span> <span class=n>__pthread_mutex_s</span> <span class=n>__data</span><span class=p>;</span>
@@ -2481,8 +2481,8 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>enum</span>
 </span></span><span class=line><span class=cl><span class=p>};</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=c1>// 使用下面的宏提取类型信息
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=cp>#define PTHREAD_MUTEX_TYPE_ELISION(m) \                | ox100
-</span></span></span><span class=line><span class=cl><span class=cp></span>  <span class=p>(</span><span class=nf>atomic_load_relaxed</span> <span class=p>(</span><span class=o>&amp;</span><span class=p>((</span><span class=n>m</span><span class=p>)</span><span class=o>-&gt;</span><span class=n>__data</span><span class=p>.</span><span class=n>__kind</span><span class=p>))</span> <span class=o>&amp;</span> <span class=p>(</span><span class=mh>0x7F</span> <span class=o>|</span> <span class=n>PTHREAD_MUTEX_ELISION_NP</span><span class=p>))</span>
+</span></span></span><span class=line><span class=cl><span class=cp>#define PTHREAD_MUTEX_TYPE_ELISION(m) \                | ox100
+</span></span></span><span class=line><span class=cl>  <span class=p>(</span><span class=nf>atomic_load_relaxed</span> <span class=p>(</span><span class=o>&amp;</span><span class=p>((</span><span class=n>m</span><span class=p>)</span><span class=o>-&gt;</span><span class=n>__data</span><span class=p>.</span><span class=n>__kind</span><span class=p>))</span> <span class=o>&amp;</span> <span class=p>(</span><span class=mh>0x7F</span> <span class=o>|</span> <span class=n>PTHREAD_MUTEX_ELISION_NP</span><span class=p>))</span>
 </span></span><span class=line><span class=cl><span class=c1>// ==&gt; &amp;((m)-&gt;__data.__kind &amp; 0x17F
 </span></span></span></code></pre></div><pre class=mermaid>graph TD
 
@@ -2566,7 +2566,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>void</span> <s
 </span></span><span class=line><span class=cl><span class=cp># define lll_futex_wake(futexp, nr, private)                             \
 </span></span></span><span class=line><span class=cl><span class=cp>  lll_futex_syscall (4, futexp,                                          \
 </span></span></span><span class=line><span class=cl><span class=cp>		     __lll_private_flag (FUTEX_WAKE, private), nr, 0)
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>__lll_lock_wake_private</span> <span class=p>(</span><span class=kt>int</span> <span class=o>*</span><span class=n>futex</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>  <span class=nf>lll_futex_wake</span> <span class=p>(</span><span class=n>futex</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=n>LLL_PRIVATE</span><span class=p>);</span>
@@ -2626,15 +2626,15 @@ tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=cp># define LLL_MUTEX_LOCK(mutex) lll_lock ((mutex)-&gt;__data.__lock, PTHREAD_MUTEX_PSHARED (mutex))
 </span></span></span><span class=line><span class=cl><span class=cp># define LLL_MUTEX_LOCK_OPTIMIZED(mutex) lll_mutex_lock_optimized (mutex)
 </span></span></span><span class=line><span class=cl><span class=cp># define LLL_MUTEX_TRYLOCK(mutex) lll_trylock ((mutex)-&gt;__data.__lock)
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=c1>// 如果是单线程模式,直接就将标志位修改即可
 </span></span></span><span class=line><span class=cl><span class=c1>// 跳过futex实现,所以称之为优化,really?
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>static</span> <span class=kr>inline</span> <span class=kt>void</span> <span class=nf>lll_mutex_lock_optimized</span> <span class=p>(</span><span class=kt>pthread_mutex_t</span> <span class=o>*</span><span class=n>mutex</span><span class=p>)</span>
+</span></span></span><span class=line><span class=cl><span class=k>static</span> <span class=kr>inline</span> <span class=kt>void</span> <span class=nf>lll_mutex_lock_optimized</span> <span class=p>(</span><span class=kt>pthread_mutex_t</span> <span class=o>*</span><span class=n>mutex</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=n>private</span> <span class=o>=</span> <span class=nf>PTHREAD_MUTEX_PSHARED</span> <span class=p>(</span><span class=n>mutex</span><span class=p>);</span>
 </span></span><span class=line><span class=cl> 	<span class=k>if</span> <span class=p>(</span><span class=n>private</span> <span class=o>==</span> <span class=n>LLL_PRIVATE</span> <span class=o>&amp;&amp;</span> <span class=n>SINGLE_THREAD_P</span> <span class=o>&amp;&amp;</span> <span class=n>mutex</span><span class=o>-&gt;</span><span class=n>__data</span><span class=p>.</span><span class=n>__lock</span> <span class=o>==</span> <span class=mi>0</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>    	<span class=n>mutex</span><span class=o>-&gt;</span><span class=n>__data</span><span class=p>.</span><span class=n>__lock</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span> <span class=c1>// 单线程时可以直接将标志位置1
-</span></span></span><span class=line><span class=cl><span class=c1></span>  	<span class=k>else</span>
+</span></span></span><span class=line><span class=cl>  	<span class=k>else</span>
 </span></span><span class=line><span class=cl>    	<span class=nf>lll_lock</span> <span class=p>(</span><span class=n>mutex</span><span class=o>-&gt;</span><span class=n>__data</span><span class=p>.</span><span class=n>__lock</span><span class=p>,</span> <span class=n>private</span><span class=p>);</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
 </span></span><span class=line><span class=cl>
@@ -2700,7 +2700,7 @@ tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>int</span> <span class=nf>___pthread_mutex_lock</span><span class=p>(</span><span class=kt>pthread_mutex_t</span> <span class=o>*</span><span class=n>mutex</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=c1>// 这个type是什么?
-</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=kt>unsigned</span> <span class=kt>int</span> <span class=n>type</span> <span class=o>=</span> <span class=nf>PTHREAD_MUTEX_TYPE_ELISION</span><span class=p>(</span><span class=n>mutex</span><span class=p>);</span>
+</span></span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>int</span> <span class=n>type</span> <span class=o>=</span> <span class=nf>PTHREAD_MUTEX_TYPE_ELISION</span><span class=p>(</span><span class=n>mutex</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>  	<span class=nf>LIBC_PROBE</span><span class=p>(</span><span class=n>mutex_entry</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=n>mutex</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>
@@ -2718,7 +2718,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>int</span> <sp
 </span></span><span class=line><span class=cl>    <span class=p>}</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#if ENABLE_ELISION_SUPPORT
-</span></span></span><span class=line><span class=cl><span class=cp></span>  <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=nf>__glibc_likely</span> <span class=p>(</span><span class=n>type</span> <span class=o>==</span> <span class=n>PTHREAD_MUTEX_TIMED_ELISION_NP</span><span class=p>))</span>
+</span></span></span><span class=line><span class=cl>  <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=nf>__glibc_likely</span> <span class=p>(</span><span class=n>type</span> <span class=o>==</span> <span class=n>PTHREAD_MUTEX_TIMED_ELISION_NP</span><span class=p>))</span>
 </span></span><span class=line><span class=cl>    <span class=p>{</span>
 </span></span><span class=line><span class=cl>  <span class=nl>elision</span><span class=p>:</span> <span class=nf>__attribute__</span><span class=p>((</span><span class=n>unused</span><span class=p>))</span>
 </span></span><span class=line><span class=cl>      <span class=cm>/* This case can never happen on a system without elision,
@@ -2729,8 +2729,8 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>int</span> <sp
 </span></span><span class=line><span class=cl>      <span class=k>return</span> <span class=nf>LLL_MUTEX_LOCK_ELISION</span> <span class=p>(</span><span class=n>mutex</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>    <span class=p>}</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=c1>// 如果是递归锁
-</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=nf>__builtin_expect</span> <span class=p>(</span><span class=nf>PTHREAD_MUTEX_TYPE</span> <span class=p>(</span><span class=n>mutex</span><span class=p>)</span>
+</span></span></span><span class=line><span class=cl>	<span class=c1>// 如果是递归锁
+</span></span></span><span class=line><span class=cl>  <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=nf>__builtin_expect</span> <span class=p>(</span><span class=nf>PTHREAD_MUTEX_TYPE</span> <span class=p>(</span><span class=n>mutex</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>			     <span class=o>==</span> <span class=n>PTHREAD_MUTEX_RECURSIVE_NP</span><span class=p>,</span> <span class=mi>1</span><span class=p>))</span>
 </span></span><span class=line><span class=cl>    <span class=p>{</span>
 </span></span><span class=line><span class=cl>      <span class=cm>/* Recursive mutex.  */</span>
@@ -2807,9 +2807,9 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>int</span> <sp
 </span></span><span class=line><span class=cl>  <span class=cm>/* Record the ownership.  */</span>
 </span></span><span class=line><span class=cl>  <span class=n>mutex</span><span class=o>-&gt;</span><span class=n>__data</span><span class=p>.</span><span class=n>__owner</span> <span class=o>=</span> <span class=n>id</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#ifndef NO_INCR
-</span></span></span><span class=line><span class=cl><span class=cp></span>  <span class=o>++</span><span class=n>mutex</span><span class=o>-&gt;</span><span class=n>__data</span><span class=p>.</span><span class=n>__nusers</span><span class=p>;</span>
+</span></span></span><span class=line><span class=cl>  <span class=o>++</span><span class=n>mutex</span><span class=o>-&gt;</span><span class=n>__data</span><span class=p>.</span><span class=n>__nusers</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>  <span class=nf>LIBC_PROBE</span> <span class=p>(</span><span class=n>mutex_acquired</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=n>mutex</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
@@ -3555,7 +3555,7 @@ tw-scrollbar-thin"></code></pre></div></div><h2>相关内容</h2><div class=rela
 </span><span>|&nbsp;<a class=link-to-source href=https://github.com/mengdemao/github.io/blob/master/content/posts/pthread_lock/index.md target=_blank rel="noopener noreferrer">查看源代码</a>
 </span><span>|&nbsp;<a class=link-to-edit href=https://github.com/mengdemao/github.io/edit/master/content/posts/pthread_lock/index.md target=_blank rel="noopener noreferrer">编辑此页</a>
 </span><span>|&nbsp;<a class=link-to-report href="https://github.com/mengdemao/github.io/issues/new?title=[bug]%20pthread%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5&body=|Field|Value|%0A|-|-|%0A|Title|pthread%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5|%0A|Url|https://mengdemao.com/pthread_lock/|%0A|Filename|https://github.com/mengdemao/github.io/blob/main/exampleSite/content/posts/pthread_lock/index.md|" target=_blank rel="noopener noreferrer">报告问题</a></span></div><div class=post-info-share></div></div></div><div class=post-info-more><section class=post-tags><svg class="icon" viewBox="0 0 640 512"><path d="M497.941 225.941 286.059 14.059A48 48 0 00252.118.0H48C21.49.0.0 21.49.0 48v204.118a48 48 0 0014.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882.0l204.118-204.118c18.745-18.745 18.745-49.137.0-67.882zM112 160c-26.51.0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882.0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397.0h48.721a48 48 0 0133.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137.0 67.882z"/></svg>&nbsp;<a href=/tags/pthread/>Pthread</a></section><section class=print:!tw-hidden><span><button class="tw-text-fgColor-link-muted hover:tw-text-fgColor-link-muted-hover" onclick=window.history.back()>返回</button></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class="post-nav print:tw-hidden"><a href=/pthread_thread/ class=prev rel=prev title=pthread线程源码分析><svg class="icon" viewBox="0 0 256 512"><path d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9.0l22.6 22.6c9.4 9.4 9.4 24.6.0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6.0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9.0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"/></svg>pthread线程源码分析</a>
-<a href=/pthread_local_storage/ class=next rel=next title=线程局部存储分析>线程局部存储分析<svg class="icon" viewBox="0 0 256 512"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9.0l-22.6-22.6c-9.4-9.4-9.4-24.6.0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6.0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9.0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></a></div></div><div id=comments class="print:!tw-hidden tw-pt-32 tw-pb-8"><div id=twikoo></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://twikoo.js.org/>Twikoo</a>.</noscript></div></article></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.152.2">Hugo</a> 强力驱动&nbsp;|&nbsp;托管在 <a title="Github Pages" href=https://docs.github.com/en/pages/ target=_blank rel="noopener noreffer">GitHub Pages</a> 上&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.4.2"><svg class="icon" viewBox="0 0 576 512"><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1.0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7.0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174 402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7-43.2-43.2c-4.1-4.1-10.8-4.1-14.8.0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg> DoIt</a></div><div class=footer-line><svg class="icon" viewBox="0 0 512 512"><path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 448c-110.532.0-2e2-89.451-2e2-2e2.0-110.531 89.451-2e2 2e2-2e2 110.532.0 2e2 89.451 2e2 2e2.0 110.532-89.451 2e2-2e2 2e2zm107.351-101.064c-9.614 9.712-45.53 41.396-104.065 41.396-82.43.0-140.484-61.425-140.484-141.567.0-79.152 60.275-139.401 139.762-139.401 55.531.0 88.738 26.62 97.593 34.779a11.965 11.965.0 011.936 15.322l-18.155 28.113c-3.841 5.95-11.966 7.282-17.499 2.921-8.595-6.776-31.814-22.538-61.708-22.538-48.303.0-77.916 35.33-77.916 80.082.0 41.589 26.888 83.692 78.277 83.692 32.657.0 56.843-19.039 65.726-27.225 5.27-4.857 13.596-4.039 17.82 1.738l19.865 27.17a11.947 11.947.0 01-1.152 15.518z"/></svg>2020 - 2025<span class=author>&nbsp;<a href=https://github.com/mengdemao target=_blank rel="noopener noreferrer">mengdemao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span><span class=icp-splitter>&nbsp;|&nbsp;</span><br class=icp-br><span class=icp><a href=https://beian.miit.gov.cn/>鲁ICP备2023050410号-1</a></span></div><div class=footer-line></div><div class=footer-line></div></div></footer><div class="print:!tw-hidden tw-flex tw-flex-col tw-fixed tw-right-4 tw-bottom-4 tw-gap-2"><a href=#back-to-top id=back-to-top-button class="tw-transition-opacity tw-opacity-0 tw-block tw-bg-bgColor-secondary tw-rounded-full" style=padding:.6rem;line-height:1.3rem;font-size:1rem title=回到顶部><svg class="icon" viewBox="0 0 448 512"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6.0-33.9L207 39c9.4-9.4 24.6-9.4 33.9.0l194.3 194.3c9.4 9.4 9.4 24.6.0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3.0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg>
+<a href=/pthread_local_storage/ class=next rel=next title=线程局部存储分析>线程局部存储分析<svg class="icon" viewBox="0 0 256 512"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9.0l-22.6-22.6c-9.4-9.4-9.4-24.6.0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6.0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9.0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></a></div></div><div id=comments class="print:!tw-hidden tw-pt-32 tw-pb-8"><div id=twikoo></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://twikoo.js.org/>Twikoo</a>.</noscript></div></article></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.153.4">Hugo</a> 强力驱动&nbsp;|&nbsp;托管在 <a title="Github Pages" href=https://docs.github.com/en/pages/ target=_blank rel="noopener noreffer">GitHub Pages</a> 上&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.4.2"><svg class="icon" viewBox="0 0 576 512"><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1.0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7.0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174 402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7-43.2-43.2c-4.1-4.1-10.8-4.1-14.8.0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg> DoIt</a></div><div class=footer-line><svg class="icon" viewBox="0 0 512 512"><path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 448c-110.532.0-2e2-89.451-2e2-2e2.0-110.531 89.451-2e2 2e2-2e2 110.532.0 2e2 89.451 2e2 2e2.0 110.532-89.451 2e2-2e2 2e2zm107.351-101.064c-9.614 9.712-45.53 41.396-104.065 41.396-82.43.0-140.484-61.425-140.484-141.567.0-79.152 60.275-139.401 139.762-139.401 55.531.0 88.738 26.62 97.593 34.779a11.965 11.965.0 011.936 15.322l-18.155 28.113c-3.841 5.95-11.966 7.282-17.499 2.921-8.595-6.776-31.814-22.538-61.708-22.538-48.303.0-77.916 35.33-77.916 80.082.0 41.589 26.888 83.692 78.277 83.692 32.657.0 56.843-19.039 65.726-27.225 5.27-4.857 13.596-4.039 17.82 1.738l19.865 27.17a11.947 11.947.0 01-1.152 15.518z"/></svg>2020 - 2025<span class=author>&nbsp;<a href=https://github.com/mengdemao target=_blank rel="noopener noreferrer">mengdemao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span><span class=icp-splitter>&nbsp;|&nbsp;</span><br class=icp-br><span class=icp><a href=https://beian.miit.gov.cn/>鲁ICP备2023050410号-1</a></span></div><div class=footer-line></div><div class=footer-line></div></div></footer><div class="print:!tw-hidden tw-flex tw-flex-col tw-fixed tw-right-4 tw-bottom-4 tw-gap-2"><a href=#back-to-top id=back-to-top-button class="tw-transition-opacity tw-opacity-0 tw-block tw-bg-bgColor-secondary tw-rounded-full" style=padding:.6rem;line-height:1.3rem;font-size:1rem title=回到顶部><svg class="icon" viewBox="0 0 448 512"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6.0-33.9L207 39c9.4-9.4 24.6-9.4 33.9.0l194.3 194.3c9.4 9.4 9.4 24.6.0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3.0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg>
 </a><button id=toc-drawer-button class="tw-block tw-bg-bgColor-secondary tw-rounded-full md:tw-hidden" style=padding:.6rem;line-height:1.3rem;font-size:1rem>
 <svg class="icon" viewBox="0 0 448 512"><path d="M16 132h416c8.837.0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163.0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg>
 </button><a href=#comments id=view-comments class="tw-block tw-bg-bgColor-secondary tw-rounded-full" style=padding:.6rem;line-height:1.3rem;font-size:1rem title=查看评论>

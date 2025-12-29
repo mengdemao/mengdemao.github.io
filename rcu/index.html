@@ -56,9 +56,9 @@ group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=nf>rcu_read_lock</span><span class=p>();</span>                <span class=c1>// 进入读临界区
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>data</span> <span class=o>=</span> <span class=nf>rcu_dereference</span><span class=p>(</span><span class=n>ptr</span><span class=p>);</span>    <span class=c1>// 安全获取指针
+</span></span></span><span class=line><span class=cl><span class=n>data</span> <span class=o>=</span> <span class=nf>rcu_dereference</span><span class=p>(</span><span class=n>ptr</span><span class=p>);</span>    <span class=c1>// 安全获取指针
 </span></span></span><span class=line><span class=cl><span class=c1>// 读取数据...
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nf>rcu_read_unlock</span><span class=p>();</span>              <span class=c1>// 退出读临界区
+</span></span></span><span class=line><span class=cl><span class=nf>rcu_read_unlock</span><span class=p>();</span>              <span class=c1>// 退出读临界区
 </span></span></span></code></pre></div><p>写侧</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
 tw-flex-row
 tw-flex-1
@@ -106,21 +106,21 @@ group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=c1>// 1. 分配新数据并初始化
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>new_data</span> <span class=o>=</span> <span class=nf>kmalloc</span><span class=p>(</span><span class=k>sizeof</span><span class=p>(</span><span class=o>*</span><span class=n>new_data</span><span class=p>),</span> <span class=n>GFP_KERNEL</span><span class=p>);</span>
+</span></span></span><span class=line><span class=cl><span class=n>new_data</span> <span class=o>=</span> <span class=nf>kmalloc</span><span class=p>(</span><span class=k>sizeof</span><span class=p>(</span><span class=o>*</span><span class=n>new_data</span><span class=p>),</span> <span class=n>GFP_KERNEL</span><span class=p>);</span>
 </span></span><span class=line><span class=cl><span class=nf>memcpy</span><span class=p>(</span><span class=n>new_data</span><span class=p>,</span> <span class=n>old_data</span><span class=p>,</span> <span class=k>sizeof</span><span class=p>(</span><span class=o>*</span><span class=n>new_data</span><span class=p>));</span>
 </span></span><span class=line><span class=cl><span class=n>new_data</span><span class=o>-&gt;</span><span class=n>value</span> <span class=o>=</span> <span class=n>new_value</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=c1>// 2. 替换指针
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nf>rcu_assign_pointer</span><span class=p>(</span><span class=n>ptr</span><span class=p>,</span> <span class=n>new_data</span><span class=p>);</span>
+</span></span></span><span class=line><span class=cl><span class=nf>rcu_assign_pointer</span><span class=p>(</span><span class=n>ptr</span><span class=p>,</span> <span class=n>new_data</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=c1>// 3. 同步等待宽限期结束（阻塞）
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nf>synchronize_rcu</span><span class=p>();</span>
+</span></span></span><span class=line><span class=cl><span class=nf>synchronize_rcu</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=c1>// 4. 释放旧数据
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nf>kfree</span><span class=p>(</span><span class=n>old_data</span><span class=p>);</span>
+</span></span></span><span class=line><span class=cl><span class=nf>kfree</span><span class=p>(</span><span class=n>old_data</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=c1>// 或使用异步回收（非阻塞）：
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nf>call_rcu</span><span class=p>(</span><span class=o>&amp;</span><span class=n>old_data</span><span class=o>-&gt;</span><span class=n>rcu_head</span><span class=p>,</span> <span class=n>callback_func</span><span class=p>);</span></span></span></code></pre></div><p>编写一个完整的rcu测试demo</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+</span></span></span><span class=line><span class=cl><span class=nf>call_rcu</span><span class=p>(</span><span class=o>&amp;</span><span class=n>old_data</span><span class=o>-&gt;</span><span class=n>rcu_head</span><span class=p>,</span> <span class=n>callback_func</span><span class=p>);</span></span></span></code></pre></div><p>编写一个完整的rcu测试demo</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
 tw-flex-row
 tw-flex-1
 tw-justify-between
@@ -171,27 +171,27 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#include</span
 </span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;linux/rcupdate.h&gt;</span><span class=cp>
 </span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;linux/slab.h&gt;</span><span class=cp>
 </span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;linux/uaccess.h&gt;</span><span class=cp>
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#define DEVICE_NAME &#34;rcu_demo&#34;
 </span></span></span><span class=line><span class=cl><span class=cp>#define CLASS_NAME &#34;rcucls&#34;
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=nf>MODULE_LICENSE</span><span class=p>(</span><span class=s>&#34;GPL&#34;</span><span class=p>);</span>
 </span></span><span class=line><span class=cl><span class=nf>MODULE_AUTHOR</span><span class=p>(</span><span class=s>&#34;Your Name&#34;</span><span class=p>);</span>
 </span></span><span class=line><span class=cl><span class=nf>MODULE_DESCRIPTION</span><span class=p>(</span><span class=s>&#34;RCU Demo Driver Module&#34;</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=c1>// 定义受保护的数据结构
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>struct</span> <span class=n>rcu_data</span> <span class=p>{</span>
+</span></span></span><span class=line><span class=cl><span class=k>struct</span> <span class=n>rcu_data</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>value</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>    <span class=k>struct</span> <span class=n>rcu_head</span> <span class=n>rcu</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=p>};</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=k>static</span> <span class=k>struct</span> <span class=n>rcu_data</span> <span class=n>__rcu</span> <span class=o>*</span><span class=n>global_data</span> <span class=o>=</span> <span class=nb>NULL</span><span class=p>;</span> <span class=c1>// RCU保护的全局数据
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>static</span> <span class=kt>int</span> <span class=n>major_number</span><span class=p>;</span>
+</span></span></span><span class=line><span class=cl><span class=k>static</span> <span class=kt>int</span> <span class=n>major_number</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=k>static</span> <span class=k>struct</span> <span class=n>class</span> <span class=o>*</span><span class=n>rcu_class</span> <span class=o>=</span> <span class=nb>NULL</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=k>static</span> <span class=k>struct</span> <span class=n>device</span> <span class=o>*</span><span class=n>rcu_device</span> <span class=o>=</span> <span class=nb>NULL</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=c1>// 异步回收回调函数
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>static</span> <span class=kt>void</span> <span class=nf>rcu_free_callback</span><span class=p>(</span><span class=k>struct</span> <span class=n>rcu_head</span> <span class=o>*</span><span class=n>rcu</span><span class=p>)</span>
+</span></span></span><span class=line><span class=cl><span class=k>static</span> <span class=kt>void</span> <span class=nf>rcu_free_callback</span><span class=p>(</span><span class=k>struct</span> <span class=n>rcu_head</span> <span class=o>*</span><span class=n>rcu</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=k>struct</span> <span class=n>rcu_data</span> <span class=o>*</span><span class=n>data</span> <span class=o>=</span> <span class=nf>container_of</span><span class=p>(</span><span class=n>rcu</span><span class=p>,</span> <span class=k>struct</span> <span class=n>rcu_data</span><span class=p>,</span> <span class=n>rcu</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>    <span class=nf>kfree</span><span class=p>(</span><span class=n>data</span><span class=p>);</span>
@@ -199,32 +199,32 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#include</span
 </span></span><span class=line><span class=cl><span class=p>}</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=c1>// 写操作处理
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>static</span> <span class=kt>ssize_t</span> <span class=nf>dev_write</span><span class=p>(</span><span class=k>struct</span> <span class=n>file</span> <span class=o>*</span><span class=n>filp</span><span class=p>,</span> <span class=k>const</span> <span class=kt>char</span> <span class=n>__user</span> <span class=o>*</span><span class=n>buf</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl><span class=k>static</span> <span class=kt>ssize_t</span> <span class=nf>dev_write</span><span class=p>(</span><span class=k>struct</span> <span class=n>file</span> <span class=o>*</span><span class=n>filp</span><span class=p>,</span> <span class=k>const</span> <span class=kt>char</span> <span class=n>__user</span> <span class=o>*</span><span class=n>buf</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>                        <span class=kt>size_t</span> <span class=n>count</span><span class=p>,</span> <span class=kt>loff_t</span> <span class=o>*</span><span class=n>pos</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>new_value</span><span class=p>,</span> <span class=n>ret</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>    <span class=k>struct</span> <span class=n>rcu_data</span> <span class=o>*</span><span class=n>new_data</span><span class=p>,</span> <span class=o>*</span><span class=n>old_data</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=c1>// 从用户空间获取新值
-</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>if</span> <span class=p>(</span><span class=nf>copy_from_user</span><span class=p>(</span><span class=o>&amp;</span><span class=n>new_value</span><span class=p>,</span> <span class=n>buf</span><span class=p>,</span> <span class=k>sizeof</span><span class=p>(</span><span class=kt>int</span><span class=p>)))</span>
+</span></span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=nf>copy_from_user</span><span class=p>(</span><span class=o>&amp;</span><span class=n>new_value</span><span class=p>,</span> <span class=n>buf</span><span class=p>,</span> <span class=k>sizeof</span><span class=p>(</span><span class=kt>int</span><span class=p>)))</span>
 </span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=o>-</span><span class=n>EFAULT</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=c1>// 分配新数据结构
-</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>new_data</span> <span class=o>=</span> <span class=nf>kmalloc</span><span class=p>(</span><span class=k>sizeof</span><span class=p>(</span><span class=o>*</span><span class=n>new_data</span><span class=p>),</span> <span class=n>GFP_KERNEL</span><span class=p>);</span>
+</span></span></span><span class=line><span class=cl>    <span class=n>new_data</span> <span class=o>=</span> <span class=nf>kmalloc</span><span class=p>(</span><span class=k>sizeof</span><span class=p>(</span><span class=o>*</span><span class=n>new_data</span><span class=p>),</span> <span class=n>GFP_KERNEL</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>new_data</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=o>-</span><span class=n>ENOMEM</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=c1>// 初始化新数据
-</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>new_data</span><span class=o>-&gt;</span><span class=n>value</span> <span class=o>=</span> <span class=n>new_value</span><span class=p>;</span>
+</span></span></span><span class=line><span class=cl>    <span class=n>new_data</span><span class=o>-&gt;</span><span class=n>value</span> <span class=o>=</span> <span class=n>new_value</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=c1>// RCU指针替换
-</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>old_data</span> <span class=o>=</span> <span class=nf>rcu_replace_pointer</span><span class=p>(</span><span class=n>global_data</span><span class=p>,</span> <span class=n>new_data</span><span class=p>,</span> <span class=nb>true</span><span class=p>);</span>
+</span></span></span><span class=line><span class=cl>    <span class=n>old_data</span> <span class=o>=</span> <span class=nf>rcu_replace_pointer</span><span class=p>(</span><span class=n>global_data</span><span class=p>,</span> <span class=n>new_data</span><span class=p>,</span> <span class=nb>true</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=c1>// 同步等待宽限期结束
-</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nf>synchronize_rcu</span><span class=p>();</span>
+</span></span></span><span class=line><span class=cl>    <span class=nf>synchronize_rcu</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=c1>// 释放旧数据（异步方式可使用call_rcu）
-</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>if</span> <span class=p>(</span><span class=n>old_data</span><span class=p>)</span> <span class=p>{</span>
+</span></span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>old_data</span><span class=p>)</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>        <span class=nf>kfree_rcu</span><span class=p>(</span><span class=n>old_data</span><span class=p>,</span> <span class=n>rcu</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>        <span class=nf>printk</span><span class=p>(</span><span class=n>KERN_INFO</span> <span class=s>&#34;RCU: Updated value to %d</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span> <span class=n>new_value</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>    <span class=p>}</span>
@@ -233,7 +233,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#include</span
 </span></span><span class=line><span class=cl><span class=p>}</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=c1>// 读操作处理
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>static</span> <span class=kt>ssize_t</span> <span class=nf>dev_read</span><span class=p>(</span><span class=k>struct</span> <span class=n>file</span> <span class=o>*</span><span class=n>filp</span><span class=p>,</span> <span class=kt>char</span> <span class=n>__user</span> <span class=o>*</span><span class=n>buf</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl><span class=k>static</span> <span class=kt>ssize_t</span> <span class=nf>dev_read</span><span class=p>(</span><span class=k>struct</span> <span class=n>file</span> <span class=o>*</span><span class=n>filp</span><span class=p>,</span> <span class=kt>char</span> <span class=n>__user</span> <span class=o>*</span><span class=n>buf</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>                       <span class=kt>size_t</span> <span class=n>count</span><span class=p>,</span> <span class=kt>loff_t</span> <span class=o>*</span><span class=n>pos</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=k>struct</span> <span class=n>rcu_data</span> <span class=o>*</span><span class=n>data</span><span class=p>;</span>
@@ -258,10 +258,10 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#include</span
 </span></span><span class=line><span class=cl><span class=p>};</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=c1>// 模块初始化
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>static</span> <span class=kt>int</span> <span class=n>__init</span> <span class=nf>rcu_init</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
+</span></span></span><span class=line><span class=cl><span class=k>static</span> <span class=kt>int</span> <span class=n>__init</span> <span class=nf>rcu_init</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=c1>// 初始化默认数据
-</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>struct</span> <span class=n>rcu_data</span> <span class=o>*</span><span class=n>data</span> <span class=o>=</span> <span class=nf>kmalloc</span><span class=p>(</span><span class=k>sizeof</span><span class=p>(</span><span class=o>*</span><span class=n>data</span><span class=p>),</span> <span class=n>GFP_KERNEL</span><span class=p>);</span>
+</span></span></span><span class=line><span class=cl>    <span class=k>struct</span> <span class=n>rcu_data</span> <span class=o>*</span><span class=n>data</span> <span class=o>=</span> <span class=nf>kmalloc</span><span class=p>(</span><span class=k>sizeof</span><span class=p>(</span><span class=o>*</span><span class=n>data</span><span class=p>),</span> <span class=n>GFP_KERNEL</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>data</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=o>-</span><span class=n>ENOMEM</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
@@ -269,14 +269,14 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#include</span
 </span></span><span class=line><span class=cl>    <span class=nf>rcu_assign_pointer</span><span class=p>(</span><span class=n>global_data</span><span class=p>,</span> <span class=n>data</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=c1>// 注册字符设备
-</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>major_number</span> <span class=o>=</span> <span class=nf>register_chrdev</span><span class=p>(</span><span class=mi>0</span><span class=p>,</span> <span class=n>DEVICE_NAME</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>fops</span><span class=p>);</span>
+</span></span></span><span class=line><span class=cl>    <span class=n>major_number</span> <span class=o>=</span> <span class=nf>register_chrdev</span><span class=p>(</span><span class=mi>0</span><span class=p>,</span> <span class=n>DEVICE_NAME</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>fops</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>major_number</span> <span class=o>&lt;</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>        <span class=nf>kfree</span><span class=p>(</span><span class=n>data</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>major_number</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>    <span class=p>}</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=c1>// 创建设备文件
-</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>rcu_class</span> <span class=o>=</span> <span class=nf>class_create</span><span class=p>(</span><span class=n>THIS_MODULE</span><span class=p>,</span> <span class=n>CLASS_NAME</span><span class=p>);</span>
+</span></span></span><span class=line><span class=cl>    <span class=n>rcu_class</span> <span class=o>=</span> <span class=nf>class_create</span><span class=p>(</span><span class=n>THIS_MODULE</span><span class=p>,</span> <span class=n>CLASS_NAME</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=nf>IS_ERR</span><span class=p>(</span><span class=n>rcu_class</span><span class=p>))</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>        <span class=nf>unregister_chrdev</span><span class=p>(</span><span class=n>major_number</span><span class=p>,</span> <span class=n>DEVICE_NAME</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>        <span class=nf>kfree</span><span class=p>(</span><span class=n>data</span><span class=p>);</span>
@@ -297,7 +297,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#include</span
 </span></span><span class=line><span class=cl><span class=p>}</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=c1>// 模块退出
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>static</span> <span class=kt>void</span> <span class=n>__exit</span> <span class=nf>rcu_exit</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
+</span></span></span><span class=line><span class=cl><span class=k>static</span> <span class=kt>void</span> <span class=n>__exit</span> <span class=nf>rcu_exit</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=k>struct</span> <span class=n>rcu_data</span> <span class=o>*</span><span class=n>data</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
@@ -307,7 +307,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#include</span
 </span></span><span class=line><span class=cl>    <span class=nf>unregister_chrdev</span><span class=p>(</span><span class=n>major_number</span><span class=p>,</span> <span class=n>DEVICE_NAME</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=c1>// 清理全局数据
-</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>data</span> <span class=o>=</span> <span class=nf>rcu_dereference</span><span class=p>(</span><span class=n>global_data</span><span class=p>);</span>
+</span></span></span><span class=line><span class=cl>    <span class=n>data</span> <span class=o>=</span> <span class=nf>rcu_dereference</span><span class=p>(</span><span class=n>global_data</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>data</span><span class=p>)</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>        <span class=nf>synchronize_rcu</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>        <span class=nf>kfree</span><span class=p>(</span><span class=n>data</span><span class=p>);</span>
@@ -520,11 +520,11 @@ group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#define rcu_dereference(p) rcu_dereference_check(p, 0)
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#define rcu_dereference_check(p, c) \
 </span></span></span><span class=line><span class=cl><span class=cp>	__rcu_dereference_check((p), __UNIQUE_ID(rcu), \
 </span></span></span><span class=line><span class=cl><span class=cp>				(c) || rcu_read_lock_held(), __rcu)
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#define __rcu_dereference_check(p, local, c, space) \
 </span></span></span><span class=line><span class=cl><span class=cp>({ \
@@ -589,7 +589,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#define rcu_re
 </span><span>|&nbsp;<a class=link-to-source href=https://github.com/mengdemao/github.io/blob/master/content/posts/rcu/index.md target=_blank rel="noopener noreferrer">查看源代码</a>
 </span><span>|&nbsp;<a class=link-to-edit href=https://github.com/mengdemao/github.io/edit/master/content/posts/rcu/index.md target=_blank rel="noopener noreferrer">编辑此页</a>
 </span><span>|&nbsp;<a class=link-to-report href="https://github.com/mengdemao/github.io/issues/new?title=[bug]%20RCU%E6%9C%BA%E5%88%B6&body=|Field|Value|%0A|-|-|%0A|Title|RCU%E6%9C%BA%E5%88%B6|%0A|Url|https://mengdemao.com/rcu/|%0A|Filename|https://github.com/mengdemao/github.io/blob/main/exampleSite/content/posts/rcu/index.md|" target=_blank rel="noopener noreferrer">报告问题</a></span></div><div class=post-info-share></div></div></div><div class=post-info-more><section class=post-tags><svg class="icon" viewBox="0 0 640 512"><path d="M497.941 225.941 286.059 14.059A48 48 0 00252.118.0H48C21.49.0.0 21.49.0 48v204.118a48 48 0 0014.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882.0l204.118-204.118c18.745-18.745 18.745-49.137.0-67.882zM112 160c-26.51.0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882.0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397.0h48.721a48 48 0 0133.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137.0 67.882z"/></svg>&nbsp;<a href=/tags/kernel/>Kernel</a></section><section class=print:!tw-hidden><span><button class="tw-text-fgColor-link-muted hover:tw-text-fgColor-link-muted-hover" onclick=window.history.back()>返回</button></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class="post-nav print:tw-hidden"><a href=/cxx_tuple/ class=prev rel=prev title=C++元组><svg class="icon" viewBox="0 0 256 512"><path d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9.0l22.6 22.6c9.4 9.4 9.4 24.6.0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6.0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9.0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"/></svg>C++元组</a>
-<a href=/cxx_primer/ class=next rel=next title="C++ Primer笔记">C++ Primer笔记<svg class="icon" viewBox="0 0 256 512"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9.0l-22.6-22.6c-9.4-9.4-9.4-24.6.0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6.0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9.0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></a></div></div><div id=comments class="print:!tw-hidden tw-pt-32 tw-pb-8"><div id=twikoo></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://twikoo.js.org/>Twikoo</a>.</noscript></div></article></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.152.2">Hugo</a> 强力驱动&nbsp;|&nbsp;托管在 <a title="Github Pages" href=https://docs.github.com/en/pages/ target=_blank rel="noopener noreffer">GitHub Pages</a> 上&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.4.2"><svg class="icon" viewBox="0 0 576 512"><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1.0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7.0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174 402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7-43.2-43.2c-4.1-4.1-10.8-4.1-14.8.0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg> DoIt</a></div><div class=footer-line><svg class="icon" viewBox="0 0 512 512"><path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 448c-110.532.0-2e2-89.451-2e2-2e2.0-110.531 89.451-2e2 2e2-2e2 110.532.0 2e2 89.451 2e2 2e2.0 110.532-89.451 2e2-2e2 2e2zm107.351-101.064c-9.614 9.712-45.53 41.396-104.065 41.396-82.43.0-140.484-61.425-140.484-141.567.0-79.152 60.275-139.401 139.762-139.401 55.531.0 88.738 26.62 97.593 34.779a11.965 11.965.0 011.936 15.322l-18.155 28.113c-3.841 5.95-11.966 7.282-17.499 2.921-8.595-6.776-31.814-22.538-61.708-22.538-48.303.0-77.916 35.33-77.916 80.082.0 41.589 26.888 83.692 78.277 83.692 32.657.0 56.843-19.039 65.726-27.225 5.27-4.857 13.596-4.039 17.82 1.738l19.865 27.17a11.947 11.947.0 01-1.152 15.518z"/></svg>2020 - 2025<span class=author>&nbsp;<a href=https://github.com/mengdemao target=_blank rel="noopener noreferrer">mengdemao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span><span class=icp-splitter>&nbsp;|&nbsp;</span><br class=icp-br><span class=icp><a href=https://beian.miit.gov.cn/>鲁ICP备2023050410号-1</a></span></div><div class=footer-line></div><div class=footer-line></div></div></footer><div class="print:!tw-hidden tw-flex tw-flex-col tw-fixed tw-right-4 tw-bottom-4 tw-gap-2"><a href=#back-to-top id=back-to-top-button class="tw-transition-opacity tw-opacity-0 tw-block tw-bg-bgColor-secondary tw-rounded-full" style=padding:.6rem;line-height:1.3rem;font-size:1rem title=回到顶部><svg class="icon" viewBox="0 0 448 512"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6.0-33.9L207 39c9.4-9.4 24.6-9.4 33.9.0l194.3 194.3c9.4 9.4 9.4 24.6.0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3.0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg>
+<a href=/cxx_primer/ class=next rel=next title="C++ Primer笔记">C++ Primer笔记<svg class="icon" viewBox="0 0 256 512"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9.0l-22.6-22.6c-9.4-9.4-9.4-24.6.0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6.0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9.0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></a></div></div><div id=comments class="print:!tw-hidden tw-pt-32 tw-pb-8"><div id=twikoo></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://twikoo.js.org/>Twikoo</a>.</noscript></div></article></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.153.4">Hugo</a> 强力驱动&nbsp;|&nbsp;托管在 <a title="Github Pages" href=https://docs.github.com/en/pages/ target=_blank rel="noopener noreffer">GitHub Pages</a> 上&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.4.2"><svg class="icon" viewBox="0 0 576 512"><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1.0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7.0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174 402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7-43.2-43.2c-4.1-4.1-10.8-4.1-14.8.0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg> DoIt</a></div><div class=footer-line><svg class="icon" viewBox="0 0 512 512"><path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 448c-110.532.0-2e2-89.451-2e2-2e2.0-110.531 89.451-2e2 2e2-2e2 110.532.0 2e2 89.451 2e2 2e2.0 110.532-89.451 2e2-2e2 2e2zm107.351-101.064c-9.614 9.712-45.53 41.396-104.065 41.396-82.43.0-140.484-61.425-140.484-141.567.0-79.152 60.275-139.401 139.762-139.401 55.531.0 88.738 26.62 97.593 34.779a11.965 11.965.0 011.936 15.322l-18.155 28.113c-3.841 5.95-11.966 7.282-17.499 2.921-8.595-6.776-31.814-22.538-61.708-22.538-48.303.0-77.916 35.33-77.916 80.082.0 41.589 26.888 83.692 78.277 83.692 32.657.0 56.843-19.039 65.726-27.225 5.27-4.857 13.596-4.039 17.82 1.738l19.865 27.17a11.947 11.947.0 01-1.152 15.518z"/></svg>2020 - 2025<span class=author>&nbsp;<a href=https://github.com/mengdemao target=_blank rel="noopener noreferrer">mengdemao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span><span class=icp-splitter>&nbsp;|&nbsp;</span><br class=icp-br><span class=icp><a href=https://beian.miit.gov.cn/>鲁ICP备2023050410号-1</a></span></div><div class=footer-line></div><div class=footer-line></div></div></footer><div class="print:!tw-hidden tw-flex tw-flex-col tw-fixed tw-right-4 tw-bottom-4 tw-gap-2"><a href=#back-to-top id=back-to-top-button class="tw-transition-opacity tw-opacity-0 tw-block tw-bg-bgColor-secondary tw-rounded-full" style=padding:.6rem;line-height:1.3rem;font-size:1rem title=回到顶部><svg class="icon" viewBox="0 0 448 512"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6.0-33.9L207 39c9.4-9.4 24.6-9.4 33.9.0l194.3 194.3c9.4 9.4 9.4 24.6.0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3.0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg>
 </a><button id=toc-drawer-button class="tw-block tw-bg-bgColor-secondary tw-rounded-full md:tw-hidden" style=padding:.6rem;line-height:1.3rem;font-size:1rem>
 <svg class="icon" viewBox="0 0 448 512"><path d="M16 132h416c8.837.0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163.0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg>
 </button><a href=#comments id=view-comments class="tw-block tw-bg-bgColor-secondary tw-rounded-full" style=padding:.6rem;line-height:1.3rem;font-size:1rem title=查看评论>

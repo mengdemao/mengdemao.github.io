@@ -113,22 +113,22 @@ tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=nl>test:</span>
 </span></span><span class=line><span class=cl>    <span class=nf>push</span>    <span class=err>{</span><span class=no>r7</span><span class=err>}</span>                <span class=err>@</span> <span class=no>r7</span> <span class=p>--</span><span class=err>&gt;</span> <span class=no>stack</span>
 </span></span><span class=line><span class=cl>    <span class=nf>sub</span>     <span class=no>sp</span><span class=p>,</span> <span class=no>sp</span><span class=p>,</span> <span class=c1>#12         @ sp = sp + 12  // 三个局部变量
-</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nf>add</span>     <span class=no>r7</span><span class=p>,</span> <span class=no>sp</span><span class=p>,</span> <span class=c1>#0          @ r7 = sp
-</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nf>str</span>     <span class=no>r0</span><span class=p>,</span> <span class=p>[</span><span class=no>r7</span><span class=p>,</span> <span class=c1>#4]        @ 保存第一个变量
-</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nf>str</span>     <span class=no>r1</span><span class=p>,</span> <span class=p>[</span><span class=no>r7</span><span class=p>]</span>            <span class=err>@</span> <span class=err>保存第二个变量</span>
+</span></span></span><span class=line><span class=cl>    <span class=nf>add</span>     <span class=no>r7</span><span class=p>,</span> <span class=no>sp</span><span class=p>,</span> <span class=c1>#0          @ r7 = sp
+</span></span></span><span class=line><span class=cl>    <span class=nf>str</span>     <span class=no>r0</span><span class=p>,</span> <span class=p>[</span><span class=no>r7</span><span class=p>,</span> <span class=c1>#4]        @ 保存第一个变量
+</span></span></span><span class=line><span class=cl>    <span class=nf>str</span>     <span class=no>r1</span><span class=p>,</span> <span class=p>[</span><span class=no>r7</span><span class=p>]</span>            <span class=err>@</span> <span class=err>保存第二个变量</span>
 </span></span><span class=line><span class=cl>    <span class=nf>movs</span>    <span class=no>r3</span><span class=p>,</span> <span class=c1>#0              @ r3 = 0
-</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nf>mov</span>     <span class=no>r0</span><span class=p>,</span> <span class=no>r3</span>              <span class=err>@</span> <span class=no>r0</span> <span class=err>=</span> <span class=no>r3</span>
+</span></span></span><span class=line><span class=cl>    <span class=nf>mov</span>     <span class=no>r0</span><span class=p>,</span> <span class=no>r3</span>              <span class=err>@</span> <span class=no>r0</span> <span class=err>=</span> <span class=no>r3</span>
 </span></span><span class=line><span class=cl>    <span class=nf>adds</span>    <span class=no>r7</span><span class=p>,</span> <span class=no>r7</span><span class=p>,</span> <span class=c1>#12         @ r7 = r7 + 12
-</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nf>mov</span>     <span class=no>sp</span><span class=p>,</span> <span class=no>r7</span>              <span class=err>@</span> <span class=no>sp</span> <span class=err>=</span> <span class=no>r7</span> <span class=p>(</span><span class=err>销毁堆栈</span><span class=p>)</span>
+</span></span></span><span class=line><span class=cl>    <span class=nf>mov</span>     <span class=no>sp</span><span class=p>,</span> <span class=no>r7</span>              <span class=err>@</span> <span class=no>sp</span> <span class=err>=</span> <span class=no>r7</span> <span class=p>(</span><span class=err>销毁堆栈</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>    <span class=nf>ldr</span>     <span class=no>r7</span><span class=p>,</span> <span class=p>[</span><span class=no>sp</span><span class=p>],</span> <span class=c1>#4        @ 恢复r7
-</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nf>bx</span>      <span class=no>lr</span>                  <span class=err>@</span> <span class=err>执行返回</span>
+</span></span></span><span class=line><span class=cl>    <span class=nf>bx</span>      <span class=no>lr</span>                  <span class=err>@</span> <span class=err>执行返回</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=nl>main:</span>
 </span></span><span class=line><span class=cl>    <span class=nf>push</span>    <span class=err>{</span><span class=no>r7</span><span class=p>,</span> <span class=no>lr</span><span class=err>}</span>    <span class=err>@</span> <span class=err>保存</span><span class=no>r7</span><span class=p>,</span> <span class=no>lr</span>
 </span></span><span class=line><span class=cl>    <span class=nf>add</span>     <span class=no>r7</span><span class=p>,</span> <span class=no>sp</span><span class=p>,</span> <span class=c1>#0  @ r7 = sp
-</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nf>movs</span>    <span class=no>r1</span><span class=p>,</span> <span class=c1>#2      @ r1 = 2
-</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nf>movs</span>    <span class=no>r0</span><span class=p>,</span> <span class=c1>#1      @ r0 = 1
-</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nf>bl</span>      <span class=no>test</span>        <span class=err>@</span> <span class=no>call</span> <span class=no>test</span>
+</span></span></span><span class=line><span class=cl>    <span class=nf>movs</span>    <span class=no>r1</span><span class=p>,</span> <span class=c1>#2      @ r1 = 2
+</span></span></span><span class=line><span class=cl>    <span class=nf>movs</span>    <span class=no>r0</span><span class=p>,</span> <span class=c1>#1      @ r0 = 1
+</span></span></span><span class=line><span class=cl>    <span class=nf>bl</span>      <span class=no>test</span>        <span class=err>@</span> <span class=no>call</span> <span class=no>test</span>
 </span></span><span class=line><span class=cl>    <span class=nf>nop</span>                 <span class=err>@</span> <span class=no>nop</span>
 </span></span><span class=line><span class=cl>    <span class=nf>pop</span>     <span class=err>{</span><span class=no>r7</span><span class=p>,</span> <span class=no>pc</span><span class=err>}</span>    <span class=err>@</span> <span class=no>lr_r</span> <span class=err>=</span> <span class=no>pc_v</span>
 </span></span><span class=line><span class=cl>                        <span class=err>@</span> <span class=nf>r7_r</span> <span class=err>=</span> <span class=no>r7_v</span></span></span></code></pre></div><h3 id=总结 class=headerLink><a href=#%e6%80%bb%e7%bb%93 class=header-mark></a>1.4 总结</h3><p>那么,多任务就可以任务是从一个函数切换到另外一个函数;</br>但是此种切换对于任务来说是不可见的;</p><ul><li>任务切换需要特权(定时器中断)</li><li>任务切换需要时停(开关中断)</li></ul><h2 id=任务-1 class=headerLink><a href=#%e4%bb%bb%e5%8a%a1-1 class=header-mark></a>2 任务</h2><h3 id=任务创建 class=headerLink><a href=#%e4%bb%bb%e5%8a%a1%e5%88%9b%e5%bb%ba class=header-mark></a>2.1 任务创建</h3><ul><li>分配TCB_t结构体</li><li>初始化参数(prvInitialiseNewTask)</li><li>添加到就绪列表(prvAddNewTaskToReadyList)</li></ul><h4 id=分配tcb结构体 class=headerLink><a href=#%e5%88%86%e9%85%8dtcb%e7%bb%93%e6%9e%84%e4%bd%93 class=header-mark></a>2.1.1 分配TCB结构体</h4><ol><li>申请TCB内存</li><li>申请栈内存</li></ol><p>TCB结构体类型</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
@@ -183,9 +183,9 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>typedef</span> 
 </span></span><span class=line><span class=cl>    <span class=k>volatile</span> <span class=n>StackType_t</span> <span class=o>*</span> <span class=n>pxTopOfStack</span><span class=p>;</span> <span class=cm>/*&lt; Points to the location of the last item placed on the tasks stack.  THIS MUST BE THE FIRST MEMBER OF THE TCB STRUCT. */</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=cp>#if ( portUSING_MPU_WRAPPERS == 1 )
-</span></span></span><span class=line><span class=cl><span class=cp></span>        <span class=n>xMPU_SETTINGS</span> <span class=n>xMPUSettings</span><span class=p>;</span> <span class=cm>/*&lt; The MPU settings are defined as part of the port layer.  THIS MUST BE THE SECOND MEMBER OF THE TCB STRUCT. */</span>
+</span></span></span><span class=line><span class=cl>        <span class=n>xMPU_SETTINGS</span> <span class=n>xMPUSettings</span><span class=p>;</span> <span class=cm>/*&lt; The MPU settings are defined as part of the port layer.  THIS MUST BE THE SECOND MEMBER OF THE TCB STRUCT. */</span>
 </span></span><span class=line><span class=cl>    <span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=n>ListItem_t</span> <span class=n>xStateListItem</span><span class=p>;</span>                  <span class=cm>/*&lt; The list that the state list item of a task is reference from denotes the state of that task (Ready, Blocked, Suspended ). */</span>
 </span></span><span class=line><span class=cl>    <span class=n>ListItem_t</span> <span class=n>xEventListItem</span><span class=p>;</span>                  <span class=cm>/*&lt; Used to reference a task from an event list. */</span>
 </span></span><span class=line><span class=cl>    <span class=n>UBaseType_t</span> <span class=n>uxPriority</span><span class=p>;</span>                     <span class=cm>/*&lt; The priority of the task.  0 is the lowest priority. */</span>
@@ -193,37 +193,37 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>typedef</span> 
 </span></span><span class=line><span class=cl>    <span class=kt>char</span> <span class=n>pcTaskName</span><span class=p>[</span> <span class=n>configMAX_TASK_NAME_LEN</span> <span class=p>];</span> <span class=cm>/*&lt; Descriptive name given to the task when created.  Facilitates debugging only. */</span> <span class=cm>/*lint !e971 Unqualified char types are allowed for strings and single characters only. */</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=cp>#if ( ( portSTACK_GROWTH &gt; 0 ) || ( configRECORD_STACK_HIGH_ADDRESS == 1 ) )
-</span></span></span><span class=line><span class=cl><span class=cp></span>        <span class=n>StackType_t</span> <span class=o>*</span> <span class=n>pxEndOfStack</span><span class=p>;</span> <span class=cm>/*&lt; Points to the highest valid address for the stack. */</span>
+</span></span></span><span class=line><span class=cl>        <span class=n>StackType_t</span> <span class=o>*</span> <span class=n>pxEndOfStack</span><span class=p>;</span> <span class=cm>/*&lt; Points to the highest valid address for the stack. */</span>
 </span></span><span class=line><span class=cl>    <span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=cp>#if ( portCRITICAL_NESTING_IN_TCB == 1 )
-</span></span></span><span class=line><span class=cl><span class=cp></span>        <span class=n>UBaseType_t</span> <span class=n>uxCriticalNesting</span><span class=p>;</span> <span class=cm>/*&lt; Holds the critical section nesting depth for ports that do not maintain their own count in the port layer. */</span>
+</span></span></span><span class=line><span class=cl>        <span class=n>UBaseType_t</span> <span class=n>uxCriticalNesting</span><span class=p>;</span> <span class=cm>/*&lt; Holds the critical section nesting depth for ports that do not maintain their own count in the port layer. */</span>
 </span></span><span class=line><span class=cl>    <span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=cp>#if ( configUSE_TRACE_FACILITY == 1 )
-</span></span></span><span class=line><span class=cl><span class=cp></span>        <span class=n>UBaseType_t</span> <span class=n>uxTCBNumber</span><span class=p>;</span>  <span class=cm>/*&lt; Stores a number that increments each time a TCB is created.  It allows debuggers to determine when a task has been deleted and then recreated. */</span>
+</span></span></span><span class=line><span class=cl>        <span class=n>UBaseType_t</span> <span class=n>uxTCBNumber</span><span class=p>;</span>  <span class=cm>/*&lt; Stores a number that increments each time a TCB is created.  It allows debuggers to determine when a task has been deleted and then recreated. */</span>
 </span></span><span class=line><span class=cl>        <span class=n>UBaseType_t</span> <span class=n>uxTaskNumber</span><span class=p>;</span> <span class=cm>/*&lt; Stores a number specifically for use by third party trace code. */</span>
 </span></span><span class=line><span class=cl>    <span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=cp>#if ( configUSE_MUTEXES == 1 )
-</span></span></span><span class=line><span class=cl><span class=cp></span>        <span class=n>UBaseType_t</span> <span class=n>uxBasePriority</span><span class=p>;</span> <span class=cm>/*&lt; The priority last assigned to the task - used by the priority inheritance mechanism. */</span>
+</span></span></span><span class=line><span class=cl>        <span class=n>UBaseType_t</span> <span class=n>uxBasePriority</span><span class=p>;</span> <span class=cm>/*&lt; The priority last assigned to the task - used by the priority inheritance mechanism. */</span>
 </span></span><span class=line><span class=cl>        <span class=n>UBaseType_t</span> <span class=n>uxMutexesHeld</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>    <span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=cp>#if ( configUSE_APPLICATION_TASK_TAG == 1 )
-</span></span></span><span class=line><span class=cl><span class=cp></span>        <span class=n>TaskHookFunction_t</span> <span class=n>pxTaskTag</span><span class=p>;</span>
+</span></span></span><span class=line><span class=cl>        <span class=n>TaskHookFunction_t</span> <span class=n>pxTaskTag</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>    <span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=cp>#if ( configNUM_THREAD_LOCAL_STORAGE_POINTERS &gt; 0 )
-</span></span></span><span class=line><span class=cl><span class=cp></span>        <span class=kt>void</span> <span class=o>*</span> <span class=n>pvThreadLocalStoragePointers</span><span class=p>[</span> <span class=n>configNUM_THREAD_LOCAL_STORAGE_POINTERS</span> <span class=p>];</span>
+</span></span></span><span class=line><span class=cl>        <span class=kt>void</span> <span class=o>*</span> <span class=n>pvThreadLocalStoragePointers</span><span class=p>[</span> <span class=n>configNUM_THREAD_LOCAL_STORAGE_POINTERS</span> <span class=p>];</span>
 </span></span><span class=line><span class=cl>    <span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=cp>#if ( configGENERATE_RUN_TIME_STATS == 1 )
-</span></span></span><span class=line><span class=cl><span class=cp></span>        <span class=n>configRUN_TIME_COUNTER_TYPE</span> <span class=n>ulRunTimeCounter</span><span class=p>;</span> <span class=cm>/*&lt; Stores the amount of time the task has spent in the Running state. */</span>
+</span></span></span><span class=line><span class=cl>        <span class=n>configRUN_TIME_COUNTER_TYPE</span> <span class=n>ulRunTimeCounter</span><span class=p>;</span> <span class=cm>/*&lt; Stores the amount of time the task has spent in the Running state. */</span>
 </span></span><span class=line><span class=cl>    <span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=cp>#if ( configUSE_NEWLIB_REENTRANT == 1 )
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>        <span class=cm>/* Allocate a Newlib reent structure that is specific to this task.
 </span></span></span><span class=line><span class=cl><span class=cm>         * Note Newlib support has been included by popular demand, but is not
 </span></span></span><span class=line><span class=cl><span class=cm>         * used by the FreeRTOS maintainers themselves.  FreeRTOS is not
@@ -236,26 +236,26 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>typedef</span> 
 </span></span></span><span class=line><span class=cl><span class=cm>         * for additional information. */</span>
 </span></span><span class=line><span class=cl>        <span class=k>struct</span>  <span class=n>_reent</span> <span class=n>xNewLib_reent</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>    <span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=cp>#if ( configUSE_TASK_NOTIFICATIONS == 1 )
-</span></span></span><span class=line><span class=cl><span class=cp></span>        <span class=k>volatile</span> <span class=kt>uint32_t</span> <span class=n>ulNotifiedValue</span><span class=p>[</span> <span class=n>configTASK_NOTIFICATION_ARRAY_ENTRIES</span> <span class=p>];</span>
+</span></span></span><span class=line><span class=cl>        <span class=k>volatile</span> <span class=kt>uint32_t</span> <span class=n>ulNotifiedValue</span><span class=p>[</span> <span class=n>configTASK_NOTIFICATION_ARRAY_ENTRIES</span> <span class=p>];</span>
 </span></span><span class=line><span class=cl>        <span class=k>volatile</span> <span class=kt>uint8_t</span> <span class=n>ucNotifyState</span><span class=p>[</span> <span class=n>configTASK_NOTIFICATION_ARRAY_ENTRIES</span> <span class=p>];</span>
 </span></span><span class=line><span class=cl>    <span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=cm>/* See the comments in FreeRTOS.h with the definition of
 </span></span></span><span class=line><span class=cl><span class=cm>     * tskSTATIC_AND_DYNAMIC_ALLOCATION_POSSIBLE. */</span>
 </span></span><span class=line><span class=cl>    <span class=cp>#if ( tskSTATIC_AND_DYNAMIC_ALLOCATION_POSSIBLE != 0 ) </span><span class=cm>/*lint !e731 !e9029 Macro has been consolidated for readability reasons. */</span><span class=cp>
-</span></span></span><span class=line><span class=cl><span class=cp></span>        <span class=kt>uint8_t</span> <span class=n>ucStaticallyAllocated</span><span class=p>;</span>                     <span class=cm>/*&lt; Set to pdTRUE if the task is a statically allocated to ensure no attempt is made to free the memory. */</span>
+</span></span></span><span class=line><span class=cl>        <span class=kt>uint8_t</span> <span class=n>ucStaticallyAllocated</span><span class=p>;</span>                     <span class=cm>/*&lt; Set to pdTRUE if the task is a statically allocated to ensure no attempt is made to free the memory. */</span>
 </span></span><span class=line><span class=cl>    <span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=cp>#if ( INCLUDE_xTaskAbortDelay == 1 )
-</span></span></span><span class=line><span class=cl><span class=cp></span>        <span class=kt>uint8_t</span> <span class=n>ucDelayAborted</span><span class=p>;</span>
+</span></span></span><span class=line><span class=cl>        <span class=kt>uint8_t</span> <span class=n>ucDelayAborted</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>    <span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=cp>#if ( configUSE_POSIX_ERRNO == 1 )
-</span></span></span><span class=line><span class=cl><span class=cp></span>        <span class=kt>int</span> <span class=n>iTaskErrno</span><span class=p>;</span>
+</span></span></span><span class=line><span class=cl>        <span class=kt>int</span> <span class=n>iTaskErrno</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>    <span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span><span class=p>}</span> <span class=n>tskTCB</span><span class=p>;</span></span></span></code></pre></div><p>实现的地方</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+</span></span></span><span class=line><span class=cl><span class=p>}</span> <span class=n>tskTCB</span><span class=p>;</span></span></span></code></pre></div><p>实现的地方</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
 tw-flex-row
 tw-flex-1
 tw-justify-between
@@ -425,12 +425,12 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>static</span> <
 </span></span><span class=line><span class=cl>        <span class=n>uxTaskNumber</span><span class=o>++</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>        <span class=cp>#if ( configUSE_TRACE_FACILITY == 1 )
-</span></span></span><span class=line><span class=cl><span class=cp></span>        <span class=p>{</span>
+</span></span></span><span class=line><span class=cl>        <span class=p>{</span>
 </span></span><span class=line><span class=cl>            <span class=cm>/* Add a counter into the TCB for tracing only. */</span>
 </span></span><span class=line><span class=cl>            <span class=n>pxNewTCB</span><span class=o>-&gt;</span><span class=n>uxTCBNumber</span> <span class=o>=</span> <span class=n>uxTaskNumber</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>        <span class=p>}</span>
 </span></span><span class=line><span class=cl>        <span class=cp>#endif </span><span class=cm>/* configUSE_TRACE_FACILITY */</span><span class=cp>
-</span></span></span><span class=line><span class=cl><span class=cp></span>        <span class=nf>traceTASK_CREATE</span><span class=p>(</span> <span class=n>pxNewTCB</span> <span class=p>);</span>
+</span></span></span><span class=line><span class=cl>        <span class=nf>traceTASK_CREATE</span><span class=p>(</span> <span class=n>pxNewTCB</span> <span class=p>);</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>        <span class=nf>prvAddTaskToReadyList</span><span class=p>(</span> <span class=n>pxNewTCB</span> <span class=p>);</span>
 </span></span><span class=line><span class=cl>
@@ -565,13 +565,13 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>void</span> <s
 </span></span><span class=line><span class=cl>        <span class=nf>traceTASK_SWITCHED_OUT</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>        <span class=cp>#if ( configGENERATE_RUN_TIME_STATS == 1 )
-</span></span></span><span class=line><span class=cl><span class=cp></span>        <span class=p>{</span>
+</span></span></span><span class=line><span class=cl>        <span class=p>{</span>
 </span></span><span class=line><span class=cl>            <span class=cp>#ifdef portALT_GET_RUN_TIME_COUNTER_VALUE
-</span></span></span><span class=line><span class=cl><span class=cp></span>                <span class=nf>portALT_GET_RUN_TIME_COUNTER_VALUE</span><span class=p>(</span> <span class=n>ulTotalRunTime</span> <span class=p>);</span>
+</span></span></span><span class=line><span class=cl>                <span class=nf>portALT_GET_RUN_TIME_COUNTER_VALUE</span><span class=p>(</span> <span class=n>ulTotalRunTime</span> <span class=p>);</span>
 </span></span><span class=line><span class=cl>            <span class=cp>#else
-</span></span></span><span class=line><span class=cl><span class=cp></span>                <span class=n>ulTotalRunTime</span> <span class=o>=</span> <span class=nf>portGET_RUN_TIME_COUNTER_VALUE</span><span class=p>();</span>
+</span></span></span><span class=line><span class=cl>                <span class=n>ulTotalRunTime</span> <span class=o>=</span> <span class=nf>portGET_RUN_TIME_COUNTER_VALUE</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>            <span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>            <span class=cm>/* Add the amount of time the task has been running to the
 </span></span></span><span class=line><span class=cl><span class=cm>             * accumulated time so far.  The time the task started running was
 </span></span></span><span class=line><span class=cl><span class=cm>             * stored in ulTaskSwitchedInTime.  Note that there is no overflow
@@ -591,17 +591,17 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>void</span> <s
 </span></span><span class=line><span class=cl>            <span class=n>ulTaskSwitchedInTime</span> <span class=o>=</span> <span class=n>ulTotalRunTime</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>        <span class=p>}</span>
 </span></span><span class=line><span class=cl>        <span class=cp>#endif </span><span class=cm>/* configGENERATE_RUN_TIME_STATS */</span><span class=cp>
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>        <span class=cm>/* Check for stack overflow, if configured. */</span>
 </span></span><span class=line><span class=cl>        <span class=nf>taskCHECK_FOR_STACK_OVERFLOW</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>        <span class=cm>/* Before the currently running task is switched out, save its errno. */</span>
 </span></span><span class=line><span class=cl>        <span class=cp>#if ( configUSE_POSIX_ERRNO == 1 )
-</span></span></span><span class=line><span class=cl><span class=cp></span>        <span class=p>{</span>
+</span></span></span><span class=line><span class=cl>        <span class=p>{</span>
 </span></span><span class=line><span class=cl>            <span class=n>pxCurrentTCB</span><span class=o>-&gt;</span><span class=n>iTaskErrno</span> <span class=o>=</span> <span class=n>FreeRTOS_errno</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>        <span class=p>}</span>
 </span></span><span class=line><span class=cl>        <span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>        <span class=cm>/* Select a new task to run using either the generic C or port
 </span></span></span><span class=line><span class=cl><span class=cm>         * optimised asm code. */</span>
 </span></span><span class=line><span class=cl>        <span class=nf>taskSELECT_HIGHEST_PRIORITY_TASK</span><span class=p>();</span> <span class=cm>/*lint !e9079 void * is used as this macro is used with timers and co-routines too.  Alignment is known to be fine as the type of the pointer stored and retrieved is the same. */</span>
@@ -609,19 +609,19 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>void</span> <s
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>        <span class=cm>/* After the new task is switched in, update the global errno. */</span>
 </span></span><span class=line><span class=cl>        <span class=cp>#if ( configUSE_POSIX_ERRNO == 1 )
-</span></span></span><span class=line><span class=cl><span class=cp></span>        <span class=p>{</span>
+</span></span></span><span class=line><span class=cl>        <span class=p>{</span>
 </span></span><span class=line><span class=cl>            <span class=n>FreeRTOS_errno</span> <span class=o>=</span> <span class=n>pxCurrentTCB</span><span class=o>-&gt;</span><span class=n>iTaskErrno</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>        <span class=p>}</span>
 </span></span><span class=line><span class=cl>        <span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>        <span class=cp>#if ( ( configUSE_NEWLIB_REENTRANT == 1 ) || ( configUSE_C_RUNTIME_TLS_SUPPORT == 1 ) )
-</span></span></span><span class=line><span class=cl><span class=cp></span>        <span class=p>{</span>
+</span></span></span><span class=line><span class=cl>        <span class=p>{</span>
 </span></span><span class=line><span class=cl>            <span class=cm>/* Switch C-Runtime&#39;s TLS Block to point to the TLS
 </span></span></span><span class=line><span class=cl><span class=cm>             * Block specific to this task. */</span>
 </span></span><span class=line><span class=cl>            <span class=nf>configSET_TLS_BLOCK</span><span class=p>(</span> <span class=n>pxCurrentTCB</span><span class=o>-&gt;</span><span class=n>xTLSBlock</span> <span class=p>);</span>
 </span></span><span class=line><span class=cl>        <span class=p>}</span>
 </span></span><span class=line><span class=cl>        <span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>    <span class=p>}</span>
+</span></span></span><span class=line><span class=cl>    <span class=p>}</span>
 </span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>分析M3的调度实现</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
 tw-flex-row
 tw-flex-1
@@ -947,9 +947,9 @@ group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#define taskYIELD()                        portYIELD()
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=c1>// M3实现
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=cp>#define portYIELD()                                 \
+</span></span></span><span class=line><span class=cl><span class=cp>#define portYIELD()                                 \
 </span></span></span><span class=line><span class=cl><span class=cp>{                                                   \
 </span></span></span><span class=line><span class=cl><span class=cp>    </span><span class=cm>/* Set a PendSV to request a context switch. */</span><span class=cp> \
 </span></span></span><span class=line><span class=cl><span class=cp>    portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT; \
@@ -959,9 +959,9 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#define taskYI
 </span></span></span><span class=line><span class=cl><span class=cp>    __asm volatile ( &#34;dsb&#34; ::: &#34;memory&#34; );                     \
 </span></span></span><span class=line><span class=cl><span class=cp>    __asm volatile ( &#34;isb&#34; );                                  \
 </span></span></span><span class=line><span class=cl><span class=cp>}
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=c1>// A9实现
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=cp>#define portYIELD() __asm volatile ( &#34;SWI 0&#34; ::: &#34;memory&#34; );</span></span></span></code></pre></div><h3 id=任务状态 class=headerLink><a href=#%e4%bb%bb%e5%8a%a1%e7%8a%b6%e6%80%81 class=header-mark></a>2.3 任务状态</h3><blockquote><p>心跳实现</p></blockquote><p>M3实现</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+</span></span></span><span class=line><span class=cl><span class=cp>#define portYIELD() __asm volatile ( &#34;SWI 0&#34; ::: &#34;memory&#34; );</span></span></span></code></pre></div><h3 id=任务状态 class=headerLink><a href=#%e4%bb%bb%e5%8a%a1%e7%8a%b6%e6%80%81 class=header-mark></a>2.3 任务状态</h3><blockquote><p>心跳实现</p></blockquote><p>M3实现</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
 tw-flex-row
 tw-flex-1
 tw-justify-between
@@ -1092,7 +1092,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=na>.align</span> 
 </span></span><span class=line><span class=cl><span class=nl>FreeRTOS_IRQ_Handler:</span>
 </span></span><span class=line><span class=cl>	<span class=cm>/* Return to the interrupted instruction. */</span>
 </span></span><span class=line><span class=cl>	<span class=nf>SUB</span>		<span class=no>lr</span><span class=p>,</span> <span class=no>lr</span><span class=p>,</span> <span class=c1>#4
-</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=cm>/* Push the return address and SPSR. */</span>
 </span></span><span class=line><span class=cl>	<span class=nf>PUSH</span>	<span class=err>{</span><span class=no>lr</span><span class=err>}</span>
 </span></span><span class=line><span class=cl>	<span class=nf>MRS</span>		<span class=no>lr</span><span class=p>,</span> <span class=no>SPSR</span>
@@ -1100,7 +1100,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=na>.align</span> 
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=cm>/* Change to supervisor mode to allow reentry. */</span>
 </span></span><span class=line><span class=cl>	<span class=nf>CPS</span>		<span class=c1>#SVC_MODE
-</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=cm>/* Push used registers. */</span>
 </span></span><span class=line><span class=cl>	<span class=nf>PUSH</span>	<span class=err>{</span><span class=no>r0-r4</span><span class=p>,</span> <span class=no>r12</span><span class=err>}</span>
 </span></span><span class=line><span class=cl>
@@ -1110,7 +1110,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=na>.align</span> 
 </span></span><span class=line><span class=cl>	<span class=nf>LDR</span>		<span class=no>r3</span><span class=p>,</span> <span class=no>ulPortInterruptNestingConst</span>
 </span></span><span class=line><span class=cl>	<span class=nf>LDR</span>		<span class=no>r1</span><span class=p>,</span> <span class=p>[</span><span class=no>r3</span><span class=p>]</span>
 </span></span><span class=line><span class=cl>	<span class=nf>ADD</span>		<span class=no>r4</span><span class=p>,</span> <span class=no>r1</span><span class=p>,</span> <span class=c1>#1
-</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nf>STR</span>		<span class=no>r4</span><span class=p>,</span> <span class=p>[</span><span class=no>r3</span><span class=p>]</span>
+</span></span></span><span class=line><span class=cl>	<span class=nf>STR</span>		<span class=no>r4</span><span class=p>,</span> <span class=p>[</span><span class=no>r3</span><span class=p>]</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=cm>/* Read value from the interrupt acknowledge register, which is stored in r0
 </span></span></span><span class=line><span class=cl><span class=cm>	for future parameter and interrupt clearing use. */</span>
@@ -1123,7 +1123,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=na>.align</span> 
 </span></span></span><span class=line><span class=cl><span class=cm>	of the stack is 8-byte aligned? */</span>
 </span></span><span class=line><span class=cl>	<span class=nf>MOV</span>		<span class=no>r2</span><span class=p>,</span> <span class=no>sp</span>
 </span></span><span class=line><span class=cl>	<span class=nf>AND</span>		<span class=no>r2</span><span class=p>,</span> <span class=no>r2</span><span class=p>,</span> <span class=c1>#4
-</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nf>SUB</span>		<span class=no>sp</span><span class=p>,</span> <span class=no>sp</span><span class=p>,</span> <span class=no>r2</span>
+</span></span></span><span class=line><span class=cl>	<span class=nf>SUB</span>		<span class=no>sp</span><span class=p>,</span> <span class=no>sp</span><span class=p>,</span> <span class=no>r2</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=cm>/* Call the interrupt handler.  r4 pushed to maintain alignment. */</span>
 </span></span><span class=line><span class=cl>	<span class=nf>PUSH</span>	<span class=err>{</span><span class=no>r0-r4</span><span class=p>,</span> <span class=no>lr</span><span class=err>}</span>
@@ -1146,7 +1146,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=na>.align</span> 
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=cm>/* A context switch is never performed if the nesting count is not 0. */</span>
 </span></span><span class=line><span class=cl>	<span class=nf>CMP</span>		<span class=no>r1</span><span class=p>,</span> <span class=c1>#0
-</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nf>BNE</span>		<span class=no>exit_without_switch</span>
+</span></span></span><span class=line><span class=cl>	<span class=nf>BNE</span>		<span class=no>exit_without_switch</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=cm>/* Did the interrupt request a context switch?  r1 holds the address of
 </span></span></span><span class=line><span class=cl><span class=cm>	ulPortYieldRequired and r0 the value of ulPortYieldRequired for future
@@ -1154,14 +1154,14 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=na>.align</span> 
 </span></span><span class=line><span class=cl>	<span class=nf>LDR</span>		<span class=no>r1</span><span class=p>,</span> <span class=err>=</span><span class=no>ulPortYieldRequired</span>
 </span></span><span class=line><span class=cl>	<span class=nf>LDR</span>		<span class=no>r0</span><span class=p>,</span> <span class=p>[</span><span class=no>r1</span><span class=p>]</span>
 </span></span><span class=line><span class=cl>	<span class=nf>CMP</span>		<span class=no>r0</span><span class=p>,</span> <span class=c1>#0
-</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nf>BNE</span>		<span class=no>switch_before_exit</span>
+</span></span></span><span class=line><span class=cl>	<span class=nf>BNE</span>		<span class=no>switch_before_exit</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=nl>exit_without_switch:</span>
 </span></span><span class=line><span class=cl>	<span class=cm>/* No context switch.  Restore used registers, LR_irq and SPSR before
 </span></span></span><span class=line><span class=cl><span class=cm>	returning. */</span>
 </span></span><span class=line><span class=cl>	<span class=nf>POP</span>		<span class=err>{</span><span class=no>r0-r4</span><span class=p>,</span> <span class=no>r12</span><span class=err>}</span>
 </span></span><span class=line><span class=cl>	<span class=nf>CPS</span>		<span class=c1>#IRQ_MODE
-</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nf>POP</span>		<span class=err>{</span><span class=no>LR</span><span class=err>}</span>
+</span></span></span><span class=line><span class=cl>	<span class=nf>POP</span>		<span class=err>{</span><span class=no>LR</span><span class=err>}</span>
 </span></span><span class=line><span class=cl>	<span class=nf>MSR</span>		<span class=no>SPSR_cxsf</span><span class=p>,</span> <span class=no>LR</span>
 </span></span><span class=line><span class=cl>	<span class=nf>POP</span>		<span class=err>{</span><span class=no>LR</span><span class=err>}</span>
 </span></span><span class=line><span class=cl>	<span class=nf>MOVS</span>	<span class=no>PC</span><span class=p>,</span> <span class=no>LR</span>
@@ -1170,13 +1170,13 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=na>.align</span> 
 </span></span><span class=line><span class=cl>	<span class=cm>/* A context swtich is to be performed.  Clear the context switch pending
 </span></span></span><span class=line><span class=cl><span class=cm>	flag. */</span>
 </span></span><span class=line><span class=cl>	<span class=nf>MOV</span>		<span class=no>r0</span><span class=p>,</span> <span class=c1>#0
-</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nf>STR</span>		<span class=no>r0</span><span class=p>,</span> <span class=p>[</span><span class=no>r1</span><span class=p>]</span>
+</span></span></span><span class=line><span class=cl>	<span class=nf>STR</span>		<span class=no>r0</span><span class=p>,</span> <span class=p>[</span><span class=no>r1</span><span class=p>]</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=cm>/* Restore used registers, LR-irq and SPSR before saving the context
 </span></span></span><span class=line><span class=cl><span class=cm>	to the task stack. */</span>
 </span></span><span class=line><span class=cl>	<span class=nf>POP</span>		<span class=err>{</span><span class=no>r0-r4</span><span class=p>,</span> <span class=no>r12</span><span class=err>}</span>
 </span></span><span class=line><span class=cl>	<span class=nf>CPS</span>		<span class=c1>#IRQ_MODE
-</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nf>POP</span>		<span class=err>{</span><span class=no>LR</span><span class=err>}</span>
+</span></span></span><span class=line><span class=cl>	<span class=nf>POP</span>		<span class=err>{</span><span class=no>LR</span><span class=err>}</span>
 </span></span><span class=line><span class=cl>	<span class=nf>MSR</span>		<span class=no>SPSR_cxsf</span><span class=p>,</span> <span class=no>LR</span>
 </span></span><span class=line><span class=cl>	<span class=nf>POP</span>		<span class=err>{</span><span class=no>LR</span><span class=err>}</span>
 </span></span><span class=line><span class=cl>	<span class=nf>portSAVE_CONTEXT</span>
@@ -1195,7 +1195,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=na>.align</span> 
 </span><span>|&nbsp;<a class=link-to-source href=https://github.com/mengdemao/github.io/blob/master/content/posts/FreeRTOS/index.md target=_blank rel="noopener noreferrer">查看源代码</a>
 </span><span>|&nbsp;<a class=link-to-edit href=https://github.com/mengdemao/github.io/edit/master/content/posts/FreeRTOS/index.md target=_blank rel="noopener noreferrer">编辑此页</a>
 </span><span>|&nbsp;<a class=link-to-report href="https://github.com/mengdemao/github.io/issues/new?title=[bug]%20FreeRTOS%E7%AC%94%E8%AE%B0&body=|Field|Value|%0A|-|-|%0A|Title|FreeRTOS%E7%AC%94%E8%AE%B0|%0A|Url|https://mengdemao.com/freertos/|%0A|Filename|https://github.com/mengdemao/github.io/blob/main/exampleSite/content/posts/FreeRTOS/index.md|" target=_blank rel="noopener noreferrer">报告问题</a></span></div><div class=post-info-share></div></div></div><div class=post-info-more><section class=post-tags><svg class="icon" viewBox="0 0 640 512"><path d="M497.941 225.941 286.059 14.059A48 48 0 00252.118.0H48C21.49.0.0 21.49.0 48v204.118a48 48 0 0014.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882.0l204.118-204.118c18.745-18.745 18.745-49.137.0-67.882zM112 160c-26.51.0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882.0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397.0h48.721a48 48 0 0133.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137.0 67.882z"/></svg>&nbsp;<a href=/tags/rtos/>RTOS</a></section><section class=print:!tw-hidden><span><button class="tw-text-fgColor-link-muted hover:tw-text-fgColor-link-muted-hover" onclick=window.history.back()>返回</button></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class="post-nav print:tw-hidden"><a href=/arm/ class=prev rel=prev title=Arm笔记><svg class="icon" viewBox="0 0 256 512"><path d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9.0l22.6 22.6c9.4 9.4 9.4 24.6.0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6.0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9.0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"/></svg>Arm笔记</a>
-<a href=/nodejs/ class=next rel=next title=Nodejs笔记>Nodejs笔记<svg class="icon" viewBox="0 0 256 512"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9.0l-22.6-22.6c-9.4-9.4-9.4-24.6.0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6.0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9.0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></a></div></div><div id=comments class="print:!tw-hidden tw-pt-32 tw-pb-8"><div id=twikoo></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://twikoo.js.org/>Twikoo</a>.</noscript></div></article></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.152.2">Hugo</a> 强力驱动&nbsp;|&nbsp;托管在 <a title="Github Pages" href=https://docs.github.com/en/pages/ target=_blank rel="noopener noreffer">GitHub Pages</a> 上&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.4.2"><svg class="icon" viewBox="0 0 576 512"><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1.0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7.0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174 402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7-43.2-43.2c-4.1-4.1-10.8-4.1-14.8.0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg> DoIt</a></div><div class=footer-line><svg class="icon" viewBox="0 0 512 512"><path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 448c-110.532.0-2e2-89.451-2e2-2e2.0-110.531 89.451-2e2 2e2-2e2 110.532.0 2e2 89.451 2e2 2e2.0 110.532-89.451 2e2-2e2 2e2zm107.351-101.064c-9.614 9.712-45.53 41.396-104.065 41.396-82.43.0-140.484-61.425-140.484-141.567.0-79.152 60.275-139.401 139.762-139.401 55.531.0 88.738 26.62 97.593 34.779a11.965 11.965.0 011.936 15.322l-18.155 28.113c-3.841 5.95-11.966 7.282-17.499 2.921-8.595-6.776-31.814-22.538-61.708-22.538-48.303.0-77.916 35.33-77.916 80.082.0 41.589 26.888 83.692 78.277 83.692 32.657.0 56.843-19.039 65.726-27.225 5.27-4.857 13.596-4.039 17.82 1.738l19.865 27.17a11.947 11.947.0 01-1.152 15.518z"/></svg>2020 - 2025<span class=author>&nbsp;<a href=https://github.com/mengdemao target=_blank rel="noopener noreferrer">mengdemao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span><span class=icp-splitter>&nbsp;|&nbsp;</span><br class=icp-br><span class=icp><a href=https://beian.miit.gov.cn/>鲁ICP备2023050410号-1</a></span></div><div class=footer-line></div><div class=footer-line></div></div></footer><div class="print:!tw-hidden tw-flex tw-flex-col tw-fixed tw-right-4 tw-bottom-4 tw-gap-2"><a href=#back-to-top id=back-to-top-button class="tw-transition-opacity tw-opacity-0 tw-block tw-bg-bgColor-secondary tw-rounded-full" style=padding:.6rem;line-height:1.3rem;font-size:1rem title=回到顶部><svg class="icon" viewBox="0 0 448 512"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6.0-33.9L207 39c9.4-9.4 24.6-9.4 33.9.0l194.3 194.3c9.4 9.4 9.4 24.6.0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3.0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg>
+<a href=/nodejs/ class=next rel=next title=Nodejs笔记>Nodejs笔记<svg class="icon" viewBox="0 0 256 512"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9.0l-22.6-22.6c-9.4-9.4-9.4-24.6.0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6.0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9.0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></a></div></div><div id=comments class="print:!tw-hidden tw-pt-32 tw-pb-8"><div id=twikoo></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://twikoo.js.org/>Twikoo</a>.</noscript></div></article></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.153.4">Hugo</a> 强力驱动&nbsp;|&nbsp;托管在 <a title="Github Pages" href=https://docs.github.com/en/pages/ target=_blank rel="noopener noreffer">GitHub Pages</a> 上&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.4.2"><svg class="icon" viewBox="0 0 576 512"><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1.0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7.0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174 402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7-43.2-43.2c-4.1-4.1-10.8-4.1-14.8.0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg> DoIt</a></div><div class=footer-line><svg class="icon" viewBox="0 0 512 512"><path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 448c-110.532.0-2e2-89.451-2e2-2e2.0-110.531 89.451-2e2 2e2-2e2 110.532.0 2e2 89.451 2e2 2e2.0 110.532-89.451 2e2-2e2 2e2zm107.351-101.064c-9.614 9.712-45.53 41.396-104.065 41.396-82.43.0-140.484-61.425-140.484-141.567.0-79.152 60.275-139.401 139.762-139.401 55.531.0 88.738 26.62 97.593 34.779a11.965 11.965.0 011.936 15.322l-18.155 28.113c-3.841 5.95-11.966 7.282-17.499 2.921-8.595-6.776-31.814-22.538-61.708-22.538-48.303.0-77.916 35.33-77.916 80.082.0 41.589 26.888 83.692 78.277 83.692 32.657.0 56.843-19.039 65.726-27.225 5.27-4.857 13.596-4.039 17.82 1.738l19.865 27.17a11.947 11.947.0 01-1.152 15.518z"/></svg>2020 - 2025<span class=author>&nbsp;<a href=https://github.com/mengdemao target=_blank rel="noopener noreferrer">mengdemao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span><span class=icp-splitter>&nbsp;|&nbsp;</span><br class=icp-br><span class=icp><a href=https://beian.miit.gov.cn/>鲁ICP备2023050410号-1</a></span></div><div class=footer-line></div><div class=footer-line></div></div></footer><div class="print:!tw-hidden tw-flex tw-flex-col tw-fixed tw-right-4 tw-bottom-4 tw-gap-2"><a href=#back-to-top id=back-to-top-button class="tw-transition-opacity tw-opacity-0 tw-block tw-bg-bgColor-secondary tw-rounded-full" style=padding:.6rem;line-height:1.3rem;font-size:1rem title=回到顶部><svg class="icon" viewBox="0 0 448 512"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6.0-33.9L207 39c9.4-9.4 24.6-9.4 33.9.0l194.3 194.3c9.4 9.4 9.4 24.6.0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3.0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg>
 </a><button id=toc-drawer-button class="tw-block tw-bg-bgColor-secondary tw-rounded-full md:tw-hidden" style=padding:.6rem;line-height:1.3rem;font-size:1rem>
 <svg class="icon" viewBox="0 0 448 512"><path d="M16 132h416c8.837.0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163.0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg>
 </button><a href=#comments id=view-comments class="tw-block tw-bg-bgColor-secondary tw-rounded-full" style=padding:.6rem;line-height:1.3rem;font-size:1rem title=查看评论>

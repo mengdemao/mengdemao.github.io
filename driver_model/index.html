@@ -56,14 +56,14 @@ group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=c># 如果kernel环境没有设置,那么则使用主机系统的kernel文件
-</span></span></span><span class=line><span class=cl><span class=c></span><span class=nv>kernel</span> <span class=o>?=</span> /lib/modules/<span class=k>$(</span>shell uname -r<span class=k>)</span>/build
+</span></span></span><span class=line><span class=cl><span class=nv>kernel</span> <span class=o>?=</span> /lib/modules/<span class=k>$(</span>shell uname -r<span class=k>)</span>/build
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=c># 构建
-</span></span></span><span class=line><span class=cl><span class=c></span><span class=nf>modules</span><span class=o>:</span>
+</span></span></span><span class=line><span class=cl><span class=nf>modules</span><span class=o>:</span>
 </span></span><span class=line><span class=cl>	make -C <span class=si>${</span><span class=nv>kernel</span><span class=si>}</span> <span class=nv>M</span><span class=o>=</span><span class=k>$(</span>shell <span class=nb>pwd</span><span class=k>)</span> modules
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=c># 清理
-</span></span></span><span class=line><span class=cl><span class=c></span><span class=nf>clean</span><span class=o>:</span>
+</span></span></span><span class=line><span class=cl><span class=nf>clean</span><span class=o>:</span>
 </span></span><span class=line><span class=cl>	make -C <span class=si>${</span><span class=nv>kernel</span><span class=si>}</span> <span class=nv>M</span><span class=o>=</span><span class=k>$(</span>shell <span class=nb>pwd</span><span class=k>)</span> clean
 </span></span></code></pre></div><p><strong>Kbuild</strong>描述具体文件</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
 tw-flex-row
@@ -112,10 +112,10 @@ group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=c># 添加头文件
-</span></span></span><span class=line><span class=cl><span class=c></span><span class=nv>subdir-ccflags-y</span> <span class=o>=</span> -I<span class=k>$(</span>src<span class=k>)</span>/include
+</span></span></span><span class=line><span class=cl><span class=nv>subdir-ccflags-y</span> <span class=o>=</span> -I<span class=k>$(</span>src<span class=k>)</span>/include
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=c># 添加文件
-</span></span></span><span class=line><span class=cl><span class=c></span><span class=nv>obj-m</span> <span class=o>+=</span> hello.o
+</span></span></span><span class=line><span class=cl><span class=nv>obj-m</span> <span class=o>+=</span> hello.o
 </span></span></code></pre></div><p><strong>hello.c</strong></p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
 tw-flex-row
 tw-flex-1
@@ -175,7 +175,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=cm>/**
 </span></span></span><span class=line><span class=cl><span class=cm> */</span>
 </span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;linux/init.h&gt;</span><span class=cp>
 </span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;linux/module.h&gt;</span><span class=cp>
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=k>static</span> <span class=kt>int</span> <span class=n>__init</span> <span class=nf>hello_init</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>	<span class=nf>printk</span><span class=p>(</span><span class=n>KERN_INFO</span><span class=s>&#34;Hello Init</span><span class=se>\r\n</span><span class=s>&#34;</span><span class=p>);</span>
@@ -445,7 +445,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=nf>SYSCALL_DEFINE
 </span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>load_info</span> <span class=n>info</span> <span class=o>=</span> <span class=p>{</span> <span class=p>};</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=c1>// 初始化异常?
-</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=n>err</span> <span class=o>=</span> <span class=nf>may_init_module</span><span class=p>();</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>err</span> <span class=o>=</span> <span class=nf>may_init_module</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>err</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>		<span class=k>return</span> <span class=n>err</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
@@ -746,7 +746,7 @@ group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;linux/dma-mapping.h&gt;</span><span class=cp>
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=kt>void</span> <span class=o>*</span><span class=n>dma_vaddr</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=kt>dma_addr_t</span> <span class=n>dma_paddr</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
@@ -797,7 +797,7 @@ group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;linux/vmalloc.h&gt;</span><span class=cp>
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=kt>void</span> <span class=o>*</span><span class=n>vaddr</span> <span class=o>=</span> <span class=nf>vmalloc</span><span class=p>(</span><span class=n>size</span><span class=p>);</span></span></span></code></pre></div><ul><li><strong>特点</strong>：适合大块内存，但访问效率低于<code>kmalloc</code>。</li></ul><h4 id=13-内核通用内存 class=headerLink><a href=#13-%e5%86%85%e6%a0%b8%e9%80%9a%e7%94%a8%e5%86%85%e5%ad%98 class=header-mark></a>4.1.3 <strong>1.3 内核通用内存</strong></h4><p>使用<code>kmalloc</code>分配小块的物理连续内存：</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
 tw-flex-row
 tw-flex-1
@@ -845,7 +845,7 @@ group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;linux/slab.h&gt;</span><span class=cp>
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=kt>void</span> <span class=o>*</span><span class=n>kaddr</span> <span class=o>=</span> <span class=nf>kmalloc</span><span class=p>(</span><span class=n>size</span><span class=p>,</span> <span class=n>GFP_KERNEL</span><span class=p>);</span></span></span></code></pre></div><hr><h3 id=2-实现驱动的 class=headerLink><a href=#2-%e5%ae%9e%e7%8e%b0%e9%a9%b1%e5%8a%a8%e7%9a%84 class=header-mark></a>4.2 <strong>2. 实现驱动的<code>mmap</code>方法</strong></h3><p>在驱动程序的<code>file_operations</code>结构中定义<code>mmap</code>函数：</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
 tw-flex-row
 tw-flex-1
@@ -942,23 +942,23 @@ group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;linux/mm.h&gt;</span><span class=cp>
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=k>static</span> <span class=kt>int</span> <span class=nf>my_mmap</span><span class=p>(</span><span class=k>struct</span> <span class=n>file</span> <span class=o>*</span><span class=n>filp</span><span class=p>,</span> <span class=k>struct</span> <span class=n>vm_area_struct</span> <span class=o>*</span><span class=n>vma</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>long</span> <span class=n>offset</span> <span class=o>=</span> <span class=n>vma</span><span class=o>-&gt;</span><span class=n>vm_pgoff</span> <span class=o>&lt;&lt;</span> <span class=n>PAGE_SHIFT</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>long</span> <span class=n>size</span> <span class=o>=</span> <span class=n>vma</span><span class=o>-&gt;</span><span class=n>vm_end</span> <span class=o>-</span> <span class=n>vma</span><span class=o>-&gt;</span><span class=n>vm_start</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=c1>// 检查偏移和大小是否合法
-</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>if</span> <span class=p>(</span><span class=n>offset</span> <span class=o>+</span> <span class=n>size</span> <span class=o>&gt;</span> <span class=n>allocated_memory_size</span><span class=p>)</span>
+</span></span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>offset</span> <span class=o>+</span> <span class=n>size</span> <span class=o>&gt;</span> <span class=n>allocated_memory_size</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=o>-</span><span class=n>EINVAL</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=c1>// 映射物理内存到用户空间（以dma_alloc_coherent为例）
-</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>if</span> <span class=p>(</span><span class=nf>remap_pfn_range</span><span class=p>(</span><span class=n>vma</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=nf>remap_pfn_range</span><span class=p>(</span><span class=n>vma</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>                        <span class=n>vma</span><span class=o>-&gt;</span><span class=n>vm_start</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>                        <span class=n>dma_paddr</span> <span class=o>&gt;&gt;</span> <span class=n>PAGE_SHIFT</span><span class=p>,</span>  <span class=c1>// 物理页帧号
-</span></span></span><span class=line><span class=cl><span class=c1></span>                        <span class=n>size</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>                        <span class=n>size</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>                        <span class=n>vma</span><span class=o>-&gt;</span><span class=n>vm_page_prot</span><span class=p>))</span> <span class=p>{</span>     <span class=c1>// 页面保护标志
-</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=k>return</span> <span class=o>-</span><span class=n>EAGAIN</span><span class=p>;</span>
+</span></span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=o>-</span><span class=n>EAGAIN</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>    <span class=p>}</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
@@ -1056,7 +1056,7 @@ tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;sys/mman.h&gt;</span><span class=cp>
 </span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;fcntl.h&gt;</span><span class=cp>
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>fd</span> <span class=o>=</span> <span class=nf>open</span><span class=p>(</span><span class=s>&#34;/dev/my_device&#34;</span><span class=p>,</span> <span class=n>O_RDWR</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=o>*</span><span class=n>mapped_addr</span> <span class=o>=</span> <span class=nf>mmap</span><span class=p>(</span><span class=nb>NULL</span><span class=p>,</span>
@@ -1065,9 +1065,9 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#include</span
 </span></span><span class=line><span class=cl>                             <span class=n>MAP_SHARED</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>                             <span class=n>fd</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>                             <span class=mi>0</span><span class=p>);</span>  <span class=c1>// 偏移量需与驱动中的offset对应
-</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=c1>// 直接读写映射内存
-</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=o>*</span><span class=p>(</span><span class=kt>int</span> <span class=o>*</span><span class=p>)</span><span class=n>mapped_addr</span> <span class=o>=</span> <span class=mh>0x1234</span><span class=p>;</span>
+</span></span></span><span class=line><span class=cl>    <span class=o>*</span><span class=p>(</span><span class=kt>int</span> <span class=o>*</span><span class=p>)</span><span class=n>mapped_addr</span> <span class=o>=</span> <span class=mh>0x1234</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>    <span class=nf>munmap</span><span class=p>(</span><span class=n>mapped_addr</span><span class=p>,</span> <span class=n>size</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>    <span class=nf>close</span><span class=p>(</span><span class=n>fd</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
@@ -1121,10 +1121,10 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#include</span
 </span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;linux/fs.h&gt;</span><span class=cp>
 </span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;linux/mm.h&gt;</span><span class=cp>
 </span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;linux/dma-mapping.h&gt;</span><span class=cp>
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#define DEVICE_NAME &#34;mmap_demo&#34;
 </span></span></span><span class=line><span class=cl><span class=cp>#define MEM_SIZE (4 * 1024)  </span><span class=c1>// 4KB
-</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=k>static</span> <span class=kt>void</span> <span class=o>*</span><span class=n>dma_vaddr</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=k>static</span> <span class=kt>dma_addr_t</span> <span class=n>dma_paddr</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=k>static</span> <span class=k>struct</span> <span class=n>device</span> <span class=o>*</span><span class=n>dev</span><span class=p>;</span>
@@ -1150,7 +1150,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#include</span
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=k>static</span> <span class=kt>int</span> <span class=n>__init</span> <span class=nf>my_init</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=n>dev</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>pdev</span><span class=o>-&gt;</span><span class=n>dev</span><span class=p>;</span>  <span class=c1>// 假设已获取设备结构体
-</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>dma_vaddr</span> <span class=o>=</span> <span class=nf>dma_alloc_coherent</span><span class=p>(</span><span class=n>dev</span><span class=p>,</span> <span class=n>MEM_SIZE</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>dma_paddr</span><span class=p>,</span> <span class=n>GFP_KERNEL</span><span class=p>);</span>
+</span></span></span><span class=line><span class=cl>    <span class=n>dma_vaddr</span> <span class=o>=</span> <span class=nf>dma_alloc_coherent</span><span class=p>(</span><span class=n>dev</span><span class=p>,</span> <span class=n>MEM_SIZE</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>dma_paddr</span><span class=p>,</span> <span class=n>GFP_KERNEL</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>dma_vaddr</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=o>-</span><span class=n>ENOMEM</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
@@ -1213,14 +1213,14 @@ tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;stdio.h&gt;</span><span class=cp>
 </span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;fcntl.h&gt;</span><span class=cp>
 </span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;sys/mman.h&gt;</span><span class=cp>
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>fd</span> <span class=o>=</span> <span class=nf>open</span><span class=p>(</span><span class=s>&#34;/dev/mmap_demo&#34;</span><span class=p>,</span> <span class=n>O_RDWR</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=o>*</span><span class=n>addr</span> <span class=o>=</span> <span class=nf>mmap</span><span class=p>(</span><span class=nb>NULL</span><span class=p>,</span> <span class=mi>4096</span><span class=p>,</span> <span class=n>PROT_READ</span> <span class=o>|</span> <span class=n>PROT_WRITE</span><span class=p>,</span> <span class=n>MAP_SHARED</span><span class=p>,</span> <span class=n>fd</span><span class=p>,</span> <span class=mi>0</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=nf>printf</span><span class=p>(</span><span class=s>&#34;Mapped address: %p</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span> <span class=n>addr</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>    <span class=o>*</span><span class=p>(</span><span class=kt>int</span> <span class=o>*</span><span class=p>)</span><span class=n>addr</span> <span class=o>=</span> <span class=mh>0xdeadbeef</span><span class=p>;</span>  <span class=c1>// 写入数据到驱动内存
-</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nf>printf</span><span class=p>(</span><span class=s>&#34;Read value: 0x%x</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span> <span class=o>*</span><span class=p>(</span><span class=kt>int</span> <span class=o>*</span><span class=p>)</span><span class=n>addr</span><span class=p>);</span>
+</span></span></span><span class=line><span class=cl>    <span class=nf>printf</span><span class=p>(</span><span class=s>&#34;Read value: 0x%x</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span> <span class=o>*</span><span class=p>(</span><span class=kt>int</span> <span class=o>*</span><span class=p>)</span><span class=n>addr</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=nf>munmap</span><span class=p>(</span><span class=n>addr</span><span class=p>,</span> <span class=mi>4096</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>    <span class=nf>close</span><span class=p>(</span><span class=n>fd</span><span class=p>);</span>
@@ -1282,9 +1282,9 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <
 </span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>kref</span>			<span class=n>kref</span><span class=p>;</span>		<span class=cm>/* 引用计数 */</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=cp>#ifdef CONFIG_DEBUG_KOBJECT_RELEASE
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=k>struct</span> <span class=n>delayed_work</span>	<span class=n>release</span><span class=p>;</span>
+</span></span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>delayed_work</span>	<span class=n>release</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=kt>unsigned</span> <span class=kt>int</span> <span class=nl>state_initialized</span><span class=p>:</span><span class=mi>1</span><span class=p>;</span>			<span class=cm>/* 标志位:初始化 */</span>
 </span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>int</span> <span class=nl>state_in_sysfs</span><span class=p>:</span><span class=mi>1</span><span class=p>;</span>				<span class=cm>/* 标志位:在sysfs中 */</span>
 </span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>int</span> <span class=nl>state_add_uevent_sent</span><span class=p>:</span><span class=mi>1</span><span class=p>;</span>		<span class=cm>/* 标志位:发出KOBJ_ADD uevent */</span>
@@ -2417,19 +2417,19 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <
 </span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>dev_pm_domain</span>	<span class=o>*</span><span class=n>pm_domain</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_GENERIC_MSI_IRQ_DOMAIN
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=k>struct</span> <span class=n>irq_domain</span>	<span class=o>*</span><span class=n>msi_domain</span><span class=p>;</span>
+</span></span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>irq_domain</span>	<span class=o>*</span><span class=n>msi_domain</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_PINCTRL
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=k>struct</span> <span class=n>dev_pin_info</span>	<span class=o>*</span><span class=n>pins</span><span class=p>;</span>
+</span></span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>dev_pin_info</span>	<span class=o>*</span><span class=n>pins</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_GENERIC_MSI_IRQ
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=k>struct</span> <span class=n>list_head</span>	<span class=n>msi_list</span><span class=p>;</span>
+</span></span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>list_head</span>	<span class=n>msi_list</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_NUMA
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=kt>int</span>		<span class=n>numa_node</span><span class=p>;</span>	<span class=cm>/* NUMA node this device is close to */</span>
+</span></span></span><span class=line><span class=cl>	<span class=kt>int</span>		<span class=n>numa_node</span><span class=p>;</span>	<span class=cm>/* NUMA node this device is close to */</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=k>const</span> <span class=k>struct</span> <span class=n>dma_map_ops</span> <span class=o>*</span><span class=n>dma_ops</span><span class=p>;</span>
+</span></span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=k>struct</span> <span class=n>dma_map_ops</span> <span class=o>*</span><span class=n>dma_ops</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=n>u64</span>		<span class=o>*</span><span class=n>dma_mask</span><span class=p>;</span>	<span class=cm>/* dma mask (if dma&#39;able device) */</span>
 </span></span><span class=line><span class=cl>	<span class=n>u64</span>		<span class=n>coherent_dma_mask</span><span class=p>;</span><span class=cm>/* Like dma_mask, but for
 </span></span></span><span class=line><span class=cl><span class=cm>					     alloc_coherent mappings as
@@ -2446,10 +2446,10 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <
 </span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>dma_coherent_mem</span>	<span class=o>*</span><span class=n>dma_mem</span><span class=p>;</span> <span class=cm>/* internal for coherent mem
 </span></span></span><span class=line><span class=cl><span class=cm>					     override */</span>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_DMA_CMA
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=k>struct</span> <span class=n>cma</span> <span class=o>*</span><span class=n>cma_area</span><span class=p>;</span>		<span class=cm>/* contiguous memory area for dma
+</span></span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>cma</span> <span class=o>*</span><span class=n>cma_area</span><span class=p>;</span>		<span class=cm>/* contiguous memory area for dma
 </span></span></span><span class=line><span class=cl><span class=cm>					   allocations */</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/* arch specific additions */</span>
+</span></span></span><span class=line><span class=cl>	<span class=cm>/* arch specific additions */</span>
 </span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>dev_archdata</span>	<span class=n>archdata</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>device_node</span>	<span class=o>*</span><span class=n>of_node</span><span class=p>;</span> <span class=cm>/* associated device tree node */</span>
@@ -2619,7 +2619,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <
 </span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=kt>unsigned</span> <span class=kt>long</span> <span class=o>*</span><span class=n>gpl_crcs</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_UNUSED_SYMBOLS
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/* unused exported symbols. */</span>
+</span></span></span><span class=line><span class=cl>	<span class=cm>/* unused exported symbols. */</span>
 </span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=k>struct</span> <span class=n>kernel_symbol</span> <span class=o>*</span><span class=n>unused_syms</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=kt>unsigned</span> <span class=kt>long</span> <span class=o>*</span><span class=n>unused_crcs</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>int</span> <span class=n>num_unused_syms</span><span class=p>;</span>
@@ -2629,12 +2629,12 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <
 </span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=k>struct</span> <span class=n>kernel_symbol</span> <span class=o>*</span><span class=n>unused_gpl_syms</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=kt>unsigned</span> <span class=kt>long</span> <span class=o>*</span><span class=n>unused_gpl_crcs</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_MODULE_SIG
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/* Signature was verified. */</span>
+</span></span></span><span class=line><span class=cl>	<span class=cm>/* Signature was verified. */</span>
 </span></span><span class=line><span class=cl>	<span class=kt>bool</span> <span class=n>sig_ok</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=cm>/* symbols that will be GPL-only in the near future. */</span>
 </span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=k>struct</span> <span class=n>kernel_symbol</span> <span class=o>*</span><span class=n>gpl_future_syms</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=kt>unsigned</span> <span class=kt>long</span> <span class=o>*</span><span class=n>gpl_future_crcs</span><span class=p>;</span>
@@ -2668,14 +2668,14 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <
 </span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>int</span> <span class=n>taints</span><span class=p>;</span>	<span class=cm>/* same bits as kernel:tainted */</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_GENERIC_BUG
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/* Support for BUG */</span>
+</span></span></span><span class=line><span class=cl>	<span class=cm>/* Support for BUG */</span>
 </span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=n>num_bugs</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>list_head</span> <span class=n>bug_list</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>bug_entry</span> <span class=o>*</span><span class=n>bug_table</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_KALLSYMS
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/*
+</span></span></span><span class=line><span class=cl>	<span class=cm>/*
 </span></span></span><span class=line><span class=cl><span class=cm>	 * We keep the symbol and string tables for kallsyms.
 </span></span></span><span class=line><span class=cl><span class=cm>	 * The core_* fields below are temporary, loader-only (they
 </span></span></span><span class=line><span class=cl><span class=cm>	 * could really be discarded after module init).
@@ -2690,44 +2690,44 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <
 </span></span><span class=line><span class=cl>	<span class=cm>/* Notes attributes */</span>
 </span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>module_notes_attrs</span> <span class=o>*</span><span class=n>notes_attrs</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=cm>/* The command line arguments (may be mangled).  People like
 </span></span></span><span class=line><span class=cl><span class=cm>	   keeping pointers to this stuff */</span>
 </span></span><span class=line><span class=cl>	<span class=kt>char</span> <span class=o>*</span><span class=n>args</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_SMP
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/* Per-cpu data. */</span>
+</span></span></span><span class=line><span class=cl>	<span class=cm>/* Per-cpu data. */</span>
 </span></span><span class=line><span class=cl>	<span class=kt>void</span> <span class=n>__percpu</span> <span class=o>*</span><span class=n>percpu</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>int</span> <span class=n>percpu_size</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_TRACEPOINTS
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=kt>unsigned</span> <span class=kt>int</span> <span class=n>num_tracepoints</span><span class=p>;</span>
+</span></span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>int</span> <span class=n>num_tracepoints</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>tracepoint</span> <span class=o>*</span> <span class=k>const</span> <span class=o>*</span><span class=n>tracepoints_ptrs</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#ifdef HAVE_JUMP_LABEL
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=k>struct</span> <span class=n>jump_entry</span> <span class=o>*</span><span class=n>jump_entries</span><span class=p>;</span>
+</span></span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>jump_entry</span> <span class=o>*</span><span class=n>jump_entries</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>int</span> <span class=n>num_jump_entries</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_TRACING
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=kt>unsigned</span> <span class=kt>int</span> <span class=n>num_trace_bprintk_fmt</span><span class=p>;</span>
+</span></span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>int</span> <span class=n>num_trace_bprintk_fmt</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=kt>char</span> <span class=o>**</span><span class=n>trace_bprintk_fmt_start</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_EVENT_TRACING
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=k>struct</span> <span class=n>ftrace_event_call</span> <span class=o>**</span><span class=n>trace_events</span><span class=p>;</span>
+</span></span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>ftrace_event_call</span> <span class=o>**</span><span class=n>trace_events</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>int</span> <span class=n>num_trace_events</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_FTRACE_MCOUNT_RECORD
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=kt>unsigned</span> <span class=kt>int</span> <span class=n>num_ftrace_callsites</span><span class=p>;</span>
+</span></span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>int</span> <span class=n>num_ftrace_callsites</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>long</span> <span class=o>*</span><span class=n>ftrace_callsites</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_LIVEPATCH
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=kt>bool</span> <span class=n>klp_alive</span><span class=p>;</span>
+</span></span></span><span class=line><span class=cl>	<span class=kt>bool</span> <span class=n>klp_alive</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_MODULE_UNLOAD
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/* What modules depend on me? */</span>
+</span></span></span><span class=line><span class=cl>	<span class=cm>/* What modules depend on me? */</span>
 </span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>list_head</span> <span class=n>source_list</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=cm>/* What modules do I depend on? */</span>
 </span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>list_head</span> <span class=n>target_list</span><span class=p>;</span>
@@ -2737,13 +2737,13 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=kt>atomic_t</span> <span class=n>refcnt</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_CONSTRUCTORS
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/* Constructor functions. */</span>
+</span></span></span><span class=line><span class=cl>	<span class=cm>/* Constructor functions. */</span>
 </span></span><span class=line><span class=cl>	<span class=kt>ctor_fn_t</span> <span class=o>*</span><span class=n>ctors</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>int</span> <span class=n>num_ctors</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span><span class=p>};</span></span></span></code></pre></div><ul><li>list_head: 驱动组成的链表</li></ul><h3 id=加载模块 class=headerLink><a href=#%e5%8a%a0%e8%bd%bd%e6%a8%a1%e5%9d%97 class=header-mark></a>10.1 加载模块</h3><p>本质上ko文件就是一个携带调试信息的ELF文件,因此需要提前学习ELF文件结构</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+</span></span></span><span class=line><span class=cl><span class=p>};</span></span></span></code></pre></div><ul><li>list_head: 驱动组成的链表</li></ul><h3 id=加载模块 class=headerLink><a href=#%e5%8a%a0%e8%bd%bd%e6%a8%a1%e5%9d%97 class=header-mark></a>10.1 加载模块</h3><p>本质上ko文件就是一个携带调试信息的ELF文件,因此需要提前学习ELF文件结构</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
 tw-flex-row
 tw-flex-1
 tw-justify-between
@@ -2811,12 +2811,12 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <
 </span></span><span class=line><span class=cl>	<span class=kt>char</span> <span class=o>*</span><span class=n>after_dashes</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=c1>// 签名校验
-</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=n>err</span> <span class=o>=</span> <span class=nf>module_sig_check</span><span class=p>(</span><span class=n>info</span><span class=p>);</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>err</span> <span class=o>=</span> <span class=nf>module_sig_check</span><span class=p>(</span><span class=n>info</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>err</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>		<span class=k>goto</span> <span class=n>free_copy</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=c1>// ELF头检查
-</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=n>err</span> <span class=o>=</span> <span class=nf>elf_header_check</span><span class=p>(</span><span class=n>info</span><span class=p>);</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>err</span> <span class=o>=</span> <span class=nf>elf_header_check</span><span class=p>(</span><span class=n>info</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>err</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>		<span class=k>goto</span> <span class=n>free_copy</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
@@ -2833,7 +2833,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <
 </span></span><span class=line><span class=cl>		<span class=k>goto</span> <span class=n>free_module</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_MODULE_SIG
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>mod</span><span class=o>-&gt;</span><span class=n>sig_ok</span> <span class=o>=</span> <span class=n>info</span><span class=o>-&gt;</span><span class=n>sig_ok</span><span class=p>;</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>mod</span><span class=o>-&gt;</span><span class=n>sig_ok</span> <span class=o>=</span> <span class=n>info</span><span class=o>-&gt;</span><span class=n>sig_ok</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>mod</span><span class=o>-&gt;</span><span class=n>sig_ok</span><span class=p>)</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>		<span class=nf>pr_notice_once</span><span class=p>(</span><span class=s>&#34;%s: module verification failed: signature &#34;</span>
 </span></span><span class=line><span class=cl>			       <span class=s>&#34;and/or required key missing - tainting &#34;</span>
@@ -2841,7 +2841,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <
 </span></span><span class=line><span class=cl>		<span class=nf>add_taint_module</span><span class=p>(</span><span class=n>mod</span><span class=p>,</span> <span class=n>TAINT_UNSIGNED_MODULE</span><span class=p>,</span> <span class=n>LOCKDEP_STILL_OK</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>	<span class=p>}</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=cm>/* To avoid stressing percpu allocator, do this once we&#39;re unique. */</span>
 </span></span><span class=line><span class=cl>	<span class=n>err</span> <span class=o>=</span> <span class=nf>percpu_modalloc</span><span class=p>(</span><span class=n>mod</span><span class=p>,</span> <span class=n>info</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>err</span><span class=p>)</span>
@@ -3005,12 +3005,12 @@ tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <span class=n>cdev</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>kobject</span> <span class=n>kobj</span><span class=p>;</span>						<span class=c1>// kobject
-</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=k>struct</span> <span class=n>module</span> <span class=o>*</span><span class=n>owner</span><span class=p>;</span>						<span class=c1>// this_module
-</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=k>const</span> <span class=k>struct</span> <span class=n>file_operations</span> <span class=o>*</span><span class=n>ops</span><span class=p>;</span>			<span class=c1>// ops
-</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=k>struct</span> <span class=n>list_head</span> <span class=n>list</span><span class=p>;</span>						<span class=c1>// 链表
-</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=kt>dev_t</span> <span class=n>dev</span><span class=p>;</span>									<span class=c1>// 设备号
-</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=kt>unsigned</span> <span class=kt>int</span> <span class=n>count</span><span class=p>;</span>							<span class=c1>// 引用计数
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>};</span></span></span></code></pre></div><h3 id=全局变量 class=headerLink><a href=#%e5%85%a8%e5%b1%80%e5%8f%98%e9%87%8f class=header-mark></a>11.1 全局变量</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+</span></span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>module</span> <span class=o>*</span><span class=n>owner</span><span class=p>;</span>						<span class=c1>// this_module
+</span></span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=k>struct</span> <span class=n>file_operations</span> <span class=o>*</span><span class=n>ops</span><span class=p>;</span>			<span class=c1>// ops
+</span></span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>list_head</span> <span class=n>list</span><span class=p>;</span>						<span class=c1>// 链表
+</span></span></span><span class=line><span class=cl>	<span class=kt>dev_t</span> <span class=n>dev</span><span class=p>;</span>									<span class=c1>// 设备号
+</span></span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>int</span> <span class=n>count</span><span class=p>;</span>							<span class=c1>// 引用计数
+</span></span></span><span class=line><span class=cl><span class=p>};</span></span></span></code></pre></div><h3 id=全局变量 class=headerLink><a href=#%e5%85%a8%e5%b1%80%e5%8f%98%e9%87%8f class=header-mark></a>11.1 全局变量</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
 tw-flex-row
 tw-flex-1
 tw-justify-between
@@ -3057,7 +3057,7 @@ group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#define CHRDEV_MAJOR_HASH_SIZE	255
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=k>static</span> <span class=k>struct</span> <span class=n>kobj_map</span> <span class=o>*</span><span class=n>cdev_map</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=k>static</span> <span class=nf>DEFINE_MUTEX</span><span class=p>(</span><span class=n>chrdevs_lock</span><span class=p>);</span>
@@ -3407,7 +3407,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>int</span> <sp
 </span><span>|&nbsp;<a class=link-to-source href=https://github.com/mengdemao/github.io/blob/master/content/posts/driver_model/index.md target=_blank rel="noopener noreferrer">查看源代码</a>
 </span><span>|&nbsp;<a class=link-to-edit href=https://github.com/mengdemao/github.io/edit/master/content/posts/driver_model/index.md target=_blank rel="noopener noreferrer">编辑此页</a>
 </span><span>|&nbsp;<a class=link-to-report href="https://github.com/mengdemao/github.io/issues/new?title=[bug]%20Linux%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B&body=|Field|Value|%0A|-|-|%0A|Title|Linux%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B|%0A|Url|https://mengdemao.com/driver_model/|%0A|Filename|https://github.com/mengdemao/github.io/blob/main/exampleSite/content/posts/driver_model/index.md|" target=_blank rel="noopener noreferrer">报告问题</a></span></div><div class=post-info-share></div></div></div><div class=post-info-more><section class=post-tags><svg class="icon" viewBox="0 0 640 512"><path d="M497.941 225.941 286.059 14.059A48 48 0 00252.118.0H48C21.49.0.0 21.49.0 48v204.118a48 48 0 0014.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882.0l204.118-204.118c18.745-18.745 18.745-49.137.0-67.882zM112 160c-26.51.0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882.0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397.0h48.721a48 48 0 0133.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137.0 67.882z"/></svg>&nbsp;<a href=/tags/linux-driver/>Linux Driver</a></section><section class=print:!tw-hidden><span><button class="tw-text-fgColor-link-muted hover:tw-text-fgColor-link-muted-hover" onclick=window.history.back()>返回</button></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class="post-nav print:tw-hidden"><a href=/rbtree/ class=prev rel=prev title=Rbtree><svg class="icon" viewBox="0 0 256 512"><path d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9.0l22.6 22.6c9.4 9.4 9.4 24.6.0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6.0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9.0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"/></svg>Rbtree</a>
-<a href=/rt-thread/ class=next rel=next title=RT-Thread>RT-Thread<svg class="icon" viewBox="0 0 256 512"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9.0l-22.6-22.6c-9.4-9.4-9.4-24.6.0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6.0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9.0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></a></div></div><div id=comments class="print:!tw-hidden tw-pt-32 tw-pb-8"><div id=twikoo></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://twikoo.js.org/>Twikoo</a>.</noscript></div></article></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.152.2">Hugo</a> 强力驱动&nbsp;|&nbsp;托管在 <a title="Github Pages" href=https://docs.github.com/en/pages/ target=_blank rel="noopener noreffer">GitHub Pages</a> 上&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.4.2"><svg class="icon" viewBox="0 0 576 512"><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1.0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7.0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174 402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7-43.2-43.2c-4.1-4.1-10.8-4.1-14.8.0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg> DoIt</a></div><div class=footer-line><svg class="icon" viewBox="0 0 512 512"><path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 448c-110.532.0-2e2-89.451-2e2-2e2.0-110.531 89.451-2e2 2e2-2e2 110.532.0 2e2 89.451 2e2 2e2.0 110.532-89.451 2e2-2e2 2e2zm107.351-101.064c-9.614 9.712-45.53 41.396-104.065 41.396-82.43.0-140.484-61.425-140.484-141.567.0-79.152 60.275-139.401 139.762-139.401 55.531.0 88.738 26.62 97.593 34.779a11.965 11.965.0 011.936 15.322l-18.155 28.113c-3.841 5.95-11.966 7.282-17.499 2.921-8.595-6.776-31.814-22.538-61.708-22.538-48.303.0-77.916 35.33-77.916 80.082.0 41.589 26.888 83.692 78.277 83.692 32.657.0 56.843-19.039 65.726-27.225 5.27-4.857 13.596-4.039 17.82 1.738l19.865 27.17a11.947 11.947.0 01-1.152 15.518z"/></svg>2020 - 2025<span class=author>&nbsp;<a href=https://github.com/mengdemao target=_blank rel="noopener noreferrer">mengdemao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span><span class=icp-splitter>&nbsp;|&nbsp;</span><br class=icp-br><span class=icp><a href=https://beian.miit.gov.cn/>鲁ICP备2023050410号-1</a></span></div><div class=footer-line></div><div class=footer-line></div></div></footer><div class="print:!tw-hidden tw-flex tw-flex-col tw-fixed tw-right-4 tw-bottom-4 tw-gap-2"><a href=#back-to-top id=back-to-top-button class="tw-transition-opacity tw-opacity-0 tw-block tw-bg-bgColor-secondary tw-rounded-full" style=padding:.6rem;line-height:1.3rem;font-size:1rem title=回到顶部><svg class="icon" viewBox="0 0 448 512"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6.0-33.9L207 39c9.4-9.4 24.6-9.4 33.9.0l194.3 194.3c9.4 9.4 9.4 24.6.0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3.0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg>
+<a href=/rt-thread/ class=next rel=next title=RT-Thread>RT-Thread<svg class="icon" viewBox="0 0 256 512"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9.0l-22.6-22.6c-9.4-9.4-9.4-24.6.0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6.0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9.0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></a></div></div><div id=comments class="print:!tw-hidden tw-pt-32 tw-pb-8"><div id=twikoo></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://twikoo.js.org/>Twikoo</a>.</noscript></div></article></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.153.4">Hugo</a> 强力驱动&nbsp;|&nbsp;托管在 <a title="Github Pages" href=https://docs.github.com/en/pages/ target=_blank rel="noopener noreffer">GitHub Pages</a> 上&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.4.2"><svg class="icon" viewBox="0 0 576 512"><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1.0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7.0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174 402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7-43.2-43.2c-4.1-4.1-10.8-4.1-14.8.0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg> DoIt</a></div><div class=footer-line><svg class="icon" viewBox="0 0 512 512"><path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 448c-110.532.0-2e2-89.451-2e2-2e2.0-110.531 89.451-2e2 2e2-2e2 110.532.0 2e2 89.451 2e2 2e2.0 110.532-89.451 2e2-2e2 2e2zm107.351-101.064c-9.614 9.712-45.53 41.396-104.065 41.396-82.43.0-140.484-61.425-140.484-141.567.0-79.152 60.275-139.401 139.762-139.401 55.531.0 88.738 26.62 97.593 34.779a11.965 11.965.0 011.936 15.322l-18.155 28.113c-3.841 5.95-11.966 7.282-17.499 2.921-8.595-6.776-31.814-22.538-61.708-22.538-48.303.0-77.916 35.33-77.916 80.082.0 41.589 26.888 83.692 78.277 83.692 32.657.0 56.843-19.039 65.726-27.225 5.27-4.857 13.596-4.039 17.82 1.738l19.865 27.17a11.947 11.947.0 01-1.152 15.518z"/></svg>2020 - 2025<span class=author>&nbsp;<a href=https://github.com/mengdemao target=_blank rel="noopener noreferrer">mengdemao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span><span class=icp-splitter>&nbsp;|&nbsp;</span><br class=icp-br><span class=icp><a href=https://beian.miit.gov.cn/>鲁ICP备2023050410号-1</a></span></div><div class=footer-line></div><div class=footer-line></div></div></footer><div class="print:!tw-hidden tw-flex tw-flex-col tw-fixed tw-right-4 tw-bottom-4 tw-gap-2"><a href=#back-to-top id=back-to-top-button class="tw-transition-opacity tw-opacity-0 tw-block tw-bg-bgColor-secondary tw-rounded-full" style=padding:.6rem;line-height:1.3rem;font-size:1rem title=回到顶部><svg class="icon" viewBox="0 0 448 512"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6.0-33.9L207 39c9.4-9.4 24.6-9.4 33.9.0l194.3 194.3c9.4 9.4 9.4 24.6.0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3.0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg>
 </a><button id=toc-drawer-button class="tw-block tw-bg-bgColor-secondary tw-rounded-full md:tw-hidden" style=padding:.6rem;line-height:1.3rem;font-size:1rem>
 <svg class="icon" viewBox="0 0 448 512"><path d="M16 132h416c8.837.0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163.0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg>
 </button><a href=#comments id=view-comments class="tw-block tw-bg-bgColor-secondary tw-rounded-full" style=padding:.6rem;line-height:1.3rem;font-size:1rem title=查看评论>

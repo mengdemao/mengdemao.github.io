@@ -156,7 +156,7 @@ group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=gd>- GRUB_CMDLINE_LINUX_DEFAULT=&#34;loglevel=7&#34;
-</span></span></span><span class=line><span class=cl><span class=gd></span><span class=gi>+ GRUB_CMDLINE_LINUX_DEFAULT=&#34;loglevel=7 crashkernel=256M@16M&#34;
+</span></span></span><span class=line><span class=cl><span class=gi>+ GRUB_CMDLINE_LINUX_DEFAULT=&#34;loglevel=7 crashkernel=256M@16M&#34;
 </span></span></span></code></pre></div><p>更新grub配置<code>grub-mkconfig</code></p><h4 id=启动kdump服务 class=headerLink><a href=#%e5%90%af%e5%8a%a8kdump%e6%9c%8d%e5%8a%a1 class=header-mark></a>1.1.2 启动kdump服务</h4><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
 tw-flex-row
 tw-flex-1
@@ -353,15 +353,15 @@ group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl>qemu-system-arm -m <span class=m>1024</span> -M virt<span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    -nographic -smp <span class=m>4</span> -kernel arch/arm/boot/zImage <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    -append <span class=s2>&#34;crashkernel=128M root=/dev/vda rootfstype=ext4 rw&#34;</span><span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    -drive <span class=k>if</span><span class=o>=</span>none,file<span class=o>=</span>rootfs_debian_arm32.ext4,id<span class=o>=</span>hd0 <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    -device virtio-blk-device,drive<span class=o>=</span>hd0 <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    -netdev user,id<span class=o>=</span>mynet<span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    -device virtio-net-device,netdev<span class=o>=</span>mynet<span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    --fsdev local,id<span class=o>=</span>kmod_dev,path<span class=o>=</span>./kmodules,security_model<span class=o>=</span>none<span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    -device virtio-9p-device,fsdev<span class=o>=</span>kmod_dev,mount_tag<span class=o>=</span>kmod_mount<span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    -S -s</span></span></code></pre></div><ul><li>编译64位arm</li></ul><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+</span></span></span><span class=line><span class=cl>    -nographic -smp <span class=m>4</span> -kernel arch/arm/boot/zImage <span class=se>\
+</span></span></span><span class=line><span class=cl>    -append <span class=s2>&#34;crashkernel=128M root=/dev/vda rootfstype=ext4 rw&#34;</span><span class=se>\
+</span></span></span><span class=line><span class=cl>    -drive <span class=k>if</span><span class=o>=</span>none,file<span class=o>=</span>rootfs_debian_arm32.ext4,id<span class=o>=</span>hd0 <span class=se>\
+</span></span></span><span class=line><span class=cl>    -device virtio-blk-device,drive<span class=o>=</span>hd0 <span class=se>\
+</span></span></span><span class=line><span class=cl>    -netdev user,id<span class=o>=</span>mynet<span class=se>\
+</span></span></span><span class=line><span class=cl>    -device virtio-net-device,netdev<span class=o>=</span>mynet<span class=se>\
+</span></span></span><span class=line><span class=cl>    --fsdev local,id<span class=o>=</span>kmod_dev,path<span class=o>=</span>./kmodules,security_model<span class=o>=</span>none<span class=se>\
+</span></span></span><span class=line><span class=cl>    -device virtio-9p-device,fsdev<span class=o>=</span>kmod_dev,mount_tag<span class=o>=</span>kmod_mount<span class=se>\
+</span></span></span><span class=line><span class=cl>    -S -s</span></span></code></pre></div><ul><li>编译64位arm</li></ul><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
 tw-flex-row
 tw-flex-1
 tw-justify-between
@@ -408,15 +408,15 @@ group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl>qemu-system-aarch64 -m <span class=m>1024</span> -cpu cortex-a57 -M virt<span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    -nographic -smp <span class=m>4</span> -kernel arch/arm64/boot/Image <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    -append <span class=s2>&#34;noinintrd root=/dev/vda rootfstype=ext4 rw loglevel=8&#34;</span> <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    -drive <span class=k>if</span><span class=o>=</span>none,file<span class=o>=</span>rootfs_debian_arm64.ext4,id<span class=o>=</span>hd0 <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    -device virtio-blk-device,drive<span class=o>=</span>hd0 <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    --fsdev local,id<span class=o>=</span>kmod_dev,path<span class=o>=</span>./kmodules,security_model<span class=o>=</span>none <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    -device virtio-9p-device,fsdev<span class=o>=</span>kmod_dev,mount_tag<span class=o>=</span>kmod_mount<span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    -netdev user,id<span class=o>=</span>mynet<span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    -device virtio-net-device,netdev<span class=o>=</span>mynet<span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    -S -s</span></span></code></pre></div><ul><li>安装gdb-multiarch</li></ul><blockquote><p>参考资料:<a href=https://aur.archlinux.org/packages/gdb-multiarch target=_blank rel="noopener noreferrer">Archlinux gdb-multiarch构建</a></p></blockquote><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+</span></span></span><span class=line><span class=cl>    -nographic -smp <span class=m>4</span> -kernel arch/arm64/boot/Image <span class=se>\
+</span></span></span><span class=line><span class=cl>    -append <span class=s2>&#34;noinintrd root=/dev/vda rootfstype=ext4 rw loglevel=8&#34;</span> <span class=se>\
+</span></span></span><span class=line><span class=cl>    -drive <span class=k>if</span><span class=o>=</span>none,file<span class=o>=</span>rootfs_debian_arm64.ext4,id<span class=o>=</span>hd0 <span class=se>\
+</span></span></span><span class=line><span class=cl>    -device virtio-blk-device,drive<span class=o>=</span>hd0 <span class=se>\
+</span></span></span><span class=line><span class=cl>    --fsdev local,id<span class=o>=</span>kmod_dev,path<span class=o>=</span>./kmodules,security_model<span class=o>=</span>none <span class=se>\
+</span></span></span><span class=line><span class=cl>    -device virtio-9p-device,fsdev<span class=o>=</span>kmod_dev,mount_tag<span class=o>=</span>kmod_mount<span class=se>\
+</span></span></span><span class=line><span class=cl>    -netdev user,id<span class=o>=</span>mynet<span class=se>\
+</span></span></span><span class=line><span class=cl>    -device virtio-net-device,netdev<span class=o>=</span>mynet<span class=se>\
+</span></span></span><span class=line><span class=cl>    -S -s</span></span></code></pre></div><ul><li>安装gdb-multiarch</li></ul><blockquote><p>参考资料:<a href=https://aur.archlinux.org/packages/gdb-multiarch target=_blank rel="noopener noreferrer">Archlinux gdb-multiarch构建</a></p></blockquote><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
 tw-flex-row
 tw-flex-1
 tw-justify-between
@@ -468,15 +468,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=c1># 下载代码
 </span></span><span class=line><span class=cl><span class=c1># 执行构建</span>
 </span></span><span class=line><span class=cl>mkdir build <span class=o>&amp;&amp;</span> <span class=nb>cd</span> build
 </span></span><span class=line><span class=cl>  ../configure <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    --enable-targets<span class=o>=</span>all <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    --prefix<span class=o>=</span>/build <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    --enable-languages<span class=o>=</span>all <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    --enable-multilib <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    --enable-interwork <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    --with-system-readline <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    --disable-nls <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    --with-python<span class=o>=</span>/usr/bin/python <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>    --with-system-gdbinit<span class=o>=</span>/etc/gdb/gdbinit
+</span></span></span><span class=line><span class=cl>    --enable-targets<span class=o>=</span>all <span class=se>\
+</span></span></span><span class=line><span class=cl>    --prefix<span class=o>=</span>/build <span class=se>\
+</span></span></span><span class=line><span class=cl>    --enable-languages<span class=o>=</span>all <span class=se>\
+</span></span></span><span class=line><span class=cl>    --enable-multilib <span class=se>\
+</span></span></span><span class=line><span class=cl>    --enable-interwork <span class=se>\
+</span></span></span><span class=line><span class=cl>    --with-system-readline <span class=se>\
+</span></span></span><span class=line><span class=cl>    --disable-nls <span class=se>\
+</span></span></span><span class=line><span class=cl>    --with-python<span class=o>=</span>/usr/bin/python <span class=se>\
+</span></span></span><span class=line><span class=cl>    --with-system-gdbinit<span class=o>=</span>/etc/gdb/gdbinit
 </span></span><span class=line><span class=cl>make -j<span class=sb>`</span>nproc<span class=sb>`</span>
 </span></span><span class=line><span class=cl>make install
 </span></span><span class=line><span class=cl>
@@ -1071,7 +1071,7 @@ group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;stdio.h&gt;</span><span class=cp>
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>main</span><span class=p>(</span><span class=kt>int</span> <span class=n>argc</span><span class=p>,</span> <span class=kt>char</span> <span class=o>*</span><span class=n>argv</span><span class=p>[])</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=nf>printf</span><span class=p>(</span><span class=s>&#34;Hello initramfs</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>);</span>
@@ -1406,36 +1406,36 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=n>asmlinkage</spa
 </span></span><span class=line><span class=cl>	<span class=kt>char</span> <span class=o>*</span><span class=n>after_dashes</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=c1>// 死锁检测
-</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nf>lockdep_init</span><span class=p>();</span>
+</span></span></span><span class=line><span class=cl>    <span class=nf>lockdep_init</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=c1>// 设置启动任务的结束磨数
-</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nf>set_task_stack_end_magic</span><span class=p>(</span><span class=o>&amp;</span><span class=n>init_task</span><span class=p>);</span>
+</span></span></span><span class=line><span class=cl>	<span class=nf>set_task_stack_end_magic</span><span class=p>(</span><span class=o>&amp;</span><span class=n>init_task</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=c1>// 设置smp id
-</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nf>smp_setup_processor_id</span><span class=p>();</span>
+</span></span></span><span class=line><span class=cl>	<span class=nf>smp_setup_processor_id</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=c1>// debug
-</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nf>debug_objects_early_init</span><span class=p>();</span>
+</span></span></span><span class=line><span class=cl>    <span class=nf>debug_objects_early_init</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=c1>// 堆栈保护机制
-</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nf>boot_init_stack_canary</span><span class=p>();</span>
+</span></span></span><span class=line><span class=cl>	<span class=nf>boot_init_stack_canary</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=c1>// cgroup初始化
-</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nf>cgroup_init_early</span><span class=p>();</span>
+</span></span></span><span class=line><span class=cl>	<span class=nf>cgroup_init_early</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=c1>// irq中断停止，设置标志位
-</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nf>local_irq_disable</span><span class=p>();</span>
+</span></span></span><span class=line><span class=cl>	<span class=nf>local_irq_disable</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>	<span class=n>early_boot_irqs_disabled</span> <span class=o>=</span> <span class=nb>true</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=c1>// 激活启动CPU
-</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nf>boot_cpu_init</span><span class=p>();</span>
+</span></span></span><span class=line><span class=cl>	<span class=nf>boot_cpu_init</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=c1>// 单独章节分析
-</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nf>page_address_init</span><span class=p>();</span>
+</span></span></span><span class=line><span class=cl>	<span class=nf>page_address_init</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>	<span class=nf>pr_notice</span><span class=p>(</span><span class=s>&#34;%s&#34;</span><span class=p>,</span> <span class=n>linux_banner</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=c1>// 设置架构
-</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nf>setup_arch</span><span class=p>(</span><span class=o>&amp;</span><span class=n>command_line</span><span class=p>);</span>
+</span></span></span><span class=line><span class=cl>    <span class=nf>setup_arch</span><span class=p>(</span><span class=o>&amp;</span><span class=n>command_line</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>	<span class=nf>mm_init_cpumask</span><span class=p>(</span><span class=o>&amp;</span><span class=n>init_mm</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>	<span class=nf>setup_command_line</span><span class=p>(</span><span class=n>command_line</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>	<span class=nf>setup_nr_cpu_ids</span><span class=p>();</span>
@@ -1530,7 +1530,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=n>asmlinkage</spa
 </span></span><span class=line><span class=cl>	<span class=nf>locking_selftest</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_BLK_DEV_INITRD
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=k>if</span> <span class=p>(</span><span class=n>initrd_start</span> <span class=o>&amp;&amp;</span> <span class=o>!</span><span class=n>initrd_below_start_ok</span> <span class=o>&amp;&amp;</span>
+</span></span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>initrd_start</span> <span class=o>&amp;&amp;</span> <span class=o>!</span><span class=n>initrd_below_start_ok</span> <span class=o>&amp;&amp;</span>
 </span></span><span class=line><span class=cl>	    <span class=nf>page_to_pfn</span><span class=p>(</span><span class=nf>virt_to_page</span><span class=p>((</span><span class=kt>void</span> <span class=o>*</span><span class=p>)</span><span class=n>initrd_start</span><span class=p>))</span> <span class=o>&lt;</span> <span class=n>min_low_pfn</span><span class=p>)</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>		<span class=nf>pr_crit</span><span class=p>(</span><span class=s>&#34;initrd overwritten (0x%08lx &lt; 0x%08lx) - disabling it.</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>		    <span class=nf>page_to_pfn</span><span class=p>(</span><span class=nf>virt_to_page</span><span class=p>((</span><span class=kt>void</span> <span class=o>*</span><span class=p>)</span><span class=n>initrd_start</span><span class=p>)),</span>
@@ -1538,7 +1538,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=n>asmlinkage</spa
 </span></span><span class=line><span class=cl>		<span class=n>initrd_start</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=p>}</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=nf>page_ext_init</span><span class=p>();</span>
+</span></span></span><span class=line><span class=cl>	<span class=nf>page_ext_init</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>	<span class=nf>debug_objects_mem_init</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>	<span class=nf>kmemleak_init</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>	<span class=nf>setup_per_cpu_pageset</span><span class=p>();</span>
@@ -1551,14 +1551,14 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=n>asmlinkage</spa
 </span></span><span class=line><span class=cl>	<span class=nf>anon_vma_init</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>	<span class=nf>acpi_early_init</span><span class=p>();</span>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_X86
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=k>if</span> <span class=p>(</span><span class=nf>efi_enabled</span><span class=p>(</span><span class=n>EFI_RUNTIME_SERVICES</span><span class=p>))</span>
+</span></span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=nf>efi_enabled</span><span class=p>(</span><span class=n>EFI_RUNTIME_SERVICES</span><span class=p>))</span>
 </span></span><span class=line><span class=cl>		<span class=nf>efi_enter_virtual_mode</span><span class=p>();</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_X86_ESPFIX64
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/* Should be run before the first non-init thread is created */</span>
+</span></span></span><span class=line><span class=cl>	<span class=cm>/* Should be run before the first non-init thread is created */</span>
 </span></span><span class=line><span class=cl>	<span class=nf>init_espfix_bsp</span><span class=p>();</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=nf>thread_info_cache_init</span><span class=p>();</span>
+</span></span></span><span class=line><span class=cl>	<span class=nf>thread_info_cache_init</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>	<span class=nf>cred_init</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>	<span class=nf>fork_init</span><span class=p>(</span><span class=n>totalram_pages</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>	<span class=nf>proc_caches_init</span><span class=p>();</span>
@@ -1765,11 +1765,11 @@ tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=k>static</span> <span class=kr>inline</span> <span class=kt>unsigned</span> <span class=kt>long</span> <span class=o>*</span><span class=nf>end_of_stack</span><span class=p>(</span><span class=k>struct</span> <span class=n>task_struct</span> <span class=o>*</span><span class=n>p</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_STACK_GROWSUP
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=k>return</span> <span class=p>(</span><span class=kt>unsigned</span> <span class=kt>long</span> <span class=o>*</span><span class=p>)((</span><span class=kt>unsigned</span> <span class=kt>long</span><span class=p>)</span><span class=nf>task_thread_info</span><span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=o>+</span> <span class=n>THREAD_SIZE</span><span class=p>)</span> <span class=o>-</span> <span class=mi>1</span><span class=p>;</span>
+</span></span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=p>(</span><span class=kt>unsigned</span> <span class=kt>long</span> <span class=o>*</span><span class=p>)((</span><span class=kt>unsigned</span> <span class=kt>long</span><span class=p>)</span><span class=nf>task_thread_info</span><span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=o>+</span> <span class=n>THREAD_SIZE</span><span class=p>)</span> <span class=o>-</span> <span class=mi>1</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#else
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=k>return</span> <span class=p>(</span><span class=kt>unsigned</span> <span class=kt>long</span> <span class=o>*</span><span class=p>)(</span><span class=nf>task_thread_info</span><span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=o>+</span> <span class=mi>1</span><span class=p>);</span>
+</span></span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=p>(</span><span class=kt>unsigned</span> <span class=kt>long</span> <span class=o>*</span><span class=p>)(</span><span class=nf>task_thread_info</span><span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=o>+</span> <span class=mi>1</span><span class=p>);</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span><span class=p>}</span></span></span></code></pre></div><h3 id=设置smp的cpu-id class=headerLink><a href=#%e8%ae%be%e7%bd%aesmp%e7%9a%84cpu-id class=header-mark></a>5.5 设置smp的CPU ID</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+</span></span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=设置smp的cpu-id class=headerLink><a href=#%e8%ae%be%e7%bd%aesmp%e7%9a%84cpu-id class=header-mark></a>5.5 设置smp的CPU ID</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
 tw-flex-row
 tw-flex-1
 tw-justify-between
@@ -1816,15 +1816,15 @@ group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>int</span> <span class=n>nr_cpu_ids</span> <span class=n>__read_mostly</span> <span class=o>=</span> <span class=n>NR_CPUS</span><span class=p>;</span>		<span class=c1>// 此参数通过配置文件得到
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nf>EXPORT_SYMBOL</span><span class=p>(</span><span class=n>nr_cpu_ids</span><span class=p>);</span>
+</span></span></span><span class=line><span class=cl><span class=nf>EXPORT_SYMBOL</span><span class=p>(</span><span class=n>nr_cpu_ids</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=n>u32</span> <span class=n>__cpu_logical_map</span><span class=p>[</span><span class=n>NR_CPUS</span><span class=p>]</span> <span class=o>=</span> <span class=p>{</span> <span class=p>[</span><span class=mi>0</span> <span class=p>...</span> <span class=n>NR_CPUS</span><span class=o>-</span><span class=mi>1</span><span class=p>]</span> <span class=o>=</span> <span class=n>MPIDR_INVALID</span> <span class=p>};</span>
 </span></span><span class=line><span class=cl><span class=cp>#define cpu_logical_map(cpu)	__cpu_logical_map[cpu]
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=c1>// 1. 设置cpu_logical_map
 </span></span></span><span class=line><span class=cl><span class=c1>// 2. 设置线程ID
 </span></span></span><span class=line><span class=cl><span class=c1>// 3. 打印日志
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kt>void</span> <span class=n>__init</span> <span class=nf>smp_setup_processor_id</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
+</span></span></span><span class=line><span class=cl><span class=kt>void</span> <span class=n>__init</span> <span class=nf>smp_setup_processor_id</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=n>i</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=n>u32</span> <span class=n>mpidr</span> <span class=o>=</span> <span class=nf>is_smp</span><span class=p>()</span> <span class=o>?</span> <span class=nf>read_cpuid_mpidr</span><span class=p>()</span> <span class=o>&amp;</span> <span class=nl>MPIDR_HWID_BITMASK</span> <span class=p>:</span> <span class=mi>0</span><span class=p>;</span>
@@ -1845,11 +1845,11 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>int</span> <sp
 </span></span><span class=line><span class=cl><span class=p>}</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=c1>// 设置线程ID
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>static</span> <span class=kr>inline</span> <span class=kt>void</span> <span class=nf>set_my_cpu_offset</span><span class=p>(</span><span class=kt>unsigned</span> <span class=kt>long</span> <span class=n>off</span><span class=p>)</span>
+</span></span></span><span class=line><span class=cl><span class=k>static</span> <span class=kr>inline</span> <span class=kt>void</span> <span class=nf>set_my_cpu_offset</span><span class=p>(</span><span class=kt>unsigned</span> <span class=kt>long</span> <span class=n>off</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>	<span class=cm>/* Set TPIDRPRW */</span>
 </span></span><span class=line><span class=cl>    <span class=c1>// off=0x0
-</span></span></span><span class=line><span class=cl><span class=c1></span> 	<span class=k>asm</span> <span class=k>volatile</span><span class=p>(</span><span class=s>&#34;mcr p15, 0, %0, c13, c0, 4&#34;</span> <span class=o>:</span> <span class=o>:</span> <span class=s>&#34;r&#34;</span> <span class=p>(</span><span class=n>off</span><span class=p>)</span> <span class=o>:</span> <span class=s>&#34;memory&#34;</span><span class=p>);</span>
+</span></span></span><span class=line><span class=cl> 	<span class=k>asm</span> <span class=k>volatile</span><span class=p>(</span><span class=s>&#34;mcr p15, 0, %0, c13, c0, 4&#34;</span> <span class=o>:</span> <span class=o>:</span> <span class=s>&#34;r&#34;</span> <span class=p>(</span><span class=n>off</span><span class=p>)</span> <span class=o>:</span> <span class=s>&#34;memory&#34;</span><span class=p>);</span>
 </span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=激活启动cpu class=headerLink><a href=#%e6%bf%80%e6%b4%bb%e5%90%af%e5%8a%a8cpu class=header-mark></a>5.6 激活启动CPU</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
 tw-flex-row
 tw-flex-1
@@ -1953,18 +1953,18 @@ tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>void</span> <span class=n>__init</span> <span class=nf>setup_arch</span><span class=p>(</span><span class=kt>char</span> <span class=o>**</span><span class=n>cmdline_p</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=c1>// 机器描述符
-</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=k>const</span> <span class=k>struct</span> <span class=n>machine_desc</span> <span class=o>*</span><span class=n>mdesc</span><span class=p>;</span>
+</span></span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=k>struct</span> <span class=n>machine_desc</span> <span class=o>*</span><span class=n>mdesc</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=c1>// 设置处理器相关信息
-</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nf>setup_processor</span><span class=p>();</span>
+</span></span></span><span class=line><span class=cl>	<span class=nf>setup_processor</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=c1>// 读取设备树信息
-</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=n>mdesc</span> <span class=o>=</span> <span class=nf>setup_machine_fdt</span><span class=p>(</span><span class=n>__atags_pointer</span><span class=p>);</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>mdesc</span> <span class=o>=</span> <span class=nf>setup_machine_fdt</span><span class=p>(</span><span class=n>__atags_pointer</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>mdesc</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>		<span class=n>mdesc</span> <span class=o>=</span> <span class=nf>setup_machine_tags</span><span class=p>(</span><span class=n>__atags_pointer</span><span class=p>,</span> <span class=n>__machine_arch_type</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=c1>// 设置到全局变量
-</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>machine_desc</span> <span class=o>=</span> <span class=n>mdesc</span><span class=p>;</span>
+</span></span></span><span class=line><span class=cl>    <span class=n>machine_desc</span> <span class=o>=</span> <span class=n>mdesc</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=n>machine_name</span> <span class=o>=</span> <span class=n>mdesc</span><span class=o>-&gt;</span><span class=n>name</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=nf>dump_stack_set_arch_desc</span><span class=p>(</span><span class=s>&#34;%s&#34;</span><span class=p>,</span> <span class=n>mdesc</span><span class=o>-&gt;</span><span class=n>name</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>
@@ -1972,7 +1972,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>void</span> <s
 </span></span><span class=line><span class=cl>		<span class=n>reboot_mode</span> <span class=o>=</span> <span class=n>mdesc</span><span class=o>-&gt;</span><span class=n>reboot_mode</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=c1>// 设置init任务
-</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=n>init_mm</span><span class=p>.</span><span class=n>start_code</span> <span class=o>=</span> <span class=p>(</span><span class=kt>unsigned</span> <span class=kt>long</span><span class=p>)</span> <span class=n>_text</span><span class=p>;</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>init_mm</span><span class=p>.</span><span class=n>start_code</span> <span class=o>=</span> <span class=p>(</span><span class=kt>unsigned</span> <span class=kt>long</span><span class=p>)</span> <span class=n>_text</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=n>init_mm</span><span class=p>.</span><span class=n>end_code</span>   <span class=o>=</span> <span class=p>(</span><span class=kt>unsigned</span> <span class=kt>long</span><span class=p>)</span> <span class=n>_etext</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=n>init_mm</span><span class=p>.</span><span class=n>end_data</span>   <span class=o>=</span> <span class=p>(</span><span class=kt>unsigned</span> <span class=kt>long</span><span class=p>)</span> <span class=n>_edata</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=n>init_mm</span><span class=p>.</span><span class=n>brk</span>	   	   <span class=o>=</span> <span class=p>(</span><span class=kt>unsigned</span> <span class=kt>long</span><span class=p>)</span> <span class=n>_end</span><span class=p>;</span>
@@ -1984,7 +1984,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>void</span> <s
 </span></span><span class=line><span class=cl>	<span class=nf>parse_early_param</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>    <span class=c1>// 读取设备树
-</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nf>early_paging_init</span><span class=p>(</span><span class=n>mdesc</span><span class=p>,</span> <span class=nf>lookup_processor_type</span><span class=p>(</span><span class=nf>read_cpuid_id</span><span class=p>()));</span>
+</span></span></span><span class=line><span class=cl>	<span class=nf>early_paging_init</span><span class=p>(</span><span class=n>mdesc</span><span class=p>,</span> <span class=nf>lookup_processor_type</span><span class=p>(</span><span class=nf>read_cpuid_id</span><span class=p>()));</span>
 </span></span><span class=line><span class=cl>	<span class=nf>setup_dma_zone</span><span class=p>(</span><span class=n>mdesc</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>	<span class=nf>sanity_check_meminfo</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>	<span class=nf>arm_memblock_init</span><span class=p>(</span><span class=n>mdesc</span><span class=p>);</span>
@@ -1999,7 +1999,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>void</span> <s
 </span></span><span class=line><span class=cl>	<span class=nf>arm_dt_init_cpu_maps</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>	<span class=nf>psci_init</span><span class=p>();</span>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_SMP
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=k>if</span> <span class=p>(</span><span class=nf>is_smp</span><span class=p>())</span> <span class=p>{</span>
+</span></span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=nf>is_smp</span><span class=p>())</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>mdesc</span><span class=o>-&gt;</span><span class=n>smp_init</span> <span class=o>||</span> <span class=o>!</span><span class=n>mdesc</span><span class=o>-&gt;</span><span class=nf>smp_init</span><span class=p>())</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>			<span class=k>if</span> <span class=p>(</span><span class=nf>psci_smp_available</span><span class=p>())</span>
 </span></span><span class=line><span class=cl>				<span class=nf>smp_set_ops</span><span class=p>(</span><span class=o>&amp;</span><span class=n>psci_smp_ops</span><span class=p>);</span>
@@ -2010,24 +2010,24 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>void</span> <s
 </span></span><span class=line><span class=cl>		<span class=nf>smp_build_mpidr_hash</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>	<span class=p>}</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nf>is_smp</span><span class=p>())</span>
 </span></span><span class=line><span class=cl>		<span class=nf>hyp_mode_check</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=nf>reserve_crashkernel</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_MULTI_IRQ_HANDLER
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>handle_arch_irq</span> <span class=o>=</span> <span class=n>mdesc</span><span class=o>-&gt;</span><span class=n>handle_irq</span><span class=p>;</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>handle_arch_irq</span> <span class=o>=</span> <span class=n>mdesc</span><span class=o>-&gt;</span><span class=n>handle_irq</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_VT
 </span></span></span><span class=line><span class=cl><span class=cp>#if defined(CONFIG_VGA_CONSOLE)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>conswitchp</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>vga_con</span><span class=p>;</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>conswitchp</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>vga_con</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#elif defined(CONFIG_DUMMY_CONSOLE)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>conswitchp</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>dummy_con</span><span class=p>;</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>conswitchp</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>dummy_con</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>mdesc</span><span class=o>-&gt;</span><span class=n>init_early</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>		<span class=n>mdesc</span><span class=o>-&gt;</span><span class=nf>init_early</span><span class=p>();</span>
 </span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=mm_init_cpumask class=headerLink><a href=#mm_init_cpumask class=header-mark></a>5.8 mm_init_cpumask</h3><p>清理内存管理系统的<code>init_mm->cpu_vm_mask_var</code></p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
@@ -2079,9 +2079,9 @@ tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=k>static</span> <span class=kr>inline</span> <span class=kt>void</span> <span class=nf>mm_init_cpumask</span><span class=p>(</span><span class=k>struct</span> <span class=n>mm_struct</span> <span class=o>*</span><span class=n>mm</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_CPUMASK_OFFSTACK
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>mm</span><span class=o>-&gt;</span><span class=n>cpu_vm_mask_var</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>mm</span><span class=o>-&gt;</span><span class=n>cpumask_allocation</span><span class=p>;</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>mm</span><span class=o>-&gt;</span><span class=n>cpu_vm_mask_var</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>mm</span><span class=o>-&gt;</span><span class=n>cpumask_allocation</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=nf>cpumask_clear</span><span class=p>(</span><span class=n>mm</span><span class=o>-&gt;</span><span class=n>cpu_vm_mask_var</span><span class=p>);</span>
+</span></span></span><span class=line><span class=cl>	<span class=nf>cpumask_clear</span><span class=p>(</span><span class=n>mm</span><span class=o>-&gt;</span><span class=n>cpu_vm_mask_var</span><span class=p>);</span>
 </span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=设置命令行command_line class=headerLink><a href=#%e8%ae%be%e7%bd%ae%e5%91%bd%e4%bb%a4%e8%a1%8ccommand_line class=header-mark></a>5.9 设置命令行<code>command_line</code></h3><p>申请内存， 保存命令行参数</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
 tw-flex-row
 tw-flex-1
@@ -2311,7 +2311,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=cm>/*
 </span></span><span class=line><span class=cl><span class=cp>#define ZONELIST_ORDER_DEFAULT  0
 </span></span></span><span class=line><span class=cl><span class=cp>#define ZONELIST_ORDER_NODE     1
 </span></span></span><span class=line><span class=cl><span class=cp>#define ZONELIST_ORDER_ZONE     2
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cm>/* zonelist order in the kernel.
 </span></span></span><span class=line><span class=cl><span class=cm> * set_zonelist_order() will set this to NODE or ZONE.
 </span></span></span><span class=line><span class=cl><span class=cm> */</span>
@@ -2723,9 +2723,9 @@ tw-scrollbar-thin"><span class=line><span class=cl>	<span class=p>.</span> <span
 </span></span><span class=line><span class=cl>	<span class=nl>__ex_table</span> <span class=p>:</span> <span class=nf>AT</span><span class=p>(</span><span class=nf>ADDR</span><span class=p>(</span><span class=n>__ex_table</span><span class=p>)</span> <span class=o>-</span> <span class=n>LOAD_OFFSET</span><span class=p>)</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>		<span class=n>__start___ex_table</span> <span class=o>=</span> <span class=p>.;</span>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_MMU
-</span></span></span><span class=line><span class=cl><span class=cp></span>		<span class=o>*</span><span class=p>(</span><span class=n>__ex_table</span><span class=p>)</span>
+</span></span></span><span class=line><span class=cl>		<span class=o>*</span><span class=p>(</span><span class=n>__ex_table</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>		<span class=n>__stop___ex_table</span> <span class=o>=</span> <span class=p>.;</span>
+</span></span></span><span class=line><span class=cl>		<span class=n>__stop___ex_table</span> <span class=o>=</span> <span class=p>.;</span>
 </span></span><span class=line><span class=cl>	<span class=p>}</span></span></span></code></pre></div><p>在链接脚本中定义,代表着什么呢？如何定义这个表呢？</p><p>大部分都是汇编实现的，当前不进行分析了</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
 tw-flex-row
 tw-flex-1
@@ -2832,10 +2832,10 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>int</span> <sp
 </span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>fixup</span><span class=p>)</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>		<span class=n>regs</span><span class=o>-&gt;</span><span class=n>ARM_pc</span> <span class=o>=</span> <span class=n>fixup</span><span class=o>-&gt;</span><span class=n>fixup</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_THUMB2_KERNEL
-</span></span></span><span class=line><span class=cl><span class=cp></span>		<span class=cm>/* Clear the IT state to avoid nasty surprises in the fixup */</span>
+</span></span></span><span class=line><span class=cl>		<span class=cm>/* Clear the IT state to avoid nasty surprises in the fixup */</span>
 </span></span><span class=line><span class=cl>		<span class=n>regs</span><span class=o>-&gt;</span><span class=n>ARM_cpsr</span> <span class=o>&amp;=</span> <span class=o>~</span><span class=n>PSR_IT_MASK</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=p>}</span>
+</span></span></span><span class=line><span class=cl>	<span class=p>}</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=n>fixup</span> <span class=o>!=</span> <span class=nb>NULL</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>调用线路</p><pre class=mermaid>graph LR
@@ -3021,7 +3021,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>void</span> <s
 </span><span>|&nbsp;<a class=link-to-source href=https://github.com/mengdemao/github.io/blob/master/content/posts/read_linux/index.md target=_blank rel="noopener noreferrer">查看源代码</a>
 </span><span>|&nbsp;<a class=link-to-edit href=https://github.com/mengdemao/github.io/edit/master/content/posts/read_linux/index.md target=_blank rel="noopener noreferrer">编辑此页</a>
 </span><span>|&nbsp;<a class=link-to-report href="https://github.com/mengdemao/github.io/issues/new?title=[bug]%20Linux%E5%86%85%E6%A0%B8%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB&body=|Field|Value|%0A|-|-|%0A|Title|Linux%E5%86%85%E6%A0%B8%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB|%0A|Url|https://mengdemao.com/read_linux/|%0A|Filename|https://github.com/mengdemao/github.io/blob/main/exampleSite/content/posts/read_linux/index.md|" target=_blank rel="noopener noreferrer">报告问题</a></span></div><div class=post-info-share></div></div></div><div class=post-info-more><section class=post-tags><svg class="icon" viewBox="0 0 640 512"><path d="M497.941 225.941 286.059 14.059A48 48 0 00252.118.0H48C21.49.0.0 21.49.0 48v204.118a48 48 0 0014.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882.0l204.118-204.118c18.745-18.745 18.745-49.137.0-67.882zM112 160c-26.51.0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882.0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397.0h48.721a48 48 0 0133.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137.0 67.882z"/></svg>&nbsp;<a href=/tags/kernel/>Kernel</a></section><section class=print:!tw-hidden><span><button class="tw-text-fgColor-link-muted hover:tw-text-fgColor-link-muted-hover" onclick=window.history.back()>返回</button></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class="post-nav print:tw-hidden"><a href=/nodejs/ class=prev rel=prev title=Nodejs笔记><svg class="icon" viewBox="0 0 256 512"><path d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9.0l22.6 22.6c9.4 9.4 9.4 24.6.0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6.0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9.0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"/></svg>Nodejs笔记</a>
-<a href=/uboot_basic/ class=next rel=next title=Uboot基础框架>Uboot基础框架<svg class="icon" viewBox="0 0 256 512"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9.0l-22.6-22.6c-9.4-9.4-9.4-24.6.0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6.0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9.0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></a></div></div><div id=comments class="print:!tw-hidden tw-pt-32 tw-pb-8"><div id=twikoo></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://twikoo.js.org/>Twikoo</a>.</noscript></div></article></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.152.2">Hugo</a> 强力驱动&nbsp;|&nbsp;托管在 <a title="Github Pages" href=https://docs.github.com/en/pages/ target=_blank rel="noopener noreffer">GitHub Pages</a> 上&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.4.2"><svg class="icon" viewBox="0 0 576 512"><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1.0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7.0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174 402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7-43.2-43.2c-4.1-4.1-10.8-4.1-14.8.0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg> DoIt</a></div><div class=footer-line><svg class="icon" viewBox="0 0 512 512"><path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 448c-110.532.0-2e2-89.451-2e2-2e2.0-110.531 89.451-2e2 2e2-2e2 110.532.0 2e2 89.451 2e2 2e2.0 110.532-89.451 2e2-2e2 2e2zm107.351-101.064c-9.614 9.712-45.53 41.396-104.065 41.396-82.43.0-140.484-61.425-140.484-141.567.0-79.152 60.275-139.401 139.762-139.401 55.531.0 88.738 26.62 97.593 34.779a11.965 11.965.0 011.936 15.322l-18.155 28.113c-3.841 5.95-11.966 7.282-17.499 2.921-8.595-6.776-31.814-22.538-61.708-22.538-48.303.0-77.916 35.33-77.916 80.082.0 41.589 26.888 83.692 78.277 83.692 32.657.0 56.843-19.039 65.726-27.225 5.27-4.857 13.596-4.039 17.82 1.738l19.865 27.17a11.947 11.947.0 01-1.152 15.518z"/></svg>2020 - 2025<span class=author>&nbsp;<a href=https://github.com/mengdemao target=_blank rel="noopener noreferrer">mengdemao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span><span class=icp-splitter>&nbsp;|&nbsp;</span><br class=icp-br><span class=icp><a href=https://beian.miit.gov.cn/>鲁ICP备2023050410号-1</a></span></div><div class=footer-line></div><div class=footer-line></div></div></footer><div class="print:!tw-hidden tw-flex tw-flex-col tw-fixed tw-right-4 tw-bottom-4 tw-gap-2"><a href=#back-to-top id=back-to-top-button class="tw-transition-opacity tw-opacity-0 tw-block tw-bg-bgColor-secondary tw-rounded-full" style=padding:.6rem;line-height:1.3rem;font-size:1rem title=回到顶部><svg class="icon" viewBox="0 0 448 512"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6.0-33.9L207 39c9.4-9.4 24.6-9.4 33.9.0l194.3 194.3c9.4 9.4 9.4 24.6.0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3.0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg>
+<a href=/uboot_basic/ class=next rel=next title=Uboot基础框架>Uboot基础框架<svg class="icon" viewBox="0 0 256 512"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9.0l-22.6-22.6c-9.4-9.4-9.4-24.6.0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6.0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9.0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></a></div></div><div id=comments class="print:!tw-hidden tw-pt-32 tw-pb-8"><div id=twikoo></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://twikoo.js.org/>Twikoo</a>.</noscript></div></article></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.153.4">Hugo</a> 强力驱动&nbsp;|&nbsp;托管在 <a title="Github Pages" href=https://docs.github.com/en/pages/ target=_blank rel="noopener noreffer">GitHub Pages</a> 上&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.4.2"><svg class="icon" viewBox="0 0 576 512"><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1.0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7.0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174 402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7-43.2-43.2c-4.1-4.1-10.8-4.1-14.8.0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg> DoIt</a></div><div class=footer-line><svg class="icon" viewBox="0 0 512 512"><path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 448c-110.532.0-2e2-89.451-2e2-2e2.0-110.531 89.451-2e2 2e2-2e2 110.532.0 2e2 89.451 2e2 2e2.0 110.532-89.451 2e2-2e2 2e2zm107.351-101.064c-9.614 9.712-45.53 41.396-104.065 41.396-82.43.0-140.484-61.425-140.484-141.567.0-79.152 60.275-139.401 139.762-139.401 55.531.0 88.738 26.62 97.593 34.779a11.965 11.965.0 011.936 15.322l-18.155 28.113c-3.841 5.95-11.966 7.282-17.499 2.921-8.595-6.776-31.814-22.538-61.708-22.538-48.303.0-77.916 35.33-77.916 80.082.0 41.589 26.888 83.692 78.277 83.692 32.657.0 56.843-19.039 65.726-27.225 5.27-4.857 13.596-4.039 17.82 1.738l19.865 27.17a11.947 11.947.0 01-1.152 15.518z"/></svg>2020 - 2025<span class=author>&nbsp;<a href=https://github.com/mengdemao target=_blank rel="noopener noreferrer">mengdemao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span><span class=icp-splitter>&nbsp;|&nbsp;</span><br class=icp-br><span class=icp><a href=https://beian.miit.gov.cn/>鲁ICP备2023050410号-1</a></span></div><div class=footer-line></div><div class=footer-line></div></div></footer><div class="print:!tw-hidden tw-flex tw-flex-col tw-fixed tw-right-4 tw-bottom-4 tw-gap-2"><a href=#back-to-top id=back-to-top-button class="tw-transition-opacity tw-opacity-0 tw-block tw-bg-bgColor-secondary tw-rounded-full" style=padding:.6rem;line-height:1.3rem;font-size:1rem title=回到顶部><svg class="icon" viewBox="0 0 448 512"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6.0-33.9L207 39c9.4-9.4 24.6-9.4 33.9.0l194.3 194.3c9.4 9.4 9.4 24.6.0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3.0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg>
 </a><button id=toc-drawer-button class="tw-block tw-bg-bgColor-secondary tw-rounded-full md:tw-hidden" style=padding:.6rem;line-height:1.3rem;font-size:1rem>
 <svg class="icon" viewBox="0 0 448 512"><path d="M16 132h416c8.837.0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163.0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg>
 </button><a href=#comments id=view-comments class="tw-block tw-bg-bgColor-secondary tw-rounded-full" style=padding:.6rem;line-height:1.3rem;font-size:1rem title=查看评论>

@@ -322,7 +322,7 @@ group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=c1>// 声明全局数据
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>DECLARE_GLOBAL_DATA_PTR</span><span class=p>;</span>
+</span></span></span><span class=line><span class=cl><span class=n>DECLARE_GLOBAL_DATA_PTR</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_ARM64
 </span></span></span><span class=line><span class=cl><span class=cp>#define DECLARE_GLOBAL_DATA_PTR		register volatile gd_t *gd asm (&#34;x18&#34;)
@@ -330,7 +330,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=c1>// 声明全�
 </span></span></span><span class=line><span class=cl><span class=cp>#define DECLARE_GLOBAL_DATA_PTR		register volatile gd_t *gd asm (&#34;r9&#34;)
 </span></span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=k>typedef</span> <span class=k>struct</span> <span class=n>global_data</span> <span class=kt>gd_t</span><span class=p>;</span></span></span></code></pre></div><p>我们可以看出下面的数据基本上每一个架构各有一个</p><p><img class=tw-inline loading=lazy src=/uboot_basic/picture/image-20230806030922941.png alt=image-20230806030922941 height=279 width=562></p><p>这个数据结构真是不小</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
 tw-flex-row
 tw-flex-1
@@ -410,13 +410,13 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <
 </span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
 </span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>long</span> <span class=n>mem_clk</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#if CONFIG_IS_ENABLED(VIDEO)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/**
+</span></span></span><span class=line><span class=cl>	<span class=cm>/**
 </span></span></span><span class=line><span class=cl><span class=cm>	 * @fb_base: base address of frame buffer memory
 </span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
 </span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>long</span> <span class=n>fb_base</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#if defined(CONFIG_POST)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/**
+</span></span></span><span class=line><span class=cl>	<span class=cm>/**
 </span></span></span><span class=line><span class=cl><span class=cm>	 * @post_log_word: active POST tests
 </span></span></span><span class=line><span class=cl><span class=cm>	 *
 </span></span></span><span class=line><span class=cl><span class=cm>	 * @post_log_word is a bit mask defining which POST tests are recorded
@@ -436,7 +436,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <
 </span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>long</span> <span class=n>post_init_f_time</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_BOARD_TYPES
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/**
+</span></span></span><span class=line><span class=cl>	<span class=cm>/**
 </span></span></span><span class=line><span class=cl><span class=cm>	 * @board_type: board type
 </span></span></span><span class=line><span class=cl><span class=cm>	 *
 </span></span></span><span class=line><span class=cl><span class=cm>	 * If a U-Boot configuration supports multiple board types, the actual
@@ -444,7 +444,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <
 </span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
 </span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>long</span> <span class=n>board_type</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/**
+</span></span></span><span class=line><span class=cl>	<span class=cm>/**
 </span></span></span><span class=line><span class=cl><span class=cm>	 * @have_console: console is available
 </span></span></span><span class=line><span class=cl><span class=cm>	 *
 </span></span></span><span class=line><span class=cl><span class=cm>	 * A value of 1 indicates that serial_init() was called and a console
@@ -454,7 +454,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <
 </span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
 </span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>long</span> <span class=n>have_console</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#if CONFIG_IS_ENABLED(PRE_CONSOLE_BUFFER)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/**
+</span></span></span><span class=line><span class=cl>	<span class=cm>/**
 </span></span></span><span class=line><span class=cl><span class=cm>	 * @precon_buf_idx: pre-console buffer index
 </span></span></span><span class=line><span class=cl><span class=cm>	 *
 </span></span></span><span class=line><span class=cl><span class=cm>	 * @precon_buf_idx indicates the current position of the
@@ -466,7 +466,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <
 </span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
 </span></span><span class=line><span class=cl>	<span class=kt>long</span> <span class=n>precon_buf_idx</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/**
+</span></span></span><span class=line><span class=cl>	<span class=cm>/**
 </span></span></span><span class=line><span class=cl><span class=cm>	 * @env_addr: address of environment structure
 </span></span></span><span class=line><span class=cl><span class=cm>	 *
 </span></span></span><span class=line><span class=cl><span class=cm>	 * @env_addr contains the address of the structure holding the
@@ -532,7 +532,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <
 </span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>global_data</span> <span class=o>*</span><span class=n>new_gd</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_DM
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/**
+</span></span></span><span class=line><span class=cl>	<span class=cm>/**
 </span></span></span><span class=line><span class=cl><span class=cm>	 * @dm_root: root instance for Driver Model
 </span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
 </span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>udevice</span> <span class=o>*</span><span class=n>dm_root</span><span class=p>;</span>
@@ -559,11 +559,11 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <
 </span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
 </span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>list_head</span> <span class=o>*</span><span class=n>uclass_root</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp># if CONFIG_IS_ENABLED(OF_PLATDATA_DRIVER_RT)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/** @dm_driver_rt: Dynamic info about the driver */</span>
+</span></span></span><span class=line><span class=cl>	<span class=cm>/** @dm_driver_rt: Dynamic info about the driver */</span>
 </span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>driver_rt</span> <span class=o>*</span><span class=n>dm_driver_rt</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp># endif
 </span></span></span><span class=line><span class=cl><span class=cp>#if CONFIG_IS_ENABLED(OF_PLATDATA_RT)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/** @dm_udevice_rt: Dynamic info about the udevice */</span>
+</span></span></span><span class=line><span class=cl>	<span class=cm>/** @dm_udevice_rt: Dynamic info about the udevice */</span>
 </span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>udevice_rt</span> <span class=o>*</span><span class=n>dm_udevice_rt</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=cm>/**
 </span></span></span><span class=line><span class=cl><span class=cm>	 * @dm_priv_base: Base address of the priv/plat region used when
@@ -574,12 +574,12 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <
 </span></span><span class=line><span class=cl><span class=cp># endif
 </span></span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_TIMER
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/**
+</span></span></span><span class=line><span class=cl>	<span class=cm>/**
 </span></span></span><span class=line><span class=cl><span class=cm>	 * @timer: timer instance for Driver Model
 </span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
 </span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>udevice</span> <span class=o>*</span><span class=n>timer</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/**
+</span></span></span><span class=line><span class=cl>	<span class=cm>/**
 </span></span></span><span class=line><span class=cl><span class=cm>	 * @fdt_blob: U-Boot&#39;s own device tree, NULL if none
 </span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
 </span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=kt>void</span> <span class=o>*</span><span class=n>fdt_blob</span><span class=p>;</span>
@@ -596,19 +596,19 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <
 </span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
 </span></span><span class=line><span class=cl>	<span class=k>enum</span> <span class=kt>fdt_source_t</span> <span class=n>fdt_src</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#if CONFIG_IS_ENABLED(OF_LIVE)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/**
+</span></span></span><span class=line><span class=cl>	<span class=cm>/**
 </span></span></span><span class=line><span class=cl><span class=cm>	 * @of_root: root node of the live tree
 </span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
 </span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>device_node</span> <span class=o>*</span><span class=n>of_root</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#if CONFIG_IS_ENABLED(MULTI_DTB_FIT)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/**
+</span></span></span><span class=line><span class=cl>	<span class=cm>/**
 </span></span></span><span class=line><span class=cl><span class=cm>	 * @multi_dtb_fit: pointer to uncompressed multi-dtb FIT image
 </span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
 </span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=kt>void</span> <span class=o>*</span><span class=n>multi_dtb_fit</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/**
+</span></span></span><span class=line><span class=cl>	<span class=cm>/**
 </span></span></span><span class=line><span class=cl><span class=cm>	 * @jt: jump table
 </span></span></span><span class=line><span class=cl><span class=cm>	 *
 </span></span></span><span class=line><span class=cl><span class=cm>	 * The jump table contains pointers to exported functions. A pointer to
@@ -620,7 +620,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <
 </span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
 </span></span><span class=line><span class=cl>	<span class=kt>char</span> <span class=n>env_buf</span><span class=p>[</span><span class=mi>32</span><span class=p>];</span>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_TRACE
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/**
+</span></span></span><span class=line><span class=cl>	<span class=cm>/**
 </span></span></span><span class=line><span class=cl><span class=cm>	 * @trace_buff: trace buffer
 </span></span></span><span class=line><span class=cl><span class=cm>	 *
 </span></span></span><span class=line><span class=cl><span class=cm>	 * When tracing function in U-Boot this field points to the buffer
@@ -629,12 +629,12 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <
 </span></span><span class=line><span class=cl>	<span class=kt>void</span> <span class=o>*</span><span class=n>trace_buff</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#if CONFIG_IS_ENABLED(SYS_I2C_LEGACY)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/**
+</span></span></span><span class=line><span class=cl>	<span class=cm>/**
 </span></span></span><span class=line><span class=cl><span class=cm>	 * @cur_i2c_bus: currently used I2C bus
 </span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
 </span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=n>cur_i2c_bus</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/**
+</span></span></span><span class=line><span class=cl>	<span class=cm>/**
 </span></span></span><span class=line><span class=cl><span class=cm>	 * @timebase_h: high 32 bits of timer
 </span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
 </span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>int</span> <span class=n>timebase_h</span><span class=p>;</span>
@@ -646,10 +646,10 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <
 </span></span></span><span class=line><span class=cl><span class=cm>	 * @malloc_start: start of malloc() region
 </span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
 </span></span><span class=line><span class=cl><span class=cp>#if CONFIG_IS_ENABLED(CMD_BDINFO_EXTRA)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=kt>unsigned</span> <span class=kt>long</span> <span class=n>malloc_start</span><span class=p>;</span>
+</span></span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>long</span> <span class=n>malloc_start</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#if CONFIG_VAL(SYS_MALLOC_F_LEN)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/**
+</span></span></span><span class=line><span class=cl>	<span class=cm>/**
 </span></span></span><span class=line><span class=cl><span class=cm>	 * @malloc_base: base address of early malloc()
 </span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
 </span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>long</span> <span class=n>malloc_base</span><span class=p>;</span>
@@ -663,7 +663,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <
 </span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>long</span> <span class=n>malloc_ptr</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_PCI
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/**
+</span></span></span><span class=line><span class=cl>	<span class=cm>/**
 </span></span></span><span class=line><span class=cl><span class=cm>	 * @hose: PCI hose for early use
 </span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
 </span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>pci_controller</span> <span class=o>*</span><span class=n>hose</span><span class=p>;</span>
@@ -673,7 +673,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <
 </span></span><span class=line><span class=cl>	<span class=kt>phys_addr_t</span> <span class=n>pci_ram_top</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_PCI_BOOTDELAY
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/**
+</span></span></span><span class=line><span class=cl>	<span class=cm>/**
 </span></span></span><span class=line><span class=cl><span class=cm>	 * @pcidelay_done: delay time before scanning of PIC hose expired
 </span></span></span><span class=line><span class=cl><span class=cm>	 *
 </span></span></span><span class=line><span class=cl><span class=cm>	 * If CONFIG_PCI_BOOTDELAY=y, pci_hose_scan() waits for the number of
@@ -683,7 +683,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <
 </span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
 </span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=n>pcidelay_done</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/**
+</span></span></span><span class=line><span class=cl>	<span class=cm>/**
 </span></span></span><span class=line><span class=cl><span class=cm>	 * @cur_serial_dev: current serial device
 </span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
 </span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>udevice</span> <span class=o>*</span><span class=n>cur_serial_dev</span><span class=p>;</span>
@@ -692,7 +692,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <
 </span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
 </span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>arch_global_data</span> <span class=n>arch</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_CONSOLE_RECORD
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/**
+</span></span></span><span class=line><span class=cl>	<span class=cm>/**
 </span></span></span><span class=line><span class=cl><span class=cm>	 * @console_out: output buffer for console recording
 </span></span></span><span class=line><span class=cl><span class=cm>	 *
 </span></span></span><span class=line><span class=cl><span class=cm>	 * This buffer is used to collect output during console recording.
@@ -707,7 +707,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <
 </span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>membuff</span> <span class=n>console_in</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#if CONFIG_IS_ENABLED(VIDEO)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/**
+</span></span></span><span class=line><span class=cl>	<span class=cm>/**
 </span></span></span><span class=line><span class=cl><span class=cm>	 * @video_top: top of video frame buffer area
 </span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
 </span></span><span class=line><span class=cl>	<span class=n>ulong</span> <span class=n>video_top</span><span class=p>;</span>
@@ -717,7 +717,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <
 </span></span><span class=line><span class=cl>	<span class=n>ulong</span> <span class=n>video_bottom</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_BOOTSTAGE
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/**
+</span></span></span><span class=line><span class=cl>	<span class=cm>/**
 </span></span></span><span class=line><span class=cl><span class=cm>	 * @bootstage: boot stage information
 </span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
 </span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>bootstage_data</span> <span class=o>*</span><span class=n>bootstage</span><span class=p>;</span>
@@ -727,7 +727,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <
 </span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>bootstage_data</span> <span class=o>*</span><span class=n>new_bootstage</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_LOG
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/**
+</span></span></span><span class=line><span class=cl>	<span class=cm>/**
 </span></span></span><span class=line><span class=cl><span class=cm>	 * @log_drop_count: number of dropped log messages
 </span></span></span><span class=line><span class=cl><span class=cm>	 *
 </span></span></span><span class=line><span class=cl><span class=cm>	 * This counter is incremented for each log message which can not
@@ -781,7 +781,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <
 </span></span><span class=line><span class=cl>	<span class=kt>bool</span> <span class=n>log_cont</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#if CONFIG_IS_ENABLED(BLOBLIST)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/**
+</span></span></span><span class=line><span class=cl>	<span class=cm>/**
 </span></span></span><span class=line><span class=cl><span class=cm>	 * @bloblist: blob list information
 </span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
 </span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>bloblist_hdr</span> <span class=o>*</span><span class=n>bloblist</span><span class=p>;</span>
@@ -791,13 +791,13 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <
 </span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>bloblist_hdr</span> <span class=o>*</span><span class=n>new_bloblist</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#if CONFIG_IS_ENABLED(HANDOFF)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/**
+</span></span></span><span class=line><span class=cl>	<span class=cm>/**
 </span></span></span><span class=line><span class=cl><span class=cm>	 * @spl_handoff: SPL hand-off information
 </span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
 </span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>spl_handoff</span> <span class=o>*</span><span class=n>spl_handoff</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#if defined(CONFIG_TRANSLATION_OFFSET)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/**
+</span></span></span><span class=line><span class=cl>	<span class=cm>/**
 </span></span></span><span class=line><span class=cl><span class=cm>	 * @translation_offset: optional translation offset
 </span></span></span><span class=line><span class=cl><span class=cm>	 *
 </span></span></span><span class=line><span class=cl><span class=cm>	 * See CONFIG_TRANSLATION_OFFSET.
@@ -805,7 +805,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <
 </span></span><span class=line><span class=cl>	<span class=kt>fdt_addr_t</span> <span class=n>translation_offset</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_ACPI
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/**
+</span></span></span><span class=line><span class=cl>	<span class=cm>/**
 </span></span></span><span class=line><span class=cl><span class=cm>	 * @acpi_ctx: ACPI context pointer
 </span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
 </span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>acpi_ctx</span> <span class=o>*</span><span class=n>acpi_ctx</span><span class=p>;</span>
@@ -815,24 +815,24 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>struct</span> <
 </span></span><span class=line><span class=cl>	<span class=n>ulong</span> <span class=n>acpi_start</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#if CONFIG_IS_ENABLED(GENERATE_SMBIOS_TABLE)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/**
+</span></span></span><span class=line><span class=cl>	<span class=cm>/**
 </span></span></span><span class=line><span class=cl><span class=cm>	 * @smbios_version: Points to SMBIOS type 0 version
 </span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
 </span></span><span class=line><span class=cl>	<span class=kt>char</span> <span class=o>*</span><span class=n>smbios_version</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#if CONFIG_IS_ENABLED(EVENT)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/**
+</span></span></span><span class=line><span class=cl>	<span class=cm>/**
 </span></span></span><span class=line><span class=cl><span class=cm>	 * @event_state: Points to the current state of events
 </span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
 </span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>event_state</span> <span class=n>event_state</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_CYCLIC
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/**
+</span></span></span><span class=line><span class=cl>	<span class=cm>/**
 </span></span></span><span class=line><span class=cl><span class=cm>	 * @cyclic_list: list of registered cyclic functions
 </span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
 </span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>hlist_head</span> <span class=n>cyclic_list</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/**
+</span></span></span><span class=line><span class=cl>	<span class=cm>/**
 </span></span></span><span class=line><span class=cl><span class=cm>	 * @dmtag_list: List of DM tags
 </span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
 </span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=n>list_head</span> <span class=n>dmtag_list</span><span class=p>;</span>
@@ -883,16 +883,16 @@ group-[.is-wrap]:tw-text-wrap
 tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#define SYMBOL_NAME(X)		X
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#define ENTRY(name) \
 </span></span></span><span class=line><span class=cl><span class=cp>	.globl SYMBOL_NAME(name) ASM_NL \
 </span></span></span><span class=line><span class=cl><span class=cp>	LENTRY(name)
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#ifndef END
 </span></span></span><span class=line><span class=cl><span class=cp>#define END(name) \
 </span></span></span><span class=line><span class=cl><span class=cp>	.size name, .-name
 </span></span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#ifndef ENDPROC
 </span></span></span><span class=line><span class=cl><span class=cp>#define ENDPROC(name) \
 </span></span></span><span class=line><span class=cl><span class=cp>	.type name STT_FUNC ASM_NL \
@@ -1051,38 +1051,38 @@ tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=k>static</span> <span class=k>const</span> <span class=kt>init_fnc_t</span> <span class=n>init_sequence_f</span><span class=p>[]</span> <span class=o>=</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>	<span class=n>setup_mon_len</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_OF_CONTROL
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>fdtdec_setup</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>fdtdec_setup</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_TRACE_EARLY
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>trace_early_init</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>trace_early_init</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>initf_malloc</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>initf_malloc</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>	<span class=n>log_init</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>	<span class=n>initf_bootstage</span><span class=p>,</span>	<span class=cm>/* uses its own timer, so does not need DM */</span>
 </span></span><span class=line><span class=cl>	<span class=n>event_init</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>	<span class=n>bloblist_maybe_init</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>	<span class=n>setup_spl_handoff</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#if defined(CONFIG_CONSOLE_RECORD_INIT_F)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>console_record_init</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>console_record_init</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=nf>INITCALL_EVENT</span><span class=p>(</span><span class=n>EVT_FSP_INIT_F</span><span class=p>),</span>
+</span></span></span><span class=line><span class=cl>	<span class=nf>INITCALL_EVENT</span><span class=p>(</span><span class=n>EVT_FSP_INIT_F</span><span class=p>),</span>
 </span></span><span class=line><span class=cl>	<span class=n>arch_cpu_init</span><span class=p>,</span>		<span class=cm>/* basic arch cpu dependent setup */</span>
 </span></span><span class=line><span class=cl>	<span class=n>mach_cpu_init</span><span class=p>,</span>		<span class=cm>/* SoC/machine dependent CPU setup */</span>
 </span></span><span class=line><span class=cl>	<span class=n>initf_dm</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#if defined(CONFIG_BOARD_EARLY_INIT_F)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>board_early_init_f</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>board_early_init_f</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#if defined(CONFIG_PPC) || defined(CONFIG_SYS_FSL_CLK) || defined(CONFIG_M68K)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/* get CPU and bus clocks according to the environment variable */</span>
+</span></span></span><span class=line><span class=cl>	<span class=cm>/* get CPU and bus clocks according to the environment variable */</span>
 </span></span><span class=line><span class=cl>	<span class=n>get_clocks</span><span class=p>,</span>		<span class=cm>/* get CPU and bus clocks (etc.) */</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#if !defined(CONFIG_M68K) || (defined(CONFIG_M68K) &amp;&amp; !defined(CONFIG_MCFTMR))
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>timer_init</span><span class=p>,</span>		<span class=cm>/* initialize timer */</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>timer_init</span><span class=p>,</span>		<span class=cm>/* initialize timer */</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#if defined(CONFIG_BOARD_POSTCLK_INIT)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>board_postclk_init</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>board_postclk_init</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>env_init</span><span class=p>,</span>		<span class=cm>/* initialize environment */</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>env_init</span><span class=p>,</span>		<span class=cm>/* initialize environment */</span>
 </span></span><span class=line><span class=cl>	<span class=n>init_baud_rate</span><span class=p>,</span>		<span class=cm>/* initialze baudrate settings */</span>
 </span></span><span class=line><span class=cl>	<span class=n>serial_init</span><span class=p>,</span>		<span class=cm>/* serial communications setup */</span>
 </span></span><span class=line><span class=cl>	<span class=n>console_init_f</span><span class=p>,</span>		<span class=cm>/* stage 1 init of console */</span>
@@ -1090,38 +1090,38 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>static</span> <
 </span></span><span class=line><span class=cl>	<span class=n>display_text_info</span><span class=p>,</span>	<span class=cm>/* show debugging info if required */</span>
 </span></span><span class=line><span class=cl>	<span class=n>checkcpu</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#if defined(CONFIG_SYSRESET)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>print_resetinfo</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>print_resetinfo</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#if defined(CONFIG_DISPLAY_CPUINFO)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>print_cpuinfo</span><span class=p>,</span>		<span class=cm>/* display cpu info (and speed) */</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>print_cpuinfo</span><span class=p>,</span>		<span class=cm>/* display cpu info (and speed) */</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#if defined(CONFIG_DTB_RESELECT)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>embedded_dtb_select</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>embedded_dtb_select</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#if defined(CONFIG_DISPLAY_BOARDINFO)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>show_board_info</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>show_board_info</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>INIT_FUNC_WATCHDOG_INIT</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>INIT_FUNC_WATCHDOG_INIT</span>
 </span></span><span class=line><span class=cl>	<span class=nf>INITCALL_EVENT</span><span class=p>(</span><span class=n>EVT_MISC_INIT_F</span><span class=p>),</span>
 </span></span><span class=line><span class=cl>	<span class=n>INIT_FUNC_WATCHDOG_RESET</span>
 </span></span><span class=line><span class=cl><span class=cp>#if CONFIG_IS_ENABLED(SYS_I2C_LEGACY)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>init_func_i2c</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>init_func_i2c</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>announce_dram_init</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>announce_dram_init</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>	<span class=n>dram_init</span><span class=p>,</span>		<span class=cm>/* configure available RAM banks */</span>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_POST
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>post_init_f</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>post_init_f</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>INIT_FUNC_WATCHDOG_RESET</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>INIT_FUNC_WATCHDOG_RESET</span>
 </span></span><span class=line><span class=cl><span class=cp>#if defined(CFG_SYS_DRAM_TEST)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>testdram</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>testdram</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif </span><span class=cm>/* CFG_SYS_DRAM_TEST */</span><span class=cp>
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>INIT_FUNC_WATCHDOG_RESET</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>INIT_FUNC_WATCHDOG_RESET</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_POST
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>init_post</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>init_post</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>INIT_FUNC_WATCHDOG_RESET</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>INIT_FUNC_WATCHDOG_RESET</span>
 </span></span><span class=line><span class=cl>	<span class=cm>/*
 </span></span></span><span class=line><span class=cl><span class=cm>	 * Now that we have DRAM mapped and working, we can
 </span></span></span><span class=line><span class=cl><span class=cm>	 * relocate the code and continue running from DRAM.
@@ -1136,12 +1136,12 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>static</span> <
 </span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
 </span></span><span class=line><span class=cl>	<span class=n>setup_dest_addr</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_OF_BOARD_FIXUP
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>fix_fdt</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>fix_fdt</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#ifdef CFG_PRAM
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>reserve_pram</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>reserve_pram</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>reserve_round_4k</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>reserve_round_4k</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>	<span class=n>setup_relocaddr_from_bloblist</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>	<span class=n>arch_reserve_mmu</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>	<span class=n>reserve_video</span><span class=p>,</span>
@@ -1166,10 +1166,10 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>static</span> <
 </span></span><span class=line><span class=cl>	<span class=n>reloc_bloblist</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>	<span class=n>setup_reloc</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#if defined(CONFIG_X86) || defined(CONFIG_ARC)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>copy_uboot_to_ram</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>copy_uboot_to_ram</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>	<span class=n>do_elf_reloc_fixups</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>clear_bss</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>clear_bss</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>	<span class=cm>/*
 </span></span></span><span class=line><span class=cl><span class=cm>	 * Deregister all cyclic functions before relocation, so that
 </span></span></span><span class=line><span class=cl><span class=cm>	 * gd-&gt;cyclic_list does not contain any references to pre-relocation
@@ -1181,9 +1181,9 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>static</span> <
 </span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
 </span></span><span class=line><span class=cl>	<span class=n>cyclic_unregister_all</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#if !defined(CONFIG_ARM) &amp;&amp; !defined(CONFIG_SANDBOX)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>jump_to_copy</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>jump_to_copy</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=nb>NULL</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=nb>NULL</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=p>};</span></span></span></code></pre></div><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
 tw-flex-row
 tw-flex-1
@@ -1236,7 +1236,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>static</span> <
 </span></span><span class=line><span class=cl>	<span class=n>event_init</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>	<span class=cm>/* TODO: could x86/PPC have this also perhaps? */</span>
 </span></span><span class=line><span class=cl><span class=cp>#if defined(CONFIG_ARM) || defined(CONFIG_RISCV)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>initr_caches</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>initr_caches</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>	<span class=cm>/* Note: For Freescale LS2 SoCs, new MMU table is created in DDR.
 </span></span></span><span class=line><span class=cl><span class=cm>	 *	 A temporary mapping of IFC high region is since removed,
 </span></span></span><span class=line><span class=cl><span class=cm>	 *	 so environmental variables in NOR flash is not available
@@ -1244,168 +1244,168 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>static</span> <
 </span></span></span><span class=line><span class=cl><span class=cm>	 *	 region.
 </span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>initr_reloc_global_data</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>initr_reloc_global_data</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#if defined(CONFIG_SYS_INIT_RAM_LOCK) &amp;&amp; defined(CONFIG_E500)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>initr_unlock_ram_in_cache</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>initr_unlock_ram_in_cache</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>initr_barrier</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>initr_barrier</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>	<span class=n>initr_malloc</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>	<span class=n>log_init</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>	<span class=n>initr_bootstage</span><span class=p>,</span>	<span class=cm>/* Needs malloc() but has its own timer */</span>
 </span></span><span class=line><span class=cl><span class=cp>#if defined(CONFIG_CONSOLE_RECORD)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>console_record_init</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>console_record_init</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_SYS_NONCACHED_MEMORY
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>noncached_init</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>noncached_init</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>initr_of_live</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>initr_of_live</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_DM
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>initr_dm</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>initr_dm</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_ADDR_MAP
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>init_addr_map</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>init_addr_map</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#if defined(CONFIG_ARM) || defined(CONFIG_RISCV) || defined(CONFIG_SANDBOX)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>board_init</span><span class=p>,</span>	<span class=cm>/* Setup chipselects */</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>board_init</span><span class=p>,</span>	<span class=cm>/* Setup chipselects */</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/*
+</span></span></span><span class=line><span class=cl>	<span class=cm>/*
 </span></span></span><span class=line><span class=cl><span class=cm>	 * TODO: printing of the clock inforamtion of the board is now
 </span></span></span><span class=line><span class=cl><span class=cm>	 * implemented as part of bdinfo command. Currently only support for
 </span></span></span><span class=line><span class=cl><span class=cm>	 * davinci SOC&#39;s is added. Remove this check once all the board
 </span></span></span><span class=line><span class=cl><span class=cm>	 * implement this.
 </span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_CLOCKS
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>set_cpu_clk_info</span><span class=p>,</span> <span class=cm>/* Setup clock information */</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>set_cpu_clk_info</span><span class=p>,</span> <span class=cm>/* Setup clock information */</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_EFI_LOADER
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>efi_memory_init</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>efi_memory_init</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>initr_binman</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>initr_binman</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_FSP_VERSION2
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>arch_fsp_init_r</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>arch_fsp_init_r</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>initr_dm_devices</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>initr_dm_devices</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>	<span class=n>stdio_init_tables</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>	<span class=n>serial_initialize</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>	<span class=n>initr_announce</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>	<span class=n>dm_announce</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#if CONFIG_IS_ENABLED(WDT)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>initr_watchdog</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>initr_watchdog</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>INIT_FUNC_WATCHDOG_RESET</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>INIT_FUNC_WATCHDOG_RESET</span>
 </span></span><span class=line><span class=cl>	<span class=n>arch_initr_trap</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#if defined(CONFIG_BOARD_EARLY_INIT_R)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>board_early_init_r</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>board_early_init_r</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>INIT_FUNC_WATCHDOG_RESET</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>INIT_FUNC_WATCHDOG_RESET</span>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_POST
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>post_output_backlog</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>post_output_backlog</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>INIT_FUNC_WATCHDOG_RESET</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>INIT_FUNC_WATCHDOG_RESET</span>
 </span></span><span class=line><span class=cl><span class=cp>#if defined(CONFIG_PCI_INIT_R) &amp;&amp; defined(CONFIG_SYS_EARLY_PCI_INIT)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/*
+</span></span></span><span class=line><span class=cl>	<span class=cm>/*
 </span></span></span><span class=line><span class=cl><span class=cm>	 * Do early PCI configuration _before_ the flash gets initialised,
 </span></span></span><span class=line><span class=cl><span class=cm>	 * because PCU resources are crucial for flash access on some boards.
 </span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
 </span></span><span class=line><span class=cl>	<span class=n>pci_init</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_ARCH_EARLY_INIT_R
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>arch_early_init_r</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>arch_early_init_r</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>power_init_board</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>power_init_board</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_MTD_NOR_FLASH
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>initr_flash</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>initr_flash</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>INIT_FUNC_WATCHDOG_RESET</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>INIT_FUNC_WATCHDOG_RESET</span>
 </span></span><span class=line><span class=cl><span class=cp>#if defined(CONFIG_PPC) || defined(CONFIG_M68K) || defined(CONFIG_X86)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/* initialize higher level parts of CPU like time base and timers */</span>
+</span></span></span><span class=line><span class=cl>	<span class=cm>/* initialize higher level parts of CPU like time base and timers */</span>
 </span></span><span class=line><span class=cl>	<span class=n>cpu_init_r</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_EFI_LOADER
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>efi_init_early</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>efi_init_early</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_CMD_NAND
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>initr_nand</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>initr_nand</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_CMD_ONENAND
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>initr_onenand</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>initr_onenand</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_MMC
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>initr_mmc</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>initr_mmc</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_XEN
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>xen_init</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>xen_init</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_PVBLOCK
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>initr_pvblock</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>initr_pvblock</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>initr_env</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>initr_env</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_SYS_MALLOC_BOOTPARAMS
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>initr_malloc_bootparams</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>initr_malloc_bootparams</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>INIT_FUNC_WATCHDOG_RESET</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>INIT_FUNC_WATCHDOG_RESET</span>
 </span></span><span class=line><span class=cl>	<span class=n>cpu_secondary_init_r</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#if defined(CONFIG_ID_EEPROM)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>mac_read_from_eeprom</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>mac_read_from_eeprom</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=nf>INITCALL_EVENT</span><span class=p>(</span><span class=n>EVT_SETTINGS_R</span><span class=p>),</span>
+</span></span></span><span class=line><span class=cl>	<span class=nf>INITCALL_EVENT</span><span class=p>(</span><span class=n>EVT_SETTINGS_R</span><span class=p>),</span>
 </span></span><span class=line><span class=cl>	<span class=n>INIT_FUNC_WATCHDOG_RESET</span>
 </span></span><span class=line><span class=cl><span class=cp>#if defined(CONFIG_PCI_INIT_R) &amp;&amp; !defined(CONFIG_SYS_EARLY_PCI_INIT)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/*
+</span></span></span><span class=line><span class=cl>	<span class=cm>/*
 </span></span></span><span class=line><span class=cl><span class=cm>	 * Do pci configuration
 </span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
 </span></span><span class=line><span class=cl>	<span class=n>pci_init</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>stdio_add_devices</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>stdio_add_devices</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>	<span class=n>jumptable_init</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_API
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>api_init</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>api_init</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>console_init_r</span><span class=p>,</span>		<span class=cm>/* fully init console as a device */</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>console_init_r</span><span class=p>,</span>		<span class=cm>/* fully init console as a device */</span>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_DISPLAY_BOARDINFO_LATE
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>console_announce_r</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>console_announce_r</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>	<span class=n>show_board_info</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_ARCH_MISC_INIT
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>arch_misc_init</span><span class=p>,</span>		<span class=cm>/* miscellaneous arch-dependent init */</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>arch_misc_init</span><span class=p>,</span>		<span class=cm>/* miscellaneous arch-dependent init */</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_MISC_INIT_R
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>misc_init_r</span><span class=p>,</span>		<span class=cm>/* miscellaneous platform-dependent init */</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>misc_init_r</span><span class=p>,</span>		<span class=cm>/* miscellaneous platform-dependent init */</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>INIT_FUNC_WATCHDOG_RESET</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>INIT_FUNC_WATCHDOG_RESET</span>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_CMD_KGDB
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>kgdb_init</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>kgdb_init</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>interrupt_init</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>interrupt_init</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#if defined(CONFIG_MICROBLAZE) || defined(CONFIG_M68K)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>timer_init</span><span class=p>,</span>		<span class=cm>/* initialize timer */</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>timer_init</span><span class=p>,</span>		<span class=cm>/* initialize timer */</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#if defined(CONFIG_LED_STATUS)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>initr_status_led</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>initr_status_led</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/* PPC has a udelay(20) here dating from 2002. Why? */</span>
+</span></span></span><span class=line><span class=cl>	<span class=cm>/* PPC has a udelay(20) here dating from 2002. Why? */</span>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_BOARD_LATE_INIT
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>board_late_init</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>board_late_init</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_BITBANGMII
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>bb_miiphy_init</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>bb_miiphy_init</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_PCI_ENDPOINT
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>pci_ep_init</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>pci_ep_init</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_CMD_NET
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>INIT_FUNC_WATCHDOG_RESET</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>INIT_FUNC_WATCHDOG_RESET</span>
 </span></span><span class=line><span class=cl>	<span class=n>initr_net</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_POST
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>initr_post</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>initr_post</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>INIT_FUNC_WATCHDOG_RESET</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>INIT_FUNC_WATCHDOG_RESET</span>
 </span></span><span class=line><span class=cl>	<span class=nf>INITCALL_EVENT</span><span class=p>(</span><span class=n>EVT_LAST_STAGE_INIT</span><span class=p>),</span>
 </span></span><span class=line><span class=cl><span class=cp>#if defined(CFG_PRAM)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>initr_mem</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>initr_mem</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>run_main_loop</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>run_main_loop</span><span class=p>,</span>
 </span></span><span class=line><span class=cl><span class=p>};</span></span></span></code></pre></div><h2 id=启动前夕 class=headerLink><a href=#%e5%90%af%e5%8a%a8%e5%89%8d%e5%a4%95 class=header-mark></a>6 启动前夕</h2><h3 id=分析头实现 class=headerLink><a href=#%e5%88%86%e6%9e%90%e5%a4%b4%e5%ae%9e%e7%8e%b0 class=header-mark></a>6.1 分析头实现</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
 tw-flex-row
 tw-flex-1
@@ -1500,12 +1500,12 @@ tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl>	<span class=p>.</span><span class=n>macro</span> <span class=n>ARM_VECTORS</span>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_ARCH_K3
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>ldr</span>     <span class=n>pc</span><span class=p>,</span> <span class=n>_reset</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>ldr</span>     <span class=n>pc</span><span class=p>,</span> <span class=n>_reset</span>
 </span></span><span class=line><span class=cl><span class=cp>#else
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>b</span>	<span class=n>reset</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>b</span>	<span class=n>reset</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#if !CONFIG_IS_ENABLED(SYS_NO_VECTOR_TABLE)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>ldr</span>	<span class=n>pc</span><span class=p>,</span> <span class=n>_undefined_instruction</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>ldr</span>	<span class=n>pc</span><span class=p>,</span> <span class=n>_undefined_instruction</span>
 </span></span><span class=line><span class=cl>	<span class=n>ldr</span>	<span class=n>pc</span><span class=p>,</span> <span class=n>_software_interrupt</span>
 </span></span><span class=line><span class=cl>	<span class=n>ldr</span>	<span class=n>pc</span><span class=p>,</span> <span class=n>_prefetch_abort</span>
 </span></span><span class=line><span class=cl>	<span class=n>ldr</span>	<span class=n>pc</span><span class=p>,</span> <span class=n>_data_abort</span>
@@ -1513,7 +1513,7 @@ tw-scrollbar-thin"><span class=line><span class=cl>	<span class=p>.</span><span 
 </span></span><span class=line><span class=cl>	<span class=n>ldr</span>	<span class=n>pc</span><span class=p>,</span> <span class=n>_irq</span>
 </span></span><span class=line><span class=cl>	<span class=n>ldr</span>	<span class=n>pc</span><span class=p>,</span> <span class=n>_fiq</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=p>.</span><span class=n>endm</span></span></span></code></pre></div><p><strong>[arch/arm/cpu/armv7/start.S]</strong></p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+</span></span></span><span class=line><span class=cl>	<span class=p>.</span><span class=n>endm</span></span></span></code></pre></div><p><strong>[arch/arm/cpu/armv7/start.S]</strong></p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
 tw-flex-row
 tw-flex-1
 tw-justify-between
@@ -1584,7 +1584,7 @@ tw-scrollbar-thin"><span class=line><span class=cl>	<span class=p>.</span><span 
 </span></span></span><span class=line><span class=cl><span class=cm> * Continue to use ROM code vector only in OMAP4 spl)
 </span></span></span><span class=line><span class=cl><span class=cm> */</span>
 </span></span><span class=line><span class=cl><span class=cp>#if !(defined(CONFIG_OMAP44XX) &amp;&amp; defined(CONFIG_SPL_BUILD))
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/* Set V=0 in CP15 SCTLR register - for VBAR to point to vector */</span>
+</span></span></span><span class=line><span class=cl>	<span class=cm>/* Set V=0 in CP15 SCTLR register - for VBAR to point to vector */</span>
 </span></span><span class=line><span class=cl>	<span class=n>mrc</span>	<span class=n>p15</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=n>c1</span><span class=p>,</span> <span class=n>c0</span><span class=p>,</span> <span class=mi>0</span>	<span class=err>@</span> <span class=n>Read</span> <span class=n>CP15</span> <span class=n>SCTLR</span> <span class=n>Register</span>
 </span></span><span class=line><span class=cl>	<span class=n>bic</span>	<span class=n>r0</span><span class=p>,</span> <span class=err>#</span><span class=n>CR_V</span>		<span class=err>@</span> <span class=n>V</span> <span class=o>=</span> <span class=mi>0</span>
 </span></span><span class=line><span class=cl>	<span class=n>mcr</span>	<span class=n>p15</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=n>c1</span><span class=p>,</span> <span class=n>c0</span><span class=p>,</span> <span class=mi>0</span>	<span class=err>@</span> <span class=n>Write</span> <span class=n>CP15</span> <span class=n>SCTLR</span> <span class=n>Register</span>
@@ -1593,13 +1593,13 @@ tw-scrollbar-thin"><span class=line><span class=cl>	<span class=p>.</span><span 
 </span></span><span class=line><span class=cl>	<span class=n>ldr</span>	<span class=n>r0</span><span class=p>,</span> <span class=o>=</span><span class=n>_start</span>
 </span></span><span class=line><span class=cl>	<span class=n>mcr</span>	<span class=n>p15</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=n>c12</span><span class=p>,</span> <span class=n>c0</span><span class=p>,</span> <span class=mi>0</span>	<span class=err>@</span><span class=n>Set</span> <span class=n>VBAR</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=cm>/* the mask ROM code should have PLL and others stable */</span>
 </span></span><span class=line><span class=cl><span class=cp>#ifndef CONFIG_SKIP_LOWLEVEL_INIT
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>bl</span>	<span class=n>cpu_init_cp15</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>bl</span>	<span class=n>cpu_init_cp15</span>
 </span></span><span class=line><span class=cl>	<span class=n>bl</span>	<span class=n>cpu_init_crit</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=n>bl</span>	<span class=n>_main</span></span></span></code></pre></div><h3 id=save_boot_params函数实现 class=headerLink><a href=#save_boot_params%e5%87%bd%e6%95%b0%e5%ae%9e%e7%8e%b0 class=header-mark></a>6.3 <code>save_boot_params</code>函数实现</h3><blockquote><p>此函数什么也没有做</p></blockquote><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
 tw-flex-row
 tw-flex-1
@@ -2151,18 +2151,18 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=nf>ENTRY</span><s
 </span></span></span><span class=line><span class=cl><span class=cm> */</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#if defined(CONFIG_SPL_BUILD) &amp;&amp; defined(CONFIG_SPL_STACK)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>ldr</span>	<span class=n>sp</span><span class=p>,</span> <span class=o>=</span><span class=p>(</span><span class=n>CONFIG_SPL_STACK</span><span class=p>)</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>ldr</span>	<span class=n>sp</span><span class=p>,</span> <span class=o>=</span><span class=p>(</span><span class=n>CONFIG_SPL_STACK</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=cp>#else
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>ldr</span>	<span class=n>sp</span><span class=p>,</span> <span class=o>=</span><span class=p>(</span><span class=n>CONFIG_SYS_INIT_SP_ADDR</span><span class=p>)</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>ldr</span>	<span class=n>sp</span><span class=p>,</span> <span class=o>=</span><span class=p>(</span><span class=n>CONFIG_SYS_INIT_SP_ADDR</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#if defined(CONFIG_CPU_V7M)	</span><span class=cm>/* v7M forbids using SP as BIC destination */</span><span class=cp>
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>mov</span>	<span class=n>r3</span><span class=p>,</span> <span class=n>sp</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>mov</span>	<span class=n>r3</span><span class=p>,</span> <span class=n>sp</span>
 </span></span><span class=line><span class=cl>	<span class=n>bic</span>	<span class=n>r3</span><span class=p>,</span> <span class=n>r3</span><span class=p>,</span> <span class=err>#</span><span class=mi>7</span>
 </span></span><span class=line><span class=cl>	<span class=n>mov</span>	<span class=n>sp</span><span class=p>,</span> <span class=n>r3</span>
 </span></span><span class=line><span class=cl><span class=cp>#else
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>bic</span>	<span class=n>sp</span><span class=p>,</span> <span class=n>sp</span><span class=p>,</span> <span class=err>#</span><span class=mi>7</span>	<span class=cm>/* 8-byte alignment for ABI compliance */</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>bic</span>	<span class=n>sp</span><span class=p>,</span> <span class=n>sp</span><span class=p>,</span> <span class=err>#</span><span class=mi>7</span>	<span class=cm>/* 8-byte alignment for ABI compliance */</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>mov</span>	<span class=n>r0</span><span class=p>,</span> <span class=n>sp</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>mov</span>	<span class=n>r0</span><span class=p>,</span> <span class=n>sp</span>
 </span></span><span class=line><span class=cl>	<span class=n>bl</span>	<span class=n>board_init_f_alloc_reserve</span>
 </span></span><span class=line><span class=cl>	<span class=n>mov</span>	<span class=n>sp</span><span class=p>,</span> <span class=n>r0</span>
 </span></span><span class=line><span class=cl>	<span class=cm>/* set up gd here, outside any C code */</span>
@@ -2173,7 +2173,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=nf>ENTRY</span><s
 </span></span><span class=line><span class=cl>	<span class=n>bl</span>	<span class=n>board_init_f</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#if ! defined(CONFIG_SPL_BUILD)
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cm>/*
 </span></span></span><span class=line><span class=cl><span class=cm> * Set up intermediate environment (new sp and gd) and call
 </span></span></span><span class=line><span class=cl><span class=cm> * relocate_code(addr_moni). Trick here is that we&#39;ll return
@@ -2182,22 +2182,22 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=nf>ENTRY</span><s
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=n>ldr</span>	<span class=n>sp</span><span class=p>,</span> <span class=p>[</span><span class=n>r9</span><span class=p>,</span> <span class=err>#</span><span class=n>GD_START_ADDR_SP</span><span class=p>]</span>	<span class=cm>/* sp = gd-&gt;start_addr_sp */</span>
 </span></span><span class=line><span class=cl><span class=cp>#if defined(CONFIG_CPU_V7M)	</span><span class=cm>/* v7M forbids using SP as BIC destination */</span><span class=cp>
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>mov</span>	<span class=n>r3</span><span class=p>,</span> <span class=n>sp</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>mov</span>	<span class=n>r3</span><span class=p>,</span> <span class=n>sp</span>
 </span></span><span class=line><span class=cl>	<span class=n>bic</span>	<span class=n>r3</span><span class=p>,</span> <span class=n>r3</span><span class=p>,</span> <span class=err>#</span><span class=mi>7</span>
 </span></span><span class=line><span class=cl>	<span class=n>mov</span>	<span class=n>sp</span><span class=p>,</span> <span class=n>r3</span>
 </span></span><span class=line><span class=cl><span class=cp>#else
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>bic</span>	<span class=n>sp</span><span class=p>,</span> <span class=n>sp</span><span class=p>,</span> <span class=err>#</span><span class=mi>7</span>	<span class=cm>/* 8-byte alignment for ABI compliance */</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>bic</span>	<span class=n>sp</span><span class=p>,</span> <span class=n>sp</span><span class=p>,</span> <span class=err>#</span><span class=mi>7</span>	<span class=cm>/* 8-byte alignment for ABI compliance */</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>ldr</span>	<span class=n>r9</span><span class=p>,</span> <span class=p>[</span><span class=n>r9</span><span class=p>,</span> <span class=err>#</span><span class=n>GD_BD</span><span class=p>]</span>		<span class=cm>/* r9 = gd-&gt;bd */</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>ldr</span>	<span class=n>r9</span><span class=p>,</span> <span class=p>[</span><span class=n>r9</span><span class=p>,</span> <span class=err>#</span><span class=n>GD_BD</span><span class=p>]</span>		<span class=cm>/* r9 = gd-&gt;bd */</span>
 </span></span><span class=line><span class=cl>	<span class=n>sub</span>	<span class=n>r9</span><span class=p>,</span> <span class=n>r9</span><span class=p>,</span> <span class=err>#</span><span class=n>GD_SIZE</span>		<span class=cm>/* new GD is below bd */</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=n>adr</span>	<span class=n>lr</span><span class=p>,</span> <span class=n>here</span>
 </span></span><span class=line><span class=cl>	<span class=n>ldr</span>	<span class=n>r0</span><span class=p>,</span> <span class=p>[</span><span class=n>r9</span><span class=p>,</span> <span class=err>#</span><span class=n>GD_RELOC_OFF</span><span class=p>]</span>		<span class=cm>/* r0 = gd-&gt;reloc_off */</span>
 </span></span><span class=line><span class=cl>	<span class=n>add</span>	<span class=n>lr</span><span class=p>,</span> <span class=n>lr</span><span class=p>,</span> <span class=n>r0</span>
 </span></span><span class=line><span class=cl><span class=cp>#if defined(CONFIG_CPU_V7M)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>orr</span>	<span class=n>lr</span><span class=p>,</span> <span class=err>#</span><span class=mi>1</span>				<span class=cm>/* As required by Thumb-only */</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>orr</span>	<span class=n>lr</span><span class=p>,</span> <span class=err>#</span><span class=mi>1</span>				<span class=cm>/* As required by Thumb-only */</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>ldr</span>	<span class=n>r0</span><span class=p>,</span> <span class=p>[</span><span class=n>r9</span><span class=p>,</span> <span class=err>#</span><span class=n>GD_RELOCADDR</span><span class=p>]</span>		<span class=cm>/* r0 = gd-&gt;relocaddr */</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>ldr</span>	<span class=n>r0</span><span class=p>,</span> <span class=p>[</span><span class=n>r9</span><span class=p>,</span> <span class=err>#</span><span class=n>GD_RELOCADDR</span><span class=p>]</span>		<span class=cm>/* r0 = gd-&gt;relocaddr */</span>
 </span></span><span class=line><span class=cl>	<span class=n>b</span>	<span class=n>relocate_code</span>
 </span></span><span class=line><span class=cl><span class=nl>here</span><span class=p>:</span>
 </span></span><span class=line><span class=cl><span class=cm>/*
@@ -2212,50 +2212,50 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=nf>ENTRY</span><s
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#if !defined(CONFIG_SPL_BUILD) || defined(CONFIG_SPL_FRAMEWORK)
 </span></span></span><span class=line><span class=cl><span class=cp># ifdef CONFIG_SPL_BUILD
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/* Use a DRAM stack for the rest of SPL, if requested */</span>
+</span></span></span><span class=line><span class=cl>	<span class=cm>/* Use a DRAM stack for the rest of SPL, if requested */</span>
 </span></span><span class=line><span class=cl>	<span class=n>bl</span>	<span class=n>spl_relocate_stack_gd</span>
 </span></span><span class=line><span class=cl>	<span class=n>cmp</span>	<span class=n>r0</span><span class=p>,</span> <span class=err>#</span><span class=mi>0</span>
 </span></span><span class=line><span class=cl>	<span class=n>movne</span>	<span class=n>sp</span><span class=p>,</span> <span class=n>r0</span>
 </span></span><span class=line><span class=cl>	<span class=n>movne</span>	<span class=n>r9</span><span class=p>,</span> <span class=n>r0</span>
 </span></span><span class=line><span class=cl><span class=cp># endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>ldr</span>	<span class=n>r0</span><span class=p>,</span> <span class=o>=</span><span class=n>__bss_start</span>	<span class=cm>/* this is auto-relocated! */</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>ldr</span>	<span class=n>r0</span><span class=p>,</span> <span class=o>=</span><span class=n>__bss_start</span>	<span class=cm>/* this is auto-relocated! */</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_USE_ARCH_MEMSET
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>ldr</span>	<span class=n>r3</span><span class=p>,</span> <span class=o>=</span><span class=n>__bss_end</span>		<span class=cm>/* this is auto-relocated! */</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>ldr</span>	<span class=n>r3</span><span class=p>,</span> <span class=o>=</span><span class=n>__bss_end</span>		<span class=cm>/* this is auto-relocated! */</span>
 </span></span><span class=line><span class=cl>	<span class=n>mov</span>	<span class=n>r1</span><span class=p>,</span> <span class=err>#</span><span class=mh>0x00000000</span>		<span class=cm>/* prepare zero to clear BSS */</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=n>subs</span>	<span class=n>r2</span><span class=p>,</span> <span class=n>r3</span><span class=p>,</span> <span class=n>r0</span>		<span class=cm>/* r2 = memset len */</span>
 </span></span><span class=line><span class=cl>	<span class=n>bl</span>	<span class=n>memset</span>
 </span></span><span class=line><span class=cl><span class=cp>#else
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>ldr</span>	<span class=n>r1</span><span class=p>,</span> <span class=o>=</span><span class=n>__bss_end</span>		<span class=cm>/* this is auto-relocated! */</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>ldr</span>	<span class=n>r1</span><span class=p>,</span> <span class=o>=</span><span class=n>__bss_end</span>		<span class=cm>/* this is auto-relocated! */</span>
 </span></span><span class=line><span class=cl>	<span class=n>mov</span>	<span class=n>r2</span><span class=p>,</span> <span class=err>#</span><span class=mh>0x00000000</span>		<span class=cm>/* prepare zero to clear BSS */</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=nl>clbss_l</span><span class=p>:</span><span class=n>cmp</span>	<span class=n>r0</span><span class=p>,</span> <span class=n>r1</span>			<span class=cm>/* while not at end of BSS */</span>
 </span></span><span class=line><span class=cl><span class=cp>#if defined(CONFIG_CPU_V7M)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>itt</span>	<span class=n>lo</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>itt</span>	<span class=n>lo</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>strlo</span>	<span class=n>r2</span><span class=p>,</span> <span class=p>[</span><span class=n>r0</span><span class=p>]</span>		<span class=cm>/* clear 32-bit BSS word */</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>strlo</span>	<span class=n>r2</span><span class=p>,</span> <span class=p>[</span><span class=n>r0</span><span class=p>]</span>		<span class=cm>/* clear 32-bit BSS word */</span>
 </span></span><span class=line><span class=cl>	<span class=n>addlo</span>	<span class=n>r0</span><span class=p>,</span> <span class=n>r0</span><span class=p>,</span> <span class=err>#</span><span class=mi>4</span>		<span class=cm>/* move to next */</span>
 </span></span><span class=line><span class=cl>	<span class=n>blo</span>	<span class=n>clbss_l</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#if ! defined(CONFIG_SPL_BUILD)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>bl</span> <span class=n>coloured_LED_init</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>bl</span> <span class=n>coloured_LED_init</span>
 </span></span><span class=line><span class=cl>	<span class=n>bl</span> <span class=n>red_led_on</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/* call board_init_r(gd_t *id, ulong dest_addr) */</span>
+</span></span></span><span class=line><span class=cl>	<span class=cm>/* call board_init_r(gd_t *id, ulong dest_addr) */</span>
 </span></span><span class=line><span class=cl>	<span class=n>mov</span>     <span class=n>r0</span><span class=p>,</span> <span class=n>r9</span>                  <span class=cm>/* gd_t */</span>
 </span></span><span class=line><span class=cl>	<span class=n>ldr</span>	<span class=n>r1</span><span class=p>,</span> <span class=p>[</span><span class=n>r9</span><span class=p>,</span> <span class=err>#</span><span class=n>GD_RELOCADDR</span><span class=p>]</span>	<span class=cm>/* dest_addr */</span>
 </span></span><span class=line><span class=cl>	<span class=cm>/* call board_init_r */</span>
 </span></span><span class=line><span class=cl><span class=cp>#if defined(CONFIG_SYS_THUMB_BUILD)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>ldr</span>	<span class=n>lr</span><span class=p>,</span> <span class=o>=</span><span class=n>board_init_r</span>	<span class=cm>/* this is auto-relocated! */</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>ldr</span>	<span class=n>lr</span><span class=p>,</span> <span class=o>=</span><span class=n>board_init_r</span>	<span class=cm>/* this is auto-relocated! */</span>
 </span></span><span class=line><span class=cl>	<span class=n>bx</span>	<span class=n>lr</span>
 </span></span><span class=line><span class=cl><span class=cp>#else
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>ldr</span>	<span class=n>pc</span><span class=p>,</span> <span class=o>=</span><span class=n>board_init_r</span>	<span class=cm>/* this is auto-relocated! */</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>ldr</span>	<span class=n>pc</span><span class=p>,</span> <span class=o>=</span><span class=n>board_init_r</span>	<span class=cm>/* this is auto-relocated! */</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/* we should not return here. */</span>
+</span></span></span><span class=line><span class=cl>	<span class=cm>/* we should not return here. */</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=nf>ENDPROC</span><span class=p>(</span><span class=n>_main</span><span class=p>)</span></span></span></code></pre></div><h3 id=board_init_f函数 class=headerLink><a href=#board_init_f%e5%87%bd%e6%95%b0 class=header-mark></a>6.10 <code>board_init_f</code>函数</h3><blockquote><p>进入此文件<strong>common/board_f.c</strong></p></blockquote><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
 tw-flex-row
 tw-flex-1
@@ -2313,10 +2313,10 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>void</span> <s
 </span></span><span class=line><span class=cl><span class=cp>#if !defined(CONFIG_ARM) &amp;&amp; !defined(CONFIG_SANDBOX) &amp;&amp; \
 </span></span></span><span class=line><span class=cl><span class=cp>		!defined(CONFIG_EFI_APP) &amp;&amp; !CONFIG_IS_ENABLED(X86_64) &amp;&amp; \
 </span></span></span><span class=line><span class=cl><span class=cp>		!defined(CONFIG_ARC)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/* NOTREACHED - jump_to_copy() does not return */</span>
+</span></span></span><span class=line><span class=cl>	<span class=cm>/* NOTREACHED - jump_to_copy() does not return */</span>
 </span></span><span class=line><span class=cl>	<span class=nf>hang</span><span class=p>();</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span><span class=p>}</span></span></span></code></pre></div><h3 id=initcall_run_list class=headerLink><a href=#initcall_run_list class=header-mark></a>6.11 <code>initcall_run_list</code></h3><blockquote><p>进入初始化列表</p></blockquote><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+</span></span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=initcall_run_list class=headerLink><a href=#initcall_run_list class=header-mark></a>6.11 <code>initcall_run_list</code></h3><blockquote><p>进入初始化列表</p></blockquote><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
 tw-flex-row
 tw-flex-1
 tw-justify-between
@@ -2379,9 +2379,9 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>typedef</span> 
 </span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=nf>IS_ENABLED</span><span class=p>(</span><span class=n>CONFIG_SANDBOX</span><span class=p>)</span> <span class=o>||</span> <span class=p>(</span><span class=n>gd</span><span class=o>-&gt;</span><span class=n>flags</span> <span class=o>&amp;</span> <span class=n>GD_FLG_RELOC</span><span class=p>))</span>
 </span></span><span class=line><span class=cl>			<span class=n>reloc_ofs</span> <span class=o>=</span> <span class=n>gd</span><span class=o>-&gt;</span><span class=n>reloc_off</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_EFI_APP
-</span></span></span><span class=line><span class=cl><span class=cp></span>		<span class=n>reloc_ofs</span> <span class=o>=</span> <span class=p>(</span><span class=kt>unsigned</span> <span class=kt>long</span><span class=p>)</span><span class=n>image_base</span><span class=p>;</span>
+</span></span></span><span class=line><span class=cl>		<span class=n>reloc_ofs</span> <span class=o>=</span> <span class=p>(</span><span class=kt>unsigned</span> <span class=kt>long</span><span class=p>)</span><span class=n>image_base</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>		<span class=k>if</span> <span class=p>(</span><span class=n>reloc_ofs</span><span class=p>)</span>
+</span></span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=n>reloc_ofs</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>			<span class=nf>debug</span><span class=p>(</span><span class=s>&#34;initcall: %p (relocated to %p)</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>					<span class=p>(</span><span class=kt>char</span> <span class=o>*</span><span class=p>)</span><span class=o>*</span><span class=n>init_fnc_ptr</span> <span class=o>-</span> <span class=n>reloc_ofs</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>					<span class=p>(</span><span class=kt>char</span> <span class=o>*</span><span class=p>)</span><span class=o>*</span><span class=n>init_fnc_ptr</span><span class=p>);</span>
@@ -2449,9 +2449,9 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=p>.</span><span c
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=nl>reset</span><span class=p>:</span>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_SYS_RESET_SCTRL
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>bl</span> <span class=n>reset_sctrl</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>bl</span> <span class=n>reset_sctrl</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=cm>/*
+</span></span></span><span class=line><span class=cl>	<span class=cm>/*
 </span></span></span><span class=line><span class=cl><span class=cm>	 * Could be EL3/EL2/EL1, Initial State:
 </span></span></span><span class=line><span class=cl><span class=cm>	 * Little Endian, MMU Disabled, i/dCache Disabled
 </span></span></span><span class=line><span class=cl><span class=cm>	 */</span>
@@ -2463,10 +2463,10 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=p>.</span><span c
 </span></span><span class=line><span class=cl>	<span class=n>msr</span>	<span class=n>scr_el3</span><span class=p>,</span> <span class=n>x0</span>
 </span></span><span class=line><span class=cl>	<span class=n>msr</span>	<span class=n>cptr_el3</span><span class=p>,</span> <span class=n>xzr</span>			<span class=cm>/* Enable FP/SIMD */</span>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef COUNTER_FREQUENCY
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>ldr</span>	<span class=n>x0</span><span class=p>,</span> <span class=o>=</span><span class=n>COUNTER_FREQUENCY</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>ldr</span>	<span class=n>x0</span><span class=p>,</span> <span class=o>=</span><span class=n>COUNTER_FREQUENCY</span>
 </span></span><span class=line><span class=cl>	<span class=n>msr</span>	<span class=n>cntfrq_el0</span><span class=p>,</span> <span class=n>x0</span>			<span class=cm>/* Initialize CNTFRQ */</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>b</span>	<span class=mf>0f</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>b</span>	<span class=mf>0f</span>
 </span></span><span class=line><span class=cl><span class=mi>2</span><span class=o>:</span>	<span class=n>msr</span>	<span class=n>vbar_el2</span><span class=p>,</span> <span class=n>x0</span>
 </span></span><span class=line><span class=cl>	<span class=n>mov</span>	<span class=n>x0</span><span class=p>,</span> <span class=err>#</span><span class=mh>0x33ff</span>
 </span></span><span class=line><span class=cl>	<span class=n>msr</span>	<span class=n>cptr_el2</span><span class=p>,</span> <span class=n>x0</span>			<span class=cm>/* Enable FP/SIMD */</span>
@@ -2490,7 +2490,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=p>.</span><span c
 </span></span><span class=line><span class=cl>	<span class=n>bl</span>	<span class=n>lowlevel_init</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_ARMV8_MULTIENTRY
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>branch_if_master</span> <span class=n>x0</span><span class=p>,</span> <span class=n>x1</span><span class=p>,</span> <span class=n>master_cpu</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>branch_if_master</span> <span class=n>x0</span><span class=p>,</span> <span class=n>x1</span><span class=p>,</span> <span class=n>master_cpu</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=cm>/*
 </span></span></span><span class=line><span class=cl><span class=cm>	 * Slave CPUs
@@ -2504,7 +2504,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=p>.</span><span c
 </span></span><span class=line><span class=cl><span class=nl>master_cpu</span><span class=p>:</span>
 </span></span><span class=line><span class=cl>	<span class=cm>/* On the master CPU */</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif </span><span class=cm>/* CONFIG_ARMV8_MULTIENTRY */</span><span class=cp>
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=n>bl</span>	<span class=n>_main</span></span></span></code></pre></div><p><strong>[arch/arm/lib/crt0_64.S]</strong></p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
 tw-flex-row
 tw-flex-1
@@ -2668,22 +2668,22 @@ tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>void</span> <span class=nf>board_init_r</span><span class=p>(</span><span class=kt>gd_t</span> <span class=o>*</span><span class=n>new_gd</span><span class=p>,</span> <span class=n>ulong</span> <span class=n>dest_addr</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_NEEDS_MANUAL_RELOC
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=kt>int</span> <span class=n>i</span><span class=p>;</span>
+</span></span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=n>i</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_AVR32
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=nf>mmu_init_r</span><span class=p>(</span><span class=n>dest_addr</span><span class=p>);</span>
+</span></span></span><span class=line><span class=cl>	<span class=nf>mmu_init_r</span><span class=p>(</span><span class=n>dest_addr</span><span class=p>);</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#if !defined(CONFIG_X86) &amp;&amp; !defined(CONFIG_ARM) &amp;&amp; !defined(CONFIG_ARM64)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>gd</span> <span class=o>=</span> <span class=n>new_gd</span><span class=p>;</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>gd</span> <span class=o>=</span> <span class=n>new_gd</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_NEEDS_MANUAL_RELOC
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=k>for</span> <span class=p>(</span><span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=nf>ARRAY_SIZE</span><span class=p>(</span><span class=n>init_sequence_r</span><span class=p>);</span> <span class=n>i</span><span class=o>++</span><span class=p>)</span>
+</span></span></span><span class=line><span class=cl>	<span class=k>for</span> <span class=p>(</span><span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=nf>ARRAY_SIZE</span><span class=p>(</span><span class=n>init_sequence_r</span><span class=p>);</span> <span class=n>i</span><span class=o>++</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>		<span class=n>init_sequence_r</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=o>+=</span> <span class=n>gd</span><span class=o>-&gt;</span><span class=n>reloc_off</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=nf>initcall_run_list</span><span class=p>(</span><span class=n>init_sequence_r</span><span class=p>))</span>
 </span></span><span class=line><span class=cl>		<span class=nf>hang</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>
@@ -2746,9 +2746,9 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>int</span> <sp
 </span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=n>gd</span><span class=o>-&gt;</span><span class=n>flags</span> <span class=o>&amp;</span> <span class=n>GD_FLG_RELOC</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>			<span class=n>reloc_ofs</span> <span class=o>=</span> <span class=n>gd</span><span class=o>-&gt;</span><span class=n>reloc_off</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_EFI_APP
-</span></span></span><span class=line><span class=cl><span class=cp></span>		<span class=n>reloc_ofs</span> <span class=o>=</span> <span class=p>(</span><span class=kt>unsigned</span> <span class=kt>long</span><span class=p>)</span><span class=n>image_base</span><span class=p>;</span>
+</span></span></span><span class=line><span class=cl>		<span class=n>reloc_ofs</span> <span class=o>=</span> <span class=p>(</span><span class=kt>unsigned</span> <span class=kt>long</span><span class=p>)</span><span class=n>image_base</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>		<span class=nf>debug</span><span class=p>(</span><span class=s>&#34;initcall: %p&#34;</span><span class=p>,</span> <span class=p>(</span><span class=kt>char</span> <span class=o>*</span><span class=p>)</span><span class=o>*</span><span class=n>init_fnc_ptr</span> <span class=o>-</span> <span class=n>reloc_ofs</span><span class=p>);</span>
+</span></span></span><span class=line><span class=cl>		<span class=nf>debug</span><span class=p>(</span><span class=s>&#34;initcall: %p&#34;</span><span class=p>,</span> <span class=p>(</span><span class=kt>char</span> <span class=o>*</span><span class=p>)</span><span class=o>*</span><span class=n>init_fnc_ptr</span> <span class=o>-</span> <span class=n>reloc_ofs</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=n>gd</span><span class=o>-&gt;</span><span class=n>flags</span> <span class=o>&amp;</span> <span class=n>GD_FLG_RELOC</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>			<span class=nf>debug</span><span class=p>(</span><span class=s>&#34; (relocated to %p)</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span> <span class=p>(</span><span class=kt>char</span> <span class=o>*</span><span class=p>)</span><span class=o>*</span><span class=n>init_fnc_ptr</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>		<span class=k>else</span>
@@ -2831,9 +2831,9 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>void</span> <s
 </span></span><span class=line><span class=cl>		<span class=nf>arch_setup_gd</span><span class=p>(</span><span class=n>new_gd</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#if !defined(CONFIG_X86) &amp;&amp; !defined(CONFIG_ARM) &amp;&amp; !defined(CONFIG_ARM64)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>gd</span> <span class=o>=</span> <span class=n>new_gd</span><span class=p>;</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>gd</span> <span class=o>=</span> <span class=n>new_gd</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=n>gd</span><span class=o>-&gt;</span><span class=n>flags</span> <span class=o>&amp;=</span> <span class=o>~</span><span class=n>GD_FLG_LOG_READY</span><span class=p>;</span>
+</span></span></span><span class=line><span class=cl>	<span class=n>gd</span><span class=o>-&gt;</span><span class=n>flags</span> <span class=o>&amp;=</span> <span class=o>~</span><span class=n>GD_FLG_LOG_READY</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=nf>IS_ENABLED</span><span class=p>(</span><span class=n>CONFIG_NEEDS_MANUAL_RELOC</span><span class=p>))</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>		<span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=nf>ARRAY_SIZE</span><span class=p>(</span><span class=n>init_sequence_r</span><span class=p>);</span> <span class=n>i</span><span class=o>++</span><span class=p>)</span>
@@ -3011,7 +3011,7 @@ tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#define U_BOOT_VERSION_STRING U_BOOT_VERSION &#34; (&#34; U_BOOT_DATE &#34; - &#34; \
 </span></span></span><span class=line><span class=cl><span class=cp>	U_BOOT_TIME &#34; &#34; U_BOOT_TZ &#34;)&#34; CONFIG_IDENT_STRING
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=k>const</span> <span class=kt>char</span> <span class=n>version_string</span><span class=p>[]</span> <span class=o>=</span> <span class=n>U_BOOT_VERSION_STRING</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=k>const</span> <span class=kt>unsigned</span> <span class=kt>short</span> <span class=n>version_num</span> <span class=o>=</span> <span class=n>U_BOOT_VERSION_NUM</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=k>const</span> <span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>version_num_patch</span> <span class=o>=</span> <span class=n>U_BOOT_VERSION_NUM_PATCH</span><span class=p>;</span>
@@ -3023,15 +3023,15 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#define U_BOOT
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=nf>printf</span><span class=p>(</span><span class=nf>display_options_get_banner</span><span class=p>(</span><span class=nb>false</span><span class=p>,</span> <span class=n>buf</span><span class=p>,</span> <span class=k>sizeof</span><span class=p>(</span><span class=n>buf</span><span class=p>)));</span>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CC_VERSION_STRING
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=nf>puts</span><span class=p>(</span><span class=n>CC_VERSION_STRING</span> <span class=s>&#34;</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>);</span>
+</span></span></span><span class=line><span class=cl>	<span class=nf>puts</span><span class=p>(</span><span class=n>CC_VERSION_STRING</span> <span class=s>&#34;</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>);</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#ifdef LD_VERSION_STRING
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=nf>puts</span><span class=p>(</span><span class=n>LD_VERSION_STRING</span> <span class=s>&#34;</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>);</span>
+</span></span></span><span class=line><span class=cl>	<span class=nf>puts</span><span class=p>(</span><span class=n>LD_VERSION_STRING</span> <span class=s>&#34;</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>);</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_SYS_COREBOOT
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=nf>printf</span><span class=p>(</span><span class=s>&#34;coreboot-%s (%s)</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span> <span class=n>lib_sysinfo</span><span class=p>.</span><span class=n>version</span><span class=p>,</span> <span class=n>lib_sysinfo</span><span class=p>.</span><span class=n>build</span><span class=p>);</span>
+</span></span></span><span class=line><span class=cl>	<span class=nf>printf</span><span class=p>(</span><span class=s>&#34;coreboot-%s (%s)</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span> <span class=n>lib_sysinfo</span><span class=p>.</span><span class=n>version</span><span class=p>,</span> <span class=n>lib_sysinfo</span><span class=p>.</span><span class=n>build</span><span class=p>);</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=nf>U_BOOT_CMD</span><span class=p>(</span>
@@ -3086,7 +3086,7 @@ tw-overflow-y-hidden
 tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=cp>#define U_BOOT_CMD(_name, _maxargs, _rep, _cmd, _usage, _help)		\
 </span></span></span><span class=line><span class=cl><span class=cp>	U_BOOT_CMD_COMPLETE(_name, _maxargs, _rep, _cmd, _usage, _help, NULL)
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#define U_BOOT_CMD_COMPLETE(_name, _maxargs, _rep, _cmd, _usage, _help, _comp) \
 </span></span></span><span class=line><span class=cl><span class=cp>	ll_entry_declare(struct cmd_tbl, _name, cmd) =			\
 </span></span></span><span class=line><span class=cl><span class=cp>		U_BOOT_CMD_MKENT_COMPLETE(_name, _maxargs, _rep, _cmd,	\
@@ -3147,7 +3147,7 @@ tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>int</span> <span class=nf>do_bootm</span><span class=p>(</span><span class=kt>cmd_tbl_t</span> <span class=o>*</span><span class=n>cmdtp</span><span class=p>,</span> <span class=kt>int</span> <span class=n>flag</span><span class=p>,</span> <span class=kt>int</span> <span class=n>argc</span><span class=p>,</span> <span class=kt>char</span> <span class=o>*</span> <span class=k>const</span> <span class=n>argv</span><span class=p>[])</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_NEEDS_MANUAL_RELOC
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=k>static</span> <span class=kt>int</span> <span class=n>relocated</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span></span><span class=line><span class=cl>	<span class=k>static</span> <span class=kt>int</span> <span class=n>relocated</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>relocated</span><span class=p>)</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>		<span class=kt>int</span> <span class=n>i</span><span class=p>;</span>
@@ -3159,7 +3159,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>int</span> <sp
 </span></span><span class=line><span class=cl>		<span class=n>relocated</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=p>}</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=cm>/* determine if we have a sub command */</span>
 </span></span><span class=line><span class=cl>	<span class=n>argc</span><span class=o>--</span><span class=p>;</span> <span class=n>argv</span><span class=o>++</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>argc</span> <span class=o>&gt;</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
@@ -3179,12 +3179,12 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>int</span> <sp
 </span></span><span class=line><span class=cl>	<span class=p>}</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_SECURE_BOOT
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=k>extern</span> <span class=kt>uint32_t</span> <span class=nf>authenticate_image</span><span class=p>(</span>
+</span></span></span><span class=line><span class=cl>	<span class=k>extern</span> <span class=kt>uint32_t</span> <span class=nf>authenticate_image</span><span class=p>(</span>
 </span></span><span class=line><span class=cl>			<span class=kt>uint32_t</span> <span class=n>ddr_start</span><span class=p>,</span> <span class=kt>uint32_t</span> <span class=n>image_size</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=k>switch</span> <span class=p>(</span><span class=nf>genimg_get_format</span><span class=p>((</span><span class=k>const</span> <span class=kt>void</span> <span class=o>*</span><span class=p>)</span><span class=n>load_addr</span><span class=p>))</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl><span class=cp>#if defined(CONFIG_IMAGE_FORMAT_LEGACY)
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=k>case</span> <span class=nl>IMAGE_FORMAT_LEGACY</span><span class=p>:</span>
+</span></span></span><span class=line><span class=cl>	<span class=k>case</span> <span class=nl>IMAGE_FORMAT_LEGACY</span><span class=p>:</span>
 </span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=nf>authenticate_image</span><span class=p>(</span><span class=n>load_addr</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>			<span class=nf>image_get_image_size</span><span class=p>((</span><span class=kt>image_header_t</span> <span class=o>*</span><span class=p>)</span><span class=n>load_addr</span><span class=p>))</span> <span class=o>==</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>			<span class=nf>printf</span><span class=p>(</span><span class=s>&#34;Authenticate uImage Fail, Please check</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>);</span>
@@ -3193,23 +3193,23 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>int</span> <sp
 </span></span><span class=line><span class=cl>		<span class=k>break</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_ANDROID_BOOT_IMAGE
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=k>case</span> <span class=nl>IMAGE_FORMAT_ANDROID</span><span class=p>:</span>
+</span></span></span><span class=line><span class=cl>	<span class=k>case</span> <span class=nl>IMAGE_FORMAT_ANDROID</span><span class=p>:</span>
 </span></span><span class=line><span class=cl>		<span class=cm>/* Do this authentication in boota command */</span>
 </span></span><span class=line><span class=cl>		<span class=k>break</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=k>default</span><span class=o>:</span>
+</span></span></span><span class=line><span class=cl>	<span class=k>default</span><span class=o>:</span>
 </span></span><span class=line><span class=cl>		<span class=nf>printf</span><span class=p>(</span><span class=s>&#34;Not valid image format for Authentication, Please check</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>		<span class=k>return</span> <span class=mi>1</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=p>}</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=nf>do_bootm_states</span><span class=p>(</span><span class=n>cmdtp</span><span class=p>,</span> <span class=n>flag</span><span class=p>,</span> <span class=n>argc</span><span class=p>,</span> <span class=n>argv</span><span class=p>,</span> <span class=n>BOOTM_STATE_START</span> <span class=o>|</span>
 </span></span><span class=line><span class=cl>		<span class=n>BOOTM_STATE_FINDOS</span> <span class=o>|</span> <span class=n>BOOTM_STATE_FINDOTHER</span> <span class=o>|</span>
 </span></span><span class=line><span class=cl>		<span class=n>BOOTM_STATE_LOADOS</span> <span class=o>|</span>
 </span></span><span class=line><span class=cl><span class=cp>#if defined(CONFIG_PPC) || defined(CONFIG_MIPS)
-</span></span></span><span class=line><span class=cl><span class=cp></span>		<span class=n>BOOTM_STATE_OS_CMDLINE</span> <span class=o>|</span>
+</span></span></span><span class=line><span class=cl>		<span class=n>BOOTM_STATE_OS_CMDLINE</span> <span class=o>|</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>		<span class=n>BOOTM_STATE_OS_PREP</span> <span class=o>|</span> <span class=n>BOOTM_STATE_OS_FAKE_GO</span> <span class=o>|</span>
+</span></span></span><span class=line><span class=cl>		<span class=n>BOOTM_STATE_OS_PREP</span> <span class=o>|</span> <span class=n>BOOTM_STATE_OS_FAKE_GO</span> <span class=o>|</span>
 </span></span><span class=line><span class=cl>		<span class=n>BOOTM_STATE_OS_GO</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>images</span><span class=p>,</span> <span class=mi>1</span><span class=p>);</span>
 </span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h3 id=boot_jump_linux class=headerLink><a href=#boot_jump_linux class=header-mark></a>9.3 boot_jump_linux</h3><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
 tw-flex-row
@@ -3260,7 +3260,7 @@ tw-overflow-x-auto
 tw-scrollbar-thin"><span class=line><span class=cl><span class=k>static</span> <span class=kt>void</span> <span class=nf>boot_jump_linux</span><span class=p>(</span><span class=kt>bootm_headers_t</span> <span class=o>*</span><span class=n>images</span><span class=p>,</span> <span class=kt>int</span> <span class=n>flag</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_ARM64
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=kt>void</span> <span class=p>(</span><span class=o>*</span><span class=n>kernel_entry</span><span class=p>)(</span><span class=kt>void</span> <span class=o>*</span><span class=n>fdt_addr</span><span class=p>,</span> <span class=kt>void</span> <span class=o>*</span><span class=n>res0</span><span class=p>,</span> <span class=kt>void</span> <span class=o>*</span><span class=n>res1</span><span class=p>,</span>
+</span></span></span><span class=line><span class=cl>	<span class=kt>void</span> <span class=p>(</span><span class=o>*</span><span class=n>kernel_entry</span><span class=p>)(</span><span class=kt>void</span> <span class=o>*</span><span class=n>fdt_addr</span><span class=p>,</span> <span class=kt>void</span> <span class=o>*</span><span class=n>res0</span><span class=p>,</span> <span class=kt>void</span> <span class=o>*</span><span class=n>res1</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>			<span class=kt>void</span> <span class=o>*</span><span class=n>res2</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=n>fake</span> <span class=o>=</span> <span class=p>(</span><span class=n>flag</span> <span class=o>&amp;</span> <span class=n>BOOTM_STATE_OS_FAKE_GO</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>
@@ -3278,7 +3278,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>static</span> <
 </span></span><span class=line><span class=cl>		<span class=nf>kernel_entry</span><span class=p>(</span><span class=n>images</span><span class=o>-&gt;</span><span class=n>ft_addr</span><span class=p>,</span> <span class=nb>NULL</span><span class=p>,</span> <span class=nb>NULL</span><span class=p>,</span> <span class=nb>NULL</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>	<span class=p>}</span>
 </span></span><span class=line><span class=cl><span class=cp>#else
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=kt>unsigned</span> <span class=kt>long</span> <span class=n>machid</span> <span class=o>=</span> <span class=n>gd</span><span class=o>-&gt;</span><span class=n>bd</span><span class=o>-&gt;</span><span class=n>bi_arch_number</span><span class=p>;</span>
+</span></span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>long</span> <span class=n>machid</span> <span class=o>=</span> <span class=n>gd</span><span class=o>-&gt;</span><span class=n>bd</span><span class=o>-&gt;</span><span class=n>bi_arch_number</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=kt>char</span> <span class=o>*</span><span class=n>s</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>	<span class=kt>void</span> <span class=p>(</span><span class=o>*</span><span class=n>kernel_entry</span><span class=p>)(</span><span class=kt>int</span> <span class=n>zero</span><span class=p>,</span> <span class=kt>int</span> <span class=n>arch</span><span class=p>,</span> <span class=n>uint</span> <span class=n>params</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>long</span> <span class=n>r2</span><span class=p>;</span>
@@ -3307,16 +3307,16 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>static</span> <
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>fake</span><span class=p>)</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_ARMV7_NONSEC
-</span></span></span><span class=line><span class=cl><span class=cp></span>		<span class=k>if</span> <span class=p>(</span><span class=nf>armv7_boot_nonsec</span><span class=p>())</span> <span class=p>{</span>
+</span></span></span><span class=line><span class=cl>		<span class=k>if</span> <span class=p>(</span><span class=nf>armv7_boot_nonsec</span><span class=p>())</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>			<span class=nf>armv7_init_nonsec</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>			<span class=nf>secure_ram_addr</span><span class=p>(</span><span class=n>_do_nonsec_entry</span><span class=p>)(</span><span class=n>kernel_entry</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>							  <span class=mi>0</span><span class=p>,</span> <span class=n>machid</span><span class=p>,</span> <span class=n>r2</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>		<span class=p>}</span> <span class=k>else</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span>			<span class=nf>kernel_entry</span><span class=p>(</span><span class=mi>0</span><span class=p>,</span> <span class=n>machid</span><span class=p>,</span> <span class=n>r2</span><span class=p>);</span>
+</span></span></span><span class=line><span class=cl>			<span class=nf>kernel_entry</span><span class=p>(</span><span class=mi>0</span><span class=p>,</span> <span class=n>machid</span><span class=p>,</span> <span class=n>r2</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>	<span class=p>}</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span><span class=p>}</span></span></span></code></pre></div><h2 id=环境变量 class=headerLink><a href=#%e7%8e%af%e5%a2%83%e5%8f%98%e9%87%8f class=header-mark></a>10 环境变量</h2><blockquote><ol><li>初始化功能</li><li>获取变量<code>env_get</code></li><li>设置变量<code>env_set</code></li></ol></blockquote><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
+</span></span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h2 id=环境变量 class=headerLink><a href=#%e7%8e%af%e5%a2%83%e5%8f%98%e9%87%8f class=header-mark></a>10 环境变量</h2><blockquote><ol><li>初始化功能</li><li>获取变量<code>env_get</code></li><li>设置变量<code>env_set</code></li></ol></blockquote><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="tw-flex
 tw-flex-row
 tw-flex-1
 tw-justify-between
@@ -3491,9 +3491,9 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=k>static</span> <
 </span></span><span class=line><span class=cl>	<span class=nf>dcache_disable</span><span class=p>();</span>	<span class=cm>/* flush cache before swtiching to EL2 */</span>
 </span></span><span class=line><span class=cl>	<span class=nf>armv8_switch_to_el2</span><span class=p>();</span>
 </span></span><span class=line><span class=cl><span class=cp>#ifdef CONFIG_ARMV8_SWITCH_TO_EL1
-</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=nf>armv8_switch_to_el1</span><span class=p>();</span>
+</span></span></span><span class=line><span class=cl>	<span class=nf>armv8_switch_to_el1</span><span class=p>();</span>
 </span></span><span class=line><span class=cl><span class=cp>#endif
-</span></span></span><span class=line><span class=cl><span class=cp></span><span class=p>}</span>
+</span></span></span><span class=line><span class=cl><span class=p>}</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=nf>ENTRY</span><span class=p>(</span><span class=n>armv8_switch_to_el2</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>	<span class=n>switch_el</span> <span class=n>x0</span><span class=p>,</span> <span class=mf>1f</span><span class=p>,</span> <span class=mf>0f</span><span class=p>,</span> <span class=mf>0f</span>
@@ -3848,7 +3848,7 @@ tw-scrollbar-thin"><span class=line><span class=cl><span class=kt>int</span> <sp
 </span><span>|&nbsp;<a class=link-to-source href=https://github.com/mengdemao/github.io/blob/master/content/posts/uboot_basic/index.md target=_blank rel="noopener noreferrer">查看源代码</a>
 </span><span>|&nbsp;<a class=link-to-edit href=https://github.com/mengdemao/github.io/edit/master/content/posts/uboot_basic/index.md target=_blank rel="noopener noreferrer">编辑此页</a>
 </span><span>|&nbsp;<a class=link-to-report href="https://github.com/mengdemao/github.io/issues/new?title=[bug]%20Uboot%E5%9F%BA%E7%A1%80%E6%A1%86%E6%9E%B6&body=|Field|Value|%0A|-|-|%0A|Title|Uboot%E5%9F%BA%E7%A1%80%E6%A1%86%E6%9E%B6|%0A|Url|https://mengdemao.com/uboot_basic/|%0A|Filename|https://github.com/mengdemao/github.io/blob/main/exampleSite/content/posts/uboot_basic/index.md|" target=_blank rel="noopener noreferrer">报告问题</a></span></div><div class=post-info-share></div></div></div><div class=post-info-more><section class=post-tags><svg class="icon" viewBox="0 0 640 512"><path d="M497.941 225.941 286.059 14.059A48 48 0 00252.118.0H48C21.49.0.0 21.49.0 48v204.118a48 48 0 0014.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882.0l204.118-204.118c18.745-18.745 18.745-49.137.0-67.882zM112 160c-26.51.0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882.0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397.0h48.721a48 48 0 0133.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137.0 67.882z"/></svg>&nbsp;<a href=/tags/uboot/>Uboot</a></section><section class=print:!tw-hidden><span><button class="tw-text-fgColor-link-muted hover:tw-text-fgColor-link-muted-hover" onclick=window.history.back()>返回</button></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class="post-nav print:tw-hidden"><a href=/read_linux/ class=prev rel=prev title=Linux内核源码阅读><svg class="icon" viewBox="0 0 256 512"><path d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9.0l22.6 22.6c9.4 9.4 9.4 24.6.0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6.0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9.0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"/></svg>Linux内核源码阅读</a>
-<a href=/rust_basic/ class=next rel=next title=rust基础笔记>rust基础笔记<svg class="icon" viewBox="0 0 256 512"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9.0l-22.6-22.6c-9.4-9.4-9.4-24.6.0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6.0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9.0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></a></div></div><div id=comments class="print:!tw-hidden tw-pt-32 tw-pb-8"><div id=twikoo></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://twikoo.js.org/>Twikoo</a>.</noscript></div></article></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.152.2">Hugo</a> 强力驱动&nbsp;|&nbsp;托管在 <a title="Github Pages" href=https://docs.github.com/en/pages/ target=_blank rel="noopener noreffer">GitHub Pages</a> 上&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.4.2"><svg class="icon" viewBox="0 0 576 512"><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1.0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7.0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174 402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7-43.2-43.2c-4.1-4.1-10.8-4.1-14.8.0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg> DoIt</a></div><div class=footer-line><svg class="icon" viewBox="0 0 512 512"><path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 448c-110.532.0-2e2-89.451-2e2-2e2.0-110.531 89.451-2e2 2e2-2e2 110.532.0 2e2 89.451 2e2 2e2.0 110.532-89.451 2e2-2e2 2e2zm107.351-101.064c-9.614 9.712-45.53 41.396-104.065 41.396-82.43.0-140.484-61.425-140.484-141.567.0-79.152 60.275-139.401 139.762-139.401 55.531.0 88.738 26.62 97.593 34.779a11.965 11.965.0 011.936 15.322l-18.155 28.113c-3.841 5.95-11.966 7.282-17.499 2.921-8.595-6.776-31.814-22.538-61.708-22.538-48.303.0-77.916 35.33-77.916 80.082.0 41.589 26.888 83.692 78.277 83.692 32.657.0 56.843-19.039 65.726-27.225 5.27-4.857 13.596-4.039 17.82 1.738l19.865 27.17a11.947 11.947.0 01-1.152 15.518z"/></svg>2020 - 2025<span class=author>&nbsp;<a href=https://github.com/mengdemao target=_blank rel="noopener noreferrer">mengdemao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span><span class=icp-splitter>&nbsp;|&nbsp;</span><br class=icp-br><span class=icp><a href=https://beian.miit.gov.cn/>鲁ICP备2023050410号-1</a></span></div><div class=footer-line></div><div class=footer-line></div></div></footer><div class="print:!tw-hidden tw-flex tw-flex-col tw-fixed tw-right-4 tw-bottom-4 tw-gap-2"><a href=#back-to-top id=back-to-top-button class="tw-transition-opacity tw-opacity-0 tw-block tw-bg-bgColor-secondary tw-rounded-full" style=padding:.6rem;line-height:1.3rem;font-size:1rem title=回到顶部><svg class="icon" viewBox="0 0 448 512"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6.0-33.9L207 39c9.4-9.4 24.6-9.4 33.9.0l194.3 194.3c9.4 9.4 9.4 24.6.0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3.0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg>
+<a href=/rust_basic/ class=next rel=next title=rust基础笔记>rust基础笔记<svg class="icon" viewBox="0 0 256 512"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9.0l-22.6-22.6c-9.4-9.4-9.4-24.6.0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6.0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9.0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></a></div></div><div id=comments class="print:!tw-hidden tw-pt-32 tw-pb-8"><div id=twikoo></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://twikoo.js.org/>Twikoo</a>.</noscript></div></article></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.153.4">Hugo</a> 强力驱动&nbsp;|&nbsp;托管在 <a title="Github Pages" href=https://docs.github.com/en/pages/ target=_blank rel="noopener noreffer">GitHub Pages</a> 上&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.4.2"><svg class="icon" viewBox="0 0 576 512"><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1.0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7.0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174 402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7-43.2-43.2c-4.1-4.1-10.8-4.1-14.8.0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg> DoIt</a></div><div class=footer-line><svg class="icon" viewBox="0 0 512 512"><path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 448c-110.532.0-2e2-89.451-2e2-2e2.0-110.531 89.451-2e2 2e2-2e2 110.532.0 2e2 89.451 2e2 2e2.0 110.532-89.451 2e2-2e2 2e2zm107.351-101.064c-9.614 9.712-45.53 41.396-104.065 41.396-82.43.0-140.484-61.425-140.484-141.567.0-79.152 60.275-139.401 139.762-139.401 55.531.0 88.738 26.62 97.593 34.779a11.965 11.965.0 011.936 15.322l-18.155 28.113c-3.841 5.95-11.966 7.282-17.499 2.921-8.595-6.776-31.814-22.538-61.708-22.538-48.303.0-77.916 35.33-77.916 80.082.0 41.589 26.888 83.692 78.277 83.692 32.657.0 56.843-19.039 65.726-27.225 5.27-4.857 13.596-4.039 17.82 1.738l19.865 27.17a11.947 11.947.0 01-1.152 15.518z"/></svg>2020 - 2025<span class=author>&nbsp;<a href=https://github.com/mengdemao target=_blank rel="noopener noreferrer">mengdemao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span><span class=icp-splitter>&nbsp;|&nbsp;</span><br class=icp-br><span class=icp><a href=https://beian.miit.gov.cn/>鲁ICP备2023050410号-1</a></span></div><div class=footer-line></div><div class=footer-line></div></div></footer><div class="print:!tw-hidden tw-flex tw-flex-col tw-fixed tw-right-4 tw-bottom-4 tw-gap-2"><a href=#back-to-top id=back-to-top-button class="tw-transition-opacity tw-opacity-0 tw-block tw-bg-bgColor-secondary tw-rounded-full" style=padding:.6rem;line-height:1.3rem;font-size:1rem title=回到顶部><svg class="icon" viewBox="0 0 448 512"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6.0-33.9L207 39c9.4-9.4 24.6-9.4 33.9.0l194.3 194.3c9.4 9.4 9.4 24.6.0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3.0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg>
 </a><button id=toc-drawer-button class="tw-block tw-bg-bgColor-secondary tw-rounded-full md:tw-hidden" style=padding:.6rem;line-height:1.3rem;font-size:1rem>
 <svg class="icon" viewBox="0 0 448 512"><path d="M16 132h416c8.837.0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163.0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg>
 </button><a href=#comments id=view-comments class="tw-block tw-bg-bgColor-secondary tw-rounded-full" style=padding:.6rem;line-height:1.3rem;font-size:1rem title=查看评论>
