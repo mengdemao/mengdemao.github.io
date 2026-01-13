@@ -353,3 +353,19 @@ sudo /etc/init.d/nfs-kernel-server restart
 sudo mount -t nfs -o nolock,vers=3 127.0.0.1:/home/exports /mnt
 ls /mnt
 ```
+
+## hawkbit安装
+
+```shell
+$ 安装rabbitmq服务
+sudo apt install rabbitmq-server
+
+$ 查看启动情况
+sudo systemctl status rabbitmq-server
+```
+
+运行服务器
+```shell
+java -jar ./hawkbit-monolith/hawkbit-update-server/target/hawkbit-update-server-0-SNAPSHOT.jar
+```
+
