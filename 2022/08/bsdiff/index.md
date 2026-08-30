@@ -1,6 +1,10 @@
 # Bsdiff
 
 
+<!--more-->
+bsdiff/bspatch二进制补丁工具源码分析：基于后缀排序算法生成和应用二进制补丁。
+<!--more-->
+
 ## 引言
 
 > bsdiff and bspatch are tools for building and applying patches to binary files. By using suffix >  sorting (specifically, Larsson and Sadakane's qsufsort) and taking advantage of how

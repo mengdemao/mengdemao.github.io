@@ -1,6 +1,10 @@
 # Sds
 
 
+<!--more-->
+SDS(Simple Dynamic Strings)C语言动态字符串库分析。
+<!--more-->
+
 > A C dynamic strings library
 > C语言版本动态字符串库
 

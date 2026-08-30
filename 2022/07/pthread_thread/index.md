@@ -1,6 +1,10 @@
 # pthread线程源码分析
 
 
+<!--more-->
+pthread线程源码分析：基于musl与glibc源码分析线程实现。
+<!--more-->
+
 > 基于musl源码库与glibc库,其中musl提供分析的思路,glibc分析具体实现
 
 ## 调试环境搭建

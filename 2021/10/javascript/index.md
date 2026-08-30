@@ -1,6 +1,10 @@
 # javascript基础教程
 
 
+<!--more-->
+JavaScript基础教程：一种运行在浏览器中的解释型编程语言。
+<!--more-->
+
 ## 基础知识
 
 > JavaScript是一种运行在浏览器中的解释型的编程语言

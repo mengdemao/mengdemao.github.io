@@ -1,6 +1,10 @@
 # 进程创建
 
 
+<!--more-->
+Linux进程创建笔记，分析fork到do_fork的执行路径。
+<!--more-->
+
 fork
 ====
 > linux创建线程的函数

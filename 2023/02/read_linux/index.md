@@ -2,9 +2,7 @@
 
 
 <!--more-->
-
-**内核源码阅读**
-
+内核源码阅读笔记：基于Linux 4.0源码与参考书籍分析内核实现。
 <!--more-->
 
 + 源码版本: [Linux 4.0.0](https://github.com/figozhang/runninglinuxkernel_4.0.git)

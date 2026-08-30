@@ -1,6 +1,10 @@
 # pthread线程同步
 
 
+<!--more-->
+pthread线程同步笔记，从futex原理分析高级锁的实现。
+<!--more-->
+
 ## futex原理
 
 > 高级锁的实现都是与futex实现相关

@@ -1,6 +1,10 @@
 # CSS3基础教程
 
 
+<!--more-->
+CSS3基础教程：Cascading Style Sheets（层叠样式表）学习笔记。
+<!--more-->
+
 ## 基础知识
 
 > Cascading Style Sheets(层叠样式表)

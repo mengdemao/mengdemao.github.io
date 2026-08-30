@@ -1,6 +1,10 @@
 # 物理页面分配器
 
 
+<!--more-->
+Linux内核物理页面分配器笔记，分析alloc_pages的实现。
+<!--more-->
+
 ## alloc_pages
 
 linux常用的物理界面分配器的函数是`alloc_pages`,下面分析是如何实现的.
